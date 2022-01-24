@@ -168,6 +168,27 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Начальная инициализация Veex RTU с основным и доп Otau")]
+        [Xunit.TraitAttribute("FeatureTitle", "VeexRtuFirstInitialization")]
+        [Xunit.TraitAttribute("Description", "Начальная инициализация Veex RTU с основным и доп Otau")]
+        public virtual void НачальнаяИнициализацияVeexRTUСОсновнымИДопOtau()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Начальная инициализация Veex RTU с основным и доп Otau", null, ((string[])(null)));
+#line 25
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 2
+this.FeatureBackground();
+#line 26
+ testRunner.Given("У RTU основной на 32 и доп на 16 портов переключатели", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 27
+ testRunner.When("Первая инициализация этого RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 28
+ testRunner.Then("В дереве у RTU портов - 32", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

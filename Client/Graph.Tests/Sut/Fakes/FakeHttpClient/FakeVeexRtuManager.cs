@@ -99,7 +99,7 @@ namespace Graph.Tests
                 case "CreateOtau":
                     if (jsonData == null) break;
                     result.StatusCode = HttpStatusCode.Created;
-                    var otauLink = FakeVeexRtuModel.AddOtau(JsonConvert.DeserializeObject<NewOtau>(jsonData));
+                    var otauLink = FakeVeexRtuModel.AddOtau(JsonConvert.DeserializeObject<VeexOtau>(jsonData));
                     var fullOtauLink = new Uri(baseUri + otauLink);
                     result.Headers.Location = baseUri.MakeRelativeUri(fullOtauLink);
                     break;
