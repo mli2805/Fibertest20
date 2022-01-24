@@ -13,7 +13,6 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Iit.Fibertest.Graph.Rtu _rtu;
         private RtuLeaf _rtuLeaf;
-        private Iit.Fibertest.Graph.Trace _trace;
 
         [Given(@"На карте есть RTU")]
         public void GivenНаКартеЕстьRtu()
@@ -26,7 +25,7 @@ namespace Graph.Tests
         }
 
         [Given(@"У RTU один поломанный основной переключатель")]
-        public void GivenУRTUОдинПоломанныйОсновнойПереключатель()
+        public void GivenУrtuОдинПоломанныйОсновнойПереключатель()
         {
             _sut.FakeVeexRtuModel.Otaus[0].connected = false;
         }

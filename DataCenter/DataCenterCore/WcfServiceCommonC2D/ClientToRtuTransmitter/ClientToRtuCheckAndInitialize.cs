@@ -37,7 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _d2RWcfManager.CheckRtuConnection(dto, _iniFile, _logFile);
         }
 
-        public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             _logFile.AppendLine($"Client from {dto.ClientIp} sent initialize RTU {dto.RtuId.First6()} request");
 

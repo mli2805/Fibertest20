@@ -33,12 +33,12 @@ namespace Iit.Fibertest.DataCenterCore
             throw new NotImplementedException();
         }
 
-        public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             _logFile.AppendLine(
                 $"Client from {dto.ClientIp} sent initialize VeEX RTU {dto.RtuId.First6()} request");
 
-            var rtuInitializedDto = await _d2RtuVeexLayer3.InitializeRtu(dto);
+            var rtuInitializedDto = await _d2RtuVeexLayer3.InitializeRtuAsync(dto);
             if (rtuInitializedDto.IsInitialized)
             {
                 rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
@@ -245,7 +245,7 @@ namespace Iit.Fibertest.DataCenterCore
                     ReturnCode = ReturnCode.NoSuchRtu
                 };
 
-            var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurement(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
+            var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
             _logFile.AppendLine($"Start out of turn measurement result is {result.ReturnCode}");
             if (result.ReturnCode == ReturnCode.Ok)
                 _veexCompletedTestProcessor.RequestedTests.TryAdd(veexTest.TestId, dto.ConnectionId);
