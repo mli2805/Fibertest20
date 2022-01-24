@@ -45,17 +45,16 @@ namespace Graph.Tests
             return $@"test_relations/{relation.id}";
         }
 
-        public static string AddOtau(this FakeVeexRtuModel fakeVeexRtuModel, NewOtau otau)
+        public static string AddOtau(this FakeVeexRtuModel fakeVeexRtuModel, VeexOtau otau)
         {
             var link = $@"otaus/{otau.id}";
             fakeVeexRtuModel.OtauItems.items.Add(new LinkObject() { self = link });
-            fakeVeexRtuModel.Otaus.Add(new VeexOtau()
-            {
-                id = otau.id,
-                portCount = 16,
-                protocol = "tcpip",
-                serialNumber = "12345678",
-            });
+
+            if (otau.portCount == 0) otau.portCount = 16;
+            if (otau.protocol == "") otau.protocol = "tcpip";
+            if (otau.serialNumber == "") otau.serialNumber = "12345678";
+
+            fakeVeexRtuModel.Otaus.Add(otau);
             return link;
         }
 

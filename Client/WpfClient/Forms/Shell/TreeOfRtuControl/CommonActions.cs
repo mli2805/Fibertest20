@@ -175,7 +175,7 @@ namespace Iit.Fibertest.Client
                 {
                     IsPortOnMainCharon = false,
                     MainCharonPort = otauLeaf.MasterPort,
-                    OtauId = _readModel.Otaus.First(o => o.Serial == otauLeaf.Serial).Id.ToString(),
+                    OtauId = _readModel.Otaus.First(o => o.Id == otauLeaf.Id).Id.ToString(),
                     OpticalPort = portNumber,
                     Serial = otauLeaf.Serial,
                 };

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
@@ -33,8 +34,8 @@ namespace Graph.Tests
         [Given(@"У RTU три недоступных основных переключателя")]
         public void GivenУrtuТриНедоступныхОсновныхПереключателя()
         {
-            _sut.FakeVeexRtuModel.AddOtau(new NewOtau() { id = "S1_1" });
-            _sut.FakeVeexRtuModel.AddOtau(new NewOtau() { id = "S1_2" });
+            _sut.FakeVeexRtuModel.AddOtau(new VeexOtau() { id = "S1_1" });
+            _sut.FakeVeexRtuModel.AddOtau(new VeexOtau() { id = "S1_2" });
             _sut.FakeVeexRtuModel.Otaus[0].connected = false;
             _sut.FakeVeexRtuModel.Otaus[1].connected = false;
             _sut.FakeVeexRtuModel.Otaus[2].connected = false;
@@ -52,13 +53,24 @@ namespace Graph.Tests
         {
             _sut.FakeVeexRtuModel.Otaus[0].connected = false;
 
-            _sut.FakeVeexRtuModel.AddOtau(new NewOtau() { id = "S1_1" });
+            _sut.FakeVeexRtuModel.AddOtau(new VeexOtau() { id = "S1_1" });
             _sut.FakeVeexRtuModel.Otaus[1].portCount = 8;
             _sut.FakeVeexRtuModel.Otaus[1].connected = true;
 
-            _sut.FakeVeexRtuModel.AddOtau(new NewOtau() { id = "S1_2" });
+            _sut.FakeVeexRtuModel.AddOtau(new VeexOtau() { id = "S1_2" });
             _sut.FakeVeexRtuModel.Otaus[2].connected = false;
         }
+
+        [Given(@"У RTU основной на (.*) и доп на (.*) портов переключатели")]
+        public void GivenУrtuОсновнойНаИДопНаПортовПереключатели(int p0, int p1)
+        {
+            _sut.FakeVeexRtuModel.AddOtau(new VeexOtau()
+            {
+                id = "S2_" + Guid.NewGuid(),
+                portCount = 16,
+            });
+        }
+
 
         [When(@"Первая инициализация этого RTU")]
         public void WhenПерваяИнициализацияЭтогоRtu()
