@@ -106,7 +106,7 @@ this.FeatureBackground();
 #line 11
  testRunner.Given("Создаем трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 12
- testRunner.And("Присоединяем ее к 13 порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Присоединяем ее к 23 порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
  testRunner.Given("У RTU сломался основной переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 15
@@ -117,6 +117,20 @@ this.FeatureBackground();
  testRunner.Then("В дереве у этого RTU портов - 32", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 19
  testRunner.And("В событиях боп строка об аварии", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+ testRunner.Given("Ставим подменный переключатель на 16 портов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 22
+ testRunner.When("Переинициализируем этот RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.Then("У переключателя изменяется id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 24
+ testRunner.Then("В дереве у RTU квадратик переключателя зеленый", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 25
+ testRunner.Then("В дереве у этого RTU портов - 16", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 26
+ testRunner.Then("В событиях боп строка об аварии пропадает", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 27
+ testRunner.Then("Трасса становится отсоединенной", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

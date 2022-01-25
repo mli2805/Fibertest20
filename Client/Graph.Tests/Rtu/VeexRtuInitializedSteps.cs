@@ -14,6 +14,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Rtu _rtu;
         private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Trace _trace;
+        private string _mainOtauVeexId;
 
         [Given(@"На карту добавлен RTU")]
         public void GivenНаКартуДобавленRtu()
@@ -45,6 +46,7 @@ namespace Graph.Tests
         public void ThenВСпискеПереключателейПоявляетсяГлавныйПереключательЭтогоRtu()
         {
             var mainOtau = _sut.ReadModel.Otaus.First(o => o.RtuId == _rtu.Id && o.VeexRtuMainOtauId == _rtu.MainVeexOtau.id);
+            _mainOtauVeexId = mainOtau.VeexRtuMainOtauId;
             mainOtau.Should().NotBe(null);
             mainOtau.IsOk.Should().BeTrue();
         }
@@ -59,7 +61,9 @@ namespace Graph.Tests
         [Then(@"В дереве у этого RTU портов - (.*)")]
         public void ThenВДеревеУЭтогоRTUПортов_(int p0)
         {
-            _rtuLeaf.ChildrenImpresario.Children.Count.ShouldBeEquivalentTo(p0);
+            _rtuLeaf.ChildrenImpresario.Children
+                .Count(p => p is PortLeaf || 
+                            (p is TraceLeaf tr && tr.TraceState != FiberState.NotJoined)).ShouldBeEquivalentTo(p0);
         }
 
         [Given(@"Создаем трассу")]
@@ -87,6 +91,37 @@ namespace Graph.Tests
         {
             var bopEvent = _sut.ShellVm.BopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows[0];
             bopEvent.RtuId.ShouldBeEquivalentTo(_rtu.Id);
+        }
+
+        [Given(@"Ставим подменный переключатель на (.*) портов")]
+        public void GivenСтавимПодменныйПереключательНаПортов(int p0)
+        {
+            _sut.FakeVeexRtuModel.AddOtau(new VeexOtau()
+            {
+                id = "S1_OX16_blah_blah",
+                portCount = p0,
+                connected = true,
+                serialNumber = "OK",
+            });
+        }
+
+        [Then(@"У переключателя изменяется id")]
+        public void ThenУПереключателяИзменяетсяId()
+        {
+            var mainOtau = _sut.ReadModel.Otaus.First(o => o.RtuId == _rtu.Id && o.VeexRtuMainOtauId == _rtu.MainVeexOtau.id);
+            mainOtau.VeexRtuMainOtauId.Equals(_mainOtauVeexId).Should().BeFalse();
+        }
+
+        [Then(@"В событиях боп строка об аварии пропадает")]
+        public void ThenВСобытияхБопСтрокаОбАварииПропадает()
+        {
+            _sut.ShellVm.BopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Count.ShouldBeEquivalentTo(0);
+        }
+
+        [Then(@"Трасса становится отсоединенной")]
+        public void ThenТрассаСтановитсяОтсоединенной()
+        {
+            _trace.State.ShouldBeEquivalentTo(FiberState.NotJoined);
         }
 
     }
