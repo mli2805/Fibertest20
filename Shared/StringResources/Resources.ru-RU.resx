@@ -3057,4 +3057,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Additional_OS_info_" xml:space="preserve">
 		<value>Дополнительные сведения ОС</value>
 	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTAU_problem" xml:space="preserve">
+		<value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка переключателя</value>
+	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTDR_problem" xml:space="preserve">
+		<value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка рефлектометра</value>
+	</data>
 </root>

@@ -131,7 +131,7 @@ namespace Iit.Fibertest.Client
 
         private async void _currentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsBigGraphMode")
+            if (e.PropertyName == @"IsBigGraphMode")
             {
                 NotifyOfPropertyChange(nameof(ButtonVisibility));
                 await GraphReadModel.RefreshVisiblePart();

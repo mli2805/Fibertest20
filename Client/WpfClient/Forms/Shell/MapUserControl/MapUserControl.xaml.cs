@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
 
         private async void MainMap_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Limits")
+            if (e.PropertyName == @"Limits")
                 await GraphReadModel.RefreshVisiblePart();
         }
 

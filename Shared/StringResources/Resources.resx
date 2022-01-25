@@ -3057,4 +3057,10 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Additional_OS_info_" xml:space="preserve">
 		<value>Additional OS info:</value>
 	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTAU_problem" xml:space="preserve">
+		<value>Measurement on port {0}, trace "{1}" failed. OTAU problem</value>
+	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTDR_problem" xml:space="preserve">
+		<value>Measurement on port {0}, trace "{1}" failed. OTDR problem</value>
+	</data>
 </root>

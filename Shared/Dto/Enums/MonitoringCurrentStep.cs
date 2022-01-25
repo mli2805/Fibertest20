@@ -5,6 +5,8 @@
         Idle,
         Toggle,
         Measure,
+        FailedOtauProblem,
+        FailedOtdrProblem,
         Interrupted,
         Analysis,
         MeasurementFinished,

@@ -4514,6 +4514,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement on port {0}, trace &quot;{1}&quot; failed. OTAU problem.
+        /// </summary>
+        public static string SID_Measurement_on_port__0___trace___1___failed__OTAU_problem {
+            get {
+                return ResourceManager.GetString("SID_Measurement_on_port__0___trace___1___failed__OTAU_problem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement on port {0}, trace &quot;{1}&quot; failed. OTDR problem.
+        /// </summary>
+        public static string SID_Measurement_on_port__0___trace___1___failed__OTDR_problem {
+            get {
+                return ResourceManager.GetString("SID_Measurement_on_port__0___trace___1___failed__OTDR_problem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement on port {0} trace {1} is finished.
         /// </summary>
         public static string SID_Measurement_on_port__0__trace__1__is_finished {
