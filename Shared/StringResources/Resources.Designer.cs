@@ -3439,6 +3439,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Graph is visible from zoom:.
+        /// </summary>
+        public static string SID_Graph_is_visible_from_zoom {
+            get {
+                return ResourceManager.GetString("SID_Graph_is_visible_from_zoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Graph visibility settings.
+        /// </summary>
+        public static string SID_Graph_visibility_settings {
+            get {
+                return ResourceManager.GetString("SID_Graph_visibility_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GSM modem com port.
         /// </summary>
         public static string SID_Gsm_modem_com_port {
@@ -3462,6 +3480,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Help {
             get {
                 return ResourceManager.GetString("SID_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High density graph.
+        /// </summary>
+        public static string SID_High_density_graph {
+            get {
+                return ResourceManager.GetString("SID_High_density_graph", resourceCulture);
             }
         }
         
@@ -5546,6 +5573,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Other {
             get {
                 return ResourceManager.GetString("SID_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out of screen part of rendered graph (%):.
+        /// </summary>
+        public static string SID_Out_of_screen_part {
+            get {
+                return ResourceManager.GetString("SID_Out_of_screen_part", resourceCulture);
             }
         }
         
@@ -7869,6 +7905,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Too_big_port_number_for_BOP_attachment {
             get {
                 return ResourceManager.GetString("SID_Too_big_port_number_for_BOP_attachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools.
+        /// </summary>
+        public static string SID_Tools {
+            get {
+                return ResourceManager.GetString("SID_Tools", resourceCulture);
             }
         }
         

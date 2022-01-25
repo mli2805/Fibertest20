@@ -1,11 +1,20 @@
 ﻿using System;
 using System.IO;
+using Autofac;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
     public partial class MainMenuViewModel
     {
+        public void LaunchCleaningView()
+        {
+            var vm = _globalScope.Resolve<DbOptimizationViewModel>();
+            vm.Initialize();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public async void ImportRtuFromFolder()
         {
             var basePath = AppDomain.CurrentDomain.BaseDirectory;

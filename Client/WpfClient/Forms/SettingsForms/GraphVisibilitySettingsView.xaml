@@ -1,4 +1,4 @@
-﻿<Window x:Class="Iit.Fibertest.Client.GisExpSettingsView"
+﻿<Window x:Class="Iit.Fibertest.Client.GraphVisibilitySettingsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,18 +7,18 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
         Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance client:GisExpSettingsViewModel}">
+        d:DataContext="{d:DesignInstance client:GraphVisibilitySettingsViewModel}">
     <StackPanel Margin="5,20,5,5">
-        <CheckBox Margin="15,5,5,5" IsChecked="{Binding IsBigGraphMode}"
-                  Content="Big graph mode"/>
+        <CheckBox Margin="15,5,5,5" IsChecked="{Binding IsHighDensityGraph}"
+                  Content="{x:Static stringResources:Resources.SID_High_density_graph}"/>
         <Border BorderBrush="LightGray" BorderThickness="1" Margin="5"/>
         <DockPanel Margin="5">
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible from zoom:" Width="300" />
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Graph_is_visible_from_zoom}" Width="300" />
             <ComboBox Height="22" Width="60" ItemsSource="{Binding ZoomList}" 
                       SelectedItem="{Binding SelectedZoom}"/>
         </DockPanel>
         <DockPanel Margin="5">
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Out of screen part of map taken into rendering (%):" Width="300" />
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Out_of_screen_part}" Width="300" />
             <ComboBox Height="22" Width="60" ItemsSource="{Binding ShiftList}" 
                       SelectedItem="{Binding SelectedShift}"/>
         </DockPanel>

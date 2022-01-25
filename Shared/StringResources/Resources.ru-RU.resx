@@ -3063,4 +3063,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurement_on_port__0___trace___1___failed__OTDR_problem" xml:space="preserve">
 		<value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка рефлектометра</value>
 	</data>
+	<data name="SID_Tools" xml:space="preserve">
+		<value>Инструменты</value>
+	</data>
+	<data name="SID_Graph_visibility_settings" xml:space="preserve">
+		<value>Настройки отображения графа</value>
+	</data>
+	<data name="SID_High_density_graph" xml:space="preserve">
+		<value>Граф большой плотности</value>
+	</data>
+	<data name="SID_Graph_is_visible_from_zoom" xml:space="preserve">
+		<value>Граф отображается начиная с зума:</value>
+	</data>
+	<data name="SID_Out_of_screen_part" xml:space="preserve">
+		<value>Неотображаемая на экране часть выгруженного графа (%):</value>
+	</data>
 </root>

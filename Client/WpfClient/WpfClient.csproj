@@ -219,10 +219,10 @@
     </ApplicationDefinition>
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
-    <Compile Include="Forms\SettingsForms\GisExpSettingsView.xaml.cs">
-      <DependentUpon>GisExpSettingsView.xaml</DependentUpon>
+    <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsView.xaml.cs">
+      <DependentUpon>GraphVisibilitySettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\GisExpSettingsViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsViewModel.cs" />
     <Compile Include="GraphModel\Rendering\GraphRendererForRoot.cs" />
     <Compile Include="GraphModel\Rendering\GraphRendererCommonDetails.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">
@@ -767,7 +767,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SettingsForms\GisExpSettingsView.xaml">
+    <Page Include="Forms\SettingsForms\GraphVisibilitySettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
