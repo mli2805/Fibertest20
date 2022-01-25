@@ -59,7 +59,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return res;
             }
 
-            return await _d2RtuVeexLayer1.GetOtdr(rtuDoubleAddress, otdrs.items[0].self);
+            var otdrRes = await _d2RtuVeexLayer1.GetOtdr(rtuDoubleAddress, otdrs.items[0].self);
+            if (!otdrRes.IsSuccessful)
+                return otdrRes;
+            var otdr = (VeexOtdr)otdrRes.ResponseObject;
+            if (!otdr.isConnected)
+            {
+                otdrRes.IsSuccessful = false;
+                otdrRes.ErrorMessage = "Failed to connect OTDR";
+            }
+
+            return otdrRes;
         }
     }
 }
