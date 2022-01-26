@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Dto
         public string self { get; set; }
     }
 
-
+   
     public class CompletedTest
     {
         public string extendedResult { get; set; }
@@ -42,21 +42,5 @@ namespace Iit.Fibertest.Dto
     {
         public List<CompletedTest> items { get; set; }
         public int total { get; set; }
-    }
-
-    public static class CompletedTestExt
-    {
-        public static MonitoringCurrentStep GetMonitoringCurrentStep(this CompletedTest completedTest)
-        {
-            if (completedTest.extendedResult != null)
-            {
-                if (completedTest.extendedResult.StartsWith("otdr"))
-                    return MonitoringCurrentStep.FailedOtdrProblem;
-                if (completedTest.extendedResult.StartsWith("otau"))
-                    return MonitoringCurrentStep.FailedOtauProblem;
-            }
-
-            return MonitoringCurrentStep.MeasurementFinished;
-        }
     }
 }

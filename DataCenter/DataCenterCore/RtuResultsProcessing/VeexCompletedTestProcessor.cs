@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _wcfServiceForRtu.NotifyUserCurrentMonitoringStep(new CurrentMonitoringStepDto()
                 {
                     RtuId = rtu.Id,
-                    Step = completedTest.GetMonitoringCurrentStep(),
+                    Step = MonitoringCurrentStep.MeasurementFinished,
                     PortWithTraceDto = new PortWithTraceDto()
                     {
                         TraceId = veexTest.TraceId,
