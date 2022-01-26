@@ -7,9 +7,14 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public static class GraphRendererForRoot
+    public static class GraphRendererForFullGraphUser
     {
-        public static async Task<RenderingResult> RenderForRoot(this GraphReadModel graphReadModel)
+        /// <summary>
+        /// for any user (not only Root) from default zone
+        /// </summary>
+        /// <param name="graphReadModel"></param>
+        /// <returns></returns>
+        public static async Task<RenderingResult> RenderForFullGraphUser(this GraphReadModel graphReadModel)
         {
             await Task.Delay(1);
             if (graphReadModel.MainMap == null)

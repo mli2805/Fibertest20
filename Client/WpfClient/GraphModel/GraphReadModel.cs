@@ -102,8 +102,8 @@ namespace Iit.Fibertest.Client
         public async Task<int> RefreshVisiblePart()
         {
             var renderingResult = CurrentUser.ZoneId == Guid.Empty
-                ? await this.RenderForRoot()
-                : await this.RenderForZoneOperator(CurrentUser.ZoneId);
+                ? await this.RenderForFullGraphUser()
+                : await this.RenderForZoneUser(CurrentUser.ZoneId);
 
             var nodeVmCount = await this.ToExistingGraph(renderingResult);
 

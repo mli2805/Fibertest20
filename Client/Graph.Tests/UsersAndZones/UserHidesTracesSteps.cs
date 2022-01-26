@@ -17,9 +17,9 @@ namespace Graph.Tests
         public void GivenВходитПользователь(string user)
         {
             _sut.LoginOnEmptyBaseAsRoot();
-           
             // var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
             // vm1.IsGraphVisibleOnStart = true;
+            _sut.GraphReadModel.CurrentGis.ThresholdZoom = 1;
         }
 
         [Given(@"Выходит (.*) и входит (.*)")]

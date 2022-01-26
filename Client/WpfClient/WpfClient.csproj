@@ -223,7 +223,7 @@
       <DependentUpon>GraphVisibilitySettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsViewModel.cs" />
-    <Compile Include="GraphModel\Rendering\GraphRendererForRoot.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererForFullGraphUser.cs" />
     <Compile Include="GraphModel\Rendering\GraphRendererCommonDetails.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">
       <DependentUpon>LogOperationsView.xaml</DependentUpon>
@@ -419,7 +419,7 @@
     <Compile Include="GraphModel\EventExecutors\ResponsibilityEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
-    <Compile Include="GraphModel\Rendering\GraphRendererForOperator.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererForZoneUser.cs" />
     <Compile Include="GraphModel\GraphReadModelData.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevel.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityExt.cs" />

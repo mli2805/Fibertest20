@@ -6,11 +6,20 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public static class GraphRendererForOperator
+    public static class GraphRendererForZoneUser
     {
-        public static async Task<RenderingResult> RenderForZoneOperator(this GraphReadModel graphReadModel, Guid zoneId)
+        /// <summary>
+        /// for one responsibility zone user (not default zone)
+        /// </summary>
+        /// <param name="graphReadModel"></param>
+        /// <param name="zoneId"></param>
+        /// <returns></returns>
+        public static async Task<RenderingResult> RenderForZoneUser(this GraphReadModel graphReadModel, Guid zoneId)
         {
             await Task.Delay(1);
+            if (graphReadModel.MainMap == null)
+                return new RenderingResult();
+            
             return new RenderingResult()
                 .RenderRtus(graphReadModel, zoneId)
                 .RenderTraces(graphReadModel, zoneId)
