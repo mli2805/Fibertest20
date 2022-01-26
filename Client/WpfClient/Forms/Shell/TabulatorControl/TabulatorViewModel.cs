@@ -2,7 +2,6 @@
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -13,8 +12,6 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
-        private readonly CurrentGis _currentGis;
-        private readonly Model _readModel;
 
         private int _selectedTabIndex;
 
@@ -88,14 +85,14 @@ namespace Iit.Fibertest.Client
                 if (value == _mapVisibility) return;
                 _mapVisibility = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(ButtonVisibility));
+                // NotifyOfPropertyChange(nameof(ButtonVisibility));
             }
         }
 
-        public Visibility ButtonVisibility =>
-            MapVisibility == Visibility.Visible && !_currentGis.IsBigGraphMode
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+        public Visibility ButtonVisibility => Visibility.Collapsed;
+            // MapVisibility == Visibility.Visible && !_currentGis.IsBigGraphMode
+                // ? Visibility.Visible
+                // : Visibility.Collapsed;
 
         private Visibility _messageVisibility;
         public Visibility MessageVisibility
@@ -114,29 +111,25 @@ namespace Iit.Fibertest.Client
         public TabulatorViewModel(ILifetimeScope globalScope, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            GraphReadModel graphReadModel,
-            CurrentGis currentGis, Model readModel)
+            GraphReadModel graphReadModel)
         {
             GraphReadModel = graphReadModel;
             _globalScope = globalScope;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
-            _currentGis = currentGis;
-            _currentGis.PropertyChanged += _currentGis_PropertyChanged;
-            _readModel = readModel;
             SubscribeActualEventsRowChanged();
             SelectedTabIndex = 0;
         }
 
-        private async void _currentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == @"IsHighDensityGraph")
-            {
-                NotifyOfPropertyChange(nameof(ButtonVisibility));
-                await GraphReadModel.RefreshVisiblePart();
-            }
-        }
+        // private async void _currentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        // {
+        //     if (e.PropertyName == @"IsHighDensityGraph")
+        //     {
+        //         NotifyOfPropertyChange(nameof(ButtonVisibility));
+        //         await GraphReadModel.RefreshVisiblePart();
+        //     }
+        // }
 
         private void SubscribeActualEventsRowChanged()
         {
@@ -218,13 +211,13 @@ namespace Iit.Fibertest.Client
             await GraphReadModel.RefreshVisiblePart();
         }
 
-        public async void ShowAllGraph()
-        {
-            foreach (var trace in _readModel.Traces)
-                if (!GraphReadModel.ForcedTraces.Contains(trace))
-                    GraphReadModel.ForcedTraces.Add(trace);
-            await GraphReadModel.RefreshVisiblePart();
-        }
+        // public async void ShowAllGraph()
+        // {
+        //     foreach (var trace in _readModel.Traces)
+        //         if (!GraphReadModel.ForcedTraces.Contains(trace))
+        //             GraphReadModel.ForcedTraces.Add(trace);
+        //     await GraphReadModel.RefreshVisiblePart();
+        // }
 
     }
 }
