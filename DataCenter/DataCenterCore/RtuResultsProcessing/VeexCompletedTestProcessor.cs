@@ -56,11 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _wcfServiceForRtu.NotifyUserCurrentMonitoringStep(new CurrentMonitoringStepDto()
                 {
                     RtuId = rtu.Id,
-                    Step =  completedTest.failure == null 
-                        ? MonitoringCurrentStep.MeasurementFinished
-                        : completedTest.extendedResult.StartsWith("otdr")
-                            ? MonitoringCurrentStep.FailedOtdrProblem
-                            : MonitoringCurrentStep.FailedOtauProblem,
+                    Step = completedTest.GetMonitoringCurrentStep(),
                     PortWithTraceDto = new PortWithTraceDto()
                     {
                         TraceId = veexTest.TraceId,
