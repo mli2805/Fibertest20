@@ -396,7 +396,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuFirstInitializationSteps.cs" />
+    <Compile Include="Rtu\VeexRtuFirstInitializationSteps.cs">
+      <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
+    </Compile>
     <Compile Include="Rtu\VeexRtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -404,6 +406,14 @@
     </Compile>
     <Compile Include="Rtu\VeexRtuInitializedSteps.cs">
       <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\VeexRtuWithBopInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\VeexRtuWithBopInitializationSteps.cs">
+      <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
@@ -906,6 +916,10 @@
     <None Include="Rtu\VeexRtuInitialized.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuInitialized.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\VeexRtuWithBopInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VeexRtuWithBopInitialization.feature.cs</LastGenOutput>
     </None>
     <None Include="Sut\LicenseFiles\DevSecAdmin.lic" />
     <None Include="Sut\LicenseFiles\Fibertest20dev.lic" />

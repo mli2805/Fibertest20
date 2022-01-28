@@ -7,16 +7,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public async Task<HttpRequestResult> InitializeOtdrs(DoubleAddress rtuDoubleAddress)
         {
+            #region comment while debugging RTU initialization 
+
             var getResult = await _d2RtuVeexLayer1.GetOtdrs(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
                 return getResult;
-
+            
             var otdrs = (LinkList)getResult.ResponseObject;
             string otdrId = otdrs.items.Count == 0 ? "" : otdrs.items[0].self.Split('/')[1];
-
+            
             var resetResult = await ResetOtdrs(rtuDoubleAddress, otdrId);
             if (!resetResult.IsSuccessful)
                 return resetResult;
+
+            #endregion
 
             return await GetOtdrSettings(rtuDoubleAddress);
         }

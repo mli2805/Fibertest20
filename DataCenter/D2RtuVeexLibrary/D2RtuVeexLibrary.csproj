@@ -53,6 +53,7 @@
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1CompletedTests.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1Otau.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1Tests.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2OtauInitB.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2BaseRefs.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2Initialization.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2.cs" />

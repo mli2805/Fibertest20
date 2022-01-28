@@ -69,6 +69,9 @@ namespace Graph.Tests
             var parts = link.Split('/');
             fakeVeexRtuModel.Otaus.RemoveAll(o => o.id == parts[1]);
             fakeVeexRtuModel.OtauItems.items.RemoveAll(i => i.self == link);
+            var conn = fakeVeexRtuModel.Scheme.connections.FirstOrDefault(c => c.inputOtauId == parts[1]);
+            if (conn != null)
+                fakeVeexRtuModel.Scheme.connections.Remove(conn);
         }
 
         public static CompletedTestPortion GetCompletedTestsAfterTimestamp(this FakeVeexRtuModel fakeVeexRtuModel, string uri)

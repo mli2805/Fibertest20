@@ -21,6 +21,26 @@ namespace Iit.Fibertest.Dto
     {
         public List<Connection> connections { get; set; }
         public List<RootConnection> rootConnections { get; set; }
+
+        public VeexOtauCascadingScheme()
+        {
+            rootConnections = new List<RootConnection>();
+            connections = new List<Connection>();
+
+        }
+
+        public VeexOtauCascadingScheme(string mainOtauId)
+        {
+            rootConnections = new List<RootConnection>()
+            {
+                new RootConnection()
+                {
+                    inputOtauId = mainOtauId,
+                    inputOtauPort = 0,
+                }
+            };
+            connections = new List<Connection>();
+        }
     }
 
 }

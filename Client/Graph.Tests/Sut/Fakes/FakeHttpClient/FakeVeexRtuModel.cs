@@ -81,12 +81,7 @@ namespace Graph.Tests
             { items = new List<LinkObject>() { new LinkObject() { self = $@"otaus/{mainOtau.id}" } }, total = 1 };
             Otaus = new List<VeexOtau>() { mainOtau };
 
-            Scheme = new VeexOtauCascadingScheme()
-            {
-                rootConnections = new List<RootConnection>()
-                    {new RootConnection() {inputOtauId = mainOtau.id, inputOtauPort = 0}},
-                connections = new List<Connection>(),
-            };
+            Scheme = new VeexOtauCascadingScheme(mainOtau.id);
 
             TestItems = new LinkList() { items = new List<LinkObject>() };
         }
