@@ -133,7 +133,7 @@
         SaveMaxZoomNoMoreThan,
         GMapProvider,
         MapAccessMode,
-        IsBigGraphMode,
+        IsHighDensityGraph,
         ThresholdZoom,
         ScreenPartAsMargin,
 

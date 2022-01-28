@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _currentGis = currentGis;
 
-            IsHighDensityGraph = currentGis.IsBigGraphMode;
+            IsHighDensityGraph = currentGis.IsHighDensityGraph;
             SelectedZoom = currentGis.ThresholdZoom;
             SelectedShift = (int)(currentGis.ScreenPartAsMargin * 100);
         }
@@ -73,8 +73,8 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-            _currentGis.IsBigGraphMode = IsHighDensityGraph;
-            _iniFile.Write(IniSection.Map, IniKey.IsBigGraphMode, IsHighDensityGraph);
+            _currentGis.IsHighDensityGraph = IsHighDensityGraph;
+            _iniFile.Write(IniSection.Map, IniKey.IsHighDensityGraph, IsHighDensityGraph);
             _currentGis.ThresholdZoom = SelectedZoom;
             _iniFile.Write(IniSection.Map, IniKey.ThresholdZoom, SelectedZoom);
             _currentGis.ScreenPartAsMargin = SelectedShift / 100.0;

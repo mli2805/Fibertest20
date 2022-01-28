@@ -3078,4 +3078,10 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Out_of_screen_part" xml:space="preserve">
 		<value>Out of screen part of rendered graph (%):</value>
 	</data>
+	<data name="SID_High_density_graph_explanation" xml:space="preserve">
+		<value>A large number of nodes, for example: networks of large cities with branched cable ducts, PON networks, etc.</value>
+	</data>
+	<data name="SID_Could_be_changed_after_installation" xml:space="preserve">
+		<value>The mode could be changed after installation in application settings</value>
+	</data>
 </root>

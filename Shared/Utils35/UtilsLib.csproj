@@ -120,10 +120,12 @@
     <Compile Include="ServiceManager\ServiceInstaller.cs" />
     <Compile Include="ServiceManager\ServiceState.cs" />
     <Compile Include="Setup\BwReturnProgressCode.cs" />
+    <Compile Include="Setup\CurrentInstallation.cs" />
     <Compile Include="Setup\FileOperations.cs" />
     <Compile Include="Setup\FtService.cs" />
     <Compile Include="Setup\FtServices.cs" />
     <Compile Include="Setup\IniOperations.cs" />
+    <Compile Include="Setup\InstallationType.cs" />
     <Compile Include="Setup\RegistryOperations.cs" />
     <Compile Include="Setup\ServiceOperations.cs" />
     <Compile Include="Setup\SetupUninstallOperations.cs" />

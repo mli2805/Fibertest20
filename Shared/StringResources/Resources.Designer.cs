@@ -1918,6 +1918,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The mode could be changed after installation in application settings.
+        /// </summary>
+        public static string SID_Could_be_changed_after_installation {
+            get {
+                return ResourceManager.GetString("SID_Could_be_changed_after_installation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create new.
         /// </summary>
         public static string SID_Create_new {
@@ -3489,6 +3498,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_High_density_graph {
             get {
                 return ResourceManager.GetString("SID_High_density_graph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Explanation.
+        /// </summary>
+        public static string SID_High_density_graph_explanation {
+            get {
+                return ResourceManager.GetString("SID_High_density_graph_explanation", resourceCulture);
             }
         }
         

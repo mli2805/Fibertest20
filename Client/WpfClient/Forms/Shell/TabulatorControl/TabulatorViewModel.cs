@@ -90,7 +90,7 @@ namespace Iit.Fibertest.Client
         }
 
         public Visibility ButtonVisibility => Visibility.Collapsed;
-            // MapVisibility == Visibility.Visible && !_currentGis.IsBigGraphMode
+            // MapVisibility == Visibility.Visible && !_currentGis.IsHighDensityGraph
                 // ? Visibility.Visible
                 // : Visibility.Collapsed;
 

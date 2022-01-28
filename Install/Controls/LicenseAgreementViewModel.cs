@@ -5,6 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Xps.Packaging;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
 {

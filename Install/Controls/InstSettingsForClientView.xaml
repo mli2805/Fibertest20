@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Iit.Fibertest.Install.InstSettingsForClientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             mc:Ignorable="d" d:DataContext="{d:DesignData InstSettingsForClientViewModel}">
+    <StackPanel Margin="10,10,5,5" >
+        <CheckBox Content="{x:Static stringResources:Resources.SID_High_density_graph}" 
+                  Margin="5,15" IsChecked="{Binding IsHighDensityGraph}"/>
+        <TextBlock TextAlignment="Justify" Margin="25,5,15,0" TextWrapping="Wrap" 
+                   Text="{x:Static stringResources:Resources.SID_High_density_graph_explanation}"/>
+        <TextBlock Margin="25,5,15,5" Text="{x:Static stringResources:Resources.SID_Could_be_changed_after_installation}"/>
+    </StackPanel>
+</UserControl>

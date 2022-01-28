@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
                 Command = new ContextMenuAction(_rtuVmActions.StartDefineTraceStepByStep, _rtuVmPermissions.CanStartDefineTraceStepByStep),
                 CommandParameter = marker
             });
-            if (!_currentGis.IsBigGraphMode)
+            if (!_currentGis.IsHighDensityGraph)
                 contextMenu.Items.Add(new MenuItem()
                 {
                     Header = Resources.SID_Reveal_traces,
