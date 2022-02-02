@@ -6,19 +6,19 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Width="500" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:GraphVisibilitySettingsViewModel}">
     <StackPanel Margin="5,20,5,5">
         <CheckBox Margin="15,5,5,5" IsChecked="{Binding IsHighDensityGraph}"
                   Content="{x:Static stringResources:Resources.SID_High_density_graph}"/>
         <Border BorderBrush="LightGray" BorderThickness="1" Margin="5"/>
         <DockPanel Margin="5">
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Graph_is_visible_from_zoom}" Width="300" />
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Graph_is_visible_from_zoom}" Width="350" />
             <ComboBox Height="22" Width="60" ItemsSource="{Binding ZoomList}" 
                       SelectedItem="{Binding SelectedZoom}"/>
         </DockPanel>
         <DockPanel Margin="5">
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Out_of_screen_part}" Width="300" />
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Out_of_screen_part}" Width="350" />
             <ComboBox Height="22" Width="60" ItemsSource="{Binding ShiftList}" 
                       SelectedItem="{Binding SelectedShift}"/>
         </DockPanel>
