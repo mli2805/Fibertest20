@@ -11,7 +11,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, otdrId);
             if (!proxy.IsSuccessful)
                 return false;
-            return await _d2RtuVeexLayer2.ChangeMonitoringState(rtuAddresses, otdrId, "disabled");
+            return await _d2RtuVeexLayer2.ChangeMonitoringState(rtuAddresses, "disabled");
 
         }
 
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
 
                 var res = await _d2RtuVeexLayer2.ChangeMonitoringState(
-                    rtuAddresses, dto.OtdrId, dto.IsMonitoringOn ? "enabled" : "disabled");
+                    rtuAddresses, dto.IsMonitoringOn ? "enabled" : "disabled");
                 return res ? new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully }
                            : new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
             }

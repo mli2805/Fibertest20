@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.Rtu
+namespace Graph.Tests.RtuVeex
 {
     using TechTalk.SpecFlow;
     

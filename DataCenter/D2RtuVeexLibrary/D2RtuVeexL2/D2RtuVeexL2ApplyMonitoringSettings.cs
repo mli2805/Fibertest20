@@ -59,7 +59,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        public async Task<bool> ChangeMonitoringState(DoubleAddress rtuAddresses, string otdrId, string state)
+        public async Task<bool> ChangeMonitoringState(DoubleAddress rtuAddresses, string state)
         {
             return (await _d2RtuVeexLayer1.SetMonitoringProperty(rtuAddresses, "state", state)).IsSuccessful;
         }

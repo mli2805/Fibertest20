@@ -391,28 +391,28 @@
     <Compile Include="Rtu\RtuUpdateSteps.cs">
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuFirstInitialization.feature.cs">
+    <Compile Include="RtuVeex\VeexRtuFirstInitialization.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuFirstInitializationSteps.cs">
+    <Compile Include="RtuVeex\VeexRtuFirstInitializationSteps.cs">
       <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuInitialized.feature.cs">
+    <Compile Include="RtuVeex\VeexRtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuInitializedSteps.cs">
+    <Compile Include="RtuVeex\VeexRtuInitializedSteps.cs">
       <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuWithBopInitialization.feature.cs">
+    <Compile Include="RtuVeex\VeexRtuWithBopInitialization.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuWithBopInitializationSteps.cs">
+    <Compile Include="RtuVeex\VeexRtuWithBopInitializationSteps.cs">
       <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
@@ -909,15 +909,15 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
     </None>
-    <None Include="Rtu\VeexRtuFirstInitialization.feature">
+    <None Include="RtuVeex\VeexRtuFirstInitialization.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuFirstInitialization.feature.cs</LastGenOutput>
     </None>
-    <None Include="Rtu\VeexRtuInitialized.feature">
+    <None Include="RtuVeex\VeexRtuInitialized.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuInitialized.feature.cs</LastGenOutput>
     </None>
-    <None Include="Rtu\VeexRtuWithBopInitialization.feature">
+    <None Include="RtuVeex\VeexRtuWithBopInitialization.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuWithBopInitialization.feature.cs</LastGenOutput>
     </None>
