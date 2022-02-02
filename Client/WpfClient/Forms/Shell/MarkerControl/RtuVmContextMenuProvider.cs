@@ -26,46 +26,46 @@ namespace Iit.Fibertest.Client
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Information,
-                Command = new ContextMenuAction(_rtuVmActions.AskUpdateRtu, _rtuVmPermissions.CanUpdateRtu),
+                Command = new ContextMenuAsyncAction(_rtuVmActions.AskUpdateRtu, _rtuVmPermissions.CanUpdateRtu),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Remove,
-                Command = new ContextMenuAction(_rtuVmActions.AskRemoveRtu, _rtuVmPermissions.CanRemoveRtu),
+                Command = new ContextMenuAsyncAction(_rtuVmActions.AskRemoveRtu, _rtuVmPermissions.CanRemoveRtu),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Section,
-                Command = new ContextMenuAction(_commonVmActions.StartAddFiber, _rtuVmPermissions.CanStartAddFiber),
+                Command = new ContextMenuAsyncAction(_commonVmActions.StartAddFiber, _rtuVmPermissions.CanStartAddFiber),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Section_with_nodes,
-                Command = new ContextMenuAction(_commonVmActions.StartAddFiberWithNodes, _rtuVmPermissions.CanStartAddFiberWithNodes),
+                Command = new ContextMenuAsyncAction(_commonVmActions.StartAddFiberWithNodes, _rtuVmPermissions.CanStartAddFiberWithNodes),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new Separator());
             // contextMenu.Items.Add(new MenuItem()
             // {
             //     Header = Resources.SID_Define_trace,
-            //     Command = new ContextMenuAction(_rtuVmActions.StartDefineTrace, _rtuVmPermissions.CanStartDefineTrace),
+            //     Command = new ContextMenuAsyncAction(_rtuVmActions.StartDefineTrace, _rtuVmPermissions.CanStartDefineTrace),
             //     CommandParameter = marker
             // });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Define_trace_step_by_step,
-                Command = new ContextMenuAction(_rtuVmActions.StartDefineTraceStepByStep, _rtuVmPermissions.CanStartDefineTraceStepByStep),
+                Command = new ContextMenuAsyncAction(_rtuVmActions.StartDefineTraceStepByStep, _rtuVmPermissions.CanStartDefineTraceStepByStep),
                 CommandParameter = marker
             });
             if (!_currentGis.IsHighDensityGraph)
                 contextMenu.Items.Add(new MenuItem()
                 {
                     Header = Resources.SID_Reveal_traces,
-                    Command = new ContextMenuAction(_rtuVmActions.RevealTraces, _rtuVmPermissions.CanRevealTraces),
+                    Command = new ContextMenuAsyncAction(_rtuVmActions.RevealTraces, _rtuVmPermissions.CanRevealTraces),
                     CommandParameter = marker,
                 });
             return contextMenu;

@@ -113,6 +113,14 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("Переинициализируем его", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 20
  testRunner.Then("Квадратик мониторинга у RTU и трассы становится серым", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 22
+ testRunner.When("Переводим в автоматический режим", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.Then("Квадратик мониторинга у RTU и трассы становится голубым", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 25
+ testRunner.When("Переводим в ручной режим", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
+ testRunner.Then("Квадратик мониторинга у RTU и трассы становится серым", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

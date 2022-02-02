@@ -28,14 +28,14 @@ namespace Iit.Fibertest.Client
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Attach_trace,
-                Command = new ContextMenuAction(_portLeafActions.AttachTraceFromListAction, _portLeafActions.CanAttachTraceAction),
+                Command = new ContextMenuAsyncAction(_portLeafActions.AttachTraceFromListAction, _portLeafActions.CanAttachTraceAction),
                 CommandParameter = portLeaf,
             };
 
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Attach_optical_switch,
-                Command = new ContextMenuAction(_portLeafActions.AttachOtauAction, _portLeafActions.CanAttachOtauAction),
+                Command = new ContextMenuAsyncAction(_portLeafActions.AttachOtauAction, _portLeafActions.CanAttachOtauAction),
                 CommandParameter = portLeaf,
             };
         }
@@ -47,14 +47,14 @@ namespace Iit.Fibertest.Client
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Measurement__Client_,
-                Command = new ContextMenuAction(_commonActions.MeasurementClientAction, _commonActions.CanMeasurementClientAction),
+                Command = new ContextMenuAsyncAction(_commonActions.MeasurementClientAction, _commonActions.CanMeasurementClientAction),
                 CommandParameter = portLeaf,
             };
 
             yield return new MenuItemVm()
             {
                 Header = Resources.SID_Measurement__RFTS_Reflect_,
-                Command = new ContextMenuAction(_commonActions.MeasurementRftsReflectAction, _commonActions.CanMeasurementRftsReflectAction),
+                Command = new ContextMenuAsyncAction(_commonActions.MeasurementRftsReflectAction, _commonActions.CanMeasurementRftsReflectAction),
                 CommandParameter = portLeaf,
             };
         }

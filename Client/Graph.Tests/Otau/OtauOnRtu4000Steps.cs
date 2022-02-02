@@ -51,10 +51,7 @@ namespace Graph.Tests
         [When(@"Отключаем доп переключатель")]
         public void WhenОтключаемДопПереключатель()
         {
-            // _otauLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Remove)
-                // .Command.Execute(_otauLeaf);
-
-            _otauLeaf.RemoveOtau().Wait();
+            _otauLeaf.RemoveOtau(_otauLeaf).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

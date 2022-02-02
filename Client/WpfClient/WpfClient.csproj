@@ -687,7 +687,7 @@
     </Compile>
     <Compile Include="Forms\Shell\TreeOfRtuControl\Leaf.cs" />
     <Compile Include="GraphModel\Primitives\NodeVm.cs" />
-    <Compile Include="Forms\Primitive\ContextMenuAction.cs" />
+    <Compile Include="Forms\Primitive\ContextMenuAsyncAction.cs" />
     <Compile Include="Forms\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>

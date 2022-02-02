@@ -1,17 +1,19 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Iit.Fibertest.Graph.Requests;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuVmActions
     {
-        public void AskUpdateRtu(object parameter)
+        public async Task AskUpdateRtu(object parameter)
         {
             var marker = (MarkerControl)parameter;
+            await Task.Delay(0);
             marker.Owner.GraphReadModel.GrmRtuRequests.UpdateRtu(new RequestUpdateRtu() { NodeId = marker.GMapMarker.Id });
         }
 
-        public async void AskRemoveRtu(object parameter)
+        public async Task AskRemoveRtu(object parameter)
         {
             var marker = (MarkerControl)parameter;
 
@@ -27,13 +29,14 @@ namespace Iit.Fibertest.Client
         //     marker.MainMap.StartNode = marker.GMapMarker;
         // }
 
-        public void StartDefineTraceStepByStep(object parameter)
+        public async Task StartDefineTraceStepByStep(object parameter)
         {
             var marker = (MarkerControl)parameter;
+            await Task.Delay(0);
             marker.Owner.GraphReadModel.GrmRtuRequests.DefineTraceStepByStep(marker.GMapMarker.Id, marker.Title);
         }
 
-        public async void RevealTraces(object parameter)
+        public async Task RevealTraces(object parameter)
         {
             var marker = (MarkerControl)parameter;
 

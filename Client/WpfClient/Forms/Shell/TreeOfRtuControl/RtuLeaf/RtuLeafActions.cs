@@ -48,17 +48,19 @@ namespace Iit.Fibertest.Client
             _landmarksViewsManager = landmarksViewsManager;
         }
 
-        public void ShowRtuInfoView(object param)
+        public async Task ShowRtuInfoView(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
+
+            await Task.Delay(0);
 
             var vm = _globalScope.Resolve<RtuUpdateViewModel>();
             vm.Initialize(rtuLeaf.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public async void HighlightRtu(object param)
+        public async Task HighlightRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
             {
@@ -72,7 +74,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async void ExportRtuToFile(object param)
+        public async Task ExportRtuToFile(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
@@ -88,22 +90,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void InitializeRtu(object param)
+        public async Task InitializeRtu(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
+            await Task.Delay(0);
             var vm = _globalScope.Resolve<RtuInitializeViewModel>(new NamedParameter(@"rtuLeaf", rtuLeaf));
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public void ShowRtuState(object param)
+        public async Task ShowRtuState(object param)
         {
+            await Task.Delay(0);
             if (param is RtuLeaf rtuLeaf)
                 _rtuStateViewsManager.ShowRtuState(rtuLeaf);
         }
 
-        public async void ShowRtuLandmarks(object param)
+        public async Task ShowRtuLandmarks(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
@@ -111,16 +115,17 @@ namespace Iit.Fibertest.Client
             await _landmarksViewsManager.InitializeFromRtu(rtuLeaf.Id);
         }
 
-        public void ShowMonitoringSettings(object param)
+        public async Task ShowMonitoringSettings(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
+            await Task.Delay(0);
             var vm = _globalScope.Resolve<MonitoringSettingsViewModel>(new NamedParameter(@"rtuLeaf", rtuLeaf));
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public async void StopMonitoring(object param)
+        public async Task StopMonitoring(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
@@ -193,7 +198,7 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-        public async void StartMonitoring(object param)
+        public async Task StartMonitoring(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
@@ -222,7 +227,7 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
         }
 
-        public async void DetachAllTraces(object param)
+        public async Task DetachAllTraces(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
@@ -235,13 +240,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async void RemoveRtu(object param)
+        public async Task RemoveRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
                 await _rtuRemover.Fire(_readModel.Rtus.First(r => r.Id == rtuLeaf.Id));
         }
 
-        public async void DefineTraceStepByStep(object param)
+        public async Task DefineTraceStepByStep(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;

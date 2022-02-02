@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
@@ -93,7 +94,23 @@ namespace Graph.Tests
             _sut.FakeVeexRtuModel.Monitoring = "disabled";
         }
 
+        [When(@"Переводим в автоматический режим")]
+        public void WhenПереводимВАвтоматическийРежим()
+        {
+            var rtuLeafActions = _sut.ClientScope.Resolve<RtuLeafActions>();
+            rtuLeafActions.StartMonitoring(_rtuLeaf).Wait();
 
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [When(@"Переводим в ручной режим")]
+        public void WhenПереводимВРучнойРежим()
+        {
+            var rtuLeafActions = _sut.ClientScope.Resolve<RtuLeafActions>();
+            rtuLeafActions.StopMonitoring(_rtuLeaf).Wait();
+            
+            _sut.Poller.EventSourcingTick().Wait();
+        }
 
     }
 }

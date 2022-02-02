@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Iit.Fibertest.Client
 {
-    public class ContextMenuAction : ICommand
+    public class ContextMenuAsyncAction : ICommand
     {
-        public delegate void CommandOnExecute(object parameter);
+        public delegate Task CommandOnExecute(object parameter);
         public delegate bool CommandOnCanExecute(object parameter);
 
         private readonly CommandOnExecute _execute;
         private readonly CommandOnCanExecute _canExecute;
 
-        public ContextMenuAction(CommandOnExecute onExecuteMethod, CommandOnCanExecute onCanExecuteMethod)
+        public ContextMenuAsyncAction(CommandOnExecute onExecuteMethod, CommandOnCanExecute onCanExecuteMethod)
         {
             _execute = onExecuteMethod;
             _canExecute = onCanExecuteMethod;

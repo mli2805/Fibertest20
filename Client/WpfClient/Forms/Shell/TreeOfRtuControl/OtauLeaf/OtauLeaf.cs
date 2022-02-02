@@ -67,18 +67,13 @@ namespace Iit.Fibertest.Client
                 new MenuItemVm()
                 {
                     Header = Resources.SID_Remove,
-                    Command = new ContextMenuAction(OtauRemoveAction, CanOtauRemoveAction),
+                    Command = new ContextMenuAsyncAction(RemoveOtau, CanOtauRemoveAction),
                     CommandParameter = this
                 }
             };
         }
 
-        private async void OtauRemoveAction(object param)
-        {
-            await RemoveOtau();
-        }
-
-        public async Task RemoveOtau()
+        public async Task RemoveOtau(object param)
         {
             var rtu = _readModel.Rtus.First(r => r.Id == Parent.Id);
 
