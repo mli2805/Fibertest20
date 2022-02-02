@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             DisplayName = Resources.SID_Monitoring_settings;
         }
 
-        public async void Apply()
+        public async Task Apply()
         {
             IsButtonsEnabled = false;
             using (_globalScope.Resolve<IWaitCursor>())

@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
         public int MasterPort { get; set; }
         public NetAddress OtauNetAddress { get; set; }
         public string Serial { get; set; }
+        public string OtauId { get; set; }
 
         public RtuPartState OtauState
         {

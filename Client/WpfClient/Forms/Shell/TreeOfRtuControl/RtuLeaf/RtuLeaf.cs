@@ -129,11 +129,12 @@ namespace Iit.Fibertest.Client
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
                 ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
 
-        public IPortOwner GetPortOwner(string serial)
+        public IPortOwner GetPortOwner(OtauPortDto otauPortDto)
         {
-            if (Serial == serial) return this;
+            if (otauPortDto.IsPortOnMainCharon) return this;
+
             return ChildrenImpresario.Children.Select(child => child as OtauLeaf).
-                FirstOrDefault(otau => otau?.Serial == serial);
+                FirstOrDefault(otau => otau?.Id.ToString() == otauPortDto.OtauId);
         }
 
         public RtuLeaf(RtuLeafContextMenuProvider rtuLeafContextMenuProvider, FreePorts view)

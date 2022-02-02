@@ -343,6 +343,12 @@
     <Compile Include="Otau\OtauOnRtu4000Steps.cs">
       <DependentUpon>OtauOnRtu4000.feature</DependentUpon>
     </Compile>
+    <Compile Include="RtuVeex\BrokenRtuInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrokenRtuInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\BrokenRtuInitializationSteps.cs" />
     <Compile Include="Rtu\RtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -434,6 +440,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLandmarksForm.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\TraceWithLoop.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\MoniSettingsApplier.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
@@ -868,6 +875,10 @@
     <None Include="Otau\OtauDetach.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>OtauDetach.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RtuVeex\BrokenRtuInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BrokenRtuInitialization.feature.cs</LastGenOutput>
     </None>
     <None Include="Rtu\RtuAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

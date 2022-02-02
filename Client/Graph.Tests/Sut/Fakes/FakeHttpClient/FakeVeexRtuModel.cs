@@ -28,6 +28,10 @@ namespace Graph.Tests
 
         public byte[] SorBytesToReturn { get; set; }
 
+        public string Type { get; set; } = "fibertest";
+        public string Monitoring { get; set; } = "enabled";
+        public string ProxyMode { get; set; } = "disabled";
+
         public void Initialize()
         {
             Id = Guid.NewGuid();

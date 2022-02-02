@@ -82,7 +82,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             foreach (var pair in dto.Children)
             {
-                var otau = otauList.FirstOrDefault(o => "S2_" + o.id == pair.Value.OtauId);
+                var otau = otauList.FirstOrDefault(o => o.id == "S2_" + pair.Value.OtauId);
                 if (otau != null)
                 {
                     result.Children.Add(pair.Key, pair.Value);
