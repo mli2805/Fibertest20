@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public List<int> ShiftList { get; } = new List<int>() {16, 28, 40, 52};
+        public List<int> ShiftList { get; } = new List<int>() { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
         public int SelectedShift { get; set; }
 
         public GraphVisibilitySettingsViewModel(IniFile iniFile, CurrentGis currentGis)
