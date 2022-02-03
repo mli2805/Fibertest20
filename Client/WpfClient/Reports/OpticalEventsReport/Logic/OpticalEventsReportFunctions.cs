@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
-    public static class AllEventsConsolidatedTableProvider
+    public static class OpticalEventsReportFunctions
     {
         public static List<List<string>> Create(List<OpticalEventModel> events, OpticalEventsReportModel reportModel)
         {
@@ -61,6 +62,26 @@ namespace Iit.Fibertest.Client
             if (opticalEventModel.MeasurementTimestamp.Date > reportModel.DateTo.Date) return false;
             if (!reportModel.EventStatusViewModel.GetSelected().Contains(opticalEventModel.EventStatus)) return false;
             return reportModel.TraceStateSelectionViewModel.GetSelected().Contains(opticalEventModel.TraceState);
+        }
+
+        /// <summary>
+        /// Find closest OK event which happened after every Accident in events
+        /// </summary>
+        /// <param name="events"></param>
+        /// <returns></returns>
+        public static Dictionary<int, DateTime> GetAccidentsClosingTimes(this List<OpticalEventModel> events)
+        {
+            var allAccidents = events.Where(r => r.EventStatus > EventStatus.EventButNotAnAccident).ToList();
+            var result = new Dictionary<int, DateTime>();
+            foreach (var opticalEventModel in allAccidents)
+            {
+                var okEvent = events.FirstOrDefault(e =>
+                    e.TraceId == opticalEventModel.TraceId && e.TraceState == FiberState.Ok
+                                                           && e.MeasurementTimestamp >= opticalEventModel.MeasurementTimestamp);
+                if (okEvent != null)
+                    result.Add(opticalEventModel.SorFileId, okEvent.MeasurementTimestamp);
+            }
+            return result;
         }
     }
 }

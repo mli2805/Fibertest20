@@ -135,7 +135,7 @@ namespace Iit.Fibertest.Client
         private void DrawConsolidatedTable(Section section)
         {
             var selectedStates = _reportModel.TraceStateSelectionViewModel.GetSelected();
-            var data = AllEventsConsolidatedTableProvider.Create(_events, _reportModel);
+            var data = OpticalEventsReportFunctions.Create(_events, _reportModel);
             var table = section.AddTable();
             table.Borders.Width = 0.25;
 
@@ -165,7 +165,7 @@ namespace Iit.Fibertest.Client
         private Dictionary<int, DateTime> _closingTimes;
         private void DrawOpticalEvents(Section section)
         {
-            _closingTimes = EventsClosingTimeProvider.Calculate(_events);
+            _closingTimes = _events.GetAccidentsClosingTimes();
             foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
             {
                 if (_reportModel.EventStatusViewModel.GetSelected().Contains(eventStatus))
@@ -178,7 +178,12 @@ namespace Iit.Fibertest.Client
             foreach (var state in _reportModel.TraceStateSelectionViewModel.GetSelected())
             {
                 var events = _opticalEventsDoubleViewModel.AllOpticalEventsViewModel.
-                    Rows.Where(r => r.EventStatus == eventStatus && r.TraceState == state).OrderByDescending(e => e.EventRegistrationTimestamp).ToList();
+                    Rows
+                        .Where(r => r.EventStatus == eventStatus 
+                                && r.TraceState == state
+                                && (r.MeasurementTimestamp >= _reportModel.DateFrom && r.MeasurementTimestamp <= _reportModel.DateTo))
+                        .OrderByDescending(e => e.EventRegistrationTimestamp)
+                        .ToList();
                 if (events.Any())
                     DrawOpticalEventsWithStatusAndState(section, events);
             }
