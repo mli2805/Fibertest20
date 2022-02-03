@@ -158,12 +158,14 @@ namespace Iit.Fibertest.Client
         private bool OnFilter(object o)
         {
             var opticalEventVm = (OpticalEventModel)o;
-            return (SelectedTraceStateFilter.IsOn == false ||
-                SelectedTraceStateFilter.TraceState == opticalEventVm.TraceState) &&
-                    (SelectedEventStatusFilter.IsOn == false ||
-                SelectedEventStatusFilter.EventStatus == opticalEventVm.EventStatus) &&
-                    (SelectedRtuFilter.IsOn == false ||
-                SelectedRtuFilter.RtuId == opticalEventVm.RtuId);
+            return 
+                // STATE filter
+                (SelectedTraceStateFilter.IsOn == false || 
+                 (SelectedTraceStateFilter.TraceState == opticalEventVm.TraceState && opticalEventVm.BaseRefType != BaseRefType.Fast)) 
+                // STATUS filter
+                   && (SelectedEventStatusFilter.IsOn == false || SelectedEventStatusFilter.EventStatus == opticalEventVm.EventStatus)
+                // RTU filter
+                   && (SelectedRtuFilter.IsOn == false || SelectedRtuFilter.RtuId == opticalEventVm.RtuId);
         }
 
         public void RefreshRowsWithUpdatedRtu(Guid rtuId)
