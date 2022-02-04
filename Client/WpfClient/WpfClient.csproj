@@ -223,6 +223,10 @@
       <DependentUpon>GraphVisibilitySettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsViewModel.cs" />
+    <Compile Include="Forms\ToolsForms\GraphOptimization\GraphOptimizationView.xaml.cs">
+      <DependentUpon>GraphOptimizationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ToolsForms\GraphOptimization\GraphOptimizationViewModel.cs" />
     <Compile Include="GraphModel\Rendering\GraphRendererForFullGraphUser.cs" />
     <Compile Include="GraphModel\Rendering\GraphRendererCommonDetails.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">
@@ -272,15 +276,15 @@
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuVeexInfoView.xaml.cs">
       <DependentUpon>RtuVeexInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationModel.cs" />
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationView.xaml.cs">
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationModel.cs" />
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationView.xaml.cs">
       <DependentUpon>DbOptimizationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationViewModel.cs" />
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppView.xaml.cs">
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationViewModel.cs" />
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\LeaveAppView.xaml.cs">
       <DependentUpon>LeaveAppView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppViewModel.cs" />
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\LeaveAppViewModel.cs" />
     <Compile Include="Forms\SettingsForms\GisSettingsView.xaml.cs">
       <DependentUpon>GisSettingsView.xaml</DependentUpon>
     </Compile>
@@ -758,11 +762,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationView.xaml">
+    <Page Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppView.xaml">
+    <Page Include="Forms\ToolsForms\DbOptimizationForm\LeaveAppView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -895,6 +899,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\SpecialMeasurements\OutOfTurnPreciseMeasurementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\ToolsForms\GraphOptimization\GraphOptimizationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

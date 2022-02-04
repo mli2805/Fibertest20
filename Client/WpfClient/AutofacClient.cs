@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Client.GraphOptimization;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -72,6 +73,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<SmsSettingsViewModel>();
             builder.RegisterType<SnmpSettingsViewModel>();
             builder.RegisterType<DbOptimizationViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<GraphOptimizationViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ChangePasswordViewModel>();
             builder.RegisterType<WcfServiceInClient>().InstancePerLifetimeScope();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().InstancePerLifetimeScope();

@@ -3457,6 +3457,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Graph of traces optimization.
+        /// </summary>
+        public static string SID_Graph_of_traces_optimization {
+            get {
+                return ResourceManager.GetString("SID_Graph_of_traces_optimization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Graph visibility settings.
         /// </summary>
         public static string SID_Graph_visibility_settings {
@@ -3502,7 +3511,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explanation.
+        ///   Looks up a localized string similar to A large number of nodes, for example: networks of large cities with branched cable ducts, PON networks, etc..
         /// </summary>
         public static string SID_High_density_graph_explanation {
             get {

@@ -3084,4 +3084,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Could_be_changed_after_installation" xml:space="preserve">
 		<value>The mode could be changed after installation in application settings</value>
 	</data>
+	<data name="SID_Graph_of_traces_optimization" xml:space="preserve">
+		<value>Graph of traces optimization</value>
+	</data>
 </root>

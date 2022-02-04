@@ -1,0 +1,15 @@
+﻿<Window x:Class="Iit.Fibertest.Client.GraphOptimization.GraphOptimizationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        >
+    <StackPanel Margin="25, 20">
+        <TextBlock Text="Remove nodes and fibers which are not used in any trace" Margin="5" TextAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,20, 5,5">
+            <Button Content="Remove" Width="100" Margin="5"/>
+            <Button Content="Cancel" Width="100" Margin="5"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

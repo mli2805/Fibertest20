@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Autofac;
+using Iit.Fibertest.Client.GraphOptimization;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -12,6 +13,12 @@ namespace Iit.Fibertest.Client
         {
             var vm = _globalScope.Resolve<DbOptimizationViewModel>();
             vm.Initialize();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
+        public void LaunchGraphOptimizationView()
+        {
+            var vm = _globalScope.Resolve<GraphOptimizationViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
