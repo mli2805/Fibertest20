@@ -3087,4 +3087,16 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Graph_of_traces_optimization" xml:space="preserve">
 		<value>Graph of traces optimization</value>
 	</data>
+	<data name="SID_DB_optimization__" xml:space="preserve">
+		<value>DB optimization: </value>
+	</data>
+	<data name="SID__0__unused_nodes_found" xml:space="preserve">
+		<value>{0} unused nodes found</value>
+	</data>
+	<data name="SID__0__unused_fibers_found" xml:space="preserve">
+		<value>{0} unused fibers found</value>
+	</data>
+	<data name="SID_Remove_unused" xml:space="preserve">
+		<value>Remove nodes and fibers which are not used in any trace</value>
+	</data>
 </root>

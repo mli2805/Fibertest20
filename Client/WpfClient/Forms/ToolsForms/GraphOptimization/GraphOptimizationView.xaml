@@ -3,13 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight"
-        >
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignData GraphOptimizationViewModel}">
     <StackPanel Margin="25, 20">
-        <TextBlock Text="Remove nodes and fibers which are not used in any trace" Margin="5" TextAlignment="Center"/>
+        <TextBlock Text="{x:Static stringResources:Resources.SID_Remove_unused}" Margin="5" TextAlignment="Center"/>
+        <TextBlock Text="{Binding NodeCountStr}" Margin="25, 5"/>
+        <TextBlock Text="{Binding FiberCountStr}" Margin="25, 5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,20, 5,5">
-            <Button Content="Remove" Width="100" Margin="5"/>
-            <Button Content="Cancel" Width="100" Margin="5"/>
+            <Button Name="Remove" Content="{x:Static stringResources:Resources.SID_Remove}" Width="100" Margin="5" IsEnabled="{Binding IsEnabled}"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Width="100" Margin="5"/>
         </StackPanel>
     </StackPanel>
 </Window>

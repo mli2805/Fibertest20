@@ -3087,4 +3087,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Graph_of_traces_optimization" xml:space="preserve">
 		<value>Оптимизация графа трасс</value>
 	</data>
+	<data name="SID_DB_optimization__" xml:space="preserve">
+		<value>Оптимизация БД: </value>
+	</data>
+	<data name="SID__0__unused_nodes_found" xml:space="preserve">
+		<value>найденно неиспользуемых узлов {0}</value>
+	</data>
+	<data name="SID__0__unused_fibers_found" xml:space="preserve">
+		<value>найденно неиспользуемых волокон {0}</value>
+	</data>
 </root>

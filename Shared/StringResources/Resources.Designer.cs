@@ -304,6 +304,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} unused fibers found.
+        /// </summary>
+        public static string SID__0__unused_fibers_found {
+            get {
+                return ResourceManager.GetString("SID__0__unused_fibers_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} unused nodes found.
+        /// </summary>
+        public static string SID__0__unused_nodes_found {
+            get {
+                return ResourceManager.GetString("SID__0__unused_nodes_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} wells applied.
         /// </summary>
         public static string SID__0__wells_applied {
@@ -2166,6 +2184,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Db_drive_total_size {
             get {
                 return ResourceManager.GetString("SID_Db_drive_total_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DB optimization: .
+        /// </summary>
+        public static string SID_DB_optimization__ {
+            get {
+                return ResourceManager.GetString("SID_DB_optimization__", resourceCulture);
             }
         }
         
@@ -6167,6 +6194,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove_section {
             get {
                 return ResourceManager.GetString("SID_Remove_section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove nodes and fibers which are not used in any trace.
+        /// </summary>
+        public static string SID_Remove_unused {
+            get {
+                return ResourceManager.GetString("SID_Remove_unused", resourceCulture);
             }
         }
         

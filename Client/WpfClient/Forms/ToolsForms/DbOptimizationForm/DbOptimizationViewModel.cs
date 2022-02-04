@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public async void Initialize()
+        public async Task Initialize()
         {
             var drive = await _c2DWcfManager.GetDiskSpaceGb();
             if (drive == null)
@@ -89,7 +90,7 @@ namespace Iit.Fibertest.Client
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (!string.IsNullOrEmpty(result))
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, @"DB optimization: " + result);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_DB_optimization__ + result);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }

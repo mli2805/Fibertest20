@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Autofac;
 using Iit.Fibertest.Client.GraphOptimization;
 using Iit.Fibertest.Graph;
@@ -9,16 +10,19 @@ namespace Iit.Fibertest.Client
 {
     public partial class MainMenuViewModel
     {
-        public void LaunchCleaningView()
+        public async Task LaunchCleaningView()
         {
             var vm = _globalScope.Resolve<DbOptimizationViewModel>();
-            vm.Initialize();
+            await vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            
         }
 
-        public void LaunchGraphOptimizationView()
+        public async Task LaunchGraphOptimizationView()
         {
             var vm = _globalScope.Resolve<GraphOptimizationViewModel>();
+            await vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

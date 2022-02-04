@@ -179,6 +179,7 @@
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
     <Compile Include="Commands\Olt\AddGponPortRelation.cs" />
     <Compile Include="Commands\Olt\AddOlt.cs" />
+    <Compile Include="Commands\RemoveUnused.cs" />
     <Compile Include="Commands\Rtu\DetachAllTraces.cs" />
     <Compile Include="Commands\User\AssignUsersMachineKey.cs" />
     <Compile Include="Commands\VeexTest\AddVeexTest.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="EventSourcing\Model\ModelTraceComponentsExt.cs" />
     <Compile Include="EventSourcing\Model\ModelTraceDefinitionExt.cs" />
     <Compile Include="EventSourcing\Model\ModelTraceExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelUnusedExt.cs" />
     <Compile Include="EventSourcing\Model\ModelZonesExt.cs" />
     <Compile Include="EventSourcing\Model\OneRtuExportImport.cs" />
     <Compile Include="EventSourcing\Model\TraceInfoCalculator.cs" />
@@ -267,6 +269,7 @@
     <Compile Include="Events\ExternalEvents\MeasurementUpdated.cs" />
     <Compile Include="Events\Rtu\AllTracesDetached.cs" />
     <Compile Include="Commands\RemoveEventsAndSors.cs" />
+    <Compile Include="Events\UnusedRemoved.cs" />
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />
     <Compile Include="Events\User\UsersMachineKeyAssigned.cs" />

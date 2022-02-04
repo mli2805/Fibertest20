@@ -215,6 +215,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<bool> RemoveUnused()
+        {
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.RemoveUnused();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RemoveUnused: " + e.Message);
+                return false;
+            }
+        }
+
         public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
             var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();

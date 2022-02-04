@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Graph;
+﻿using System.Threading.Tasks;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,9 +13,9 @@ namespace Iit.Fibertest.Client
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
         private readonly ResponsibilityEventsOnGraphExecutor _responsibilityEventsOnGraphExecutor;
 
-        public EventsOnGraphExecutor(NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, 
+        public EventsOnGraphExecutor(NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor,
             FiberEventsOnGraphExecutor fiberEventsOnGraphExecutor,
-            EquipmentEventsOnGraphExecutor equipmentsExtor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor, 
+            EquipmentEventsOnGraphExecutor equipmentsExtor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor,
             RtuEventsOnGraphExecutor rtuEventsOnGraphExecutor, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor,
             ResponsibilityEventsOnGraphExecutor responsibilityEventsOnGraphExecutor)
         {
@@ -27,10 +28,12 @@ namespace Iit.Fibertest.Client
             _responsibilityEventsOnGraphExecutor = responsibilityEventsOnGraphExecutor;
         }
 
-        public void Apply(object e)
+        public async Task Apply(object e)
         {
             switch (e)
             {
+                case UnusedRemoved _: await _nodeEventsOnGraphExecutor.RemoveUnused(); return;
+
                 case NodeIntoFiberAdded evnt: _nodeEventsOnGraphExecutor.AddNodeIntoFiber(evnt); return;
                 case NodeMoved evnt: _nodeEventsOnGraphExecutor.MoveNode(evnt); return;
                 case NodeUpdated evnt: _nodeEventsOnGraphExecutor.UpdateNode(evnt); return;
@@ -55,7 +58,7 @@ namespace Iit.Fibertest.Client
                 case MeasurementAdded evnt: _accidentEventsOnGraphExecutor.ShowMonitoringResult(evnt); return;
 
                 case RtuAtGpsLocationAdded evnt: _rtuEventsOnGraphExecutor.AddRtuAtGpsLocation(evnt); return;
-                case RtuUpdated evnt: _rtuEventsOnGraphExecutor. UpdateRtu(evnt); return;
+                case RtuUpdated evnt: _rtuEventsOnGraphExecutor.UpdateRtu(evnt); return;
                 case RtuRemoved evnt: _rtuEventsOnGraphExecutor.RemoveRtu(evnt); return;
                 case OtauDetached evnt: _rtuEventsOnGraphExecutor.DetachOtau(evnt); return;
                 case AllTracesDetached evnt: _rtuEventsOnGraphExecutor.DetachAllTraces(evnt); return;

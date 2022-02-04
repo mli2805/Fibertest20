@@ -92,6 +92,7 @@ namespace Iit.Fibertest.Client
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEventAdded.RtuId);
+            if (rtuLeaf == null) return;
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
         }

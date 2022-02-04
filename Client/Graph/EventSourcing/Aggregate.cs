@@ -54,6 +54,8 @@ namespace Iit.Fibertest.Graph
                 case UpdateFiber command: return _eventsQueue.Add(Mapper.Map<FiberUpdated>(command));
                 case RemoveFiber command: return Validate(command);
 
+                case RemoveUnused command: return _eventsQueue.Add(Mapper.Map<UnusedRemoved>(command));
+
                 case AddEquipmentIntoNode command: return Validate(command);
                 case AddEquipmentAtGpsLocation command: return _eventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationAdded>(command));
                 case AddEquipmentAtGpsLocationWithNodeTitle command: return _eventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationWithNodeTitleAdded>(command));

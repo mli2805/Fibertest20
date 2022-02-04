@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using GMap.NET;
 using Iit.Fibertest.Dto;
@@ -100,6 +101,11 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
             if (vm.IsOpen)
                 vm.UpdateNode(evnt.NodeId);
+        }
+
+        public async Task RemoveUnused()
+        {
+            await _graphModel.RefreshVisiblePart();
         }
 
         public void RemoveNode(NodeRemoved evnt)
