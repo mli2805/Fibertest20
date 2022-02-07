@@ -38,7 +38,7 @@
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Measurement_updated}" Margin="5" IsChecked="{Binding IsMeasurementUpdated, Mode=TwoWay}"/>
              <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Events_and_reflectogram_removal}" Margin="5" IsChecked="{Binding IsEventsAndSorsRemoved, Mode=TwoWay}"/>
-                <CheckBox Content="{x:Static stringResources:Resources.SID_Event_log_cleaning}" Margin="5" IsChecked="{Binding IsSnapshotMade, Mode=TwoWay}"/>
+                <CheckBox Content="{x:Static stringResources:Resources.SID_Db_restructuring}" Margin="5" IsChecked="{Binding IsSnapshotMade, Mode=TwoWay}"/>
             </StackPanel>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="5,15,5,10" HorizontalAlignment="Center">

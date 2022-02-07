@@ -2233,6 +2233,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DB restructuring.
+        /// </summary>
+        public static string SID_Db_restructuring {
+            get {
+                return ResourceManager.GetString("SID_Db_restructuring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Zone.
         /// </summary>
         public static string SID_Default_Zone {
@@ -2751,24 +2760,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Event_log {
             get {
                 return ResourceManager.GetString("SID_Event_log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event log cleaning.
-        /// </summary>
-        public static string SID_Event_log_cleaning {
-            get {
-                return ResourceManager.GetString("SID_Event_log_cleaning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Event log clearing up to and including.
-        /// </summary>
-        public static string SID_Event_log_clearing {
-            get {
-                return ResourceManager.GetString("SID_Event_log_clearing", resourceCulture);
             }
         }
         
@@ -3489,6 +3480,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Graph_of_traces_optimization {
             get {
                 return ResourceManager.GetString("SID_Graph_of_traces_optimization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Graph of traces optimization failed: {0}.
+        /// </summary>
+        public static string SID_Graph_of_traces_optimization_failed___0_ {
+            get {
+                return ResourceManager.GetString("SID_Graph_of_traces_optimization_failed___0_", resourceCulture);
             }
         }
         
@@ -6162,15 +6162,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove &quot;Event log&quot; records.
-        /// </summary>
-        public static string SID_Remove_Event_log_records {
-            get {
-                return ResourceManager.GetString("SID_Remove_Event_log_records", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Remove node.
         /// </summary>
         public static string SID_Remove_node {
@@ -6203,6 +6194,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove_unused {
             get {
                 return ResourceManager.GetString("SID_Remove_unused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The sections marked in blue, the nodes associated with them, as well as free-standing nodes will be deleted..
+        /// </summary>
+        public static string SID_Remove_unused_explanation {
+            get {
+                return ResourceManager.GetString("SID_Remove_unused_explanation", resourceCulture);
             }
         }
         
@@ -7027,6 +7027,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server performance improvement.
+        /// </summary>
+        public static string SID_Server_performance_improvement {
+            get {
+                return ResourceManager.GetString("SID_Server_performance_improvement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server TCP port.
         /// </summary>
         public static string SID_Server_tcp_port {
@@ -7554,6 +7563,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Successful_ {
             get {
                 return ResourceManager.GetString("SID_Successful_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully optimized graph of traces!.
+        /// </summary>
+        public static string SID_Successfully_optimized_graph_of_traces_ {
+            get {
+                return ResourceManager.GetString("SID_Successfully_optimized_graph_of_traces_", resourceCulture);
             }
         }
         

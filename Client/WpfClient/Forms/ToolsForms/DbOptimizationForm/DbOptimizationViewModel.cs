@@ -18,21 +18,19 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
-        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
         public DbOptimizationViewModel(IniFile iniFile, IMyLog logFile, Model readModel, 
-            CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters,
+            CurrentUser currentUser, 
             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _readModel = readModel;
             _currentUser = currentUser;
-            _currentDatacenterParameters = currentDatacenterParameters;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
         }
@@ -58,11 +56,6 @@ namespace Iit.Fibertest.Client
             Model.UpToLimit = flag ? DateTime.Today.AddDays(-1) : new DateTime(DateTime.Today.Year - 2, 12, 31);
             Model.SelectedDate = flag ? DateTime.Today.AddDays(-1) : new DateTime(DateTime.Today.Year - 2, 12, 31);
 
-            var daysForEventLog = _iniFile.Read(IniSection.MySql, IniKey.SnapshotUptoLimitInDays, 90);
-            Model.FromLimit2 = _currentDatacenterParameters.SnapshotLastDate.AddDays(1);
-            Model.UpToLimit2 = DateTime.Today.Date.AddDays(-daysForEventLog-1);
-            Model.SelectedDate2 = DateTime.Today.Date.AddDays(-daysForEventLog-1); // something should remain in db, otherwise index will be started from 1
-
             Model.IsEnabled = _currentUser.Role <= Role.Root;
         }
 
@@ -85,7 +78,7 @@ namespace Iit.Fibertest.Client
                 }
                 : new MakeSnapshot()
                 {
-                    UpTo = Model.SelectedDate2,
+                    UpTo = DateTime.Today,
                 };
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (!string.IsNullOrEmpty(result))

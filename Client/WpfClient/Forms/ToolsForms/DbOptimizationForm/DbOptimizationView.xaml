@@ -80,16 +80,12 @@
                     <GroupBox.Header>
                         <HeaderedContentControl>
                             <RadioButton GroupName="1" IsChecked="{Binding Model.IsSnapshotMode}" 
-                                         Content='{x:Static stringResources:Resources.SID_Remove_Event_log_records}'
+                                         Content="{x:Static stringResources:Resources.SID_Db_restructuring}"
                                          IsEnabled="True"/>
                         </HeaderedContentControl>
                     </GroupBox.Header>
                     <StackPanel Margin="5" HorizontalAlignment="Left">
-                        <TextBlock Text="{x:Static stringResources:Resources.SID_Event_log_clearing}" Margin="10,5"/>
-                        <DatePicker Width="120" Margin="5" SelectedDate="{Binding Model.SelectedDate2}"
-                                    DisplayDateStart="{Binding Model.FromLimit2}"
-                                    DisplayDateEnd="{Binding Model.UpToLimit2}"/>
-                 
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Server_performance_improvement}" Margin="10,5"/>
                     </StackPanel>
                 </GroupBox>
             </DockPanel>

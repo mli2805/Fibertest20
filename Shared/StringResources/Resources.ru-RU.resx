@@ -2591,9 +2591,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Free_space_threshold" xml:space="preserve">
     <value>Порог свободного места:</value>
   </data>
-	<data name="SID_Remove_Event_log_records" xml:space="preserve">
-    <value>Удаление записей "Журнала операций"</value>
-  </data>
 	<data name="SID_Execute" xml:space="preserve">
     <value>Выполнить</value>
   </data>
@@ -2642,9 +2639,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Events_and_reflectogram_removal" xml:space="preserve">
     <value>Удаление событий и рефлектограмм</value>
   </data>
-	<data name="SID_Event_log_cleaning" xml:space="preserve">
-    <value>Очистка журнала операций</value>
-  </data>
 	<data name="SID_Up_to" xml:space="preserve">
     <value>По дату</value>
   </data>
@@ -2671,9 +2665,6 @@ RTU инициализируется в данный момент!</value>
   </data>
 	<data name="SID_Snapshot_created_" xml:space="preserve">
     <value>Модель создана.</value>
-  </data>
-	<data name="SID_Event_log_clearing" xml:space="preserve">
-    <value>Очистка Журнала операций по дату включительно</value>
   </data>
 	<data name="SID_Collecting_data_for_event_log___" xml:space="preserve">
     <value>Сбор данных Журнала операций...</value>
@@ -3095,5 +3086,23 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID__0__unused_fibers_found" xml:space="preserve">
 		<value>найденно неиспользуемых волокон {0}</value>
+	</data>
+	<data name="SID_Remove_unused" xml:space="preserve">
+		<value>Удаление узлов и участков не входящих в состав трасс</value>
+	</data>
+	<data name="SID_Db_restructuring" xml:space="preserve">
+		<value>Реструктуризация БД</value>
+	</data>
+	<data name="SID_Server_performance_improvement" xml:space="preserve">
+		<value>Повышение производительности сервера</value>
+	</data>
+	<data name="SID_Remove_unused_explanation" xml:space="preserve">
+		<value>Будут удалены участки обозначенные голубым цветом, связанные с ними узлы, а также отдельно стоящие узлы.</value>
+	</data>
+	<data name="SID_Graph_of_traces_optimization_failed___0_" xml:space="preserve">
+		<value>Ошибка оптимизации графа трасс: {0}</value>
+	</data>
+	<data name="SID_Successfully_optimized_graph_of_traces_" xml:space="preserve">
+		<value>Оптимизация графа трасс успешно завершена!</value>
 	</data>
 </root>

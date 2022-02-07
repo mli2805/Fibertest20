@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -47,6 +48,16 @@ namespace Iit.Fibertest.Client.GraphOptimization
 
         public async Task Remove()
         {
+            var vm2 = new MyMessageBoxViewModel(MessageType.Confirmation,
+                new List<string>
+                {
+                    Resources.SID_Attention_, "",
+                    Resources.SID_If_you_click_OK_now__the_data_will_be_permanently_deleted,
+                    Resources.SID_with_no_possibility_to_restore_them_,
+                }, 0);
+            _windowManager.ShowDialogWithAssignedOwner(vm2);
+            if (!vm2.IsAnswerPositive) return;
+
             string result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
@@ -54,8 +65,8 @@ namespace Iit.Fibertest.Client.GraphOptimization
             }
 
             var vm = !string.IsNullOrEmpty(result)
-                ? new MyMessageBoxViewModel(MessageType.Error, $"Graph of traces optimization failed: {result}")
-                : new MyMessageBoxViewModel(MessageType.Information, "Successfully optimized graph of traces!");
+                ? new MyMessageBoxViewModel(MessageType.Error, string.Format(Resources.SID_Graph_of_traces_optimization_failed___0_, result))
+                : new MyMessageBoxViewModel(MessageType.Information, Resources.SID_Successfully_optimized_graph_of_traces_);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
             TryClose();

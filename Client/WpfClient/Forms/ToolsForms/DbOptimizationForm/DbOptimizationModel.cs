@@ -117,25 +117,6 @@ namespace Iit.Fibertest.Client
         }
         #endregion
 
-        #region make snapshot
-        public DateTime FromLimit2{ get; set; } 
-        public DateTime UpToLimit2{ get; set; } 
-
-        private DateTime _selectedDate2;
-        public DateTime SelectedDate2
-        {
-            get { return _selectedDate2; }
-            set
-            {
-                if (value.Equals(_selectedDate2)) return;
-                _selectedDate2 = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(FromLimit2));
-                NotifyOfPropertyChange(nameof(UpToLimit2));
-            }
-        }
-        #endregion
-
         private bool _isEnabled;
 
         public bool IsEnabled
