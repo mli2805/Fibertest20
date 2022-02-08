@@ -6,13 +6,16 @@ namespace Iit.Fibertest.Dto
     public class DbOptimizationProgressDto
     {
         [DataMember]
+        public string Username { get; set; }
+
+        [DataMember]
         public DbOptimizationStage Stage { get; set; }
 
         [DataMember]
         public int MeasurementsChosenForDeletion { get; set; }
 
         [DataMember]
-        public double TableOptimizationProcent { get; set; }
+        public double TableOptimizationPercent { get; set; }
 
         [DataMember]
         public double EventsReplayed { get; set; }

@@ -82,7 +82,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var proc = fileInfo.Length * 100.0 / oldSize;
                 await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
                 {
-                    Stage = DbOptimizationStage.TableCompressing, TableOptimizationProcent = proc,
+                    Stage = DbOptimizationStage.TableCompressing, TableOptimizationPercent = proc,
                 });
                 if (proc - oldProc > 5)
                 {

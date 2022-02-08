@@ -21,6 +21,8 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
+        public bool IsInProgress { get; set; }
+
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
         public DbOptimizationViewModel(IniFile iniFile, IMyLog logFile, Model readModel, 
@@ -68,6 +70,8 @@ namespace Iit.Fibertest.Client
         {
             if (!Validate()) return;
 
+            IsInProgress = true;
+
             var cmd = Model.IsRemoveMode ?
                 (object)new RemoveEventsAndSors()
                 {
@@ -86,6 +90,8 @@ namespace Iit.Fibertest.Client
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_DB_optimization__ + result);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
+
+            IsInProgress = false;
         }
 
         private bool Validate()

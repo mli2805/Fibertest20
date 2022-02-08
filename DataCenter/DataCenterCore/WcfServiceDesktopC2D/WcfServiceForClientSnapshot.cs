@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (addresses == null)
                 return;
             _d2CWcfManager.SetClientsAddresses(addresses);
-            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting });
+            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting, Username = username });
             _globalState.IsDatacenterInDbOptimizationMode = true;
 
             var tuple = await CreateModelUptoDate(cmd.UpTo);
@@ -41,6 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
             {
                 Stage = DbOptimizationStage.SnapshotDone,
+                Username = username
             });
 
             _logFile.AppendLine("Finishing connections");
