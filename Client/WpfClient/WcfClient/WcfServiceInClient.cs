@@ -77,12 +77,7 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto)
         {
-            if (dto.Username != _currentUser.UserName)
-            {
-                _logFile.AppendLine($@"{dto.Username} started DB optimization, close application");
-                await Task.Factory.StartNew(() => LeaveApp(UnRegisterReason.DbOptimizationStarted));
-                return 0;
-            }
+            _logFile.AppendLine($@"DbOptimizationProgressDto received, {dto.Stage}");
 
             if (!_waitViewModel.IsOpen)
                 await Task.Factory.StartNew(ShowWaiting);
@@ -93,8 +88,6 @@ namespace Iit.Fibertest.Client
 
         private void ShowWaiting()
         {
-            _logFile.AppendLine(@"DbOptimizationProgressDto received");
-
             _heartbeater.CancellationTokenSource.Cancel();
             _clientPoller.CancellationTokenSource.Cancel();
             _waitViewModel.Initialize(LongOperation.DbOptimization);

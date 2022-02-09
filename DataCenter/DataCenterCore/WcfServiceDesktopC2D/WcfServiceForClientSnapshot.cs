@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -12,12 +13,13 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task MakeSnapshot(MakeSnapshot cmd, string username, string clientIp)
         {
             _logFile.AppendLine("Start making snapshot on another thread to release WCF client");
-            var addresses = _clientsCollection.GetAllDesktopClientsAddresses();
-            if (addresses == null)
+            // the client who required optimization
+            var client = await NotifyOptimizationStarted(username, clientIp);
+            if (client == null)
                 return;
-            _d2CWcfManager.SetClientsAddresses(addresses);
-            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting, Username = username });
             _globalState.IsDatacenterInDbOptimizationMode = true;
+            var clientAddresses = new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) };
+            _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>(){ clientAddresses });
 
             var tuple = await CreateModelUptoDate(cmd.UpTo);
             var data = await tuple.Item2.Serialize(_logFile);
@@ -38,14 +40,14 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine(result);
 
             _globalState.IsDatacenterInDbOptimizationMode = false;
-            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
-            {
-                Stage = DbOptimizationStage.SnapshotDone,
-                Username = username
-            });
+
+            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() {
+                Stage = DbOptimizationStage.SnapshotDone });
 
             _logFile.AppendLine("Finishing connections");
-            await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto(){ToAll = true, Reason = UnRegisterReason.DbOptimizationFinished});
+            await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto() {
+                ConnectionId = client.ConnectionId, Reason = UnRegisterReason.DbOptimizationFinished });
+            await Task.Delay(1000);
             _clientsCollection.CleanDeadClients(TimeSpan.FromMilliseconds(1));
         }
 

@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
@@ -97,6 +98,42 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
             return await _diskSpaceProvider.GetDiskSpaceGb();
+        }
+
+        private async Task<ClientStation> NotifyOptimizationStarted(string username, string clientIp)
+        {
+            if (_clientsCollection.Clients == null)
+                return null;
+
+            ClientStation result = null;
+            foreach (var c in _clientsCollection.Clients)
+            {
+                if (c.ClientIp == clientIp && c.UserName == username)
+                {
+                    _d2CWcfManager.SetClientsAddresses(
+                        new List<DoubleAddress>(){
+                            new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }
+                        }
+                    );
+                    await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting });
+                    result = c;
+                }
+                else
+                {
+                    _d2CWcfManager.SetClientsAddresses(
+                        new List<DoubleAddress>(){
+                            new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }
+                        }
+                    );
+                    await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto()
+                    {
+                        ConnectionId = c.ConnectionId,
+                        Reason = UnRegisterReason.DbOptimizationFinished,
+                    });
+                }
+            }
+
+            return result;
         }
 
     }
