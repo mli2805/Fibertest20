@@ -26,6 +26,8 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _actualOpticalEventsReportProvider = actualOpticalEventsReportProvider;
             _allOpticalEventsReportProvider = allOpticalEventsReportProvider;
+
+            Model.IsCustomReport = true;
         }
 
         public void Initialize()

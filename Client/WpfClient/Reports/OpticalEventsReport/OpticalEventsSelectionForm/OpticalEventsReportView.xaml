@@ -10,8 +10,10 @@
         d:DataContext="{d:DesignData OpticalEventsReportViewModel}">
     <StackPanel Margin="5">
         <StackPanel Orientation="Horizontal" Margin="5">
-            <RadioButton GroupName="1" Content="{x:Static stringResources:Resources.SID_Current_optical_events}" Margin="5" IsChecked="True"/>
-            <RadioButton GroupName="1" Content="{x:Static stringResources:Resources.SID_Optical_events_for_period}" Margin="15,5,5,5" IsChecked="{Binding Model.IsCustomReport}"/>
+            <RadioButton Content="{x:Static stringResources:Resources.SID_Current_optical_events}" 
+                         Margin="5" IsChecked="{Binding Model.IsCurrentEventsReport}"/>
+            <RadioButton Content="{x:Static stringResources:Resources.SID_Optical_events_for_period}" 
+                         Margin="15,5,5,5" IsChecked="{Binding Model.IsCustomReport}"/>
         </StackPanel>
         <GroupBox Margin="5,10,5,5" Header="{x:Static stringResources:Resources.SID_Responsibility_zone}">
             <ComboBox Margin="5" IsEnabled="{Binding Model.IsZoneSelectionEnabled}"
@@ -23,7 +25,7 @@
                     <TextBlock Margin="5,8,5,5" Text="{x:Static stringResources:Resources.SID_from}"/>
                     <DatePicker Margin="5" SelectedDate="{Binding Model.DateFrom, Mode=TwoWay}"/>
                     <TextBlock Margin="5,8,5,5" Text="{x:Static stringResources:Resources.SID_to}"/>
-                    <DatePicker Margin="5" SelectedDate="{Binding Model.DateTo, Mode=TwoWay}"/>
+                    <DatePicker Margin="5" SelectedDate="{Binding Model.DateTo, Mode=TwoWay}" DisplayDateStart="{Binding Model.DateFrom}"/>
                 </StackPanel>
                 <CheckBox DockPanel.Dock="Bottom" Content="{x:Static stringResources:Resources.SID_Output_accident_place}" IsEnabled="{Binding Model.IsDetailedReport}"
                           IsChecked="{Binding Model.IsAccidentPlaceShown, Mode=TwoWay}"  Margin="10, 5, 10, 15"/>

@@ -15,11 +15,33 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isCustomReport) return;
                 _isCustomReport = value;
+                IsCurrentEventsReport = !_isCustomReport;
                 NotifyOfPropertyChange();
             }
         }
 
-        public DateTime DateFrom { get; set; }
+        public bool IsCurrentEventsReport
+        {
+            get => _isCurrentEventsReport;
+            set
+            {
+                if (value == _isCurrentEventsReport) return;
+                _isCurrentEventsReport = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public DateTime DateFrom
+        {
+            get => _dateFrom;
+            set
+            {
+                if (value.Equals(_dateFrom)) return;
+                _dateFrom = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public DateTime DateTo { get; set; }
 
         public EventStatusViewModel EventStatusViewModel { get; set; } = new EventStatusViewModel();
@@ -44,6 +66,9 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isAccidentPlaceShown;
+        private bool _isCurrentEventsReport;
+        private DateTime _dateFrom;
+
         public bool IsAccidentPlaceShown
         {
             get { return _isAccidentPlaceShown; }

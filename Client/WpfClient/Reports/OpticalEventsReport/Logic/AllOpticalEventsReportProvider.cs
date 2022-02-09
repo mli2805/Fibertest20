@@ -181,7 +181,7 @@ namespace Iit.Fibertest.Client
                     Rows
                         .Where(r => r.EventStatus == eventStatus 
                                 && r.TraceState == state
-                                && (r.MeasurementTimestamp >= _reportModel.DateFrom && r.MeasurementTimestamp <= _reportModel.DateTo))
+                                && (r.MeasurementTimestamp.Date >= _reportModel.DateFrom && r.MeasurementTimestamp.Date <= _reportModel.DateTo))
                         .OrderByDescending(e => e.EventRegistrationTimestamp)
                         .ToList();
                 if (events.Any())
