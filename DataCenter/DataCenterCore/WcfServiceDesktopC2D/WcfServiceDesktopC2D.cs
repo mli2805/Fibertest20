@@ -128,7 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
                     await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto()
                     {
                         ConnectionId = c.ConnectionId,
-                        Reason = UnRegisterReason.DbOptimizationFinished,
+                        Reason = UnRegisterReason.DbOptimizationStarted,
                     });
                 }
             }
