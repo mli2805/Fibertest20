@@ -12,12 +12,12 @@ namespace Iit.Fibertest.DataCenterCore
     public class TrapReceiver
     {
         private readonly IMyLog _logFile;
-        private readonly OltTrapExecutor _oltTrapExecutor;
+        private readonly TrapExecutor _trapExecutor;
 
-        public TrapReceiver(IMyLog logFile, OltTrapExecutor oltTrapExecutor)
+        public TrapReceiver(IMyLog logFile, TrapExecutor trapExecutor)
         {
             _logFile = logFile;
-            _oltTrapExecutor = oltTrapExecutor;
+            _trapExecutor = trapExecutor;
         }
 
         // http://snmpsharpnet.com/index.php/receive-snmp-version-1-and-2c-trap-notifications/
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
                     SnmpV2Packet pkt = new SnmpV2Packet();
                     pkt.decode(inData, inLen);
                     LogSnmpVersion2TrapPacket(pkt); // Hide after debugging
-                    await _oltTrapExecutor.Process(pkt, endPoint);
+                    await _trapExecutor.Process(pkt, endPoint);
                 }
             }
             else

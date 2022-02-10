@@ -220,6 +220,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ModelLoader>().InstancePerLifetimeScope();
             builder.RegisterType<ModelFromFileExporter>().InstancePerLifetimeScope();
 
+            builder.RegisterType<TceViewModel>();
+            builder.RegisterType<TcesViewModel>().InstancePerLifetimeScope();
+
         }
     }
 }

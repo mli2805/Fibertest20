@@ -178,7 +178,8 @@
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
     <Compile Include="Commands\Olt\AddGponPortRelation.cs" />
-    <Compile Include="Commands\Olt\AddOlt.cs" />
+    <Compile Include="Commands\Olt\AddOrUpdateTce.cs" />
+    <Compile Include="Commands\Olt\RemoveTce.cs" />
     <Compile Include="Commands\RemoveUnused.cs" />
     <Compile Include="Commands\Rtu\DetachAllTraces.cs" />
     <Compile Include="Commands\User\AssignUsersMachineKey.cs" />
@@ -192,7 +193,7 @@
     <Compile Include="DomainEntities\Extensions\AccessModeExt.cs" />
     <Compile Include="DomainEntities\Extensions\MonitoringStateExt.cs" />
     <Compile Include="DomainEntities\Graph\GponPortRelation.cs" />
-    <Compile Include="DomainEntities\Graph\Olt.cs" />
+    <Compile Include="DomainEntities\Graph\Tce.cs" />
     <Compile Include="DomainEntities\Graph\VeexTest.cs" />
     <Compile Include="DomainEntities\LogLine.cs" />
     <Compile Include="DomainEntities\LogOperationCode.cs" />
@@ -200,7 +201,7 @@
     <Compile Include="DomainEntities\TraceDetalization.cs" />
     <Compile Include="EventSourcing\EventExecutors\EventLogComposer.cs" />
     <Compile Include="EventSourcing\EventExecutors\EventToLogLineParser.cs" />
-    <Compile Include="EventSourcing\EventExecutors\OltEventsOnModelExecutor.cs" />
+    <Compile Include="EventSourcing\EventExecutors\TceEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\VeexTestsEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
     <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
@@ -243,7 +244,8 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
     <Compile Include="EventSourcing\EventsQueue.cs" />
     <Compile Include="Events\Olt\GponPortRelationAdded.cs" />
-    <Compile Include="Events\Olt\OltAdded.cs" />
+    <Compile Include="Events\Olt\TceAddedOrUpdated.cs" />
+    <Compile Include="Events\Olt\TceRemoved.cs" />
     <Compile Include="Events\SnapshotMade.cs" />
     <Compile Include="Events\LicenseApplied.cs" />
     <Compile Include="Events\Node\NodeUpdatedAndMoved.cs" />

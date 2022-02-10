@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly ComponentsReportViewModel _componentsReportViewModel;
         private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
         private readonly ModelFromFileExporter _modelFromFileExporter;
+        private readonly TcesViewModel _tcesViewModel;
 
         private CurrentUser _currentUser = new CurrentUser();
         public CurrentUser CurrentUser
@@ -36,7 +37,8 @@ namespace Iit.Fibertest.Client
         public MainMenuViewModel(ILifetimeScope globalScope, IMyLog logFile, IWindowManager windowManager,
             IWcfServiceDesktopC2D wcfDesktopC2D,
             ComponentsReportViewModel componentsReportViewModel, OpticalEventsReportViewModel opticalEventsReportViewModel,
-            ModelFromFileExporter modelFromFileExporter)
+            ModelFromFileExporter modelFromFileExporter,
+            TcesViewModel tcesViewModel)
         {
             _globalScope = globalScope;
             _logFile = logFile;
@@ -45,6 +47,7 @@ namespace Iit.Fibertest.Client
             _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
             _modelFromFileExporter = modelFromFileExporter;
+            _tcesViewModel = tcesViewModel;
         }
 
      

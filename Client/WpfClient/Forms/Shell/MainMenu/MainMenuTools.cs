@@ -15,8 +15,6 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<DbOptimizationViewModel>();
             await vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
-
-            
         }
 
         public async Task LaunchGraphOptimizationView()
@@ -45,6 +43,12 @@ namespace Iit.Fibertest.Client
         public async void ExportEvents()
         {
            await _wcfDesktopC2D.ExportEvents();
+        }
+
+        public void LaunchTcesView()
+        {
+            _tcesViewModel.Initialize();
+            _windowManager.ShowDialogWithAssignedOwner(_tcesViewModel);
         }
 
      

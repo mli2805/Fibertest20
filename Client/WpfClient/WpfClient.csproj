@@ -219,6 +219,14 @@
     </ApplicationDefinition>
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
+    <Compile Include="Forms\Tce\TcesView.xaml.cs">
+      <DependentUpon>TcesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TcesViewModel.cs" />
+    <Compile Include="Forms\Tce\TceView.xaml.cs">
+      <DependentUpon>TceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TceViewModel.cs" />
     <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsView.xaml.cs">
       <DependentUpon>GraphVisibilitySettingsView.xaml</DependentUpon>
     </Compile>
@@ -743,6 +751,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\TcesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\TceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

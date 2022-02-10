@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Graph
         public List<NetworkEvent> NetworkEvents { get; set; } = new List<NetworkEvent>();
         public List<BopNetworkEvent> BopNetworkEvents { get; set; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();
-        public List<Olt> Olts { get; set; } = new List<Olt>();
+        public List<Tce> Tces { get; set; } = new List<Tce>();
         public List<VeexTest> VeexTests { get; set; } = new List<VeexTest>();
         public List<LogLine> UserActionsLog { get; set; } = new List<LogLine>();
 
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Graph
             NetworkEvents = source.NetworkEvents;
             BopNetworkEvents = source.BopNetworkEvents;
             BaseRefs = source.BaseRefs;
-            Olts = source.Olts;
+            Tces = source.Tces;
             VeexTests = source.VeexTests;
             UserActionsLog = source.UserActionsLog;
         }

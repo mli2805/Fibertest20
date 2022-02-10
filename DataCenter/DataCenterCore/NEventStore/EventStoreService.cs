@@ -119,7 +119,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         // private async Task SeedOlts()
         // {
-        //     _writeModel.Olts.Clear();
+        //     _writeModel.Tces.Clear();
         //
         //     var rtu53 = _writeModel.Rtus.FirstOrDefault(r => r.Title == "53");
         //     if (rtu53 == null) return;
@@ -139,32 +139,32 @@ namespace Iit.Fibertest.DataCenterCore
         //
         //     var seeds = new List<object>()
         //     {
-        //         new AddOlt()
+        //         new AddOrUpdateTce()
         //         {
         //             Id = olt21Id,
         //             Ip = @"192.168.96.21",
-        //             OltModel = OltModel.Huawei_MA5608T,
+        //             TceType = TceType.Huawei_MA5608T,
         //         },
         //
-        //         new AddOlt()
+        //         new AddOrUpdateTce()
         //         {
         //             Id = olt9714Id,
         //             Ip = @"192.168.97.14",
-        //             OltModel = OltModel.Huawei_MA5608T,
+        //             TceType = TceType.Huawei_MA5608T,
         //         },
         //
-        //         new AddOlt()
+        //         new AddOrUpdateTce()
         //         {
         //             Id = olt59Id,
         //             Ip = @"192.168.96.59",
-        //             OltModel = OltModel.Huawei_MA5608T,
+        //             TceType = TceType.Huawei_MA5608T,
         //         },
         //
         //
         //         new AddGponPortRelation()
         //         {
         //             Id = Guid.NewGuid(),
-        //             OltId = olt21Id,
+        //             TceId = olt21Id,
         //             GponInterface = 5,
         //             RtuId = rtu53.Id,
         //             OtauPort = otauPort,
@@ -173,7 +173,7 @@ namespace Iit.Fibertest.DataCenterCore
         //         new AddGponPortRelation()
         //         {
         //             Id = Guid.NewGuid(),
-        //             OltId = olt9714Id,
+        //             TceId = olt9714Id,
         //             GponInterface = 5,
         //             RtuId = rtu53.Id,
         //             OtauPort = otauPort,
@@ -182,7 +182,7 @@ namespace Iit.Fibertest.DataCenterCore
         //         new AddGponPortRelation()
         //         {
         //             Id = Guid.NewGuid(),
-        //             OltId = olt59Id,
+        //             TceId = olt59Id,
         //             GponInterface = 5,
         //             RtuId = rtu53.Id,
         //             OtauPort = otauPort,

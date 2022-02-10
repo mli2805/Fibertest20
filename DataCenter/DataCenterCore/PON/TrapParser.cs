@@ -5,28 +5,28 @@ using SnmpSharpNet;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class OltTrapParser
+    public class TrapParser
     {
         private readonly IMyLog _logFile;
 
-        public OltTrapParser(IMyLog logFile)
+        public TrapParser(IMyLog logFile)
         {
             _logFile = logFile;
         }
 
-        public OltTrapParserResult Parse(SnmpV2Packet pkt, Olt olt)
+        public TrapParserResult Parse(SnmpV2Packet pkt, Tce tce)
         {
-            switch (olt.OltModel)
+            switch (tce.TceType)
             {
-                case OltModel.Huawei_MA5608T: return ParseHuawei(pkt);
-                case OltModel.ZTE_ZXA10C320: return ParseZte(pkt);
+                case TceType.Huawei_MA5608T: return ParseHuawei(pkt);
+                case TceType.ZTE_ZXA10C320: return ParseZte(pkt);
                 default:
-                    _logFile.AppendLine($"Parser for OLT model {olt.OltModel} is not implemented");
+                    _logFile.AppendLine($"Parser for OLT model {tce.TceType} is not implemented");
                     return null;
             }
         }
 
-        private OltTrapParserResult ParseHuawei(SnmpV2Packet pkt)
+        private TrapParserResult ParseHuawei(SnmpV2Packet pkt)
         {
             if (pkt.Pdu.VbCount < 12)
             {
@@ -41,19 +41,19 @@ namespace Iit.Fibertest.DataCenterCore
                 return null;
             }
 
-            return new OltTrapParserResult()
+            return new TrapParserResult()
             {
                 GponInterface = gpon,
                 State = pkt.Pdu[11].ToString() == "1" ? FiberState.Ok : FiberState.FiberBreak,
             };
         }
 
-        private OltTrapParserResult ParseZte(SnmpV2Packet pkt)
+        private TrapParserResult ParseZte(SnmpV2Packet pkt)
         {
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
 
-            return new OltTrapParserResult
+            return new TrapParserResult
             {
                 State = ss[2] == "eventLevel=cleared" ? FiberState.Ok : FiberState.FiberBreak
             };

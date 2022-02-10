@@ -3105,4 +3105,16 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Successfully_optimized_graph_of_traces_" xml:space="preserve">
 		<value>Successfully optimized graph of traces!</value>
 	</data>
+	<data name="SID_Update_equipment" xml:space="preserve">
+		<value>Update equipment</value>
+	</data>
+	<data name="SID_Telecommunications_equipment" xml:space="preserve">
+		<value>Telecommunications equipment</value>
+	</data>
+	<data name="SID_Equipment__0__will_be_deleted" xml:space="preserve">
+		<value>Equipment {0} will be deleted</value>
+	</data>
+	<data name="SID_RTU_port_links_to_this_equipment_will_be_deleted" xml:space="preserve">
+		<value>RTU port links to this equipment will be deleted</value>
+	</data>
 </root>

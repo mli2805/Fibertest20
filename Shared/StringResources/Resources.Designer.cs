@@ -2629,6 +2629,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipment {0} will be deleted.
+        /// </summary>
+        public static string SID_Equipment__0__will_be_deleted {
+            get {
+                return ResourceManager.GetString("SID_Equipment__0__will_be_deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment, including RTU.
         /// </summary>
         public static string SID_Equipment__including_RTU {
@@ -6612,6 +6621,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU port links to this equipment will be deleted.
+        /// </summary>
+        public static string SID_RTU_port_links_to_this_equipment_will_be_deleted {
+            get {
+                return ResourceManager.GetString("SID_RTU_port_links_to_this_equipment_will_be_deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU removed.
         /// </summary>
         public static string SID_RTU_removed {
@@ -7675,6 +7693,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Telecommunications equipment.
+        /// </summary>
+        public static string SID_Telecommunications_equipment {
+            get {
+                return ResourceManager.GetString("SID_Telecommunications_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Terminal.
         /// </summary>
         public static string SID_Terminal {
@@ -8508,6 +8535,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Update {
             get {
                 return ResourceManager.GetString("SID_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update equipment.
+        /// </summary>
+        public static string SID_Update_equipment {
+            get {
+                return ResourceManager.GetString("SID_Update_equipment", resourceCulture);
             }
         }
         
