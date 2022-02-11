@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
         public void MapTceToRtu()
         {
             var vm = _globalScope.Resolve<TceRtuViewModel>();
-            // vm.Initialize();
+            vm.Initialize(14);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

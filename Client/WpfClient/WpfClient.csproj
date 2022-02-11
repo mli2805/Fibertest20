@@ -220,10 +220,15 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />
+    <Compile Include="Forms\Tce\GponInterfaceRelationModel.cs" />
     <Compile Include="Forms\Tce\TceRtuView.xaml.cs">
       <DependentUpon>TceRtuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\TceRtuViewModel.cs" />
+    <Compile Include="Forms\Tce\TceSlotRtuView.xaml.cs">
+      <DependentUpon>TceSlotRtuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TceSlotRtuViewModel.cs" />
     <Compile Include="Forms\Tce\TcesView.xaml.cs">
       <DependentUpon>TcesView.xaml</DependentUpon>
     </Compile>
@@ -760,6 +765,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Tce\TceRtuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\TceSlotRtuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
