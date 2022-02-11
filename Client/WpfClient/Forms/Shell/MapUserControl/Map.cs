@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
 
         public string MouseCurrentCoorsString => 
             CurrentGis.IsGisOn
-                ? CurrentGis.ThresholdZoom + " / " + Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
+                ? CurrentGis.ThresholdZoom + " / " + Zoom + " ; " + CurrentGis.ScreenPartAsMargin + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
                 : "";
 
         private string _nodeCountString;
@@ -190,6 +190,7 @@ namespace Iit.Fibertest.Client
 
             base.OnMouseWheel(e);
             EvaluateMapLimits();
+            CurrentGis.SetMargin((int)Zoom);
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 

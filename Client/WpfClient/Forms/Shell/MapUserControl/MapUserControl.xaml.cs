@@ -166,6 +166,7 @@ namespace Iit.Fibertest.Client
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             MainMap.Zoom = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.Zoom, 7);
+            MainMap.CurrentGis.SetMargin((int)MainMap.Zoom);
             var lat = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLatitude, 53.856);
             var lng = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49);
             MainMap.Position = new PointLatLng(lat, lng);
