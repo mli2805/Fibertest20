@@ -61,6 +61,13 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Telecommunications_equipment;
         }
 
+        public void MapTceToRtu()
+        {
+            var vm = _globalScope.Resolve<TceRtuViewModel>();
+            // vm.Initialize();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public void AddTce()
         {
             var vm = _globalScope.Resolve<TceViewModel>();

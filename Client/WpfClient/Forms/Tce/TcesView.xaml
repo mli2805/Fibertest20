@@ -35,6 +35,7 @@
             <ListBox ItemsSource="{Binding Tces}" SelectedItem="{Binding SelectedTce, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}">
                 <ListBox.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Map TCE to RTU" cal:Message.Attach="MapTceToRtu" />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateTce" />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveTce" />
                         <Separator />
