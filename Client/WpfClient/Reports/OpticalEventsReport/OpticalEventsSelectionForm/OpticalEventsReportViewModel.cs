@@ -28,6 +28,9 @@ namespace Iit.Fibertest.Client
             _allOpticalEventsReportProvider = allOpticalEventsReportProvider;
 
             Model.IsCustomReport = true;
+
+            Model.DateTo = DateTime.Now;
+            Model.DateFrom = new DateTime(DateTime.Today.Year, 1, 1);
         }
 
         public void Initialize()
@@ -38,8 +41,8 @@ namespace Iit.Fibertest.Client
                 : new List<Zone>() {_readModel.Zones.First(z => z.ZoneId == _currentUser.ZoneId)};
             Model.SelectedZone = Model.Zones.First();
 
-            Model.DateTo = DateTime.Now;
-            Model.DateFrom = new DateTime(DateTime.Today.Year, 1, 1);
+            // Model.DateTo = DateTime.Now;
+            // Model.DateFrom = new DateTime(DateTime.Today.Year, 1, 1);
         }
 
         protected override void OnViewLoaded(object view)
