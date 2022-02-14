@@ -76,9 +76,11 @@ namespace Iit.Fibertest.DataCenterCore
                 .Where(x => ((DateTime)x.Headers["Timestamp"]).Date <= date.Date)
                 .ToList();
             _logFile.AppendLine($"{events.Count} events should be applied...");
-            foreach (var evnt in events)
+
+            // -1 because one last event should be left in commits table in order to start correct numeration
+            for (int i = 0; i < events.Count - 1; i++)
             {
-                modelForSnapshot.Apply(evnt.Body);
+                modelForSnapshot.Apply(events[i].Body);
                 lastIncludedEvent++;
                 if (lastIncludedEvent % 1000 == 0)
                 {
