@@ -4505,6 +4505,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map to RTU.
+        /// </summary>
+        public static string SID_Map_TCE_to_RTU {
+            get {
+                return ResourceManager.GetString("SID_Map_TCE_to_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  ( maximum 60 ) .
         /// </summary>
         public static string SID_Maximum_60 {
@@ -7306,6 +7315,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Slot.
+        /// </summary>
+        public static string SID_Slot {
+            get {
+                return ResourceManager.GetString("SID_Slot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slot count.
+        /// </summary>
+        public static string SID_Slot_count {
+            get {
+                return ResourceManager.GetString("SID_Slot_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SMS server settings.
         /// </summary>
         public static string SID_SMS_settings {
@@ -8535,6 +8562,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Update {
             get {
                 return ResourceManager.GetString("SID_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update components.
+        /// </summary>
+        public static string SID_Update_components {
+            get {
+                return ResourceManager.GetString("SID_Update_components", resourceCulture);
             }
         }
         

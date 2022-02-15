@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -17,6 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly TceComponentsViewModel _tceComponentsViewModel;
         private ObservableCollection<Tce> _tces;
 
         public ObservableCollection<Tce> Tces   
@@ -34,12 +37,14 @@ namespace Iit.Fibertest.Client
         public bool IsEnabled { get; set; }
 
         public TcesViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser, 
+            TceComponentsViewModel tceComponentsViewModel)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _tceComponentsViewModel = tceComponentsViewModel;
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             IsEnabled = currentUser.Role <= Role.Root;
         }
@@ -105,6 +110,13 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return vm.IsAnswerPositive;
         }
+
+        public void UpdateTceComponents()
+        {
+            _tceComponentsViewModel.Initialize(SelectedTce);
+            _windowManager.ShowDialog(_tceComponentsViewModel);
+        }
+
 
         public void Close()
         {

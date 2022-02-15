@@ -3117,4 +3117,16 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_RTU_port_links_to_this_equipment_will_be_deleted" xml:space="preserve">
 		<value>RTU port links to this equipment will be deleted</value>
 	</data>
+	<data name="SID_Slot_count" xml:space="preserve">
+		<value>Slot count</value>
+	</data>
+	<data name="SID_Slot" xml:space="preserve">
+		<value>Slot</value>
+	</data>
+	<data name="SID_Update_components" xml:space="preserve">
+		<value>Update components</value>
+	</data>
+	<data name="SID_Map_TCE_to_RTU" xml:space="preserve">
+		<value>Map to RTU</value>
+	</data>
 </root>

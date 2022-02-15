@@ -19,6 +19,8 @@ namespace Iit.Fibertest.Graph
                 tce.TceType = e.TceType;
                 tce.Title = e.Title;
                 tce.Ip = e.Ip;
+                tce.SlotCount = e.SlotCount;
+                tce.Slots = e.Slots;
                 tce.Comment = e.Comment;
             }
             return null;

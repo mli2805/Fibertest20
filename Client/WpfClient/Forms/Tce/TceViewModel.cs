@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private bool _isInCreationMode;
+        private Tce _tceInWork;
 
         public Guid TceId { get; set; }
 
@@ -44,19 +46,21 @@ namespace Iit.Fibertest.Client
             DisplayName = _isInCreationMode ? Resources.SID_Add_Equipment : Resources.SID_Update_equipment;
         }
 
-        public void Initialize(Tce selectedTce)
+        public void Initialize(Tce tce)
         {
             _isInCreationMode = false;
-            TceId = selectedTce.Id;
-            Title = selectedTce.Title;
-            SelectedTceType = selectedTce.TceType;
-            Ip4InputViewModel = new Ip4InputViewModel(selectedTce.Ip);
-            Comment = selectedTce.Comment;
+            _tceInWork = tce;
+            TceId = tce.Id;
+            Title = tce.Title;
+            SelectedTceType = tce.TceType;
+            Ip4InputViewModel = new Ip4InputViewModel(tce.Ip);
+            Comment = tce.Comment;
         }
 
         public void Initialize()
         {
             _isInCreationMode = true;
+            _tceInWork = new Tce();
             TceId = Guid.NewGuid();
             Ip4InputViewModel = new Ip4InputViewModel(@"0.0.0.0");
         }
@@ -69,6 +73,8 @@ namespace Iit.Fibertest.Client
                 Title = Title,
                 TceType = SelectedTceType,
                 Ip = Ip4InputViewModel.GetString(),
+                SlotCount = _tceInWork.SlotCount,
+                Slots = _tceInWork.Slots,
                 Comment = Comment,
             };
             var res = await _c2DWcfManager.SendCommandAsObj(cmd);

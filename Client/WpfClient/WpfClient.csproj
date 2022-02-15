@@ -221,6 +221,10 @@
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />
     <Compile Include="Forms\Tce\GponInterfaceRelationModel.cs" />
+    <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
+      <DependentUpon>TceComponentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TceComponentsViewModel.cs" />
     <Compile Include="Forms\Tce\TceRtuView.xaml.cs">
       <DependentUpon>TceRtuView.xaml</DependentUpon>
     </Compile>
@@ -761,6 +765,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\TceComponentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

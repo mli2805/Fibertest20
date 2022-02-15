@@ -21,22 +21,26 @@
                     <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="400" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="Black" />
                 <Border Grid.Column="1" BorderThickness="0,0,1,0" BorderBrush="Black" />
                 <Border Grid.Column="2" BorderThickness="0,0,1,0" BorderBrush="Black" />
                 <Border Grid.Column="3" BorderThickness="0,0,1,0" BorderBrush="Black" />
+                <Border Grid.Column="4" BorderThickness="0,0,1,0" BorderBrush="Black" />
                 <Label Grid.Column="0" Content="{x:Static stringResources:Resources.SID_Title}" Margin="0,-5,0,0" />
                 <Label Grid.Column="1" Content="{x:Static stringResources:Resources.SID_Type}" Margin="0,-5,0,0" />
                 <Label Grid.Column="2" Content="IP" Margin="0,-5,0,0" />
-                <Label Grid.Column="3" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
+                <Label Grid.Column="3" Content="Slot count" Margin="0,-5,0,0" />
+                <Label Grid.Column="4" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
             </Grid>
             <ListBox ItemsSource="{Binding Tces}" SelectedItem="{Binding SelectedTce, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}">
                 <ListBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Map TCE to RTU" cal:Message.Attach="MapTceToRtu" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Map_TCE_to_RTU}" cal:Message.Attach="MapTceToRtu" />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateTce" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Update_components}" cal:Message.Attach="UpdateTceComponents" />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveTce" />
                         <Separator />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" cal:Message.Attach="AddTce" />
@@ -50,12 +54,14 @@
                                     <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="400" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Title}" />
                                 <TextBlock Grid.Column="1" Text="{Binding TceType}" />
                                 <TextBlock Grid.Column="2" Text="{Binding Ip}" />
-                                <TextBlock Grid.Column="3" Text="{Binding Comment}" />
+                                <TextBlock Grid.Column="3" Text="{Binding SlotCount}" />
+                                <TextBlock Grid.Column="4" Text="{Binding Comment}" />
                             </Grid>
                         </Border>
                     </DataTemplate>
