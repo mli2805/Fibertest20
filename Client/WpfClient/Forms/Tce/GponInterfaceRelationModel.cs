@@ -5,24 +5,36 @@ namespace Iit.Fibertest.Client
 {
     public class GponInterfaceRelationModel : PropertyChangedBase
     {
-        private string _rtuTitle;
+        public Tce Tce { get; set; }
+        public int Slot { get; set; }
+
         public int GponInterface { get; set; }
 
-        public string RtuTitle
+        private Rtu _rtu;
+        public Rtu Rtu
         {
-            get => _rtuTitle;
+            get => _rtu;
             set
             {
-                if (value == _rtuTitle) return;
-                _rtuTitle = value;
+                if (Equals(value, _rtu)) return;
+                _rtu = value;
                 NotifyOfPropertyChange();
             }
         }
 
-        public Rtu Rtu { get; set; }
+        private Otau _otau;
+        public Otau Otau
+        {
+            get => _otau;
+            set
+            {
+                if (Equals(value, _otau)) return;
+                _otau = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-        public string OtauTitle { get; set; }
         public int OtauPort { get; set; }
-        public string TraceTitle { get; set; } = "";
+        public Trace Trace { get; set; }
     }
 }

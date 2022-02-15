@@ -14,8 +14,8 @@ namespace Iit.Fibertest.Client
 
         public List<Rtu> Rtus { get; set; }
 
-        public List<Otau> Otaus { get; set; }
-        public List<Trace> Traces { get; set; }
+        public ObservableCollection<Otau> Otaus { get; set; } = new ObservableCollection<Otau>();
+        public ObservableCollection<Trace> Traces { get; set; } = new ObservableCollection<Trace>();
 
         public ObservableCollection<GponInterfaceRelationModel> Gpons { get; set; } =
             new ObservableCollection<GponInterfaceRelationModel>();
@@ -26,13 +26,13 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Initialize(int gponInterfaceCount)
+        public void Initialize(Tce tce, int slot, int gponInterfaceCount)
         {
             Rtus = _readModel.Rtus;
 
             for (int i = 0; i < gponInterfaceCount; i++)
             {
-                var line = new GponInterfaceRelationModel() { GponInterface = i };
+                var line = new GponInterfaceRelationModel() { Tce = tce, Slot = slot, GponInterface = i };
                 line.PropertyChanged += Line_PropertyChanged;
                 Gpons.Add(line);
             }
@@ -41,10 +41,35 @@ namespace Iit.Fibertest.Client
 
         private void Line_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Rtu")
+            if (e.PropertyName == @"Rtu")
             {
-                var rtu = Rtus.First(r => r.Title == SelectedGpon.RtuTitle);
-                Traces = _readModel.Traces.Where(t => t.RtuId == rtu.Id).ToList();
+                var rtu = Rtus.FirstOrDefault(r => r.Id == SelectedGpon.Rtu.Id);
+                if (rtu == null) return;
+                Otaus.Clear();
+                foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == rtu.Id))
+                {
+                    Otaus.Add(otau);
+                }
+                Traces.Clear();
+                if (SelectedGpon.Otau != null)
+                    foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
+                    {
+                        Traces.Add(trace);
+                    }
+            }
+
+            if (e.PropertyName == @"Otau")
+            {
+                var otau = Otaus.FirstOrDefault(o => o.Id == SelectedGpon.Otau.Id);
+                if (otau == null) return;
+
+                Traces.Clear();
+                foreach (var trace in _readModel.Traces
+                             .Where(t => t.RtuId == SelectedGpon.Rtu.Id && t.OtauPort != null
+                                         && t.OtauPort.OtauId == SelectedGpon.Otau.Id.ToString()))
+                {
+                    Traces.Add(trace);
+                }
             }
         }
     }

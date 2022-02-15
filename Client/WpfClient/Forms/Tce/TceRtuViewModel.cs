@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Client
     public class TceRtuViewModel : Screen
     {
         private readonly Model _readModel;
+        public Tce Tce { get; set; }
         public List<TceSlotRtuViewModel> Slots { get; set; }
         public TceSlotRtuViewModel SelectedSlot { get; set; }
 
@@ -16,13 +17,19 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Initialize(int slotCount)
+        protected override void OnViewLoaded(object view)
         {
+            DisplayName = $@"{Tce.TceType}  {Tce.Title}";
+        }
+
+        public void Initialize(Tce tce, int slotCount)
+        {
+            Tce = tce;
             Slots = new List<TceSlotRtuViewModel>();
             for (int i = 0; i < slotCount; i++)
             {
                 var slot = new TceSlotRtuViewModel(_readModel) { Slot = i + 1 };
-                slot.Initialize(16);
+                slot.Initialize(tce, i, 16);
                 Slots.Add(slot);
             }
         }

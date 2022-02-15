@@ -37,19 +37,22 @@
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="564" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{Binding GponInterface}" />
                             <ComboBox Grid.Column="1" DisplayMemberPath="Title"
                                       ItemsSource="{Binding Path=DataContext.(client:TceSlotRtuViewModel.Rtus), 
                                       RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                       SelectedItem="{Binding Rtu}"/>
-                            <TextBlock Grid.Column="2" Text="{Binding OtauTitle}" />
+                             <ComboBox Grid.Column="2" DisplayMemberPath="Title"
+                                      ItemsSource="{Binding Path=DataContext.(client:TceSlotRtuViewModel.Otaus), 
+                                      RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                      SelectedItem="{Binding Otau}"/>
                             <TextBox Grid.Column="3" Text="{Binding OtauPort}" />
                             <ComboBox Grid.Column="4" DisplayMemberPath="Title"
                                       ItemsSource="{Binding Path = DataContext.(client:TceSlotRtuViewModel.Traces), 
                                       RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                      SelectedItem="{Binding TraceTitle}"/>
+                                      SelectedItem="{Binding Trace}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
