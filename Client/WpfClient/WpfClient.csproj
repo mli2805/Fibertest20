@@ -220,23 +220,23 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />
-    <Compile Include="Forms\Tce\TceToRtu\GponInterfaceRelationModel.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
     <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
       <DependentUpon>TceComponentsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\TceComponentsViewModel.cs" />
-    <Compile Include="Forms\Tce\TceToRtu\GponInterfaceRtuView.xaml.cs">
-      <DependentUpon>GponInterfaceRtuView.xaml</DependentUpon>
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponView.xaml.cs">
+      <DependentUpon>RelationOfGponView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tce\TceToRtu\GponInterfaceRtuViewModel.cs" />
-    <Compile Include="Forms\Tce\TceToRtu\TceRtuView.xaml.cs">
-      <DependentUpon>TceRtuView.xaml</DependentUpon>
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponViewModel.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceView.xaml.cs">
+      <DependentUpon>RelationsOfTceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tce\TceToRtu\TceRtuViewModel.cs" />
-    <Compile Include="Forms\Tce\TceToRtu\TceSlotRtuView.xaml.cs">
-      <DependentUpon>TceSlotRtuView.xaml</DependentUpon>
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceViewModel.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotView.xaml.cs">
+      <DependentUpon>RelationsOfSlotView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tce\TceToRtu\TceSlotRtuViewModel.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotViewModel.cs" />
     <Compile Include="Forms\Tce\TcesView.xaml.cs">
       <DependentUpon>TcesView.xaml</DependentUpon>
     </Compile>
@@ -776,15 +776,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Tce\TceToRtu\GponInterfaceRtuView.xaml">
+    <Page Include="Forms\Tce\RelationsTceToRtu\RelationOfGponView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Tce\TceToRtu\TceRtuView.xaml">
+    <Page Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Tce\TceToRtu\TceSlotRtuView.xaml">
+    <Page Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

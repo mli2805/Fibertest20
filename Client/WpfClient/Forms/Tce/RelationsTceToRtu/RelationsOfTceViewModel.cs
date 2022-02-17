@@ -8,15 +8,15 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
-    public class TceRtuViewModel : Screen
+    public class RelationsOfTceViewModel : Screen
     {
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _readModel;
         public Tce Tce { get; set; }
-        public List<TceSlotRtuViewModel> Slots { get; set; }
-        public TceSlotRtuViewModel SelectedSlot { get; set; }
+        public List<RelationsOfSlotViewModel> Slots { get; set; }
+        public RelationsOfSlotViewModel SelectedSlot { get; set; }
 
-        public TceRtuViewModel(IWcfServiceDesktopC2D c2DWcfManager, Model readModel)
+        public RelationsOfTceViewModel(IWcfServiceDesktopC2D c2DWcfManager, Model readModel)
         {
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
@@ -30,10 +30,10 @@ namespace Iit.Fibertest.Client
         public void Initialize(Tce tce)
         {
             Tce = tce;
-            Slots = new List<TceSlotRtuViewModel>();
+            Slots = new List<RelationsOfSlotViewModel>();
             for (int i = 0; i < tce.SlotCount; i++)
             {
-                var slot = new TceSlotRtuViewModel(_readModel) { Slot = i };
+                var slot = new RelationsOfSlotViewModel(_readModel) { Slot = i };
                 slot.Initialize(tce, i, tce.Slots[i].GponInterfaceCount);
                 Slots.Add(slot);
             }
@@ -46,18 +46,18 @@ namespace Iit.Fibertest.Client
             var cmd = new UpdateAllTceGponRelations();
             foreach (var slot in Slots)
             {
-                foreach (var gpon in slot.Gpons.Where(g=>g.GponInWork.OtauPort != 0))
+                foreach (var gpon in slot.Gpons.Where(g=>g.RelationOfGponInWork.OtauPort != 0))
                 {
                     var relation = new GponPortRelation()
                     {
                         TceId = Tce.Id,
                         TceSlot = slot.Slot,
-                        GponInterface = gpon.GponInWork.GponInterface,
-                        RtuId = gpon.GponInWork.Rtu.Id,
+                        GponInterface = gpon.RelationOfGponInWork.GponInterface,
+                        RtuId = gpon.RelationOfGponInWork.Rtu.Id,
                         OtauPort = new OtauPortDto()
                         {
-                            OtauId = gpon.GponInWork.Otau.Id.ToString(),
-                            OpticalPort = gpon.GponInWork.OtauPort,
+                            OtauId = gpon.RelationOfGponInWork.Otau.Id.ToString(),
+                            OpticalPort = gpon.RelationOfGponInWork.OtauPort,
                         }
                     };
                     cmd.AllTceRelations.Add(relation);

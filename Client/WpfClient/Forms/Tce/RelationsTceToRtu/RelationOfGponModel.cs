@@ -3,7 +3,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class GponInterfaceRelationModel : PropertyChangedBase
+    public class RelationOfGponModel : PropertyChangedBase
     {
         public Tce Tce { get; set; }
         public int Slot { get; set; }

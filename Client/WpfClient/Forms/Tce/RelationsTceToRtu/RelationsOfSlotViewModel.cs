@@ -6,7 +6,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class TceSlotRtuViewModel : Screen
+    public class RelationsOfSlotViewModel : Screen
     {
         private readonly Model _readModel;
         public int Slot { get; set; }
@@ -14,10 +14,10 @@ namespace Iit.Fibertest.Client
 
         public List<Rtu> Rtus { get; set; }
 
-        public ObservableCollection<GponInterfaceRtuViewModel> Gpons { get; set; } =
-            new ObservableCollection<GponInterfaceRtuViewModel>();
+        public ObservableCollection<RelationOfGponViewModel> Gpons { get; set; } =
+            new ObservableCollection<RelationOfGponViewModel>();
 
-        public TceSlotRtuViewModel(Model readModel)
+        public RelationsOfSlotViewModel(Model readModel)
         {
             _readModel = readModel;
         }
@@ -28,8 +28,8 @@ namespace Iit.Fibertest.Client
 
             for (int i = 0; i < gponInterfaceCount; i++)
             {
-                var line = new GponInterfaceRtuViewModel(_readModel);
-                var lineModel = new GponInterfaceRelationModel()
+                var line = new RelationOfGponViewModel(_readModel);
+                var lineModel = new RelationOfGponModel()
                 {
                     GponInterface = i, Slot = slot, Tce = tce
                 };

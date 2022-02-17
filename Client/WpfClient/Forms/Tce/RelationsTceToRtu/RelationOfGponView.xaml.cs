@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.Client
 {
     /// <summary>
-    /// Interaction logic for TceSlotRtuView.xaml
+    /// Interaction logic for RelationOfGponView.xaml
     /// </summary>
-    public partial class TceSlotRtuView
+    public partial class RelationOfGponView
     {
-        public TceSlotRtuView()
+        public RelationOfGponView()
         {
             InitializeComponent();
         }

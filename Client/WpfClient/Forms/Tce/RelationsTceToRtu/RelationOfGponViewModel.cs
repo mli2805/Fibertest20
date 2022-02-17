@@ -6,25 +6,25 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class GponInterfaceRtuViewModel : Screen
+    public class RelationOfGponViewModel : Screen
     {
         private readonly Model _readModel;
-        public GponInterfaceRelationModel GponInWork { get; set; }
+        public RelationOfGponModel RelationOfGponInWork { get; set; }
 
 
         public List<Rtu> Rtus { get; set; }
         public ObservableCollection<Otau> Otaus { get; set; } = new ObservableCollection<Otau>();
         public ObservableCollection<Trace> Traces { get; set; } = new ObservableCollection<Trace>();
 
-        public GponInterfaceRtuViewModel(Model readModel)
+        public RelationOfGponViewModel(Model readModel)
         {
             _readModel = readModel;
         }
 
-        public void Initialize(GponInterfaceRelationModel gponInterfaceRelationModel)
+        public void Initialize(RelationOfGponModel relationOfGponModel)
         {
-            GponInWork = gponInterfaceRelationModel;
-            GponInWork.PropertyChanged += GponInWork_PropertyChanged;
+            RelationOfGponInWork = relationOfGponModel;
+            RelationOfGponInWork.PropertyChanged += GponInWork_PropertyChanged;
 
             Rtus = _readModel.Rtus;
         }
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
         {
             if (e.PropertyName == @"Rtu")
             {
-                var rtu = Rtus.FirstOrDefault(r => r.Id == GponInWork.Rtu.Id);
+                var rtu = Rtus.FirstOrDefault(r => r.Id == RelationOfGponInWork.Rtu.Id);
                 if (rtu == null) return;
                 Otaus.Clear();
                 foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == rtu.Id))
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
                     Otaus.Add(otau);
                 }
                 Traces.Clear();
-                if (GponInWork.Otau != null)
+                if (RelationOfGponInWork.Otau != null)
                     foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
                     {
                         Traces.Add(trace);
@@ -50,13 +50,13 @@ namespace Iit.Fibertest.Client
 
             if (e.PropertyName == @"Otau")
             {
-                var otau = Otaus.FirstOrDefault(o => o.Id == GponInWork.Otau.Id);
+                var otau = Otaus.FirstOrDefault(o => o.Id == RelationOfGponInWork.Otau.Id);
                 if (otau == null) return;
 
                 Traces.Clear();
                 foreach (var trace in _readModel.Traces
-                             .Where(t => t.RtuId == GponInWork.Rtu.Id && t.OtauPort != null
-                                                                      && t.OtauPort.OtauId == GponInWork.Otau.Id.ToString()))
+                             .Where(t => t.RtuId == RelationOfGponInWork.Rtu.Id && t.OtauPort != null
+                                                                      && t.OtauPort.OtauId == RelationOfGponInWork.Otau.Id.ToString()))
                 {
                     Traces.Add(trace);
                 }

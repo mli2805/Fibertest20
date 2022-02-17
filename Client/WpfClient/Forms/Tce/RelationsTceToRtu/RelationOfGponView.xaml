@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="Iit.Fibertest.Client.GponInterfaceRtuView"
+﻿<UserControl x:Class="Iit.Fibertest.Client.RelationOfGponView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GponInterfaceRtuViewModel}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:RelationOfGponViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
@@ -13,19 +13,19 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="564" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Text="{Binding GponInWork.GponInterface}" />
+        <TextBlock Grid.Column="0" Text="{Binding RelationOfGponInWork.GponInterface}" />
         <ComboBox Grid.Column="1" DisplayMemberPath="Title"
                   ItemsSource="{Binding Path=DataContext.Rtus, 
                                       RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                  SelectedItem="{Binding GponInWork.Rtu}"/>
+                  SelectedItem="{Binding RelationOfGponInWork.Rtu}"/>
         <ComboBox Grid.Column="2" DisplayMemberPath="Title"
                   ItemsSource="{Binding Path=DataContext.Otaus, 
                                       RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                  SelectedItem="{Binding GponInWork.Otau}"/>
-        <TextBox Grid.Column="3" Text="{Binding GponInWork.OtauPort}" />
+                  SelectedItem="{Binding RelationOfGponInWork.Otau}"/>
+        <TextBox Grid.Column="3" Text="{Binding RelationOfGponInWork.OtauPort}" />
         <ComboBox Grid.Column="4" DisplayMemberPath="Title"
                   ItemsSource="{Binding Path = DataContext.Traces, 
                                       RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                  SelectedItem="{Binding GponInWork.Trace}"/>
+                  SelectedItem="{Binding RelationOfGponInWork.Trace}"/>
     </Grid>
 </UserControl>
