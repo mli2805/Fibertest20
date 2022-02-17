@@ -1494,6 +1494,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change slot count.
+        /// </summary>
+        public static string SID_Change_slot_count {
+            get {
+                return ResourceManager.GetString("SID_Change_slot_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change the language.
         /// </summary>
         public static string SID_Change_the_language {

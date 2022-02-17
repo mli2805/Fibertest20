@@ -28,18 +28,13 @@ namespace Iit.Fibertest.Graph
 
         public static string UpdateAllTceGponRelations(this Model model, AllTceGponRelationsUpdated e)
         {
-            var olds = model.GponPortRelations.Where(r => r.TceId == e.TceId);
+            var olds = model.GponPortRelations.Where(r => r.TceId == e.TceId).ToList();
             foreach (var oldRelation in olds)
             {
                 model.GponPortRelations.Remove(oldRelation);
             }
 
-            foreach (var newRelation in e.AllTceRelations)
-            {
-                model.GponPortRelations.Add(Mapper.Map<GponPortRelation>(newRelation));
-
-            }
-
+            model.GponPortRelations.AddRange(e.AllTceRelations);
             return null;
         }
 

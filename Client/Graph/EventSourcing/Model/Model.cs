@@ -41,6 +41,7 @@ namespace Iit.Fibertest.Graph
             BopNetworkEvents = source.BopNetworkEvents;
             BaseRefs = source.BaseRefs;
             Tces = source.Tces;
+            GponPortRelations = source.GponPortRelations;
             VeexTests = source.VeexTests;
             UserActionsLog = source.UserActionsLog;
         }

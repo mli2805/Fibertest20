@@ -10,13 +10,15 @@
         d:DataContext="{d:DesignInstance client:TceComponentsViewModel}">
     <DockPanel>
         <Border DockPanel.Dock="Top" BorderBrush="LightGray" BorderThickness="1" Margin="5">
-            <StackPanel  Orientation="Horizontal">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Slot_count}" Margin="10,5,5,5"/>
-                <TextBox Text="{Binding TextBoxSlotCount}" Margin="5" Width="50"/>
-                <Button Content="{x:Static stringResources:Resources.SID_Apply}" Name="ApplySlotCount" Margin="5" Width="100"/>
+            <StackPanel >
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Change_slot_count}" Margin="10,5,5,5"/>
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox Text="{Binding TextBoxSlotCount}" Margin="5" Width="70"/>
+                    <Button Content="{x:Static stringResources:Resources.SID_Apply}" Name="ApplySlotCount" Margin="5" Width="100"/>
+                </StackPanel>
             </StackPanel>
         </Border>
-      
+
         <StackPanel DockPanel.Dock="Bottom" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Margin="5" Width="100"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="5" Width="100"/>

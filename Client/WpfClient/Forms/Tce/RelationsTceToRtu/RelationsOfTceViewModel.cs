@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
         {
             await Task.Delay(1);
 
-            var cmd = new UpdateAllTceGponRelations();
+            var cmd = new UpdateAllTceGponRelations() { TceId = Tce.Id };
             foreach (var slot in Slots)
             {
                 foreach (var gpon in slot.Gpons.Where(g=>g.RelationOfGponInWork.OtauPort != 0))

@@ -31,6 +31,8 @@ namespace Iit.Fibertest.Client
             {
                 Slots.Add(tceSlot);
             }
+
+            TextBoxSlotCount = "";
         }
 
         public void ApplySlotCount()
