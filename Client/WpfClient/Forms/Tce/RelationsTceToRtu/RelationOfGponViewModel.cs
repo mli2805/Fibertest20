@@ -26,28 +26,38 @@ namespace Iit.Fibertest.Client
             RelationOfGponInWork.PropertyChanged += GponInWork_PropertyChanged;
 
             Rtus = _readModel.Rtus;
+            if (RelationOfGponInWork.Rtu != null)
+            {
+                Otaus.Clear();
+                foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == RelationOfGponInWork.Rtu.Id))
+                {
+                    Otaus.Add(otau);
+                }
+            }
         }
 
         private void GponInWork_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == @"Rtu")
+            if (e.PropertyName == @"Rtu" && RelationOfGponInWork.Rtu != null)
             {
                 var rtu = Rtus.FirstOrDefault(r => r.Id == RelationOfGponInWork.Rtu.Id);
                 if (rtu == null) return;
                 Otaus.Clear();
-                foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == rtu.Id))
+                foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == RelationOfGponInWork.Rtu.Id))
                 {
                     Otaus.Add(otau);
                 }
             }
 
-            if (e.PropertyName == @"Otau")
+            if (e.PropertyName == @"Otau" && RelationOfGponInWork.Rtu != null && RelationOfGponInWork.Otau != null)
             {
                 var otau = Otaus.FirstOrDefault(o => o.Id == RelationOfGponInWork.Otau.Id);
-                if (otau == null) return;
+                if (otau != null) 
+                    RelationOfGponInWork.Otau = otau;
             }
 
-            if (e.PropertyName == @"OtauPort")
+            if (e.PropertyName == @"OtauPort" && RelationOfGponInWork.Rtu != null 
+                      && RelationOfGponInWork.Otau != null && RelationOfGponInWork.OtauPort != 0)
             {
                 var trace = _readModel.Traces.FirstOrDefault(t => t.RtuId == RelationOfGponInWork.Rtu.Id
                                                                   && t.OtauPort != null
@@ -58,6 +68,11 @@ namespace Iit.Fibertest.Client
                 if (trace != null) 
                     RelationOfGponInWork.TraceTitle = trace.Title;
             }
+        }
+
+        public void ClearRelation()
+        {
+            RelationOfGponInWork.ClearRelation();
         }
     }
 }

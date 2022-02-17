@@ -4,14 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:RelationOfGponViewModel}">
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:RelationOfGponViewModel}"
+             cal:Bind.ModelWithoutContext="{Binding .}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="50" />
-            <ColumnDefinition Width="564" />
+            <ColumnDefinition Width="484" />
+            <ColumnDefinition Width="80" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0" Margin="5,0,0,0" Text="{Binding RelationOfGponInWork.GponInterface}" />
         <ComboBox Grid.Column="1" Margin="0,0, 10, 0" DisplayMemberPath="Title"
@@ -24,5 +28,6 @@
                   SelectedItem="{Binding RelationOfGponInWork.Otau}"/>
         <TextBox Grid.Column="3" Margin="0,0, 10 ,0" Text="{Binding RelationOfGponInWork.OtauPort}" />
         <TextBlock Grid.Column="4" Margin="5,0,0,0" Text="{Binding RelationOfGponInWork.TraceTitle}"/>
+        <Button Grid.Column="5" Margin="1" Content="{x:Static stringResources:Resources.SID_Clear}" Name="ClearRelation"/>
     </Grid>
 </UserControl>

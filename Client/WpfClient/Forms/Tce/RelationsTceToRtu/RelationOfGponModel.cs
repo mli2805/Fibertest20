@@ -34,7 +34,36 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public int OtauPort { get; set; }
-        public string TraceTitle { get; set; }
+        private int _otauPort;
+        public int OtauPort
+        {
+            get => _otauPort;
+            set
+            {
+                if (value == _otauPort) return;
+                _otauPort = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _traceTitle;
+        public string TraceTitle
+        {
+            get => _traceTitle;
+            set
+            {
+                if (value == _traceTitle) return;
+                _traceTitle = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public void ClearRelation()
+        {
+            Rtu = null;
+            Otau = null;
+            OtauPort = 0;
+            TraceTitle = "";
+        }
     }
 }

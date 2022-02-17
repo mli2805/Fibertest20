@@ -32,7 +32,7 @@
                 <DataTemplate DataType="client:RelationOfGponModel">
                     <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
                         <Grid>
-                            <client:RelationOfGponView></client:RelationOfGponView>
+                            <client:RelationOfGponView/>
                         </Grid>
                     </Border>
                 </DataTemplate>

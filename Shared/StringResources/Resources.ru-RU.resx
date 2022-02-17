@@ -3144,4 +3144,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Equipment_components" xml:space="preserve">
 		<value>Компоненты оборудования</value>
 	</data>
+	<data name="SID_Clear" xml:space="preserve">
+		<value>Очистить</value>
+	</data>
 </root>

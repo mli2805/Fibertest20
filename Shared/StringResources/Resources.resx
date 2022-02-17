@@ -3144,4 +3144,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Equipment_components" xml:space="preserve">
 		<value>Equipment components</value>
 	</data>
+	<data name="SID_Clear" xml:space="preserve">
+		<value>Clear</value>
+	</data>
 </root>
