@@ -3129,4 +3129,19 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Change_slot_count" xml:space="preserve">
 		<value>Change slot count</value>
 	</data>
+	<data name="SID_Interface_No" xml:space="preserve">
+		<value>Interface no.</value>
+	</data>
+	<data name="SID_Slot_count" xml:space="preserve">
+		<value>Slot count</value>
+	</data>
+	<data name="SID_Interface_count" xml:space="preserve">
+		<value>Interface count</value>
+	</data>
+	<data name="SID_Slot__0_" xml:space="preserve">
+		<value>Slot {0}</value>
+	</data>
+	<data name="SID_Equipment_components" xml:space="preserve">
+		<value>Equipment components</value>
+	</data>
 </root>

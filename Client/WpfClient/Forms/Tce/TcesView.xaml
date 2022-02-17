@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="400" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="Black" />
@@ -54,7 +54,7 @@
                                     <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="120" />
                                     <ColumnDefinition Width="400" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Title}" />

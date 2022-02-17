@@ -2656,6 +2656,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipment components.
+        /// </summary>
+        public static string SID_Equipment_components {
+            get {
+                return ResourceManager.GetString("SID_Equipment_components", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment type.
         /// </summary>
         public static string SID_Equipment_type {
@@ -3853,6 +3862,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Institute_of_Information_Technologies {
             get {
                 return ResourceManager.GetString("SID_Institute_of_Information_Technologies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interface count.
+        /// </summary>
+        public static string SID_Interface_count {
+            get {
+                return ResourceManager.GetString("SID_Interface_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interface no..
+        /// </summary>
+        public static string SID_Interface_No {
+            get {
+                return ResourceManager.GetString("SID_Interface_No", resourceCulture);
             }
         }
         
@@ -7329,6 +7356,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Slot {
             get {
                 return ResourceManager.GetString("SID_Slot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slot {0}.
+        /// </summary>
+        public static string SID_Slot__0_ {
+            get {
+                return ResourceManager.GetString("SID_Slot__0_", resourceCulture);
             }
         }
         

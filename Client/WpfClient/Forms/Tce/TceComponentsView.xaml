@@ -20,21 +20,21 @@
         </Border>
 
         <StackPanel DockPanel.Dock="Bottom" Margin="5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Margin="5" Width="100"/>
-            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="5" Width="100"/>
+            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Margin="10,5" Width="100"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="10,5" Width="100"/>
         </StackPanel>
         <Grid DockPanel.Dock="Top" Background="AliceBlue" Height="20" Margin="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="40" />
-                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="152" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="Black" />
             <Border Grid.Column="1" BorderThickness="0,0,1,0" BorderBrush="Black" />
             <Border Grid.Column="2" BorderThickness="0,0,1,0" BorderBrush="Black" />
             <Label Grid.Column="0" Content="{x:Static stringResources:Resources.SID_Slot}" Margin="0,-5,0,0" />
             <Label Grid.Column="1" Content="" Margin="0,-5,0,0" />
-            <Label Grid.Column="2" Content="GponCount" Margin="0,-5,0,0" />
+            <Label Grid.Column="2" Content="{x:Static stringResources:Resources.SID_Interface_count}" Margin="0,-5,0,0" />
         </Grid>
         <ListView DockPanel.Dock="Top" ItemsSource="{Binding Slots}" Margin="1" >
             <ListView.ItemTemplate>

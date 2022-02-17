@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -10,7 +11,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         public int Slot { get; set; }
-        public string Title => $@"Slot {Slot}";
+        public string Title => string.Format(Resources.SID_Slot__0_, Slot);
 
         public List<Rtu> Rtus { get; set; }
 
@@ -41,10 +42,10 @@ namespace Iit.Fibertest.Client
                     lineModel.Rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == relation.RtuId);
                     lineModel.Otau = _readModel.Otaus.FirstOrDefault(o => o.Id.ToString() == relation.OtauPort.OtauId);
                     lineModel.OtauPort = relation.OtauPort.OpticalPort;
-                    lineModel.Trace = _readModel.Traces.FirstOrDefault(t =>
+                    lineModel.TraceTitle = _readModel.Traces.FirstOrDefault(t =>
                         t.OtauPort != null
                         && t.OtauPort.OtauId == relation.OtauPort.OtauId
-                        && t.OtauPort.OpticalPort == relation.OtauPort.OpticalPort);
+                        && t.OtauPort.OpticalPort == relation.OtauPort.OpticalPort)?.Title ?? "";
                 }
                 line.Initialize(lineModel);
                 Gpons.Add(line);

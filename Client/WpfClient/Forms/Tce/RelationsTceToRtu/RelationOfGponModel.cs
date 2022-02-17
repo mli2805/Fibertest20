@@ -35,6 +35,6 @@ namespace Iit.Fibertest.Client
         }
 
         public int OtauPort { get; set; }
-        public Trace Trace { get; set; }
+        public string TraceTitle { get; set; }
     }
 }

@@ -3129,4 +3129,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Change_slot_count" xml:space="preserve">
 		<value>Изменить количество слотов</value>
 	</data>
+	<data name="SID_Interface_No" xml:space="preserve">
+		<value>Интерфейс №</value>
+	</data>
+	<data name="SID_Slot_count" xml:space="preserve">
+		<value>Количество слотов</value>
+	</data>
+	<data name="SID_Interface_count" xml:space="preserve">
+		<value>Количество интерфейсов</value>
+	</data>
+	<data name="SID_Slot__0_" xml:space="preserve">
+		<value>Слот {0}</value>
+	</data>
+	<data name="SID_Equipment_components" xml:space="preserve">
+		<value>Компоненты оборудования</value>
+	</data>
 </root>

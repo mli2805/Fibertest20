@@ -13,19 +13,16 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="564" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Text="{Binding RelationOfGponInWork.GponInterface}" />
-        <ComboBox Grid.Column="1" DisplayMemberPath="Title"
+        <TextBlock Grid.Column="0" Margin="5,0,0,0" Text="{Binding RelationOfGponInWork.GponInterface}" />
+        <ComboBox Grid.Column="1" Margin="0,0, 10, 0" DisplayMemberPath="Title"
                   ItemsSource="{Binding Path=DataContext.Rtus, 
                                       RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                   SelectedItem="{Binding RelationOfGponInWork.Rtu}"/>
-        <ComboBox Grid.Column="2" DisplayMemberPath="Title"
+        <ComboBox Grid.Column="2" Margin="0,0, 10, 0" DisplayMemberPath="Title"
                   ItemsSource="{Binding Path=DataContext.Otaus, 
                                       RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                   SelectedItem="{Binding RelationOfGponInWork.Otau}"/>
-        <TextBox Grid.Column="3" Text="{Binding RelationOfGponInWork.OtauPort}" />
-        <ComboBox Grid.Column="4" DisplayMemberPath="Title"
-                  ItemsSource="{Binding Path = DataContext.Traces, 
-                                      RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                  SelectedItem="{Binding RelationOfGponInWork.Trace}"/>
+        <TextBox Grid.Column="3" Margin="0,0, 10 ,0" Text="{Binding RelationOfGponInWork.OtauPort}" />
+        <TextBlock Grid.Column="4" Margin="5,0,0,0" Text="{Binding RelationOfGponInWork.TraceTitle}"/>
     </Grid>
 </UserControl>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
@@ -33,6 +34,11 @@ namespace Iit.Fibertest.Client
             }
 
             TextBoxSlotCount = "";
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = Resources.SID_Equipment_components;
         }
 
         public void ApplySlotCount()

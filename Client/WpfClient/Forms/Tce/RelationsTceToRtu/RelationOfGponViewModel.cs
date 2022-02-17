@@ -14,7 +14,6 @@ namespace Iit.Fibertest.Client
 
         public List<Rtu> Rtus { get; set; }
         public ObservableCollection<Otau> Otaus { get; set; } = new ObservableCollection<Otau>();
-        public ObservableCollection<Trace> Traces { get; set; } = new ObservableCollection<Trace>();
 
         public RelationOfGponViewModel(Model readModel)
         {
@@ -40,26 +39,24 @@ namespace Iit.Fibertest.Client
                 {
                     Otaus.Add(otau);
                 }
-                Traces.Clear();
-                if (RelationOfGponInWork.Otau != null)
-                    foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
-                    {
-                        Traces.Add(trace);
-                    }
             }
 
             if (e.PropertyName == @"Otau")
             {
                 var otau = Otaus.FirstOrDefault(o => o.Id == RelationOfGponInWork.Otau.Id);
                 if (otau == null) return;
+            }
 
-                Traces.Clear();
-                foreach (var trace in _readModel.Traces
-                             .Where(t => t.RtuId == RelationOfGponInWork.Rtu.Id && t.OtauPort != null
-                                                                      && t.OtauPort.OtauId == RelationOfGponInWork.Otau.Id.ToString()))
-                {
-                    Traces.Add(trace);
-                }
+            if (e.PropertyName == @"OtauPort")
+            {
+                var trace = _readModel.Traces.FirstOrDefault(t => t.RtuId == RelationOfGponInWork.Rtu.Id
+                                                                  && t.OtauPort != null
+                                                                  && t.OtauPort.OtauId ==
+                                                                  RelationOfGponInWork.Otau.Id.ToString()
+                                                                  && t.OtauPort.OpticalPort ==
+                                                                  RelationOfGponInWork.OtauPort);
+                if (trace != null) 
+                    RelationOfGponInWork.TraceTitle = trace.Title;
             }
         }
     }
