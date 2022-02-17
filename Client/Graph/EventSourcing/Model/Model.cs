@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Graph
         public List<BopNetworkEvent> BopNetworkEvents { get; set; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();
         public List<Tce> Tces { get; set; } = new List<Tce>();
+        public List<GponPortRelation> GponPortRelations { get; set; } = new List<GponPortRelation>();
         public List<VeexTest> VeexTests { get; set; } = new List<VeexTest>();
         public List<LogLine> UserActionsLog { get; set; } = new List<LogLine>();
 

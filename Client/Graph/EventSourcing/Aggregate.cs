@@ -79,7 +79,7 @@ namespace Iit.Fibertest.Graph
                 case DetachTrace command: return _eventsQueue.Add(Mapper.Map<TraceDetached>(command));
 
                 case AddOrUpdateTce command: return _eventsQueue.Add(Mapper.Map<TceAddedOrUpdated>(command));
-                case AddGponPortRelation command: return _eventsQueue.Add(Mapper.Map<GponPortRelationAdded>(command));
+                case UpdateAllTceGponRelations command: return _eventsQueue.Add(Mapper.Map<AllTceGponRelationsUpdated>(command));
                 case RemoveTce command: return _eventsQueue.Add(Mapper.Map<TceRemoved>(command));
 
                 case AddVeexTest command: return _eventsQueue.Add(Mapper.Map<VeexTestAdded>(command));

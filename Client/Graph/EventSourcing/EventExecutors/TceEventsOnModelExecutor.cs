@@ -26,18 +26,19 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string AddGponPortRelation(this Model model, GponPortRelationAdded e)
+        public static string UpdateAllTceGponRelations(this Model model, AllTceGponRelationsUpdated e)
         {
-            GponPortRelation newRelation = Mapper.Map<GponPortRelation>(e);
-            var tce = model.Tces.FirstOrDefault(o => o.Id == newRelation.TceId);
-            if (tce == null)
-                return @"Tce not found!";
+            var olds = model.GponPortRelations.Where(r => r.TceId == e.TceId);
+            foreach (var oldRelation in olds)
+            {
+                model.GponPortRelations.Remove(oldRelation);
+            }
 
-            // var relation = olt.Relations.FirstOrDefault(r => r.GponInterface == newRelation.GponInterface);
-            // if (relation != null)
-            //     olt.Relations.Remove(relation);
-            //
-            // olt.Relations.Add(newRelation);
+            foreach (var newRelation in e.AllTceRelations)
+            {
+                model.GponPortRelations.Add(Mapper.Map<GponPortRelation>(newRelation));
+
+            }
 
             return null;
         }

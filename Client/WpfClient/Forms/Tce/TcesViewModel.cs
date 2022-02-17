@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -69,7 +67,7 @@ namespace Iit.Fibertest.Client
         public void MapTceToRtu()
         {
             var vm = _globalScope.Resolve<TceRtuViewModel>();
-            vm.Initialize(SelectedTce, 14);
+            vm.Initialize(SelectedTce);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
