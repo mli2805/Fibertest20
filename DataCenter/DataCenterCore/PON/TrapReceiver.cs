@@ -14,9 +14,10 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly TrapExecutor _trapExecutor;
 
-        public TrapReceiver(IMyLog logFile, TrapExecutor trapExecutor)
+        public TrapReceiver(IniFile iniFile, TrapExecutor trapExecutor)
         {
-            _logFile = logFile;
+            _logFile = new LogFile(iniFile, 20000);
+            _logFile.AssignFile("trap.log");
             _trapExecutor = trapExecutor;
         }
 
