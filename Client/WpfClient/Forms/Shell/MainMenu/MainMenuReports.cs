@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-                string filename = Path.Combine(folder, @"MonitoringSystemComponentsReport.pdf");
+                string filename = Path.Combine(folder, $@"MonitoringSystemComponentsReport{DateTime.Now:yyyyMMddHHmmss}.pdf");
                 _componentsReportViewModel.Report.Save(filename);
                 Process.Start(filename);
             }

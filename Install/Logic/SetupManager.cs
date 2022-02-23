@@ -39,12 +39,14 @@ namespace Iit.Fibertest.Install
                 case InstallationType.Datacenter:
                     if (!_setupDataCenterOperations.SetupDataCenter(worker, _currentInstallation))
                         return false;
+                    _currentInstallation.IsHighDensityGraph = true;
                     if (!_setupClientOperations.SetupClient(worker, _currentInstallation))
                         return false;
                     break;
                 case InstallationType.SuperClient:
                     if (!_setupSuperClientOperations.SetupSuperClient(worker, _currentInstallation.InstallationFolder))
                         return false;
+                    _currentInstallation.IsHighDensityGraph = true;
                     if (!_setupClientOperations.SetupClient(worker, _currentInstallation))
                         return false;
                     break;

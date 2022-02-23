@@ -150,14 +150,19 @@ namespace Iit.Fibertest.Client
 
         public void ExportToPdf()
         {
+            var view = CollectionViewSource.GetDefaultView(Rows);
+            view.Refresh();
+
+
             var report = EventLogReportProvider.Create(Rows.ToList());
+            // var report = EventLogReportProvider.Create(view.InternalList.ToList());
             if (report == null) return;
             try
             {
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-                string filename = Path.Combine(folder, $@"Event log.pdf");
+                string filename = Path.Combine(folder, $@"EventLog{DateTime.Now:yyyyMMddHHmmss}.pdf");
                 report.Save(filename);
                 Process.Start(filename);
             }

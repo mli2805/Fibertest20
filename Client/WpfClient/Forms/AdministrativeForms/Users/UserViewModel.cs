@@ -205,7 +205,9 @@ namespace Iit.Fibertest.Client
                     Role = UserInWork.Role,
                     Email = new EmailReceiver() { Address = UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated },
                     Sms = UserInWork.SmsReceiverVm.Get(),
-                    EncodedPassword = Password1.GetHashString(), // root can change password
+                    EncodedPassword = UserInWork.EncodedPassword == Password1 // root has right to change passwords
+                        ? UserInWork.EncodedPassword 
+                        : Password1.GetHashString(), 
                     ZoneId = SelectedZone.ZoneId,
                 };
 

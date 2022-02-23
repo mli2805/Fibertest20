@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -20,7 +21,9 @@ namespace Iit.Fibertest.Graph
             var unusedNodes = new List<Guid>();
             for (int i = 0; i < model.Nodes.Count; i++)
             {
-                if (!allTracesNodes.Contains(model.Nodes[i].NodeId))
+                if (!allTracesNodes.Contains(model.Nodes[i].NodeId)
+                    && model.Nodes[i].TypeOfLastAddedEquipment != EquipmentType.Rtu
+                    && model.Nodes[i].TypeOfLastAddedEquipment != EquipmentType.AccidentPlace)
                     unusedNodes.Add(model.Nodes[i].NodeId);
             }
 
