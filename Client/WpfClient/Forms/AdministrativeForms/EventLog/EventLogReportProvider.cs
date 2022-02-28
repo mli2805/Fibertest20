@@ -67,8 +67,8 @@ namespace Iit.Fibertest.Client
         {
             table.AddColumn(@"1cm").Format.Alignment = ParagraphAlignment.Center;
             table.AddColumn(@"3cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"2.5cm").Format.Alignment = ParagraphAlignment.Center;
             table.AddColumn(@"3cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"2.5cm").Format.Alignment = ParagraphAlignment.Center;
             table.AddColumn(@"4.5cm").Format.Alignment = ParagraphAlignment.Center;
             table.AddColumn(@"3.0cm").Format.Alignment = ParagraphAlignment.Center;
             table.AddColumn(@"4cm").Format.Alignment = ParagraphAlignment.Center;

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
@@ -55,8 +57,9 @@ namespace Iit.Fibertest.Client
 
         public List<int> ShiftList { get; } = new List<int>() { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300 };
         public int SelectedShift { get; set; }
+        public Visibility ShiftVisibility { get; set; }
 
-        public GraphVisibilitySettingsViewModel(IniFile iniFile, CurrentGis currentGis)
+        public GraphVisibilitySettingsViewModel(IniFile iniFile, CurrentGis currentGis, CurrentUser currentUser)
         {
             _iniFile = iniFile;
             _currentGis = currentGis;
@@ -64,6 +67,7 @@ namespace Iit.Fibertest.Client
             IsHighDensityGraph = currentGis.IsHighDensityGraph;
             SelectedZoom = currentGis.ThresholdZoom;
             SelectedShift = (int)(currentGis.ScreenPartAsMargin * 100);
+            ShiftVisibility = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected override void OnViewLoaded(object view)

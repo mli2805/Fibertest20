@@ -17,7 +17,7 @@
             <ComboBox Height="22" Width="60" ItemsSource="{Binding ZoomList}" 
                       SelectedItem="{Binding SelectedZoom}"/>
         </DockPanel>
-        <DockPanel Margin="5">
+        <DockPanel Margin="5" Visibility="{Binding ShiftVisibility}">
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Out_of_screen_part}" Width="350" />
             <ComboBox Height="22" Width="60" ItemsSource="{Binding ShiftList}" 
                       SelectedItem="{Binding SelectedShift}"/>
