@@ -33,6 +33,34 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private DateTime _dateFrom;
+        public DateTime DateFrom
+        {
+            get => _dateFrom;
+            set
+            {
+                if (value.Equals(_dateFrom)) return;
+                _dateFrom = value;
+                NotifyOfPropertyChange();
+                var view = CollectionViewSource.GetDefaultView(Rows);
+                view.Refresh();
+            }
+        }
+
+        private DateTime _dateTo;
+        public DateTime DateTo
+        {
+            get => _dateTo;
+            set
+            {
+                if (value.Equals(_dateTo)) return;
+                _dateTo = value;
+                NotifyOfPropertyChange();
+                var view = CollectionViewSource.GetDefaultView(Rows);
+                view.Refresh();
+            }
+        }
+
         public List<UserFilter> UserFilters { get; set; }
 
         public UserFilter SelectedUserFilter
@@ -93,7 +121,8 @@ namespace Iit.Fibertest.Client
             return
                 (SelectedUserFilter.IsOn == false ||
                  SelectedUserFilter.User.Title == logLine.Username)
-                && IsIncludedInOperationFilter(logLine.OperationCode);
+                && IsIncludedInOperationFilter(logLine.OperationCode)
+                && logLine.Timestamp.Date >= DateFrom && logLine.Timestamp.Date <= DateTo;
         }
 
         private bool IsIncludedInOperationFilter(LogOperationCode operationCode)
@@ -135,6 +164,8 @@ namespace Iit.Fibertest.Client
         public void Initialize()
         {
             Rows = _readModel.UserActionsLog;
+            DateFrom = Rows.Last().Timestamp.Date;
+            DateTo = Rows.First().Timestamp.Date.AddDays(1).AddMilliseconds(-1);
             InitializeFilters();
         }
 
@@ -152,10 +183,9 @@ namespace Iit.Fibertest.Client
         {
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Refresh();
+            var logLines = view.Cast<LogLine>().ToList();
 
-
-            var report = EventLogReportProvider.Create(Rows.ToList());
-            // var report = EventLogReportProvider.Create(view.InternalList.ToList());
+            var report = EventLogReportProvider.Create(logLines);
             if (report == null) return;
             try
             {
