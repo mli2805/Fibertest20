@@ -28,7 +28,7 @@ namespace Iit.Fibertest.SuperClient
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = @"Fibertest 2.0 Superclient";
+            DisplayName = @"Fibertest 2.0 SuperClient";
             _logFile.AssignFile(@"sc.log");
             _logFile.AppendLine(@"Super-Client application started!");
             _superClientWcfServiceHost.StartWcfListener();

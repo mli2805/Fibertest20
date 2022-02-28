@@ -99,7 +99,7 @@ namespace Iit.Fibertest.Client
         private void InitializeFilters()
         {
             UserFilters = new List<UserFilter>() { new UserFilter() };
-            foreach (var user in _readModel.Users.Where(u => u.Role >= Role.Root && u.Role <= Role.Superclient))
+            foreach (var user in _readModel.Users.Where(u => u.Role >= Role.Root && u.Role <= Role.SuperClient))
                 UserFilters.Add(new UserFilter(user));
             SelectedUserFilter = UserFilters.First();
 

@@ -167,7 +167,9 @@ namespace Iit.Fibertest.Client
         {
             var skip = _currentUser.Role == Role.Developer ? 1 : 2;
             if (UserInWork.Role > Role.Root) skip = 3;
-            return Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
+            var availableRoles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
+            availableRoles.Remove(Role.SecurityAdmin);
+            return availableRoles;
         }
 
         protected override void OnViewLoaded(object view)

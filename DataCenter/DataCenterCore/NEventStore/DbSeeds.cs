@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
             new AddUser() { UserId = Guid.NewGuid(), Title = "websupervisor", 
                 EncodedPassword = "websupervisor".GetHashString(), Role = Role.WebSupervisor, ZoneId = Guid.Empty },
             new AddUser() { UserId = Guid.NewGuid(), Title = "superclient", 
-                EncodedPassword = "superclient".GetHashString(), Role = Role.Superclient, ZoneId = Guid.Empty },
+                EncodedPassword = "superclient".GetHashString(), Role = Role.SuperClient, ZoneId = Guid.Empty },
         };
     }
 }

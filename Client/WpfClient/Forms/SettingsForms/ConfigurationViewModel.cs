@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
         {
             _iniFile = iniFile;
             _soundManager = soundManager;
-            IsEnabled = currentUser.Role < Role.Superclient;
+            IsEnabled = currentUser.Role < Role.SuperClient;
 
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
             SoundButtonContent = Resources.SID_Turn_alarm_on;

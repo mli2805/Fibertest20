@@ -12,7 +12,7 @@
         Supervisor = 4,
         WebSupervisor = 41,
 
-        Superclient = 5,
+        SuperClient = 5,
 
         SecurityAdmin = 98,
         NotificationReceiver = 99,
@@ -22,18 +22,18 @@
     {
         public static bool IsWebPermitted(this Role role)
         {
-            return role == Role.Developer || role == Role.Root || 
+            return role == Role.Developer || role == Role.Root ||
                    role == Role.WebOperator || role == Role.WebSupervisor;
         }
 
-        public static bool IsSuperclientPermitted(this Role role)
+        public static bool IsSuperClientPermitted(this Role role)
         {
-            return role == Role.Developer || role == Role.Superclient;
+            return role == Role.Developer || role == Role.SuperClient;
         }
 
         public static bool IsDesktopPermitted(this Role role)
         {
-            return role == Role.Developer || role == Role.Root || 
+            return role == Role.Developer || role == Role.Root ||
                    role == Role.Operator || role == Role.Supervisor;
         }
     }
