@@ -193,7 +193,10 @@ namespace Iit.Fibertest.Install
                     _currentInstallation.InstallationFolder = InstallationFolderViewModel.InstallationFolder;
 
                     var port = IniOperations.GetMysqlTcpPort(_currentInstallation.InstallationFolder);
-                    InstTypeChoiceViewModel.MySqlTcpPort = port != "error" ? port : "3306";
+                    InstTypeChoiceViewModel.InstSettingsForServerViewModel.MySqlTcpPort = port != "error" ? port : "3306";
+
+                    var isHigh = IniOperations.GetIsHighDensityGraph(_currentInstallation.InstallationFolder);
+                    InstTypeChoiceViewModel.InstSettingsForClientViewModel.IsHighDensityGraph = isHigh;
 
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = true;
@@ -226,13 +229,17 @@ namespace Iit.Fibertest.Install
             IsButtonCancelEnabled = false;
 
             _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
-            _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.MySqlTcpPort;
-            _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.IsWebNeeded;
-            _currentInstallation.IsWebByHttps = InstTypeChoiceViewModel.IsWebByHttps;
-            _currentInstallation.SslCertificateName = InstTypeChoiceViewModel.SelectedCertificate;
-            _currentInstallation.SslCertificateDomain = InstTypeChoiceViewModel.DomainName;
-            _currentInstallation.SslCertificatePath = InstTypeChoiceViewModel.Filename;
-            _currentInstallation.SslCertificatePassword = AesExt.Encript(InstTypeChoiceViewModel.Password);
+
+            _currentInstallation.IsHighDensityGraph =
+                InstTypeChoiceViewModel.InstSettingsForClientViewModel.IsHighDensityGraph;
+
+            _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.InstSettingsForServerViewModel.MySqlTcpPort;
+            _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.InstSettingsForServerViewModel.IsWebNeeded;
+            _currentInstallation.IsWebByHttps = InstTypeChoiceViewModel.InstSettingsForServerViewModel.IsWebByHttps;
+            _currentInstallation.SslCertificateName = InstTypeChoiceViewModel.InstSettingsForServerViewModel.SelectedCertificate;
+            _currentInstallation.SslCertificateDomain = InstTypeChoiceViewModel.InstSettingsForServerViewModel.DomainName;
+            _currentInstallation.SslCertificatePath = InstTypeChoiceViewModel.InstSettingsForServerViewModel.Filename;
+            _currentInstallation.SslCertificatePassword = AesExt.Encript(InstTypeChoiceViewModel.InstSettingsForServerViewModel.Password);
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

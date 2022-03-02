@@ -68,6 +68,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (cmd is MakeSnapshot makeSnapshot)
             {
+                _logFile.AppendLine($"{username} from {clientIp} asked to make snapshot");
                 await Task.Factory.StartNew(() => MakeSnapshot(makeSnapshot, username, clientIp));
                 return null;
             }

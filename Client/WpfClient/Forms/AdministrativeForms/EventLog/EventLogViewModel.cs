@@ -33,6 +33,34 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private DateTime _dateFrom;
+        public DateTime DateFrom
+        {
+            get => _dateFrom;
+            set
+            {
+                if (value.Equals(_dateFrom)) return;
+                _dateFrom = value;
+                NotifyOfPropertyChange();
+                var view = CollectionViewSource.GetDefaultView(Rows);
+                view.Refresh();
+            }
+        }
+
+        private DateTime _dateTo;
+        public DateTime DateTo
+        {
+            get => _dateTo;
+            set
+            {
+                if (value.Equals(_dateTo)) return;
+                _dateTo = value;
+                NotifyOfPropertyChange();
+                var view = CollectionViewSource.GetDefaultView(Rows);
+                view.Refresh();
+            }
+        }
+
         public List<UserFilter> UserFilters { get; set; }
 
         public UserFilter SelectedUserFilter
@@ -71,7 +99,7 @@ namespace Iit.Fibertest.Client
         private void InitializeFilters()
         {
             UserFilters = new List<UserFilter>() { new UserFilter() };
-            foreach (var user in _readModel.Users.Where(u => u.Role >= Role.Root && u.Role <= Role.Superclient))
+            foreach (var user in _readModel.Users.Where(u => u.Role >= Role.Root && u.Role <= Role.SuperClient))
                 UserFilters.Add(new UserFilter(user));
             SelectedUserFilter = UserFilters.First();
 
@@ -93,7 +121,8 @@ namespace Iit.Fibertest.Client
             return
                 (SelectedUserFilter.IsOn == false ||
                  SelectedUserFilter.User.Title == logLine.Username)
-                && IsIncludedInOperationFilter(logLine.OperationCode);
+                && IsIncludedInOperationFilter(logLine.OperationCode)
+                && logLine.Timestamp.Date >= DateFrom && logLine.Timestamp.Date <= DateTo;
         }
 
         private bool IsIncludedInOperationFilter(LogOperationCode operationCode)
@@ -135,6 +164,8 @@ namespace Iit.Fibertest.Client
         public void Initialize()
         {
             Rows = _readModel.UserActionsLog;
+            DateFrom = Rows.Last().Timestamp.Date;
+            DateTo = Rows.First().Timestamp.Date.AddDays(1).AddMilliseconds(-1);
             InitializeFilters();
         }
 
@@ -150,14 +181,18 @@ namespace Iit.Fibertest.Client
 
         public void ExportToPdf()
         {
-            var report = EventLogReportProvider.Create(Rows.ToList());
+            var view = CollectionViewSource.GetDefaultView(Rows);
+            view.Refresh();
+            var logLines = view.Cast<LogLine>().ToList();
+
+            var report = EventLogReportProvider.Create(logLines);
             if (report == null) return;
             try
             {
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-                string filename = Path.Combine(folder, $@"Event log.pdf");
+                string filename = Path.Combine(folder, $@"EventLog{DateTime.Now:yyyyMMddHHmmss}.pdf");
                 report.Save(filename);
                 Process.Start(filename);
             }

@@ -77,6 +77,7 @@ namespace Iit.Fibertest.Client
             otauLeaf.OwnPortCount = e.PortCount;
             otauLeaf.OtauNetAddress = e.NetAddress;
             otauLeaf.Serial = e.Serial;
+            otauLeaf.OtauId = e.Id.ToString();
             otauLeaf.OtauState = RtuPartState.Ok;
             otauLeaf.IsExpanded = true;
 
@@ -99,7 +100,7 @@ namespace Iit.Fibertest.Client
             var otauLeaf = (OtauLeaf)_treeOfRtuModel.GetById(e.Id);
             var port = otauLeaf.MasterPort;
 
-            foreach (var traceLeaf in otauLeaf.ChildrenImpresario.Children.Where(c=>c is TraceLeaf).ToList())
+            foreach (var traceLeaf in otauLeaf.ChildrenImpresario.Children.Where(c => c is TraceLeaf).ToList())
             {
                 _traceEventsOnTreeExecutor.DetachTrace(traceLeaf.Id);
             }
@@ -107,7 +108,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.FullPortCount -= otauLeaf.OwnPortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
 
-            var portLeaf = _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", rtuLeaf), 
+            var portLeaf = _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", rtuLeaf),
                 new NamedParameter(@"portNumber", port));
             rtuLeaf.ChildrenImpresario.Children.Insert(port - 1, portLeaf);
             portLeaf.Parent = rtuLeaf;

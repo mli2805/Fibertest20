@@ -77,10 +77,12 @@ namespace Iit.Fibertest.Graph
                 };
             }
 
-            if (model.Olts == null)
-                model.Olts = new List<Olt>();
+            if (model.Tces == null)
+                model.Tces = new List<Tce>();
             if (model.VeexTests == null)
                 model.VeexTests = new List<VeexTest>();
+            if (model.GponPortRelations == null)
+                model.GponPortRelations = new List<GponPortRelation>();
         }
     }
 }

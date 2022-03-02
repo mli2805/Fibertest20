@@ -33,19 +33,21 @@ namespace Iit.Fibertest.Install
             switch (_currentInstallation.InstallationType)
             {
                 case InstallationType.Client:
-                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation.InstallationFolder))
+                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation))
                         return false;
                     break;
                 case InstallationType.Datacenter:
                     if (!_setupDataCenterOperations.SetupDataCenter(worker, _currentInstallation))
                         return false;
-                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation.InstallationFolder))
+                    _currentInstallation.IsHighDensityGraph = true;
+                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation))
                         return false;
                     break;
                 case InstallationType.SuperClient:
                     if (!_setupSuperClientOperations.SetupSuperClient(worker, _currentInstallation.InstallationFolder))
                         return false;
-                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation.InstallationFolder))
+                    _currentInstallation.IsHighDensityGraph = true;
+                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation))
                         return false;
                     break;
             }

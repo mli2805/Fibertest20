@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_node,
-                Command = new ContextMenuAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
+                Command = new ContextMenuAsyncAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
                 CommandParameter = EquipmentType.EmptyNode,
             });
 
@@ -28,35 +28,35 @@ namespace Iit.Fibertest.Client
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_node_with_cable_reserve,
-                Command = new ContextMenuAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
+                Command = new ContextMenuAsyncAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
                 CommandParameter = EquipmentType.CableReserve,
             });
 
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_node_with_sleeve,
-                Command = new ContextMenuAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
+                Command = new ContextMenuAsyncAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
                 CommandParameter = EquipmentType.Closure,
             });
 
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_node_with_cross,
-                Command = new ContextMenuAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
+                Command = new ContextMenuAsyncAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
                 CommandParameter = EquipmentType.Cross,
             });
 
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_node_with_terminal,
-                Command = new ContextMenuAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
+                Command = new ContextMenuAsyncAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
                 CommandParameter = EquipmentType.Terminal,
             });
 
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_node_with_other_equipment,
-                Command = new ContextMenuAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
+                Command = new ContextMenuAsyncAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
                 CommandParameter = EquipmentType.Other,
             });
 
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_RTU,
-                Command = new ContextMenuAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
+                Command = new ContextMenuAsyncAction(_mapActions.AddNodeOnClick, _mapActions.CanAddNode),
                 CommandParameter = EquipmentType.Rtu,
             });
 
@@ -74,13 +74,13 @@ namespace Iit.Fibertest.Client
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Copy_coordinates_to_clipboard,
-                Command = new ContextMenuAction(_mapActions.CopyCoordinatesToClipboard, _mapActions.Can),
+                Command = new ContextMenuAsyncAction(_mapActions.CopyCoordinatesToClipboard, _mapActions.Can),
                 CommandParameter = null,
             });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Distace_measurement,
-                Command = new ContextMenuAction(_mapActions.ToggleToDistanceMeasurementMode, _mapActions.Can),
+                Command = new ContextMenuAsyncAction(_mapActions.ToggleToDistanceMeasurementMode, _mapActions.Can),
                 CommandParameter = null,
             });
 

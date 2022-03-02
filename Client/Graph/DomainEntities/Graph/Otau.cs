@@ -16,5 +16,7 @@ namespace Iit.Fibertest.Graph
 
         public int MasterPort { get; set; }
         public bool IsOk { get; set; }
+
+        public string Title => NetAddress.Ip4Address;
     }
 }

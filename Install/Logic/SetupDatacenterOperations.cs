@@ -51,20 +51,9 @@ namespace Iit.Fibertest.Install
                 return false;
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
-            PlaceDataCenterParamsIntoIniFile(currentInstallation);
+            IniOperations.SetParamsIntoServerIniFile(currentInstallation);
 
             return ServiceOperations.InstallService(service, currentInstallation.InstallationFolder, worker);
-        }
-
-        private static void PlaceDataCenterParamsIntoIniFile(CurrentInstallation currentInstallation)
-        {
-            var webApiBindingProtocol = currentInstallation.IsWebNeeded
-                ? currentInstallation.IsWebByHttps
-                    ? "https"
-                    : "http"
-                : "none";
-            IniOperations.PlaceParamsIntoIniFile(currentInstallation.InstallationFolder,
-                currentInstallation.MySqlTcpPort, webApiBindingProtocol, currentInstallation.SslCertificateDomain);
         }
 
         private static bool SetupWebApiComponent(BackgroundWorker worker, CurrentInstallation currentInstallation)

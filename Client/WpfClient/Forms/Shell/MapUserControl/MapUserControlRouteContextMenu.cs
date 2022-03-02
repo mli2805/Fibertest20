@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Dto;
@@ -21,7 +22,7 @@ namespace Iit.Fibertest.Client
             return parameter != null;
         }
 
-        private async void AskUpdateFiber(object parameter)
+        private async Task AskUpdateFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
             await GraphReadModel.GrmFiberRequests.UpdateFiber(new RequestUpdateFiber() { Id = route.Id });
@@ -34,7 +35,7 @@ namespace Iit.Fibertest.Client
             var route = (GMapRoute)parameter;
             return !GraphReadModel.GrmNodeRequests.IsFiberContainedInAnyTraceWithBase(route.Id);
         }
-        private async void AskAddNodeIntoFiber(object parameter)
+        private async Task AskAddNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
@@ -45,7 +46,7 @@ namespace Iit.Fibertest.Client
         {
             return GraphReadModel.CurrentUser.Role <= Role.Root && parameter != null;
         }
-        private async void AskAddAdjustmentNodeIntoFiber(object parameter)
+        private async Task AskAddAdjustmentNodeIntoFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
             var position = MainMap.FromLocalToLatLng(MainMap.ContextMenuPoint);
@@ -60,7 +61,7 @@ namespace Iit.Fibertest.Client
             return fiberVm?.State == FiberState.NotInTrace;
         }
 
-        private async void AskRemoveFiber(object parameter)
+        private async Task AskRemoveFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
             await GraphReadModel.GrmFiberRequests.RemoveFiber(new RemoveFiber() { FiberId = route.Id });
@@ -81,25 +82,25 @@ namespace Iit.Fibertest.Client
             route.ContextMenu.Items.Add(new MenuItem()
             {
                 Header = StringResources.Resources.SID_Information,
-                Command = new ContextMenuAction(AskUpdateFiber, CanUpdateFiber),
+                Command = new ContextMenuAsyncAction(AskUpdateFiber, CanUpdateFiber),
                 CommandParameter = route
             });
             route.ContextMenu.Items.Add(new MenuItem()
             {
                 Header = StringResources.Resources.SID_Add_node,
-                Command = new ContextMenuAction(AskAddNodeIntoFiber, CanAddNodeIntoFiber),
+                Command = new ContextMenuAsyncAction(AskAddNodeIntoFiber, CanAddNodeIntoFiber),
                 CommandParameter = route
             });
             route.ContextMenu.Items.Add(new MenuItem()
             {
                 Header = StringResources.Resources.SID_Add_adjustment_point,
-                Command = new ContextMenuAction(AskAddAdjustmentNodeIntoFiber, CanAddAdjustmentNodeIntoFiber),
+                Command = new ContextMenuAsyncAction(AskAddAdjustmentNodeIntoFiber, CanAddAdjustmentNodeIntoFiber),
                 CommandParameter = route
             });
             route.ContextMenu.Items.Add(new MenuItem()
             {
                 Header = StringResources.Resources.SID_Remove_section,
-                Command = new ContextMenuAction(AskRemoveFiber, CanRemoveFiber),
+                Command = new ContextMenuAsyncAction(AskRemoveFiber, CanRemoveFiber),
                 CommandParameter = route
             });
         }

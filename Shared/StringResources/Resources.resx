@@ -2591,9 +2591,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Free_space_threshold" xml:space="preserve">
     <value>Free space threshold:</value>
   </data>
-	<data name="SID_Remove_Event_log_records" xml:space="preserve">
-    <value>Remove "Event log" records</value>
-  </data>
 	<data name="SID_Execute" xml:space="preserve">
     <value>Execute</value>
   </data>
@@ -2642,9 +2639,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Events_and_reflectogram_removal" xml:space="preserve">
     <value>Events and reflectogram removal</value>
   </data>
-	<data name="SID_Event_log_cleaning" xml:space="preserve">
-    <value>Event log cleaning</value>
-  </data>
 	<data name="SID_Up_to" xml:space="preserve">
     <value>Up to</value>
   </data>
@@ -2671,9 +2665,6 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Snapshot_created_" xml:space="preserve">
     <value>Snapshot created.</value>
-  </data>
-	<data name="SID_Event_log_clearing" xml:space="preserve">
-    <value>Event log clearing up to and including</value>
   </data>
 	<data name="SID_Collecting_data_for_event_log___" xml:space="preserve">
     <value>Collecting event log data...</value>
@@ -3033,6 +3024,15 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_With_user_s_account_to_workstation_linking" xml:space="preserve">
 		<value>With user's account to workstation linking</value>
 	</data>
+	<data name="SID_Reveal_trace" xml:space="preserve">
+		<value>Reveal trace</value>
+	</data>
+	<data name="SID_Highlight_trace" xml:space="preserve">
+		<value>Highlight trace</value>
+	</data>
+	<data name="SID_Trace_definition_mode__Minimum_zoom__0_" xml:space="preserve">
+		<value>Trace definition mode: Minimum zoom {0}</value>
+	</data>
 	<data name="SID_License_could_not_be_applied_" xml:space="preserve">
 		<value>License could not be applied!</value>
 	</data>
@@ -3047,5 +3047,104 @@ Please install IIS before installing Fibertest Web Component.</value>
 	</data>
 	<data name="SID_Additional_OS_info_" xml:space="preserve">
 		<value>Additional OS info:</value>
+	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTAU_problem" xml:space="preserve">
+		<value>Measurement on port {0}, trace "{1}" failed. OTAU problem</value>
+	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTDR_problem" xml:space="preserve">
+		<value>Measurement on port {0}, trace "{1}" failed. OTDR problem</value>
+	</data>
+	<data name="SID_Tools" xml:space="preserve">
+		<value>Tools</value>
+	</data>
+	<data name="SID_Graph_visibility_settings" xml:space="preserve">
+		<value>Graph visibility settings</value>
+	</data>
+	<data name="SID_High_density_graph" xml:space="preserve">
+		<value>High density graph</value>
+	</data>
+	<data name="SID_Graph_is_visible_from_zoom" xml:space="preserve">
+		<value>Graph is visible from zoom:</value>
+	</data>
+	<data name="SID_Out_of_screen_part" xml:space="preserve">
+		<value>Out of screen part of rendered graph (%):</value>
+	</data>
+	<data name="SID_High_density_graph_explanation" xml:space="preserve">
+		<value>A large number of nodes, for example: networks of large cities with branched cable ducts, PON networks, etc.</value>
+	</data>
+	<data name="SID_Could_be_changed_after_installation" xml:space="preserve">
+		<value>The mode could be changed after installation in application settings</value>
+	</data>
+	<data name="SID_Graph_of_traces_optimization" xml:space="preserve">
+		<value>Graph of traces optimization</value>
+	</data>
+	<data name="SID_DB_optimization__" xml:space="preserve">
+		<value>DB optimization: </value>
+	</data>
+	<data name="SID__0__unused_nodes_found" xml:space="preserve">
+		<value>{0} unused nodes found</value>
+	</data>
+	<data name="SID__0__unused_fibers_found" xml:space="preserve">
+		<value>{0} unused fibers found</value>
+	</data>
+	<data name="SID_Remove_unused" xml:space="preserve">
+		<value>Remove nodes and fibers which are not used in any trace</value>
+	</data>
+	<data name="SID_Db_restructuring" xml:space="preserve">
+		<value>DB restructuring</value>
+	</data>
+	<data name="SID_Server_performance_improvement" xml:space="preserve">
+		<value>Server performance improvement</value>
+	</data>
+	<data name="SID_Remove_unused_explanation" xml:space="preserve">
+		<value>The sections marked in blue, the nodes associated with them, as well as free-standing nodes will be deleted.</value>
+	</data>
+	<data name="SID_Graph_of_traces_optimization_failed___0_" xml:space="preserve">
+		<value>Graph of traces optimization failed: {0}</value>
+	</data>
+	<data name="SID_Successfully_optimized_graph_of_traces_" xml:space="preserve">
+		<value>Successfully optimized graph of traces!</value>
+	</data>
+	<data name="SID_Update_equipment" xml:space="preserve">
+		<value>Update equipment</value>
+	</data>
+	<data name="SID_Telecommunications_equipment" xml:space="preserve">
+		<value>Telecommunications equipment</value>
+	</data>
+	<data name="SID_Equipment__0__will_be_deleted" xml:space="preserve">
+		<value>Equipment {0} will be deleted</value>
+	</data>
+	<data name="SID_RTU_port_links_to_this_equipment_will_be_deleted" xml:space="preserve">
+		<value>RTU port links to this equipment will be deleted</value>
+	</data>
+	<data name="SID_Slot" xml:space="preserve">
+		<value>Slot</value>
+	</data>
+	<data name="SID_Update_components" xml:space="preserve">
+		<value>Update components</value>
+	</data>
+	<data name="SID_Map_TCE_to_RTU" xml:space="preserve">
+		<value>Map to RTU</value>
+	</data>
+	<data name="SID_Change_slot_count" xml:space="preserve">
+		<value>Change slot count</value>
+	</data>
+	<data name="SID_Interface_No" xml:space="preserve">
+		<value>Interface no.</value>
+	</data>
+	<data name="SID_Slot_count" xml:space="preserve">
+		<value>Slot count</value>
+	</data>
+	<data name="SID_Interface_count" xml:space="preserve">
+		<value>Interface count</value>
+	</data>
+	<data name="SID_Slot__0_" xml:space="preserve">
+		<value>Slot {0}</value>
+	</data>
+	<data name="SID_Equipment_components" xml:space="preserve">
+		<value>Equipment components</value>
+	</data>
+	<data name="SID_Clear" xml:space="preserve">
+		<value>Clear</value>
 	</data>
 </root>

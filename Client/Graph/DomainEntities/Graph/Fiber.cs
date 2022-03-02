@@ -31,6 +31,22 @@ namespace Iit.Fibertest.Graph
                 States.Remove(traceId);
         }
 
+        public List<Guid> HighLights { get; set; } = new List<Guid>();
+
+        public void SetLightOnOff(Guid traceId, bool light)
+        {
+            if (HighLights == null) HighLights = new List<Guid>();
+            if (light && !HighLights.Contains(traceId))
+            {
+                HighLights.Add(traceId);
+            }
+
+            if (!light && HighLights.Contains(traceId))
+            {
+                HighLights.Remove(traceId);
+            }
+        }
+
         public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new Dictionary<Guid, FiberState>();
 
         public void SetBadSegment(Guid traceId, FiberState lossCoeffSeriousness)

@@ -171,7 +171,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void ApplyEventSourcingEvents(string[] events)
+        private async void ApplyEventSourcingEvents(string[] events)
         {
             foreach (var json in events)
             {
@@ -183,7 +183,7 @@ namespace Iit.Fibertest.Client
                 {
                     _readModel.Apply(evnt);
 
-                    _eventsOnGraphExecutor.Apply(evnt);
+                    await _eventsOnGraphExecutor.Apply(evnt);
                     _eventsOnTreeExecutor.Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
                     _networkEventsDoubleViewModel.Apply(evnt);

@@ -10,15 +10,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentUser _currentUser;
 
-        public AccidentEventsOnGraphExecutor(GraphReadModel graphReadModel, Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu,
+        public AccidentEventsOnGraphExecutor(GraphReadModel graphReadModel, Model readModel, 
             CurrentUser currentUser)
         {
             _graphReadModel = graphReadModel;
             _readModel = readModel;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentUser = currentUser;
         }
 
@@ -28,10 +26,7 @@ namespace Iit.Fibertest.Client
             if (trace == null || _currentUser.ZoneId != Guid.Empty &&
                                     !trace.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
-            if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId)) return;
             _graphReadModel.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
-          //  _graphReadModel.ChangeTraceColor(evnt.TraceId, evnt.TraceState == FiberState.Unknown ? FiberState.Ok : evnt.TraceState);
-
             _graphReadModel.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn
             if (evnt.TraceState != FiberState.Unknown && evnt.TraceState != FiberState.Ok && evnt.TraceState != FiberState.NoFiber)
                 evnt.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, evnt.TraceId));

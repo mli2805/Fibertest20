@@ -40,17 +40,19 @@ namespace Iit.Fibertest.Client
             _c2RWcfManager = c2RWcfManager;
         }
 
-        public void MeasurementClientAction(object param)
+        public async Task MeasurementClientAction(object param)
         {
             var parent = GetParent(param);
             if (parent == null) return;
 
+            await Task.Delay(0);
             if (_clientMeasurementViewModel.Initialize(parent, GetPortNumber(param)))
                 _windowManager.ShowDialogWithAssignedOwner(_clientMeasurementViewModel);
         }
 
-        public void MeasurementRftsReflectAction(object param)
+        public async Task MeasurementRftsReflectAction(object param)
         {
+            await Task.Delay(0);
             var parent = GetParent(param);
             if (parent != null)
                 DoMeasurementRftsReflect(parent, GetPortNumber(param));

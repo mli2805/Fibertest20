@@ -18,11 +18,11 @@ namespace Iit.Fibertest.Client
         {
             if (!model.Validate(request))
                 return;
-
+        
             List<Guid> traceNodes = await model.GetPath(request);
             if (traceNodes == null)
                 return;
-
+        
             var traceId = Guid.NewGuid();
             var fiberIds = model.ReadModel.GetFibersAtTraceCreation(traceNodes).ToList();
             if (fiberIds.Count + 1 != traceNodes.Count)
@@ -31,30 +31,33 @@ namespace Iit.Fibertest.Client
                 model.WindowManager.ShowDialogWithAssignedOwner(errVm);
                 return;
             }
-            model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.HighLighted);
+            model.SetFutureTraceLightOnOff(traceId, fiberIds, true);
             try
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Confirmation, Resources.SID_Accept_the_path);
                 model.WindowManager.ShowDialogWithAssignedOwner(vm);
-
+        
                 if (!vm.IsAnswerPositive) return;
-
+        
                 List<Guid> traceEquipments = model.CollectEquipment(traceNodes);
-
+        
                 if (traceEquipments == null)
                     return;
-
+        
                 var traceAddViewModel = model.GlobalScope.Resolve<TraceInfoViewModel>();
                 await traceAddViewModel.Initialize(traceId, traceEquipments, traceNodes, true);
                 model.WindowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
-                if (traceAddViewModel.IsCreatedSuccessfully)
-                    return;
+                // if (traceAddViewModel.IsCreatedSuccessfully)
+                    // return;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.NotInTrace);
+            finally
+            {
+                model.SetFutureTraceLightOnOff(traceId, fiberIds, false);
+            }
         }
 
         private static bool Validate(this GraphReadModel model, RequestAddTrace request)
@@ -65,13 +68,13 @@ namespace Iit.Fibertest.Client
             return false;
         }
 
-        private static async Task<List<Guid>> GetPath(this GraphReadModel model, RequestAddTrace request)
+        private static async Task<List<Guid>> GetPath(this GraphReadModel graphReadModel, RequestAddTrace request)
         {
             var vm = new WaitViewModel();
             vm.Initialize(LongOperation.PathFinding);
-            model.WindowManager.ShowWindowWithAssignedOwner(vm);
+            graphReadModel.WindowManager.ShowWindowWithAssignedOwner(vm);
 
-            var pathFinder = new PathFinder(model);
+            var pathFinder = new PathFinder(graphReadModel.ReadModel);
             var path = await Task.Factory.StartNew(() => pathFinder.FindPath(request.NodeWithRtuId, request.LastNodeId).Result);
 
             vm.TryClose();
@@ -84,7 +87,7 @@ namespace Iit.Fibertest.Client
                     "",
                     Resources.SID_Load_additional_data_,
                 };
-                model.WindowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, strs));
+                graphReadModel.WindowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, strs));
             }
 
             return path;
@@ -104,39 +107,7 @@ namespace Iit.Fibertest.Client
             return equipments;
         }
 
-        public static Guid ChooseEquipmentForNode(this GraphReadModel model, Guid nodeId, bool isLastNode, out string dualName)
-        {
-            dualName = null;
-            var nodeVm = model.Data.Nodes.First(n => n.Id == nodeId);
-            var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-
-            if (allEquipmentInNode.Count == 1 && allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint)
-                return allEquipmentInNode[0].EquipmentId;
-
-            if (allEquipmentInNode.Count == 1 && !string.IsNullOrEmpty(nodeVm.Title))
-            {
-                dualName = nodeVm.Title;
-                var equipment =
-                    model.ReadModel.Equipments.First(e => e.EquipmentId == allEquipmentInNode[0].EquipmentId);
-                if (!string.IsNullOrEmpty(equipment.Title))
-                    dualName = dualName + @" / " + equipment.Title;
-                return allEquipmentInNode[0].EquipmentId;
-            }
-
-            var node = model.ReadModel.Nodes.First(n => n.NodeId == nodeId);
-            nodeVm.IsHighlighted = true;
-            var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
-            traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, isLastNode);
-            model.WindowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
-            model.ExtinguishNodes();
-            if (!traceContentChoiceViewModel.ShouldWeContinue) // user left the process
-                return Guid.Empty;
-
-            var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
-            dualName = traceContentChoiceViewModel.GetSelectedDualName();
-            return selectedEquipmentGuid;
-
-        }
+      
 
     }
 }

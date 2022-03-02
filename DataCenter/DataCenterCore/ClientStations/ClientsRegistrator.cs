@@ -19,7 +19,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var licenseCount = collection.WriteModel.GetSuperClientStationLicenseCount();
                 if (licenseCount == 0)
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
-                if (collection.Clients.Count(c => c.UserRole == Role.Superclient) >= licenseCount
+                if (collection.Clients.Count(c => c.UserRole == Role.SuperClient) >= licenseCount
                     && collection.Clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
             }
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (dto.IsUnderSuperClient)
             {
-                if (!user.Role.IsSuperclientPermitted())
+                if (!user.Role.IsSuperClientPermitted())
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient };
             }
             else if (dto.IsWebClient)

@@ -24,38 +24,38 @@ namespace Iit.Fibertest.Client
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Information,
-                Command = new ContextMenuAction(_nodeVmActions.AskUpdateNode, _nodeVmPermissions.CanUpdateNode),
+                Command = new ContextMenuAsyncAction(_nodeVmActions.AskUpdateNode, _nodeVmPermissions.CanUpdateNode),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Add_Equipment,
-                Command = new ContextMenuAction(_nodeVmActions.AskAddEquipment, _nodeVmPermissions.CanAddEquipment),
+                Command = new ContextMenuAsyncAction(_nodeVmActions.AskAddEquipment, _nodeVmPermissions.CanAddEquipment),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Landmarks,
-                Command = new ContextMenuAction(_nodeVmActions.AskLandmarks, _nodeVmPermissions.CanLandmarks),
+                Command = new ContextMenuAsyncAction(_nodeVmActions.AskLandmarks, _nodeVmPermissions.CanLandmarks),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = isAdjustmentPoint ? Resources.SID_Remove_adjustment_point : Resources.SID_Remove_node,
-                Command = new ContextMenuAction(_nodeVmActions.AskRemoveNode, _nodeVmPermissions.CanRemoveNode),
+                Command = new ContextMenuAsyncAction(_nodeVmActions.AskRemoveNode, _nodeVmPermissions.CanRemoveNode),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Section,
-                Command = new ContextMenuAction(_commonVmActions.StartAddFiber, _nodeVmPermissions.CanStartAddFiber),
+                Command = new ContextMenuAsyncAction(_commonVmActions.StartAddFiber, _nodeVmPermissions.CanStartAddFiber),
                 CommandParameter = marker
             });
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Section_with_nodes,
-                Command = new ContextMenuAction(_commonVmActions.StartAddFiberWithNodes, _nodeVmPermissions.CanStartAddFiberWithNodes),
+                Command = new ContextMenuAsyncAction(_commonVmActions.StartAddFiberWithNodes, _nodeVmPermissions.CanStartAddFiberWithNodes),
                 CommandParameter = marker
             });
             return contextMenu;

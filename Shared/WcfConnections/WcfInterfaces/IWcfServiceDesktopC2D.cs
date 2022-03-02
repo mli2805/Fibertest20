@@ -48,6 +48,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<byte[]> GetModelPortion(int portionOrdinal);
         #endregion
 
+        [OperationContract]
+        Task<bool> RemoveUnused();
+
         #region Settings
         [OperationContract]
         Task<bool> SaveSmtpSettings(SmtpSettingsDto dto);

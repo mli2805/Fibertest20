@@ -127,6 +127,40 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public static string RemoveUnused(this Model model)
+        {
+            var allTracesNodes = new HashSet<Guid>();
+            var allTracesFibers = new HashSet<Guid>();
+            foreach (var trace in model.Traces)
+            {
+                allTracesNodes.UnionWith(trace.NodeIds);
+                allTracesFibers.UnionWith(trace.FiberIds);
+            }
+
+            for (int i = model.Fibers.Count - 1; i >= 0; i--)
+            {
+                if (!allTracesFibers.Contains(model.Fibers[i].FiberId))
+                    model.Fibers.Remove(model.Fibers[i]);
+            }
+
+            for (int i = model.Nodes.Count - 1; i >= 0; i--)
+            {
+                if (!allTracesNodes.Contains(model.Nodes[i].NodeId)                  // not in traces
+                    && model.Nodes[i].AccidentOnTraceId == Guid.Empty                // not an accident
+                    && model.Rtus.All(r => r.NodeId != model.Nodes[i].NodeId))   // not an RTU
+                {
+                    for (int j = model.Equipments.Count - 1; j >= 0; j--)
+                    {
+                        if (model.Equipments[j].NodeId == model.Nodes[i].NodeId)
+                            model.Equipments.Remove(model.Equipments[j]);
+                    }
+                    model.Nodes.Remove(model.Nodes[i]);
+                }
+            }
+
+            return null;
+        }
+
         public static string RemoveNode(this Model model, NodeRemoved e)
         {
             foreach (var trace in model.Traces.Where(t => t.NodeIds.Contains(e.NodeId)))
@@ -252,6 +286,5 @@ namespace Iit.Fibertest.Graph
             model.Nodes.Remove(node);
             return null;
         }
-
     }
 }

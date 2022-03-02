@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -24,11 +25,12 @@ namespace Iit.Fibertest.Client
             _traceToAttachViewModel = traceToAttachViewModel;
         }
 
-        public void AttachTraceFromListAction(object param)
+        public async Task AttachTraceFromListAction(object param)
         {
             if (!(param is PortLeaf portLeaf))
                 return;
 
+            await Task.Delay(0);
             var rtuId = portLeaf.Parent is RtuLeaf ? portLeaf.Parent.Id : portLeaf.Parent.Parent.Id;
             var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
 
@@ -64,11 +66,12 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(_traceToAttachViewModel);
         }
 
-        public void AttachOtauAction(object param)
+        public async Task AttachOtauAction(object param)
         {
             if (!(param is PortLeaf portLeaf))
                 return;
 
+            await Task.Delay(0);
             _otauToAttachViewModel.Initialize(portLeaf.Parent.Id, portLeaf.PortNumber);
             _windowManager.ShowDialogWithAssignedOwner(_otauToAttachViewModel);
         }

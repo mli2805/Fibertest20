@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -16,18 +15,20 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _model;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly CurrentGis _currentGis;
         private readonly IWindowManager _windowManager;
         private readonly RtuRemover _rtuRemover;
+        private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
-        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentlyHiddenRtu currentlyHiddenRtu,
-           IWindowManager windowManager, RtuRemover rtuRemover)
+        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentGis currentGis,
+           IWindowManager windowManager, RtuRemover rtuRemover, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
             _model = model;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
+            _currentGis = currentGis;
             _windowManager = windowManager;
             _rtuRemover = rtuRemover;
+            _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
         public void AddRtuAtGpsLocation(RequestAddRtuAtGpsLocation request)
@@ -51,11 +52,9 @@ namespace Iit.Fibertest.Client
             return await _rtuRemover.Fire(rtu);
         }
 
-     
-        public void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)
-        {
-            if (!AskRevealTracesIfHidden(rtuNodeId)) return;
 
+        public async void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)
+        {
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
             if (vm.IsOpen)
             {
@@ -63,40 +62,13 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm1);
                 return;
             }
-            vm.Initialize(rtuNodeId, rtuTitle);
-            _windowManager.ShowWindowWithAssignedOwner(vm);
-        }
 
-        public bool AskRevealTracesIfHidden(Guid rtuNodeId)
-        {
-            var rtuId = _model.Rtus.First(r => r.NodeId == rtuNodeId).Id;
-            if (_currentlyHiddenRtu.Collection.Contains(rtuId))
+            _commonStatusBarViewModel.StatusBarMessage2 = string.Format(Resources.SID_Trace_definition_mode__Minimum_zoom__0_, _currentGis.ThresholdZoom);
+            using (_globalScope.Resolve<IWaitCursor>())
             {
-                var strs = new List<string>()
-                {
-                    Resources.SID_RTU_shoud_be_in_Reveal_Traces_Mode_,
-                    "",
-                    Resources.SID_Reveal_traces + @" ?",
-                };
-                var mb = new MyMessageBoxViewModel(MessageType.Confirmation, strs, 0);
-                _windowManager.ShowDialogWithAssignedOwner(mb);
-                if (!mb.IsAnswerPositive) return false;
-                ChangeRtuTracesVisibility(rtuNodeId);
+                var unused = await vm.Initialize(rtuNodeId, rtuTitle);
             }
-            return true;
-        }
-
-        public void ChangeRtuTracesVisibility(Guid rtuNodeId)
-        {
-            var rtu = _model.Rtus.First(r => r.NodeId == rtuNodeId);
-            _currentlyHiddenRtu.IsHideAllPressed = false;
-            _currentlyHiddenRtu.IsShowAllPressed = false;
-
-            if (_currentlyHiddenRtu.Collection.Contains(rtu.Id))
-                _currentlyHiddenRtu.Collection.Remove(rtu.Id);
-            else
-                _currentlyHiddenRtu.Collection.Add(rtu.Id);
-            _currentlyHiddenRtu.ChangedRtu = rtu.Id;
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
     }
 }

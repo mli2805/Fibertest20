@@ -2591,9 +2591,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Free_space_threshold" xml:space="preserve">
     <value>Порог свободного места:</value>
   </data>
-	<data name="SID_Remove_Event_log_records" xml:space="preserve">
-    <value>Удаление записей "Журнала операций"</value>
-  </data>
 	<data name="SID_Execute" xml:space="preserve">
     <value>Выполнить</value>
   </data>
@@ -2642,9 +2639,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Events_and_reflectogram_removal" xml:space="preserve">
     <value>Удаление событий и рефлектограмм</value>
   </data>
-	<data name="SID_Event_log_cleaning" xml:space="preserve">
-    <value>Очистка журнала операций</value>
-  </data>
 	<data name="SID_Up_to" xml:space="preserve">
     <value>По дату</value>
   </data>
@@ -2671,9 +2665,6 @@ RTU инициализируется в данный момент!</value>
   </data>
 	<data name="SID_Snapshot_created_" xml:space="preserve">
     <value>Модель создана.</value>
-  </data>
-	<data name="SID_Event_log_clearing" xml:space="preserve">
-    <value>Очистка Журнала операций по дату включительно</value>
   </data>
 	<data name="SID_Collecting_data_for_event_log___" xml:space="preserve">
     <value>Сбор данных Журнала операций...</value>
@@ -3033,6 +3024,15 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_With_user_s_account_to_workstation_linking" xml:space="preserve">
 		<value>С привязкой учетной записи пользователя к рабочему месту</value>
 	</data>
+	<data name="SID_Reveal_trace" xml:space="preserve">
+		<value>Отобразить трассу</value>
+	</data>
+	<data name="SID_Highlight_trace" xml:space="preserve">
+		<value>Подсветить трассу</value>
+	</data>
+	<data name="SID_Trace_definition_mode__Minimum_zoom__0_" xml:space="preserve">
+		<value>Режим определения трассы: Минимальный зум {0}</value>
+	</data>
 	<data name="SID_License_could_not_be_applied_" xml:space="preserve">
 		<value>Лицензия не может быть применена!</value>
 	</data>
@@ -3047,5 +3047,104 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Additional_OS_info_" xml:space="preserve">
 		<value>Дополнительные сведения ОС</value>
+	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTAU_problem" xml:space="preserve">
+		<value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка переключателя</value>
+	</data>
+	<data name="SID_Measurement_on_port__0___trace___1___failed__OTDR_problem" xml:space="preserve">
+		<value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка рефлектометра</value>
+	</data>
+	<data name="SID_Tools" xml:space="preserve">
+		<value>Инструменты</value>
+	</data>
+	<data name="SID_Graph_visibility_settings" xml:space="preserve">
+		<value>Настройки отображения графа</value>
+	</data>
+	<data name="SID_High_density_graph" xml:space="preserve">
+		<value>Граф большой плотности</value>
+	</data>
+	<data name="SID_Graph_is_visible_from_zoom" xml:space="preserve">
+		<value>Граф отображается начиная с зума:</value>
+	</data>
+	<data name="SID_Out_of_screen_part" xml:space="preserve">
+		<value>Неотображаемая на экране часть выгруженного графа (%):</value>
+	</data>
+	<data name="SID_High_density_graph_explanation" xml:space="preserve">
+		<value>Большое количество узлов, например: сети крупных городов с разветвленной кабельной канализацией, PON сети и т.п.</value>
+	</data>
+	<data name="SID_Could_be_changed_after_installation" xml:space="preserve">
+		<value>Режим может быть изменен после инсталляции в настройках приложения</value>
+	</data>
+	<data name="SID_Graph_of_traces_optimization" xml:space="preserve">
+		<value>Оптимизация графа трасс</value>
+	</data>
+	<data name="SID_DB_optimization__" xml:space="preserve">
+		<value>Оптимизация БД: </value>
+	</data>
+	<data name="SID__0__unused_nodes_found" xml:space="preserve">
+		<value>найденно неиспользуемых узлов {0}</value>
+	</data>
+	<data name="SID__0__unused_fibers_found" xml:space="preserve">
+		<value>найденно неиспользуемых волокон {0}</value>
+	</data>
+	<data name="SID_Remove_unused" xml:space="preserve">
+		<value>Удаление узлов и участков не входящих в состав трасс</value>
+	</data>
+	<data name="SID_Db_restructuring" xml:space="preserve">
+		<value>Реструктуризация БД</value>
+	</data>
+	<data name="SID_Server_performance_improvement" xml:space="preserve">
+		<value>Повышение производительности сервера</value>
+	</data>
+	<data name="SID_Remove_unused_explanation" xml:space="preserve">
+		<value>Будут удалены участки обозначенные голубым цветом, связанные с ними узлы, а также отдельно стоящие узлы.</value>
+	</data>
+	<data name="SID_Graph_of_traces_optimization_failed___0_" xml:space="preserve">
+		<value>Ошибка оптимизации графа трасс: {0}</value>
+	</data>
+	<data name="SID_Successfully_optimized_graph_of_traces_" xml:space="preserve">
+		<value>Оптимизация графа трасс успешно завершена!</value>
+	</data>
+	<data name="SID_Update_equipment" xml:space="preserve">
+		<value>Изменить оборудование</value>
+	</data>
+	<data name="SID_Telecommunications_equipment" xml:space="preserve">
+		<value>Телекоммуникационное оборудование</value>
+	</data>
+	<data name="SID_Equipment__0__will_be_deleted" xml:space="preserve">
+		<value>Оборудование {0} будет удалено</value>
+	</data>
+	<data name="SID_RTU_port_links_to_this_equipment_will_be_deleted" xml:space="preserve">
+		<value>Связи оборудования с портами RTU будут удалены</value>
+	</data>
+	<data name="SID_Slot" xml:space="preserve">
+		<value>Слот</value>
+	</data>
+	<data name="SID_Update_components" xml:space="preserve">
+		<value>Изменить компоненты</value>
+	</data>
+	<data name="SID_Map_TCE_to_RTU" xml:space="preserve">
+		<value>Связать с RTU</value>
+	</data>
+	<data name="SID_Change_slot_count" xml:space="preserve">
+		<value>Изменить количество слотов</value>
+	</data>
+	<data name="SID_Interface_No" xml:space="preserve">
+		<value>Интерфейс №</value>
+	</data>
+	<data name="SID_Slot_count" xml:space="preserve">
+		<value>Количество слотов</value>
+	</data>
+	<data name="SID_Interface_count" xml:space="preserve">
+		<value>Количество интерфейсов</value>
+	</data>
+	<data name="SID_Slot__0_" xml:space="preserve">
+		<value>Слот {0}</value>
+	</data>
+	<data name="SID_Equipment_components" xml:space="preserve">
+		<value>Компоненты оборудования</value>
+	</data>
+	<data name="SID_Clear" xml:space="preserve">
+		<value>Очистить</value>
 	</data>
 </root>

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace Iit.Fibertest.Client
 {
@@ -41,7 +43,8 @@ namespace Iit.Fibertest.Client
         public readonly ILifetimeScope GlobalScope;
         public readonly IniFile IniFile;
 
-        public GrmData Data { get; set; } = new GrmData();
+        public GraphReadModelData Data { get; set; } = new GraphReadModelData();
+        public List<Trace> ForcedTraces { get; set; } = new List<Trace>();
 
         public List<GraphVisibilityLevelItem> GraphVisibilityItems { get; set; }
         private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
@@ -96,6 +99,19 @@ namespace Iit.Fibertest.Client
             IsInGisVisibleMode = ((CurrentGis)sender).IsGisOn;
         }
 
+        public async Task<int> RefreshVisiblePart()
+        {
+            var renderingResult = CurrentUser.ZoneId == Guid.Empty
+                ? await this.RenderForFullGraphUser()
+                : await this.RenderForZoneUser(CurrentUser.ZoneId);
+
+            var nodeVmCount = await this.ToExistingGraph(renderingResult);
+
+            if (MainMap != null)
+                MainMap.NodeCountString = $@" {ReadModel.Nodes.Count} / {nodeVmCount}";
+
+            return nodeVmCount;
+        }
 
         public void SetGraphVisibility(GraphVisibilityLevel level)
         {
@@ -104,51 +120,74 @@ namespace Iit.Fibertest.Client
             IniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, level.ToString());
         }
 
-        public void PlaceRtuIntoScreenCenter(Guid rtuId)
-        {
-            var rtu = ReadModel.Rtus.First(r => r.Id == rtuId);
-
-            var nodeVm = Data.Nodes.First(n => n.Id == rtu.NodeId);
-            nodeVm.IsHighlighted = true;
-            MainMap.Position = nodeVm.Position;
-        }
-
-        public void PlaceNodeIntoScreenCenter(Guid nodeId)
-        {
-            var nodeVm = Data.Nodes.First(n => n.Id == nodeId);
-            nodeVm.IsHighlighted = true;
-            MainMap.Position = nodeVm.Position;
-        }
-
         public void PlacePointIntoScreenCenter(PointLatLng position)
         {
-            MainMap.Position = position;
+            MainMap.SetPosition(position);
         }
 
-        public void HighlightTrace(Guid rtuNodeId, List<Guid> fibers)
+        public void ShowTrace(Trace trace)
         {
-            var rtuNodeVm = Data.Nodes.First(n => n.Id == rtuNodeId);
-            MainMap.Position = rtuNodeVm.Position;
-            foreach (var fiberId in fibers)
+            // RTU into screen center
+            var node = ReadModel.Nodes.First(n => n.NodeId == trace.NodeIds[0]);
+            MainMap.SetPosition(node.Position);
+
+            HighlightTrace(trace);
+        }
+
+        public void NodeToCenterAndHighlight(Guid nodeId)
+        {
+            var node = ReadModel.Nodes.First(n => n.NodeId == nodeId);
+            MainMap.SetPosition(node.Position);
+
+            node.IsHighlighted = true;
+            var nodeVm = Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (nodeVm != null)
+                nodeVm.IsHighlighted = true;
+        }
+
+        public void HighlightTrace(Trace trace)
+        {
+            SetTraceLight(trace, true);
+        }
+
+        public void ExtinguishTrace(Trace trace)
+        {
+            SetTraceLight(trace, false);
+        }
+
+        private void SetTraceLight(Trace trace, bool highlight)
+        {
+            foreach (var fiberId in trace.FiberIds)
             {
-                var fiber = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
-                if (fiber != null)
-                    fiber.IsHighlighted = true;
+                ReadModel.Fibers.First(f => f.FiberId == fiberId).SetLightOnOff(trace.TraceId, highlight);
+
+                var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiberVm != null)
+                    fiberVm.SetLightOnOff(trace.TraceId, highlight);
             }
         }
 
-        public void Extinguish()
+        public void ExtinguishAll()
         {
-            foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
-                nodeVm.IsHighlighted = false;
-
-            foreach (var fiberVm in Data.Fibers.Where(f => f.IsHighlighted))
-                fiberVm.IsHighlighted = false;
+            ForcedTraces.Clear();
+            ExtinguishAllNodes();
+            ExtinguishAllFibers();
         }
-        public void ExtinguishNodes()
+
+        public void ExtinguishAllNodes()
         {
-            foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
-                nodeVm.IsHighlighted = false;
+            for (int i = 0; i < Data.Nodes.Count; i++)
+                Data.Nodes[i].IsHighlighted = false;
+            for (int i = 0; i < ReadModel.Nodes.Count; i++)
+                ReadModel.Nodes[i].IsHighlighted = false;
+        }
+
+        private void ExtinguishAllFibers()
+        {
+            for (int i = 0; i < Data.Fibers.Count; i++)
+                Data.Fibers[i].ClearLight();
+            for (int i = 0; i < ReadModel.Fibers.Count; i++)
+                ReadModel.Fibers[i].HighLights = new List<Guid>();
         }
 
         public void ChangeTraceColor(Guid traceId, FiberState state)
@@ -168,22 +207,31 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
+        public void SetFutureTraceLightOnOff(Guid traceId, List<Guid> fiberIds, bool light)
+        {
+            foreach (var fiberId in fiberIds)
+            {
+                var fiber = ReadModel.Fibers.First(f => f.FiberId == fiberId);
+                fiber.SetLightOnOff(traceId, light);
+
+                var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                fiberVm?.SetLightOnOff(traceId, light);
+            }
+        }
+
+        public void ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
         {
             foreach (var fiberId in fiberIds)
             {
                 var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
-                if (fiberVm == null)
+                if (fiberVm != null)
                 {
-                    LogFile.AppendLine($@"Fiber {fiberId.First6()} was not found");
-                    return false;
+                    if (state != FiberState.NotInTrace)
+                        fiberVm.SetState(traceId, state);
+                    else
+                        fiberVm.RemoveState(traceId);
                 }
-                if (state != FiberState.NotInTrace)
-                    fiberVm.SetState(traceId, state);
-                else
-                    fiberVm.RemoveState(traceId);
             }
-            return true;
         }
     }
 }

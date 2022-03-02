@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Requests;
 
@@ -13,7 +14,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
         }
 
-        public async void AddNodeOnClick(object param)
+        public async Task AddNodeOnClick(object param)
         {
             if (!(param is EquipmentType equipmentType)) return;
 
@@ -41,14 +42,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void CopyCoordinatesToClipboard(object parameter)
+        public async Task CopyCoordinatesToClipboard(object parameter)
         {
+            await Task.Delay(0);
             var position = _graphReadModel.MainMap.FromLocalToLatLng(_graphReadModel.MainMap.ContextMenuPoint);
             Clipboard.SetText(position.ToString());
         }
 
-        public void ToggleToDistanceMeasurementMode(object parameter)
+        public async Task ToggleToDistanceMeasurementMode(object parameter)
         {
+            await Task.Delay(0);
             if (!_graphReadModel.MainMap.IsInDistanceMeasurementMode)
             {
                 _graphReadModel.CommonStatusBarViewModel.StatusBarMessage2 = StringResources.Resources.SID_Distance_measurement_mode;

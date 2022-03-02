@@ -26,16 +26,13 @@ namespace Iit.Fibertest.Client
         private readonly LandmarksViewsManager _landmarksViewsManager;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
-        private readonly RenderingManager _renderingManager;
 
         public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
-            CommonStatusBarViewModel commonStatusBarViewModel,
-            CurrentlyHiddenRtu currentlyHiddenRtu, RenderingManager renderingManager)
+            CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -49,11 +46,9 @@ namespace Iit.Fibertest.Client
             _landmarksViewsManager = landmarksViewsManager;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
-            _renderingManager = renderingManager;
         }
 
-        public async void UpdateTrace(object param)
+        public async Task UpdateTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
@@ -65,63 +60,52 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public async void HighlightTrace(object param)
+        public async Task ShowTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
-            var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-
-            if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
-            {
-                _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
-                var unused = await _renderingManager.RenderOnRtuChanged();
-            }
-            _graphReadModel.HighlightTrace(trace.NodeIds[0], trace.FiberIds);
-            trace.IsHighlighted = true;
-
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
-        }
+            await Task.Delay(100);
 
-        public async void RevealTrace(object param)
-        {
-            if (!(param is TraceLeaf traceLeaf))
-                return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            var unused = await _renderingManager.RenderOnTraceChanged(trace);
-           // render trace
+            if (_graphReadModel.ForcedTraces.All(t => t.TraceId != traceLeaf.Id))
+                _graphReadModel.ForcedTraces.Add(trace);
 
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-                _tabulatorViewModel.SelectedTabIndex = 3;
+            _graphReadModel.ShowTrace(trace);
         }
 
-        public void AssignBaseRefs(object param)
+        public async Task AssignBaseRefs(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
+
+            await Task.Delay(0);
 
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _baseRefsAssignViewModel.Initialize(trace);
             _windowManager.ShowDialogWithAssignedOwner(_baseRefsAssignViewModel);
         }
 
-        public void ShowTraceState(object param)
+        public async Task ShowTraceState(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
+            await Task.Delay(0);
             _traceStateViewsManager.ShowTraceState(traceLeaf.Id);
         }
 
-        public void ShowTraceStatistics(object param)
+        public async Task ShowTraceStatistics(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
+            await Task.Delay(0);
             _traceStatisticsViewsManager.Show(traceLeaf.Id);
         }
 
-        public async void ShowTraceLandmarks(object param)
+        public async Task ShowTraceLandmarks(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
@@ -129,7 +113,7 @@ namespace Iit.Fibertest.Client
             await _landmarksViewsManager.InitializeFromTrace(traceLeaf.Id, rtuNodeId);
         }
 
-        public async void DetachTrace(object param)
+        public async Task DetachTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
@@ -137,12 +121,12 @@ namespace Iit.Fibertest.Client
             await _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
         }
 
-        public async void CleanTrace(object param)
+        public async Task CleanTrace(object param)
         {
             await DoCleanOrRemoveTrace(param, false);
         }
 
-        public async void RemoveTrace(object param)
+        public async Task RemoveTrace(object param)
         {
             await DoCleanOrRemoveTrace(param, true);
         }
@@ -182,11 +166,12 @@ namespace Iit.Fibertest.Client
             return list;
         }
 
-        public void DoPreciseMeasurementOutOfTurn(object param)
+        public async Task DoPreciseMeasurementOutOfTurn(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
+            await Task.Delay(0);
             _outOfTurnPreciseMeasurementViewModel.Initialize(traceLeaf);
             _windowManager.ShowDialogWithAssignedOwner(_outOfTurnPreciseMeasurementViewModel);
         }

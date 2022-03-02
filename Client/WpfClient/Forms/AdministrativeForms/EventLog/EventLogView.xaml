@@ -34,7 +34,27 @@
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Client_Ip}" Binding="{Binding ClientIp}" Width="100"/>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Date}" Binding="{Binding Timestamp}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Date}" Binding="{Binding Timestamp}" Width="220">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Width="10000" Height="1"/>
+                                <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Date}" Margin="5,0,0,5"/>
+                                <StackPanel Orientation="Horizontal">
+                                        <DatePicker SelectedDate="{Binding Path=DataContext.DateFrom, 
+                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" 
+                                                    DisplayDate="{Binding Path=DataContext.DateFrom, 
+                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                                    <DatePicker SelectedDate="{Binding Path=DataContext.DateTo, 
+                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" 
+                                                    DisplayDate="{Binding Path=DataContext.DateTo, 
+                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                                </StackPanel>
+                            </DockPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding OperationName}" Width="200">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>

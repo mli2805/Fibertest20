@@ -32,8 +32,7 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
             _zone1Id = _sut.ReadModel.Zones[1].ZoneId;
 
-            var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
-            vm1.IsGraphVisibleOnStart = true;
+            _sut.GraphReadModel.CurrentGis.ThresholdZoom = 1;
         }
 
         [Given(@"Добавляем Оператора для Зона1")]
@@ -115,6 +114,10 @@ namespace Graph.Tests
         [Then(@"На карте видна только трасса2")]
         public void ThenНаКартеВиднаТолькоТрасса2()
         {
+            _sut.GraphReadModel.CurrentGis.ThresholdZoom = 1;
+            _sut.ShellVm.TabulatorViewModel.SelectedTabIndex = 3;
+
+            var unused = _sut.GraphReadModel.RefreshVisiblePart().Result;
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(2);
         }
 
@@ -131,8 +134,8 @@ namespace Graph.Tests
         [Given(@"Пользователь выбирает в конфигурации НЕ показывать граф при старте")]
         public void GivenПользовательВыбираетВКонфигурацииНеПоказыватьГрафПриСтарте()
         {
-            var vm = _sut.ClientScope.Resolve<ConfigurationViewModel>();
-            vm.IsGraphVisibleOnStart = false;
+            // var vm = _sut.ClientScope.Resolve<ConfigurationViewModel>();
+            // vm.IsGraphVisibleOnStart = false;
         }
 
         [Then(@"На карте только один RTU1")]

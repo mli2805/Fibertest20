@@ -54,6 +54,8 @@ namespace Iit.Fibertest.Graph
                 case UpdateFiber command: return _eventsQueue.Add(Mapper.Map<FiberUpdated>(command));
                 case RemoveFiber command: return Validate(command);
 
+                case RemoveUnused command: return _eventsQueue.Add(Mapper.Map<UnusedRemoved>(command));
+
                 case AddEquipmentIntoNode command: return Validate(command);
                 case AddEquipmentAtGpsLocation command: return _eventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationAdded>(command));
                 case AddEquipmentAtGpsLocationWithNodeTitle command: return _eventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationWithNodeTitleAdded>(command));
@@ -76,8 +78,9 @@ namespace Iit.Fibertest.Graph
                 case AttachTrace command: return Complete(command);
                 case DetachTrace command: return _eventsQueue.Add(Mapper.Map<TraceDetached>(command));
 
-                case AddOlt command: return _eventsQueue.Add(Mapper.Map<OltAdded>(command));
-                case AddGponPortRelation command: return _eventsQueue.Add(Mapper.Map<GponPortRelationAdded>(command));
+                case AddOrUpdateTce command: return _eventsQueue.Add(Mapper.Map<TceAddedOrUpdated>(command));
+                case UpdateAllTceGponRelations command: return _eventsQueue.Add(Mapper.Map<AllTceGponRelationsUpdated>(command));
+                case RemoveTce command: return _eventsQueue.Add(Mapper.Map<TceRemoved>(command));
 
                 case AddVeexTest command: return _eventsQueue.Add(Mapper.Map<VeexTestAdded>(command));
                 case RemoveVeexTest command: return _eventsQueue.Add(Mapper.Map<VeexTestRemoved>(command));

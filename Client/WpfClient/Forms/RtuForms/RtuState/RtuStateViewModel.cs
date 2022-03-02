@@ -119,6 +119,12 @@ namespace Iit.Fibertest.Client
                    return string.Format(Resources.SID_Toggling_to_the_port__0_, portName);
                 case MonitoringCurrentStep.Measure:
                     return string.Format(Resources.SID_Measurement_on_port__0___trace___1__, portName, traceTitle);
+                case MonitoringCurrentStep.FailedOtauProblem:
+                    return string.Format(Resources.SID_Measurement_on_port__0___trace___1___failed__OTAU_problem, portName,
+                        traceTitle);
+                case MonitoringCurrentStep.FailedOtdrProblem:
+                    return string.Format(Resources.SID_Measurement_on_port__0___trace___1___failed__OTDR_problem, portName,
+                        traceTitle);
                 case MonitoringCurrentStep.Analysis:
                     return string.Format(Resources.SID_Measurement_s_result_analysis__port__0____trace___1__, portName, traceTitle);
                 case MonitoringCurrentStep.Interrupted:

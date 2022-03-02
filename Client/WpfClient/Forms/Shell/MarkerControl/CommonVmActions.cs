@@ -1,17 +1,21 @@
-﻿namespace Iit.Fibertest.Client
+﻿using System.Threading.Tasks;
+
+namespace Iit.Fibertest.Client
 {
     public class CommonVmActions
     {
-        public void StartAddFiber(object parameter)
+        public async Task StartAddFiber(object parameter)
         {
+            await Task.Delay(0);
             var marker = (MarkerControl)parameter;
             marker.MainMap.IsFiberWithNodes = false;
             marker.MainMap.IsInFiberCreationMode = true;
             marker.MainMap.StartNode = marker.GMapMarker;
         }
 
-        public void StartAddFiberWithNodes(object parameter)
+        public async Task StartAddFiberWithNodes(object parameter)
         {
+            await Task.Delay(0);
             var marker = (MarkerControl)parameter;
             marker.MainMap.IsFiberWithNodes = true;
             marker.MainMap.IsInFiberCreationMode = true;

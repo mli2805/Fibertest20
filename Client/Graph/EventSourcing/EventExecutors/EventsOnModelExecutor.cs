@@ -33,6 +33,8 @@ namespace Iit.Fibertest.Graph
                     case EquipmentIntoTraceIncluded evnt: return model.IncludeEquipmentIntoTrace(evnt);
                     case EquipmentFromTraceExcluded evnt: return model.ExcludeEquipmentFromTrace(evnt);
 
+                    case UnusedRemoved _: return model.RemoveUnused();
+
                     case RtuAtGpsLocationAdded evnt: return model.AddRtuAtGpsLocation(evnt);
                     case RtuUpdated evnt: return model.UpdateRtu(evnt);
                     case RtuRemoved evnt: return model.RemoveRtu(evnt);
@@ -47,8 +49,9 @@ namespace Iit.Fibertest.Graph
                     case TraceAttached evnt: return model.AttachTrace(evnt);
                     case TraceDetached evnt: return model.DetachTrace(evnt);
 
-                    case OltAdded evnt: return model.AddOlt(evnt);
-                    case GponPortRelationAdded evnt: return model.AddGponPortRelation(evnt);
+                    case TceAddedOrUpdated evnt: return model.AddOrUpdateTce(evnt);
+                    case AllTceGponRelationsUpdated evnt: return model.UpdateAllTceGponRelations(evnt);
+                    case TceRemoved evnt: return model.RemoveTce(evnt);
 
                     case UserAdded evnt: return model.AddUser(evnt);
                     case UserUpdated evnt: return model.UpdateUser(evnt);

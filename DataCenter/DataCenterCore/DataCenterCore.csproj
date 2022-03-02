@@ -287,9 +287,9 @@
     <Compile Include="JsonUtil.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
-    <Compile Include="PON\OltTrapExecutor.cs" />
-    <Compile Include="PON\OltTrapParser.cs" />
-    <Compile Include="PON\OltTrapParserResult.cs" />
+    <Compile Include="PON\TrapExecutor.cs" />
+    <Compile Include="PON\TrapParser.cs" />
+    <Compile Include="PON\TrapParserResult.cs" />
     <Compile Include="RtuResultsProcessing\CommonBopProcessor.cs" />
     <Compile Include="SignalRNudger.cs" />
     <Compile Include="PON\TrapReceiver.cs" />
@@ -297,6 +297,7 @@
     <Compile Include="RtuResultsProcessing\VeexCompletedTestsFetcher.cs" />
     <Compile Include="WcfServiceCommonC2D\IntermediateLayer.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForEventSourcing.cs" />
+    <Compile Include="WcfServiceDesktopC2D\WcfServiceForRemoveUnused.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceNotifyWebClient.cs" />
     <Compile Include="WcfServiceWebC2D\EventsExt.cs" />
     <Compile Include="WcfServiceWebC2D\TraceWebDtoFactory.cs" />

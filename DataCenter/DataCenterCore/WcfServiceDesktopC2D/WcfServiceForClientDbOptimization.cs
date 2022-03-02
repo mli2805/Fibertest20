@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -13,14 +14,13 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task RemoveEventsAndSors(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
         {
             _logFile.AppendLine("Start DB optimization on another thread to release WCF client");
-            var addresses = _clientsCollection.GetAllDesktopClientsAddresses();
-            if (addresses == null)
+            // the client who required optimization
+            var client = await NotifyOptimizationStarted(username, clientIp);
+            if (client == null)
                 return;
-            _d2CWcfManager.SetClientsAddresses(addresses);
-            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto(){Stage = DbOptimizationStage.Starting});
-            // block RTUs messages (MSMQ and notifications)
-            // block new client's attempts to register
             _globalState.IsDatacenterInDbOptimizationMode = true;
+            var clientAddresses = new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) };
+            _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>() { clientAddresses });
 
             _logFile.AppendLine("block is ON");
             var oldSize = _eventStoreInitializer.GetDataSize() / 1e9;
@@ -38,7 +38,12 @@ namespace Iit.Fibertest.DataCenterCore
                 Stage = DbOptimizationStage.OptimizationDone,
                 OldSizeGb = oldSize, NewSizeGb = newSize,
             });
-            await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto(){ToAll = true, Reason = UnRegisterReason.DbOptimizationFinished});
+            await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto()
+            {
+                ConnectionId = client.ConnectionId,
+                Reason = UnRegisterReason.DbOptimizationFinished
+            });
+            await Task.Delay(1000);
             _clientsCollection.CleanDeadClients(TimeSpan.FromMilliseconds(1));
         }
 
@@ -82,7 +87,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var proc = fileInfo.Length * 100.0 / oldSize;
                 await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
                 {
-                    Stage = DbOptimizationStage.TableCompressing, TableOptimizationProcent = proc,
+                    Stage = DbOptimizationStage.TableCompressing, TableOptimizationPercent = proc,
                 });
                 if (proc - oldProc > 5)
                 {

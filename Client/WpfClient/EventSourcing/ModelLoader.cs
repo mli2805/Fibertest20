@@ -12,15 +12,14 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
-        private readonly RenderingManager _renderingManager;
+        private readonly GraphReadModel _graphReadModel;
         private readonly ZoneEventsOnTreeExecutor _zoneEventsOnTreeExecutor;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
 
-        public ModelLoader(IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager,
-            RenderingManager renderingManager,
-            ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor, 
+        public ModelLoader(IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager, GraphReadModel graphReadModel,
+            ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel)
@@ -28,7 +27,7 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
-            _renderingManager = renderingManager;
+            _graphReadModel = graphReadModel;
             _zoneEventsOnTreeExecutor = zoneEventsOnTreeExecutor;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
@@ -55,9 +54,8 @@ namespace Iit.Fibertest.Client
                 }
 
                 await _readModel.Deserialize(_logFile, bb);
+                await _graphReadModel.RefreshVisiblePart();
 
-                _renderingManager.Initialize();
-                await _renderingManager.RenderCurrentZoneOnApplicationStart();
                 _zoneEventsOnTreeExecutor.RenderOfModelAfterSnapshot();
                 _opticalEventsDoubleViewModel.RenderMeasurementsFromSnapshot();
                 _networkEventsDoubleViewModel.RenderNetworkEvents();

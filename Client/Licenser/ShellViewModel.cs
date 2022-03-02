@@ -101,6 +101,9 @@ namespace Iit.Fibertest.Licenser
 
         public void SaveAsFile()
         {
+            if (LicenseInFileModel.IsIncremental)
+                LicenseInFileModel.IsMachineKeyRequired = false;
+
             var license = LicenseInFileModel.ToLicenseInFile();
             var encoded = Cryptography.Encode(license);
 

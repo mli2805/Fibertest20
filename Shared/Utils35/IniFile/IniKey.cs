@@ -98,7 +98,6 @@
         ResetDb,
         FreeSpaceThresholdGb,
         IsOptimizationCouldBeDoneUpToToday,
-        SnapshotUptoLimitInDays,
 
         //Broadcast
         GsmModemComPort,
@@ -133,13 +132,15 @@
         SaveMaxZoomNoMoreThan,
         GMapProvider,
         MapAccessMode,
+        IsHighDensityGraph,
+        ThresholdZoom,
+        ScreenPartAsMargin,
 
         // Miscellaneous
         PathToSor,
         MaxCableReserve,
         GpsInputMode,
         GraphVisibilityLevel,
-        IsGraphVisibleOnStart,
         PathToClient,
 
         // LoadTesting

@@ -18,6 +18,6 @@ namespace Iit.Fibertest.Dto
         public PortWithTraceDto PortWithTraceDto { get; set; }
 
         [DataMember]
-        public bool IsOltTrapCaused { get; set; } // false means user's measurement
+        public bool IsTrapCaused { get; set; } // false means user's measurement
     }
 }

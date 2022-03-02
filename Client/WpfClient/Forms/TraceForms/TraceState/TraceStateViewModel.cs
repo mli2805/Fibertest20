@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using GMap.NET;
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly CurrentGis _currentGis;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly Model _readModel;
@@ -55,8 +56,8 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser,
-            CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager,
+        public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, CurrentGis currentGis,
+            ReflectogramManager reflectogramManager,
             SoundManager soundManager, Model readModel, GraphReadModel graphReadModel,
             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager, 
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
@@ -65,9 +66,9 @@ namespace Iit.Fibertest.Client
         {
             _logFile = logFile;
             _currentUser = currentUser;
+            _currentGis = currentGis;
             HasPrivilegies = currentUser.Role <= Role.Operator;
             IsEditEnabled = true;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _readModel = readModel;
@@ -145,28 +146,29 @@ namespace Iit.Fibertest.Client
             callback(true);
         }
 
-        public void ShowAccidentPlace()
+        public async void ShowAccidentPlace()
         {
             PointLatLng? accidentPoint;
             if (Model.Accidents.Count == 0 || Model.SelectedAccident == null)
                 accidentPoint = Model.Header.RtuPosition;
             else accidentPoint = Model.SelectedAccident.Position;
 
-            if (_currentlyHiddenRtu.Collection.Contains(Model.Trace.RtuId))
-            {
-                //                _renderingManager.ShowOneTrace(Model.Trace);
-                _currentlyHiddenRtu.Collection.Remove(Model.Trace.RtuId);
-                _currentlyHiddenRtu.ChangedRtu = Model.Trace.RtuId;
-            }
-            if (accidentPoint != null)
-                _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
+
+            await Task.Delay(100);
+
+            if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
+                _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
+            _graphReadModel.ExtinguishAllNodes();
+
+            if (accidentPoint != null)
+                _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
 
             if (_commandLineParameters.IsUnderSuperClientStart)
             {
                 _logFile.AppendLine($@"Ask super-client to switch onto this system (postfix = {_commandLineParameters.ClientOrdinal}).");
-                _c2SWcfManager.SwitchOntoSystem(_commandLineParameters.ClientOrdinal);
+                await _c2SWcfManager.SwitchOntoSystem(_commandLineParameters.ClientOrdinal);
             }
         }
 

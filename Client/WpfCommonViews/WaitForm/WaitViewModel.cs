@@ -65,7 +65,7 @@ namespace Iit.Fibertest.WpfCommonViews
                 case DbOptimizationStage.SorsRemoving:
                     return string.Format(Resources.SID_Measurements_chosen_for_deletion__0___Removing___, dto.MeasurementsChosenForDeletion);
                 case DbOptimizationStage.TableCompressing:
-                    return string.Format(Resources.SID_Sorfiles_table_compressing__0_0_0__, dto.TableOptimizationProcent);
+                    return string.Format(Resources.SID_Sorfiles_table_compressing__0_0_0__, dto.TableOptimizationPercent);
                 case DbOptimizationStage.ModelAdjusting:
                     return Resources.SID_Model_adjusting___;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using GMap.NET;
@@ -20,6 +21,7 @@ namespace Iit.Fibertest.Client
     {
         #region Current mouse coordinates
 
+        private CurrentGis _currentGis;
         public CurrentGis CurrentGis
         {
             get => _currentGis;
@@ -28,14 +30,8 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _currentGis)) return;
                 _currentGis = value;
                 OnPropertyChanged();
-                _currentGis.PropertyChanged += CurrentGisPropertyChanged;
                 OnPropertyChanged(nameof(MouseCurrentCoorsString));
             }
-        }
-
-        private void CurrentGisPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
         private PointLatLng _mouseCurrentCoors;
@@ -51,10 +47,50 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string MouseCurrentCoorsString => CurrentGis.IsGisOn 
-            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode) 
-            : "";
+        public MapLimits Limits
+        {
+            get => _limits;
+            set
+            {
+                if (Equals(value, _limits)) return;
+                _limits = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string MouseCurrentCoorsString => 
+            CurrentGis.IsGisOn
+                ? CurrentGis.ThresholdZoom + " / " + Zoom + " ; " + CurrentGis.ScreenPartAsMargin + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
+                : "";
+
+        private string _nodeCountString;
+        public string NodeCountString
+        {
+            get => _nodeCountString;
+            set
+            {
+                if (value == _nodeCountString) return;
+                _nodeCountString = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsInTraceDefinitionMode = false;
+
         #endregion
+
+        public void SetPosition(PointLatLng position)
+        {
+            Position = position;
+            EvaluateMapLimits();
+        }
+
+        public void SetPositionWithoutFiringEvent(PointLatLng position)
+        {
+            Position = position;
+            EvaluateMapLimits(fireEvent: false);
+        }
+
 
         #region Distance measurement properties
         public bool IsInDistanceMeasurementMode { get; set; }
@@ -64,7 +100,7 @@ namespace Iit.Fibertest.Client
         public List<int> Distances;
 
         private int _lastDistance;
-        private CurrentGis _currentGis;
+        private MapLimits _limits = new MapLimits();
 
         public int LastDistance
         {
@@ -106,6 +142,22 @@ namespace Iit.Fibertest.Client
             LastDistance = 0;
         }
 
+        public void EvaluateMapLimits(double winHeight = 0, double winWidth = 0, bool fireEvent = true)
+        {
+            var leftTop = winWidth == 0
+                ? FromLocalToLatLng(GetPointFromPosition(new Point(0, 0)))
+                : FromLocalToLatLng(GetPointFromPosition(new Point(-600, 0)));
+            var rightBottom = winHeight == 0
+                ? FromLocalToLatLng(GetPointFromPosition(new Point(ActualWidth, ActualHeight)))
+                : FromLocalToLatLng(GetPointFromPosition(new Point(winHeight - 165, winWidth)));
+            if (fireEvent)
+                Limits = new MapLimits(leftTop, rightBottom);
+            else
+                _limits = new MapLimits(leftTop, rightBottom);
+            if (MouseCurrentCoors.IsEmpty)
+                MouseCurrentCoors = FromLocalToLatLng(GetPointFromPosition(new Point()));
+        }
+
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -119,8 +171,8 @@ namespace Iit.Fibertest.Client
                     Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
 
                 var mousePoint = e.GetPosition(this);
-                mousePoint.X = mousePoint.X - 1;
-                mousePoint.Y = mousePoint.Y - 1;
+                mousePoint.X -= 1;
+                mousePoint.Y -= 1;
                 var endMarkerPosition = FromLocalToLatLng(GetPointFromPosition(mousePoint));
                 Markers.Add(new GMapRoute(DistanceFiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
                     new List<PointLatLng>() { StartNode.Position, endMarkerPosition }, this));
@@ -130,8 +182,21 @@ namespace Iit.Fibertest.Client
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
+            if (IsInTraceDefinitionMode &&
+                e.Delta < 0 && (int)Zoom == CurrentGis.ThresholdZoom)
+            {
+                return;
+            }
+
             base.OnMouseWheel(e);
+            EvaluateMapLimits();
+            CurrentGis.SetMargin((int)Zoom);
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
+        }
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            EvaluateMapLimits();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

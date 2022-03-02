@@ -219,9 +219,42 @@
     </ApplicationDefinition>
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
-    <Compile Include="EventSourcing\Rendering\LessThanRootRenderer.cs" />
-    <Compile Include="EventSourcing\Rendering\OneRtuOrTraceRenderer.cs" />
-    <Compile Include="EventSourcing\Rendering\RootRenderer.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
+    <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
+      <DependentUpon>TceComponentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TceComponentsViewModel.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponView.xaml.cs">
+      <DependentUpon>RelationOfGponView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponViewModel.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceView.xaml.cs">
+      <DependentUpon>RelationsOfTceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceViewModel.cs" />
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotView.xaml.cs">
+      <DependentUpon>RelationsOfSlotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotViewModel.cs" />
+    <Compile Include="Forms\Tce\TcesView.xaml.cs">
+      <DependentUpon>TcesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TcesViewModel.cs" />
+    <Compile Include="Forms\Tce\TceView.xaml.cs">
+      <DependentUpon>TceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TceViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsView.xaml.cs">
+      <DependentUpon>GraphVisibilitySettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsViewModel.cs" />
+    <Compile Include="Forms\ToolsForms\GraphOptimization\GraphOptimizationView.xaml.cs">
+      <DependentUpon>GraphOptimizationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ToolsForms\GraphOptimization\GraphOptimizationViewModel.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererForFullGraphUser.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererCommonDetails.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">
       <DependentUpon>LogOperationsView.xaml</DependentUpon>
     </Compile>
@@ -269,15 +302,15 @@
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuVeexInfoView.xaml.cs">
       <DependentUpon>RtuVeexInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationModel.cs" />
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationView.xaml.cs">
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationModel.cs" />
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationView.xaml.cs">
       <DependentUpon>DbOptimizationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationViewModel.cs" />
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppView.xaml.cs">
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationViewModel.cs" />
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\LeaveAppView.xaml.cs">
       <DependentUpon>LeaveAppView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppViewModel.cs" />
+    <Compile Include="Forms\ToolsForms\DbOptimizationForm\LeaveAppViewModel.cs" />
     <Compile Include="Forms\SettingsForms\GisSettingsView.xaml.cs">
       <DependentUpon>GisSettingsView.xaml</DependentUpon>
     </Compile>
@@ -314,24 +347,21 @@
     </Compile>
     <Compile Include="Forms\SettingsForms\SnmpSettingsViewModel.cs" />
     <Compile Include="Forms\Shell\ChildrenViews.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapLimits.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuAdministrative.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuHelp.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuReports.cs" />
-    <Compile Include="Forms\Shell\MainMenu\MainMenuService.cs" />
+    <Compile Include="Forms\Shell\MainMenu\MainMenuTools.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuSettings.cs" />
     <Compile Include="Forms\Shell\SystemState.cs" />
     <Compile Include="Forms\TraceForms\TraceInfo\TraceDevReportExt.cs" />
     <Compile Include="Forms\TraceForms\TraceInfo\TraceDevReportExt2.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateModelHeader.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
-    <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
     <Compile Include="EventSourcing\EventArrivalNotifier.cs" />
-    <Compile Include="EventSourcing\Rendering\CurrentZoneRenderer.cs" />
-    <Compile Include="EventSourcing\Rendering\ElementRenderer.cs" />
-    <Compile Include="EventSourcing\Rendering\RenderingManager.cs" />
-    <Compile Include="EventSourcing\Rendering\RenderingApplierToUi.cs" />
-    <Compile Include="EventSourcing\Rendering\RenderingResult.cs" />
+    <Compile Include="GraphModel\Rendering\ElementRenderer.cs" />
+    <Compile Include="GraphModel\Rendering\RenderingResult.cs" />
     <Compile Include="Forms\AdministrativeForms\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -410,6 +440,7 @@
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="GlobalVars\CurrentGis.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRenderingApplier.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
@@ -418,37 +449,38 @@
     <Compile Include="GraphModel\EventExecutors\ResponsibilityEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
-    <Compile Include="GraphModel\GrmData.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererForZoneUser.cs" />
+    <Compile Include="GraphModel\GraphReadModelData.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevel.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityExt.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\EquipmentChecker.cs" />
+    <Compile Include="Logic\ModelFromFileExporter.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
     <Compile Include="Forms\Landmarks\LandmarksReportProvider.cs" />
-    <Compile Include="Reports\OpticalEventsReport\AllEventsConsolidatedTableProvider.cs" />
-    <Compile Include="Reports\OpticalEventsReport\AllOpticalEventsReportProvider.cs" />
+    <Compile Include="Reports\OpticalEventsReport\Logic\OpticalEventsReportFunctions.cs" />
+    <Compile Include="Reports\OpticalEventsReport\Logic\AllOpticalEventsReportProvider.cs" />
     <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportModel.cs" />
     <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportView.xaml.cs">
       <DependentUpon>ComponentsReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportViewModel.cs" />
-    <Compile Include="Reports\OpticalEventsReport\EventsClosingTimeProvider.cs" />
-    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\EventStatusView.xaml.cs">
+    <Compile Include="Reports\OpticalEventsReport\Controls\EventStatusView.xaml.cs">
       <DependentUpon>EventStatusView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\EventStatusViewModel.cs" />
-    <Compile Include="Reports\OpticalEventsReport\ActualOpticalEventsReportProvider.cs" />
+    <Compile Include="Reports\OpticalEventsReport\Controls\EventStatusViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsReport\Logic\ActualOpticalEventsReportProvider.cs" />
     <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\OpticalEventsReportModel.cs" />
     <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\OpticalEventsReportView.xaml.cs">
       <DependentUpon>OpticalEventsReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\OpticalEventsReportViewModel.cs" />
     <Compile Include="Reports\ComponentsReport\ComponentsReportProvider.cs" />
-    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\TraceStateSelectionView.xaml.cs">
+    <Compile Include="Reports\OpticalEventsReport\Controls\TraceStateSelectionView.xaml.cs">
       <DependentUpon>TraceStateSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\TraceStateSelectionViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsReport\Controls\TraceStateSelectionViewModel.cs" />
     <Compile Include="WcfClient\WcfServiceInClient.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
@@ -684,7 +716,7 @@
     </Compile>
     <Compile Include="Forms\Shell\TreeOfRtuControl\Leaf.cs" />
     <Compile Include="GraphModel\Primitives\NodeVm.cs" />
-    <Compile Include="Forms\Primitive\ContextMenuAction.cs" />
+    <Compile Include="Forms\Primitive\ContextMenuAsyncAction.cs" />
     <Compile Include="Forms\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -740,6 +772,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Forms\Tce\TceComponentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\RelationsTceToRtu\RelationOfGponView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\TcesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\TceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -756,11 +812,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationView.xaml">
+    <Page Include="Forms\ToolsForms\DbOptimizationForm\DbOptimizationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppView.xaml">
+    <Page Include="Forms\ToolsForms\DbOptimizationForm\LeaveAppView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SettingsForms\GraphVisibilitySettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -892,6 +952,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Forms\ToolsForms\GraphOptimization\GraphOptimizationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\TraceForms\TraceContentChoice\TraceContentChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1020,7 +1084,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\EventStatusView.xaml">
+    <Page Include="Reports\OpticalEventsReport\Controls\EventStatusView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1028,7 +1092,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\TraceStateSelectionView.xaml">
+    <Page Include="Reports\OpticalEventsReport\Controls\TraceStateSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

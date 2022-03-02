@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
 
             TraceLeaf traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(traceLeaf.Parent.Id);
-            var portOwner = rtuLeaf.GetPortOwner(e.OtauPortDto.Serial);
+            var portOwner = rtuLeaf.GetPortOwner(e.OtauPortDto);
             if (portOwner == null) return;
 
             var port = e.OtauPortDto.OpticalPort;

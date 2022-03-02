@@ -343,6 +343,12 @@
     <Compile Include="Otau\OtauOnRtu4000Steps.cs">
       <DependentUpon>OtauOnRtu4000.feature</DependentUpon>
     </Compile>
+    <Compile Include="RtuVeex\BrokenRtuInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrokenRtuInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\BrokenRtuInitializationSteps.cs" />
     <Compile Include="Rtu\RtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -391,19 +397,29 @@
     <Compile Include="Rtu\RtuUpdateSteps.cs">
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuFirstInitialization.feature.cs">
+    <Compile Include="RtuVeex\VeexRtuFirstInitialization.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuFirstInitializationSteps.cs" />
-    <Compile Include="Rtu\VeexRtuInitialized.feature.cs">
+    <Compile Include="RtuVeex\VeexRtuFirstInitializationSteps.cs">
+      <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\VeexRtuInitializedSteps.cs">
+    <Compile Include="RtuVeex\VeexRtuInitializedSteps.cs">
       <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuWithBopInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuWithBopInitializationSteps.cs">
+      <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
@@ -424,6 +440,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLandmarksForm.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\TraceWithLoop.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\MoniSettingsApplier.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
@@ -557,6 +574,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForRtuRemoved.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAdded.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAttach.cs" />
+    <Compile Include="Sut\SutExtensions\TraceExt.cs" />
     <Compile Include="Sut\SystemUnderTest.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceCleanRemove.cs" />
     <Compile Include="Sut\SutExtensions\Tools\TraceAttacher.cs" />
@@ -623,6 +641,14 @@
     </Compile>
     <Compile Include="Trace\TraceDetachedSteps.cs">
       <DependentUpon>TraceDetached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetalization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceDetalization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetalizationSteps.cs">
+      <DependentUpon>TraceDetalization.feature</DependentUpon>
     </Compile>
     <Compile Include="Trace\TraceLeaf.feature.cs">
       <AutoGen>True</AutoGen>
@@ -850,6 +876,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>OtauDetach.feature.cs</LastGenOutput>
     </None>
+    <None Include="RtuVeex\BrokenRtuInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BrokenRtuInitialization.feature.cs</LastGenOutput>
+    </None>
     <None Include="Rtu\RtuAtGpsLocationAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuAtGpsLocationAdded.feature.cs</LastGenOutput>
@@ -890,13 +920,17 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
     </None>
-    <None Include="Rtu\VeexRtuFirstInitialization.feature">
+    <None Include="RtuVeex\VeexRtuFirstInitialization.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuFirstInitialization.feature.cs</LastGenOutput>
     </None>
-    <None Include="Rtu\VeexRtuInitialized.feature">
+    <None Include="RtuVeex\VeexRtuInitialized.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuInitialized.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RtuVeex\VeexRtuWithBopInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VeexRtuWithBopInitialization.feature.cs</LastGenOutput>
     </None>
     <None Include="Sut\LicenseFiles\DevSecAdmin.lic" />
     <None Include="Sut\LicenseFiles\Fibertest20dev.lic" />
@@ -923,6 +957,10 @@
     <None Include="Trace\TraceDetached.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceDetached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceDetalization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceDetalization.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceLeaf.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

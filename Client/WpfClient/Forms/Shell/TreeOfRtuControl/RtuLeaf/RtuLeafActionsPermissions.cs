@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
         public bool CanShowRtuInfoView(object param) { return true; }
 
         public bool CanHighlightRtu(object param) { return true; }
+        public bool CanExportRtuToFile(object param) { return true; }
 
         public bool CanInitializeRtu(object param) { return param is RtuLeaf; }
 

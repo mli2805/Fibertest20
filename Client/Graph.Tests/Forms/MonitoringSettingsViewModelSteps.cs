@@ -151,7 +151,6 @@ namespace Graph.Tests
                   .Should().Be(Resources.SID_There_are_no_ports_for_monitoring_);
         }
 
-
         [When(@"Пользователь ставит птичку включить все трассы главного переключателя")]
         public void WhenПользовательСтавитПтичкуВключитьВсеТрассыГлавногоПереключателя()
         {

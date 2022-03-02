@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Iit.Fibertest.Install.InstSettingsForServerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Margin="10,10,5,5" >
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="5" Text="MySql TCP port"/>
+            <TextBox Margin="5" Text="{Binding MySqlTcpPort}" Width="50"/>
+        </StackPanel>
+
+        <CheckBox Content="{x:Static stringResources:Resources.SID_Install_Web_Service}" 
+                      IsChecked="{Binding IsWebNeeded}" Margin="5,15,10,10"/>
+        <StackPanel Margin="0,0,10,0" Visibility="{Binding WebSettingsVisibility}">
+            <StackPanel Orientation="Horizontal" IsEnabled="False">
+                <RadioButton GroupName="1" Margin="5" Content="HTTPS" 
+                                     IsChecked="{Binding IsWebByHttps}"/>
+                <RadioButton GroupName="1" Margin="5" Content="HTTP" IsChecked="True"/>
+            </StackPanel>
+
+            <GroupBox Visibility="{Binding HttpsCertVisibility}">
+                <StackPanel >
+                    <DockPanel>
+                        <TextBlock Margin="5, 5,5,0" DockPanel.Dock="Top"
+                                           Text="{x:Static stringResources:Resources.SID_List_of_ssl_certificates}"/>
+                        <ComboBox Margin="5,8,5,10" 
+                                          ItemsSource="{Binding Certificates}" 
+                                          SelectedItem="{Binding SelectedCertificate, Mode=TwoWay}"/>
+
+                    </DockPanel>
+                    <DockPanel>
+                        <Button Name="ChooseCertificateFile" Width="200" Margin="5" 
+                                        cal:Message.Attach="ChooseCertificateFile" DockPanel.Dock="Right"
+                                        Content="{x:Static stringResources:Resources.SID_Choose_SSL_certificate_file}"
+                                        />
+                        <TextBox Margin="5" IsReadOnly="True" 
+                                         Text="{Binding Filename}" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Margin="5"
+                                           Text="{x:Static stringResources:Resources.SID_SSL_certificate_password}" />
+                        <PasswordBox Margin="5"  wpfCommonViews:PasswordHelper.Attach="True"  
+                                             wpfCommonViews:PasswordHelper.Password="{Binding Password,
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock Margin="5" Text="Domain name"/>
+                        <TextBox Margin="5" Text="{Binding DomainName}"/>
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

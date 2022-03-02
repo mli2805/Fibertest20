@@ -24,6 +24,8 @@ namespace Iit.Fibertest.Graph
             CreateMap<UpdateFiber, FiberUpdated>();
             CreateMap<RemoveFiber, FiberRemoved>();
 
+            CreateMap<RemoveUnused, UnusedRemoved>();
+
             CreateMap<AddRtuAtGpsLocation, RtuAtGpsLocationAdded>();
             CreateMap<UpdateRtu, RtuUpdated>();
             CreateMap<RemoveRtu, RtuRemoved>();
@@ -31,8 +33,9 @@ namespace Iit.Fibertest.Graph
             CreateMap<DetachOtau, OtauDetached>();
             CreateMap<DetachAllTraces, AllTracesDetached>();
 
-            CreateMap<AddOlt, OltAdded>();
-            CreateMap<AddGponPortRelation, GponPortRelationAdded>();
+            CreateMap<AddOrUpdateTce, TceAddedOrUpdated>();
+            CreateMap<RemoveTce, TceRemoved>();
+            CreateMap<UpdateAllTceGponRelations, AllTceGponRelationsUpdated > ();
 
             CreateMap<InitializeRtu, RtuInitialized>();
             CreateMap<ChangeMonitoringSettings, MonitoringSettingsChanged>();

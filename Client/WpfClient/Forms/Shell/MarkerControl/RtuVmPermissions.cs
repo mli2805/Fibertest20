@@ -23,31 +23,31 @@ namespace Iit.Fibertest.Client
             var rtuVm = readModel.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
             if (rtuVm == null) return false;
 
-            return (!readModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0)
+            return !readModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0
                 || !readModel.Rtus.First(r=>r.Id == rtuVm.Id).IsAvailable);
         }
 
         public bool CanStartAddFiber(object parameter)
         {
-            return HasPriveligesAndParameterValid(parameter);
+            return HasPrivilegesAndParameterValid(parameter);
         }
 
         public bool CanStartAddFiberWithNodes(object parameter)
         {
-            return HasPriveligesAndParameterValid(parameter);
+            return HasPrivilegesAndParameterValid(parameter);
         }
 
         public bool CanStartDefineTrace(object parameter)
         {
-            return HasPriveligesAndParameterValid(parameter);
+            return HasPrivilegesAndParameterValid(parameter);
         }
 
         public bool CanStartDefineTraceStepByStep(object parameter)
         {
-            return HasPriveligesAndParameterValid(parameter);
+            return HasPrivilegesAndParameterValid(parameter);
         }
 
-        private bool HasPriveligesAndParameterValid(object parameter)
+        private bool HasPrivilegesAndParameterValid(object parameter)
         {
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Client.GraphOptimization;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -16,7 +17,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GraphGpsCalculator>().InstancePerLifetimeScope();
 
             builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
-            builder.RegisterType<CurrentlyHiddenRtu>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentGis>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentDatacenterParameters>().InstancePerLifetimeScope();
             builder.RegisterType<SystemState>().InstancePerLifetimeScope();
@@ -68,10 +68,12 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsAsTreeToZonesViewModel>();
             builder.RegisterType<GisSettingsViewModel>();
+            builder.RegisterType<GraphVisibilitySettingsViewModel>();
             builder.RegisterType<SmtpSettingsViewModel>();
             builder.RegisterType<SmsSettingsViewModel>();
             builder.RegisterType<SnmpSettingsViewModel>();
             builder.RegisterType<DbOptimizationViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<GraphOptimizationViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ChangePasswordViewModel>();
             builder.RegisterType<WcfServiceInClient>().InstancePerLifetimeScope();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().InstancePerLifetimeScope();
@@ -164,12 +166,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<C2SWcfManager>().AsSelf().As<IWcfServiceInSuperClient>().InstancePerLifetimeScope();
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<RenderingApplierToUi>();
-            builder.RegisterType<OneRtuOrTraceRenderer>();
-            builder.RegisterType<CurrentZoneRenderer>();
-            builder.RegisterType<LessThanRootRenderer>();
-            builder.RegisterType<RootRenderer>();
-            builder.RegisterType<RenderingManager>();
             builder.RegisterType<EventArrivalNotifier>().InstancePerLifetimeScope();
             builder.RegisterType<Heartbeater>().InstancePerLifetimeScope();
             builder.RegisterType<ClientPoller>().InstancePerLifetimeScope();
@@ -222,6 +218,12 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<TraceStateReportProvider>().InstancePerLifetimeScope();
             builder.RegisterType<ModelLoader>().InstancePerLifetimeScope();
+            builder.RegisterType<ModelFromFileExporter>().InstancePerLifetimeScope();
+
+            builder.RegisterType<RelationsOfTceViewModel>();
+            builder.RegisterType<TceComponentsViewModel>();
+            builder.RegisterType<TceViewModel>();
+            builder.RegisterType<TcesViewModel>().InstancePerLifetimeScope();
 
         }
     }

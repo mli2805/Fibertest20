@@ -28,8 +28,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<TraceAdded, Trace>();
             CreateMap<TraceUpdated, Trace>();
 
-            CreateMap<OltAdded, Olt>();
-            CreateMap<GponPortRelationAdded, GponPortRelation>();
+            CreateMap<TceAddedOrUpdated, Tce>();
 
             CreateMap<ZoneAdded, Zone>();
             CreateMap<ZoneUpdated, Zone>();

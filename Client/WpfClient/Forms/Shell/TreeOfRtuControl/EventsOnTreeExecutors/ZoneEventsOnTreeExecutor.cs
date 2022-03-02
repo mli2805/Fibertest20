@@ -95,6 +95,7 @@ namespace Iit.Fibertest.Client
                 otauLeaf.Id = otau.Id;
                 otauLeaf.Parent = rtuLeaf;
                 otauLeaf.Serial = otau.Serial;
+                otauLeaf.OtauId = otau.Id.ToString();
                 otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address,  otau.NetAddress?.ToStringA());
                 otauLeaf.Color = Brushes.Black;
                 otauLeaf.MasterPort = otau.MasterPort;
@@ -114,7 +115,7 @@ namespace Iit.Fibertest.Client
             foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
             {
                 var traceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
-                var portOwner = trace.OtauPort == null ? rtuLeaf : rtuLeaf.GetPortOwner(trace.OtauPort.Serial);
+                var portOwner = trace.OtauPort == null ? rtuLeaf : rtuLeaf.GetPortOwner(trace.OtauPort);
                 if (portOwner == null) continue;
 
                 traceLeaf.Id = trace.TraceId;
@@ -151,7 +152,7 @@ namespace Iit.Fibertest.Client
             if (traceLeaf == null)
             {
                 traceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
-                var portOwner = trace.OtauPort == null ? rtuLeaf : rtuLeaf.GetPortOwner(trace.OtauPort.Serial);
+                var portOwner = trace.OtauPort == null ? rtuLeaf : rtuLeaf.GetPortOwner(trace.OtauPort);
                 if (portOwner == null) return;
 
                 traceLeaf.Id = trace.TraceId;

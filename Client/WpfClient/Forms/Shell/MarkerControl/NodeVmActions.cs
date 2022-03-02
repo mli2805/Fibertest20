@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.WpfCommonViews;
@@ -16,14 +17,15 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public void AskUpdateNode(object parameter)
+        public async Task AskUpdateNode(object parameter)
         {
+            await Task.Delay(0);
             var marker = (MarkerControl)parameter;
             var vm = _globalScope.Resolve<NodeUpdateViewModel>();
             vm.Initialize(marker.GMapMarker.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
-        public async void AskAddEquipment(object parameter)
+        public async Task AskAddEquipment(object parameter)
         {
             var marker = (MarkerControl)parameter;
             await marker.Owner.GraphReadModel.GrmEquipmentRequests.
@@ -31,14 +33,14 @@ namespace Iit.Fibertest.Client
                     { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = false });
         }
 
-        public async void AskLandmarks(object parameter)
+        public async Task AskLandmarks(object parameter)
         {
             var marker = (MarkerControl)parameter;
             var landmarksViewsManager = _globalScope.Resolve<LandmarksViewsManager>();
             await landmarksViewsManager.InitializeFromNode(marker.GMapMarker.Id);
         }
 
-        public async void AskRemoveNode(object parameter)
+        public async Task AskRemoveNode(object parameter)
         {
             var marker = (MarkerControl)parameter;
             await marker.Owner.GraphReadModel.GrmNodeRequests.RemoveNode(marker.GMapMarker.Id, marker.Type);

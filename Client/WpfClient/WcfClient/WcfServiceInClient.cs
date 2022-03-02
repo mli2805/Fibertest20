@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
         public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, 
             Heartbeater heartbeater, ClientPoller clientPoller,
             ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceCommonC2D commonC2DWcfManager,
-            CurrentUser currentUser,
+            CurrentUser currentUser, 
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
             _logFile = logFile;
@@ -77,6 +77,8 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto)
         {
+            _logFile.AppendLine($@"DbOptimizationProgressDto received, {dto.Stage}");
+
             if (!_waitViewModel.IsOpen)
                 await Task.Factory.StartNew(ShowWaiting);
             else
@@ -86,8 +88,6 @@ namespace Iit.Fibertest.Client
 
         private void ShowWaiting()
         {
-            _logFile.AppendLine(@"DbOptimizationProgressDto received");
-
             _heartbeater.CancellationTokenSource.Cancel();
             _clientPoller.CancellationTokenSource.Cancel();
             _waitViewModel.Initialize(LongOperation.DbOptimization);

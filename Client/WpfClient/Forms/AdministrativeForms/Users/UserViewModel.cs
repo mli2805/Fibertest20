@@ -167,7 +167,9 @@ namespace Iit.Fibertest.Client
         {
             var skip = _currentUser.Role == Role.Developer ? 1 : 2;
             if (UserInWork.Role > Role.Root) skip = 3;
-            return Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
+            var availableRoles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
+            availableRoles.Remove(Role.SecurityAdmin);
+            return availableRoles;
         }
 
         protected override void OnViewLoaded(object view)
@@ -205,7 +207,9 @@ namespace Iit.Fibertest.Client
                     Role = UserInWork.Role,
                     Email = new EmailReceiver() { Address = UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated },
                     Sms = UserInWork.SmsReceiverVm.Get(),
-                    EncodedPassword = Password1.GetHashString(), // root can change password
+                    EncodedPassword = UserInWork.EncodedPassword == Password1 // root has right to change passwords
+                        ? UserInWork.EncodedPassword 
+                        : Password1.GetHashString(), 
                     ZoneId = SelectedZone.ZoneId,
                 };
 

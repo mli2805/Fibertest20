@@ -115,9 +115,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void InitiateOneLandmarkControl()
+        private async void InitiateOneLandmarkControl()
         {
-            OneLandmarkViewModel.Cancel();
+            await OneLandmarkViewModel.Cancel(OneLandmarkViewModel.BeforeNew);
             var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
             OneLandmarkViewModel.SelectedLandmark = (Landmark)landmark.Clone();
 
@@ -252,9 +252,9 @@ namespace Iit.Fibertest.Client
             SelectedRow = Rows[index];
         }
 
-        public override void CanClose(Action<bool> callback)
+        public override async void CanClose(Action<bool> callback)
         {
-            OneLandmarkViewModel.Cancel();
+            await OneLandmarkViewModel.Cancel(OneLandmarkViewModel.CanClose);
             base.CanClose(callback);
         }
 

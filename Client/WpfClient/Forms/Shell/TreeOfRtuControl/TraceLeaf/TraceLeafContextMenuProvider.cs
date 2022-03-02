@@ -1,20 +1,17 @@
 ﻿using System.Collections.Generic;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceLeafContextMenuProvider
     {
-        private readonly CurrentUser _currentUser;
         private readonly TraceLeafActions _traceLeafActions;
         private readonly TraceLeafActionsPermissions _traceLeafActionsPermissions;
         private readonly CommonActions _commonActions;
 
-        public TraceLeafContextMenuProvider(CurrentUser currentUser, TraceLeafActions traceLeafActions,
+        public TraceLeafContextMenuProvider(TraceLeafActions traceLeafActions,
             TraceLeafActionsPermissions traceLeafActionsPermissions, CommonActions commonActions)
         {
-            _currentUser = currentUser;
             _traceLeafActions = traceLeafActions;
             _traceLeafActionsPermissions = traceLeafActionsPermissions;
             _commonActions = commonActions;
@@ -26,50 +23,42 @@ namespace Iit.Fibertest.Client
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Information,
-                Command = new ContextMenuAction(_traceLeafActions.UpdateTrace, _traceLeafActionsPermissions.CanUpdateTrace),
+                Command = new ContextMenuAsyncAction(_traceLeafActions.UpdateTrace, _traceLeafActionsPermissions.CanUpdateTrace),
                 CommandParameter = traceLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Show_trace,
-                Command = new ContextMenuAction(_traceLeafActions.HighlightTrace, _traceLeafActionsPermissions.CanHighlightTrace),
+                Command = new ContextMenuAsyncAction(_traceLeafActions.ShowTrace, _traceLeafActionsPermissions.CanShowTrace),
                 CommandParameter = traceLeaf
             });
-
-            if (_currentUser.Role == Role.Developer)
-                menu.Add(new MenuItemVm()
-                {
-                    Header = @"Reveal trace",
-                    Command = new ContextMenuAction(_traceLeafActions.RevealTrace, _traceLeafActionsPermissions.CanRevealTrace),
-                    CommandParameter = traceLeaf
-                });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Base_refs_assignment,
-                Command = new ContextMenuAction(_traceLeafActions.AssignBaseRefs, _traceLeafActionsPermissions.CanAssignBaseRefsAction),
+                Command = new ContextMenuAsyncAction(_traceLeafActions.AssignBaseRefs, _traceLeafActionsPermissions.CanAssignBaseRefsAction),
                 CommandParameter = traceLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_State,
-                Command = new ContextMenuAction(_traceLeafActions.ShowTraceState, _traceLeafActionsPermissions.CanShowTraceState),
+                Command = new ContextMenuAsyncAction(_traceLeafActions.ShowTraceState, _traceLeafActionsPermissions.CanShowTraceState),
                 CommandParameter = traceLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Statistics,
-                Command = new ContextMenuAction(_traceLeafActions.ShowTraceStatistics, _traceLeafActionsPermissions.CanShowTraceStatistics),
+                Command = new ContextMenuAsyncAction(_traceLeafActions.ShowTraceStatistics, _traceLeafActionsPermissions.CanShowTraceStatistics),
                 CommandParameter = traceLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Landmarks,
-                Command = new ContextMenuAction(_traceLeafActions.ShowTraceLandmarks, _traceLeafActionsPermissions.CanShowTraceLandmarks),
+                Command = new ContextMenuAsyncAction(_traceLeafActions.ShowTraceLandmarks, _traceLeafActionsPermissions.CanShowTraceLandmarks),
                 CommandParameter = traceLeaf
             });
 
@@ -80,7 +69,7 @@ namespace Iit.Fibertest.Client
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Unplug_trace,
-                    Command = new ContextMenuAction(_traceLeafActions.DetachTrace, _traceLeafActionsPermissions.CanDetachTrace),
+                    Command = new ContextMenuAsyncAction(_traceLeafActions.DetachTrace, _traceLeafActionsPermissions.CanDetachTrace),
                     CommandParameter = traceLeaf,
                 });
             }
@@ -89,14 +78,14 @@ namespace Iit.Fibertest.Client
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Clean,
-                    Command = new ContextMenuAction(_traceLeafActions.CleanTrace, _traceLeafActionsPermissions.CanCleanTrace),
+                    Command = new ContextMenuAsyncAction(_traceLeafActions.CleanTrace, _traceLeafActionsPermissions.CanCleanTrace),
                     CommandParameter = traceLeaf
                 });
 
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Remove,
-                    Command = new ContextMenuAction(_traceLeafActions.RemoveTrace, _traceLeafActionsPermissions.CanRemoveTrace),
+                    Command = new ContextMenuAsyncAction(_traceLeafActions.RemoveTrace, _traceLeafActionsPermissions.CanRemoveTrace),
                     CommandParameter = traceLeaf
                 });
             }
@@ -108,21 +97,21 @@ namespace Iit.Fibertest.Client
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Precise_monitoring_out_of_turn,
-                    Command = new ContextMenuAction(_traceLeafActions.DoPreciseMeasurementOutOfTurn, _traceLeafActionsPermissions.CanDoPreciseMeasurementOutOfTurn),
+                    Command = new ContextMenuAsyncAction(_traceLeafActions.DoPreciseMeasurementOutOfTurn, _traceLeafActionsPermissions.CanDoPreciseMeasurementOutOfTurn),
                     CommandParameter = traceLeaf
                 });
 
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Measurement__Client_,
-                    Command = new ContextMenuAction(_commonActions.MeasurementClientAction, _commonActions.CanMeasurementClientAction),
+                    Command = new ContextMenuAsyncAction(_commonActions.MeasurementClientAction, _commonActions.CanMeasurementClientAction),
                     CommandParameter = traceLeaf
                 });
 
                 menu.Add(new MenuItemVm()
                 {
                     Header = Resources.SID_Measurement__RFTS_Reflect_,
-                    Command = new ContextMenuAction(_commonActions.MeasurementRftsReflectAction, _commonActions.CanMeasurementRftsReflectAction),
+                    Command = new ContextMenuAsyncAction(_commonActions.MeasurementRftsReflectAction, _commonActions.CanMeasurementRftsReflectAction),
                     CommandParameter = traceLeaf,
                 });
             }

@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Graph
 
                 case LogOperationCode.MeasurementUpdated: return Resources.SID_Measurement_updated;
                 case LogOperationCode.EventsAndSorsRemoved: return Resources.SID_Events_and_reflectogram_removal;
-                case LogOperationCode.SnapshotMade: return Resources.SID_Event_log_cleaning;
+                case LogOperationCode.SnapshotMade: return Resources.SID_Db_restructuring;
 
                 default: return Resources.SID_Unknown_code;
             }

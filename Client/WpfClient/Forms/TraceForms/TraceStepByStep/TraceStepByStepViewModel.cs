@@ -22,7 +22,8 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly StepChoiceViewModel _stepChoiceViewModel;
         private readonly IWindowManager _windowManager;
-        private NodeVm _currentHighlightedNode;
+        private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
+        private NodeVm _currentHighlightedNodeVm;
         public ObservableCollection<StepModel> Steps { get; set; }
         private Guid _newTraceId;
 
@@ -38,7 +39,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStepByStepViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
+        public TraceStepByStepViewModel(ILifetimeScope globalScope, IWindowManager windowManager, CommonStatusBarViewModel commonStatusBarViewModel,
             GraphReadModel graphReadModel, Model readModel, StepChoiceViewModel stepChoiceViewModel)
         {
             _globalScope = globalScope;
@@ -46,42 +47,52 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _stepChoiceViewModel = stepChoiceViewModel;
             _windowManager = windowManager;
+            _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
-        public void Initialize(Guid rtuNodeId, string rtuTitle)
+        public async Task<int> Initialize(Guid rtuNodeId, string rtuTitle)
         {
             _newTraceId = Guid.NewGuid();
             Steps = new ObservableCollection<StepModel>();
+
             var rtuNode = _readModel.Nodes.First(n => n.NodeId == rtuNodeId);
-            _graphReadModel.MainMap.Position = rtuNode.Position;
-            _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == rtuNodeId);
-            _currentHighlightedNode.IsHighlighted = true;
+            if (_graphReadModel.CurrentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
+                _graphReadModel.MainMap.Zoom = _graphReadModel.CurrentGis.ThresholdZoom;
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(rtuNode.Position);
+
+            var nodeCount = await _graphReadModel.RefreshVisiblePart();
+
+            _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == rtuNodeId);
+            _currentHighlightedNodeVm.IsHighlighted = true;
             var firstStepRtu = new StepModel()
             {
-                NodeId = rtuNode.NodeId,
+                NodeId = rtuNodeId,
                 Title = rtuTitle,
                 EquipmentId = _readModel.Rtus.First(r => r.NodeId == rtuNodeId).Id,
-                FiberVms = new List<FiberVm>(), // empty 
+                FiberIds = new List<Guid>(), // empty 
             };
             Steps.Add(firstStepRtu);
+
+            return nodeCount;
         }
 
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Step_by_step_trace_defining;
+            _graphReadModel.MainMap.IsInTraceDefinitionMode = true;
             IsOpen = true;
         }
 
-        public void SemiautomaticMode()
+        public async void SemiautomaticMode()
         {
             var isButtonPressed = true;
-            while (MakeStepForward(isButtonPressed))
+            while (await MakeStepForward(isButtonPressed))
             {
                 isButtonPressed = false;
             }
         }
 
-        public void StepBackward()
+        public async void StepBackward()
         {
             if (Steps.Count == 1) return;
             Guid backwardNodeId = Steps[Steps.Count - 2].NodeId;
@@ -91,24 +102,24 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
-            JustStep(_graphReadModel.Data.Nodes.First(n => n.Id == backwardNodeId), Steps.Last().FiberVms);
+            await JustStep(backwardNodeId, Steps.Last().FiberIds);
         }
 
-        public bool StepForward()
+        public async Task<bool> StepForward()
         {
-            return MakeStepForward(true);
+            return await MakeStepForward(true);
         }
 
-        private bool MakeStepForward(bool isButtonPressed)
+        private async Task<bool> MakeStepForward(bool isButtonPressed)
         {
             // return a previous node among others
-            var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps.Last().NodeId);
+            var neighbours = _readModel.GetNeighboursPassingThroughAdjustmentPoints(Steps.Last().NodeId);
             Guid previousNodeId = Steps.Count == 1 ? Guid.Empty : Steps[Steps.Count - 2].NodeId;
 
             switch (neighbours.Count)
             {
                 case 1:
-                    if (neighbours[0].Item1.Id != previousNodeId) return JustStep(neighbours[0].Item1, neighbours[0].Item2);
+                    if (neighbours[0].Item1 != previousNodeId) return await JustStep(neighbours[0].Item1, neighbours[0].Item2);
                     if (!isButtonPressed) return false;
 
                     var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
@@ -116,93 +127,100 @@ namespace Iit.Fibertest.Client
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 case 2:
-                    if (previousNodeId != Guid.Empty)
+                    if (previousNodeId == neighbours[0].Item1)
                     {
-                        var nextTuple = neighbours[0].Item1.Id != previousNodeId ? neighbours[0] : neighbours[1];
-                        if (nextTuple.Item1.Type != EquipmentType.Rtu)
-                            return JustStep(nextTuple.Item1, nextTuple.Item2);
-
-                        var vm2 = new MyMessageBoxViewModel(MessageType.Error,
-                            Resources.SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_);
-                        _windowManager.ShowDialogWithAssignedOwner(vm2);
-                        return false;
+                        return await JustStep(neighbours[1].Item1, neighbours[1].Item2);
+                    }
+                    else if (previousNodeId == neighbours[1].Item1)
+                    {
+                        return await JustStep(neighbours[0].Item1, neighbours[0].Item2);
                     }
                     else
-                        return ForkIt(neighbours, previousNodeId);
+                        return await ForkIt(neighbours, previousNodeId);
                 default:
-                    return ForkIt(neighbours.Where(n => n.Item1.Type != EquipmentType.Rtu).ToList(), previousNodeId);
+                    return await ForkIt(neighbours, previousNodeId);
             }
         }
 
-        private bool ForkIt(List<Tuple<NodeVm, List<FiberVm>>> neighbours, Guid previousNodeId)
+        private async Task<bool> ForkIt(List<Tuple<Guid, List<Guid>>> neighbours, Guid previousNodeId)
         {
-            _currentHighlightedNode.IsHighlighted = false;
+            _currentHighlightedNodeVm.IsHighlighted = false;
 
-            if (!_stepChoiceViewModel.Initialize(neighbours.Select(e => e.Item1).ToList(), previousNodeId))
+            if (!await _stepChoiceViewModel.Initialize(neighbours.Select(e => e.Item1).ToList(), previousNodeId))
                 return false;
             if (_windowManager.ShowDialogWithAssignedOwner(_stepChoiceViewModel) != true)
             {
-                _currentHighlightedNode.IsHighlighted = true;
+                await PositionAndHighlightPrevious(_currentHighlightedNodeVm.Id);
                 return false;
             }
             var selectedNode = _stepChoiceViewModel.GetSelected();
-            var selectedTuple = neighbours.First(n => n.Item1.Id == selectedNode.Id);
+            var selectedTuple = neighbours.First(n => n.Item1 == selectedNode.NodeId);
 
-            var equipmentId = _graphReadModel.ChooseEquipmentForNode(selectedNode.Id, false, out var titleStr);
+            var equipmentId = _graphReadModel.ChooseEquipmentForNode(selectedNode.NodeId, false, out var titleStr);
             if (equipmentId == Guid.Empty)
             {
-                _currentHighlightedNode.IsHighlighted = true;
+                await PositionAndHighlightPrevious(_currentHighlightedNodeVm.Id);
                 return false;
             }
 
-            Steps.Add(new StepModel() { NodeId = selectedNode.Id, Title = titleStr, EquipmentId = equipmentId, FiberVms = selectedTuple.Item2 });
-            _graphReadModel.MainMap.Position = selectedNode.Position;
-            _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == selectedNode.Id);
-            _currentHighlightedNode.IsHighlighted = true;
-            foreach (var fiberVm in selectedTuple.Item2)
-            {
-                fiberVm.SetState(_newTraceId, FiberState.HighLighted);
-            }
+            Steps.Add(new StepModel() { NodeId = selectedNode.NodeId, Title = titleStr, EquipmentId = equipmentId, FiberIds = selectedTuple.Item2 });
+            // _graphReadModel.MainMap.SetPosition(selectedNode.Position);
+            _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == selectedNode.NodeId);
+            _currentHighlightedNodeVm.IsHighlighted = true;
+            SetFibersLight(selectedTuple.Item2, true);
+
             return true;
         }
 
-        private bool JustStep(NodeVm nextNode, List<FiberVm> fiberVmsToNode)
+        private async Task<bool> JustStep(Guid nextNodeId, List<Guid> fiberIdsToNode)
         {
-            _currentHighlightedNode.IsHighlighted = false;
-            _graphReadModel.MainMap.Position = nextNode.Position;
-            var equipmentId = _graphReadModel.ChooseEquipmentForNode(nextNode.Id, false, out var titleStr);
+            var nextNode = _readModel.Nodes.First(n => n.NodeId == nextNodeId);
+
+            _currentHighlightedNodeVm.IsHighlighted = false;
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(nextNode.Position);
+            var unused = await _graphReadModel.RefreshVisiblePart();
+
+            var equipmentId = _graphReadModel.ChooseEquipmentForNode(nextNodeId, false, out var titleStr);
             if (equipmentId == Guid.Empty)
             {
-                _currentHighlightedNode.IsHighlighted = true;
-                _graphReadModel.MainMap.Position = _currentHighlightedNode.Position;
+                _currentHighlightedNodeVm.IsHighlighted = true;
+                _graphReadModel.MainMap.SetPositionWithoutFiringEvent(_currentHighlightedNodeVm.Position);
+                var unused2 = await _graphReadModel.RefreshVisiblePart();
                 return false;
             }
 
-            Steps.Add(new StepModel() { NodeId = nextNode.Id, Title = titleStr, EquipmentId = equipmentId, FiberVms = fiberVmsToNode });
-            _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == nextNode.Id);
-            _currentHighlightedNode.IsHighlighted = true;
+            Steps.Add(new StepModel() { NodeId = nextNodeId, Title = titleStr, EquipmentId = equipmentId, FiberIds = fiberIdsToNode });
+            _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == nextNodeId);
+            _currentHighlightedNodeVm.IsHighlighted = true;
+            SetFibersLight(fiberIdsToNode, true);
 
-            foreach (var fiberVm in fiberVmsToNode)
-            {
-                fiberVm.SetState(_newTraceId, FiberState.HighLighted);
-            }
             return true;
         }
 
-        public void CancelStep()
+        private async Task PositionAndHighlightPrevious(Guid previousNodeId)
         {
-            if (Steps.Count == 0) return;
-            _currentHighlightedNode.IsHighlighted = false;
-
-            foreach (var fiberVm in Steps.Last().FiberVms)
+            _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == previousNodeId);
+            if (_currentHighlightedNodeVm == null)
             {
-                fiberVm.RemoveState(_newTraceId);
+                var node = _readModel.Nodes.First(n => n.NodeId == previousNodeId);
+                _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);
+                var _ = await _graphReadModel.RefreshVisiblePart();
+                _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == previousNodeId);
             }
+            else
+                _graphReadModel.MainMap.SetPosition(_currentHighlightedNodeVm.Position);
+            _currentHighlightedNodeVm.IsHighlighted = true;
+        }
+
+        public async void CancelStep()
+        {
+            if (Steps.Count == 1) return;
+            _currentHighlightedNodeVm.IsHighlighted = false;
+
+            SetFibersLight(Steps.Last().FiberIds, false);
             Steps.Remove(Steps.Last());
 
-            _graphReadModel.MainMap.Position = _graphReadModel.Data.Nodes.First(n => n.Id == Steps.Last().NodeId).Position;
-            _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == Steps.Last().NodeId);
-            _currentHighlightedNode.IsHighlighted = true;
+            await PositionAndHighlightPrevious(Steps.Last().NodeId);
         }
 
         public async void Accept()
@@ -225,7 +243,7 @@ namespace Iit.Fibertest.Client
 
             if (!traceAddViewModel.IsSavePressed) return false;
 
-            _currentHighlightedNode.IsHighlighted = false;
+            _currentHighlightedNodeVm.IsHighlighted = false;
             return true;
         }
 
@@ -240,7 +258,7 @@ namespace Iit.Fibertest.Client
                         f.NodeId1 == Steps[i - 1].NodeId && f.NodeId2 == Steps[i].NodeId ||
                         f.NodeId2 == Steps[i - 1].NodeId && f.NodeId1 == Steps[i].NodeId) == null)
                 {
-                    _graphReadModel.FindPathWhereAdjustmentPointsOnly(Steps[i - 1].NodeId, Steps[i].NodeId, out var pathNodeIds);
+                    _readModel.FindPathWhereAdjustmentPointsOnly(Steps[i - 1].NodeId, Steps[i].NodeId, out var pathNodeIds);
                     foreach (var nodeId in pathNodeIds)
                     {
                         nodes.Add(nodeId);
@@ -256,16 +274,15 @@ namespace Iit.Fibertest.Client
         public void AddNodeIntoFiber(NodeIntoFiberAdded evnt)
         {
             StepModel step;
-            while ((step = Steps.FirstOrDefault(s => s.FiberVms
-                .FirstOrDefault(f => f.Id == evnt.FiberId) != null)) != null)
+            while ((step = Steps.FirstOrDefault(s => s.FiberIds.Contains(evnt.FiberId))) != null)
             {
                 var pos = Steps.IndexOf(step);
 
                 if (evnt.InjectionType == EquipmentType.AdjustmentPoint)
                 {
-                    var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
-                    var tuple = neighbours.First(t => t.Item1.Id == step.NodeId);
-                    step.FiberVms = tuple.Item2;
+                    var neighbours = _readModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
+                    var tuple = neighbours.First(t => t.Item1 == step.NodeId);
+                    step.FiberIds = tuple.Item2;
                 }
                 else
                 {
@@ -275,9 +292,9 @@ namespace Iit.Fibertest.Client
                         Title = "",
                         EquipmentId = evnt.EquipmentId,
                     };
-                    var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
-                    var tuple = neighbours.First(t => t.Item1.Id == evnt.Id);
-                    newStep1.FiberVms = tuple.Item2;
+                    var neighbours = _readModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
+                    var tuple = neighbours.First(t => t.Item1 == evnt.Id);
+                    newStep1.FiberIds = tuple.Item2;
 
                     var newStep2 = new StepModel()
                     {
@@ -285,9 +302,9 @@ namespace Iit.Fibertest.Client
                         Title = step.Title,
                         EquipmentId = step.EquipmentId,
                     };
-                    var neighbours2 = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(evnt.Id);
-                    var tuple2 = neighbours2.First(t => t.Item1.Id == step.NodeId);
-                    newStep2.FiberVms = tuple2.Item2;
+                    var neighbours2 = _readModel.GetNeighboursPassingThroughAdjustmentPoints(evnt.Id);
+                    var tuple2 = neighbours2.First(t => t.Item1 == step.NodeId);
+                    newStep2.FiberIds = tuple2.Item2;
 
                     Steps.Remove(step);
                     Steps.Insert(pos, newStep1);
@@ -343,16 +360,33 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
-            _currentHighlightedNode.IsHighlighted = false;
-            var fiberIds = Steps.Select(s => s.FiberVms).SelectMany(x => x).Select(f => f.Id).ToList();
-            _graphReadModel.ChangeFutureTraceColor(_newTraceId, fiberIds, FiberState.NotInTrace);
+            _currentHighlightedNodeVm.IsHighlighted = false;
+            foreach (var fiberIds in Steps.Select(s => s.FiberIds))
+            {
+                SetFibersLight(fiberIds, false);
+            }
             TryClose();
         }
 
         public override void CanClose(Action<bool> callback)
         {
             IsOpen = false;
+            _graphReadModel.MainMap.IsInTraceDefinitionMode = false;
+            _commonStatusBarViewModel.StatusBarMessage2 = "";
             base.CanClose(callback);
+        }
+
+        private void SetFibersLight(IEnumerable<Guid> fiberIds, bool light)
+        {
+            foreach (var fiberId in fiberIds)
+            {
+                var fiber = _readModel.Fibers.First(f => f.FiberId == fiberId);
+                fiber.SetLightOnOff(_newTraceId, light);
+
+                var fiberVm = _graphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiberVm != null)
+                    fiberVm.SetLightOnOff(_newTraceId, light);
+            }
         }
     }
 }

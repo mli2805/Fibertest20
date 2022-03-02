@@ -20,12 +20,12 @@ namespace Iit.Fibertest.Install
             _logFile = logFile;
         }
 
-        public bool SetupClient(BackgroundWorker worker, string installationFolder)
+        public bool SetupClient(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
             worker.ReportProgress((int)BwReturnProgressCode.ClientSetupStarted);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
 
-            var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
+            var fullClientPath = Path.Combine(currentInstallation.InstallationFolder, ClientSubdir);
             _logFile.AppendLine($" full client path = {fullClientPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient,
                 fullClientPath, worker))
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Install
                 return false;
 
 
-            var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
+            var fullReflectPath = Path.Combine(currentInstallation.InstallationFolder, ReflectSubdir);
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect,
                 fullReflectPath, worker))
@@ -51,6 +51,8 @@ namespace Iit.Fibertest.Install
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             _logFile.AppendLine("Files are copied successfully");
+
+            IniOperations.SetParamIntoClientIniFile(currentInstallation.InstallationFolder, currentInstallation.IsHighDensityGraph);
 
             ShortcutOperatios.CreateClientShortcut(fullClientPath);
             ShortcutOperatios.CreateReflectShortcut(fullReflectPath);

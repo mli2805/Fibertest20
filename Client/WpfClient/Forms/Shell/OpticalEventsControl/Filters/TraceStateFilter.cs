@@ -9,15 +9,8 @@ namespace Iit.Fibertest.Client
         public bool IsOn { get; set; }
         public FiberState TraceState { get; set; }
 
-        /// <summary>
-        /// ����� ������������� ��������� ����������� ������
-        /// </summary>
         public TraceStateFilter() { IsOn = false; }
 
-        /// <summary>
-        /// � ����� ������ ���������� ������ "����" ��������
-        /// </summary>
-        /// <param name="traceState"></param>
         public TraceStateFilter(FiberState traceState)
         {
             IsOn = true;
