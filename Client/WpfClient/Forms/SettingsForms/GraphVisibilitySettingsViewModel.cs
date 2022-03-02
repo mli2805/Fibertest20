@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly CurrentGis _currentGis;
-       
+
         private bool _isHighDensityGraph;
 
         public bool IsHighDensityGraph
@@ -23,14 +23,14 @@ namespace Iit.Fibertest.Client
                 if (value == _isHighDensityGraph) return;
                 _isHighDensityGraph = value;
                 SelectedZoom = _isHighDensityGraph ? 16 : 12;
-                ZoomList = _isHighDensityGraph ? Enumerable.Range(10, 11).ToList() : Enumerable.Range(6, 11).ToList();
+                SetZoomList();
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(ZoomList));
                 NotifyOfPropertyChange(nameof(SelectedZoom));
             }
         }
 
-        private List<int> _zoomList = Enumerable.Range(7, 13).ToList();
+        private List<int> _zoomList;
         public List<int> ZoomList
         {
             get => _zoomList;
@@ -72,7 +72,14 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
+            SetZoomList();
             DisplayName = Resources.SID_Graph_visibility_settings;
+        }
+
+        private void SetZoomList()
+        {
+            ZoomList = _isHighDensityGraph ? Enumerable.Range(14, 8).ToList() : Enumerable.Range(10, 12).ToList();
+
         }
 
         public void Save()

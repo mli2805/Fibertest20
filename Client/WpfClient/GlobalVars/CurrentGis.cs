@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _gpsInputMode = (GpsInputMode)iniFile.Read(IniSection.Miscellaneous, IniKey.GpsInputMode, 0);
             IsHighDensityGraph = iniFile.Read(IniSection.Map, IniKey.IsHighDensityGraph, true);
-            ThresholdZoom = iniFile.Read(IniSection.Map, IniKey.ThresholdZoom, 17);
+            ThresholdZoom = iniFile.Read(IniSection.Map, IniKey.ThresholdZoom, IsHighDensityGraph ? 16 : 12);
         }
 
         private bool _isHighDensityGraph;
