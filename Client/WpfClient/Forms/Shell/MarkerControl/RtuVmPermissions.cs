@@ -23,8 +23,8 @@ namespace Iit.Fibertest.Client
             var rtuVm = readModel.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
             if (rtuVm == null) return false;
 
-            return !readModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0
-                || !readModel.Rtus.First(r=>r.Id == rtuVm.Id).IsAvailable);
+            return !readModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0)
+                || !readModel.Rtus.First(r=>r.Id == rtuVm.Id).IsAvailable;
         }
 
         public bool CanStartAddFiber(object parameter)
