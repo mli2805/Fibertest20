@@ -3358,15 +3358,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to firmware version.
-        /// </summary>
-        public static string SID_firmwareVersion {
-            get {
-                return ResourceManager.GetString("SID_firmwareVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to First and last landmarks should be associated with key events..
         /// </summary>
         public static string SID_First_and_last_landmarks_should_be_associated_with_key_events_ {
@@ -7446,6 +7437,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_software____0_ {
             get {
                 return ResourceManager.GetString("SID_software____0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Software version.
+        /// </summary>
+        public static string SID_Software_version {
+            get {
+                return ResourceManager.GetString("SID_Software_version", resourceCulture);
             }
         }
         

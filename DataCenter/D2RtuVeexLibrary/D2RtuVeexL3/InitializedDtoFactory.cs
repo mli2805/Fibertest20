@@ -24,8 +24,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.Mfid = info.platform.name;
             result.Mfsn = info.platform.serialNumber;
             result.Serial = info.platform.serialNumber;
-            result.Version = info.components.api;
-            result.Version2 = info.components.otdrEngine.iit_otdr;
+            result.Version = info.platform.moduleFirmwareVersion;
+            result.Version2 = info.components.api;
+            result.VersionIitOtdr = info.components.otdrEngine.iit_otdr;
 
             return result;
         }

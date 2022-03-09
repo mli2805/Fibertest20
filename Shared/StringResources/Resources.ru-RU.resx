@@ -2678,9 +2678,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Manufacturer" xml:space="preserve">
     <value>Производитель</value>
   </data>
-	<data name="SID_firmwareVersion" xml:space="preserve">
-    <value>Версия прошивки</value>
-  </data>
 	<data name="SID_SNMP_settings" xml:space="preserve">
     <value>Настройки сервера SNMP</value>
   </data>
@@ -3146,5 +3143,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Clear" xml:space="preserve">
 		<value>Очистить</value>
+	</data>
+	<data name="SID_Software_version" xml:space="preserve">
+		<value>Версия ПК</value>
 	</data>
 </root>

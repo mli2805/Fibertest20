@@ -2678,9 +2678,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Manufacturer" xml:space="preserve">
     <value>Manufacturer</value>
   </data>
-	<data name="SID_firmwareVersion" xml:space="preserve">
-    <value>firmware version</value>
-  </data>
 	<data name="SID_SNMP_settings" xml:space="preserve">
     <value>SNMP server settings</value>
   </data>
@@ -3146,5 +3143,8 @@ Please install IIS before installing Fibertest Web Component.</value>
 	</data>
 	<data name="SID_Clear" xml:space="preserve">
 		<value>Clear</value>
+	</data>
+	<data name="SID_Software_version" xml:space="preserve">
+		<value>Software version</value>
 	</data>
 </root>

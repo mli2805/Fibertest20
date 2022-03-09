@@ -2,7 +2,6 @@
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -91,20 +90,10 @@ namespace Iit.Fibertest.Client
                 if (value == _version) return;
                 _version = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(MfidVersion));
             }
         }
 
-        private readonly string _firmwareVersion = Resources.SID_firmwareVersion;
         private string _mainOtauModel;
-
-        public string MfidVersion => _firmwareVersion == @"firmware version"
-            ? $@"{Mfid} {_firmwareVersion} {Version}"
-            : $@"{_firmwareVersion} {Mfid} {Version}";
-
-        public string OmidVersion => _firmwareVersion == @"firmware version"
-            ? $@"OTDR {_firmwareVersion} {Version2}"
-            : $@"{_firmwareVersion} OTDR {Version2}";
 
         public string Version2
         {
@@ -114,7 +103,6 @@ namespace Iit.Fibertest.Client
                 if (value == _version2) return;
                 _version2 = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(OmidVersion));
             }
         }
 
