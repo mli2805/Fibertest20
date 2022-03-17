@@ -3147,4 +3147,9 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Software_version" xml:space="preserve">
 		<value>Версия ПК</value>
 	</data>
+	<data name="SID_Failed_to_resend_base_to_rtu" xml:space="preserve">
+		<value>Базовые рефлектограммы изменены и сохранены в БД. 
+Не удалось переслать их на модуль, так как он сейчас недоступен. 
+Повторите попытку позже.</value>
+	</data>
 </root>

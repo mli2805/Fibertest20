@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
@@ -23,7 +25,9 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public BaseRefRepairmanIntermediary(Model writeModel, IMyLog logFile, EventStoreService eventStoreService,
+        private string _culture;
+
+        public BaseRefRepairmanIntermediary(Model writeModel, IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
             SorFileRepository sorFileRepository, BaseRefDtoFactory baseRefDtoFactory,
             TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
@@ -37,6 +41,8 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+
+            _culture = iniFile.Read(IniSection.General, IniKey.Culture, "en-US");
         }
 
         private static readonly IMapper Mapper1 = new MapperConfiguration(
@@ -101,6 +107,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<string> AmendBaseRefs(List<Trace> traces)
         {
+            string returnStr = null;
             foreach (var trace in traces)
             {
                 var listOfBaseRef = await GetBaseRefDtos(trace);
@@ -121,14 +128,25 @@ namespace Iit.Fibertest.DataCenterCore
                 var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
                 if (rtu == null)
                     return "RTU not found.";
-                var result = await SendAmendedBaseRefsToRtu(rtu, trace, listOfBaseRef);
-                if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                    return result.ErrorMessage;
 
-                var unused = await UpdateVeexTestList(result, "system", "localhost");
+                if (rtu.IsAvailable)
+                {
+                    var result = await SendAmendedBaseRefsToRtu(rtu, trace, listOfBaseRef);
+                    if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                        returnStr = result.ErrorMessage;
+
+                    var updateResult = await UpdateVeexTestList(result, "system", "localhost");
+                    if (updateResult.ReturnCode != ReturnCode.Ok)
+                        returnStr = updateResult.ErrorMessage;
+                }
+                else
+                {
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(_culture);
+                    returnStr = Resources.SID_Failed_to_resend_base_to_rtu;
+                }
             }
 
-            return null;
+            return returnStr;
         }
 
         private async Task<List<BaseRefDto>> GetBaseRefDtos(Trace trace)
@@ -183,8 +201,8 @@ namespace Iit.Fibertest.DataCenterCore
                 OtauPortDto = trace.OtauPort,
                 MainOtauPortDto = new OtauPortDto()
                 {
-                    OtauId = rtu.MainVeexOtau.id, 
-                    Serial = rtu.MainVeexOtau.serialNumber, 
+                    OtauId = rtu.MainVeexOtau.id,
+                    Serial = rtu.MainVeexOtau.serialNumber,
                     OpticalPort = trace.OtauPort.MainCharonPort,
                     IsPortOnMainCharon = true,
                 },

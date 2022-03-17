@@ -186,4 +186,9 @@ END;</value>
   <data name="SID_License_could_not_be_applied_twice_" xml:space="preserve">
     <value>License could not be applied twice!</value>
   </data>
+  <data name="SID_Failed_send_base_to_rtu" xml:space="preserve">
+	  <value>Base refs have been changed and saved in the DB. 
+Failed to send them to the RTU because it is not currently available. 
+Please try again later</value>
+  </data>
 </root>

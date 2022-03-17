@@ -19,7 +19,7 @@ namespace GMap.NET.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -109,6 +109,17 @@ namespace GMap.NET.Properties {
         internal static string SID_Exceeded_the_number_of_RTU_for_an_existing_license {
             get {
                 return ResourceManager.GetString("SID_Exceeded_the_number_of_RTU_for_an_existing_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base refs have been changed and saved in the DB. 
+        ///Failed to send them to the RTU because it is not currently available. 
+        ///Please try again later.
+        /// </summary>
+        internal static string SID_Failed_send_base_to_rtu {
+            get {
+                return ResourceManager.GetString("SID_Failed_send_base_to_rtu", resourceCulture);
             }
         }
         

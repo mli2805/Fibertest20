@@ -3106,6 +3106,17 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base refs have been changed and saved in the DB. 
+        ///Failed to send them to the RTU because it is not currently available. 
+        ///Please try again later.
+        /// </summary>
+        public static string SID_Failed_to_resend_base_to_rtu {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_resend_base_to_rtu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to save GIS mode!.
         /// </summary>
         public static string SID_Failed_to_save_GIS_mode_ {
