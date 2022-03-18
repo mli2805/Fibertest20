@@ -2760,7 +2760,7 @@ RTU инициализируется в данный момент!</value>
     <value>Лицензия на Super-client истекла</value>
   </data>
 	<data name="SID_Install_Web_Service" xml:space="preserve">
-    <value>Установить компонент WebClient</value>
+    <value>Установить компонент Web Server</value>
   </data>
 	<data name="SID_List_of_ssl_certificates" xml:space="preserve">
     <value>Список SSL сертификатов, установленных в IIS</value>
