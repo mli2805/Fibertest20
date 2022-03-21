@@ -36,6 +36,8 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int OtauTcpPort { get; set; }
 
+        [DataMember]
+        public bool ApplyAutoAnalysis { get; set; }
     }
-    
+
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using System.Threading;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -21,7 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IFtSignalRClient _ftSignalRClient;
 
 
-        public WcfServiceForRtu(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
+        public WcfServiceForRtu(IMyLog logFile, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState,
             MeasurementsForWebNotifier measurementsForWebNotifier, IFtSignalRClient ftSignalRClient)
         {
@@ -32,16 +31,13 @@ namespace Iit.Fibertest.DataCenterCore
             _globalState = globalState;
             _measurementsForWebNotifier = measurementsForWebNotifier;
             _ftSignalRClient = ftSignalRClient;
-
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            _logFile.AppendLine($"RTU listener: works in thread {tid}");
         }
 
-        public void RegisterRtuHeartbeat(RtuChecksChannelDto dto)
+        public async void RegisterRtuHeartbeat(RtuChecksChannelDto dto)
         {
             try
             {
-                _rtuStationsRepository.RegisterRtuHeartbeatAsync(dto).Wait();
+                await _rtuStationsRepository.RegisterRtuHeartbeatAsync(dto);
             }
             catch (Exception e)
             {
@@ -88,7 +84,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             try
             {
-                var client =  _clientsCollection.GetClientByConnectionId(result.ConnectionId);
+                var client = _clientsCollection.GetClientByConnectionId(result.ConnectionId);
                 if (client == null)
                 {
                     _logFile.AppendLine($@"TransmitClientMeasurementResult: client {result.ConnectionId} not found");

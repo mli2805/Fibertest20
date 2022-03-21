@@ -9,7 +9,7 @@ namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
-        public ClientMeasurementStartedDto ClientMeasurementStartedDto = new ClientMeasurementStartedDto();
+        public readonly ClientMeasurementStartedDto ClientMeasurementStartedDto = new ClientMeasurementStartedDto();
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
@@ -24,7 +24,12 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             }
 
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
+            var sendResult = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
+            _serviceLog.AppendLine(sendResult
+                ? "RTU sent client measurement result"
+                : $"Can't send client measurement result to {_serverAddresses.Main.ToStringA()}");
+
+
             if (_wasMonitoringOn)
             {
                 IsMonitoringOn = true;
@@ -87,7 +92,7 @@ namespace Iit.Fibertest.RtuManagement
                 ReturnCode = ReturnCode.MeasurementEndedNormally,
                 ConnectionId = dto.ConnectionId,
                 ClientIp = dto.ClientIp,
-                SorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
+                SorBytes = dto.ApplyAutoAnalysis ? _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer) : lastSorDataBuffer,
             };
         }
 

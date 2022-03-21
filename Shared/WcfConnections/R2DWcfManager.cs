@@ -57,21 +57,23 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public void SendClientMeasurementDone(SorBytesDto dto)
+        public bool SendClientMeasurementDone(SorBytesDto dto)
         {
             var wcfConnection = _wcfFactory.GetR2DChannelFactory(false);
             if (wcfConnection == null)
-                return;
+                return false;
 
             try
             {
                 var channel = wcfConnection.CreateChannel();
                 channel.TransmitClientMeasurementResult(dto);
                 wcfConnection.Close();
+                return true;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("SendClientMeasurementDone: " + e.Message);
+                return false;
             }
         }
     }
