@@ -10,52 +10,7 @@
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:OtdrParametersThroughServerSetterViewModel}">
     <StackPanel>
-        <GroupBox Margin="5">
-            <StackPanel Margin="0,5,0,0">
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Width="30" Margin="5"/>
-                    <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                              ItemsSource="{Binding Model.Units}" SelectedItem="{Binding Model.SelectedUnit, Mode=TwoWay}"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Fiber_type_wavelength}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="dB"/>
-                    <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                             Text="{Binding Model.BackscatteredCoefficient, UpdateSourceTrigger=PropertyChanged, StringFormat=00.0}"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Backscattered_Coefficient}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text=""/>
-                    <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                             Text="{Binding Model.RefractiveIndex, UpdateSourceTrigger=PropertyChanged, StringFormat=0.00000 }"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Refractive_index}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="km"/>
-                    <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                              ItemsSource="{Binding Model.Distances}" SelectedItem="{Binding Model.SelectedDistance, Mode=TwoWay}"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Distance_range}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="m"/>
-                    <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                              ItemsSource="{Binding Model.Resolutions}" SelectedItem="{Binding Model.SelectedResolution, Mode=TwoWay}"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Resolution}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="ns"/>
-                    <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                              ItemsSource="{Binding Model.PulseDurations}" SelectedItem="{Binding Model.SelectedPulseDuration, Mode=TwoWay}"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Pulse_width}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" Margin="5,0,45,0" Height="22" Width="90" 
-                              Name="CbTimes" ItemsSource="{Binding Model.MeasurementTime}" SelectedItem="{Binding Model.SelectedMeasurementTime, Mode=TwoWay}"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Measurement_time_}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-            </StackPanel>
-        </GroupBox>
-        
+        <client:OtdrParametersView DataContext="{Binding OtdrParametersViewModel}"/>
         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
             <Button Name="Measure" Content="{x:Static stringResources:Resources.SID_Measure}" IsDefault="True" Margin="5" Width="100" Height="22"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Width="100" Height="22"/>
