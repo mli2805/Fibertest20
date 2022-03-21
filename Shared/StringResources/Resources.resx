@@ -3152,4 +3152,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 Failed to send them to the RTU because it is not currently available. 
 Please try again later</value>
 	</data>
+	<data name="SID_Assign_base_refs_automatically" xml:space="preserve">
+		<value>Assign base refs automatically</value>
+	</data>
 </root>

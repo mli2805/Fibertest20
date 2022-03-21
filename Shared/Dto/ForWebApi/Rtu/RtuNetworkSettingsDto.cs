@@ -3,6 +3,7 @@
     public class RtuNetworkSettingsDto
     {
         public string RtuTitle{ get; set; }
+        public RtuMaker RtuMaker;
         public string MainChannel{ get; set; }
         public bool IsReserveChannelSet{ get; set; }
         public string ReserveChannel{ get; set; }

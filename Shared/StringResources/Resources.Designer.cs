@@ -774,6 +774,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign base refs automatically.
+        /// </summary>
+        public static string SID_Assign_base_refs_automatically {
+            get {
+                return ResourceManager.GetString("SID_Assign_base_refs_automatically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assigned.
         /// </summary>
         public static string SID_Assigned_at {
@@ -3823,7 +3832,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install WebClient Component.
+        ///   Looks up a localized string similar to Install Web Server Component.
         /// </summary>
         public static string SID_Install_Web_Service {
             get {

@@ -3152,4 +3152,7 @@ RTU инициализируется в данный момент!</value>
 Не удалось переслать их на модуль, так как он сейчас недоступен. 
 Повторите попытку позже.</value>
 	</data>
+	<data name="SID_Assign_base_refs_automatically" xml:space="preserve">
+		<value>Задать базовые автоматически</value>
+	</data>
 </root>

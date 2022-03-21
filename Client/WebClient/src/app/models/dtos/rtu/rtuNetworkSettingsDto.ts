@@ -1,5 +1,8 @@
+import { RtuMaker } from "../../enums/rtuMaker";
+
 export class RtuNetworkSettingsDto {
   rtuTitle: string;
+  rtuMaker: RtuMaker;
 
   mainChannel: string;
   isReserveChannelSet: boolean;
