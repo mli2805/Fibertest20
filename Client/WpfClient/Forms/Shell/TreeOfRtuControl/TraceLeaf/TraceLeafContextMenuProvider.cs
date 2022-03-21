@@ -103,6 +103,13 @@ namespace Iit.Fibertest.Client
 
                 menu.Add(new MenuItemVm()
                 {
+                    Header = Resources.SID_Assign_base_refs_automatically,
+                    Command = new ContextMenuAsyncAction(_traceLeafActions.AssignBaseRefsAutomatically, _traceLeafActionsPermissions.CanAssignBaseRefsAutomatically),
+                    CommandParameter = traceLeaf
+                });
+
+                menu.Add(new MenuItemVm()
+                {
                     Header = Resources.SID_Measurement__Client_,
                     Command = new ContextMenuAsyncAction(_commonActions.MeasurementClientAction, _commonActions.CanMeasurementClientAction),
                     CommandParameter = traceLeaf

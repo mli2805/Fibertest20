@@ -199,6 +199,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<OtdrParametersThroughServerSetterViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ClientMeasurementViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<AutoBaseViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<NodeVmActions>().InstancePerLifetimeScope();
             builder.RegisterType<CommonVmActions>().InstancePerLifetimeScope();

@@ -25,13 +25,14 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
         private readonly LandmarksViewsManager _landmarksViewsManager;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
+        private readonly AutoBaseViewModel _autoBaseViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
         public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
-            OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
+            OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel, AutoBaseViewModel autoBaseViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
@@ -45,6 +46,7 @@ namespace Iit.Fibertest.Client
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
             _landmarksViewsManager = landmarksViewsManager;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
+            _autoBaseViewModel = autoBaseViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
@@ -174,6 +176,16 @@ namespace Iit.Fibertest.Client
             await Task.Delay(0);
             _outOfTurnPreciseMeasurementViewModel.Initialize(traceLeaf);
             _windowManager.ShowDialogWithAssignedOwner(_outOfTurnPreciseMeasurementViewModel);
+        }
+
+        public async Task AssignBaseRefsAutomatically(object param)
+        {
+            if (!(param is TraceLeaf traceLeaf))
+                return;
+
+            await Task.Delay(0);
+            _autoBaseViewModel.Initialize(traceLeaf, _readModel);
+            _windowManager.ShowDialogWithAssignedOwner(_autoBaseViewModel);
         }
     }
 }
