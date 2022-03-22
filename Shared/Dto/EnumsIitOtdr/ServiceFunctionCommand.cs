@@ -96,6 +96,8 @@
         ParamOutSwitchControl               =775,
         LinkScanSetParam                      =776,
         SorSetAutoPrmFlag                   =777,
-
+        TweakLinkScanParams = 778,
+        InsertIitEvents = 779,
+        Auto2 = 780,
     }
 }
