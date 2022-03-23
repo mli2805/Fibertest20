@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Client
                 SelectedMeasParams = iitMeasParams,
                 VeexMeasOtdrParameters = veexMeasParams,
 
-                ApplyAutoAnalysis = false,
+                ApplyAutoAnalysis = true,
             };
 
             if (!otauPortDto.IsPortOnMainCharon && rtu.RtuMaker == RtuMaker.VeEX)

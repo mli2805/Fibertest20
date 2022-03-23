@@ -184,7 +184,7 @@ namespace Iit.Fibertest.Client
                 return;
 
             await Task.Delay(0);
-            _autoBaseViewModel.Initialize(traceLeaf, _readModel);
+            _autoBaseViewModel.Initialize(traceLeaf);
             _windowManager.ShowDialogWithAssignedOwner(_autoBaseViewModel);
         }
     }
