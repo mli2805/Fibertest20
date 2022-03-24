@@ -186,7 +186,7 @@ namespace Iit.Fibertest.Client
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (result != null)
             {
-                var mb = new MyMessageBoxViewModel(MessageType.Error, @"UpdateRtu: " + result);
+                var mb = new MyMessageBoxViewModel(MessageType.Error, result);
                 _windowManager.ShowDialogWithAssignedOwner(mb);
                 return false;
             }

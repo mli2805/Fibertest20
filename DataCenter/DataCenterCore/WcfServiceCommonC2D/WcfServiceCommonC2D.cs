@@ -24,6 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefsChecker2 _baseRefsChecker;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly IntermediateLayer _intermediateLayer;
+        private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
@@ -32,7 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefsChecker2 baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
-            IntermediateLayer intermediateLayer,
+            IntermediateLayer intermediateLayer, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             IFtSignalRClient ftSignalRClient,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
@@ -46,6 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefsChecker = baseRefsChecker;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _intermediateLayer = intermediateLayer;
+            _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _ftSignalRClient = ftSignalRClient;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
@@ -252,7 +254,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (dto.RtuMaker == RtuMaker.VeEX)
                     // Veex and there are base refs so veexTests table should be updated
                 {
-                    var updateResult = await UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+                    var updateResult = await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
                     if (updateResult.ReturnCode != ReturnCode.Ok)
                         return new BaseRefAssignedDto()
                             {ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage};
@@ -361,31 +363,10 @@ namespace Iit.Fibertest.DataCenterCore
                 return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
 
             // Veex and there are base refs so veexTests table should be updated
-            return await UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+            return await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
         }
 
-        private static readonly IMapper Mapper1 = new MapperConfiguration(
-            cfg => cfg.AddProfile<VeexTestMappingProfile>()).CreateMapper();
-
-        private async Task<RequestAnswer> UpdateVeexTestList(BaseRefAssignedDto transferResult, string username, string clientIp)
-        {
-            var commands = transferResult.AddVeexTests
-                .Select(l => (object)Mapper1.Map<AddVeexTest>(l) ).ToList();
-
-            var ccc = transferResult.RemoveVeexTests.Select(l => new RemoveVeexTest() {TestId = l});
-            commands.AddRange(ccc);
-
-            var cmdCount = await _eventStoreService.SendCommands(commands, username, clientIp);
-
-            return cmdCount == commands.Count
-                ? new RequestAnswer() {ReturnCode = ReturnCode.Ok}
-                : new RequestAnswer()
-                {
-                    ReturnCode = ReturnCode.Error,
-                    ErrorMessage = "Failed to apply commands maintaining veex tests table!"
-                };
-        }
-
+      
         private async Task<BaseRefAssignedDto> SendBaseRefsIfAny(AttachTraceDto dto)
         {
             var dto1 = await CreateAssignBaseRefsDto(dto);

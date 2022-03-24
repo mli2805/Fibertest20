@@ -16,8 +16,11 @@
           <p>{{ "SID_Device" | translate }}:</p>
           <p>{{ "SID_Serial" | translate }}:</p>
           <p>{{ "SID_Port_count" | translate }}:</p>
-          <p>{{ "SID_RTU_Manager_software_version" | translate }}:</p>
-          <p *ngIf="vm.version2">Version2:</p>
+
+          <p *ngIf="vm.rtuMaker === allRtuMakers.IIT">{{ "SID_RTU_Manager_software_version" | translate }}:</p>
+          <p *ngIf="vm.rtuMaker === allRtuMakers.VeEX">{{ "SID_Software_version" | translate }} {{ vm.mfid }}:</p>
+
+          <p *ngIf="vm.rtuMaker === allRtuMakers.VeEX">{{ "SID_RTU_Manager_software_version" | translate }}:</p>
         </div>
         <div class="values">
           <p>{{ vm.rtuTitle }}</p>
@@ -28,8 +31,10 @@
           <p>{{ vm.mfid }}</p>
           <p>{{ vm.serial }}</p>
           <p>{{ vm.ownPortCount }}/{{ vm.fullPortCount }}</p>
+
           <p>{{ vm.version }}</p>
-          <p *ngIf="vm.version2">{{ vm.version2 }}</p>
+
+          <p *ngIf="vm.rtuMaker === allRtuMakers.VeEX">{{ vm.version2 }}</p>
         </div>
       </div>
     </mat-card-content>

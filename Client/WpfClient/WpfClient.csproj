@@ -219,7 +219,23 @@
     </ApplicationDefinition>
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\ClientMeasurementModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementProgressView.xaml.cs">
+      <DependentUpon>MeasurementProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementProgressViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsApplier.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsClasses.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsTemplateParser.cs" />
+    <Compile Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersView.xaml.cs">
+      <DependentUpon>OtdrParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersViewModel.cs" />
     <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseView.xaml.cs">
+      <DependentUpon>AutoBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseViewModel.cs" />
     <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
     <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
       <DependentUpon>TceComponentsView.xaml</DependentUpon>
@@ -429,7 +445,7 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmActions.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
-    <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\ClientMeasurement\ClientMeasurementViewModel.cs" />
     <Compile Include="Forms\TraceForms\TraceStatistics\BaseRefForStats.cs" />
     <Compile Include="Forms\TraceForms\TraceStepByStep\StepChoiceView.xaml.cs">
       <DependentUpon>StepChoiceView.xaml</DependentUpon>
@@ -482,18 +498,18 @@
     </Compile>
     <Compile Include="Reports\OpticalEventsReport\Controls\TraceStateSelectionViewModel.cs" />
     <Compile Include="WcfClient\WcfServiceInClient.cs" />
-    <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
+    <Compile Include="Forms\SpecialMeasurements\ClientMeasurement\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="EventSourcing\ClientPoller.cs" />
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMeasParamsChecker.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsChecker.cs" />
-    <Compile Include="Forms\MeasurementParameters\OtdrParametersModel.cs" />
-    <Compile Include="Forms\MeasurementParameters\OtdrParametersThroughServerSetterView.xaml.cs">
+    <Compile Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\ClientMeasurement\OtdrParametersThroughServerSetterView.xaml.cs">
       <DependentUpon>OtdrParametersThroughServerSetterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MeasurementParameters\OtdrParametersThroughServerSetterViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\ClientMeasurement\OtdrParametersThroughServerSetterViewModel.cs" />
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventModel.cs" />
     <Compile Include="Forms\Shell\BopNetworkEventsControl\BopNetworkEventsDoubleView.xaml.cs">
       <DependentUpon>BopNetworkEventsDoubleView.xaml</DependentUpon>
@@ -772,6 +788,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\Tce\TceComponentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -896,11 +924,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml">
+    <Page Include="Forms\SpecialMeasurements\ClientMeasurement\ClientMeasurementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\MeasurementParameters\OtdrParametersThroughServerSetterView.xaml">
+    <Page Include="Forms\SpecialMeasurements\ClientMeasurement\OtdrParametersThroughServerSetterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

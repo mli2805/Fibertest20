@@ -38,11 +38,18 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
         {
             var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId == completedTest.testId);
-            if (veexTest == null) return;
+            if (veexTest == null)
+            {
+                _logFile.AppendLine($"RTU {rtu.Title} returned unknown test {completedTest.testId.First6()}");
+                return;
+            }
 
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == veexTest.TraceId);
             if (trace == null) // old tests
+            {
+                _logFile.AppendLine($"RTU {rtu.Title} returned test {completedTest.testId.First6()} with no related trace");
                 return;
+            }
 
             _logFile.AppendLine($"RTU {rtu.Title} returned {trace.Title} monitoring result", 0, 3);
 

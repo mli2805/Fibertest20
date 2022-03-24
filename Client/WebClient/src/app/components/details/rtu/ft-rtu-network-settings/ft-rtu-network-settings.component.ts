@@ -8,6 +8,7 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { OneApiService } from "src/app/api/one.service";
 import { Utils } from "src/app/utils/utils";
+import { RtuMaker } from "src/app/models/enums/rtuMaker";
 
 @Component({
   selector: "ft-rtu-network-settings",
@@ -20,6 +21,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
   public isButtonDisabled = true;
   public initializationReturnCode = ReturnCode.Ok;
   public initializationMessage: string;
+  allRtuMakers = RtuMaker;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -37,6 +39,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
       .toPromise()) as RtuNetworkSettingsDto;
     console.log("rtu network settings received");
     this.isSpinnerVisible = false;
+    this.allRtuMakers = RtuMaker;
   }
 
   processInitializationResult(resultDto: RtuInitializedWebDto) {

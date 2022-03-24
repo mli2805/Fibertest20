@@ -66,18 +66,17 @@ namespace Iit.Fibertest.UtilsLib
                 sorData.Save(fs);
             }
         }
-        public static void Save(byte[] sorBytes, string filename)
-        {
-            if (sorBytes == null)
-                return;
 
-            if (File.Exists(filename))
-                File.Delete(filename);
-            using (FileStream fs = File.Create(filename))
-            {
-                fs.Write(sorBytes, 0, sorBytes.Length);
-            }
-        }
+        // public static void Save(byte[] sorBytes, string filename)
+        // {
+        //     if (sorBytes == null)
+        //         return;
+        //
+        //     if (File.Exists(filename))
+        //         File.Delete(filename);
+        //     using FileStream fs = File.Create(filename);
+        //     fs.Write(sorBytes, 0, sorBytes.Length);
+        // }
 
         private const double LightSpeed = 0.000299792458; // km/ns
         public static double OwtToLenKm(this OtdrDataKnownBlocks sorData, double owt)

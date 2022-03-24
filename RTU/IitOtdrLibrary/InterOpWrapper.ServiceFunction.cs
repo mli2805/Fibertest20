@@ -13,12 +13,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public string GetOtdrInfo(GetOtdrInfo infoType)
         {
-            int cmd = (int) ServiceFunctionCommand.Getotdrinfo;
-            int prm = (int) infoType;
+            int cmd = (int)ServiceFunctionCommand.Getotdrinfo;
+            int prm = (int)infoType;
             IntPtr otdrInfo = IntPtr.Zero;
 
             var result = ServiceFunction(cmd, ref prm, ref otdrInfo);
-            if (result == 0) 
+            if (result == 0)
                 return Marshal.PtrToStringAnsi(otdrInfo);
 
             _rtuLogger.AppendLine($"Get OTDR info error ={result}!");
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public void SetEqualStepsOfMeasurement()
         {
-            int cmd = (int) ServiceFunctionCommand.SetMeasSteppingMode;
+            int cmd = (int)ServiceFunctionCommand.SetMeasSteppingMode;
             int prm = 1; // 1 - equal steps, 0 - permanently increasing
             IntPtr prm2 = IntPtr.Zero;
 
@@ -65,6 +65,29 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result == 0;
         }
 
-      
+        // analysisMode = 0 - полный анализ; 1 - полуавтомат
+        public bool Analyze(ref IntPtr sorData, int analysisMode)
+        {
+            int cmd = (int)ServiceFunctionCommand.Auto2;
+            int mode = analysisMode;
+
+            var result = ServiceFunction(cmd, ref mode, ref sorData);
+            if (result != 0)
+                _rtuLogger.AppendLine($"Analyze error={result}!");
+            return result == 0;
+        }
+
+        public bool InsertIitEvents(ref IntPtr sorData)
+        {
+            int cmd = (int)ServiceFunctionCommand.InsertIitEvents;
+            int reserved = 0;
+
+            var result = ServiceFunction(cmd, ref reserved, ref sorData);
+            if (result != 0)
+                _rtuLogger.AppendLine($"InsertIitEvents error={result}!");
+            return result == 0;
+        }
+
+
     }
 }

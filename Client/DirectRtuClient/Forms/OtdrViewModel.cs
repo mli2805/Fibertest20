@@ -190,8 +190,15 @@ namespace DirectRtuClient
                 if (lastSorDataBuffer == null)
                     return;
 
-                var sorData = OtdrManager.ApplyFilter(OtdrManager.ApplyAutoAnalysis(lastSorDataBuffer), false);
-                sorData.Save(MeasFileName);
+                var sorData = SorData.FromBytes(lastSorDataBuffer);
+                sorData.Save(@"c:\temp\sor\raw_meas.sor");
+
+                var sorBytes = OtdrManager.Sf780_779(lastSorDataBuffer);
+                var sorData2 = SorData.FromBytes(sorBytes);
+                sorData2.Save(@"c:\temp\sor\meas_779.sor");
+
+
+                // var sorData = OtdrManager.ApplyFilter(sorBytes, false);
             }
         }
 

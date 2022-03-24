@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
 
             Rtus.Clear();
             foreach (var rtu in _readModel.Rtus)
-                Rtus.Add(new RtuLine(rtu.Title, rtu.Mfid, rtu.Serial, rtu.Version));
+                Rtus.Add(new RtuLine(rtu.Title, rtu.Mfid, rtu.Serial, rtu.RtuMaker == RtuMaker.IIT ? rtu.Version : rtu.Version2));
         }
 
         public void Close() { TryClose(); }

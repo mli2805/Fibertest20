@@ -3,17 +3,13 @@ using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-
-    public class OtdrParametersThroughServerSetterViewModel : Screen
+    public class OtdrParametersViewModel : PropertyChangedBase
     {
         private TreeOfAcceptableMeasParams _treeOfAcceptableMeasParams;
         public OtdrParametersModel Model { get; set; }
-        public bool IsAnswerPositive { get; set; }
-
 
         public void Initialize(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
         {
@@ -45,7 +41,7 @@ namespace Iit.Fibertest.Client
             Model.BackscatteredCoefficient = branchOfAcceptableMeasParams.BackscatteredCoefficient;
             Model.RefractiveIndex = branchOfAcceptableMeasParams.RefractiveIndex;
             Model.Distances = branchOfAcceptableMeasParams.Distances
-                .Keys.OrderBy(x =>double.Parse(x, new CultureInfo(@"en-US"))).ToList();
+                .Keys.OrderBy(x => double.Parse(x, new CultureInfo(@"en-US"))).ToList();
             Model.SelectedDistance = Model.Distances.First();
 
             var leafOfAcceptableMeasParams = branchOfAcceptableMeasParams.Distances[Model.SelectedDistance];
@@ -90,23 +86,6 @@ namespace Iit.Fibertest.Client
             Model.SelectedMeasurementTime = index != -1 ? Model.MeasurementTime[index] : Model.MeasurementTime.First();
         }
 
-        protected override void OnViewLoaded(object view)
-        {
-            DisplayName = Resources.SID_Measurement_parameters;
-        }
-
-        public void Measure()
-        {
-            IsAnswerPositive = true;
-            TryClose();
-        }
-
-        public void Close()
-        {
-            IsAnswerPositive = false;
-            TryClose();
-        }
-
         public List<MeasParam> GetSelectedParameters()
         {
             var result = new List<MeasParam>
@@ -143,15 +122,15 @@ namespace Iit.Fibertest.Client
                 measurementType = @"manual",
                 fastMeasurement = false,
                 highFrequencyResolution = false,
-                lasers = new List<Laser>(){ new Laser() {laserUnit = Model.SelectedUnit}},
+                lasers = new List<Laser>() { new Laser() { laserUnit = Model.SelectedUnit } },
                 opticalLineProperties = new OpticalLineProperties()
                 {
-                    kind = @"point_to_point", 
+                    kind = @"point_to_point",
                     lasersProperties = new List<LasersProperty>()
                     {
                         new LasersProperty()
                         {
-                            laserUnit = Model.SelectedUnit, 
+                            laserUnit = Model.SelectedUnit,
                             backscatterCoefficient = (int)Model.BackscatteredCoefficient,
                             refractiveIndex = Model.RefractiveIndex,
                         }
@@ -166,5 +145,5 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-}
+    }
 }

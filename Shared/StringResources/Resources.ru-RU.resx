@@ -2678,9 +2678,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Manufacturer" xml:space="preserve">
     <value>Производитель</value>
   </data>
-	<data name="SID_firmwareVersion" xml:space="preserve">
-    <value>Версия прошивки</value>
-  </data>
 	<data name="SID_SNMP_settings" xml:space="preserve">
     <value>Настройки сервера SNMP</value>
   </data>
@@ -2763,7 +2760,7 @@ RTU инициализируется в данный момент!</value>
     <value>Лицензия на Super-client истекла</value>
   </data>
 	<data name="SID_Install_Web_Service" xml:space="preserve">
-    <value>Установить компонент WebClient</value>
+    <value>Установить компонент Web Server</value>
   </data>
 	<data name="SID_List_of_ssl_certificates" xml:space="preserve">
     <value>Список SSL сертификатов, установленных в IIS</value>
@@ -3146,5 +3143,16 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Clear" xml:space="preserve">
 		<value>Очистить</value>
+	</data>
+	<data name="SID_Software_version" xml:space="preserve">
+		<value>Версия ПК</value>
+	</data>
+	<data name="SID_Failed_to_resend_base_to_rtu" xml:space="preserve">
+		<value>Базовые рефлектограммы изменены и сохранены в БД. 
+Не удалось переслать их на модуль, так как он сейчас недоступен. 
+Повторите попытку позже.</value>
+	</data>
+	<data name="SID_Assign_base_refs_automatically" xml:space="preserve">
+		<value>Задать базовые автоматически</value>
 	</data>
 </root>

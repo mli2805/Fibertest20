@@ -77,7 +77,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     }
 
                     var result = InterOpWrapper.DoMeasurementStep(ref _sorData);
-                    if (((LogFile) _rtuLogger).LogLevel == 3)
+                    if (((LogFile)_rtuLogger).LogLevel == 3)
                     {
                         var buffer = GetLastSorDataBuffer();
                         _rtuLogger.AppendLine($"MeasStep #{++step} returned {buffer.Length} bytes", 0, 3);
@@ -130,6 +130,22 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _rtuLogger.AppendLine("ApplyAutoAnalysis error.");
                 return null;
             }
+            var size = InterOpWrapper.GetSorDataSize(measIntPtr);
+            byte[] resultBytes = new byte[size];
+            InterOpWrapper.GetSordata(measIntPtr, resultBytes, size);
+            InterOpWrapper.FreeSorDataMemory(measIntPtr);
+            return resultBytes;
+        }
+
+        public byte[] Sf780_779(byte[] measBytes)
+        {
+            var measIntPtr = InterOpWrapper.SetSorData(measBytes);
+            if (!InterOpWrapper.Analyze(ref measIntPtr, 1))
+                return null;
+            
+            if (!InterOpWrapper.InsertIitEvents(ref measIntPtr))
+                return null;
+
             var size = InterOpWrapper.GetSorDataSize(measIntPtr);
             byte[] resultBytes = new byte[size];
             InterOpWrapper.GetSordata(measIntPtr, resultBytes, size);

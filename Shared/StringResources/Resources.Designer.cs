@@ -774,6 +774,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign base refs automatically.
+        /// </summary>
+        public static string SID_Assign_base_refs_automatically {
+            get {
+                return ResourceManager.GetString("SID_Assign_base_refs_automatically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assigned.
         /// </summary>
         public static string SID_Assigned_at {
@@ -3106,6 +3115,17 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base refs have been changed and saved in the DB. 
+        ///Failed to send them to the RTU because it is not currently available. 
+        ///Please try again later.
+        /// </summary>
+        public static string SID_Failed_to_resend_base_to_rtu {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_resend_base_to_rtu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to save GIS mode!.
         /// </summary>
         public static string SID_Failed_to_save_GIS_mode_ {
@@ -3354,15 +3374,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Filter {
             get {
                 return ResourceManager.GetString("SID_Filter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to firmware version.
-        /// </summary>
-        public static string SID_firmwareVersion {
-            get {
-                return ResourceManager.GetString("SID_firmwareVersion", resourceCulture);
             }
         }
         
@@ -3821,7 +3832,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install WebClient Component.
+        ///   Looks up a localized string similar to Install Web Server Component.
         /// </summary>
         public static string SID_Install_Web_Service {
             get {
@@ -7446,6 +7457,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_software____0_ {
             get {
                 return ResourceManager.GetString("SID_software____0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Software version.
+        /// </summary>
+        public static string SID_Software_version {
+            get {
+                return ResourceManager.GetString("SID_Software_version", resourceCulture);
             }
         }
         
