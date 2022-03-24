@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(TraceLeaf traceLeaf)
         {
-            _clientMeasurementModel.Initialize(traceLeaf, false);
+            _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams);
         }
 

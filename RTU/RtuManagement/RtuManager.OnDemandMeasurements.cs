@@ -92,7 +92,9 @@ namespace Iit.Fibertest.RtuManagement
                 ReturnCode = ReturnCode.MeasurementEndedNormally,
                 ConnectionId = dto.ConnectionId,
                 ClientIp = dto.ClientIp,
-                SorBytes = dto.ApplyAutoAnalysis ? _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer) : lastSorDataBuffer,
+                SorBytes = dto.IsForAutoBase 
+                    ? _otdrManager.Sf780_779(lastSorDataBuffer) 
+                    : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
             };
         }
 

@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         public Rtu Rtu;
         private OtauPortDto _otauPortDto;
 
-        private bool _applyAutoAnalysis;
+        private bool _isForAutoBase;
 
         public ClientMeasurementModel(CurrentUser currentUser, Model readModel)
         {
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Initialize(TraceLeaf traceLeaf, bool applyAutoAnalysis)
+        public void Initialize(TraceLeaf traceLeaf, bool isForAutoBase)
         {
             var parent = traceLeaf.Parent;
             _rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
             var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == _portOwner.Serial);
             _otauPortDto = PrepareOtauPortDto(Rtu, otau, _portOwner, traceLeaf.PortNumber);
 
-            _applyAutoAnalysis = applyAutoAnalysis;
+            _isForAutoBase = isForAutoBase;
         }
 
         private OtauPortDto PrepareOtauPortDto(Rtu rtu, Otau otau, IPortOwner otauLeaf, int portNumber)
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
                 SelectedMeasParams = iitMeasParams,
                 VeexMeasOtdrParameters = veexMeasParams,
 
-                ApplyAutoAnalysis = _applyAutoAnalysis,
+                IsForAutoBase = _isForAutoBase,
             };
 
             if (!_otauPortDto.IsPortOnMainCharon && Rtu.RtuMaker == RtuMaker.VeEX)

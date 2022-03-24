@@ -20,7 +20,7 @@ namespace DirectRtuClient
 
             _rtuLogger = new LogFile(_iniFile35).AssignFile(@"rtu.log");
 
-            IpAddress = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauIp, @"172.16.5.53");
+            IpAddress = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauIp, @"192.168.96.53");
 
 
             var str = @"Test string Тестовая строка 1234567890 !№);%:?*()";

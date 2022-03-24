@@ -36,8 +36,10 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int OtauTcpPort { get; set; }
 
+        // true - only start/end and one section between them (for auto base ref mode)
+        // false - apply full auto analysis (usual client measurement)
         [DataMember]
-        public bool ApplyAutoAnalysis { get; set; }
+        public bool IsForAutoBase { get; set; }
     }
 
 }

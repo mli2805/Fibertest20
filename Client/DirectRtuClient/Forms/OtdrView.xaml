@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:directRtuClient="clr-namespace:DirectRtuClient"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen">
+        SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance directRtuClient:OtdrViewModel}">
     <StackPanel>
         <GroupBox Header="Initialization" Margin="5">
             <StackPanel>
