@@ -11,6 +11,8 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
+using Microsoft.Win32;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
@@ -42,6 +44,10 @@ namespace Iit.Fibertest.Client
         {
             _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams);
+
+            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
+            TemplateFileName = clientPath + @"\ini\template.rft";
+
         }
 
         protected override void OnViewLoaded(object view)
@@ -114,28 +120,63 @@ namespace Iit.Fibertest.Client
         public void ProcessMeasurementResult(byte[] sorBytes)
         {
             MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
-            ShowReflectogram(sorBytes);
+            _logFile.AppendLine(@"Measurement (Client) result received");
 
-            if (!RftsTemplateExt.TryLoad(@"c:\temp\template.rft", out RftsParams rftsParams, out Exception exception))
+            if (!TryLoadRftsParams(out RftsParams rftsParams)) return;
+
+            var sorData = SorData.FromBytes(sorBytes);
+            sorData.ApplyRftsParamsTemplate(rftsParams);
+
+            ShowReflectogram(sorData);
+        }
+
+        private bool TryLoadRftsParams(out RftsParams rftsParams)
+        {
+            if (!RftsParamsTemplateParser.TryLoad(@"c:\temp\template.rft", out rftsParams, out Exception exception))
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error,
                     new List<string>() { @"Failed to load template!", exception.Message });
                 _windowManager.ShowDialogWithAssignedOwner(mb);
+                return false;
             }
-            else
-                _logFile.AppendLine($@"RFTS template file loaded successfully! {rftsParams.LevelNumber} levels, {rftsParams.UniversalParamNumber} params");
+
+            _logFile.AppendLine($@"RFTS template file loaded successfully! {rftsParams.LevelNumber} levels, {rftsParams.UniversalParamNumber} params");
+            return true;
         }
 
-        private void ShowReflectogram(byte[] sorBytes)
+        private void ShowReflectogram(OtdrDataKnownBlocks sorData)
         {
-            _logFile.AppendLine(@"Measurement (Client) result received");
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
             if (!Directory.Exists(clientPath + @"\temp"))
                 Directory.CreateDirectory(clientPath + @"\temp");
             var filename = clientPath + $@"\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
-            SorData.Save(sorBytes, filename);
+            sorData.Save(filename);
             var iitPath = FileOperations.GetParentFolder(clientPath);
             Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
+        }
+
+        private string _templateFileName;
+        public string TemplateFileName
+        {
+            get => _templateFileName;
+            set
+            {
+                if (value == _templateFileName) return;
+                _templateFileName = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public void SelectTemplateFile()
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                DefaultExt = @".rft",
+                Filter = @"Template file  |*.rft"
+            };
+            if (openFileDialog.ShowDialog() == true)
+                TemplateFileName = openFileDialog.FileName;
         }
 
         public void Close()

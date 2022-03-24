@@ -224,8 +224,9 @@
       <DependentUpon>MeasurementProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementProgressViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsApplier.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsClasses.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsTemplateExt.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsTemplateParser.cs" />
     <Compile Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersView.xaml.cs">
       <DependentUpon>OtdrParametersView.xaml</DependentUpon>
     </Compile>

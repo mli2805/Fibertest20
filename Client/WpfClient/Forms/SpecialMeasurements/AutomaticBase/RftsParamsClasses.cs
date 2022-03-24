@@ -5,34 +5,34 @@ namespace Iit.Fibertest.Client
     public class RftsParams
     {
         public int LevelNumber;
-        public List<RftsLevel> Levels = new List<RftsLevel>();
+        public readonly List<RftsParamsLevel> Levels = new List<RftsParamsLevel>();
         public int UniversalParamNumber;
-        public List<RftsUniversalParameter> UniParams = new List<RftsUniversalParameter>();
+        public readonly List<RftsUniParameter> UniParams = new List<RftsUniParameter>();
     }
     
-    public class RftsLevel
+    public class RftsParamsLevel
     {
         public string LevelName;
         public bool Enabled; // stored as 0 or 1
         public RftsLevelThresholdSet LevelThresholdSet;
-        public ShortThreshold Eelt;
+        public Threshold Eelt;
     }
 
     public class RftsLevelThresholdSet
     {
-        public ShortThreshold Lt;
-        public ShortThreshold Rt;
-        public ShortThreshold Ct;
+        public Threshold Lt;
+        public Threshold Rt;
+        public Threshold Ct;
     }
 
-    public class ShortThreshold
+    public class Threshold
     {
         public bool Absolute; // stored as 0 or 1
         public int AbsoluteThreshold;
         public int RelativeThreshold;
     }
 
-    public class RftsUniversalParameter
+    public class RftsUniParameter
     {
         public string Name;
         public int Value;

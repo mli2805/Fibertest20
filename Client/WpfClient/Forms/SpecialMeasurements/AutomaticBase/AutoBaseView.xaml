@@ -9,10 +9,12 @@
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData AutoBaseViewModel}">
     <StackPanel>
         <client:OtdrParametersView DataContext="{Binding OtdrParametersViewModel}"/>
-        <StackPanel Margin="5">
-            <TextBlock Margin="5"  Text="Apply RFTS parameters from template"/>
-            <TextBox Margin="5"/>
-            <Button Margin="5" Content="Browse"/>
+        <StackPanel Margin="5" Width="400">
+            <TextBlock Margin="5"  Text="Select template file with RFTS parameters for base ref"/>
+            <DockPanel >
+                <Button DockPanel.Dock="Right" Margin="5" Content="Select" Width="80" Name="SelectTemplateFile"/>
+                <TextBox Margin="5" Text="{Binding TemplateFileName}"/>
+            </DockPanel>
         </StackPanel>
         <client:MeasurementProgressView DataContext="{Binding MeasurementProgressViewModel}" 
                                         Visibility="{Binding ControlVisibility}" Margin="5"/>

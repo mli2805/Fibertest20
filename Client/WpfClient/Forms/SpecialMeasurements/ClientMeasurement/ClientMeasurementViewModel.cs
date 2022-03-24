@@ -204,7 +204,7 @@ namespace Iit.Fibertest.Client
             if (!Directory.Exists(clientPath + @"\temp"))
                 Directory.CreateDirectory(clientPath + @"\temp");
             var filename = clientPath + $@"\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
-            SorData.Save(sorBytes, filename);
+            File.WriteAllBytes(filename, sorBytes);
             var iitPath = FileOperations.GetParentFolder(clientPath);
             Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
             TryClose(true);

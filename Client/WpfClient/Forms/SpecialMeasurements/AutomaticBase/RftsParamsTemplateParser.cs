@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Iit.Fibertest.Client
 {
-    public static class RftsTemplateExt
+    public static class RftsParamsTemplateParser
     {
         private const int LinesForShortThreshold = 6;
         private const int LinesForRftsUniversalParameter = 6;
@@ -52,9 +52,9 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-        private static RftsLevel ParseRftsLevel(List<string> lines)
+        private static RftsParamsLevel ParseRftsLevel(List<string> lines)
         {
-            var level = new RftsLevel();
+            var level = new RftsParamsLevel();
             level.LevelName = lines[1];
             var enabled = int.Parse(lines[3]);
             level.Enabled = enabled != 0;
@@ -74,9 +74,9 @@ namespace Iit.Fibertest.Client
             return thresholdSet;
         }
 
-        private static ShortThreshold ParseShortThreshold(List<string> lines)
+        private static Threshold ParseShortThreshold(List<string> lines)
         {
-            var shortThreshold = new ShortThreshold();
+            var shortThreshold = new Threshold();
 
             var absolute = int.Parse(lines[1]);
             shortThreshold.Absolute = absolute != 0;
@@ -86,9 +86,9 @@ namespace Iit.Fibertest.Client
             return shortThreshold;
         }
 
-        private static RftsUniversalParameter ParseRftsUniversalParameter(List<string> lines)
+        private static RftsUniParameter ParseRftsUniversalParameter(List<string> lines)
         {
-            var uniParam = new RftsUniversalParameter();
+            var uniParam = new RftsUniParameter();
 
             uniParam.Name = lines[1];
             uniParam.Value = int.Parse(lines[3]);
