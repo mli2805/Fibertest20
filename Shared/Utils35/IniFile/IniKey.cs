@@ -142,6 +142,7 @@
         GpsInputMode,
         GraphVisibilityLevel,
         PathToClient,
+        PathToRftsParamsTemplate,
 
         // LoadTesting
         Multiplier,

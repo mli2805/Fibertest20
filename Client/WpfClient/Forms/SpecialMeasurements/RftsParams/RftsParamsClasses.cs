@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Client
         public int LevelNumber;
         public readonly List<RftsParamsLevel> Levels = new List<RftsParamsLevel>();
         public int UniversalParamNumber;
-        public readonly List<RftsUniParameter> UniParams = new List<RftsUniParameter>();
+        public List<RftsUniParameter> UniParams = new List<RftsUniParameter>();
     }
     
     public class RftsParamsLevel

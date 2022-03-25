@@ -3155,4 +3155,76 @@ Please try again later</value>
 	<data name="SID_Assign_base_refs_automatically" xml:space="preserve">
 		<value>Assign base refs automatically</value>
 	</data>
+	<data name="SID_EvtDetectDeltaCT" xml:space="preserve">
+		<value>Event detection attenuation threshold (CT), dB/km</value>
+	</data>
+	<data name="SID_EvtSearchStep" xml:space="preserve">
+		<value>New event search step, km</value>
+	</data>
+	<data name="SID_EvtDetectDeltaLen" xml:space="preserve">
+		<value>Threshold of non-reflective event offset, km</value>
+	</data>
+	<data name="SID_EvtRDetectDeltaLen" xml:space="preserve">
+		<value>Threshold of reflective event offset, km</value>
+	</data>
+	<data name="SID_AutoLT" xml:space="preserve">
+		<value>Auto analysis loss threshold (LT), dB</value>
+	</data>
+	<data name="SID_AutoRT" xml:space="preserve">
+		<value>Auto analysis reflectance threshold (RT), dB</value>
+	</data>
+	<data name="SID_AutoET" xml:space="preserve">
+		<value>Auto analysis end-of-fiber threshold (ET), dB</value>
+	</data>
+	<data name="SID_NoLinkDistance" xml:space="preserve">
+		<value>Fiber detection distance, km</value>
+	</data>
+	<data name="SID_NoLinkDeltaDB" xml:space="preserve">
+		<value>Fiber detection threshold, dB</value>
+	</data>
+	<data name="SID_EventRT" xml:space="preserve">
+		<value>Reflection/backscattering difference threshold, dB</value>
+	</data>
+	<data name="SID_EOFLMN" xml:space="preserve">
+		<value>End of monitoring landmark number</value>
+	</data>
+	<data name="SID_CorrectMarkers" xml:space="preserve">
+		<value>Adjustment of neighboring event markers when new event is found</value>
+	</data>
+	<data name="SID_EvtChangeLT" xml:space="preserve">
+		<value>Event loss threshold at end-of-fiber search by template, dB</value>
+	</data>
+	<data name="SID_EvtChangeRT" xml:space="preserve">
+		<value>Reflectance threshold at end-of-fiber search by template, dB</value>
+	</data>
+	<data name="SID_EvtChangeCT" xml:space="preserve">
+		<value>Attenuation threshold at end-of-fiber search by template, dB/km</value>
+	</data>
+	<data name="SID_EvtChangeET" xml:space="preserve">
+		<value>End-of-fiber loss threshold at end-of-fiber search by template, dB</value>
+	</data>
+	<data name="SID_Lt_threshold" xml:space="preserve">
+		<value>Splice loss, dB</value>
+	</data>
+	<data name="SID_Rt_threshold" xml:space="preserve">
+		<value>Reflectance, dB</value>
+	</data>
+	<data name="SID_Ct_threshold" xml:space="preserve">
+		<value>OF loss, dB/km</value>
+	</data>
+	<data name="SID_Eelt_threshold" xml:space="preserve">
+		<value>End-to-end loss, dB</value>
+	</data>
+	<data name="SID_Threshold" xml:space="preserve">
+		<value>Threshold</value>
+	</data>
+	<data name="SID_Level_included_in_monitoring" xml:space="preserve">
+		<value>Level included in monitoring</value>
+	</data>
+	<data name="SID_Monitoring_thresholds" xml:space="preserve">
+		<value>Monitoring thresholds</value>
+	</data>
+	<data name="SID_Additional_parameters" xml:space="preserve">
+		<value>Additional parameters</value>
+	</data>
 </root>

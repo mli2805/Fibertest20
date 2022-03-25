@@ -630,6 +630,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional parameters.
+        /// </summary>
+        public static string SID_Additional_parameters {
+            get {
+                return ResourceManager.GetString("SID_Additional_parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjustment point.
         /// </summary>
         public static string SID_Adjustment_point {
@@ -909,6 +918,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto analysis end-of-fiber threshold (ET), dB.
+        /// </summary>
+        public static string SID_AutoET {
+            get {
+                return ResourceManager.GetString("SID_AutoET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto analysis loss threshold (LT), dB.
+        /// </summary>
+        public static string SID_AutoLT {
+            get {
+                return ResourceManager.GetString("SID_AutoLT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatic.
         /// </summary>
         public static string SID_Automatic {
@@ -923,6 +950,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Automatic_mode {
             get {
                 return ResourceManager.GetString("SID_Automatic_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto analysis reflectance threshold (RT), dB.
+        /// </summary>
+        public static string SID_AutoRT {
+            get {
+                return ResourceManager.GetString("SID_AutoRT", resourceCulture);
             }
         }
         
@@ -1963,6 +1999,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjustment of neighboring event markers when new event is found.
+        /// </summary>
+        public static string SID_CorrectMarkers {
+            get {
+                return ResourceManager.GetString("SID_CorrectMarkers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The mode could be changed after installation in application settings.
         /// </summary>
         public static string SID_Could_be_changed_after_installation {
@@ -2013,6 +2058,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cross {
             get {
                 return ResourceManager.GetString("SID_Cross", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OF loss, dB/km.
+        /// </summary>
+        public static string SID_Ct_threshold {
+            get {
+                return ResourceManager.GetString("SID_Ct_threshold", resourceCulture);
             }
         }
         
@@ -2602,6 +2656,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End-to-end loss, dB.
+        /// </summary>
+        public static string SID_Eelt_threshold {
+            get {
+                return ResourceManager.GetString("SID_Eelt_threshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string SID_Email {
@@ -2625,6 +2688,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Enter_DataCenter_Server_address {
             get {
                 return ResourceManager.GetString("SID_Enter_DataCenter_Server_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End of monitoring landmark number.
+        /// </summary>
+        public static string SID_EOFLMN {
+            get {
+                return ResourceManager.GetString("SID_EOFLMN", resourceCulture);
             }
         }
         
@@ -2863,6 +2935,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reflection/backscattering difference threshold, dB.
+        /// </summary>
+        public static string SID_EventRT {
+            get {
+                return ResourceManager.GetString("SID_EventRT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Events and reflectogram removal.
         /// </summary>
         public static string SID_Events_and_reflectogram_removal {
@@ -2931,6 +3012,78 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Every_hour {
             get {
                 return ResourceManager.GetString("SID_Every_hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attenuation threshold at end-of-fiber search by template, dB/km.
+        /// </summary>
+        public static string SID_EvtChangeCT {
+            get {
+                return ResourceManager.GetString("SID_EvtChangeCT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End-of-fiber loss threshold at end-of-fiber search by template, dB.
+        /// </summary>
+        public static string SID_EvtChangeET {
+            get {
+                return ResourceManager.GetString("SID_EvtChangeET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event loss threshold at end-of-fiber search by template, dB.
+        /// </summary>
+        public static string SID_EvtChangeLT {
+            get {
+                return ResourceManager.GetString("SID_EvtChangeLT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reflectance threshold at end-of-fiber search by template, dB.
+        /// </summary>
+        public static string SID_EvtChangeRT {
+            get {
+                return ResourceManager.GetString("SID_EvtChangeRT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event detection attenuation threshold (CT), dB/km.
+        /// </summary>
+        public static string SID_EvtDetectDeltaCT {
+            get {
+                return ResourceManager.GetString("SID_EvtDetectDeltaCT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Threshold of non-reflective event offset, km.
+        /// </summary>
+        public static string SID_EvtDetectDeltaLen {
+            get {
+                return ResourceManager.GetString("SID_EvtDetectDeltaLen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Threshold of reflective event offset, km.
+        /// </summary>
+        public static string SID_EvtRDetectDeltaLen {
+            get {
+                return ResourceManager.GetString("SID_EvtRDetectDeltaLen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New event search step, km.
+        /// </summary>
+        public static string SID_EvtSearchStep {
+            get {
+                return ResourceManager.GetString("SID_EvtSearchStep", resourceCulture);
             }
         }
         
@@ -4174,6 +4327,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Level included in monitoring.
+        /// </summary>
+        public static string SID_Level_included_in_monitoring {
+            get {
+                return ResourceManager.GetString("SID_Level_included_in_monitoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to License.
         /// </summary>
         public static string SID_License {
@@ -4440,6 +4602,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Longitude {
             get {
                 return ResourceManager.GetString("SID_Longitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Splice loss, dB.
+        /// </summary>
+        public static string SID_Lt_threshold {
+            get {
+                return ResourceManager.GetString("SID_Lt_threshold", resourceCulture);
             }
         }
         
@@ -4966,6 +5137,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monitoring thresholds.
+        /// </summary>
+        public static string SID_Monitoring_thresholds {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_thresholds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to month(s).
         /// </summary>
         public static string SID_month_s_ {
@@ -5277,6 +5457,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Nodes_with_equipment_only {
             get {
                 return ResourceManager.GetString("SID_Nodes_with_equipment_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fiber detection threshold, dB.
+        /// </summary>
+        public static string SID_NoLinkDeltaDB {
+            get {
+                return ResourceManager.GetString("SID_NoLinkDeltaDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fiber detection distance, km.
+        /// </summary>
+        public static string SID_NoLinkDistance {
+            get {
+                return ResourceManager.GetString("SID_NoLinkDistance", resourceCulture);
             }
         }
         
@@ -6475,6 +6673,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Role {
             get {
                 return ResourceManager.GetString("SID_Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reflectance, dB.
+        /// </summary>
+        public static string SID_Rt_threshold {
+            get {
+                return ResourceManager.GetString("SID_Rt_threshold", resourceCulture);
             }
         }
         
@@ -7970,6 +8177,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_This_user_has_no_right_to_start_Web_Client {
             get {
                 return ResourceManager.GetString("SID_This_user_has_no_right_to_start_Web_Client", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Threshold.
+        /// </summary>
+        public static string SID_Threshold {
+            get {
+                return ResourceManager.GetString("SID_Threshold", resourceCulture);
             }
         }
         

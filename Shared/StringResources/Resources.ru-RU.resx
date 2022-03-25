@@ -3155,4 +3155,76 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Assign_base_refs_automatically" xml:space="preserve">
 		<value>Задать базовые автоматически</value>
 	</data>
+	<data name="SID_EvtDetectDeltaCT" xml:space="preserve">
+		<value>Порог километрического затухания (CT) на обнаружение события, дБ/км</value>
+	</data>
+	<data name="SID_EvtSearchStep" xml:space="preserve">
+		<value>Шаг поиска новых событий, км</value>
+	</data>
+	<data name="SID_EvtDetectDeltaLen" xml:space="preserve">
+		<value>Порог на смещение события без отражения, км</value>
+	</data>
+	<data name="SID_EvtRDetectDeltaLen" xml:space="preserve">
+		<value>Порог на смещение события с отражением, км</value>
+	</data>
+	<data name="SID_AutoLT" xml:space="preserve">
+		<value>Порог автомата на затухание (LT), дБ</value>
+	</data>
+	<data name="SID_AutoRT" xml:space="preserve">
+		<value>Порог автомата на отражение (RT), дБ</value>
+	</data>
+	<data name="SID_AutoET" xml:space="preserve">
+		<value>Порог автомата на конец волокна (ET), дБ</value>
+	</data>
+	<data name="SID_NoLinkDistance" xml:space="preserve">
+		<value>Расстояние определения наличия волокна, км</value>
+	</data>
+	<data name="SID_NoLinkDeltaDB" xml:space="preserve">
+		<value>Порог определения наличия волокна, дБ</value>
+	</data>
+	<data name="SID_EventRT" xml:space="preserve">
+		<value>Порог мониторинга на отражение, дБ</value>
+	</data>
+	<data name="SID_EOFLMN" xml:space="preserve">
+		<value>Номер ориентира конца мониторинга</value>
+	</data>
+	<data name="SID_CorrectMarkers" xml:space="preserve">
+		<value>Корректировка маркеров соседних событий при нахождении нового</value>
+	</data>
+	<data name="SID_EvtChangeLT" xml:space="preserve">
+		<value>Порог для затухания в событии при поиске конца волокна по шаблону, дБ</value>
+	</data>
+	<data name="SID_EvtChangeRT" xml:space="preserve">
+		<value>Порог для коэффициента отражения в событии при поиске конца волокна по шаблону, дБ/км</value>
+	</data>
+	<data name="SID_EvtChangeCT" xml:space="preserve">
+		<value>Порог для коэффициента затухания при поиске конца волокна по шаблону, дБ</value>
+	</data>
+	<data name="SID_EvtChangeET" xml:space="preserve">
+		<value>Порог для конца волокна при поиске конца волокна по шаблону, дБ</value>
+	</data>
+	<data name="SID_Lt_threshold" xml:space="preserve">
+		<value>Затухание в соединении, дБ</value>
+	</data>
+	<data name="SID_Rt_threshold" xml:space="preserve">
+		<value>Коэффициент отражения, дБ</value>
+	</data>
+	<data name="SID_Ct_threshold" xml:space="preserve">
+		<value>Коэффициент затухания, дБ/км</value>
+	</data>
+	<data name="SID_Eelt_threshold" xml:space="preserve">
+		<value>Полное затухание в линии, дБ</value>
+	</data>
+	<data name="SID_Threshold" xml:space="preserve">
+		<value>Порог</value>
+	</data>
+	<data name="SID_Level_included_in_monitoring" xml:space="preserve">
+		<value>Уровень включен в мониторинг</value>
+	</data>
+	<data name="SID_Monitoring_thresholds" xml:space="preserve">
+		<value>Пороги мониторинга</value>
+	</data>
+	<data name="SID_Additional_parameters" xml:space="preserve">
+		<value>Дополнительные параметры</value>
+	</data>
 </root>

@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
 {
     public class AutoBaseViewModel : Screen
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
@@ -27,23 +28,27 @@ namespace Iit.Fibertest.Client
         public bool IsOpen { get; set; }
 
         public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
+        public RftsParametersViewModel RftsParametersViewModel { get; set; }
+
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; } =
             new MeasurementProgressViewModel();
-
-        public AutoBaseViewModel(IMyLog logFile, IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
+        public AutoBaseViewModel(IniFile iniFile, IMyLog logFile, IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
             CurrentUser currentUser, Model readModel)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _windowManager = windowManager;
             _c2RWcfManager = c2RWcfManager;
 
             _clientMeasurementModel = new ClientMeasurementModel(currentUser, readModel);
+            RftsParametersViewModel = new RftsParametersViewModel(windowManager);
         }
 
         public void Initialize(TraceLeaf traceLeaf)
         {
             _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams);
+            RftsParametersViewModel.Initialize(_iniFile);
 
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
             TemplateFileName = clientPath + @"\ini\template.rft";
@@ -132,7 +137,7 @@ namespace Iit.Fibertest.Client
 
         private bool TryLoadRftsParams(out RftsParams rftsParams)
         {
-            if (!RftsParamsTemplateParser.TryLoad(@"c:\temp\template.rft", out rftsParams, out Exception exception))
+            if (!RftsParamsParser.TryLoad(@"c:\temp\template.rft", out rftsParams, out Exception exception))
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error,
                     new List<string>() { @"Failed to load template!", exception.Message });

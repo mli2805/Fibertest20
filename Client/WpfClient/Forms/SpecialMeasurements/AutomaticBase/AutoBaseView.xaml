@@ -7,20 +7,24 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData AutoBaseViewModel}">
-    <StackPanel>
-        <client:OtdrParametersView DataContext="{Binding OtdrParametersViewModel}"/>
-        <StackPanel Margin="5" Width="400">
-            <TextBlock Margin="5"  Text="Select template file with RFTS parameters for base ref"/>
-            <DockPanel >
-                <Button DockPanel.Dock="Right" Margin="5" Content="Select" Width="80" Name="SelectTemplateFile"/>
-                <TextBox Margin="5" Text="{Binding TemplateFileName}"/>
-            </DockPanel>
-        </StackPanel>
-        <client:MeasurementProgressView DataContext="{Binding MeasurementProgressViewModel}" 
-                                        Visibility="{Binding ControlVisibility}" Margin="5"/>
-        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-            <Button Name="Start" Content="{x:Static stringResources:Resources.SID_Start}" IsDefault="True" Margin="5" Width="100" Height="22"/>
-            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Width="100" Height="22"/>
-        </StackPanel>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0">
+            <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                <Button Name="Start" Content="{x:Static stringResources:Resources.SID_Start}" IsDefault="True" Margin="5" Width="100" Height="22"/>
+                <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Width="100" Height="22"/>
+            </StackPanel>
+
+            <client:OtdrParametersView DockPanel.Dock="Top" DataContext="{Binding OtdrParametersViewModel}"/>
+            <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,0"
+                                            DataContext="{Binding MeasurementProgressViewModel}" 
+                                            Visibility="{Binding ControlVisibility}" />
+            <StackPanel/>
+        </DockPanel>
+        <client:RftsParametersView Grid.Column="1" DockPanel.Dock="Right" DataContext="{Binding RftsParametersViewModel}"/>
+    </Grid>
 </Window>

@@ -220,22 +220,30 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\ClientMeasurementModel.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementProgressView.xaml.cs">
+    <Compile Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressView.xaml.cs">
       <DependentUpon>MeasurementProgressView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementProgressViewModel.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsApplier.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsClasses.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RftsParamsTemplateParser.cs" />
-    <Compile Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersView.xaml.cs">
+    <Compile Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsApplier.cs" />
+    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsClasses.cs" />
+    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsDefaults.cs" />
+    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsMapper.cs" />
+    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsSaver.cs" />
+    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsParser.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersView.xaml.cs">
       <DependentUpon>OtdrParametersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersViewModel.cs" />
     <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseView.xaml.cs">
       <DependentUpon>AutoBaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersModels.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersView.xaml.cs">
+      <DependentUpon>RftsParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersViewModel.cs" />
     <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
     <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
       <DependentUpon>TceComponentsView.xaml</DependentUpon>
@@ -505,7 +513,7 @@
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMeasParamsChecker.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsChecker.cs" />
-    <Compile Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurement\OtdrParametersThroughServerSetterView.xaml.cs">
       <DependentUpon>OtdrParametersThroughServerSetterView.xaml</DependentUpon>
     </Compile>
@@ -788,15 +796,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementProgressView.xaml">
+    <Page Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\OtdrParamsControl\OtdrParametersView.xaml">
+    <Page Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

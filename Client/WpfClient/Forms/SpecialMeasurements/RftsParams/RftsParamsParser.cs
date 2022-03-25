@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Iit.Fibertest.Client
 {
-    public static class RftsParamsTemplateParser
+    public static class RftsParamsParser
     {
         private const int LinesForShortThreshold = 6;
         private const int LinesForRftsUniversalParameter = 6;
