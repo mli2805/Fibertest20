@@ -154,5 +154,12 @@
 
         // Uninstall
         IsOnRtu,
+
+        // OtdrParameters
+        OpUnit,
+        OpDistance,
+        OpResolution,
+        OpPulseDuration,
+        OpMeasurementTime,
     }
 }

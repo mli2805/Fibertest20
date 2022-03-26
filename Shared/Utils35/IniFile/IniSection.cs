@@ -24,5 +24,6 @@
         Migrator,
         LoadTesting,
         Uninstall,
+        OtdrParameters,
     }
 }

@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
     public class ClientMeasurementViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
@@ -56,11 +57,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel,
+        public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, Model readModel,
             CurrentUser currentUser, OnDemandMeasurement onDemandMeasurement,
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
+            _iniFile = iniFile;
             _logFile = logFile;
             _readModel = readModel;
             _currentUser = currentUser;
@@ -76,7 +78,7 @@ namespace Iit.Fibertest.Client
             _rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
 
             _vm = _globalScope.Resolve<OtdrParametersThroughServerSetterViewModel>();
-            _vm.Initialize(_rtu.AcceptableMeasParams);
+            _vm.Initialize(_rtu.AcceptableMeasParams, _iniFile);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(_vm);
             if (!_vm.IsAnswerPositive)

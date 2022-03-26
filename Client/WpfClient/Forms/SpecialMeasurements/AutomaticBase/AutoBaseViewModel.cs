@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(TraceLeaf traceLeaf)
         {
             _clientMeasurementModel.Initialize(traceLeaf, true);
-            OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams);
+            OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
             RftsParametersViewModel.Initialize(_iniFile);
 
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);

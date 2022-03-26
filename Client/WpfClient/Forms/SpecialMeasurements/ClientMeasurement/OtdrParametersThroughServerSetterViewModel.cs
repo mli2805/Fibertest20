@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
@@ -13,9 +14,9 @@ namespace Iit.Fibertest.Client
         public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
 
 
-        public void Initialize(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
+        public void Initialize(TreeOfAcceptableMeasParams treeOfAcceptableMeasParams, IniFile iniFile)
         {
-            OtdrParametersViewModel.Initialize(treeOfAcceptableMeasParams);
+            OtdrParametersViewModel.Initialize(treeOfAcceptableMeasParams, iniFile);
         }
 
         protected override void OnViewLoaded(object view)
