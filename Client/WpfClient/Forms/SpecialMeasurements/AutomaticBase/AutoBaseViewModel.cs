@@ -11,7 +11,6 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
-using Microsoft.Win32;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
@@ -50,9 +49,7 @@ namespace Iit.Fibertest.Client
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
             RftsParametersViewModel.Initialize(_iniFile);
 
-            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
-            TemplateFileName = clientPath + @"\ini\template.rft";
-
+       
         }
 
         protected override void OnViewLoaded(object view)
@@ -158,30 +155,6 @@ namespace Iit.Fibertest.Client
             sorData.Save(filename);
             var iitPath = FileOperations.GetParentFolder(clientPath);
             Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
-        }
-
-        private string _templateFileName;
-        public string TemplateFileName
-        {
-            get => _templateFileName;
-            set
-            {
-                if (value == _templateFileName) return;
-                _templateFileName = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public void SelectTemplateFile()
-        {
-            var openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                DefaultExt = @".rft",
-                Filter = @"Template file  |*.rft"
-            };
-            if (openFileDialog.ShowDialog() == true)
-                TemplateFileName = openFileDialog.FileName;
         }
 
         public void Close()

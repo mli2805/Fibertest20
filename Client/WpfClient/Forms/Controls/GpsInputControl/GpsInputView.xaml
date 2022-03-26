@@ -8,7 +8,8 @@
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
              d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance client:GpsInputViewModel}"
-             cal:Bind.ModelWithoutContext="{Binding .}">
+             cal:Bind.ModelWithoutContext="{Binding .}"
+             >
     <StackPanel>
         <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputModeComboItem, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
         <StackPanel IsEnabled="{Binding IsEditEnabled}">
