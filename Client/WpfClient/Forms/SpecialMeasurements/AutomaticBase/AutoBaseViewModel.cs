@@ -48,8 +48,6 @@ namespace Iit.Fibertest.Client
             _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
             RftsParametersViewModel.Initialize(_iniFile);
-
-       
         }
 
         protected override void OnViewLoaded(object view)
@@ -124,26 +122,12 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
-            if (!TryLoadRftsParams(out RftsParams rftsParams)) return;
+            RftsParams rftsParams = RftsParametersViewModel.Model.ToRftsParams();
 
             var sorData = SorData.FromBytes(sorBytes);
             sorData.ApplyRftsParamsTemplate(rftsParams);
 
             ShowReflectogram(sorData);
-        }
-
-        private bool TryLoadRftsParams(out RftsParams rftsParams)
-        {
-            if (!RftsParamsParser.TryLoad(@"c:\temp\template.rft", out rftsParams, out Exception exception))
-            {
-                var mb = new MyMessageBoxViewModel(MessageType.Error,
-                    new List<string>() { @"Failed to load template!", exception.Message });
-                _windowManager.ShowDialogWithAssignedOwner(mb);
-                return false;
-            }
-
-            _logFile.AppendLine($@"RFTS template file loaded successfully! {rftsParams.LevelNumber} levels, {rftsParams.UniversalParamNumber} params");
-            return true;
         }
 
         private void ShowReflectogram(OtdrDataKnownBlocks sorData)

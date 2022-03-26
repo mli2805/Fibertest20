@@ -14,6 +14,9 @@ namespace Iit.Fibertest.Client
         public string LevelName { get; set; }
         public bool IsEnabled { get; set; }
         public List<ThresholdLine> Lines { get; set; }
+
+        // for backward conversion
+        public string Code;
     }
 
     public class ThresholdLine
@@ -29,5 +32,9 @@ namespace Iit.Fibertest.Client
     {
         public string Name { get; set; }
         public double Value { get; set; }
+
+        // for backward conversion
+        public string Code;
+        public int Scale;
     }
 }

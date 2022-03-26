@@ -11,9 +11,21 @@ namespace Iit.Fibertest.Client
     public class RftsParametersViewModel : PropertyChangedBase
     {
         private readonly IWindowManager _windowManager;
-        public RftsParametersModel Model { get; set; }
+
+        private RftsParametersModel _model;
+        public RftsParametersModel Model
+        {
+            get => _model;
+            set
+            {
+                if (Equals(value, _model)) return;
+                _model = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private string _templateFileName;
+
         public string TemplateFileName
         {
             get => _templateFileName;
@@ -41,14 +53,7 @@ namespace Iit.Fibertest.Client
             }
 
             TemplateFileName = iniFile.Read(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, defaultFileName);
-            if (!RftsParamsParser.TryLoad(TemplateFileName, out RftsParams result, out Exception exception))
-            {
-                var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>(){@"Failed to load RFTS parameters template!", exception.Message});
-                _windowManager.ShowDialogWithAssignedOwner(mb);
-                return;
-            }
-
-            Model = result.ToModel();
+            ShowTemplateFile();
         }
 
         public void SelectTemplateFile()
@@ -62,7 +67,20 @@ namespace Iit.Fibertest.Client
             };
             if (openFileDialog.ShowDialog() == true)
                 TemplateFileName = openFileDialog.FileName;
+            ShowTemplateFile();
         }
 
+        private void ShowTemplateFile()
+        {
+
+            if (!RftsParamsParser.TryLoad(TemplateFileName, out RftsParams result, out Exception exception))
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { @"Failed to load RFTS parameters template!", exception.Message });
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return;
+            }
+
+            Model = result.ToModel();
+        }
     }
 }

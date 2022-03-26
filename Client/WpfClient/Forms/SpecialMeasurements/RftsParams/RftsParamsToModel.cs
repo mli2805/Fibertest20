@@ -7,7 +7,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public static class RftsParamsMapper
+    public static class RftsParamsToModel
     {
         public static RftsParametersModel ToModel(this RftsParams rftsParams)
         {
@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
             Enum.TryParse(level.LevelName, true, out FiberState levelName);
             return new RftsParamsLevelModel()
             {
+                Code = level.LevelName,
                 LevelName = levelName.ToLocalizedString(),
                 IsEnabled = level.Enabled,
 
@@ -52,7 +53,10 @@ namespace Iit.Fibertest.Client
             return new RftsUniParamModel
             {
                 Name = uniParameter.Name.GetUniParamLocalizedName(),
-                Value = (double)uniParameter.Value / uniParameter.Scale
+                Value = (double)uniParameter.Value / uniParameter.Scale,
+             
+                Code = uniParameter.Name,
+                Scale = uniParameter.Scale,
             };
         }
 
