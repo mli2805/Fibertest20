@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
     public class RftsParametersViewModel : PropertyChangedBase
     {
         private readonly IWindowManager _windowManager;
+        private IniFile _iniFile;
 
         private RftsParametersModel _model;
         public RftsParametersModel Model
@@ -44,6 +45,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(IniFile iniFile)
         {
+            _iniFile = iniFile;
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
             var defaultFileName = clientPath + @"\ini\RftsParamsDefaultTemplate.rft";
             if (!File.Exists(defaultFileName))
@@ -66,8 +68,11 @@ namespace Iit.Fibertest.Client
                 Filter = @"Template file  |*.rft"
             };
             if (openFileDialog.ShowDialog() == true)
+            {
                 TemplateFileName = openFileDialog.FileName;
-            ShowTemplateFile();
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, TemplateFileName);
+                ShowTemplateFile();
+            }
         }
 
         private void ShowTemplateFile()
