@@ -49,8 +49,8 @@ namespace Graph.Tests
             _closureLocationOnOriginalBaseRef = landmark.Location;  // 497035
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsChecker2>();
-            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(_baseRefs, _trace);
+            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsCheckerOnServer>();
+            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(_baseRefs, _trace, false);
             checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));

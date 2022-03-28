@@ -22,10 +22,11 @@ namespace Iit.Fibertest.Graph
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
             if (message != "") return;
-            baseRefDto.SorBytes = ApplyTraceToBaseRef(otdrKnownBlocks, trace, otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length < trace.NodeIds.Count);
+            ApplyTraceToBaseRef(otdrKnownBlocks, trace, otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length < trace.NodeIds.Count);
+            baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
         }
 
-        public byte[] ApplyTraceToBaseRef(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace,
+        public void ApplyTraceToBaseRef(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace,
             bool needToInsertLandmarksForEmptyNodes)
         {
             var traceModel = _readModel.GetTraceComponentsByIds(trace);
@@ -36,8 +37,6 @@ namespace Iit.Fibertest.Graph
             SetLandmarksLocation(otdrKnownBlocks, modelWithoutAdjustmentPoint);
 
             AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
-
-            return otdrKnownBlocks.ToBytes();
         }
 
         public void SetLandmarksLocation(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
@@ -53,7 +52,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public void InsertLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
+        private void InsertLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var newLandmarks = new Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark[model.EquipArray.Length];
 
@@ -75,24 +74,15 @@ namespace Iit.Fibertest.Graph
 
         public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
-            // does not work for Reflect
-            //sorData.GeneralParameters.Language = LanguageCode.Russian;
-
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
 
             for (int i = 0; i < landmarks.Length; i++)
             {
                 var landmarkTitle = model.NodeArray[i].Title;
                 if (i != 0 && !string.IsNullOrEmpty(model.EquipArray[i].Title))
-                    landmarkTitle = landmarkTitle + $@" / {model.EquipArray[i].Title}";
+                    landmarkTitle += $@" / {model.EquipArray[i].Title}";
 
-                landmarks[i].Comment = landmarkTitle; // utf8, TODO reflect.exe should understand this
-
-                // does not work
-                //                byte[] in_cp1251 = Encoding.GetEncoding(1251).GetBytes(landmarkTitle);
-                //                landmarks[i].Comment = Encoding.GetEncoding(1251).GetString(in_cp1251);
-
-
+                landmarks[i].Comment = landmarkTitle; // utf8, Reflect can now read it
                 landmarks[i].Code = model.EquipArray[i].Type.ToLandmarkCode();
                 landmarks[i].GpsLatitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lat);
                 landmarks[i].GpsLongitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);

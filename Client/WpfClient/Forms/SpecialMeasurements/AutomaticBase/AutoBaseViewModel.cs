@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -12,6 +13,7 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 using Optixsoft.SorExaminer.OtdrDataFormat;
+using Trace = Iit.Fibertest.Graph.Trace;
 
 namespace Iit.Fibertest.Client
 {
@@ -21,8 +23,12 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
+        private readonly Model _readModel;
+        private readonly AutoBaseRefLandmarksTool _autoBaseRefLandmarksTool;
 
         private readonly ClientMeasurementModel _clientMeasurementModel;
+
+        private Trace _trace;
 
         public bool IsOpen { get; set; }
 
@@ -32,12 +38,14 @@ namespace Iit.Fibertest.Client
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; } =
             new MeasurementProgressViewModel();
         public AutoBaseViewModel(IniFile iniFile, IMyLog logFile, IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
-            CurrentUser currentUser, Model readModel)
+            CurrentUser currentUser, Model readModel, AutoBaseRefLandmarksTool autoBaseRefLandmarksTool)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _windowManager = windowManager;
             _c2RWcfManager = c2RWcfManager;
+            _readModel = readModel;
+            _autoBaseRefLandmarksTool = autoBaseRefLandmarksTool;
 
             _clientMeasurementModel = new ClientMeasurementModel(currentUser, readModel);
             RftsParametersViewModel = new RftsParametersViewModel(windowManager);
@@ -45,6 +53,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(TraceLeaf traceLeaf)
         {
+            _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
             RftsParametersViewModel.Initialize(_iniFile);
@@ -126,6 +135,8 @@ namespace Iit.Fibertest.Client
 
             var sorData = SorData.FromBytes(sorBytes);
             sorData.ApplyRftsParamsTemplate(rftsParams);
+
+            _autoBaseRefLandmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
 
             ShowReflectogram(sorData);
         }

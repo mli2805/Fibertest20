@@ -64,8 +64,8 @@ namespace Graph.Tests
             var baseRefs = vm.PrepareDto(trace).BaseRefs;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsChecker2>();
-            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace);
+            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsCheckerOnServer>();
+            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace, false);
             checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
@@ -90,8 +90,8 @@ namespace Graph.Tests
             vm.FastBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
             var baseRefs = vm.PrepareDto(trace).BaseRefs;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsChecker2>();
-            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace);
+            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsCheckerOnServer>();
+            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace, false);
             checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));

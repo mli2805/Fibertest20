@@ -67,17 +67,6 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        // public static void Save(byte[] sorBytes, string filename)
-        // {
-        //     if (sorBytes == null)
-        //         return;
-        //
-        //     if (File.Exists(filename))
-        //         File.Delete(filename);
-        //     using FileStream fs = File.Create(filename);
-        //     fs.Write(sorBytes, 0, sorBytes.Length);
-        // }
-
         private const double LightSpeed = 0.000299792458; // km/ns
         public static double OwtToLenKm(this OtdrDataKnownBlocks sorData, double owt)
         {
@@ -90,10 +79,10 @@ namespace Iit.Fibertest.UtilsLib
             return sorData.KeyEvents.KeyEvents[eventIndex].EventPropagationTime * GetOwtToKmCoeff(sorData);
         }
 
-        public static double LandmarkDistanceKm(this OtdrDataKnownBlocks sorData, int landmarkIndex)
-        {
-            return sorData.LinkParameters.LandmarkBlocks[landmarkIndex].Location * GetOwtToKmCoeff(sorData);
-        }
+        // public static double LandmarkDistanceKm(this OtdrDataKnownBlocks sorData, int landmarkIndex)
+        // {
+        //     return sorData.LinkParameters.LandmarkBlocks[landmarkIndex].Location * GetOwtToKmCoeff(sorData);
+        // }
 
         public static double GetOwtToKmCoeff(this OtdrDataKnownBlocks sorData)
         {
@@ -111,18 +100,18 @@ namespace Iit.Fibertest.UtilsLib
             return sorData.OwtToLenKm(owt);
         }
 
-      
+
         public static int GetDistanceBetweenLandmarksInMm(
             this OtdrDataKnownBlocks sorData, int leftIndex, int rightIndex)
         {
             var owt1 = sorData.LinkParameters.LandmarkBlocks[leftIndex].Location;
             var owt2 = sorData.LinkParameters.LandmarkBlocks[rightIndex].Location;
-            return (int) ((owt2 - owt1) * GetOwtToMmCoeff(sorData));
+            return (int)((owt2 - owt1) * GetOwtToMmCoeff(sorData));
         }
 
         public static int GetOwtFromMm(this OtdrDataKnownBlocks sorData, int distance)
         {
-            return (int) (distance / sorData.GetOwtToMmCoeff());
+            return (int)(distance / sorData.GetOwtToMmCoeff());
         }
 
         public static OtdrDataKnownBlocks GetBase(this OtdrDataKnownBlocks sorData)
@@ -148,9 +137,9 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        public static RftsEventsBlock GetRftsEventsBlockForLevel(this OtdrDataKnownBlocks sorData, string levelName)
-        {
-            return sorData.GetRftsEventsBlockForEveryLevel().FirstOrDefault(b => b.LevelName.ToString() == levelName);
-        }
+        // public static RftsEventsBlock GetRftsEventsBlockForLevel(this OtdrDataKnownBlocks sorData, string levelName)
+        // {
+        //     return sorData.GetRftsEventsBlockForEveryLevel().FirstOrDefault(b => b.LevelName.ToString() == levelName);
+        // }
     }
 }

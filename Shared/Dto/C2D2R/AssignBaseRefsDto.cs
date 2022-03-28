@@ -24,6 +24,9 @@ namespace Iit.Fibertest.Dto
         public Guid TraceId { get; set; }
 
         [DataMember]
+        public bool IsAutoBase { get; set; }
+
+        [DataMember]
         public OtauPortDto OtauPortDto { get; set; } // could be null if trace isn't attached to port yet
 
         [DataMember]

@@ -8,18 +8,18 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Graph
 {
-    public class BaseRefsChecker2
+    public class BaseRefsCheckerOnServer
     {
         private readonly Model _writeModel;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
 
-        public BaseRefsChecker2(Model writeModel, BaseRefLandmarksTool baseRefLandmarksTool)
+        public BaseRefsCheckerOnServer(Model writeModel, BaseRefLandmarksTool baseRefLandmarksTool)
         {
             _writeModel = writeModel;
             _baseRefLandmarksTool = baseRefLandmarksTool;
         }
 
-        public BaseRefAssignedDto AreBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace)
+        public BaseRefAssignedDto AreBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace, bool isAutoBase)
         {
             var assignmentFailed = new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
             try
@@ -60,9 +60,10 @@ namespace Iit.Fibertest.Graph
                         return result;
                     }
 
-                    baseRefDto.SorBytes = _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace,
-                        result.Landmarks == result.Equipments);
-                    baseRefDto.Duration = TimeSpan.FromSeconds((int) otdrKnownBlocks.FixedParameters.AveragingTime);
+                    _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace, result.Landmarks == result.Equipments);
+
+                    baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
+                    baseRefDto.Duration = TimeSpan.FromSeconds((int)otdrKnownBlocks.FixedParameters.AveragingTime);
                 }
 
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
@@ -92,10 +93,10 @@ namespace Iit.Fibertest.Graph
             foreach (var unit in acceptableMeasParams.Units.Keys) // "SM NNNN" or "SMNNNN"
             {
                 if (unit.Contains(waveLength))
-                    return new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
+                    return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
             }
 
-            return new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignmentParamNotAcceptable, WaveLength = waveLength};
+            return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentParamNotAcceptable, WaveLength = waveLength };
         }
 
         private BaseRefAssignedDto CheckLandmarks(Trace trace, OtdrDataKnownBlocks otdrDataKnownBlocks)

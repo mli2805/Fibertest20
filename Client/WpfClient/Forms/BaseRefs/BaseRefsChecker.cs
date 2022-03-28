@@ -71,8 +71,8 @@ namespace Iit.Fibertest.Client
                         if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace))
                             return false;
 
-                    baseRefDto.SorBytes = _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace,
-                        comparisonResult == CountMatch.LandmarksMatchEquipments);
+                    _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace, comparisonResult == CountMatch.LandmarksMatchEquipments);
+                    baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
                 }
                 return true;
             }

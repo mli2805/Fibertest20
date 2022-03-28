@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<LandmarksGraphParser>().SingleInstance();
             builder.RegisterType<BaseRefDtoFactory>();
             builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
-            builder.RegisterType<BaseRefsChecker2>().SingleInstance();
+            builder.RegisterType<BaseRefsCheckerOnServer>().SingleInstance();
 
             builder.RegisterType<SorFileRepository>().SingleInstance();
             builder.RegisterType<IntermediateLayer>().SingleInstance();
