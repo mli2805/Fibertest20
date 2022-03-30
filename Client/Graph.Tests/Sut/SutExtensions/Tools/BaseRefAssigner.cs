@@ -15,7 +15,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(model => sut.ManyLinesMessageBoxAnswer(Answer.Yes, model)); // about wrong base
 
             sut.FakeWindowManager.RegisterHandler(model => BasRefAssignHandler2(model, precisePath, fastPath, aditionalPath, answer));
-            traceLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Base_refs_assignment).Command.Execute(traceLeaf);
+            traceLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Base_refs_assignment).Command.Execute(traceLeaf);
             sut.Poller.EventSourcingTick().Wait();
         }
        

@@ -34,12 +34,6 @@ namespace Iit.Fibertest.Client
                 CommandParameter = traceLeaf
             });
 
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Base_refs_assignment,
-                Command = new ContextMenuAsyncAction(_traceLeafActions.AssignBaseRefs, _traceLeafActionsPermissions.CanAssignBaseRefsAction),
-                CommandParameter = traceLeaf
-            });
 
             menu.Add(new MenuItemVm()
             {
@@ -90,6 +84,25 @@ namespace Iit.Fibertest.Client
                 });
             }
 
+            menu.Add(null);
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Base_refs_assignment,
+                Command = new ContextMenuAsyncAction(_traceLeafActions.AssignBaseRefs, _traceLeafActionsPermissions.CanAssignBaseRefsAction),
+                CommandParameter = traceLeaf
+            });
+
+            if (traceLeaf.PortNumber > 0)
+            {
+                menu.Add(new MenuItemVm()
+                {
+                    Header = Resources.SID_Assign_base_refs_automatically,
+                    Command = new ContextMenuAsyncAction(_traceLeafActions.AssignBaseRefsAutomatically, _traceLeafActionsPermissions.CanAssignBaseRefsAutomatically),
+                    CommandParameter = traceLeaf
+                });
+            }
+
             if (traceLeaf.PortNumber > 0)
             {
                 menu.Add(null);
@@ -100,13 +113,8 @@ namespace Iit.Fibertest.Client
                     Command = new ContextMenuAsyncAction(_traceLeafActions.DoPreciseMeasurementOutOfTurn, _traceLeafActionsPermissions.CanDoPreciseMeasurementOutOfTurn),
                     CommandParameter = traceLeaf
                 });
+               
 
-                menu.Add(new MenuItemVm()
-                {
-                    Header = Resources.SID_Assign_base_refs_automatically,
-                    Command = new ContextMenuAsyncAction(_traceLeafActions.AssignBaseRefsAutomatically, _traceLeafActionsPermissions.CanAssignBaseRefsAutomatically),
-                    CommandParameter = traceLeaf
-                });
 
                 menu.Add(new MenuItemVm()
                 {

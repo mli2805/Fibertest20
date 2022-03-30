@@ -39,7 +39,7 @@ namespace Graph.Tests
         [Then(@"Пункт Задать базовые недоступен")]
         public void ThenПунктЗадатьБазовыеНедоступен()
         {
-            _traceLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Base_refs_assignment).Command.CanExecute(_traceLeaf).Should().BeFalse();
+            _traceLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Base_refs_assignment).Command.CanExecute(_traceLeaf).Should().BeFalse();
         }
 
         [When(@"RTU успешно инициализируется c длинной волны (.*)")]
@@ -53,7 +53,7 @@ namespace Graph.Tests
         [Then(@"Пункт Задать базовые становится доступен")]
         public void ThenПунктЗадатьБазовыеСтановитсяДоступен()
         {
-            _traceLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Base_refs_assignment).Command.CanExecute(_traceLeaf).Should().BeTrue();
+            _traceLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Base_refs_assignment).Command.CanExecute(_traceLeaf).Should().BeTrue();
         }
 
 
