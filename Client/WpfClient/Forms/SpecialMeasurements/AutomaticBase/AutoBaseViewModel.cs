@@ -25,7 +25,6 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly Model _readModel;
         private readonly AutoBaseRefLandmarksTool _autoBaseRefLandmarksTool;
-
         private readonly ClientMeasurementModel _clientMeasurementModel;
 
         private Trace _trace;
@@ -34,9 +33,9 @@ namespace Iit.Fibertest.Client
 
         public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
         public RftsParametersViewModel RftsParametersViewModel { get; set; }
+        public AutoParametersViewModel AutoParametersViewModel { get; set; }
+        public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
 
-        public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; } =
-            new MeasurementProgressViewModel();
         public AutoBaseViewModel(IniFile iniFile, IMyLog logFile, IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
             CurrentUser currentUser, Model readModel, AutoBaseRefLandmarksTool autoBaseRefLandmarksTool)
         {
@@ -48,6 +47,7 @@ namespace Iit.Fibertest.Client
             _autoBaseRefLandmarksTool = autoBaseRefLandmarksTool;
 
             _clientMeasurementModel = new ClientMeasurementModel(currentUser, readModel);
+            AutoParametersViewModel = new AutoParametersViewModel(windowManager);
             RftsParametersViewModel = new RftsParametersViewModel(windowManager);
         }
 
@@ -56,12 +56,14 @@ namespace Iit.Fibertest.Client
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
+            AutoParametersViewModel.Initialize(_iniFile);
             RftsParametersViewModel.Initialize(_iniFile);
+            MeasurementProgressViewModel = new MeasurementProgressViewModel();
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = @"Assign base refs automatically";
+            DisplayName = Resources.SID_Assign_base_refs_automatically;
         }
 
         public async void Start()
@@ -131,14 +133,19 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
-            RftsParams rftsParams = RftsParametersViewModel.Model.ToRftsParams();
+            RftsParametersModel rftsParamsModel = AutoParametersViewModel.Model;
+            var paramAutoLt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoLT");
+            paramAutoLt.Value = AutoParametersViewModel.AutoLt;
+            var paramAutoRt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoRT");
+            paramAutoRt.Value = AutoParametersViewModel.AutoRt;
 
             var sorData = SorData.FromBytes(sorBytes);
-            sorData.ApplyRftsParamsTemplate(rftsParams);
+            sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());
 
             _autoBaseRefLandmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
 
             ShowReflectogram(sorData);
+            TryClose();
         }
 
         private void ShowReflectogram(OtdrDataKnownBlocks sorData)
@@ -155,6 +162,11 @@ namespace Iit.Fibertest.Client
         public void Close()
         {
             TryClose();
+        }
+        public override void CanClose(Action<bool> callback)
+        {
+            IsOpen = false;
+            callback(true);
         }
     }
 }

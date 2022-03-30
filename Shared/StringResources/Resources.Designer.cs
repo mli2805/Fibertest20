@@ -2863,6 +2863,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event detection thresholds.
+        /// </summary>
+        public static string SID_Event_detection_thresholds {
+            get {
+                return ResourceManager.GetString("SID_Event_detection_thresholds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event ID.
         /// </summary>
         public static string SID_Event_Id {

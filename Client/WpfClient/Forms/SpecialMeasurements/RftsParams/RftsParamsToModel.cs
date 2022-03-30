@@ -56,8 +56,12 @@ namespace Iit.Fibertest.Client
                 Value = (double)uniParameter.Value / uniParameter.Scale,
              
                 Code = uniParameter.Name,
-                Scale = uniParameter.Scale,
             };
+        }
+
+        public static double GetValue(this RftsUniParameter uniParameter)
+        {
+            return (double)uniParameter.Value / uniParameter.Scale;
         }
 
         private static string GetUniParamLocalizedName(this string name)

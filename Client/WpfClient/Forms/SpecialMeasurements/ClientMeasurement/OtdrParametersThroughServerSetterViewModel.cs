@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Measurement_parameters;
+            DisplayName = Resources.SID_Measurement__Client_;
         }
 
         public void Measure()

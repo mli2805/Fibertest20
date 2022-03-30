@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
             return new RftsParamsLevel()
             {
                 LevelName = LevelNames[i],
-                Enabled = true,
+                Enabled = false,
                 LevelThresholdSet = new RftsLevelThresholdSet()
                 {
                     Lt = new Threshold { RelativeThreshold = RelativeThresholds[i, 0] },

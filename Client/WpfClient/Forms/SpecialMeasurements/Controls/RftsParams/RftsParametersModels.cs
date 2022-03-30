@@ -35,6 +35,5 @@ namespace Iit.Fibertest.Client
 
         // for backward conversion
         public string Code;
-        public int Scale;
     }
 }

@@ -47,10 +47,15 @@ namespace Iit.Fibertest.Client
             return new RftsUniParameter()
             {
                 Name = uniParamModel.Code,
-                Value = (int)(uniParamModel.Value * uniParamModel.Scale),
-                Scale = uniParamModel.Scale,
+                Value = (int)(uniParamModel.Value * 10000),
+                Scale = 10000,
             };
         }
 
+        public static void Set(this RftsUniParameter uniParameter, double value)
+        {
+            uniParameter.Value = (int)(value * 10000);
+            uniParameter.Scale = 10000;
+        }
     }
 }

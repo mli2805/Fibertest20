@@ -20,11 +20,13 @@
             </StackPanel>
 
             <client:OtdrParametersView DockPanel.Dock="Top" DataContext="{Binding OtdrParametersViewModel}"/>
-            <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,0"
+            <client:AutoParametersView DockPanel.Dock="Top"  DataContext="{Binding AutoParametersViewModel}"/>
+            <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"
                                             DataContext="{Binding MeasurementProgressViewModel}" 
                                             Visibility="{Binding ControlVisibility}" />
             <StackPanel/>
         </DockPanel>
-        <client:RftsParametersView Grid.Column="1" DockPanel.Dock="Right" DataContext="{Binding RftsParametersViewModel}"/>
+        <client:RftsParametersView Visibility="Collapsed" 
+                                   Grid.Column="1" DockPanel.Dock="Right" DataContext="{Binding RftsParametersViewModel}"/>
     </Grid>
 </Window>
