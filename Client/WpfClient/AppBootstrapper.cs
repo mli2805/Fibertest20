@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
         {
             var defaultCreateTrigger = Parser.CreateTrigger;
 
-            Parser.CreateTrigger = (target, triggerText) => 
+            Parser.CreateTrigger = (target, triggerText) =>
             {
                 if (triggerText == null)
                 {
@@ -87,8 +87,8 @@ namespace Iit.Fibertest.Client
         {
             var postfix = commandLineParams.Length == 0 ? "" : commandLineParams[0];
 
-            String thisprocessname = Process.GetCurrentProcess().ProcessName;
-            if ((postfix == "") && (Process.GetProcesses().Count(p => p.ProcessName == thisprocessname) > 1))
+            var thisProcessName = Process.GetCurrentProcess().ProcessName;
+            if (postfix == "" && Process.GetProcesses().Count(p => p.ProcessName == thisProcessName) > 1)
                 Environment.FailFast(@"Fast termination of application.");
 
             var iniFileName = $@"client{postfix}.ini";
@@ -103,22 +103,23 @@ namespace Iit.Fibertest.Client
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             iniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
-     
+
             var parameters = ParseCommandLine(commandLineParams);
             builder.RegisterInstance(parameters);
             _container = builder.Build();
 
             var currentCulture = postfix == "" ? iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU") : parameters.SuperClientCulture;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
-
+            var cultureInfo = new CultureInfo(currentCulture) { NumberFormat = { NumberDecimalSeparator = @"." } };
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            
             // Ensure the current culture passed into bindings 
             // is the OS culture. By default, WPF uses en-US 
             // as the culture, regardless of the system settings.
             FrameworkElement.LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(
-                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+                    XmlLanguage.GetLanguage(cultureInfo.IetfLanguageTag)));
         }
 
         private CommandLineParameters ParseCommandLine(string[] args)

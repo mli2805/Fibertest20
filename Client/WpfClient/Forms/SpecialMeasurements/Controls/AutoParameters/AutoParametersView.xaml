@@ -13,11 +13,27 @@
             <TextBlock Margin="15,10" Text="{x:Static stringResources:Resources.SID_Event_detection_thresholds}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_AutoLT}" Margin="5" />
-                <TextBox Width="80" Margin="5" Text="{Binding AutoLt}"/>
+                <TextBox Width="80" Margin="5">
+                    <TextBox.Text>
+                        <Binding Path="AutoLt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ConverterCulture="en-US">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_AutoRT}" Margin="5"/>
-                <TextBox Width="80" Margin="5" Text="{Binding AutoRt}"/>
+                <TextBox Width="80" Margin="5">
+                    <TextBox.Text>
+                        <Binding Path="AutoRt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ConverterCulture="en-US">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
                 <Button Content="Load from" Name="LoadFromTemplate" Margin="5" Width="100"/>

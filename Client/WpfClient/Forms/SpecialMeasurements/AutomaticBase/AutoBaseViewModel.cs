@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -145,9 +144,9 @@ namespace Iit.Fibertest.Client
 
             RftsParametersModel rftsParamsModel = AutoParametersViewModel.Model;
             var paramAutoLt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoLT");
-            paramAutoLt.Value = AutoParametersViewModel.AutoLt;
+            paramAutoLt.Value = double.Parse(AutoParametersViewModel.AutoLt);
             var paramAutoRt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoRT");
-            paramAutoRt.Value = AutoParametersViewModel.AutoRt;
+            paramAutoRt.Value = double.Parse(AutoParametersViewModel.AutoRt);
 
             var sorData = SorData.FromBytes(sorBytes);
             sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());
