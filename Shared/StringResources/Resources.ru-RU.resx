@@ -3230,4 +3230,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Event_detection_thresholds" xml:space="preserve">
 		<value>Пороговые значения мониторинга на нахождение новых событий</value>
 	</data>
+	<data name="SID_Load" xml:space="preserve">
+		<value>Загрузить</value>
+	</data>
 </root>

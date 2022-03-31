@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
+using Microsoft.Win32;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,8 +18,30 @@ namespace Iit.Fibertest.Client
         private IniFile _iniFile;
         private string _templateFileName;
         public RftsParametersModel Model;
-        public string AutoLt { get; set; }
-        public string AutoRt { get; set; }
+        private string _autoLt;
+        private string _autoRt;
+
+        public string AutoLt
+        {
+            get => _autoLt;
+            set
+            {
+                if (value == _autoLt) return;
+                _autoLt = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string AutoRt
+        {
+            get => _autoRt;
+            set
+            {
+                if (value == _autoRt) return;
+                _autoRt = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public AutoParametersViewModel(IWindowManager windowManager)
         {
@@ -42,12 +65,27 @@ namespace Iit.Fibertest.Client
 
         public void LoadFromTemplate()
         {
-
+            var initialDir = Path.GetDirectoryName(_templateFileName) ?? AppDomain.CurrentDomain.BaseDirectory;
+            var openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = initialDir,
+                DefaultExt = @".rft",
+                Filter = @"Template file  |*.rft"
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                _templateFileName = openFileDialog.FileName;
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, _templateFileName);
+                DisplayParametersFromTemplate();
+            }
         }
 
         public void SaveInTemplate()
         {
-
+            RftsParamsParser.TryLoad(_templateFileName, out RftsParams result, out Exception _);
+            result.UniParams.First(p=>p.Name == @"AutoLT").Set(double.Parse(AutoLt));
+            result.UniParams.First(p=>p.Name == @"AutoRT").Set(double.Parse(AutoRt));
+            result.Save(_templateFileName);
         }
 
         private void DisplayParametersFromTemplate()
