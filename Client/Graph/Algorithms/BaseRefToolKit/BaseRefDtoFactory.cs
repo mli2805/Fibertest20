@@ -4,9 +4,10 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
-    public class BaseRefDtoFactory
+    public static class BaseRefDtoFactory
     {
-        public BaseRefDto CreateFromFile(string filename, BaseRefType type, string username)
+        // from client - Assign base
+        public static BaseRefDto CreateFromFile(string filename, BaseRefType type, string username)
         {
             if (filename == "")
                 return new BaseRefDto() { Id = Guid.Empty, BaseRefType = type }; // delete old base ref
@@ -23,7 +24,21 @@ namespace Iit.Fibertest.Graph
             };
         }
 
-        public BaseRefDto CreateFromBaseRef(BaseRef baseRef, byte[] sorBytes)
+        // from client - Auto base
+        public static BaseRefDto CreateFromBytes(BaseRefType type, byte[] sorBytes, string username)
+        {
+            return new BaseRefDto()
+            {
+                Id = Guid.NewGuid(),
+                BaseRefType = type,
+                UserName = username,
+                SorBytes = sorBytes,
+            };
+        }
+
+
+        // on server
+        public static BaseRefDto CreateFromBaseRef(BaseRef baseRef, byte[] sorBytes)
         {
             return new BaseRefDto()
             {

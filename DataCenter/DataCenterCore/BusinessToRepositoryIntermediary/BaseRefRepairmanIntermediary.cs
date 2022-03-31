@@ -19,7 +19,6 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
         private readonly SorFileRepository _sorFileRepository;
-        private readonly BaseRefDtoFactory _baseRefDtoFactory;
         private readonly TraceModelBuilder _traceModelBuilder;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
@@ -28,7 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
         private string _culture;
 
         public BaseRefRepairmanIntermediary(Model writeModel, IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
-            SorFileRepository sorFileRepository, BaseRefDtoFactory baseRefDtoFactory,
+            SorFileRepository sorFileRepository, 
             TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
@@ -36,7 +35,6 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _sorFileRepository = sorFileRepository;
-            _baseRefDtoFactory = baseRefDtoFactory;
             _traceModelBuilder = traceModelBuilder;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
@@ -166,7 +164,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var sorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
                 if (sorBytes == null)
                     continue;
-                listOfBaseRef.Add(_baseRefDtoFactory.CreateFromBaseRef(baseRef, sorBytes));
+                listOfBaseRef.Add(BaseRefDtoFactory.CreateFromBaseRef(baseRef, sorBytes));
             }
 
             _logFile.AppendLine($"{listOfBaseRef.Count} base refs changed");

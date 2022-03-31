@@ -39,11 +39,11 @@ namespace Iit.Fibertest.Client
             return new List<RftsUniParameter>()
             {
                 new RftsUniParameter(){ Name = @"EvtDetectDeltaCT", Value = 1, Scale = 10 },
-                new RftsUniParameter(){ Name = @"EvtSearchStep", Value = 8, Scale = 1 },
-                new RftsUniParameter(){ Name = @"EvtDetectDeltaLen", Value = 34, Scale = 10000 },
-                new RftsUniParameter(){ Name = @"EvtRDetectDeltaLen", Value = 38, Scale = 10000 },
-                new RftsUniParameter(){ Name = @"AutoLT", Value = 1, Scale = 10 },
-                new RftsUniParameter(){ Name = @"AutoRT", Value = -65, Scale = 1 },
+                new RftsUniParameter(){ Name = @"EvtSearchStep", Value = 5, Scale = 1 },
+                new RftsUniParameter(){ Name = @"EvtDetectDeltaLen", Value = 5, Scale = 1000 },
+                new RftsUniParameter(){ Name = @"EvtRDetectDeltaLen", Value = 2, Scale = 1000 },
+                new RftsUniParameter(){ Name = @"AutoLT", Value = 15, Scale = 10 },
+                new RftsUniParameter(){ Name = @"AutoRT", Value = -40, Scale = 1 },
                 new RftsUniParameter(){ Name = @"AutoET", Value = 6, Scale = 1 },
                 new RftsUniParameter(){ Name = @"NoLinkDistance", Value = 5, Scale = 10 },
                 new RftsUniParameter(){ Name = @"NoLinkDeltaDB", Value = 2, Scale = 1 },
