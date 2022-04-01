@@ -6,7 +6,8 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignData AutoBaseViewModel}">
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        d:DataContext="{d:DesignData AutoBaseViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -26,7 +27,5 @@
                                             Visibility="{Binding ControlVisibility}" />
             <StackPanel/>
         </DockPanel>
-        <client:RftsParametersView Visibility="Collapsed" 
-                                   Grid.Column="1" DockPanel.Dock="Right" DataContext="{Binding RftsParametersViewModel}"/>
     </Grid>
 </Window>

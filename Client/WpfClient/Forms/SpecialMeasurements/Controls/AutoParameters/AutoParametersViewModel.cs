@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWindowManager _windowManager;
         private IniFile _iniFile;
+        private string _defaultFileName;
         private string _templateFileName;
         public RftsParametersModel Model;
         private string _autoLt;
@@ -48,58 +49,69 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public void Initialize(IniFile iniFile)
+        public bool Initialize(IniFile iniFile)
         {
             _iniFile = iniFile;
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
-            var defaultFileName = clientPath + @"\ini\RftsParamsDefaultTemplate.rft";
-            if (!File.Exists(defaultFileName))
-            {
-                var rftsDefaults = RftsParamsDefaults.Create();
-                rftsDefaults.Save(defaultFileName);
-            }
+            _defaultFileName = clientPath + @"\ini\RftsParamsDefaultTemplate.rft";
 
-            _templateFileName = iniFile.Read(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, defaultFileName);
-            DisplayParametersFromTemplate();
+            _templateFileName = iniFile.Read(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, _defaultFileName);
+            if (!DisplayParametersFromTemplateFile())
+            {
+                return SelectFileName(Path.GetDirectoryName(_defaultFileName), out _templateFileName) && DisplayParametersFromTemplateFile();
+            }
+            return true;
         }
 
         public void LoadFromTemplate()
         {
             var initialDir = Path.GetDirectoryName(_templateFileName) ?? AppDomain.CurrentDomain.BaseDirectory;
+
+            if (SelectFileName(initialDir, out _templateFileName))
+            {
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, _templateFileName);
+                DisplayParametersFromTemplateFile();
+            }
+        }
+
+        private bool SelectFileName(string initialDir, out string filename)
+        {
             var openFileDialog = new OpenFileDialog
             {
                 InitialDirectory = initialDir,
                 DefaultExt = @".rft",
                 Filter = @"Template file  |*.rft"
             };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                _templateFileName = openFileDialog.FileName;
-                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, _templateFileName);
-                DisplayParametersFromTemplate();
-            }
+            var result = openFileDialog.ShowDialog() == true;
+            filename = result ? openFileDialog.FileName : "";
+            return result;
         }
 
         public void SaveInTemplate()
         {
             RftsParamsParser.TryLoad(_templateFileName, out RftsParams result, out Exception _);
-            result.UniParams.First(p=>p.Name == @"AutoLT").Set(double.Parse(AutoLt));
-            result.UniParams.First(p=>p.Name == @"AutoRT").Set(double.Parse(AutoRt));
+            result.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoLt));
+            result.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoRt));
             result.Save(_templateFileName);
         }
 
-        private void DisplayParametersFromTemplate()
+        private bool DisplayParametersFromTemplateFile()
         {
             if (!RftsParamsParser.TryLoad(_templateFileName, out RftsParams result, out Exception exception))
             {
-                var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { @"Failed to load RFTS parameters template!", exception.Message });
+                var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                {
+                    @"Failed to load RFTS parameters template from file:!", $@"{_templateFileName}", exception.Message
+                });
                 _windowManager.ShowDialogWithAssignedOwner(mb);
-                return;
+
+                return false;
             }
 
             Model = result.ToModel();
             AutoLt = Model.UniParams.First(u => u.Code == @"AutoLT").Value.ToString(CultureInfo.InvariantCulture);
             AutoRt = Model.UniParams.First(u => u.Code == @"AutoRT").Value.ToString(CultureInfo.InvariantCulture);
+            return true;
         }
 
         public string this[string columnName]

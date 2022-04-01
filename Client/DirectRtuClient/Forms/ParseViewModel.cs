@@ -79,6 +79,7 @@ namespace DirectRtuClient
         public void Compare()
         {
             var baseBytes = LoadSorFile(BaseFileName);
+            // var baseSorData = SorData.FromBytes(baseBytes);
 
             var measBytes = LoadSorFile(ResultFileName);
 

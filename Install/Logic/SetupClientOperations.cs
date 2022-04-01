@@ -13,6 +13,8 @@ namespace Iit.Fibertest.Install
         private const string ReflectSubdir = @"RftsReflect";
         private const string SourcePathUserGuide = @"..\UserGuide";
         private const string UserGuideSubdir = @"..\UserGuide";
+        private const string SourcePathRftsTemplates = @"..\RftsTemplates";
+        private const string RftsTemplatesSubdir = @"..\ini";
 
 
         public SetupClientOperations(IMyLog logFile)
@@ -35,6 +37,12 @@ namespace Iit.Fibertest.Install
             _logFile.AppendLine($" full userGuide path = {userGuideFolder}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
                 userGuideFolder, worker))
+                return false;
+
+            var rftsTemplatesFolder = Path.Combine(fullClientPath, RftsTemplatesSubdir);
+            _logFile.AppendLine($" full rftsTemplates path = {rftsTemplatesFolder}");
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRftsTemplates,
+                    rftsTemplatesFolder, worker))
                 return false;
 
 

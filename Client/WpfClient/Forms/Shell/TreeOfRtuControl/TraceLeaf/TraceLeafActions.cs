@@ -184,7 +184,13 @@ namespace Iit.Fibertest.Client
                 return;
 
             await Task.Delay(0);
-            _autoBaseViewModel.Initialize(traceLeaf);
+            if (!_autoBaseViewModel.Initialize(traceLeaf))
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error,
+                    @"Can't start auto base assignment without RFTS template file!");
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return;
+            }
             _windowManager.ShowDialogWithAssignedOwner(_autoBaseViewModel);
         }
     }

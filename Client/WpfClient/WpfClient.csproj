@@ -230,9 +230,9 @@
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\ModelToRftsParams.cs" />
+    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParametersModels.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsApplier.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsClasses.cs" />
-    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsDefaults.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsToModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsSaver.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsParser.cs" />
@@ -245,11 +245,6 @@
       <DependentUpon>AutoBaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseViewModel.cs" />
-    <Compile Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersModels.cs" />
-    <Compile Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersView.xaml.cs">
-      <DependentUpon>RftsParametersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersViewModel.cs" />
     <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
     <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
       <DependentUpon>TceComponentsView.xaml</DependentUpon>
@@ -815,10 +810,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\SpecialMeasurements\Controls\RftsParams\RftsParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

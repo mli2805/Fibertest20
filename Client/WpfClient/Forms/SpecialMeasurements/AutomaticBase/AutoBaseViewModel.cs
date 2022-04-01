@@ -36,7 +36,6 @@ namespace Iit.Fibertest.Client
         public bool IsOpen { get; set; }
 
         public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
-        public RftsParametersViewModel RftsParametersViewModel { get; set; }
         public AutoParametersViewModel AutoParametersViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
 
@@ -57,17 +56,16 @@ namespace Iit.Fibertest.Client
 
             _clientMeasurementModel = new ClientMeasurementModel(currentUser, readModel);
             AutoParametersViewModel = new AutoParametersViewModel(windowManager);
-            RftsParametersViewModel = new RftsParametersViewModel(windowManager);
         }
 
-        public void Initialize(TraceLeaf traceLeaf)
+        public bool Initialize(TraceLeaf traceLeaf)
         {
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
-            AutoParametersViewModel.Initialize(_iniFile);
-            RftsParametersViewModel.Initialize(_iniFile);
+            if (!AutoParametersViewModel.Initialize(_iniFile)) return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
+            return true;
         }
 
         protected override void OnViewLoaded(object view)
@@ -139,7 +137,7 @@ namespace Iit.Fibertest.Client
 
         public async void ProcessMeasurementResult(byte[] sorBytes)
         {
-            MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+            MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             RftsParametersModel rftsParamsModel = AutoParametersViewModel.Model;
@@ -153,8 +151,6 @@ namespace Iit.Fibertest.Client
 
             _autoBaseRefLandmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
 
-            ShowReflectogram(sorData);
-
             BaseRefAssignedDto result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
@@ -162,9 +158,11 @@ namespace Iit.Fibertest.Client
                 result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             }
 
+            MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 _baseRefMessages.Display(result, _trace);
-
+            else
+                ShowReflectogram(sorData);
 
             TryClose();
         }
