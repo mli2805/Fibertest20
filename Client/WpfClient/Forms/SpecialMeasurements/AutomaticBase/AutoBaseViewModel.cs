@@ -38,6 +38,7 @@ namespace Iit.Fibertest.Client
         public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
         public AutoParametersViewModel AutoParametersViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
+        public bool IsShowRef { get; set; }
 
         public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
             IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
@@ -65,6 +66,7 @@ namespace Iit.Fibertest.Client
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
             if (!AutoParametersViewModel.Initialize(_iniFile)) return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
+            IsShowRef = true;
             return true;
         }
 
@@ -137,7 +139,7 @@ namespace Iit.Fibertest.Client
 
         public async void ProcessMeasurementResult(byte[] sorBytes)
         {
-            MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
+            MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             RftsParametersModel rftsParamsModel = AutoParametersViewModel.Model;
@@ -161,7 +163,7 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 _baseRefMessages.Display(result, _trace);
-            else
+            else if (IsShowRef)
                 ShowReflectogram(sorData);
 
             TryClose();

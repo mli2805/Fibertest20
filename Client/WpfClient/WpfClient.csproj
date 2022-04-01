@@ -236,10 +236,10 @@
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsToModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsSaver.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsParser.cs" />
-    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersView.xaml.cs">
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParams\OtdrParametersView.xaml.cs">
       <DependentUpon>OtdrParametersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParams\OtdrParametersViewModel.cs" />
     <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseView.xaml.cs">
       <DependentUpon>AutoBaseView.xaml</DependentUpon>
@@ -514,7 +514,7 @@
     <Compile Include="EventSourcing\IDispatcherProvider.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMeasParamsChecker.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefsChecker.cs" />
-    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParams\OtdrParametersModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurement\OtdrParametersThroughServerSetterView.xaml.cs">
       <DependentUpon>OtdrParametersThroughServerSetterView.xaml</DependentUpon>
     </Compile>
@@ -805,7 +805,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\Controls\OtdrParamsControl\OtdrParametersView.xaml">
+    <Page Include="Forms\SpecialMeasurements\Controls\OtdrParams\OtdrParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -136,10 +136,11 @@ namespace Iit.Fibertest.Client
 
             var parent = traceLeaf.Parent as RtuLeaf;
             var rtuLeaf = parent ?? (RtuLeaf)traceLeaf.Parent.Parent;
-            if (!rtuLeaf.IsAvailable)
-                return false;
+            // if (!rtuLeaf.IsAvailable)
+                // return false;
 
-            return traceLeaf.PortNumber > 0;
+            return traceLeaf.PortNumber > 0 && rtuLeaf.IsAvailable && (traceLeaf.BaseRefsSet.RtuMonitoringState == MonitoringState.Off
+                                                                       || !traceLeaf.BaseRefsSet.IsInMonitoringCycle);
         }
     }
 }

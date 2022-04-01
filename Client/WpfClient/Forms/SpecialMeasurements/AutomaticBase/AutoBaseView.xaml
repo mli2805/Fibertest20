@@ -22,6 +22,7 @@
 
             <client:OtdrParametersView DockPanel.Dock="Top" DataContext="{Binding OtdrParametersViewModel}"/>
             <client:AutoParametersView DockPanel.Dock="Top"  DataContext="{Binding AutoParametersViewModel}"/>
+            <CheckBox DockPanel.Dock="Top"  Margin="25, 15,5,15" Content="{x:Static stringResources:Resources.SID_Show_reflectogram_on_completion}" IsChecked="{Binding IsShowRef}"/>
             <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"
                                             DataContext="{Binding MeasurementProgressViewModel}" 
                                             Visibility="{Binding ControlVisibility}" />

@@ -1524,7 +1524,7 @@ RTU инициализируется в данный момент!</value>
     <value>Останавливаем измерение (Client). Пожалуйста. подождите...</value>
   </data>
 	<data name="SID_Measurement__Client__in_progress__Please_wait___" xml:space="preserve">
-    <value>Проводим измерение (Client). Пожалуйста подождите...</value>
+    <value>Проводим измерение (Client). Пожалуйста, подождите...</value>
   </data>
 	<data name="SID_m" xml:space="preserve">
     <value>м</value>
@@ -1644,7 +1644,7 @@ RTU инициализируется в данный момент!</value>
     <value>Количество оборудования на трассе (без учета "Запас кабеля"): {0}</value>
   </data>
 	<data name="SID_Refractive_index" xml:space="preserve">
-    <value>Показатель преломления - RI:</value>
+    <value>Показатель преломления - n:</value>
   </data>
 	<data name="SID_Data_is_loading" xml:space="preserve">
     <value>Загрузка данных, пожалуйста подождите...</value>
@@ -3228,9 +3228,15 @@ RTU инициализируется в данный момент!</value>
 		<value>Дополнительные параметры</value>
 	</data>
 	<data name="SID_Event_detection_thresholds" xml:space="preserve">
-		<value>Пороговые значения мониторинга на нахождение новых событий</value>
+		<value>Пороги на нахождение новых событий (абсолютные значения)</value>
 	</data>
 	<data name="SID_Load" xml:space="preserve">
 		<value>Загрузить</value>
+	</data>
+	<data name="SID_Applying_base_refs__Please_wait" xml:space="preserve">
+		<value>Применяем базовые рефлектограммы. Пожалуйста, подождите...</value>
+	</data>
+	<data name="SID_Show_reflectogram_on_completion" xml:space="preserve">
+		<value>Показать рефлектограмму по завершении</value>
 	</data>
 </root>

@@ -10,7 +10,7 @@
              >
     <Border BorderBrush="Gray" BorderThickness="1" Margin="5" CornerRadius="5">
         <StackPanel Margin="0,0,40,10">
-            <TextBlock Margin="15,10" Text="{x:Static stringResources:Resources.SID_Event_detection_thresholds}"/>
+            <TextBlock Margin="15,10" TextWrapping="Wrap" Width="370" Text="{x:Static stringResources:Resources.SID_Event_detection_thresholds}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_AutoLT}" Margin="5" />
                 <TextBox Width="80" Margin="5">

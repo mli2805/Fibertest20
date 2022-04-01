@@ -3228,9 +3228,15 @@ Please try again later</value>
 		<value>Additional parameters</value>
 	</data>
 	<data name="SID_Event_detection_thresholds" xml:space="preserve">
-		<value>Event detection thresholds</value>
+		<value>Event detection thresholds (absolute values)</value>
 	</data>
 	<data name="SID_Load" xml:space="preserve">
 		<value>Load</value>
+	</data>
+	<data name="SID_Applying_base_refs__Please_wait" xml:space="preserve">
+		<value>Applying base refs. Please wait...</value>
+	</data>
+	<data name="SID_Show_reflectogram_on_completion" xml:space="preserve">
+		<value>Show reflectogram on completion</value>
 	</data>
 </root>

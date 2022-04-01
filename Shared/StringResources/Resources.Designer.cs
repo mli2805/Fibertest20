@@ -756,6 +756,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Applying base refs. Please wait.
+        /// </summary>
+        public static string SID_Applying_base_refs__Please_wait {
+            get {
+                return ResourceManager.GetString("SID_Applying_base_refs__Please_wait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         public static string SID_Are_you_sure_ {
@@ -2863,7 +2872,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event detection thresholds.
+        ///   Looks up a localized string similar to Event detection thresholds (absolute values).
         /// </summary>
         public static string SID_Event_detection_thresholds {
             get {
@@ -7538,6 +7547,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Show_reflectogram {
             get {
                 return ResourceManager.GetString("SID_Show_reflectogram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show reflectogram on completion.
+        /// </summary>
+        public static string SID_Show_reflectogram_on_completion {
+            get {
+                return ResourceManager.GetString("SID_Show_reflectogram_on_completion", resourceCulture);
             }
         }
         
