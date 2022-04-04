@@ -57,7 +57,7 @@ namespace Iit.Fibertest.UtilsLib
             iniFile.AssignFile(iniFileName, true);
 
             iniFile.Write(IniSection.Map, IniKey.IsHighDensityGraph, isHighDensityGraph);
-            var thresholdZoom = iniFile.Read(IniSection.Map, IniKey.ThresholdZoom, 0);
+            var thresholdZoom = iniFile.Read(IniSection.Map, IniKey.ThresholdZoom, isHighDensityGraph ? 16 : 12);
             if (isHighDensityGraph)
             {
                 if (thresholdZoom < 14)
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.UtilsLib
             }
             else
             {
-                if (thresholdZoom > 12)
+                if (thresholdZoom > 12 || thresholdZoom < 10)
                     iniFile.Write(IniSection.Map, IniKey.ThresholdZoom, 12);
             }
         }
