@@ -55,7 +55,10 @@ namespace Iit.Fibertest.WcfConnections
         Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
 
         [OperationContract]
-        Task<ClientMeasurementDto> GetClientMeasurementAsync(GetClientMeasurementDto dto);
+        Task<ClientMeasurementVeexResultDto> GetClientMeasurementAsync(GetClientMeasurementDto dto);
+
+        [OperationContract]
+        Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto);
 
         [OperationContract]
         Task<RequestAnswer> PrepareReflectMeasurementAsync(PrepareReflectMeasurementDto dto);

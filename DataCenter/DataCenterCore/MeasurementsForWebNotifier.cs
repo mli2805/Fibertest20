@@ -11,7 +11,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly IFtSignalRClient _ftSignalRClient;
-        private readonly ConcurrentQueue<SorBytesDto> _measurements = new ConcurrentQueue<SorBytesDto>();
+        private readonly ConcurrentQueue<ClientMeasurementResultDto> _measurements = new ConcurrentQueue<ClientMeasurementResultDto>();
         private readonly ConcurrentDictionary<Guid, byte[]> _measDict = new ConcurrentDictionary<Guid, byte[]>();
 
         public MeasurementsForWebNotifier(IMyLog logFile, IFtSignalRClient ftSignalRClient)
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
             _ftSignalRClient = ftSignalRClient;
         }
 
-        public void Push(SorBytesDto measurement)
+        public void Push(ClientMeasurementResultDto measurement)
         {
             _measurements.Enqueue(measurement);
          }
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task Tick()
         {
-            if (_measurements.TryDequeue(out SorBytesDto sorBytesDto))
+            if (_measurements.TryDequeue(out ClientMeasurementResultDto sorBytesDto))
             {
                 sorBytesDto.Id = Guid.NewGuid();
                 _measDict.TryAdd(sorBytesDto.Id, sorBytesDto.SorBytes);

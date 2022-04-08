@@ -221,6 +221,10 @@
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseRefLandmarksTool.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\ClientMeasurementModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml.cs">
+      <DependentUpon>RtuAutoBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoParametersView.xaml.cs">
       <DependentUpon>AutoParametersView.xaml</DependentUpon>
     </Compile>
@@ -794,6 +798,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

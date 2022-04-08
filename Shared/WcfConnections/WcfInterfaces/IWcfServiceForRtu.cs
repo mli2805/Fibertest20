@@ -13,6 +13,6 @@ namespace Iit.Fibertest.WcfConnections
         void RegisterRtuHeartbeat(RtuChecksChannelDto result);
        
         [OperationContract]
-        void TransmitClientMeasurementResult(SorBytesDto result);
+        void TransmitClientMeasurementResult(ClientMeasurementResultDto result);
     }
 }

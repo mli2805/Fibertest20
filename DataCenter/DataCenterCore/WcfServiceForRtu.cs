@@ -71,7 +71,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public void TransmitClientMeasurementResult(SorBytesDto result)
+        public void TransmitClientMeasurementResult(ClientMeasurementResultDto result)
         {
             if (_globalState.IsDatacenterInDbOptimizationMode)
                 return;

@@ -29,12 +29,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
+        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
             ClientsCollection clientsCollection, SorFileRepository sorFileRepository,
-            IntermediateLayer intermediateLayer, 
+            IntermediateLayer intermediateLayer,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-            AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier)
+            AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier,
+            ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _logFile = logFile;
             _writeModel = writeModel;
@@ -46,6 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
             _landmarksGraphParser = landmarksGraphParser;
             _accidentLineModelFactory = accidentLineModelFactory;
             _measurementsForWebNotifier = measurementsForWebNotifier;
+            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
         public async Task<string> CheckDataCenterConnection()
@@ -139,12 +142,25 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public Task<byte[]> GetClientMeasurementResult(string username, Guid measId)
+        public async Task<byte[]> GetClientMeasurementResult(string username, string rtuId, string measId)
         {
-            return Task.FromResult(_measurementsForWebNotifier.Extract(measId));
+            if (string.IsNullOrEmpty(rtuId)) // IIT
+            {
+                if (Guid.TryParse(measId, out Guid measGuid))
+                    return _measurementsForWebNotifier.Extract(measGuid);
+                return null;
+            }
+
+            // Veex
+            if (!Guid.TryParse(rtuId, out Guid rtuGuid))
+                return null;
+
+            var getDto = new GetClientMeasurementDto() { RtuId = rtuGuid, VeexMeasurementId = measId };
+            var result = await _clientToRtuVeexTransmitter.GetClientMeasurementSorBytesAsync(getDto);
+            return result.ReturnCode == ReturnCode.Ok ? result.SorBytes : null;
         }
 
-     
+
         public async Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId)
         {
             if (!await Authorize(username, "GetAssignBaseParams")) return null;
@@ -161,8 +177,6 @@ namespace Iit.Fibertest.DataCenterCore
             result.AdditionalId = trace.AdditionalId;
             return result;
         }
-     
-        
-       
+
     }
 }

@@ -57,25 +57,21 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"Failed to get RFTS events for measurement {sorFileId}");
-                return new RftsEventsDto(){ ReturnCode = ReturnCode.Error, ErrorMessage = e.Message};
+                return new RftsEventsDto() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
 
         [Authorize]
-        [HttpGet("Get-sor-octetstream")]
-        public async Task<FileResult> GetSorAsOctetStream(bool isSorFile, int sorFileId, string measGuid, bool isBaseIncluded, bool isVxSor)
+        [HttpGet("GetSorOctetStream")]
+        public async Task<FileResult> GetSorAsOctetStream(bool isSorFile, int sorFileId, string measGuid, bool isBaseIncluded, bool isVxSor, string rtuGuid)
         {
-            Guid measId = Guid.Empty;
-            if (!isSorFile)
-                Guid.TryParse(measGuid, out measId);
-
             var sorBytes = isSorFile
-                ? await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetSorBytes(sorFileId)
-                : await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetClientMeasurementResult(User.Identity.Name, measId);
+               ? await _commonC2DWcfManager
+                   .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                   .GetSorBytes(sorFileId)
+               : await _webC2DWcfManager
+                   .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                   .GetClientMeasurementResult(User.Identity.Name, rtuGuid, measGuid);
 
             if (sorBytes == null)
             {

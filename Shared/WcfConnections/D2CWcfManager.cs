@@ -51,7 +51,7 @@ namespace Iit.Fibertest.WcfConnections
             return 0;
         }
 
-        public async Task<int> NotifyMeasurementClientDone(SorBytesDto dto)
+        public async Task<int> NotifyMeasurementClientDone(ClientMeasurementResultDto dto)
         {
             if (_addresses == null)
             {

@@ -122,7 +122,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<byte[]> GetClientMeasurementResult(string username, Guid measId)
+        public async Task<byte[]> GetClientMeasurementResult(string username, string rtuId, string measId)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
@@ -131,7 +131,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetClientMeasurementResult(username, measId);
+                var result = await channel.GetClientMeasurementResult(username, rtuId, measId);
                 wcfConnection.Close();
                 return result;
             }

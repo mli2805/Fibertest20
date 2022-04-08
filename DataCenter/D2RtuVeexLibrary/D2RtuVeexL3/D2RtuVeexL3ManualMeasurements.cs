@@ -32,10 +32,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
-        public async Task<ClientMeasurementDto> GetMeasurementClientResultAsync(DoubleAddress rtuDoubleAddress,
+        public async Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(DoubleAddress rtuDoubleAddress,
             string measId)
         {
             return await _d2RtuVeexLayer2.GetMeasurementClientResult(rtuDoubleAddress, measId);
+        }
+
+        public async Task<HttpRequestResult> GetClientMeasurementSorBytesAsync(DoubleAddress rtuDoubleAddress,
+                  string measId)
+        {
+            return await _d2RtuVeexLayer2.GetClientMeasurementSorBytesAsync(rtuDoubleAddress, measId);
         }
 
         public async Task<RequestAnswer> PrepareReflectMeasurementAsync(DoubleAddress rtuDoubleAddress,
@@ -49,7 +55,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var result = await _d2RtuVeexLayer2.StartOutOfTurnPreciseMeasurement(rtuDoubleAddress, otdrId, testId);
             return new RequestAnswer()
-                {ReturnCode = result.ReturnCode, ErrorMessage = result.ErrorMessage};
+            { ReturnCode = result.ReturnCode, ErrorMessage = result.ErrorMessage };
         }
 
 

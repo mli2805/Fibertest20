@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
 
-        public Task<int> NotifyMeasurementClientDone(SorBytesDto dto)
+        public Task<int> NotifyMeasurementClientDone(ClientMeasurementResultDto dto)
         {
             if (_clientMeasurementViewModel.IsOpen)
                 _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);

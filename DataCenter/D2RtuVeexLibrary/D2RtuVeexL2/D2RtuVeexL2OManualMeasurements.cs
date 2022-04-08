@@ -24,11 +24,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Ok };
         }
 
-        public async Task<ClientMeasurementDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress, string measId)
+        public async Task<ClientMeasurementVeexResultDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress, string measId)
         {
             var getResult = await _d2RtuVeexLayer1.GetMeasurementResult(rtuDoubleAddress, measId);
             if (!getResult.IsSuccessful)
-                return new ClientMeasurementDto()
+                return new ClientMeasurementVeexResultDto()
                 {
                     ReturnCode = ReturnCode.Error,
                     ErrorMessage = "Failed to get measurement result!",
@@ -36,28 +36,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var measResult = (VeexMeasurementResult)getResult.ResponseObject;
 
-            var result = new ClientMeasurementDto()
+            return new ClientMeasurementVeexResultDto()
             {
                 ReturnCode = ReturnCode.Ok,
                 VeexMeasurementStatus = measResult.status,
                 ErrorMessage = measResult.extendedStatus,
             };
+        }
 
-            if (measResult.status == "finished")
-            {
-                var getResult2 = await _d2RtuVeexLayer1.GetMeasurementBytes(rtuDoubleAddress, measId);
-                if (!getResult2.IsSuccessful || getResult2.ResponseBytesArray == null)
-                {
-                    result.ReturnCode = ReturnCode.Error;
-                    result.ErrorMessage = "Failed to get measurement bytes";
-                }
-                else
-                {
-                    result.SorBytes = getResult2.ResponseBytesArray;
-                }
-
-            }
-            return result;
+        public async Task<HttpRequestResult> GetClientMeasurementSorBytesAsync(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            return await _d2RtuVeexLayer1.GetMeasurementBytes(rtuDoubleAddress, measId);
         }
 
         public async Task<RequestAnswer> PrepareReflectMeasurement(DoubleAddress rtuDoubleAddress,
@@ -78,7 +67,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!otdrRes.IsSuccessful)
                 return new RequestAnswer()
                 {
-                    ReturnCode = ReturnCode.Error, 
+                    ReturnCode = ReturnCode.Error,
                     ErrorMessage = "Failed to enable proxy mode!" + Environment.NewLine + otdrRes.ResponseJson
                 };
 
@@ -103,7 +92,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!otdrRes.IsSuccessful)
                 return new RequestAnswer()
                 {
-                    ReturnCode = ReturnCode.Error, 
+                    ReturnCode = ReturnCode.Error,
                     ErrorMessage = "Failed to enable proxy mode!" + Environment.NewLine + otdrRes.ResponseJson
                 };
 
@@ -115,7 +104,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
             return new RequestAnswer()
             {
-                ReturnCode = ReturnCode.Error, ErrorMessage = res.ErrorMessage + Environment.NewLine + res.ResponseJson
+                ReturnCode = ReturnCode.Error,
+                ErrorMessage = res.ErrorMessage + Environment.NewLine + res.ResponseJson
             };
         }
 

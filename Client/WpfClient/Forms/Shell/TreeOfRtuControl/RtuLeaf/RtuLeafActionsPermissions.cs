@@ -75,5 +75,12 @@ namespace Iit.Fibertest.Client
             return _currentUser.Role <= Role.Root;
         }
 
+        public bool CanAssignBaseRefsAutomatically(object param)
+        {
+            return _currentUser.Role <= Role.Operator
+                   && param is RtuLeaf rtuLeaf
+                   && rtuLeaf.IsAvailable
+                   && rtuLeaf.MonitoringState == MonitoringState.Off;
+        }
     }
 }

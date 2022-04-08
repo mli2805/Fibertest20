@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceCommonC2D _c2RWcfManager;
+        private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly Model _readModel;
         private readonly AutoBaseRefLandmarksTool _autoBaseRefLandmarksTool;
         private readonly BaseRefMessages _baseRefMessages;
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
         public bool IsShowRef { get; set; }
 
         public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
-            IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
+            IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
             CurrentUser currentUser, Model readModel, 
             AutoBaseRefLandmarksTool autoBaseRefLandmarksTool, BaseRefMessages baseRefMessages)
         {
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _logFile = logFile;
             _windowManager = windowManager;
-            _c2RWcfManager = c2RWcfManager;
+            _c2DWcfCommonManager = c2DWcfCommonManager;
             _readModel = readModel;
             _currentUser = currentUser;
             _autoBaseRefLandmarksTool = autoBaseRefLandmarksTool;
@@ -64,7 +64,8 @@ namespace Iit.Fibertest.Client
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _clientMeasurementModel.Initialize(traceLeaf, true);
             OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
-            if (!AutoParametersViewModel.Initialize(_iniFile)) return false;
+            if (!AutoParametersViewModel.Initialize(_iniFile)) 
+                return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
             IsShowRef = true;
             return true;
@@ -85,7 +86,7 @@ namespace Iit.Fibertest.Client
 
             MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
 
-            var startResult = await _c2RWcfManager.DoClientMeasurementAsync(dto);
+            var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.Ok)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, startResult.ErrorMessage);
@@ -111,7 +112,7 @@ namespace Iit.Fibertest.Client
             while (true)
             {
                 await Task.Delay(5000);
-                var measResult = await _c2RWcfManager.GetClientMeasurementAsync(getDto);
+                var measResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
 
                 if (measResult.ReturnCode != ReturnCode.Ok || measResult.VeexMeasurementStatus == @"failed")
                 {
@@ -131,7 +132,8 @@ namespace Iit.Fibertest.Client
 
                 if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
                 {
-                    ProcessMeasurementResult(measResult.SorBytes);
+                    var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
+                    ProcessMeasurementResult(measResultWithSorBytes.SorBytes);
                     return;
                 }
             }
@@ -157,7 +159,7 @@ namespace Iit.Fibertest.Client
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var dto = PrepareDto(_trace, sorData.ToBytes(), _currentUser.UserName);
-                result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
+                result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
             }
 
             MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;

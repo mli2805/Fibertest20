@@ -96,7 +96,8 @@ namespace Iit.Fibertest.Client
                 ? rtu.MainVeexOtau.id
                 : otau.Id.ToString();
 
-            var otauPortDto = new OtauPortDto(){
+            var otauPortDto = new OtauPortDto()
+            {
                 OtauId = otauId,
                 OpticalPort = portNumber,
                 Serial = otauLeaf.Serial,
@@ -106,7 +107,7 @@ namespace Iit.Fibertest.Client
             return otauPortDto;
         }
 
-        public DoClientMeasurementDto PrepareDto(Rtu rtu, OtauPortDto otauPortDto, 
+        public DoClientMeasurementDto PrepareDto(Rtu rtu, OtauPortDto otauPortDto,
             NetAddress address, List<MeasParam> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
             var dto = new DoClientMeasurementDto()
@@ -185,7 +186,8 @@ namespace Iit.Fibertest.Client
                     }
                     if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
                     {
-                        ShowReflectogram(measResult.SorBytes);
+                        var measResultWithSorBytes = await _c2RWcfManager.GetClientMeasurementSorBytesAsync(getDto);
+                        ShowReflectogram(measResultWithSorBytes.SorBytes);
                         TryClose(true);
                         return;
                     }

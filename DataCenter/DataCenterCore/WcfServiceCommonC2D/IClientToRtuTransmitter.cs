@@ -14,6 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
 
         Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
-        Task<ClientMeasurementDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto);
+        Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto);
+        Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto);
     }
 }

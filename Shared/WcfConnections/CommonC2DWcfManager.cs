@@ -354,11 +354,11 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<ClientMeasurementDto> GetClientMeasurementAsync(GetClientMeasurementDto dto)
+        public async Task<ClientMeasurementVeexResultDto> GetClientMeasurementAsync(GetClientMeasurementDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
-                return new ClientMeasurementDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+                return new ClientMeasurementVeexResultDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 
             try
             {
@@ -372,7 +372,29 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("GetClientMeasurementAsync:" + e.Message);
-                return new ClientMeasurementDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+                return new ClientMeasurementVeexResultDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new ClientMeasurementVeexResultDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to get client's measurement sor bytes from RTU {dto.RtuId.First6()}");
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetClientMeasurementSorBytesAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetClientMeasurementSorBytesAsync:" + e.Message);
+                return new ClientMeasurementVeexResultDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 

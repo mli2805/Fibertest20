@@ -177,14 +177,14 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<ClientMeasurementDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
+        public async Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to get measurement from VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new ClientMeasurementDto()
+                return new ClientMeasurementVeexResultDto()
                 {
                     ReturnCode = ReturnCode.NoSuchRtu
                 };
@@ -193,6 +193,24 @@ namespace Iit.Fibertest.DataCenterCore
             var result = await _d2RtuVeexLayer3.GetMeasurementClientResultAsync(rtuAddresses, dto.VeexMeasurementId);
             _logFile.AppendLine($"Get measurement result is {result.ReturnCode}");
             return result;
+        }  
+        
+        public async Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to get measurement sor bytes from VeEX RTU {dto.RtuId.First6()}");
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return null;
+            }
+
+            var res = await _d2RtuVeexLayer3.GetClientMeasurementSorBytesAsync(rtuAddresses, dto.VeexMeasurementId);
+            return new ClientMeasurementVeexResultDto()
+            {
+                ReturnCode = ReturnCode.Ok,
+                SorBytes = res.ResponseBytesArray,
+            };
         }
 
         public async Task<RequestAnswer> PrepareReflectMeasurementAsync(PrepareReflectMeasurementDto dto)

@@ -110,8 +110,8 @@
     <Compile Include="ForWebApi\UpdateMeasurementDto.cs" />
     <Compile Include="R2D2C\BopStateChangedDto.cs" />
     <Compile Include="D2C\ServerAsksClientToExitDto.cs" />
-    <Compile Include="R2D2C\ClientMeasurementDto.cs" />
-    <Compile Include="R2D2C\SorBytesDto.cs" />
+    <Compile Include="R2D2C\ClientMeasurementVeexResultDto.cs" />
+    <Compile Include="R2D2C\ClientMeasurementResultDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />

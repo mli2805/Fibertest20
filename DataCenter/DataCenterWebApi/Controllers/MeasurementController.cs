@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<UpdateMeasurementDto>(body);
                 if (dto == null)
-                    return new RequestAnswer() {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to deserialize json"};
+                    return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to deserialize json" };
 
                 dto.ClientIp = GetRemoteAddress();
                 dto.StatusChangedTimestamp = DateTime.Now;
@@ -67,8 +67,8 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpPost("Measurement-client")]
-        public async Task<ClientMeasurementStartedDto> MeasurementClient()
+        [HttpPost("Start-measurement-client")]
+        public async Task<ClientMeasurementStartedDto> StartMeasurementClient()
         {
             _logFile.AppendLine($"MeasurementClient request from {GetRemoteAddress()}");
 
@@ -79,7 +79,6 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     body = await reader.ReadToEndAsync();
                 }
-                _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
                 var clientMeasurementStartedDto = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
@@ -88,8 +87,30 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"MeasurementClient: {e.Message}");
+                _logFile.AppendLine($"StartMeasurementClient: {e.Message}");
                 return new ClientMeasurementStartedDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.MeasurementPreparationError };
+            }
+        }
+
+        [Authorize]
+        [HttpGet("Get-measurement-client-result")]
+        public async Task<ClientMeasurementVeexResultDto> GetVeexMeasurementClientResult(string rtuId, string veexMeasurementId)
+        {
+            _logFile.AppendLine($"Get Veex MeasurementClient result request from {GetRemoteAddress()}");
+
+            try
+            {
+                var getDto = new GetClientMeasurementDto() { RtuId = Guid.Parse(rtuId), VeexMeasurementId = veexMeasurementId };
+
+                var clientMeasurementStartedDto = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetClientMeasurementAsync(getDto);
+                return clientMeasurementStartedDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"StartMeasurementClient: {e.Message}");
+                return new ClientMeasurementVeexResultDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.Error };
             }
         }
 

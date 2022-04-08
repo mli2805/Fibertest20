@@ -27,12 +27,13 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly RtuRemover _rtuRemover;
         private readonly TabulatorViewModel _tabulatorViewModel;
+        private readonly RtuAutoBaseViewModel _rtuAutoBaseViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
-            RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
+            RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel, RtuAutoBaseViewModel rtuAutoBaseViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
@@ -44,6 +45,7 @@ namespace Iit.Fibertest.Client
             _commonC2DWcfManager = commonC2DWcfManager;
             _rtuRemover = rtuRemover;
             _tabulatorViewModel = tabulatorViewModel;
+            _rtuAutoBaseViewModel = rtuAutoBaseViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
             _landmarksViewsManager = landmarksViewsManager;
         }
@@ -258,6 +260,16 @@ namespace Iit.Fibertest.Client
 
             var rtuNodeId = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).NodeId;
             _graphReadModel.GrmRtuRequests.DefineTraceStepByStep(rtuNodeId, rtuLeaf.Title);
+        }
+
+        public async Task AssignBaseRefsAutomatically(object param)
+        {
+            if (!(param is RtuLeaf rtuLeaf))
+                return;
+
+            await Task.Delay(100);
+            _rtuAutoBaseViewModel.Initialize(rtuLeaf);
+            _windowManager.ShowDialogWithAssignedOwner(_rtuAutoBaseViewModel);
         }
     }
 }

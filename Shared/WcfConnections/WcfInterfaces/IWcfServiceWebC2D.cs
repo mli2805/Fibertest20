@@ -24,7 +24,7 @@ namespace Iit.Fibertest.WcfConnections
         Task<string> GetTreeInJson(string username);
 
         [OperationContract]
-        Task<byte[]> GetClientMeasurementResult(string username, Guid measId);
+        Task<byte[]> GetClientMeasurementResult(string username, string rtuId, string measId);
 
         #region RTU
         [OperationContract]

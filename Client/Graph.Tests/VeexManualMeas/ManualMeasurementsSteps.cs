@@ -18,7 +18,8 @@ namespace Graph.Tests
         private OtauLeaf _otauLeaf;
 
         private ClientMeasurementStartedDto _startedDto;
-        private ClientMeasurementDto _measResult;
+        private ClientMeasurementVeexResultDto _measResult;
+        private ClientMeasurementVeexResultDto _measResultWithSorBytes;
 
         private NetAddress _preparationResult;
 
@@ -52,12 +53,16 @@ namespace Graph.Tests
                 VeexMeasurementId = _startedDto.ErrorMessage, // sorry, if ReturnCode is OK, ErrorMessage contains Id
             };
             _measResult = _sut.WcfServiceCommonC2D.GetClientMeasurementAsync(getDto).Result;
+            if (_measResult != null && _measResult.ReturnCode == ReturnCode.Ok)
+            {
+                _measResultWithSorBytes = _sut.WcfServiceCommonC2D.GetClientMeasurementSorBytesAsync(getDto).Result;
+            }
         }
 
         [Then(@"Приходит рефлектограмма")]
         public void ThenПриходитРефлектограмма()
         {
-            _measResult.SorBytes.Length.ShouldBeEquivalentTo(32000);
+            _measResultWithSorBytes.SorBytes.Length.ShouldBeEquivalentTo(32000);
         }
 
         [Given(@"Присоединяем доп переключатель")]

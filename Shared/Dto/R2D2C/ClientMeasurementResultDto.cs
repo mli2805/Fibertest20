@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class SorBytesDto
+    public class ClientMeasurementResultDto
     {
         [DataMember]
         public string ClientIp { get; set; }
@@ -20,4 +20,6 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Guid Id { get; set; }
     }
+
+  
 }

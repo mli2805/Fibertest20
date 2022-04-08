@@ -31,7 +31,12 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // Veex only
-        public Task<ClientMeasurementDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
+        public Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto)
         {
             throw new NotImplementedException();
         }

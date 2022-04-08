@@ -200,6 +200,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ClientMeasurementViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<AutoBaseViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuAutoBaseViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<NodeVmActions>().InstancePerLifetimeScope();
             builder.RegisterType<CommonVmActions>().InstancePerLifetimeScope();

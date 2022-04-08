@@ -3,7 +3,7 @@
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class ClientMeasurementDto
+    public class ClientMeasurementVeexResultDto
     {
         [DataMember]
         public ReturnCode ReturnCode { get; set; }
