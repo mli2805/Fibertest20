@@ -56,7 +56,12 @@ namespace Iit.Fibertest.WpfCommonViews
             {
                 DataRow newRow = BindableTable.NewRow();
                 for (int i = 0; i < pair.Value.Length; i++)
-                    newRow[i] = pair.Value[i];
+                {
+                    // if (pair.Key > 300 && pair.Key < 500 && i == 1)
+                    //     newRow[i] = "";
+                    // else
+                        newRow[i] = pair.Value[i];
+                }
                 BindableTable.Rows.Add(newRow);
             }
         }

@@ -46,8 +46,16 @@ namespace Iit.Fibertest.WpfCommonViews
             return Resources.SID_unexpected_input;
         }
 
+        public static string ForTable(this RftsUniversalParameter uniParam)
+        {
+            var value = (double)uniParam.Value / uniParam.Scale;
+            return $"{value} " + Resources.SID__abs__;
+        }
+
         public static string ForTable(this ShortThreshold threshold)
         {
+            if (!threshold.IsAbsolute && threshold.RelativeThreshold == 32767) return "";
+
             var value = threshold.IsAbsolute ? threshold.AbsoluteThreshold : threshold.RelativeThreshold;
             var str = $@"{value / 1000.0: 0.000} ";
             var result = str + (threshold.IsAbsolute ? Resources.SID__abs__ : Resources.SID__rel__);

@@ -117,10 +117,15 @@ namespace Iit.Fibertest.WpfCommonViews
         {
             var level = _sorData.RftsParameters.Levels.First(l => l.LevelName == _rftsEvents.LevelName);
 
-            for (int i = 0; i < _eventCount; i++)
+            for (int i = 1; i < _eventCount; i++)
             {
                 if ((_rftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
+                {
+                    eventTable[301][i + 1] = _sorData.RftsParameters.UniversalParameters[5].ForTable();
+                    eventTable[302][i + 1] = _sorData.RftsParameters.UniversalParameters[4].ForTable();
+
                     continue;
+                }
                 eventTable[301][i + 1] = level.ThresholdSets[i].ReflectanceThreshold.ForTable();
                 eventTable[302][i + 1] = level.ThresholdSets[i].AttenuationThreshold.ForTable();
                 eventTable[303][i + 1] = level.ThresholdSets[i].AttenuationCoefThreshold.ForTable();
@@ -138,10 +143,19 @@ namespace Iit.Fibertest.WpfCommonViews
                     if (string.IsNullOrEmpty(oneLevelTableContent.FirstProblemLocation))
                         oneLevelTableContent.FirstProblemLocation = oneLevelTableContent.Table[105][i + 1];
                 }
-                oneLevelTableContent.Table[401][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
-                if (i < _eventCount - 1)
-                    oneLevelTableContent.Table[402][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
-                oneLevelTableContent.Table[403][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
+
+                if ((i == 0) || (_rftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
+                {
+
+                }
+                else
+                {
+                    oneLevelTableContent.Table[401][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
+                    if (i < _eventCount - 1)
+                        oneLevelTableContent.Table[402][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
+                    oneLevelTableContent.Table[403][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
+
+                }
 
                 oneLevelTableContent.Table[103][i + 1] = _rftsEvents.Events[i].EventTypes.ForStateInTable(oneLevelTableContent.Table[104][i + 1] != null);
             }
