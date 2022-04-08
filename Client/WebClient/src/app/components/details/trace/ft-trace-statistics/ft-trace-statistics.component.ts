@@ -102,7 +102,8 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       "",
       isBaseIncluded,
       this.vm.header.traceTitle,
-      this.contextMenu.menuData.row.eventRegistrationTimestamp
+      this.contextMenu.menuData.row.eventRegistrationTimestamp,
+      ""
     );
   }
 
@@ -113,7 +114,8 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       `ID${this.contextMenu.menuData.row.sorFileId}`,
       isBaseIncluded,
       this.vm.header.traceTitle,
-      this.contextMenu.menuData.row.eventRegistrationTimestamp
+      this.contextMenu.menuData.row.eventRegistrationTimestamp,
+      ""
     );
   }
 

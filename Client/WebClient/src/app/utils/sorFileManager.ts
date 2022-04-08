@@ -9,8 +9,11 @@ export class SorFileManager {
     measGuid: string,
     isBaseIncluded: boolean,
     traceTitle: string,
-    eventRegistrationTimestamp: Date
+    eventRegistrationTimestamp: Date,
+    rtuGuid: string,
   ) {
+    console.log(`SorFileManager  measGuid ${measGuid}`);
+
     const filename =
       traceTitle === "meas"
         ? `${traceTitle} - ${SorFileManager.ToFilename(
@@ -22,10 +25,11 @@ export class SorFileManager {
     const dict = {
       isSorFile,
       sorFileId,
-      measGuid,
+      measGuid: measGuid,
       isBaseIncluded,
       isVxSor: "true",
       filename,
+      rtuGuid: rtuGuid,
     };
     sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
 
@@ -46,14 +50,16 @@ export class SorFileManager {
     name: string,
     isBaseIncluded: boolean,
     traceTitle: string,
-    eventRegistrationTimestamp: Date
+    eventRegistrationTimestamp: Date,
+    rtuId: string
   ) {
     const blob = await oneApiService.getSorAsBlobFromServer(
       true,
       sorFileId,
       null,
       isBaseIncluded,
-      false
+      false,
+      rtuId,
     );
 
     if (blob !== null) {

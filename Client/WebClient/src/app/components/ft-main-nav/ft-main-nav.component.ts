@@ -233,7 +233,8 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         signal.id,
         false,
         "meas",
-        new Date()
+        new Date(),
+        ""
       );
     }
   }

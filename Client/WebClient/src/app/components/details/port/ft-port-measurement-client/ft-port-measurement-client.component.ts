@@ -3,7 +3,11 @@ import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acce
 import { Router } from "@angular/router";
 import {
   DoClientMeasurementDto,
+  Laser,
+  LasersProperty,
   MeasParam,
+  OpticalLineProperties,
+  VeexMeasOtdrParameters,
 } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
@@ -12,6 +16,11 @@ import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasure
 import { TranslateService } from "@ngx-translate/core";
 import { OneApiService } from "src/app/api/one.service";
 import { SorFileManager } from "src/app/utils/sorFileManager";
+import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
+import { GetClientMeasurementDto } from "src/app/models/dtos/meas-params/getClientMeasurementDto";
+import { ClientMeasurementVeexResultDto } from "src/app/models/dtos/meas-params/clientMeasurementVeexResultDto";
+import { RtuMaker } from "src/app/models/enums/rtuMaker";
+import { Console } from "console";
 
 @Component({
   selector: "ft-port-measurement-client",
@@ -55,7 +64,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     console.log("we are in ngOnInit of measurement client component");
     this.isSpinnerVisible = true;
     const rtuId = JSON.parse(sessionStorage.getItem("measurementClientParams"))
-      .rtuId;
+      .rtu.rtuId;
     this.tree = (await this.oneApiService
       .getRequest(`rtu/measurement-parameters/${rtuId}`)
       .toPromise()) as TreeOfAcceptableVeasParams;
@@ -95,8 +104,10 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     this.selectedBc = selectedUnitBranch["backscatteredCoefficient"];
     this.selectedRi = selectedUnitBranch["refractiveIndex"];
     const distances = selectedUnitBranch["distances"];
+    console.log(`distances = `, distances);
 
     const distancesKeys = Object.keys(distances);
+    console.log(`distancesKeys = ${distancesKeys}`);
     this.itemsSourceDistances = distancesKeys;
     this.selectedDistance = distancesKeys[0];
 
@@ -143,6 +154,26 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     }
   }
 
+  getVeexSelectedParameters(){
+    const params: VeexMeasOtdrParameters = new VeexMeasOtdrParameters();
+    params.measurementType = "manual";
+    params.fastMeasurement = false;
+    params.highFrequencyResolution = false;
+    params.lasers = [new Laser(this.selectedUnit)];
+
+    const lp = new LasersProperty(
+      // this.selectedUnit, Math.round(this.selectedBc * 100), this.selectedRi * 100000);
+      this.selectedUnit, this.selectedBc, this.selectedRi);
+    params.opticalLineProperties = new OpticalLineProperties("point_to_point", [lp]);
+
+    params.distanceRange = this.selectedDistance;
+    params.resolution = this.selectedResolution;
+    params.pulseDuration = this.selectedPulseDuration;
+    params.averagingTime = this.selectedPeriodToAverage;
+
+    return params;
+  }
+
   getSelectedParameters() {
     const params: MeasParam[] = new Array(8);
     params[0] = new MeasParam(
@@ -181,21 +212,68 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     const dto = new DoClientMeasurementDto();
     const currentUser = JSON.parse(sessionStorage.currentUser);
     dto.connectionId = currentUser.connectionId;
-    dto.rtuId = params.rtuId;
+    dto.rtuId = params.rtu.rtuId;
+    dto.otdrId = params.rtu.otdrId;
     dto.otauPortDto = params.otauPortDto;
+
+    const mainOtau = new OtauPortDto();
+    mainOtau.isPortOnMainCharon = true;
+    mainOtau.otauId = params.rtu.mainVeexOtau.id;
+    mainOtau.opticalPort = params.otauPortDto.mainCharonPort;
+    dto.mainOtauPortDto = mainOtau;
+
     dto.selectedMeasParams = this.getSelectedParameters();
+    dto.veexMeasOtdrParameters = this.getVeexSelectedParameters();
     console.log(dto);
     const res = (await this.oneApiService
-      .postRequest("measurement/measurement-client", dto)
+      .postRequest("measurement/start-measurement-client", dto)
       .toPromise()) as RequestAnswer;
     if (res.returnCode !== ReturnCode.Ok) {
       this.message = res.errorMessage;
       this.isSpinnerVisible = false;
       this.isButtonDisabled = false;
     } else {
+      console.log(`measurement id ${res.errorMessage}`);
       this.message = this.ts.instant(
         "SID_Measurement__Client__in_progress__Please_wait___"
       );
+
+      if (params.rtu.rtuMaker == RtuMaker.IIT)
+        return;
+
+      const getDto = new GetClientMeasurementDto();
+      getDto.rtuId = params.rtu.rtuId;
+      getDto.veexMeasurementId = res.errorMessage; // sorry, if ReturnCode is OK, ErrorMessage contains Id
+      var measRes: ClientMeasurementVeexResultDto;
+      while (true) {
+        await new Promise(f => setTimeout(f, 5000));
+
+        measRes = (await this.oneApiService
+          .getRequest("measurement/get-measurement-client-result", getDto)
+          .toPromise()) as ClientMeasurementVeexResultDto;
+
+        if (measRes.returnCode != ReturnCode.Ok) {
+            this.message = `Failed to get veex measurement result`;
+            break;
+        }
+  
+        if (measRes.returnCode == ReturnCode.Ok && measRes.veexMeasurementStatus == "failed") {
+            this.message = `Measurement (Client) failed!`;
+            break;
+        }
+  
+        if (measRes.returnCode == ReturnCode.Ok && measRes.veexMeasurementStatus == "finished") {
+            SorFileManager.Show(this.router,  false,  0,  getDto.veexMeasurementId,
+              false, "meas", new Date(), 
+              JSON.parse(sessionStorage.getItem("measurementClientParams")).rtu.rtuId)
+
+            this.message = this.ts.instant("SID_Measurement_is_finished_");
+            break;
+        }
+      }
+
+      this.isSpinnerVisible = false;
+      this.isButtonDisabled = false;
     }
   }
 

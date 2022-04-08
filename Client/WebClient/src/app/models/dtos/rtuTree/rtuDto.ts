@@ -3,6 +3,7 @@ import { RtuMaker } from "../../enums/rtuMaker";
 import { NetAddress } from "../../underlying/netAddress";
 import { RtuPartState } from "../../enums/rtuPartState";
 import { ChildDto } from "./childDto";
+import { VeexOtauDto } from "./veexOtauDto";
 
 export class RtuDto {
   expanded: boolean;
@@ -11,8 +12,9 @@ export class RtuDto {
   rtuMaker: RtuMaker;
   title: string;
 
-  otauId: string; // VeEX
+  // otauId: string; // VeEX
   otdrId: string;
+  mainVeexOtau: VeexOtauDto;
 
   mfid: string;
   mfsn: string;

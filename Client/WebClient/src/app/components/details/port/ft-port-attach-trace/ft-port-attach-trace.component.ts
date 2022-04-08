@@ -53,7 +53,7 @@ export class FtPortAttachTraceComponent implements OnInit {
     cmd.OtauPortDto = params.selectedPort;
     cmd.MainOtauPortDto = new OtauPortDto();
     cmd.MainOtauPortDto.isPortOnMainCharon = true;
-    cmd.MainOtauPortDto.otauId = this.rtu.otauId;
+    cmd.MainOtauPortDto.otauId = this.rtu.mainVeexOtau.id;
     cmd.MainOtauPortDto.opticalPort = cmd.OtauPortDto.mainCharonPort;
 
     console.log(cmd);

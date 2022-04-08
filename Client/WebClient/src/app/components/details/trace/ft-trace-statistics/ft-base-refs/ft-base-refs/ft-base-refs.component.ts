@@ -48,7 +48,8 @@ export class FtBaseRefsComponent implements OnInit {
       "",
       isBaseIncluded,
       this.traceTitle,
-      this.contextMenu.menuData.row.eventRegistrationTimestamp
+      this.contextMenu.menuData.row.eventRegistrationTimestamp,
+      ""
     );
   }
 
@@ -59,7 +60,8 @@ export class FtBaseRefsComponent implements OnInit {
       this.baseRefPipe.transform(this.contextMenu.menuData.row.baseRefType),
       isBaseIncluded,
       this.traceTitle,
-      this.contextMenu.menuData.row.assignmentTimestamp
+      this.contextMenu.menuData.row.assignmentTimestamp,
+      ""
     );
   }
 }

@@ -163,7 +163,8 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
       "",
       isBaseIncluded,
       this.contextMenu.menuData.row.traceTitle,
-      this.contextMenu.menuData.row.eventRegistrationTimestamp
+      this.contextMenu.menuData.row.eventRegistrationTimestamp,
+      ""
     );
   }
 
@@ -174,7 +175,8 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
       `ID${this.contextMenu.menuData.row.eventId}`,
       isBaseIncluded,
       this.contextMenu.menuData.row.traceTitle,
-      this.contextMenu.menuData.row.eventRegistrationTimestamp
+      this.contextMenu.menuData.row.eventRegistrationTimestamp,
+      ""
     );
   }
 

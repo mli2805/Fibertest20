@@ -96,7 +96,10 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   measurementClient() {
-    const dict = { rtuId: this.trace.rtuId, otauPortDto: this.trace.otauPort };
+    const dict = { 
+      rtu: this.parentRtu,
+      otauPortDto: this.trace.otauPort 
+    };
     sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));
     this.router.navigate(["/ft-main-nav/port-measurement-client"]);
   }

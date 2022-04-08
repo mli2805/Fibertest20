@@ -12,6 +12,7 @@ import {
 import { VX_DIALOG_SERVICE, Color } from "@veex/common";
 import { ChartDataService, ChartMatrixesService } from "@veex/chart";
 import { DialogService } from "./other/DialogService";
+import { GetSorDataParams } from "src/app/models/dtos/meas-params/getSorDataParams";
 
 @Component({
   selector: "ft-sor-viewer",
@@ -56,12 +57,16 @@ export class SorViewerComponent implements OnInit {
     const sorFileId = params["sorFileId"];
     const measGuid = params["measGuid"];
     const isBaseIncluded = params["isBaseIncluded"];
+    const rtuGuid = params["rtuGuid"];
+    console.log(`found rtuGuid: ${rtuGuid}`);
+    console.log(`found measGuid: ${measGuid}`);
 
     const measSorTrace = await this.loadSorTraceFromServer(
       isSorFile,
       sorFileId,
       measGuid,
-      false
+      false,
+      rtuGuid,
     );
     measSorTrace.chart.color = Color.fromRgb(0, 0, 255);
     measSorTrace.chart.name = params["filename"] + ".sor";
@@ -71,7 +76,8 @@ export class SorViewerComponent implements OnInit {
         isSorFile,
         sorFileId,
         measGuid,
-        true
+        true,
+        rtuGuid,
       );
       baseSorTrace.chart.color = Color.fromRgb(0, 255, 0);
       baseSorTrace.chart.name = params["filename"] + " base.sor";
@@ -93,16 +99,32 @@ export class SorViewerComponent implements OnInit {
     isSorFile: boolean,
     sorFileId: number,
     measGuid: string,
-    isBase: boolean
+    isBase: boolean,
+    rtuGuid: string,
   ): Promise<SorTrace> {
-    console.log(`start loading sor from server`);
-    const blob = (await this.oneApiService.getSorAsBlobFromServer(
+    console.log(`start loading sor ${measGuid}  from server`);
+
+    const params = new GetSorDataParams();
+    params.isSorFile = isSorFile.toString();
+    params.sorFileId = sorFileId.toString();
+    params.measGuid = measGuid;
+    params.isBase = isBase.toString();
+    params.isInVxSorFormat = true.toString();
+    params.rtuGuid = rtuGuid;
+
+    const blob = (await this.oneApiService
+      .getSorAsBlobFromServer(
       isSorFile,
       sorFileId,
       measGuid,
       isBase,
-      true
+      true,
+      rtuGuid,
     )) as Blob;
+
+    // const blob = (await this.oneApiService
+      // .getSorAsBlobFromServer2(measGuid)) as Blob;
+
     const arrayBuffer = await new Response(blob).arrayBuffer();
 
     const uint8arr = new Uint8Array(arrayBuffer);

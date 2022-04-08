@@ -91,7 +91,8 @@ export class FtTraceStateComponent implements OnInit {
       "",
       true,
       this.vm.header.traceTitle,
-      this.vm.registrationTimestamp
+      this.vm.registrationTimestamp,
+      this.vm.rtuId,
     );
   }
 

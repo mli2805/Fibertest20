@@ -55,7 +55,7 @@ export class FtFreePortComponent implements OnInit {
 
   prepareDataForMeasurement() {
     const dict = {
-      rtuId: this.parentRtu.rtuId,
+      rtu: this.parentRtu,
       otauPortDto: this.compileOtauPortDto(),
     };
     sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));

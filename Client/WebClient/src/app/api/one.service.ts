@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Utils } from "../utils/utils";
 import { AssignBaseRefDtoWithFiles } from "../models/dtos/trace/assignBaseRefDtoWithFiles";
 import { formatDate } from "@angular/common";
+import { GetSorDataParams } from "../models/dtos/meas-params/getSorDataParams";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,6 @@ export class OneApiService {
   getRequest(request: string, params: any = null) {
     const url = Utils.GetWebApiUrl() + `/${request}`;
     console.log(`get request with url ${url}`);
-    // console.log(`[${Utils.stime()}] get request with url ${url}`);
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     // now these two parameters are used only by GetTree request (on web api side)
@@ -26,8 +26,7 @@ export class OneApiService {
         username: currentUser.username,
       };
     }
-    const myHttpOptions = {
-      headers: {
+    const myHttpOptions = { headers: {
         Authorization: "Bearer " + currentUser.jsonWebToken,
       },
       params,
@@ -75,9 +74,10 @@ export class OneApiService {
     sorFileId: number,
     measGuid: string,
     isBase: boolean,
-    isInVxSorFormat: boolean // for display - true, for save - false
+    isInVxSorFormat: boolean, // for display - true, for save - false
+    rtuGuid: string,
   ) {
-    const url = Utils.GetWebApiUrl() + `/sor/Get-sor-octetstream`;
+    const url = Utils.GetWebApiUrl() + `/sor/GetSorOctetStream`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const headers = new HttpHeaders().set(
@@ -88,9 +88,10 @@ export class OneApiService {
     const params = {
       isSorFile: isSorFile.toString(),
       sorFileId: sorFileId.toString(),
-      measGuid,
+      measGuid: measGuid,
       isBaseIncluded: isBase.toString(),
       isVxSor: isInVxSorFormat.toString(),
+      rtuGuid: rtuGuid,
     };
 
     const response = await this.httpClient
@@ -98,4 +99,6 @@ export class OneApiService {
       .toPromise();
     return response;
   }
+
+  
 }
