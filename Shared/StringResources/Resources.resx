@@ -3168,10 +3168,10 @@ Please try again later</value>
 		<value>Threshold of reflective event offset, km</value>
 	</data>
 	<data name="SID_AutoLT" xml:space="preserve">
-		<value>Auto analysis loss threshold (LT), dB</value>
+		<value>Auto analysis loss threshold (LT), (1 - 4 dB)</value>
 	</data>
 	<data name="SID_AutoRT" xml:space="preserve">
-		<value>Auto analysis reflectance threshold (RT), dB</value>
+		<value>Auto analysis reflectance threshold (RT), (-40 - -25 dB)</value>
 	</data>
 	<data name="SID_AutoET" xml:space="preserve">
 		<value>Auto analysis end-of-fiber threshold (ET), dB</value>

@@ -3168,10 +3168,10 @@ RTU инициализируется в данный момент!</value>
 		<value>Порог на смещение события с отражением, км</value>
 	</data>
 	<data name="SID_AutoLT" xml:space="preserve">
-		<value>Порог автомата на затухание (LT), дБ</value>
+		<value>Порог автомата на затухание (LT), (1 - 4 дБ)</value>
 	</data>
 	<data name="SID_AutoRT" xml:space="preserve">
-		<value>Порог автомата на отражение (RT), дБ</value>
+		<value>Порог автомата на отражение (RT), (-40 - -25 дБ)</value>
 	</data>
 	<data name="SID_AutoET" xml:space="preserve">
 		<value>Порог автомата на конец волокна (ET), дБ</value>

@@ -123,14 +123,14 @@ namespace Iit.Fibertest.Client
                 {
                     case "AutoLt":
                         if (string.IsNullOrEmpty(AutoLt))
-                            errorMessage = Resources.SID_Degrees_is_required;
-                        if (!double.TryParse(AutoLt, out double _))
+                            errorMessage = @"Value required";
+                        if (!double.TryParse(AutoLt, out double l) || l < 1 || l > 4)
                             errorMessage = Resources.SID_Invalid_input;
                         break;
                     case "AutoRt":
                         if (string.IsNullOrEmpty(AutoRt))
-                            errorMessage = Resources.SID_Degrees_is_required;
-                        if (!double.TryParse(AutoRt, out double _))
+                            errorMessage = @"Value required";
+                        if (!double.TryParse(AutoRt, out double r) || r < -40 || r > -25)
                             errorMessage = Resources.SID_Invalid_input;
                         break;
                 }
