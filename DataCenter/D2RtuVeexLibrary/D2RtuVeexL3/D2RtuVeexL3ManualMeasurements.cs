@@ -23,12 +23,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 id = Guid.NewGuid().ToString(),
                 otdrId = dto.OtdrId,
                 otdrParameters = dto.VeexMeasOtdrParameters,
-                otauPorts = CreateVeexOtauPortList(dto.OtauPortDto, dto.MainOtauPortDto),
+                otauPorts = CreateVeexOtauPortList(dto.OtauPortDtoList[0], dto.MainOtauPortDto),
                 suspendMonitoring = true,
             };
             var res = await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
             if (res.ReturnCode == ReturnCode.Ok)
-                res.ErrorMessage = request.id; // sorry for this
+                res.ClientMeasurementId = Guid.Parse(request.id); // sorry for this
             return res;
         }
 

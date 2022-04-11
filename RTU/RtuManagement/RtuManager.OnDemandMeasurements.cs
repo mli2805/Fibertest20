@@ -9,11 +9,13 @@ namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
-        public readonly ClientMeasurementStartedDto ClientMeasurementStartedDto = new ClientMeasurementStartedDto();
+        public ClientMeasurementStartedDto ClientMeasurementStartedDto;
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
             _wasMonitoringOn = IsMonitoringOn;
+            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), OtauPortDto = dto.OtauPortDtoList[0] };
+
             PrepareClientMeasurement(dto);
             callback?.Invoke(); // send "started"
 
@@ -64,12 +66,12 @@ namespace Iit.Fibertest.RtuManagement
             _otdrManager.InterOpWrapper.SetMeasurementParametersFromUserInput(dto.SelectedMeasParams);
             _rtuLog.AppendLine("User's measurement parameters applied");
 
-            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDto) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
+            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
         }
 
         private ClientMeasurementResultDto ClientMeasurementItself(DoClientMeasurementDto dto)
         {
-            var activeBop = dto.OtauPortDto.IsPortOnMainCharon
+            var activeBop = dto.OtauPortDtoList[0].IsPortOnMainCharon
                 ? null
                 : new Charon(new NetAddress(dto.OtauIp, dto.OtauTcpPort), false, _rtuIni, _rtuLog);
             _cancellationTokenSource = new CancellationTokenSource();

@@ -21,6 +21,7 @@ import { GetClientMeasurementDto } from "src/app/models/dtos/meas-params/getClie
 import { ClientMeasurementVeexResultDto } from "src/app/models/dtos/meas-params/clientMeasurementVeexResultDto";
 import { RtuMaker } from "src/app/models/enums/rtuMaker";
 import { Console } from "console";
+import { ClientMeasurementStartedDto } from "src/app/models/dtos/meas-params/clientMeasurementStartedDto";
 
 @Component({
   selector: "ft-port-measurement-client",
@@ -214,7 +215,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     dto.connectionId = currentUser.connectionId;
     dto.rtuId = params.rtu.rtuId;
     dto.otdrId = params.rtu.otdrId;
-    dto.otauPortDto = params.otauPortDto;
+    dto.otauPortDtoList = [params.otauPortDto];
 
     const mainOtau = new OtauPortDto();
     mainOtau.isPortOnMainCharon = true;
@@ -227,13 +228,13 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     console.log(dto);
     const res = (await this.oneApiService
       .postRequest("measurement/start-measurement-client", dto)
-      .toPromise()) as RequestAnswer;
+      .toPromise()) as ClientMeasurementStartedDto;
     if (res.returnCode !== ReturnCode.Ok) {
       this.message = res.errorMessage;
       this.isSpinnerVisible = false;
       this.isButtonDisabled = false;
     } else {
-      console.log(`measurement id ${res.errorMessage}`);
+      console.log(`measurement id ${res.clientMeasurementId}`);
       this.message = this.ts.instant(
         "SID_Measurement__Client__in_progress__Please_wait___"
       );
@@ -243,7 +244,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
 
       const getDto = new GetClientMeasurementDto();
       getDto.rtuId = params.rtu.rtuId;
-      getDto.veexMeasurementId = res.errorMessage; // sorry, if ReturnCode is OK, ErrorMessage contains Id
+      getDto.veexMeasurementId = res.clientMeasurementId; // sorry, if ReturnCode is OK, ErrorMessage contains Id
       var measRes: ClientMeasurementVeexResultDto;
       while (true) {
         await new Promise(f => setTimeout(f, 5000));

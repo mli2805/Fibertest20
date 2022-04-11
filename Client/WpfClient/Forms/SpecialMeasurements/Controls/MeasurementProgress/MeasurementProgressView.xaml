@@ -6,6 +6,7 @@
              mc:Ignorable="d">
     <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Background="White" Width="450">
         <StackPanel>
+            <TextBlock Margin="20,20,10,10" Text="{Binding TraceTitle}" FontWeight="Bold"/>
             <TextBlock Margin="20,20,10,10" Text="{Binding Message}" FontWeight="Bold"/>
             <ProgressBar Margin="10" Height="18" IsIndeterminate="True"/>
             <Button Name="Cancel" Content="Cancel" Width="120" Margin="0,30,0,20" IsEnabled="{Binding IsCancelButtonEnabled}"/>

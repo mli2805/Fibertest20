@@ -60,7 +60,6 @@ namespace Iit.Fibertest.Client
                 ConnectionId = _currentUser.ConnectionId,
                 RtuId = Rtu.Id,
                 OtdrId = Rtu.OtdrId,
-                OtauPortDto = _otauPortDto,
                 OtauIp = _portOwner.OtauNetAddress.Ip4Address,
                 OtauTcpPort = _portOwner.OtauNetAddress.Port,
 
@@ -69,6 +68,7 @@ namespace Iit.Fibertest.Client
 
                 IsForAutoBase = _isForAutoBase,
             };
+            dto.OtauPortDtoList.Add(_otauPortDto);
 
             if (!_otauPortDto.IsPortOnMainCharon && Rtu.RtuMaker == RtuMaker.VeEX)
             {

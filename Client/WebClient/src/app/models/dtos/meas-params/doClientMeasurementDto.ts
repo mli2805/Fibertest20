@@ -9,7 +9,7 @@ export class DoClientMeasurementDto {
   veexMeasOtdrParameters : VeexMeasOtdrParameters;
 
   otdrId: string;
-  otauPortDto: OtauPortDto;
+  otauPortDtoList: OtauPortDto[];
   mainOtauPortDto: OtauPortDto;
   otauIp: string;
   otauTcpPort: number;

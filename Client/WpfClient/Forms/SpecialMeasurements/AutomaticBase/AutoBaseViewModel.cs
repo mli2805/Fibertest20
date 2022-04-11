@@ -79,6 +79,7 @@ namespace Iit.Fibertest.Client
         public async void Start()
         {
             IsOpen = true;
+            MeasurementProgressViewModel.TraceTitle = _trace.Title;
             MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
             MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
@@ -107,7 +108,7 @@ namespace Iit.Fibertest.Client
             var getDto = new GetClientMeasurementDto()
             {
                 RtuId = dto.RtuId,
-                VeexMeasurementId = startResult.ErrorMessage, // sorry, if ReturnCode is OK, ErrorMessage contains Id
+                VeexMeasurementId = startResult.ClientMeasurementId.ToString(),
             };
             while (true)
             {

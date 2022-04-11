@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
@@ -10,5 +11,15 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public string ErrorMessage { get; set; }
+
+        [DataMember]
+        public Guid ClientMeasurementId { get; set; }
+
+        [DataMember]
+        public Guid TraceId { get; set; }
+
+        [DataMember]
+        public OtauPortDto OtauPortDto { get; set; }
+
     }
 }

@@ -50,7 +50,7 @@ namespace Graph.Tests
             var getDto = new GetClientMeasurementDto()
             {
                 RtuId = _rtu.Id,
-                VeexMeasurementId = _startedDto.ErrorMessage, // sorry, if ReturnCode is OK, ErrorMessage contains Id
+                VeexMeasurementId = _startedDto.ClientMeasurementId.ToString(), 
             };
             _measResult = _sut.WcfServiceCommonC2D.GetClientMeasurementAsync(getDto).Result;
             if (_measResult != null && _measResult.ReturnCode == ReturnCode.Ok)

@@ -17,6 +17,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _traceTitle;
+        public string TraceTitle
+        {
+            get => _traceTitle;
+            set
+            {
+                if (value == _traceTitle) return;
+                _traceTitle = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private string _message = "";
         public string Message
         {
@@ -30,7 +42,6 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isCancelButtonEnabled;
-
         public bool IsCancelButtonEnabled
         {
             get => _isCancelButtonEnabled;

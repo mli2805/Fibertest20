@@ -20,8 +20,8 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public VeexMeasOtdrParameters VeexMeasOtdrParameters { get; set; }
 
-        [DataMember]
-        public OtauPortDto OtauPortDto { get; set; }
+        [DataMember] 
+        public List<OtauPortDto> OtauPortDtoList { get; set; } = new List<OtauPortDto>();
 
         [DataMember]
         public OtauPortDto MainOtauPortDto { get; set; } // optional, filled in if trace attached to the child otau

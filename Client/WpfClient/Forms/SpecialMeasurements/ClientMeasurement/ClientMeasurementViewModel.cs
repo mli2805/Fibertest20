@@ -115,7 +115,6 @@ namespace Iit.Fibertest.Client
                 ConnectionId = _currentUser.ConnectionId,
                 RtuId = rtu.Id,
                 OtdrId = rtu.OtdrId,
-                OtauPortDto = otauPortDto,
                 OtauIp = address.Ip4Address,
                 OtauTcpPort = address.Port,
 
@@ -124,6 +123,7 @@ namespace Iit.Fibertest.Client
 
                 IsForAutoBase = false,
             };
+            dto.OtauPortDtoList.Add(otauPortDto);
 
             if (!otauPortDto.IsPortOnMainCharon && rtu.RtuMaker == RtuMaker.VeEX)
             {
@@ -161,7 +161,7 @@ namespace Iit.Fibertest.Client
                 var getDto = new GetClientMeasurementDto()
                 {
                     RtuId = _dto.RtuId,
-                    VeexMeasurementId = startResult.ErrorMessage, // sorry, if ReturnCode is OK, ErrorMessage contains Id
+                    VeexMeasurementId = startResult.ClientMeasurementId.ToString(), // sorry, if ReturnCode is OK, ErrorMessage contains Id
                 };
                 while (true)
                 {
