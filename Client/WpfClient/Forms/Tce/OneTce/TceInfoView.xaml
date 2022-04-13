@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Iit.Fibertest.Client.TceInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             xmlns:client="clr-namespace:Iit.Fibertest.Client"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:TceInfoViewModel}">
+    <StackPanel Margin="5">
+        <DockPanel Margin="5">
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Width="80" Margin="5"/>
+            <TextBox Name="TextBoxTitle" Text="{Binding Title}"  Margin="5"/>
+        </DockPanel>
+        <DockPanel Margin="5">
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Type}" Width="80" Margin="5"/>
+            <TextBlock Text="{Binding TypeCode}" Width="80" Margin="5"/>
+        </DockPanel>
+        <DockPanel Margin="5">
+            <TextBlock Text="IP" Width="80" Margin="5"/>
+            <client:Ip4InputView Margin="5" DataContext="{Binding Ip4InputViewModel}"/>
+        </DockPanel>
+        <DockPanel Margin="5">
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Width="80" Margin="5"/>
+            <TextBox Text="{Binding Comment}"  Margin="5"/>
+        </DockPanel>
+    </StackPanel>
+</UserControl>

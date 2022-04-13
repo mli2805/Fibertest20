@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph
     [Serializable]
     public class TceS
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Title { get; set; }
         public TceTypeStruct TceTypeStruct { get; set; }
         public string Ip { get; set; }

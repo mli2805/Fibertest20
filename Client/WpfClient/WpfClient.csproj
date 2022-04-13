@@ -249,6 +249,14 @@
       <DependentUpon>AutoBaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseViewModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\OneTceView.xaml.cs">
+      <DependentUpon>OneTceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\OneTce\OneTceViewModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\TceInfoView.xaml.cs">
+      <DependentUpon>TceInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\OneTce\TceInfoViewModel.cs" />
     <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
     <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
       <DependentUpon>TceComponentsView.xaml</DependentUpon>
@@ -826,6 +834,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\OneTce\OneTceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\OneTce\TceInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
