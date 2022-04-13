@@ -1,0 +1,26 @@
+﻿<Window x:Class="Iit.Fibertest.Client.TceTypeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        mc:Ignorable="d"
+        Height="450" SizeToContent="Width" d:DataContext="{d:DesignInstance client:TceTypeViewModel}"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" >
+            <Button Name="ReSeed" Content="ReSeed" Width="120" Margin="5" DockPanel.Dock="Left"/>
+            <Button Name="Cancel" Content="Cancel" Width="120" Margin="5" DockPanel.Dock="Right"/>
+            <Button Name="Apply" Content="Apply" Width="120" Margin="5" DockPanel.Dock="Right"/>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <TabControl SelectedIndex="{Binding SelectedTabItem, Mode=TwoWay}">
+            <TabItem Header="Huawei">
+                <client:TceTypeSelectionView DataContext="{Binding HuaweiSelectionViewModel}"/>
+            </TabItem>
+            <TabItem Header="ZTE">
+                <client:TceTypeSelectionView DataContext="{Binding ZteSelectionViewModel}"/>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

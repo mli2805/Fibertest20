@@ -46,6 +46,7 @@ namespace Iit.Fibertest.Graph
             GponPortRelations = source.GponPortRelations;
             VeexTests = source.VeexTests;
             UserActionsLog = source.UserActionsLog;
+            TceTypeStructs = source.TceTypeStructs;
         }
     }
 }

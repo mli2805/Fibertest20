@@ -75,7 +75,12 @@ namespace Iit.Fibertest.Client
         {
             var vm = _globalScope.Resolve<TceTypeViewModel>();
             vm.Initialize();
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
+                return;
+
+            var selectedTceType = vm.SelectedTabItem == 0
+                ? vm.HuaweiSelectionViewModel.SelectedType
+                : vm.ZteSelectionViewModel.SelectedType;
         }
 
         public void UpdateTce()

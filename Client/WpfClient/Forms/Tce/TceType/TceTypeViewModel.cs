@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -15,9 +14,11 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
-        public List<TceTypeStruct> HuaweiModels { get; set; }
-        public List<TceTypeStruct> ZteModels { get; set; }
+
+        public TceTypeSelectionViewModel HuaweiSelectionViewModel { get; set; }
+        public TceTypeSelectionViewModel ZteSelectionViewModel { get; set; }
         public Visibility ReSeedVisibility { get; set; }
+        public int SelectedTabItem { get; set; }
 
         public TceTypeViewModel(Model readModel, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser )
         {
@@ -29,8 +30,11 @@ namespace Iit.Fibertest.Client
 
         public void Initialize()
         {
-            HuaweiModels = _readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.Huawei && s.IsVisible).ToList();
-            ZteModels = _readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.ZTE && s.IsVisible).ToList();
+            HuaweiSelectionViewModel = new TceTypeSelectionViewModel();
+            HuaweiSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.Huawei && s.IsVisible).ToList());
+            ZteSelectionViewModel = new TceTypeSelectionViewModel();
+            ZteSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.ZTE && s.IsVisible).ToList());
+
             ReSeedVisibility = _currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
         }
 

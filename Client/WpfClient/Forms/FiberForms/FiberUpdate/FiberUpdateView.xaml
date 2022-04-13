@@ -51,7 +51,8 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{x:Static stringResources:Resources.SID_Trace}" 
-                                    HeaderContainerStyle="{StaticResource ListViewStyle}" Width="255" DisplayMemberBinding="{Binding Item1.Title}"/>
+                                    HeaderContainerStyle="{StaticResource ListViewStyle}" 
+                                    Width="255" DisplayMemberBinding="{Binding Item1.Title}"/>
                     <GridViewColumn Header="{x:Static stringResources:Resources.SID_Opt_length_m}" 
                                     Width="108" DisplayMemberBinding="{Binding Item2}"/>
                 </GridView>
