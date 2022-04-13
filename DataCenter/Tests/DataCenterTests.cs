@@ -2,6 +2,7 @@
 using System.ServiceProcess;
 using Autofac;
 using FluentAssertions;
+using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.DataCenterService;
 using Iit.Fibertest.UtilsLib;
 using Xunit;
@@ -32,5 +33,20 @@ namespace Tests
         }
     }
 
-  
+    public class ZteTestParserTests
+    {
+        [Fact]
+        public void GetSlotTest()
+        {
+            285282576.GetSlot().Should().Be(17);
+        }
+
+        [Fact]
+        public void GetGponInterfaceTest()
+        {
+            285282576.GetGponInterface().Should().Be(16);
+        }
+    }
+
+
 }

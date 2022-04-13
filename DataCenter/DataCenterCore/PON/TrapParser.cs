@@ -18,7 +18,10 @@ namespace Iit.Fibertest.DataCenterCore
         {
             switch (tce.TceType)
             {
+                case TceType.Huawei_MA5600T: return pkt.ParseMa5600T(tce);
                 case TceType.Huawei_MA5608T: return ParseHuawei(pkt);
+                case TceType.ZTE_C300: return pkt.ParseC300(tce);
+                case TceType.ZTE_C300M: return pkt.ParseC300M(tce);
                 case TceType.ZTE_ZXA10C320: return ParseZte(pkt);
                 default:
                     _logFile.AppendLine($"Parser for OLT model {tce.TceType} is not implemented");

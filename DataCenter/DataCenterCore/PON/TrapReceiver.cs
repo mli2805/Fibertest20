@@ -73,6 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }
                 else
                 {
+                    _logFile.EmptyLine();
                     _logFile.AppendLine($"** SNMP Version 2 TRAP received from {endPoint}:");
                     SnmpV2Packet pkt = new SnmpV2Packet();
                     pkt.decode(inData, inLen);
