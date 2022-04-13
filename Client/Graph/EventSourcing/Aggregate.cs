@@ -81,6 +81,7 @@ namespace Iit.Fibertest.Graph
                 case AddOrUpdateTce command: return _eventsQueue.Add(Mapper.Map<TceAddedOrUpdated>(command));
                 case UpdateAllTceGponRelations command: return _eventsQueue.Add(Mapper.Map<AllTceGponRelationsUpdated>(command));
                 case RemoveTce command: return _eventsQueue.Add(Mapper.Map<TceRemoved>(command));
+                case ReSeedTceTypeStructList command: return _eventsQueue.Add(Mapper.Map<TceTypeStructListReSeeded>(command));
 
                 case AddVeexTest command: return _eventsQueue.Add(Mapper.Map<VeexTestAdded>(command));
                 case RemoveVeexTest command: return _eventsQueue.Add(Mapper.Map<VeexTestRemoved>(command));

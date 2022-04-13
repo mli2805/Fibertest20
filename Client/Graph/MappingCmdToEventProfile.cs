@@ -35,7 +35,8 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<AddOrUpdateTce, TceAddedOrUpdated>();
             CreateMap<RemoveTce, TceRemoved>();
-            CreateMap<UpdateAllTceGponRelations, AllTceGponRelationsUpdated > ();
+            CreateMap<UpdateAllTceGponRelations, AllTceGponRelationsUpdated> ();
+            CreateMap<ReSeedTceTypeStructList, TceTypeStructListReSeeded> ();
 
             CreateMap<InitializeRtu, RtuInitialized>();
             CreateMap<ChangeMonitoringSettings, MonitoringSettingsChanged>();

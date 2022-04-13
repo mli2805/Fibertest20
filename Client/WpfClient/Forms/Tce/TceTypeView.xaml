@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Height="450" Width="800" d:DataContext="{d:DesignInstance client:TceTypeViewModel}">
+        Height="450" SizeToContent="Width" d:DataContext="{d:DesignInstance client:TceTypeViewModel}"
+        WindowStartupLocation="CenterScreen">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom" >
             <Button Name="ReSeed" Content="ReSeed" Width="120" Margin="5" DockPanel.Dock="Left"/>
@@ -21,10 +22,10 @@
                             <Border >
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50" />
-                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition Width="240" />
                                         <ColumnDefinition Width="80" />
-                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="180" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="{Binding Title}" />
                                     <TextBlock Grid.Column="1" Text="{Binding SoftwareVersion}" />

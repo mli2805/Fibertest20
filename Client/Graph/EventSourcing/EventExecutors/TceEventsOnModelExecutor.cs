@@ -45,5 +45,11 @@ namespace Iit.Fibertest.Graph
                 model.Tces.Remove(tce);
             return null;
         }
+
+        public static string ReSeedTceTypes(this Model model, TceTypeStructListReSeeded e)
+        {
+            model.TceTypeStructs = e.TceTypes;
+            return null;
+        }
     }
 }

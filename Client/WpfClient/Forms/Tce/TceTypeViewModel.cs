@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -33,9 +34,23 @@ namespace Iit.Fibertest.Client
             ReSeedVisibility = _currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public void ReSend()
+        public async void ReSeed()
         {
+            var cmd = new ReSeedTceTypeStructList() { TceTypes = TceTypeStructExt.Generate().ToList() };
+            var res = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (res != null)
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,
+                    @"Can't send Tce Types List!"));
+            TryClose(false);
+        }
 
+        public void Apply()
+        {
+            TryClose(true);
+        }
+
+        public void Cancel()
+        {
             TryClose(false);
         }
     }
