@@ -25,6 +25,8 @@ namespace Iit.Fibertest.Graph
         public List<VeexTest> VeexTests { get; set; } = new List<VeexTest>();
         public List<LogLine> UserActionsLog { get; set; } = new List<LogLine>();
 
+        public List<TceTypeStruct> TceTypeStructs { get; set; } = new List<TceTypeStruct>();
+
         public void CopyFrom(Model source)
         {
             Licenses = source.Licenses;

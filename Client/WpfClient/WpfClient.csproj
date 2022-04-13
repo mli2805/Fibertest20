@@ -270,6 +270,10 @@
       <DependentUpon>TcesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\TcesViewModel.cs" />
+    <Compile Include="Forms\Tce\TceTypeView.xaml.cs">
+      <DependentUpon>TceTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\TceTypeViewModel.cs" />
     <Compile Include="Forms\Tce\TceView.xaml.cs">
       <DependentUpon>TceView.xaml</DependentUpon>
     </Compile>
@@ -838,6 +842,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Tce\TcesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\TceTypeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

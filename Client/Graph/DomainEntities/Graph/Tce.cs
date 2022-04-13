@@ -23,4 +23,16 @@ namespace Iit.Fibertest.Graph
         public bool IsPresent { get; set; }
         public int GponInterfaceCount { get; set; }
     }
+
+    [Serializable]
+    public class TceS
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public TceTypeStruct TceTypeStruct { get; set; }
+        public string Ip { get; set; }
+        public int SlotCount { get; set; }
+        public List<TceSlot> Slots { get; set; } = new List<TceSlot>();
+        public string Comment { get; set; }
+    }
 }

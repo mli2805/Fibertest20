@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
 
         public void AddTce()
         {
-            var vm = _globalScope.Resolve<TceViewModel>();
+            var vm = _globalScope.Resolve<TceTypeViewModel>();
             vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
