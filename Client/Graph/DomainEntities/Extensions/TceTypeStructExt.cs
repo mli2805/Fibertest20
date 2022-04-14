@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
             var tce = new TceS() { TceTypeStruct = tceTypeStruct, SlotCount = tceTypeStruct.SlotCount };
             foreach (var slot in tceTypeStruct.SlotPositions)
             {
-                tce.Slots.Add(new TceSlot() { Position = slot, IsPresent = false, GponInterfaceCount = 16 });
+                tce.Slots.Add(new TceSlot() { Position = slot, GponInterfaceCount = 16 });
             }
             return tce;
         }

@@ -196,6 +196,8 @@
     <Compile Include="DomainEntities\Extensions\TceTypeStructExt.cs" />
     <Compile Include="DomainEntities\Graph\GponPortRelation.cs" />
     <Compile Include="DomainEntities\Graph\Tce.cs" />
+    <Compile Include="DomainEntities\Graph\TceS.cs" />
+    <Compile Include="DomainEntities\Graph\TceSlot.cs" />
     <Compile Include="DomainEntities\Graph\TceTypeStruct.cs" />
     <Compile Include="DomainEntities\Graph\VeexTest.cs" />
     <Compile Include="DomainEntities\LogLine.cs" />

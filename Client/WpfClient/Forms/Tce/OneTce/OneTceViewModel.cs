@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
         {
             //TODO new command/event
 
-            var cmd = new AddOrUpdateTce()
+            // var cmd = new AddOrUpdateTce()
             // {
             //     Id = _tceInWork.Id,
             //     Title = TceInfoViewModel.Title,
