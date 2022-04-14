@@ -78,8 +78,7 @@ namespace Iit.Fibertest.Graph
                 case AttachTrace command: return Complete(command);
                 case DetachTrace command: return _eventsQueue.Add(Mapper.Map<TraceDetached>(command));
 
-                case AddOrUpdateTce command: return _eventsQueue.Add(Mapper.Map<TceAddedOrUpdated>(command));
-                case UpdateAllTceGponRelations command: return _eventsQueue.Add(Mapper.Map<AllTceGponRelationsUpdated>(command));
+                case AddOrUpdateTceWithRelations command: return _eventsQueue.Add(Mapper.Map<TceWithRelationsAddedOrUpdated>(command));
                 case RemoveTce command: return _eventsQueue.Add(Mapper.Map<TceRemoved>(command));
                 case ReSeedTceTypeStructList command: return _eventsQueue.Add(Mapper.Map<TceTypeStructListReSeeded>(command));
 

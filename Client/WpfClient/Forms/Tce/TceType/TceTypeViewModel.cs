@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -8,7 +9,7 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-    public class TceTypeViewModel :Screen
+    public class TceTypeViewModel : Screen
     {
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
@@ -20,7 +21,7 @@ namespace Iit.Fibertest.Client
         public Visibility ReSeedVisibility { get; set; }
         public int SelectedTabItem { get; set; }
 
-        public TceTypeViewModel(Model readModel, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser )
+        public TceTypeViewModel(Model readModel, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
@@ -28,17 +29,17 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public void Initialize()
+        public void Initialize(TceTypeStruct tceTypeStruct)
         {
             HuaweiSelectionViewModel = new TceTypeSelectionViewModel();
-            HuaweiSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.Huawei && s.IsVisible).ToList());
+            HuaweiSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.Huawei && s.IsVisible).ToList(), tceTypeStruct);
             ZteSelectionViewModel = new TceTypeSelectionViewModel();
-            ZteSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.ZTE && s.IsVisible).ToList());
+            ZteSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.ZTE && s.IsVisible).ToList(), tceTypeStruct);
 
             ReSeedVisibility = _currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public async void ReSeed()
+        public async Task ReSeed()
         {
             var cmd = new ReSeedTceTypeStructList() { TceTypes = TceTypeStructExt.Generate().ToList() };
             var res = await _c2DWcfManager.SendCommandAsObj(cmd);

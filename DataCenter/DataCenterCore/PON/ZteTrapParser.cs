@@ -6,7 +6,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class ZteTrapParser
     {
-        public static TrapParserResult ParseC300(this SnmpV2Packet pkt, Tce tce)
+        public static TrapParserResult ParseC300(this SnmpV2Packet pkt, TceS tce)
         {
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
             return CreateResult(tce, ss[2], code);
         }
 
-        public static TrapParserResult ParseC300M(this SnmpV2Packet pkt, Tce tce)
+        public static TrapParserResult ParseC300M(this SnmpV2Packet pkt, TceS tce)
         {
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        private static TrapParserResult CreateResult(Tce tce, string eventLevel, int code)
+        private static TrapParserResult CreateResult(TceS tce, string eventLevel, int code)
         {
             var result = new TrapParserResult
             {

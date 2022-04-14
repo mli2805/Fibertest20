@@ -33,9 +33,8 @@ namespace Iit.Fibertest.Graph
             CreateMap<DetachOtau, OtauDetached>();
             CreateMap<DetachAllTraces, AllTracesDetached>();
 
-            CreateMap<AddOrUpdateTce, TceAddedOrUpdated>();
+            CreateMap<AddOrUpdateTceWithRelations, TceWithRelationsAddedOrUpdated>();
             CreateMap<RemoveTce, TceRemoved>();
-            CreateMap<UpdateAllTceGponRelations, AllTceGponRelationsUpdated> ();
             CreateMap<ReSeedTceTypeStructList, TceTypeStructListReSeeded> ();
 
             CreateMap<InitializeRtu, RtuInitialized>();

@@ -261,23 +261,15 @@
       <DependentUpon>TceSlotsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\OneTce\TceSlotsViewModel.cs" />
-    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
-    <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
-      <DependentUpon>TceComponentsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Tce\TceComponentsViewModel.cs" />
-    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponView.xaml.cs">
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponView.xaml.cs">
       <DependentUpon>RelationOfGponView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponViewModel.cs" />
-    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceView.xaml.cs">
-      <DependentUpon>RelationsOfTceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceViewModel.cs" />
-    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotView.xaml.cs">
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponViewModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationsOfSlotView.xaml.cs">
       <DependentUpon>RelationsOfSlotView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotViewModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationsOfSlotViewModel.cs" />
     <Compile Include="Forms\Tce\TcesView.xaml.cs">
       <DependentUpon>TcesView.xaml</DependentUpon>
     </Compile>
@@ -290,10 +282,6 @@
       <DependentUpon>TceTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\TceType\TceTypeViewModel.cs" />
-    <Compile Include="Forms\Tce\TceView.xaml.cs">
-      <DependentUpon>TceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Tce\TceViewModel.cs" />
     <Compile Include="Forms\SettingsForms\GraphVisibilitySettingsView.xaml.cs">
       <DependentUpon>GraphVisibilitySettingsView.xaml</DependentUpon>
     </Compile>
@@ -853,19 +841,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Tce\TceComponentsView.xaml">
+    <Page Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Tce\RelationsTceToRtu\RelationOfGponView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Tce\RelationsTceToRtu\RelationsOfTceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Tce\RelationsTceToRtu\RelationsOfSlotView.xaml">
+    <Page Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationsOfSlotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -878,10 +858,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Tce\TceType\TceTypeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Tce\TceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

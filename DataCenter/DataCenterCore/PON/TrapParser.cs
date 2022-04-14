@@ -14,17 +14,20 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile = logFile;
         }
 
-        public TrapParserResult Parse(SnmpV2Packet pkt, Tce tce)
+        public TrapParserResult Parse(SnmpV2Packet pkt, TceS tce)
         {
-            switch (tce.TceType)
+            switch (tce.TceTypeStruct.Code)
             {
-                case TceType.Huawei_MA5600T: return pkt.ParseMa5600T(tce);
-                case TceType.Huawei_MA5608T: return ParseHuawei(pkt);
-                case TceType.ZTE_C300: return pkt.ParseC300(tce);
-                case TceType.ZTE_C300M: return pkt.ParseC300M(tce);
-                case TceType.ZTE_ZXA10C320: return ParseZte(pkt);
+                case @"Huawei_MA5600T_v1": 
+                case @"Huawei_MA5600T_v2": 
+                case @"Huawei_MA5600T_v3": 
+                    return pkt.ParseMa5600T(tce);
+                case @"Huawei_MA5608T_v1": return ParseHuawei(pkt);
+                case @"ZTE_C300_v1": return pkt.ParseC300(tce);
+                case @"ZTE_C300M_v1": return pkt.ParseC300M(tce);
+                case @"ZTE_C320_v1": return ParseZte(pkt);
                 default:
-                    _logFile.AppendLine($"Parser for OLT model {tce.TceType} is not implemented");
+                    _logFile.AppendLine($"Parser for OLT model {tce.TceTypeStruct.Code} is not implemented");
                     return null;
             }
         }

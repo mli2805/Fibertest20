@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -10,15 +13,17 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _readModel;
+        private readonly IWindowManager _windowManager;
         private bool _isInCreationMode;
         private TceS _tceInWork;
         public TceInfoViewModel TceInfoViewModel { get; set; } = new TceInfoViewModel();
         public TceSlotsViewModel TceSlotsViewModel { get; set; } = new TceSlotsViewModel();
 
-        public OneTceViewModel(IWcfServiceDesktopC2D c2DWcfManager, Model readModel)
+        public OneTceViewModel(IWcfServiceDesktopC2D c2DWcfManager, Model readModel, IWindowManager windowManager)
         {
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
+            _windowManager = windowManager;
         }
 
         protected override void OnViewLoaded(object view)
@@ -39,26 +44,49 @@ namespace Iit.Fibertest.Client
         }
         public async void ButtonSaveAndClose()
         {
-            await Save();
-            TryClose(true);
+            if (await Save())
+                TryClose(true);
         }
 
-        private async Task Save()
+        private async Task<bool> Save()
         {
-            //TODO new command/event
+            var cmd = new AddOrUpdateTceWithRelations()
+            {
+                Id = _tceInWork.Id,
+                Title = TceInfoViewModel.Title,
+                TceTypeStruct = _tceInWork.TceTypeStruct,
+                Ip = TceInfoViewModel.Ip4InputViewModel.GetString(),
+                SlotCount = _tceInWork.SlotCount,
+                Slots = _tceInWork.Slots,
+                Comment = TceInfoViewModel.Comment,
+            };
 
-            // var cmd = new AddOrUpdateTce()
-            // {
-            //     Id = _tceInWork.Id,
-            //     Title = TceInfoViewModel.Title,
-            //     TceType = _tceInWork.TceTypeStruct,
-            //     Ip = TceInfoViewModel.Ip4InputViewModel.GetString(),
-            //     SlotCount = _tceInWork.SlotCount,
-            //     Slots = _tceInWork.Slots,
-            //     Comment = TceInfoViewModel.Comment,
-            // };
-            // var res = await _c2DWcfManager.SendCommandAsObj(cmd);
-            // TryClose(string.IsNullOrEmpty(res));
+            foreach (var slot in TceSlotsViewModel.Slots)
+            {
+                foreach (var gpon in slot.Gpons.Where(g => g.RelationOfGponInWork.OtauPort != 0))
+                {
+                    var relation = new GponPortRelation()
+                    {
+                        TceId = _tceInWork.Id,
+                        TceSlot = slot.SlotPosition,
+                        GponInterface = gpon.RelationOfGponInWork.GponInterface,
+                        RtuId = gpon.RelationOfGponInWork.Rtu.Id,
+                        OtauPort = new OtauPortDto()
+                        {
+                            OtauId = gpon.RelationOfGponInWork.Otau.Id.ToString(),
+                            OpticalPort = gpon.RelationOfGponInWork.OtauPort,
+                        }
+                    };
+                    cmd.AllRelationsOfTce.Add(relation);
+                }
+            }
+
+            var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (result != null)
+            {
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, result));
+            }
+            return string.IsNullOrEmpty(result);
         }
 
         public void Cancel()

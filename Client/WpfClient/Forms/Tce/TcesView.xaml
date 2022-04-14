@@ -39,15 +39,14 @@
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateTce" />
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Update_components}" cal:Message.Attach="UpdateTceComponents" />
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Map_TCE_to_RTU}" cal:Message.Attach="MapTceToRtu" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Settings}" cal:Message.Attach="UpdateTceComponents" />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveTce" />
                         <Separator />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" cal:Message.Attach="AddTce" />
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="graph:Tce">
+                    <DataTemplate DataType="graph:TceS">
                         <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -58,7 +57,7 @@
                                     <ColumnDefinition Width="400" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Title}" />
-                                <TextBlock Grid.Column="1" Text="{Binding TceType}" />
+                                <TextBlock Grid.Column="1" Text="{Binding TceTypeStruct.Code}" />
                                 <TextBlock Grid.Column="2" Text="{Binding Ip}" />
                                 <TextBlock Grid.Column="3" Text="{Binding SlotCount}" />
                                 <TextBlock Grid.Column="4" Text="{Binding Comment}" />

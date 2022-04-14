@@ -77,8 +77,8 @@ namespace Iit.Fibertest.Graph
                 };
             }
 
-            if (model.Tces == null)
-                model.Tces = new List<Tce>();
+            if (model.TcesNew == null)
+                model.TcesNew = new List<TceS>();
             if (model.VeexTests == null)
                 model.VeexTests = new List<VeexTest>();
             if (model.GponPortRelations == null)

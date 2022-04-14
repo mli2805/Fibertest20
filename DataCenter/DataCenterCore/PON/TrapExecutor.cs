@@ -33,7 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task Process(SnmpV2Packet pkt, EndPoint endPoint)
         {
             var ss = endPoint.ToString().Split(':');
-            var tce = _writeModel.Tces.FirstOrDefault(o => o.Ip == ss[0]);
+            var tce = _writeModel.TcesNew.FirstOrDefault(o => o.Ip == ss[0]);
             if (tce == null)
             {
                 _logFile.AppendLine($"Unknown trap source address: {ss[0]}");

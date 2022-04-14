@@ -6,7 +6,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class HuaweiTrapParser
     {
-        public static TrapParserResult ParseMa5600T(this SnmpV2Packet pkt, Tce tce)
+        public static TrapParserResult ParseMa5600T(this SnmpV2Packet pkt, TceS tce)
         {
             if (pkt.Pdu.VbCount < 11) return null;
             var trapCode = pkt.Pdu[0].Value + pkt.Pdu[1].Value.ToString() + pkt.Pdu[2].Value;

@@ -17,10 +17,9 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly TceComponentsViewModel _tceComponentsViewModel;
-        private ObservableCollection<Tce> _tces;
+        private ObservableCollection<TceS> _tces;
 
-        public ObservableCollection<Tce> Tces   
+        public ObservableCollection<TceS> Tces
         {
             get => _tces;
             set
@@ -31,30 +30,28 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Tce SelectedTce { get; set; }
+        public TceS SelectedTce { get; set; }
         public bool IsEnabled { get; set; }
 
         public TcesViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser, 
-            TceComponentsViewModel tceComponentsViewModel)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _tceComponentsViewModel = tceComponentsViewModel;
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             IsEnabled = currentUser.Role <= Role.Root;
         }
 
         private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Tces = new ObservableCollection<Tce>(_readModel.Tces);
+            Tces = new ObservableCollection<TceS>(_readModel.TcesNew);
         }
 
         public void Initialize()
         {
-            Tces = new ObservableCollection<Tce>(_readModel.Tces);
+            Tces = new ObservableCollection<TceS>(_readModel.TcesNew);
             if (Tces.Count > 0)
                 SelectedTce = Tces.First();
         }
@@ -64,17 +61,13 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Telecommunications_equipment;
         }
 
-        // public void MapTceToRtu()
-        // {
-        //     var vm = _globalScope.Resolve<RelationsOfTceViewModel>();
-        //     vm.Initialize(SelectedTce);
-        //     _windowManager.ShowDialogWithAssignedOwner(vm);
-        // }
-
-        public void AddTce()
+        public async void AddTce()
         {
             var vm = _globalScope.Resolve<TceTypeViewModel>();
-            vm.Initialize();
+            if (!_readModel.TceTypeStructs.Any())
+                await vm.ReSeed();
+
+            vm.Initialize(_readModel.TceTypeStructs.First());
             if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
                 return;
 
@@ -90,8 +83,12 @@ namespace Iit.Fibertest.Client
 
         public void UpdateTce()
         {
-            var vm = _globalScope.Resolve<TceViewModel>();
-            vm.Initialize(SelectedTce);
+          }
+
+        public void UpdateTceComponents()
+        {
+            var vm = _globalScope.Resolve<OneTceViewModel>();
+            vm.Initialize(SelectedTce, false);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
@@ -118,13 +115,6 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return vm.IsAnswerPositive;
         }
-
-        public void UpdateTceComponents()
-        {
-            _tceComponentsViewModel.Initialize(SelectedTce);
-            _windowManager.ShowDialog(_tceComponentsViewModel);
-        }
-
 
         public void Close()
         {

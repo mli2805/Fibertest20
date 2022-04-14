@@ -49,8 +49,7 @@ namespace Iit.Fibertest.Graph
                     case TraceAttached evnt: return model.AttachTrace(evnt);
                     case TraceDetached evnt: return model.DetachTrace(evnt);
 
-                    case TceAddedOrUpdated evnt: return model.AddOrUpdateTce(evnt);
-                    case AllTceGponRelationsUpdated evnt: return model.UpdateAllTceGponRelations(evnt);
+                    case TceWithRelationsAddedOrUpdated evnt: return model.AddOrUpdateTceWithRelations(evnt);
                     case TceRemoved evnt: return model.RemoveTce(evnt);
                     case TceTypeStructListReSeeded evnt: return model.ReSeedTceTypes(evnt);
 
