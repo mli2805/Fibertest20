@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Client
 {
     public class RelationOfGponModel : PropertyChangedBase
     {
-        public Tce Tce { get; set; }
+        public TceS Tce { get; set; }
         public int Slot { get; set; }
 
         public int GponInterface { get; set; }

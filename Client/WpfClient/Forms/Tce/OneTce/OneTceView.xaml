@@ -6,13 +6,18 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Height="450" Width="800" d:DataContext="{d:DesignInstance client:OneTceViewModel}">
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
+        d:DataContext="{d:DesignInstance client:OneTceViewModel}">
     <DockPanel>
-        <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,5" Orientation="Horizontal">
-            <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" IsDefault="True" Margin="5" Width="80"/>
-            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Margin="5" Width="80"/>
+        
+        <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="ExportToPdf" Content="Export to PDF" Margin="5,5,155,5" Width="160"/>
+            <Button Name="ButtonSaveAndClose" Content="Save and close" Margin="5" Width="160"/>
+            <Button Name="ButtonSave" Content="{x:Static stringResources:Resources.SID_Save}" IsDefault="True" Margin="5" Width="160"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Margin="5" Width="160"/>
         </StackPanel>
         <client:TceInfoView DataContext="{Binding TceInfoViewModel}"/>
-        <StackPanel></StackPanel>
+        <client:TceSlotsView DataContext="{Binding TceSlotsViewModel}"/>
+        <StackPanel/>
     </DockPanel>
 </Window>

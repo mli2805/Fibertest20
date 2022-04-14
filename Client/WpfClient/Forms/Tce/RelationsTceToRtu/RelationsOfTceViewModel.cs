@@ -27,17 +27,17 @@ namespace Iit.Fibertest.Client
             DisplayName = $@"{Tce.TceType}  {Tce.Title}";
         }
 
-        public void Initialize(Tce tce)
-        {
-            Tce = tce;
-            Slots = new List<RelationsOfSlotViewModel>();
-            for (int i = 0; i < tce.SlotCount; i++)
-            {
-                var slot = new RelationsOfSlotViewModel(_readModel) { Slot = i };
-                slot.Initialize(tce, i, tce.Slots[i].GponInterfaceCount);
-                Slots.Add(slot);
-            }
-        }
+        // public void Initialize(TceS tce)
+        // {
+        //     Tce = tce;
+        //     SlotPositions = new List<RelationsOfSlotViewModel>();
+        //     for (int i = 0; i < tce.SlotCount; i++)
+        //     {
+        //         var slot = new RelationsOfSlotViewModel(_readModel) { Slot = i };
+        //         slot.Initialize(tce, i, tce.SlotPositions[i].GponInterfaceCount);
+        //         SlotPositions.Add(slot);
+        //     }
+        // }
 
         public async Task Save()
         {
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
                     var relation = new GponPortRelation()
                     {
                         TceId = Tce.Id,
-                        TceSlot = slot.Slot,
+                        TceSlot = slot.SlotPosition,
                         GponInterface = gpon.RelationOfGponInWork.GponInterface,
                         RtuId = gpon.RelationOfGponInWork.Rtu.Id,
                         OtauPort = new OtauPortDto()

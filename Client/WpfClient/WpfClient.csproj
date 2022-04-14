@@ -257,6 +257,10 @@
       <DependentUpon>TceInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\OneTce\TceInfoViewModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\TceSlotsView.xaml.cs">
+      <DependentUpon>TceSlotsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tce\OneTce\TceSlotsViewModel.cs" />
     <Compile Include="Forms\Tce\RelationsTceToRtu\RelationOfGponModel.cs" />
     <Compile Include="Forms\Tce\TceComponentsView.xaml.cs">
       <DependentUpon>TceComponentsView.xaml</DependentUpon>
@@ -842,6 +846,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Tce\OneTce\TceInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Tce\OneTce\TceSlotsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

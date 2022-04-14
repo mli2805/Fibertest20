@@ -13,7 +13,7 @@
         </DockPanel>
         <DockPanel Margin="5">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Type}" Width="80" Margin="5"/>
-            <TextBlock Text="{Binding TypeCode}" Width="80" Margin="5"/>
+            <TextBlock Text="{Binding TypeCode}" Margin="5"/>
         </DockPanel>
         <DockPanel Margin="5">
             <TextBlock Text="IP" Width="80" Margin="5"/>

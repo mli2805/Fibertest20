@@ -64,12 +64,12 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Telecommunications_equipment;
         }
 
-        public void MapTceToRtu()
-        {
-            var vm = _globalScope.Resolve<RelationsOfTceViewModel>();
-            vm.Initialize(SelectedTce);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-        }
+        // public void MapTceToRtu()
+        // {
+        //     var vm = _globalScope.Resolve<RelationsOfTceViewModel>();
+        //     vm.Initialize(SelectedTce);
+        //     _windowManager.ShowDialogWithAssignedOwner(vm);
+        // }
 
         public void AddTce()
         {
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
                 : vm.ZteSelectionViewModel.SelectedType;
 
             var ovm = _globalScope.Resolve<OneTceViewModel>();
-            var tce = new TceS {  TceTypeStruct = selectedTceType };
+            var tce = selectedTceType.CreateTce();
             ovm.Initialize(tce, true);
             _windowManager.ShowDialogWithAssignedOwner(ovm);
         }

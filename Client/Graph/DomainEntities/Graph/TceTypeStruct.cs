@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Graph
         public string SoftwareVersion{ get; set; }
         public string Code{ get; set; } // for pretty parser switch
         public int SlotCount{ get; set; }
-        public int[] Slots{ get; set; }
+        public int[] SlotPositions{ get; set; }
         public string Comment{ get; set; }
     }
 }

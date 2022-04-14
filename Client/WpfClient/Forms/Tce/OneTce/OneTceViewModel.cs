@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Threading.Tasks;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
@@ -8,13 +9,16 @@ namespace Iit.Fibertest.Client
     public class OneTceViewModel : Screen
     {
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly Model _readModel;
         private bool _isInCreationMode;
         private TceS _tceInWork;
-        public TceInfoViewModel TceInfoViewModel { get; set; }
+        public TceInfoViewModel TceInfoViewModel { get; set; } = new TceInfoViewModel();
+        public TceSlotsViewModel TceSlotsViewModel { get; set; } = new TceSlotsViewModel();
 
-        public OneTceViewModel(IWcfServiceDesktopC2D c2DWcfManager)
+        public OneTceViewModel(IWcfServiceDesktopC2D c2DWcfManager, Model readModel)
         {
             _c2DWcfManager = c2DWcfManager;
+            _readModel = readModel;
         }
 
         protected override void OnViewLoaded(object view)
@@ -25,13 +29,25 @@ namespace Iit.Fibertest.Client
         {
             _isInCreationMode = isCreation;
             _tceInWork = tce;
+            TceInfoViewModel.Initialize(tce);
+            TceSlotsViewModel.Initialize(_readModel, tce);
         }
 
-        public async void Save()
+        public async void ButtonSave()
+        {
+            await Save();
+        }
+        public async void ButtonSaveAndClose()
+        {
+            await Save();
+            TryClose(true);
+        }
+
+        private async Task Save()
         {
             //TODO new command/event
 
-            // var cmd = new AddOrUpdateTce()
+            var cmd = new AddOrUpdateTce()
             // {
             //     Id = _tceInWork.Id,
             //     Title = TceInfoViewModel.Title,
