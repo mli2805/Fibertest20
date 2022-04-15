@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -61,12 +62,9 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Telecommunications_equipment;
         }
 
-        public async void AddTce()
+        public void AddTce()
         {
             var vm = _globalScope.Resolve<TceTypeViewModel>();
-            if (!_readModel.TceTypeStructs.Any())
-                await vm.ReSeed();
-
             vm.Initialize(_readModel.TceTypeStructs.First());
             if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
                 return;
