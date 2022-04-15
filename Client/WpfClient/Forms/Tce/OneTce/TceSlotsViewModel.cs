@@ -7,10 +7,10 @@ namespace Iit.Fibertest.Client
 {
     public class TceSlotsViewModel : PropertyChangedBase
     {
-        public List<RelationsOfSlotViewModel> Slots { get; set; }
+        public List<SlotViewModel> Slots { get; set; }
 
-        private RelationsOfSlotViewModel _selectedSlot;
-        public RelationsOfSlotViewModel SelectedSlot    
+        private SlotViewModel _selectedSlot;
+        public SlotViewModel SelectedSlot    
         {
             get => _selectedSlot;
             set
@@ -23,10 +23,10 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Model readModel, TceS tce)
         {
-            Slots = new List<RelationsOfSlotViewModel>();
+            Slots = new List<SlotViewModel>();
             for (int i = 0; i < tce.SlotCount; i++)
             {
-                var slot = new RelationsOfSlotViewModel(readModel) { SlotPosition = tce.TceTypeStruct.SlotPositions[i] };
+                var slot = new SlotViewModel(readModel) { SlotPosition = tce.TceTypeStruct.SlotPositions[i] };
                 slot.Initialize(tce, i, tce.Slots[i].GponInterfaceCount);
                 Slots.Add(slot);
             }

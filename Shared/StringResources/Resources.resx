@@ -3239,4 +3239,13 @@ Please try again later</value>
 	<data name="SID_Show_reflectogram_on_completion" xml:space="preserve">
 		<value>Show reflectogram on completion</value>
 	</data>
+	<data name="SID_Telecommunications_equipment_model" xml:space="preserve">
+		<value>Telecommunications equipment model</value>
+	</data>
+	<data name="SID_Slots" xml:space="preserve">
+		<value>Slots</value>
+	</data>
+	<data name="SID_Save_and_close" xml:space="preserve">
+		<value>Save and close</value>
+	</data>
 </root>

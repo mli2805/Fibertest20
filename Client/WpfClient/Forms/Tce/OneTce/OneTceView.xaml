@@ -11,8 +11,8 @@
     <DockPanel>
         
         <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,10" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="ExportToPdf" Content="Export to PDF" Margin="5,5,155,5" Width="160"/>
-            <Button Name="ButtonSaveAndClose" Content="Save and close" Margin="5" Width="160"/>
+            <Button Name="ExportToPdf" Content="{x:Static stringResources:Resources.SID_Export_to_pdf}" Margin="5,5,155,5" Width="160"/>
+            <Button Name="ButtonSaveAndClose" Content="{x:Static stringResources:Resources.SID_Save_and_close}" Margin="5" Width="160"/>
             <Button Name="ButtonSave" Content="{x:Static stringResources:Resources.SID_Save}" IsDefault="True" Margin="5" Width="160"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Margin="5" Width="160"/>
         </StackPanel>

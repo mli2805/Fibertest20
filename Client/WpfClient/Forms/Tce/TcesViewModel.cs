@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -90,24 +89,16 @@ namespace Iit.Fibertest.Client
                 ? vm.HuaweiSelectionViewModel.SelectedType
                 : vm.ZteSelectionViewModel.SelectedType;
 
-            if (SelectedTce.TceTypeStruct.Id != selectedTceType.Id)
-            {
-                ApplyTypeChanges(selectedTceType);
-            }
-        }
+            var ovm = _globalScope.Resolve<OneTceViewModel>();
 
-        private void ApplyTypeChanges(TceTypeStruct newTceTypeStruct)
-        {
-            SelectedTce.TceTypeStruct = newTceTypeStruct;
-            var thisTceRelations = _readModel.GponPortRelations.Where(r => r.TceId == SelectedTce.Id).ToList();
-            foreach (var slot in SelectedTce.Slots)
-            {
-                if (!newTceTypeStruct.SlotPositions.Contains(slot.Position))
-                {
-                    var relationsForRemoval = thisTceRelations.Where(r => r.TceSlot == slot.Position);
-                }
-            }
-        }
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            SelectedTce.TceTypeStruct = selectedTceType;
+
+            ovm.Initialize(SelectedTce, false);
+            _windowManager.ShowDialogWithAssignedOwner(ovm);
+          }
+
+
 
         public void UpdateTceComponents()
         {

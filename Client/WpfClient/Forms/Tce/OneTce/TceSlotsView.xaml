@@ -4,22 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
-             Width="1160" Height="560"
+             Width="1170" Height="590"
              d:DataContext="{d:DesignInstance client:TceSlotsViewModel}">
-    <TabControl DockPanel.Dock="Top" Margin="5" ItemsSource="{Binding Slots}" 
+    <GroupBox Header="{x:Static stringResources:Resources.SID_Slots}" Margin="5" >
+        <TabControl DockPanel.Dock="Top" Margin="0, 5" ItemsSource="{Binding Slots}" 
                 SelectedItem="{Binding SelectedSlot, Mode=TwoWay}">
-        <TabControl.ItemTemplate>
-            <DataTemplate DataType="client:RelationsOfSlotViewModel">
-                <DockPanel>
-                    <TextBlock Text="{Binding Title}" Margin="10,0"/>
-                </DockPanel>
-            </DataTemplate>
-        </TabControl.ItemTemplate>
-        <TabControl.ContentTemplate>
-            <DataTemplate DataType="client:RelationsOfSlotViewModel">
-                <client:RelationsOfSlotView/>
-            </DataTemplate>
-        </TabControl.ContentTemplate>
-    </TabControl>
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="client:SlotViewModel">
+                    <DockPanel>
+                        <TextBlock Text="{Binding Title}"  Width="50" TextAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="client:SlotViewModel">
+                    <client:SlotView/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </GroupBox>
+
 </UserControl>

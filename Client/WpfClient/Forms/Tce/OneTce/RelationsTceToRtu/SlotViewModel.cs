@@ -3,11 +3,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class RelationsOfSlotViewModel : Screen
+    public class SlotViewModel : Screen
     {
         private readonly Model _readModel;
         private TceS _tce;
@@ -22,17 +21,18 @@ namespace Iit.Fibertest.Client
                 if (value == _interfaceCount) return;
                 _interfaceCount = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(Title));
             }
         }
 
-        public string Title => string.Format(Resources.SID_Slot__0_, SlotPosition);
+        public string Title => InterfaceCount == 0 ?  $@"{SlotPosition} -  " : $@"{SlotPosition} - {InterfaceCount}";
 
         public List<Rtu> Rtus { get; set; }
 
-        public ObservableCollection<RelationOfGponViewModel> Gpons { get; set; } =
-            new ObservableCollection<RelationOfGponViewModel>();
+        public ObservableCollection<GponViewModel> Gpons { get; set; } =
+            new ObservableCollection<GponViewModel>();
 
-        public RelationsOfSlotViewModel(Model readModel)
+        public SlotViewModel(Model readModel)
         {
             _readModel = readModel;
         }
@@ -50,8 +50,8 @@ namespace Iit.Fibertest.Client
         {
             for (int i = 0; i < gponInterfaceCount; i++)
             {
-                var line = new RelationOfGponViewModel(_readModel);
-                var lineModel = new RelationOfGponModel()
+                var line = new GponViewModel(_readModel);
+                var lineModel = new GponModel()
                 {
                     GponInterface = i, Slot = slot, Tce = tce
                 };

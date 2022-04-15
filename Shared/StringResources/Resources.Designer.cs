@@ -756,7 +756,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Applying base refs. Please wait.
+        ///   Looks up a localized string similar to Applying base refs. Please wait....
         /// </summary>
         public static string SID_Applying_base_refs__Please_wait {
             get {
@@ -936,7 +936,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto analysis loss threshold (LT), dB.
+        ///   Looks up a localized string similar to Auto analysis loss threshold (LT), (1 - 4 dB).
         /// </summary>
         public static string SID_AutoLT {
             get {
@@ -963,7 +963,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto analysis reflectance threshold (RT), dB.
+        ///   Looks up a localized string similar to Auto analysis reflectance threshold (RT), (-40 - -25 dB).
         /// </summary>
         public static string SID_AutoRT {
             get {
@@ -6992,6 +6992,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save and close.
+        /// </summary>
+        public static string SID_Save_and_close {
+            get {
+                return ResourceManager.GetString("SID_Save_and_close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save and Test.
         /// </summary>
         public static string SID_Save_and_test {
@@ -7641,6 +7650,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Slots.
+        /// </summary>
+        public static string SID_Slots {
+            get {
+                return ResourceManager.GetString("SID_Slots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SMS server settings.
         /// </summary>
         public static string SID_SMS_settings {
@@ -8042,6 +8060,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Telecommunications_equipment {
             get {
                 return ResourceManager.GetString("SID_Telecommunications_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telecommunications equipment model.
+        /// </summary>
+        public static string SID_Telecommunications_equipment_model {
+            get {
+                return ResourceManager.GetString("SID_Telecommunications_equipment_model", resourceCulture);
             }
         }
         

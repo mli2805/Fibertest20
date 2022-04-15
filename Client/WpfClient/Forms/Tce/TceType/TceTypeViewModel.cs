@@ -4,6 +4,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -29,6 +30,11 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = Resources.SID_Telecommunications_equipment_model;
+        }
+
         public void Initialize(TceTypeStruct tceTypeStruct)
         {
             HuaweiSelectionViewModel = new TceTypeSelectionViewModel();
@@ -36,7 +42,7 @@ namespace Iit.Fibertest.Client
             ZteSelectionViewModel = new TceTypeSelectionViewModel();
             ZteSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.ZTE && s.IsVisible).ToList(), tceTypeStruct);
 
-            ReSeedVisibility = _currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
+            ReSeedVisibility = _currentUser.Role <= Role.Root ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public async Task ReSeed()

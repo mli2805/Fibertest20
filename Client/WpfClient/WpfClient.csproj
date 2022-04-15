@@ -261,15 +261,15 @@
       <DependentUpon>TceSlotsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\OneTce\TceSlotsViewModel.cs" />
-    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponModel.cs" />
-    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponView.xaml.cs">
-      <DependentUpon>RelationOfGponView.xaml</DependentUpon>
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\GponModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\GponView.xaml.cs">
+      <DependentUpon>GponView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponViewModel.cs" />
-    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationsOfSlotView.xaml.cs">
-      <DependentUpon>RelationsOfSlotView.xaml</DependentUpon>
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\GponViewModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\SlotView.xaml.cs">
+      <DependentUpon>SlotView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationsOfSlotViewModel.cs" />
+    <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\SlotViewModel.cs" />
     <Compile Include="Forms\Tce\TcesView.xaml.cs">
       <DependentUpon>TcesView.xaml</DependentUpon>
     </Compile>
@@ -841,11 +841,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationOfGponView.xaml">
+    <Page Include="Forms\Tce\OneTce\RelationsTceToRtu\GponView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\Tce\OneTce\RelationsTceToRtu\RelationsOfSlotView.xaml">
+    <Page Include="Forms\Tce\OneTce\RelationsTceToRtu\SlotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
