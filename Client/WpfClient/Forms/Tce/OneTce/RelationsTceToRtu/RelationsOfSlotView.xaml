@@ -32,7 +32,7 @@
             <Label Grid.Column="3" Content="{x:Static stringResources:Resources.SID_Port}" Margin="0,-5,0,0" />
             <Label Grid.Column="4" Content="{x:Static stringResources:Resources.SID_Trace}" Margin="0,-5,0,0" />
         </Grid>
-        <ListBox ItemsSource="{Binding Gpons}" SelectedItem="{Binding SelectedGpon, Mode=TwoWay}">
+        <ListBox ItemsSource="{Binding Gpons}" >
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="client:RelationOfGponModel">
                     <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">

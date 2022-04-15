@@ -77,6 +77,7 @@ namespace Iit.Fibertest.Client
         public void ChangeInterfaceCount()
         {
             Gpons.Clear();
+            _tce.Slots.First(s => s.Position == SlotPosition).GponInterfaceCount = InterfaceCount;
             InitializeGpons(_tce, SlotPosition, InterfaceCount);
         }
     }

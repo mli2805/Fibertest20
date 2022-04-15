@@ -83,7 +83,33 @@ namespace Iit.Fibertest.Client
 
         public void UpdateTce()
         {
-          }
+            var vm = _globalScope.Resolve<TceTypeViewModel>();
+            vm.Initialize(SelectedTce.TceTypeStruct);
+            if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
+                return;
+
+            var selectedTceType = vm.SelectedTabItem == 0
+                ? vm.HuaweiSelectionViewModel.SelectedType
+                : vm.ZteSelectionViewModel.SelectedType;
+
+            if (SelectedTce.TceTypeStruct.Id != selectedTceType.Id)
+            {
+                ApplyTypeChanges(selectedTceType);
+            }
+        }
+
+        private void ApplyTypeChanges(TceTypeStruct newTceTypeStruct)
+        {
+            SelectedTce.TceTypeStruct = newTceTypeStruct;
+            var thisTceRelations = _readModel.GponPortRelations.Where(r => r.TceId == SelectedTce.Id).ToList();
+            foreach (var slot in SelectedTce.Slots)
+            {
+                if (!newTceTypeStruct.SlotPositions.Contains(slot.Position))
+                {
+                    var relationsForRemoval = thisTceRelations.Where(r => r.TceSlot == slot.Position);
+                }
+            }
+        }
 
         public void UpdateTceComponents()
         {
