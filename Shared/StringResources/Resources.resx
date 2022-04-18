@@ -3248,4 +3248,7 @@ Please try again later</value>
 	<data name="SID_Save_and_close" xml:space="preserve">
 		<value>Save and close</value>
 	</data>
+	<data name="SID_Change_interface_count" xml:space="preserve">
+		<value>Change interface count</value>
+	</data>
 </root>

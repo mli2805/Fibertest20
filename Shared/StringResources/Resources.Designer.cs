@@ -1530,6 +1530,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change interface count.
+        /// </summary>
+        public static string SID_Change_interface_count {
+            get {
+                return ResourceManager.GetString("SID_Change_interface_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change mode.
         /// </summary>
         public static string SID_Change_mode {

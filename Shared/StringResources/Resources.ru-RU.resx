@@ -3248,4 +3248,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Save_and_close" xml:space="preserve">
 		<value>Сохранить и закрыть</value>
 	</data>
+	<data name="SID_Change_interface_count" xml:space="preserve">
+		<value>Изменить количество интерфейсов</value>
+	</data>
 </root>

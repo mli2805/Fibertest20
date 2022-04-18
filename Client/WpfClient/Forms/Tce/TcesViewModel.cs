@@ -98,8 +98,6 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(ovm);
           }
 
-
-
         public void UpdateTceComponents()
         {
             var vm = _globalScope.Resolve<OneTceViewModel>();

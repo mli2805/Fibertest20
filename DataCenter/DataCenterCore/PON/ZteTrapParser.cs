@@ -6,6 +6,18 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class ZteTrapParser
     {
+        public static TrapParserResult ParseC320(this SnmpV2Packet pkt, TceS tce)
+        {
+            var community = pkt.Community.ToString();
+            var ss = community.Split('@');
+
+            return new TrapParserResult
+            {
+                TceId = tce.Id,
+                State = ss[2] == "eventLevel=cleared" ? FiberState.Ok : FiberState.FiberBreak
+            };
+        }
+
         public static TrapParserResult ParseC300(this SnmpV2Packet pkt, TceS tce)
         {
             var community = pkt.Community.ToString();
@@ -60,7 +72,7 @@ namespace Iit.Fibertest.DataCenterCore
                 TceId = tce.Id,
                 Slot = code.GetSlot(),
                 GponInterface = code.GetGponInterface(),
-                State = eventLevel == "eventLevel=critical" ? FiberState.Critical : FiberState.Ok,
+                State = eventLevel == "eventLevel=critical" ? FiberState.FiberBreak : FiberState.Ok,
             };
             return result;
         }

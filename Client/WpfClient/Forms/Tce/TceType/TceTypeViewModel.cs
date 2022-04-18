@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
             TryClose(false);
         }
 
-        public void Apply()
+        public void Select()
         {
             TryClose(true);
         }

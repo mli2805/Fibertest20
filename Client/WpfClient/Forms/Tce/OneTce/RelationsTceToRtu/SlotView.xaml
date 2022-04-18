@@ -11,7 +11,7 @@
     <DockPanel >
         <DockPanel DockPanel.Dock="Bottom" Margin="5,15,5,5">
             <TextBox DockPanel.Dock="Left" Width="50" Margin="35,5,5,5" Text="{Binding InterfaceCount}"/>
-            <Button Name="ChangeInterfaceCount" Content="Change interface count" Width="300" Margin="5"/>
+            <Button Name="ChangeInterfaceCount" Content="{x:Static stringResources:Resources.SID_Change_interface_count}" Width="300" Margin="5"/>
             <StackPanel/>
         </DockPanel>
         <Grid DockPanel.Dock="Top" Background="AliceBlue" Height="20" Margin="5,5,0,0">

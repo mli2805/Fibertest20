@@ -56,7 +56,6 @@ namespace Iit.Fibertest.Client
                 Title = TceInfoViewModel.Title,
                 TceTypeStruct = _tceInWork.TceTypeStruct,
                 Ip = TceInfoViewModel.Ip4InputViewModel.GetString(),
-                SlotCount = _tceInWork.SlotCount,
                 Slots = _tceInWork.Slots,
                 Comment = TceInfoViewModel.Comment,
             };

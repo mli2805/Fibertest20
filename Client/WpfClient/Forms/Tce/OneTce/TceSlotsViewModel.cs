@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(Model readModel, TceS tce)
         {
             Slots = new List<SlotViewModel>();
-            for (int i = 0; i < tce.SlotCount; i++)
+            for (int i = 0; i < tce.TceTypeStruct.SlotCount; i++)
             {
                 var slot = new SlotViewModel(readModel) { SlotPosition = tce.TceTypeStruct.SlotPositions[i] };
                 slot.Initialize(tce, i, tce.Slots[i].GponInterfaceCount);

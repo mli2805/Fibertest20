@@ -16,10 +16,10 @@
             <StackPanel></StackPanel>
         </DockPanel>
         <TabControl SelectedIndex="{Binding SelectedTabItem, Mode=TwoWay}">
-            <TabItem Header="Huawei">
+            <TabItem Header="Huawei" Width="60">
                 <client:TceTypeSelectionView DataContext="{Binding HuaweiSelectionViewModel}"/>
             </TabItem>
-            <TabItem Header="ZTE">
+            <TabItem Header="ZTE" Width="60">
                 <client:TceTypeSelectionView DataContext="{Binding ZteSelectionViewModel}"/>
             </TabItem>
         </TabControl>
