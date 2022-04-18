@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:TceInfoViewModel}">
+             mc:Ignorable="d"
+             Width="320"
+             d:DataContext="{d:DesignInstance client:TceInfoViewModel}">
     <StackPanel Margin="5">
         <DockPanel Margin="5">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Width="80" Margin="5"/>
@@ -13,7 +15,11 @@
         </DockPanel>
         <DockPanel Margin="5">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Type}" Width="80" Margin="5"/>
-            <TextBlock Text="{Binding TypeCode}" Margin="5"/>
+            <TextBlock Text="{Binding Tce.TceTypeStruct.TypeTitle}" Margin="5" TextWrapping="Wrap"/>
+        </DockPanel>
+         <DockPanel Margin="5">
+            <TextBlock Text="GPON interface count" Width="80" Margin="5" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Tce.TceTypeStruct.SlotCount}" Margin="5"/>
         </DockPanel>
         <DockPanel Margin="5">
             <TextBlock Text="IP" Width="80" Margin="5"/>

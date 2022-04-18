@@ -37,36 +37,37 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Initialize(TceS tce, int slot, int gponInterfaceCount)
+        public void Initialize(TceS tce, int slotPosition)
         {
             Rtus = _readModel.Rtus;
             _tce = tce;
-            InterfaceCount = gponInterfaceCount;
+            SlotPosition = slotPosition;
+            InterfaceCount = tce.Slots.First(s=>s.Position == slotPosition).GponInterfaceCount;
 
-            InitializeGpons(tce, slot, gponInterfaceCount);
+            InitializeGpons();
         }
 
-        private void InitializeGpons(TceS tce, int slot, int gponInterfaceCount)
+        private void InitializeGpons()
         {
-            for (int i = 0; i < gponInterfaceCount; i++)
+            for (int i = 0; i < InterfaceCount; i++)
             {
                 var line = new GponViewModel(_readModel);
                 var lineModel = new GponModel()
                 {
-                    GponInterface = i, Slot = slot, Tce = tce
+                    GponInterface = i, SlotPosition = SlotPosition, Tce = _tce
                 };
-                var relation = _readModel.GponPortRelations.FirstOrDefault(r => r.TceId == tce.Id
-                    && r.TceSlot == slot
+                var relation = _readModel.GponPortRelations.FirstOrDefault(r => r.TceId == _tce.Id
+                    && r.SlotPosition == SlotPosition
                     && r.GponInterface == i);
                 if (relation != null)
                 {
                     lineModel.Rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == relation.RtuId);
                     lineModel.Otau = _readModel.Otaus.FirstOrDefault(o => o.Id.ToString() == relation.OtauPort.OtauId);
-                    lineModel.OtauPort = relation.OtauPort.OpticalPort;
-                    lineModel.TraceTitle = _readModel.Traces.FirstOrDefault(t =>
+                    lineModel.OtauPort = relation.OtauPort.OpticalPort.ToString();
+                    lineModel.Trace = _readModel.Traces.FirstOrDefault(t =>
                         t.OtauPort != null
                         && t.OtauPort.OtauId == relation.OtauPort.OtauId
-                        && t.OtauPort.OpticalPort == relation.OtauPort.OpticalPort)?.Title ?? "";
+                        && t.OtauPort.OpticalPort == relation.OtauPort.OpticalPort);
                 }
 
                 line.Initialize(lineModel);
@@ -78,7 +79,7 @@ namespace Iit.Fibertest.Client
         {
             Gpons.Clear();
             _tce.Slots.First(s => s.Position == SlotPosition).GponInterfaceCount = InterfaceCount;
-            InitializeGpons(_tce, SlotPosition, InterfaceCount);
+            InitializeGpons();
         }
     }
 }

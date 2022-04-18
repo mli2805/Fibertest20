@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Graph
                 Id = 101,
                 IsVisible = true,
                 Maker = TceMaker.Huawei,
-                Title = @"MA5600T (19″)",
+                Model = @"MA5600T (19″)",
                 // SoftwareVersion = @"MA5600V800R016C10, SPC100 HP1005 HP1008",
                 SoftwareVersion = @"MA5600V800R016C10",
                 Code = @"Huawei_MA5600T_R016", // investigated 2022-Apr-15
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Graph
                 Id = 102,
                 IsVisible = true,
                 Maker = TceMaker.Huawei,
-                Title = @"MA5600T (19″)",
+                Model = @"MA5600T (19″)",
                 // SoftwareVersion = @"MA5600V800R018C10, SPH212 HP2112",
                 SoftwareVersion = @"MA5600V800R018C10",
                 Code = @"Huawei_MA5600T_R018", // investigated 2022-Apr-12
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Graph
             //     Id = 103,
             //     IsVisible = false,
             //     Maker = TceMaker.Huawei,
-            //     Title = @"MA5600T (19″)",
+            //     Model = @"MA5600T (19″)",
             //     SoftwareVersion = @"MA5600V800R018C10, SPH212 HP2029 HP2112",
             //     Code = @"Huawei_MA5600T_R018_patch2", // has not investigated yet
             //     SlotCount = 14,
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Graph
                 Id = 100,
                 IsVisible = true,
                 Maker = TceMaker.Huawei,
-                Title = @"MA5608T",
+                Model = @"MA5608T",
                 SoftwareVersion = @"MA5600V800R013C00",
                 Code = @"Huawei_MA5608T_R013", // investigated 2021
                 SlotCount = 2,
@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Graph
                 Id = 201,
                 IsVisible = true,
                 Maker = TceMaker.ZTE,
-                Title = @"C300 (19″)",
+                Model = @"C300 (19″)",
                 SoftwareVersion = @"V1.2.5P3",
                 Code = @"ZTE_C300_v1", // investigated 2022-Apr-12
                 SlotCount = 14,
@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Graph
                 Id = 202,
                 IsVisible = true,
                 Maker = TceMaker.ZTE,
-                Title = @"C300M (19″)",
+                Model = @"C300M (19″)",
                 SoftwareVersion = @"V4.0.2P2",
                 Code = @"ZTE_C300M_v4", // investigated 2022-Apr-12
                 SlotCount = 14,
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Graph
                 Id = 200,
                 IsVisible = true,
                 Maker = TceMaker.ZTE,
-                Title = @"C320",
+                Model = @"C320",
                 SoftwareVersion = @"",
                 Code = @"ZTE_C320", // investigated 2021
                 SlotCount = 2,

@@ -10,7 +10,7 @@
               SelectedItem="{Binding SelectedType}" Margin="1" >
         <ListView.View>
             <GridView>
-                <GridViewColumn Header="Title" Width="120" DisplayMemberBinding="{Binding Title}"/>
+                <GridViewColumn Header="Model" Width="120" DisplayMemberBinding="{Binding Model}"/>
                 <GridViewColumn Header="SoftwareVersion" Width="240" DisplayMemberBinding="{Binding SoftwareVersion}"/>
                 <GridViewColumn Header="SlotCount" Width="80" DisplayMemberBinding="{Binding SlotCount}"/>
                 <GridViewColumn Header="Comment" Width="240" DisplayMemberBinding="{Binding Comment}"/>

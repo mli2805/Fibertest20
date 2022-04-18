@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class GponViewModel : Screen
+    public class GponViewModel : PropertyChangedBase
     {
         private readonly Model _readModel;
         public GponModel GponInWork { get; set; }
@@ -36,37 +39,60 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void GponInWork_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void GponInWork_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == @"Rtu" && GponInWork.Rtu != null)
             {
                 var rtu = Rtus.FirstOrDefault(r => r.Id == GponInWork.Rtu.Id);
-                if (rtu == null) return;
-                Otaus.Clear();
-                foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == GponInWork.Rtu.Id))
-                {
-                    Otaus.Add(otau);
-                }
+                CollectOtausOnRtuChanged(rtu);
+                GponInWork.Otau = Otaus.First();
+                GponInWork.OtauPort = "";
+                GponInWork.Trace = null;
             }
 
-            if (e.PropertyName == @"Otau" && GponInWork.Rtu != null && GponInWork.Otau != null)
+            else if (e.PropertyName == @"Otau" && GponInWork.Rtu != null && GponInWork.Otau != null)
             {
-                var otau = Otaus.FirstOrDefault(o => o.Id == GponInWork.Otau.Id);
-                if (otau != null) 
-                    GponInWork.Otau = otau;
+                GponInWork.OtauPort = "";
+                GponInWork.Trace = null;
             }
 
-            if (e.PropertyName == @"OtauPort" && GponInWork.Rtu != null 
-                      && GponInWork.Otau != null && GponInWork.OtauPort != 0)
+            else if (e.PropertyName == @"OtauPort" && GponInWork.Rtu != null
+                        && GponInWork.Otau != null && GponInWork.OtauPort != "")
             {
-                var trace = _readModel.Traces.FirstOrDefault(t => t.RtuId == GponInWork.Rtu.Id
-                                                                  && t.OtauPort != null
-                                                                  && t.OtauPort.OtauId ==
-                                                                  GponInWork.Otau.Id.ToString()
-                                                                  && t.OtauPort.OpticalPort ==
-                                                                  GponInWork.OtauPort);
-                if (trace != null) 
-                    GponInWork.TraceTitle = trace.Title;
+                GponInWork.Trace = FindTrace();
+            }
+        }
+
+        private Trace FindTrace()
+        {
+            if (GponInWork.Rtu.RtuMaker == RtuMaker.VeEX && GponInWork.Otau.Id == Guid.Empty // VEEX main otau
+                || GponInWork.Rtu.RtuMaker == RtuMaker.IIT && GponInWork.Otau.Id == GponInWork.Otau.RtuId) // IIT main otau
+            {
+                return _readModel.Traces.FirstOrDefault(t => t.RtuId == GponInWork.Rtu.Id
+                                                              && t.OtauPort != null
+                                                              && t.OtauPort.IsPortOnMainCharon
+                                                              && t.OtauPort.OpticalPort == int.Parse(GponInWork.OtauPort));
+            }
+
+            // bop
+            return _readModel.Traces.FirstOrDefault(t => t.RtuId == GponInWork.Rtu.Id
+                                                          && t.OtauPort != null
+                                                          && t.OtauPort.OtauId == GponInWork.Otau.Id.ToString()
+                                                          && t.OtauPort.OpticalPort == int.Parse(GponInWork.OtauPort));
+        }
+
+        private void CollectOtausOnRtuChanged(Rtu rtu)
+        {
+            if (rtu == null) return;
+            Otaus.Clear();
+            if (rtu.RtuMaker == RtuMaker.IIT)
+            {
+                var mainOtau = new Otau() { Id = rtu.Id, RtuId = rtu.Id, PortCount = rtu.OwnPortCount };
+                Otaus.Add(mainOtau);
+            }
+            foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == GponInWork.Rtu.Id))
+            {
+                Otaus.Add(otau);
             }
         }
 
@@ -74,5 +100,6 @@ namespace Iit.Fibertest.Client
         {
             GponInWork.ClearRelation();
         }
+
     }
 }

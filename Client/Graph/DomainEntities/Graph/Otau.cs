@@ -1,5 +1,6 @@
 ﻿using System;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Graph
 {
@@ -17,6 +18,9 @@ namespace Iit.Fibertest.Graph
         public int MasterPort { get; set; }
         public bool IsOk { get; set; }
 
-        public string Title => NetAddress.Ip4Address;
+        public string Title =>
+            VeexRtuMainOtauId != null && VeexRtuMainOtauId.StartsWith(@"S1") 
+                ? Resources.SID_Main
+                : Id == RtuId ? @"---" : NetAddress.Ip4Address;
     }
 }

@@ -62,18 +62,18 @@ namespace Iit.Fibertest.Client
 
             foreach (var slot in TceSlotsViewModel.Slots)
             {
-                foreach (var gpon in slot.Gpons.Where(g => g.GponInWork.OtauPort != 0))
+                foreach (var gpon in slot.Gpons.Where(g => !string.IsNullOrEmpty(g.GponInWork.OtauPort)))
                 {
                     var relation = new GponPortRelation()
                     {
                         TceId = _tceInWork.Id,
-                        TceSlot = slot.SlotPosition,
+                        SlotPosition = slot.SlotPosition,
                         GponInterface = gpon.GponInWork.GponInterface,
                         RtuId = gpon.GponInWork.Rtu.Id,
                         OtauPort = new OtauPortDto()
                         {
                             OtauId = gpon.GponInWork.Otau.Id.ToString(),
-                            OpticalPort = gpon.GponInWork.OtauPort,
+                            OpticalPort = int.Parse(gpon.GponInWork.OtauPort),
                         }
                     };
                     cmd.AllRelationsOfTce.Add(relation);

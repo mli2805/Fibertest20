@@ -7,16 +7,17 @@ namespace Iit.Fibertest.Client
     {
         public string Title { get; set; }
 
-        public string TypeCode { get; private set; }
-
         public Ip4InputViewModel Ip4InputViewModel { get; set; }
 
         public string Comment { get; set; }
 
+        public TceS Tce { get; set; }
+
         public void Initialize(TceS tce)
         {
+            Tce = tce;
+
             Title = tce.Title;
-            TypeCode = tce.TceTypeStruct.Code;
             Ip4InputViewModel = new Ip4InputViewModel(tce.Ip);
             Comment = tce.Comment;
         }

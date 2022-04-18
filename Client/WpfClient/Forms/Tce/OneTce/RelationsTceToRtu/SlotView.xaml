@@ -18,7 +18,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="130" />
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
             <Border Grid.Column="3" BorderThickness="0,0,1,0" BorderBrush="Black" />
             <Label Grid.Column="0" Content="{x:Static stringResources:Resources.SID_Interface_No}" Margin="0,-5,0,0" />
             <Label Grid.Column="1" Content="RTU" Margin="0,-5,0,0" />
-            <Label Grid.Column="2" Content="{x:Static stringResources:Resources.SID_Optical_switch}" Margin="0,-5,0,0" />
+            <Label Grid.Column="2" Content="{x:Static stringResources:Resources.SID_Bop}" Margin="0,-5,0,0" />
             <Label Grid.Column="3" Content="{x:Static stringResources:Resources.SID_Port}" Margin="0,-5,0,0" />
             <Label Grid.Column="4" Content="{x:Static stringResources:Resources.SID_Trace}" Margin="0,-5,0,0" />
         </Grid>

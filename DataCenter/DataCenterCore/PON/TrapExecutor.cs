@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             var relation = _writeModel.GponPortRelations.FirstOrDefault(r => r.TceId == res.TceId
-                                                                                && r.TceSlot == res.Slot
+                                                                                && r.SlotPosition == res.Slot
                                                                                 && r.GponInterface == res.GponInterface);
             if (relation == null)
             {

@@ -1,12 +1,14 @@
-﻿using Caliburn.Micro;
+﻿using System.ComponentModel;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class GponModel : PropertyChangedBase
+    public class GponModel : PropertyChangedBase, IDataErrorInfo
     {
         public TceS Tce { get; set; }
-        public int Slot { get; set; }
+        public int SlotPosition { get; set; }
 
         public int GponInterface { get; set; }
 
@@ -34,8 +36,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private int _otauPort;
-        public int OtauPort
+        private string _otauPort;
+        public string OtauPort
         {
             get => _otauPort;
             set
@@ -46,24 +48,53 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _traceTitle;
-        public string TraceTitle
+        private Trace _trace;
+        public Trace Trace
         {
-            get => _traceTitle;
+            get => _trace;
             set
             {
-                if (value == _traceTitle) return;
-                _traceTitle = value;
+                if (Equals(value, _trace)) return;
+                _trace = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(TraceTitle));
             }
         }
+
+
+        public string TraceTitle => Trace?.Title ?? "";
+        
 
         public void ClearRelation()
         {
             Rtu = null;
             Otau = null;
-            OtauPort = 0;
-            TraceTitle = "";
+            OtauPort = "";
+            Trace = null;
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var errorMessage = string.Empty;
+                switch (columnName)
+                {
+                    case "OtauPort":
+                        if (string.IsNullOrEmpty(OtauPort))
+                            break;
+                        if (!int.TryParse(OtauPort, out int port))
+                            errorMessage = Resources.SID_Invalid_input;
+                        if (port < 1)
+                            errorMessage = Resources.SID_Invalid_input;
+                        Error = errorMessage;
+                        break;
+                }
+                return errorMessage;
+            }
+        }
+
+        public string Error { get; set; }
     }
+  
 }
