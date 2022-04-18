@@ -101,5 +101,35 @@ namespace Iit.Fibertest.Client
             GponInWork.ClearRelation();
         }
 
+        public GponPortRelation GetGponPortRelation()
+        {
+            if (GponInWork.Trace == null) return null;
+
+            var otauPortDto = new OtauPortDto()
+            {
+                OpticalPort = int.Parse(GponInWork.OtauPort),
+            };
+            if (GponInWork.Rtu.RtuMaker == RtuMaker.VeEX && GponInWork.Otau.Id == Guid.Empty // VEEX main otau
+                || GponInWork.Rtu.RtuMaker == RtuMaker.IIT && GponInWork.Otau.Id == GponInWork.Otau.RtuId) // IIT main otau
+            {
+                otauPortDto.IsPortOnMainCharon = true;
+            }
+            else
+            {
+                otauPortDto.IsPortOnMainCharon = false;
+                otauPortDto.OtauId = GponInWork.Otau.Id.ToString();
+            }
+
+
+            return new GponPortRelation()
+            {
+                TceId = GponInWork.Tce.Id,
+                SlotPosition = GponInWork.SlotPosition,
+                GponInterface = GponInWork.GponInterface,
+                RtuId = GponInWork.Rtu.Id,
+                OtauPort = otauPortDto,
+            };
+        }
+
     }
 }

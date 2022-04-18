@@ -62,22 +62,24 @@ namespace Iit.Fibertest.Client
 
             foreach (var slot in TceSlotsViewModel.Slots)
             {
-                foreach (var gpon in slot.Gpons.Where(g => !string.IsNullOrEmpty(g.GponInWork.OtauPort)))
-                {
-                    var relation = new GponPortRelation()
-                    {
-                        TceId = _tceInWork.Id,
-                        SlotPosition = slot.SlotPosition,
-                        GponInterface = gpon.GponInWork.GponInterface,
-                        RtuId = gpon.GponInWork.Rtu.Id,
-                        OtauPort = new OtauPortDto()
-                        {
-                            OtauId = gpon.GponInWork.Otau.Id.ToString(),
-                            OpticalPort = int.Parse(gpon.GponInWork.OtauPort),
-                        }
-                    };
-                    cmd.AllRelationsOfTce.Add(relation);
-                }
+                // foreach (var gpon in slot.Gpons.Where(g => !string.IsNullOrEmpty(g.GponInWork.OtauPort)))
+                // {
+                //     var relation = new GponPortRelation()
+                //     {
+                //         TceId = _tceInWork.Id,
+                //         SlotPosition = slot.SlotPosition,
+                //         GponInterface = gpon.GponInWork.GponInterface,
+                //         RtuId = gpon.GponInWork.Rtu.Id,
+                //         OtauPort = new OtauPortDto()
+                //         {
+                //             OtauId = gpon.GponInWork.Otau.Id.ToString(),
+                //             OpticalPort = int.Parse(gpon.GponInWork.OtauPort),
+                //         }
+                //     };
+                //     cmd.AllRelationsOfTce.Add(relation);
+                // }
+
+                cmd.AllRelationsOfTce.AddRange(slot.GetGponPortsRelations());
             }
 
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);

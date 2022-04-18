@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string Title => InterfaceCount == 0 ?  $@"{SlotPosition} -  " : $@"{SlotPosition} - {InterfaceCount}";
+        public string Title => InterfaceCount == 0 ? $@"{SlotPosition} -  " : $@"{SlotPosition} - {InterfaceCount}";
 
         public List<Rtu> Rtus { get; set; }
 
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             Rtus = _readModel.Rtus;
             _tce = tce;
             SlotPosition = slotPosition;
-            InterfaceCount = tce.Slots.First(s=>s.Position == slotPosition).GponInterfaceCount;
+            InterfaceCount = tce.Slots.First(s => s.Position == slotPosition).GponInterfaceCount;
 
             InitializeGpons();
         }
@@ -54,8 +54,11 @@ namespace Iit.Fibertest.Client
                 var line = new GponViewModel(_readModel);
                 var lineModel = new GponModel()
                 {
-                    GponInterface = i, SlotPosition = SlotPosition, Tce = _tce
+                    GponInterface = i,
+                    SlotPosition = SlotPosition,
+                    Tce = _tce
                 };
+
                 var relation = _readModel.GponPortRelations.FirstOrDefault(r => r.TceId == _tce.Id
                     && r.SlotPosition == SlotPosition
                     && r.GponInterface == i);
@@ -77,9 +80,41 @@ namespace Iit.Fibertest.Client
 
         public void ChangeInterfaceCount()
         {
-            Gpons.Clear();
+            var oldCount = _tce.Slots.First(s => s.Position == SlotPosition).GponInterfaceCount;
             _tce.Slots.First(s => s.Position == SlotPosition).GponInterfaceCount = InterfaceCount;
-            InitializeGpons();
+
+            if (oldCount < InterfaceCount)
+                for (int i = oldCount; i < InterfaceCount; i++)
+                {
+                    CreateNewGponInterface(i);
+                }
+            else
+            {
+                var forRemoval = Gpons.Where(g => g.GponInWork.GponInterface >= InterfaceCount).ToList();
+                foreach (var gponViewModel in forRemoval)
+                {
+                    Gpons.Remove(gponViewModel);
+                }
+            }
+        }
+
+        private void CreateNewGponInterface(int i)
+        {
+            var line = new GponViewModel(_readModel);
+            var lineModel = new GponModel()
+            {
+                GponInterface = i,
+                SlotPosition = SlotPosition,
+                Tce = _tce
+            };
+
+            line.Initialize(lineModel);
+            Gpons.Add(line);
+        }
+
+        public IEnumerable<GponPortRelation> GetGponPortsRelations()
+        {
+            return Gpons.Where(g=>g.GponInWork.Trace != null).Select(gponViewModel => gponViewModel.GetGponPortRelation());
         }
     }
 }

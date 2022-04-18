@@ -18,7 +18,7 @@
             <TextBlock Text="{Binding Tce.TceTypeStruct.TypeTitle}" Margin="5" TextWrapping="Wrap"/>
         </DockPanel>
          <DockPanel Margin="5">
-            <TextBlock Text="GPON interface count" Width="80" Margin="5" TextWrapping="Wrap"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Slot_count}" Width="80" Margin="5" TextWrapping="Wrap"/>
             <TextBlock Text="{Binding Tce.TceTypeStruct.SlotCount}" Margin="5"/>
         </DockPanel>
         <DockPanel Margin="5">
