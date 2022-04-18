@@ -41,7 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public static TrapParserResult ParseMa5608T(this SnmpV2Packet pkt, TceS tce)
+        public static TrapParserResult ParseMa5608T_R013(this SnmpV2Packet pkt, TceS tce)
         {
             if (pkt.Pdu.VbCount < 12)
                 return null; // not a fiber state trap
