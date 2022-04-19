@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -62,7 +63,7 @@ namespace Iit.Fibertest.Client
 
         private void InitializeGpons()
         {
-            for (int i = 0; i < InterfaceCount; i++)
+            for (int i = _tce.TceTypeStruct.GponInterfaceNumerationFrom; i < InterfaceCount + _tce.TceTypeStruct.GponInterfaceNumerationFrom; i++)
             {
                 var line = new GponViewModel(_readModel);
                 var lineModel = new GponModel()
@@ -75,17 +76,32 @@ namespace Iit.Fibertest.Client
                 var relation = _readModel.GponPortRelations.FirstOrDefault(r => r.TceId == _tce.Id
                     && r.SlotPosition == SlotPosition
                     && r.GponInterface == i);
+
+
                 if (relation != null)
                 {
+                    // relations created on previous version
+                    if (relation.OtauPortDto == null)
+                    {
+                        _readModel.GponPortRelations.Remove(relation);
+                        continue;
+                    }
+                    //-----------------------------------------
+
                     RelationsOnSlot++;
 
-                    lineModel.Rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == relation.RtuId);
-                    lineModel.Otau = _readModel.Otaus.FirstOrDefault(o => o.Id.ToString() == relation.OtauPort.OtauId);
-                    lineModel.OtauPort = relation.OtauPort.OpticalPort.ToString();
+                    lineModel.Rtu = _readModel.Rtus.First(r => r.Id == relation.RtuId);
+                    lineModel.Otau = _readModel.Otaus.FirstOrDefault(o => o.Id.ToString() == relation.OtauPortDto.OtauId) ??
+                                     (lineModel.Rtu.RtuMaker == RtuMaker.IIT
+                                        // there is no Otau for embedded in MAK100 switch
+                                        ? new Otau() { Id = lineModel.Rtu.Id, RtuId = lineModel.Rtu.Id, PortCount = lineModel.Rtu.OwnPortCount, IsMainOtau = true }
+                                        // Veex RTU main otau has no Id (Veex id are the same for all main otaus)
+                                        : _readModel.Otaus.FirstOrDefault(o => o.RtuId == lineModel.Rtu.Id && o.IsMainOtau));
+                    lineModel.OtauPortNumberStr = relation.OtauPortDto.OpticalPort.ToString();
                     lineModel.Trace = _readModel.Traces.FirstOrDefault(t =>
                         t.OtauPort != null
-                        && t.OtauPort.OtauId == relation.OtauPort.OtauId
-                        && t.OtauPort.OpticalPort == relation.OtauPort.OpticalPort);
+                        && t.OtauPort.OtauId == relation.OtauPortDto.OtauId
+                        && t.OtauPort.OpticalPort == relation.OtauPortDto.OpticalPort);
                 }
 
                 line.Initialize(lineModel);
@@ -97,9 +113,9 @@ namespace Iit.Fibertest.Client
 
         private void GponInWork_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "OtauPort")
+            if (e.PropertyName == "OtauPortNumberStr")
             {
-                RelationsOnSlot = Gpons.Count(g => g.GponInWork.Trace != null);
+                RelationsOnSlot = Gpons.Count(g => !string.IsNullOrEmpty(g.GponInWork.OtauPortNumberStr));
             }
         }
 
@@ -109,13 +125,14 @@ namespace Iit.Fibertest.Client
             _tce.Slots.First(s => s.Position == SlotPosition).GponInterfaceCount = InterfaceCount;
 
             if (oldCount < InterfaceCount)
-                for (int i = oldCount; i < InterfaceCount; i++)
+                for (int i = oldCount + _tce.TceTypeStruct.GponInterfaceNumerationFrom; i < InterfaceCount + _tce.TceTypeStruct.GponInterfaceNumerationFrom; i++)
                 {
                     CreateNewGponInterface(i);
                 }
             else
             {
-                var forRemoval = Gpons.Where(g => g.GponInWork.GponInterface >= InterfaceCount).ToList();
+                var forRemoval = Gpons
+                    .Where(g => g.GponInWork.GponInterface - _tce.TceTypeStruct.GponInterfaceNumerationFrom >= InterfaceCount).ToList();
                 foreach (var gponViewModel in forRemoval)
                 {
                     if (gponViewModel.GponInWork.Trace != null) RelationsOnSlot--;

@@ -35,6 +35,7 @@ namespace Iit.Fibertest.Graph
         public static IEnumerable<Equipment> GetTraceEquipments(this Model model, Trace trace)
         {
             return trace.EquipmentIds.Skip(1).Select(i => model.Equipments.Single(eq => eq.EquipmentId == i));
+            // return trace.EquipmentIds.Skip(1).Select(i => model.Equipments.First(eq => eq.EquipmentId == i));
         }
 
         public static IEnumerable<Fiber> GetTraceFibers(this Model model, Trace trace)

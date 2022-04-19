@@ -28,7 +28,7 @@
                   SelectedItem="{Binding GponInWork.Otau}"/>
         <TextBox Grid.Column="3" Margin="0,0, 10 ,0" >
             <TextBox.Text>
-                <Binding Path="GponInWork.OtauPort" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ConverterCulture="en-US">
+                <Binding Path="GponInWork.OtauPortNumberStr" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ConverterCulture="en-US">
                     <Binding.ValidationRules>
                         <DataErrorValidationRule />
                     </Binding.ValidationRules>

@@ -11,6 +11,6 @@ namespace Iit.Fibertest.Graph
         public int SlotPosition { get; set; }
         public int GponInterface { get; set; }
         public Guid RtuId { get; set; }
-        public OtauPortDto OtauPort { get; set; }
+        public OtauPortDto OtauPortDto { get; set; }
     }
 }

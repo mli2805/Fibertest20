@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Graph
                 Code = @"Huawei_MA5600T_R016", // investigated 2022-Apr-15
                 SlotCount = 14,
                 SlotPositions = new[] { 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16 },
+                GponInterfaceNumerationFrom = 0,
                 Comment = "",
             };
 
@@ -45,6 +46,7 @@ namespace Iit.Fibertest.Graph
                 Code = @"Huawei_MA5600T_R018", // investigated 2022-Apr-12
                 SlotCount = 14,
                 SlotPositions = new[] { 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16 },
+                GponInterfaceNumerationFrom = 0,
                 Comment = "",
             };
 
@@ -58,6 +60,7 @@ namespace Iit.Fibertest.Graph
             //     Code = @"Huawei_MA5600T_R018_patch2", // has not investigated yet
             //     SlotCount = 14,
             //     SlotPositions = new[] { 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16 },
+            //     GponInterfaceNumerationFrom = 0,
             //     Comment = "",
             // };
 
@@ -71,6 +74,7 @@ namespace Iit.Fibertest.Graph
                 Code = @"Huawei_MA5608T_R013", // investigated 2021
                 SlotCount = 2,
                 SlotPositions = new[] { 1, 2 },
+                GponInterfaceNumerationFrom = 0,
                 Comment = "",
             };
 
@@ -86,6 +90,7 @@ namespace Iit.Fibertest.Graph
                 Code = @"ZTE_C300_v1", // investigated 2022-Apr-12
                 SlotCount = 14,
                 SlotPositions = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17 },
+                GponInterfaceNumerationFrom = 1,
                 Comment = "",
             };
 
@@ -99,6 +104,7 @@ namespace Iit.Fibertest.Graph
                 Code = @"ZTE_C300M_v4", // investigated 2022-Apr-12
                 SlotCount = 14,
                 SlotPositions = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17 },
+                GponInterfaceNumerationFrom = 1,
                 Comment = "",
             };
 
@@ -112,6 +118,7 @@ namespace Iit.Fibertest.Graph
                 Code = @"ZTE_C320", // investigated 2021
                 SlotCount = 2,
                 SlotPositions = new[] { 1, 2 },
+                GponInterfaceNumerationFrom = 1,
                 Comment = "",
             };
 

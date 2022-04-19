@@ -36,14 +36,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _otauPort;
-        public string OtauPort
+        private string _otauPortNumberStr;
+        public string OtauPortNumberStr
         {
-            get => _otauPort;
+            get => _otauPortNumberStr;
             set
             {
-                if (value == _otauPort) return;
-                _otauPort = value;
+                if (value == _otauPortNumberStr) return;
+                _otauPortNumberStr = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
         {
             Rtu = null;
             Otau = null;
-            OtauPort = "";
+            OtauPortNumberStr = "";
             Trace = null;
         }
 
@@ -80,10 +80,10 @@ namespace Iit.Fibertest.Client
                 var errorMessage = string.Empty;
                 switch (columnName)
                 {
-                    case "OtauPort":
-                        if (string.IsNullOrEmpty(OtauPort))
+                    case "OtauPortDto":
+                        if (string.IsNullOrEmpty(OtauPortNumberStr))
                             break;
-                        if (!int.TryParse(OtauPort, out int port))
+                        if (!int.TryParse(OtauPortNumberStr, out int port))
                             errorMessage = Resources.SID_Invalid_input;
                         if (port < 1)
                             errorMessage = Resources.SID_Invalid_input;

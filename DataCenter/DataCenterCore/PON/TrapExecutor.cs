@@ -57,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             var trace = _writeModel.Traces.FirstOrDefault(t =>t.OtauPort != null &&
-                    t.OtauPort.Serial == relation.OtauPort.Serial && t.OtauPort.OpticalPort == relation.OtauPort.OpticalPort);
+                    t.OtauPort.Serial == relation.OtauPortDto.Serial && t.OtauPort.OpticalPort == relation.OtauPortDto.OpticalPort);
             if (trace == null)
             {
                 _logFile.AppendLine($"There is no trace on gpon interface {res.GponInterface}");
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.DataCenterCore
                 RtuId = relation.RtuId,
                 PortWithTraceDto = new PortWithTraceDto()
                 {
-                    OtauPort = relation.OtauPort,
+                    OtauPort = relation.OtauPortDto,
                     TraceId = trace.TraceId,
                 },
                 IsTrapCaused = true,

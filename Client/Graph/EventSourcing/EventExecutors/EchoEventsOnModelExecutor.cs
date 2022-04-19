@@ -134,6 +134,23 @@ namespace Iit.Fibertest.Graph
             rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams ?? new TreeOfAcceptableMeasParams();
 
+            // if (rtu.RtuMaker == RtuMaker.IIT)
+            // {
+            //     var mainIitOtau = model.Otaus.FirstOrDefault(o => o.RtuId == rtu.Id && o.Id == rtu.Id);
+            //     if (mainIitOtau == null)
+            //     {
+            //         mainIitOtau = new Otau()
+            //         {
+            //             Id = rtu.Id,
+            //             RtuId = rtu.Id,
+            //             IsMainOtau = true,
+            //             NetAddress = rtu.MainChannel,
+            //             PortCount = rtu.OwnPortCount,
+            //             IsOk = true,
+            //         };
+            //         model.Otaus.Add(mainIitOtau);
+            //     }
+            // }
             if (rtu.RtuMaker == RtuMaker.VeEX)
             {
                 var mainVeexOtau = model.Otaus.FirstOrDefault(o => o.RtuId == rtu.Id && o.VeexRtuMainOtauId == rtu.MainVeexOtau.id);
@@ -143,6 +160,7 @@ namespace Iit.Fibertest.Graph
                     {
                         VeexRtuMainOtauId = rtu.MainVeexOtau.id,
                         RtuId = rtu.Id,
+                        IsMainOtau = true,
                         NetAddress = e.OtauNetAddress,
                         PortCount = rtu.OwnPortCount,
                         IsOk = true,

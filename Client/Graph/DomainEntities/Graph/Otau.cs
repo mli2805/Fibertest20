@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Graph
         public Guid Id { get; set; }
         public Guid RtuId { get; set; }
         public string VeexRtuMainOtauId { get; set; }
+        public bool IsMainOtau { get; set; }
 
         public NetAddress NetAddress { get; set; } = new NetAddress();
         public string Serial { get; set; }
@@ -22,5 +23,6 @@ namespace Iit.Fibertest.Graph
             VeexRtuMainOtauId != null && VeexRtuMainOtauId.StartsWith(@"S1") 
                 ? Resources.SID_Main
                 : Id == RtuId ? @"---" : NetAddress.Ip4Address;
+
     }
 }
