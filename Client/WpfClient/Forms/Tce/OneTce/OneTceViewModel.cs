@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
@@ -60,27 +59,7 @@ namespace Iit.Fibertest.Client
                 Comment = TceInfoViewModel.Comment,
             };
 
-            foreach (var slot in TceSlotsViewModel.Slots)
-            {
-                // foreach (var gpon in slot.Gpons.Where(g => !string.IsNullOrEmpty(g.GponInWork.OtauPort)))
-                // {
-                //     var relation = new GponPortRelation()
-                //     {
-                //         TceId = _tceInWork.Id,
-                //         SlotPosition = slot.SlotPosition,
-                //         GponInterface = gpon.GponInWork.GponInterface,
-                //         RtuId = gpon.GponInWork.Rtu.Id,
-                //         OtauPort = new OtauPortDto()
-                //         {
-                //             OtauId = gpon.GponInWork.Otau.Id.ToString(),
-                //             OpticalPort = int.Parse(gpon.GponInWork.OtauPort),
-                //         }
-                //     };
-                //     cmd.AllRelationsOfTce.Add(relation);
-                // }
-
-                cmd.AllRelationsOfTce.AddRange(slot.GetGponPortsRelations());
-            }
+            cmd.AllRelationsOfTce = TceSlotsViewModel.Slots.SelectMany(s => s.GetGponPortsRelations()).ToList();
 
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (result != null)

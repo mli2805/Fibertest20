@@ -25,7 +25,20 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string Title => InterfaceCount == 0 ? $@"{SlotPosition} -  " : $@"{SlotPosition} - {InterfaceCount}";
+        private int _relationsOnSlot;
+        public int RelationsOnSlot
+        {
+            get => _relationsOnSlot;
+            set
+            {
+                if (value == _relationsOnSlot) return;
+                _relationsOnSlot = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(Title));
+            }
+        }
+
+        public string Title => InterfaceCount == 0 ? $@"{SlotPosition} -  " : $@"{SlotPosition} - {InterfaceCount} / {RelationsOnSlot}";
 
         public List<Rtu> Rtus { get; set; }
 
@@ -64,6 +77,8 @@ namespace Iit.Fibertest.Client
                     && r.GponInterface == i);
                 if (relation != null)
                 {
+                    RelationsOnSlot++;
+
                     lineModel.Rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == relation.RtuId);
                     lineModel.Otau = _readModel.Otaus.FirstOrDefault(o => o.Id.ToString() == relation.OtauPort.OtauId);
                     lineModel.OtauPort = relation.OtauPort.OpticalPort.ToString();
@@ -75,6 +90,16 @@ namespace Iit.Fibertest.Client
 
                 line.Initialize(lineModel);
                 Gpons.Add(line);
+
+                line.GponInWork.PropertyChanged += GponInWork_PropertyChanged;
+            }
+        }
+
+        private void GponInWork_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "OtauPort")
+            {
+                RelationsOnSlot = Gpons.Count(g => g.GponInWork.Trace != null);
             }
         }
 
@@ -93,6 +118,7 @@ namespace Iit.Fibertest.Client
                 var forRemoval = Gpons.Where(g => g.GponInWork.GponInterface >= InterfaceCount).ToList();
                 foreach (var gponViewModel in forRemoval)
                 {
+                    if (gponViewModel.GponInWork.Trace != null) RelationsOnSlot--;
                     Gpons.Remove(gponViewModel);
                 }
             }
@@ -110,11 +136,12 @@ namespace Iit.Fibertest.Client
 
             line.Initialize(lineModel);
             Gpons.Add(line);
+            line.GponInWork.PropertyChanged += GponInWork_PropertyChanged;
         }
 
         public IEnumerable<GponPortRelation> GetGponPortsRelations()
         {
-            return Gpons.Where(g=>g.GponInWork.Trace != null).Select(gponViewModel => gponViewModel.GetGponPortRelation());
+            return Gpons.Where(g => g.GponInWork.Trace != null).Select(gponViewModel => gponViewModel.GetGponPortRelation());
         }
     }
 }

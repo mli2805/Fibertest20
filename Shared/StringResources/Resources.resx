@@ -3240,7 +3240,7 @@ Please try again later</value>
 		<value>Show reflectogram on completion</value>
 	</data>
 	<data name="SID_Telecommunications_equipment_model" xml:space="preserve">
-		<value>Telecommunications equipment model</value>
+		<value>Telecommunications equipment type</value>
 	</data>
 	<data name="SID_Slots" xml:space="preserve">
 		<value>Slots</value>

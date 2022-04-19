@@ -3240,7 +3240,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Показать рефлектограмму по завершении</value>
 	</data>
 	<data name="SID_Telecommunications_equipment_model" xml:space="preserve">
-		<value>Модель телекоммуникационного оборудования</value>
+		<value>Тип телекоммуникационного оборудования</value>
 	</data>
 	<data name="SID_Slots" xml:space="preserve">
 		<value>Слоты</value>

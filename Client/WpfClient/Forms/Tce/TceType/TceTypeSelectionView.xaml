@@ -4,16 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance client:TceTypeSelectionViewModel}">
     <ListView DockPanel.Dock="Top" ItemsSource="{Binding TceTypes}" 
               SelectedItem="{Binding SelectedType}" Margin="1" >
         <ListView.View>
             <GridView>
-                <GridViewColumn Header="Model" Width="120" DisplayMemberBinding="{Binding Model}"/>
-                <GridViewColumn Header="SoftwareVersion" Width="240" DisplayMemberBinding="{Binding SoftwareVersion}"/>
-                <GridViewColumn Header="SlotCount" Width="80" DisplayMemberBinding="{Binding SlotCount}"/>
-                <GridViewColumn Header="Comment" Width="240" DisplayMemberBinding="{Binding Comment}"/>
+                <GridViewColumn Header="{x:Static stringResources:Resources.SID_Type}" Width="120" DisplayMemberBinding="{Binding Model}"/>
+                <GridViewColumn Header="{x:Static stringResources:Resources.SID_Software_version}" Width="240" DisplayMemberBinding="{Binding SoftwareVersion}"/>
+                <GridViewColumn Header="{x:Static stringResources:Resources.SID_Slot_count}" Width="80" DisplayMemberBinding="{Binding SlotCount}"/>
+                <GridViewColumn Header="{x:Static stringResources:Resources.SID_Comment}" Width="240" DisplayMemberBinding="{Binding Comment}"/>
             </GridView>
         </ListView.View>
     </ListView>
