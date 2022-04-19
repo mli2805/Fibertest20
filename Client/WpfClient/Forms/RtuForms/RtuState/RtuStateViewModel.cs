@@ -89,6 +89,9 @@ namespace Iit.Fibertest.Client
             portLineVm.LastSorFileId = dto.SorFileId.ToString();
 
             Model.SetWorstTraceStateAsAggregate();
+
+            if (Model.MonitoringMode == MonitoringState.Off.ToLocalizedString())
+                Model.CurrentMeasurementStep = Resources.SID_No_measurement;
         }
 
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)
