@@ -46,6 +46,7 @@ namespace Iit.Fibertest.Client
             }
         }
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
+        public GponRelationInfo RelationModel { get; set; }
         public bool IsEditEnabled { get; set; }
 
         public Visibility LengthVisibility { get; set; }
@@ -105,9 +106,32 @@ namespace Iit.Fibertest.Client
             if (_isInCreationMode)
                 Model.IsTraceModeDark = true;
             else
+            {
                 _ = await GetOtherPropertiesOfExistingTrace();
+            }
             IsEditEnabled = _currentUser.Role <= Role.Root;
             IsCreatedSuccessfully = false;
+        }
+
+        private GponRelationInfo GetRelationInfo(Trace trace)
+        {
+            var relation = _readModel.GponPortRelations
+                .FirstOrDefault(r => r.RtuId == Model.Rtu.Id 
+                                                && r.OtauPortDto.OpticalPort == trace.Port);
+            if (relation == null) return new GponRelationInfo();
+
+            var tce = _readModel.TcesNew.FirstOrDefault(t => t.Id == relation.TceId);
+            if (tce == null) return new GponRelationInfo();
+
+            var info = new GponRelationInfo()
+            {
+                Visibility = Visibility.Visible,
+                TceTitle = tce.Title,
+                TceType = tce.TceTypeStruct.TypeTitle,
+                SlotPosition = relation.SlotPosition,
+                GponInterfaceNumber = relation.GponInterface,
+            };
+            return info;
         }
 
         private async Task<bool> GetOtherPropertiesOfExistingTrace()
@@ -122,6 +146,8 @@ namespace Iit.Fibertest.Client
                 Model.IsTraceModeDark = true;
             Model.PortNumber = GetPortString(trace);
             Model.Comment = trace.Comment;
+
+            RelationModel = GetRelationInfo(trace);
 
             var km = Resources.SID_km;
             var sorData = await GetBase(trace.PreciseId);

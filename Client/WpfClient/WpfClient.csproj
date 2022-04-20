@@ -290,6 +290,7 @@
       <DependentUpon>GraphOptimizationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\ToolsForms\GraphOptimization\GraphOptimizationViewModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceInfo\GponRelationInfo.cs" />
     <Compile Include="GraphModel\Rendering\GraphRendererForFullGraphUser.cs" />
     <Compile Include="GraphModel\Rendering\GraphRendererCommonDetails.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">

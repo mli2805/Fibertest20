@@ -132,7 +132,8 @@
                         <Image Source="{Binding BaseRefsSet.MonitoringPictogram}" Height="12" Width="12" 
                                Margin="0,0,4,0" Visibility="{Binding IconsVisibility}" 
                                ToolTip="{x:Static stringResources:Resources.SID_Monitoring_mode}"/>
-                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding IconsVisibility}" 
+                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" 
+                               Visibility="{Binding IconsVisibility}" 
                                ToolTip="{x:Static stringResources:Resources.SID_Trace_state}"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Background="{Binding BackgroundBrush}" 
                                    Margin="0,0,20,0" MinWidth="200"/>

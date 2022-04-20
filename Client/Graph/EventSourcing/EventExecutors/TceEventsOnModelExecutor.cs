@@ -30,7 +30,8 @@ namespace Iit.Fibertest.Graph
                 model.GponPortRelations.Remove(oldRelation);
             }
 
-            model.GponPortRelations.AddRange(e.AllRelationsOfTce);
+            // проверку OtauPortDto убрать потом, это прошлая версия их не заполняла
+            model.GponPortRelations.AddRange(e.AllRelationsOfTce.Where(r=>r.OtauPortDto != null));
             return null;
         }
 

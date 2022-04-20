@@ -8,7 +8,7 @@
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=TraceTitleTextbox}"
-        SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignData TraceInfoViewModel}"
         cal:Message.Attach="[Gesture Ctrl+F11] = [DevReport]">
     <Window.Resources>
@@ -72,6 +72,28 @@
         </GroupBox>
         <TextBlock Margin="20,0" Foreground="LightGray" TextWrapping="Wrap" 
                    Visibility="{Binding Model.AdjustmentPointsLineVisibility}" Text="{Binding Model.AdjustmentPointsLine}"/>
+
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Telecommunications_equipment}" 
+                  Visibility="{Binding RelationModel.Visibility}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Width="90"/>
+                    <TextBlock Text="{Binding RelationModel.TceTitle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Type}" Width="90"/>
+                    <TextBlock Text="{Binding RelationModel.TceType}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Slot}" Width="90"/>
+                    <TextBlock Text="{Binding RelationModel.SlotPosition}" Width="40"/>
+                </StackPanel>
+          <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Interface_No}" Width="90"/>
+                    <TextBlock Text="{Binding RelationModel.GponInterfaceNumber}"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
 
         <GroupBox Margin="5" Visibility="{Binding LengthVisibility}">
             <StackPanel Margin="5">
