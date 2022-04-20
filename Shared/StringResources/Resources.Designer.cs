@@ -1575,6 +1575,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change type.
+        /// </summary>
+        public static string SID_Change_type {
+            get {
+                return ResourceManager.GetString("SID_Change_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channel.
         /// </summary>
         public static string SID_Channel {
@@ -8073,7 +8082,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Telecommunications equipment model.
+        ///   Looks up a localized string similar to Telecommunications equipment type.
         /// </summary>
         public static string SID_Telecommunications_equipment_model {
             get {

@@ -11,11 +11,11 @@ namespace Iit.Fibertest.Client
 
         public override string Name
         {
-            get { return string.Format(Resources.SID_Port_N, PortNumber); }
+            get => string.Format(Resources.SID_Port_N, PortNumber);
             set { }
         }
 
-        public int LeftMargin => Parent is OtauLeaf ? 106 : 85;
+        public int LeftMargin => Parent is OtauLeaf ? 122 : 101;
 
         public PortLeaf(
             // Specified manually

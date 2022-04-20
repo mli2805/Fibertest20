@@ -9,10 +9,11 @@ namespace Iit.Fibertest.Graph
         public string Title { get; set; }
         public TceTypeStruct TceTypeStruct { get; set; }
         public string Ip { get; set; }
-        public int SlotCount { get; set; }
         public List<TceSlot> Slots { get; set; } = new List<TceSlot>();
         public string Comment { get; set; }
 
         public List<GponPortRelation> AllRelationsOfTce { get; set; } = new List<GponPortRelation>();
+
+        public List<Guid> ExcludedTraceIds { get; set; }
     }
 }

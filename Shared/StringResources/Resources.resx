@@ -3251,4 +3251,7 @@ Please try again later</value>
 	<data name="SID_Change_interface_count" xml:space="preserve">
 		<value>Change interface count</value>
 	</data>
+	<data name="SID_Change_type" xml:space="preserve">
+		<value>Change type</value>
+	</data>
 </root>

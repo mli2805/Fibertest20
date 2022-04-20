@@ -135,6 +135,9 @@
                         <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" 
                                Visibility="{Binding IconsVisibility}" 
                                ToolTip="{x:Static stringResources:Resources.SID_Trace_state}"/>
+                        <Image Source="{Binding TraceTceRelationPictogram}" Height="12" Width="12" Margin="0,0,4,0" 
+                               Visibility="{Binding IconsVisibility}" 
+                               ToolTip="TCE - trace link"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Background="{Binding BackgroundBrush}" 
                                    Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>

@@ -25,13 +25,37 @@ namespace Iit.Fibertest.Graph
             }
 
             var olds = model.GponPortRelations.Where(r => r.TceId == e.Id).ToList();
+            e.ExcludedTraceIds = olds.Select(r => r.TraceId).ToList();
+
             foreach (var oldRelation in olds)
             {
-                model.GponPortRelations.Remove(oldRelation);
+                  model.GponPortRelations.Remove(oldRelation);
             }
 
             // проверку OtauPortDto убрать потом, это прошлая версия их не заполняла
-            model.GponPortRelations.AddRange(e.AllRelationsOfTce.Where(r=>r.OtauPortDto != null));
+            foreach (var newRelation in e.AllRelationsOfTce.Where(r => r.OtauPortDto != null))
+            {
+                if (e.ExcludedTraceIds.Contains(newRelation.TraceId))
+                {
+                    e.ExcludedTraceIds.Remove(newRelation.TraceId);
+                }
+                else
+                {
+                    var trace = model.Traces.FirstOrDefault(t => t.TraceId == newRelation.TraceId);
+                    if (trace != null)
+                        trace.IsTraceLinkedWithTce = true;
+                }
+
+                model.GponPortRelations.Add(newRelation);
+            }
+
+            foreach (var excludedTraceId in e.ExcludedTraceIds)
+            {
+                var trace = model.Traces.FirstOrDefault(t => t.TraceId == excludedTraceId);
+                if (trace != null)
+                    trace.IsTraceLinkedWithTce = false;
+            }
+
             return null;
         }
 

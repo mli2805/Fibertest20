@@ -165,5 +165,32 @@ namespace Iit.Fibertest.Client
             traceLeaf.TraceState = e.TraceState != FiberState.Ok && e.BaseRefType == BaseRefType.Fast
                 ? FiberState.Suspicion : e.TraceState;
         }
+
+        public void UpdateTraceLinkPictogram(TceWithRelationsAddedOrUpdated e)
+        {
+            foreach (var traceId in e.ExcludedTraceIds)
+            {
+                var acceptable = ShouldAcceptEventForTrace(traceId);
+                if (acceptable == EventAcceptability.No) continue;
+
+                var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(traceId);
+                if (traceLeaf == null)
+                    return;
+
+                traceLeaf.IsTraceLinkedWithTce = false;
+            }
+
+            foreach (var portRelation in e.AllRelationsOfTce)
+            {
+                var acceptable = ShouldAcceptEventForTrace(portRelation.TraceId);
+                if (acceptable == EventAcceptability.No) continue;
+
+                var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(portRelation.TraceId);
+                if (traceLeaf == null)
+                    return;
+
+                traceLeaf.IsTraceLinkedWithTce = true;
+            }
+        }
     }
 }

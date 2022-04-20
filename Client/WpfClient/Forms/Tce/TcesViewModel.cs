@@ -78,7 +78,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(ovm);
         }
 
-        public void UpdateTce()
+        public void ChangeTceType()
         {
             var vm = _globalScope.Resolve<TceTypeViewModel>();
             vm.Initialize(SelectedTce.TceTypeStruct);

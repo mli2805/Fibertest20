@@ -81,17 +81,34 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(IconsVisibility));
                 NotifyOfPropertyChange(nameof(TraceStatePictogram));
-                Color = _isInZone 
-                    ? PortNumber < 1 
-                        ? FiberState.NotJoined.GetBrush(true) 
-                        : FiberState.Ok.GetBrush(true) 
+                Color = _isInZone
+                    ? PortNumber < 1
+                        ? FiberState.NotJoined.GetBrush(true)
+                        : FiberState.Ok.GetBrush(true)
                     : FiberState.NotInZone.GetBrush(true);
             }
         }
-      
+
         public Uri TraceStatePictogram => IsInZone
             ? TraceState.GetPictogram()
             : new Uri(@"pack://application:,,,/Resources/LeftPanel/WhiteSquare.png");
+
+        private bool _isTraceLinkedWithTce;
+        public bool IsTraceLinkedWithTce
+        {
+            get => _isTraceLinkedWithTce;
+            set
+            {
+                if (value == _isTraceLinkedWithTce) return;
+                _isTraceLinkedWithTce = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(TraceTceRelationPictogram));
+            }
+        }
+
+        public Uri TraceTceRelationPictogram => IsTraceLinkedWithTce 
+            ? new Uri(@"pack://application:,,,/Resources/LeftPanel/GreenSquare.png")
+            : new Uri(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 

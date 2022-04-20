@@ -133,6 +133,7 @@ namespace Iit.Fibertest.Client
                 GponInterface = GponInWork.GponInterface,
                 RtuId = GponInWork.Rtu.Id,
                 OtauPortDto = otauPortDto,
+                TraceId = GponInWork.Trace.TraceId,
             };
         }
 

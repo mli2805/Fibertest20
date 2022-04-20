@@ -3251,4 +3251,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Change_interface_count" xml:space="preserve">
 		<value>Изменить количество интерфейсов</value>
 	</data>
+	<data name="SID_Change_type" xml:space="preserve">
+		<value>Изменить тип</value>
+	</data>
 </root>

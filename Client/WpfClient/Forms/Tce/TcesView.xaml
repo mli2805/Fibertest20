@@ -38,8 +38,8 @@
             <ListBox ItemsSource="{Binding Tces}" SelectedItem="{Binding SelectedTce, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}">
                 <ListBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateTce" />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Settings}" cal:Message.Attach="UpdateTceComponents" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Change_type}" cal:Message.Attach="ChangeTceType" />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveTce" />
                         <Separator />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" cal:Message.Attach="AddTce" />

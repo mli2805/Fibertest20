@@ -51,6 +51,8 @@ namespace Iit.Fibertest.Client
                     case TraceDetached evnt: _traceEventsOnTreeExecutor.DetachTrace(evnt); return;
                     case MeasurementAdded evnt: _traceEventsOnTreeExecutor.AddMeasurement(evnt); return;
 
+                    case TceWithRelationsAddedOrUpdated evnt: _traceEventsOnTreeExecutor.UpdateTraceLinkPictogram(evnt); return;
+
                     case BaseRefAssigned evnt: _echoEventsOnTreeExecutor.AssignBaseRef(evnt); return;
                     case MonitoringSettingsChanged evnt: _echoEventsOnTreeExecutor.ChangeMonitoringSettings(evnt); return;
                     case MonitoringStarted evnt: _echoEventsOnTreeExecutor.StartMonitoring(evnt); return;
