@@ -35,7 +35,8 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBlock Grid.Column="4" Margin="5,0,0,0" Text="{Binding GponInWork.TraceTitle}"/>
+        <TextBlock Grid.Column="4" Margin="5,0,0,0" Text="{Binding GponInWork.TraceTitle}" 
+                   Foreground="{Binding GponInWork.TraceColor}"/>
         <Button Grid.Column="5" Margin="1" Content="{x:Static stringResources:Resources.SID_Clear}" Name="ClearRelation"/>
     </Grid>
 </UserControl>

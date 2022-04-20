@@ -105,6 +105,7 @@ namespace Iit.Fibertest.Client
             newTraceLeaf.TraceState = e.PreviousTraceState;
             newTraceLeaf.Title = traceLeaf.Title;
             newTraceLeaf.IsInZone = acceptable == EventAcceptability.Full;
+            newTraceLeaf.IsTraceLinkedWithTce = traceLeaf.IsTraceLinkedWithTce;
           //  newTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Black : Brushes.LightGray;
             newTraceLeaf.PortNumber = port;
 
@@ -139,6 +140,7 @@ namespace Iit.Fibertest.Client
             detachedTraceLeaf.PortNumber = 0;
             detachedTraceLeaf.Title = traceLeaf.Title;
             detachedTraceLeaf.TraceState = FiberState.NotJoined;
+            detachedTraceLeaf.IsTraceLinkedWithTce = traceLeaf.IsTraceLinkedWithTce;
             detachedTraceLeaf.IsInZone = acceptable == EventAcceptability.Full;
             detachedTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Blue : Brushes.LightGray;
 

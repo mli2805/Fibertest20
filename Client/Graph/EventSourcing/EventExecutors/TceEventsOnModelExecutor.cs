@@ -24,16 +24,15 @@ namespace Iit.Fibertest.Graph
                 tce.Comment = e.Comment;
             }
 
-            var olds = model.GponPortRelations.Where(r => r.TceId == e.Id).ToList();
-            e.ExcludedTraceIds = olds.Select(r => r.TraceId).ToList();
+            var oldRelations = model.GponPortRelations.Where(r => r.TceId == e.Id).ToList();
+            e.ExcludedTraceIds = oldRelations.Select(r => r.TraceId).ToList();
 
-            foreach (var oldRelation in olds)
+            foreach (var oldRelation in oldRelations)
             {
                   model.GponPortRelations.Remove(oldRelation);
             }
 
-            // проверку OtauPortDto убрать потом, это прошлая версия их не заполняла
-            foreach (var newRelation in e.AllRelationsOfTce.Where(r => r.OtauPortDto != null))
+            foreach (var newRelation in e.AllRelationsOfTce)
             {
                 if (e.ExcludedTraceIds.Contains(newRelation.TraceId))
                 {
@@ -61,6 +60,10 @@ namespace Iit.Fibertest.Graph
 
         public static string RemoveTce(this Model model, TceRemoved e)
         {
+            var relations = model.GponPortRelations.Where(r => r.TceId == e.Id).ToList();
+            foreach (var relation in relations)
+                model.GponPortRelations.Remove(relation);
+
             var tce = model.TcesNew.FirstOrDefault(o => o.Id == e.Id);
             if (tce != null)
                 model.TcesNew.Remove(tce);

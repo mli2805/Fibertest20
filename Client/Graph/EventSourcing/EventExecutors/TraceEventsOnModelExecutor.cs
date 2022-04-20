@@ -62,6 +62,10 @@ namespace Iit.Fibertest.Graph
             //         fiber.States.Remove(trace.TraceId);
             // }
 
+            var relation = model.GponPortRelations.FirstOrDefault(r => r.TraceId == trace.TraceId);
+            if (relation != null)
+                model.GponPortRelations.Remove(relation);
+
             model.Traces.Remove(trace);
             return null;
         }
@@ -112,6 +116,10 @@ namespace Iit.Fibertest.Graph
                     model.Nodes.Remove(node);
             }
 
+            var relation = model.GponPortRelations.FirstOrDefault(r => r.TraceId == trace.TraceId);
+            if (relation != null)
+                model.GponPortRelations.Remove(relation);
+
             model.Traces.Remove(trace);
             return null;
         }
@@ -146,6 +154,10 @@ namespace Iit.Fibertest.Graph
                 TraceState = e.PreviousTraceState,
                 Accidents = e.AccidentsInLastMeasurement,
             });
+
+            var relation = model.GponPortRelations.FirstOrDefault(r => r.TraceId == trace.TraceId);
+            if (relation != null)
+                relation.OtauPortDto = trace.OtauPort;
 
             return null;
         }

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Windows.Media;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -58,11 +60,12 @@ namespace Iit.Fibertest.Client
                 _trace = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(TraceTitle));
+                NotifyOfPropertyChange(nameof(TraceColor));
             }
         }
 
-
         public string TraceTitle => Trace?.Title ?? "";
+        public Brush TraceColor => Trace == null || Trace.State != FiberState.NotJoined ? Brushes.Black : Brushes.Blue;
         
 
         public void ClearRelation()

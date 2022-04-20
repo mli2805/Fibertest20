@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -54,7 +53,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(TceS tce, int slotPosition)
         {
             Rtus = _readModel.Rtus;
-            _tce = tce;
+            _tce = new TceS(tce);
             SlotPosition = slotPosition;
             InterfaceCount = tce.Slots.First(s => s.Position == slotPosition).GponInterfaceCount;
 
@@ -65,7 +64,7 @@ namespace Iit.Fibertest.Client
         {
             for (int i = _tce.TceTypeStruct.GponInterfaceNumerationFrom; i < InterfaceCount + _tce.TceTypeStruct.GponInterfaceNumerationFrom; i++)
             {
-                var line = new GponViewModel(_readModel);
+                var lineViewModel = new GponViewModel(_readModel) { Rtus = _readModel.Rtus };
                 var lineModel = new GponModel()
                 {
                     GponInterface = i,
@@ -77,45 +76,35 @@ namespace Iit.Fibertest.Client
                     && r.SlotPosition == SlotPosition
                     && r.GponInterface == i);
 
-
                 if (relation != null)
                 {
-                    // relations created on previous version
-                    if (relation.OtauPortDto == null)
-                    {
-                        _readModel.GponPortRelations.Remove(relation);
-                        continue;
-                    }
-                    //-----------------------------------------
-
                     RelationsOnSlot++;
 
                     lineModel.Rtu = _readModel.Rtus.First(r => r.Id == relation.RtuId);
-                    lineModel.Otau = _readModel.Otaus.FirstOrDefault(o => o.Id.ToString() == relation.OtauPortDto.OtauId) ??
-                                     (lineModel.Rtu.RtuMaker == RtuMaker.IIT
-                                        // there is no Otau for embedded in MAK100 switch
-                                        ? new Otau() { Id = lineModel.Rtu.Id, RtuId = lineModel.Rtu.Id, PortCount = lineModel.Rtu.OwnPortCount, IsMainOtau = true }
-                                        // Veex RTU main otau has no Id (Veex id are the same for all main otaus)
-                                        : _readModel.Otaus.FirstOrDefault(o => o.RtuId == lineModel.Rtu.Id && o.IsMainOtau));
+
+                    lineViewModel.CollectOtausOnRtuChanged(lineModel.Rtu);
+
+                    lineModel.Otau = lineViewModel.Otaus.FirstOrDefault(o => o.Id.ToString() == relation.OtauPortDto.OtauId) ??
+                                          // Veex RTU main otau has no Id (Veex id are the same for all main otaus)
+                                          lineViewModel.Otaus.FirstOrDefault(o => o.RtuId == lineModel.Rtu.Id && o.IsMainOtau);
+
                     lineModel.OtauPortNumberStr = relation.OtauPortDto.OpticalPort.ToString();
-                    lineModel.Trace = _readModel.Traces.FirstOrDefault(t =>
-                        t.OtauPort != null
-                        && t.OtauPort.OtauId == relation.OtauPortDto.OtauId
-                        && t.OtauPort.OpticalPort == relation.OtauPortDto.OpticalPort);
+                    lineModel.Trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == relation.TraceId);
                 }
 
-                line.Initialize(lineModel);
-                Gpons.Add(line);
+                lineViewModel.Initialize(lineModel);
+                Gpons.Add(lineViewModel);
 
-                line.GponInWork.PropertyChanged += GponInWork_PropertyChanged;
+                lineViewModel.GponInWork.PropertyChanged += GponInWork_PropertyChanged;
             }
         }
 
         private void GponInWork_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "OtauPortNumberStr")
+            if (e.PropertyName == "Trace")
             {
-                RelationsOnSlot = Gpons.Count(g => !string.IsNullOrEmpty(g.GponInWork.OtauPortNumberStr));
+                // RelationsOnSlot = Gpons.Count(g => !string.IsNullOrEmpty(g.GponInWork.OtauPortNumberStr));
+                RelationsOnSlot = Gpons.Count(g => g.GponInWork.Trace != null);
             }
         }
 
