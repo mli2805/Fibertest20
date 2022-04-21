@@ -1,6 +1,6 @@
 using Iit.Fibertest.UtilsLib;
 
-namespace Broadcaster2 {
+namespace Broadcaster {
     public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
     {
         public GsmViewModel GsmViewModel { get; set; }
