@@ -92,6 +92,10 @@
       <DependentUpon>MsmqView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MsmqViewModel.cs" />
+    <Compile Include="Controls\SnmpView.xaml.cs">
+      <DependentUpon>SnmpView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SnmpViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -103,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MsmqView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SnmpView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
