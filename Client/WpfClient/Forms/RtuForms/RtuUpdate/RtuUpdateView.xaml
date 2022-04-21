@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="400" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded"
+        SizeToContent="Height" Width="520" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded"
         d:DataContext="{d:DesignInstance client:RtuUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
     <Window.Resources>
@@ -21,22 +21,29 @@
         </Style>
     </Window.Resources>
     <StackPanel IsEnabled="{Binding IsEditEnabled}">
-        <StackPanel>
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" VerticalAlignment="Center" 
-                       Margin="10,5,10,5" Width="80" HorizontalAlignment="Left"/>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Title}" Margin="5">
             <TextBox Text="{Binding Title, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                     Name="TextBoxTitle" Margin="10,0,10,15" IsEnabled="{Binding HasPrivilegies}" Style="{StaticResource TextBoxValidationStyle}"/>
-        </StackPanel>
-
-        <GroupBox Visibility="{Binding GisVisibility}" Margin="10,0">
-            <client:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}" />
+                     Name="TextBoxTitle" Margin="5" IsEnabled="{Binding HasPrivilegies}" Style="{StaticResource TextBoxValidationStyle}"/>
         </GroupBox>
 
-        <StackPanel>
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" VerticalAlignment="Center" 
-                       Margin="10,5" Width="80" HorizontalAlignment="Left"/>
-            <TextBox Text="{Binding Comment}" Margin="10,0,10,15" Height="75" TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="{Binding HasPrivilegies}"/>
-        </StackPanel>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" 
+                  Visibility="{Binding GisVisibility}" Margin="5">
+            <client:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}" Margin="0,5"/>
+        </GroupBox>
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Telecommunications_equipment}"
+                  Visibility="{Binding TceRelationInfo.Visibility}">
+            <ListView ItemsSource="{Binding TceRelationInfo.Tces}" Margin="5">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path= Title}" Width="160"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=TceTypeStruct.TypeTitle}" Width="300"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Comment}" Margin="5">
+            <TextBox Text="{Binding Comment}" Margin="5" Height="75" TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="{Binding HasPrivilegies}"/>
+        </GroupBox>
 
         <StackPanel Orientation="Horizontal" Margin="5,5,5,10" HorizontalAlignment="Center">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}"

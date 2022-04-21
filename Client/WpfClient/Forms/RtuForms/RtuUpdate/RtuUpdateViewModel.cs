@@ -81,6 +81,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public TceRelationInfo TceRelationInfo { get; set; } = new TceRelationInfo();
+
         public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser, CurrentGis currentGis,
             Model readModel, GraphReadModel graphReadModel,
             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
@@ -106,6 +108,11 @@ namespace Iit.Fibertest.Client
 
             Title = _originalRtu.Title;
             Comment = _originalRtu.Comment;
+
+            var tceIds = _readModel.GponPortRelations.Where(r => r.RtuId == rtuId).Select(l => l.TceId).ToList();
+            TceRelationInfo.Tces = _readModel.TcesNew.Where(t => tceIds.Contains(t.Id)).Select(e => e).ToList();
+            if (TceRelationInfo.Tces.Any())
+                TceRelationInfo.Visibility = Visibility.Visible;
         }
 
         public void Initialize(RequestAddRtuAtGpsLocation request)
