@@ -61,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -87,6 +88,10 @@
       <DependentUpon>GsmView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GsmViewModel.cs" />
+    <Compile Include="Controls\MsmqView.xaml.cs">
+      <DependentUpon>MsmqView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MsmqViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -94,6 +99,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Controls\GsmView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MsmqView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

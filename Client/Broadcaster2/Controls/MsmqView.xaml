@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="Broadcaster2.MsmqView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             cal:Bind.ModelWithoutContext="{Binding .}">
+        <StackPanel HorizontalAlignment="Center" Margin="5, 30">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Data-center IP" Margin="5"/>
+                <TextBox Text="{Binding ServerIp}" Margin="5" Width="200"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Sor file" Margin="5"/>
+                <TextBox Text="{Binding SorFileName}" Margin="5" Width="200"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Count" Margin="5"/>
+                <TextBox Text="{Binding MsmqCount}" Margin="5" Width="70"/>
+                <TextBlock Text="Pause between, ms" Margin="5"/>
+                <TextBox Text="{Binding MsmqPauseMs}" Margin="5" Width="70"/>
+                <TextBlock Text="Sent" Margin="5"/>
+                <TextBlock Text="{Binding SentCount}" Margin="5"/>
+            </StackPanel>
+            <Button Width="200" Height="22" Content="Start sending" Margin="5" Name="StartSending"/>
+        </StackPanel>
+</UserControl>

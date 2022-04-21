@@ -8,8 +8,8 @@
         <TabItem Header="          GSM        ">
             <broadcaster2:GsmView DataContext="{Binding GsmViewModel}"/>
         </TabItem>
-        <TabItem Header="          MSMQ       ">
-
+        <TabItem Header="          MSMQ       " IsSelected="True">
+            <broadcaster2:MsmqView DataContext="{Binding MsmqViewModel}"/>
         </TabItem>
         <TabItem Header="          SNMP       ">
 
