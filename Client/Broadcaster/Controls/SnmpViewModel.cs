@@ -48,7 +48,8 @@ namespace Broadcaster
             SaveInputs();
 
             var snmpAgent = new SnmpAgent(_iniFile, _logFile);
-            var unused = snmpAgent.SendV2CPonTestTrap(_startTime);
+            var sh = new SnmpHuaweiAgent(snmpAgent);
+            var unused = sh.SendV2CPonTestTrap(_startTime);
         }
 
         private void LoadSnmpSets()

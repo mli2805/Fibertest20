@@ -136,6 +136,7 @@
     <Compile Include="Snmp\SnmpAgent.cs" />
     <Compile Include="Snmp\FtTrapProperty.cs" />
     <Compile Include="Snmp\FtTrapType.cs" />
+    <Compile Include="Snmp\SnmpHuaweiAgent.cs" />
     <Compile Include="Snmp\SnmpV2CDataType.cs" />
     <Compile Include="Snmp\VbCollectionFactory.cs" />
     <Compile Include="SorData\AccidentsExtractor.cs" />

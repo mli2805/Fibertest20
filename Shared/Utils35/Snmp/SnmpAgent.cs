@@ -20,7 +20,6 @@ namespace Iit.Fibertest.UtilsLib
         private string _snmpCommunity;
         private string _snmpEncoding;
 
-        private const string HuaweiOid = "1.3.6.1.4.1.2011.2.248";
         private string _enterpriseOid;
 
         public SnmpAgent(IniFile iniFile, IMyLog logFile)
@@ -94,38 +93,9 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        public bool SendV2CPonTestTrap(DateTime systemStartTime)
-        {
-            var trapData = CreateV2CPonTestTrap();
-            return SendSnmpV2CTrap(trapData, systemStartTime);
-        }
+      
 
-        private VbCollection CreateV2CPonTestTrap()
-        {
-            var data = new List<Tuple<string, string, SnmpV2CDataType>>();
-
-            // 1 tick is 10 ms
-            // data.Add(new Tuple<string, string, SnmpV2CDataType>("1.3.6.1.2.1.1.3.0", "123", SnmpV2CDataType.TimeTicks));
-            // var oid1 = "1.3.6.1.4.1.2011.2.247";
-            // data.Add(new Tuple<string, string, SnmpV2CDataType>("1.3.6.1.6.3.1.1.4.1.0", oid1, SnmpV2CDataType.Oid));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "4", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "3", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "192.168.96.59", SnmpV2CDataType.IpAddress));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "416", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "5", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "00000000", SnmpV2CDataType.OctetString));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "2", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "1", SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, DateTime.Now.ToString("O"), SnmpV2CDataType.OctetString));
-
-            return new VbCollection(VbCollectionFactory.CreateCollection(data));
-        }
-
-        private bool SendSnmpV2CTrap(VbCollection trapData, DateTime systemStartTime)
+        public bool SendSnmpV2CTrap(VbCollection trapData, DateTime systemStartTime, Oid trapObjOid)
         {
             try
             {
@@ -134,7 +104,7 @@ namespace Iit.Fibertest.UtilsLib
                     _snmpReceiverPort,
                     "public",
                     (uint)(DateTime.Now - systemStartTime).TotalSeconds * 100, // Huawei OLT sends UpTime in 0,1sec,
-                    new Oid(HuaweiOid),
+                    trapObjOid,
                     trapData);
                 _logFile.AppendLine("SendSnmpV2Trap sent.");
                 return true;
