@@ -1,8 +1,8 @@
-namespace Broadcaster2 {
-    using System;
-    using System.Collections.Generic;
-    using Caliburn.Micro;
+using System;
+using System.Collections.Generic;
+using Caliburn.Micro;
 
+namespace Broadcaster {
     public class AppBootstrapper : BootstrapperBase {
         SimpleContainer _container;
 

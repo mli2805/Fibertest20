@@ -1,3 +1,3 @@
-namespace Broadcaster2 {
+namespace Broadcaster {
     public interface IShell {}
 }

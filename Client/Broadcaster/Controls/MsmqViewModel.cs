@@ -8,7 +8,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace Broadcaster2
+namespace Broadcaster
 {
     public class MsmqViewModel : PropertyChangedBase
     {

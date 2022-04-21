@@ -1,4 +1,4 @@
-﻿namespace Broadcaster2
+﻿namespace Broadcaster
 {
     /// <summary>
     /// Interaction logic for App.xaml
