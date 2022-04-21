@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
-namespace Broadcaster
+namespace Broadcaster2
 {
     public class SnmpViewModel : PropertyChangedBase
     {

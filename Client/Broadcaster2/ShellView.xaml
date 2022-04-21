@@ -2,18 +2,17 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:broadcaster2="clr-namespace:Broadcaster2"
-        xmlns:broadcaster="clr-namespace:Broadcaster"
         WindowStartupLocation="CenterScreen" Width="600" Height="500">
 
     <TabControl>
         <TabItem Header="          GSM        ">
-            <broadcaster:GsmView DataContext="{Binding GsmViewModel}"/>
+            <broadcaster2:GsmView DataContext="{Binding GsmViewModel}"/>
         </TabItem>
         <TabItem Header="          MSMQ       ">
-            <broadcaster:MsmqView DataContext="{Binding MsmqViewModel}"/>
+            <broadcaster2:MsmqView DataContext="{Binding MsmqViewModel}"/>
         </TabItem>
         <TabItem Header="          SNMP       " IsSelected="True">
-            <broadcaster:SnmpView DataContext="{Binding SnmpViewModel}"/>
+            <broadcaster2:SnmpView DataContext="{Binding SnmpViewModel}"/>
         </TabItem>
     </TabControl>
 

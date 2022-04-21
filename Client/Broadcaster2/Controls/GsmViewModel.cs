@@ -5,7 +5,7 @@ using GsmComm.GsmCommunication;
 using GsmComm.PduConverter;
 using Iit.Fibertest.UtilsLib;
 
-namespace Broadcaster
+namespace Broadcaster2
 {
     public class GsmViewModel : PropertyChangedBase
     {
