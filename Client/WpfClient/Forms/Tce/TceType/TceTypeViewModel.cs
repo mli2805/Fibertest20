@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -16,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
+        private bool _isCreationMode;
 
         public TceTypeSelectionViewModel HuaweiSelectionViewModel { get; set; }
         public TceTypeSelectionViewModel ZteSelectionViewModel { get; set; }
@@ -35,8 +37,9 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Telecommunications_equipment_model;
         }
 
-        public void Initialize(TceTypeStruct tceTypeStruct)
+        public void Initialize(TceTypeStruct tceTypeStruct, bool isCreationMode)
         {
+            _isCreationMode = isCreationMode;
             HuaweiSelectionViewModel = new TceTypeSelectionViewModel();
             HuaweiSelectionViewModel.Initialize(_readModel.TceTypeStructs.Where(s => s.Maker == TceMaker.Huawei && s.IsVisible).ToList(), tceTypeStruct);
             ZteSelectionViewModel = new TceTypeSelectionViewModel();
@@ -57,7 +60,26 @@ namespace Iit.Fibertest.Client
 
         public void Select()
         {
-            TryClose(true);
+            if (_isCreationMode)
+            {
+                TryClose(true);
+                return;
+            }
+
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation,
+                new List<MyMessageBoxLineModel>()
+                {
+                    new MyMessageBoxLineModel(){ Line = "Изменение типа оборудования может привести к потере связей", FontWeight = FontWeights.Bold },
+                    new MyMessageBoxLineModel(){ Line = "порт RTU - интерфейс телекоммуникационного оборудования", FontWeight = FontWeights.Bold },
+                    new MyMessageBoxLineModel(){ Line = ""},
+                    new MyMessageBoxLineModel(){ Line = ""},
+                    new MyMessageBoxLineModel(){ Line = "Изменения будут применены после сохранения в следующем окне."},
+                    new MyMessageBoxLineModel(){ Line = ""},
+                    new MyMessageBoxLineModel(){ Line = "Продолжить?"},
+                });
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            TryClose(vm.IsAnswerPositive);
         }
 
         public void Cancel()

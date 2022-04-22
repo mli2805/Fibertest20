@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Graph
         public TceMaker Maker { get; set; }
         public string SoftwareVersion { get; set; }
         public string Code { get; set; } // for pretty parser switch
-        public int SlotCount { get; set; }
+        public int SlotCount => SlotPositions.Length;
         public int[] SlotPositions { get; set; }
         public int GponInterfaceNumerationFrom { get; set; }
         public string Comment { get; set; }

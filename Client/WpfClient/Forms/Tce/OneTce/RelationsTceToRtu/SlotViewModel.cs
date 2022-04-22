@@ -101,7 +101,7 @@ namespace Iit.Fibertest.Client
 
         private void GponInWork_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Trace")
+            if (e.PropertyName == @"Trace")
             {
                 // RelationsOnSlot = Gpons.Count(g => !string.IsNullOrEmpty(g.GponInWork.OtauPortNumberStr));
                 RelationsOnSlot = Gpons.Count(g => g.GponInWork.Trace != null);
@@ -143,6 +143,11 @@ namespace Iit.Fibertest.Client
             line.Initialize(lineModel);
             Gpons.Add(line);
             line.GponInWork.PropertyChanged += GponInWork_PropertyChanged;
+        }
+
+        public TceSlot GetTceSlot()
+        {
+            return new TceSlot() { Position = SlotPosition, GponInterfaceCount = InterfaceCount };
         }
 
         public IEnumerable<GponPortRelation> GetGponPortsRelations()

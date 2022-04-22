@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
         public void AddTce()
         {
             var vm = _globalScope.Resolve<TceTypeViewModel>();
-            vm.Initialize(_readModel.TceTypeStructs.First());
+            vm.Initialize(_readModel.TceTypeStructs.First(), true);
             if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
                 return;
 
@@ -80,23 +80,58 @@ namespace Iit.Fibertest.Client
 
         public void ChangeTceType()
         {
-            var vm = _globalScope.Resolve<TceTypeViewModel>();
-            vm.Initialize(SelectedTce.TceTypeStruct);
-            if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
+            if (!AskNewTceTypeSelection(out TceTypeStruct newTceType))
                 return;
 
-            var selectedTceType = vm.SelectedTabItem == 0
-                ? vm.HuaweiSelectionViewModel.SelectedType
-                : vm.ZteSelectionViewModel.SelectedType;
+            AdjustSelectedTceToNewType(newTceType);
 
             var ovm = _globalScope.Resolve<OneTceViewModel>();
-
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            SelectedTce.TceTypeStruct = selectedTceType;
-
             ovm.Initialize(SelectedTce, false);
             _windowManager.ShowDialogWithAssignedOwner(ovm);
-          }
+        }
+
+        private bool AskNewTceTypeSelection(out TceTypeStruct newTceType)
+        {
+            newTceType = _readModel.TceTypeStructs.First();
+            var vm = _globalScope.Resolve<TceTypeViewModel>();
+            vm.Initialize(SelectedTce.TceTypeStruct, false);
+            if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
+                return false;
+
+            newTceType = vm.SelectedTabItem == 0
+                ? vm.HuaweiSelectionViewModel.SelectedType
+                : vm.ZteSelectionViewModel.SelectedType;
+            return true;
+        }
+
+        private void AdjustSelectedTceToNewType(TceTypeStruct newTceType)
+        {
+            var temp = new TceS(SelectedTce);
+
+            SelectedTce.TceTypeStruct = newTceType;
+            foreach (var slot in temp.Slots)
+            {
+                if (SelectedTce.TceTypeStruct.SlotPositions.Contains(slot.Position)) continue;
+
+                foreach (var relation in _readModel.GponPortRelations.Where(r => r.TceId == SelectedTce.Id && r.SlotPosition == slot.Position).ToList())
+                {
+                    _readModel.GponPortRelations.Remove(relation);
+                }
+            }
+
+            SelectedTce.Slots = new List<TceSlot>();
+            foreach (var slotPosition in SelectedTce.TceTypeStruct.SlotPositions)
+            {
+                var oldSlot = temp.Slots.FirstOrDefault(s => s.Position == slotPosition);
+                SelectedTce.Slots.Add(oldSlot ?? new TceSlot() { Position = slotPosition });
+            }
+
+            var diff = temp.TceTypeStruct.GponInterfaceNumerationFrom -
+                       SelectedTce.TceTypeStruct.GponInterfaceNumerationFrom;
+            if (diff != 0)
+                foreach (var relation in _readModel.GponPortRelations.Where(r => r.TraceId == SelectedTce.Id))
+                    relation.GponInterface -= diff;
+        }
 
         public void UpdateTceComponents()
         {

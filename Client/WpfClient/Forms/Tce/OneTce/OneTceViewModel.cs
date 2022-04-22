@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = _isInCreationMode ? Resources.SID_Add_Equipment : Resources.SID_Update_equipment;
+            DisplayName = _isInCreationMode ? Resources.SID_Add_Equipment : Resources.SID_Settings;
         }
         public void Initialize(TceS tce, bool isCreation)
         {
@@ -49,17 +49,16 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> Save()
         {
-            var cmd = new AddOrUpdateTceWithRelations()
+            var cmd = new AddOrUpdateTceWithRelations
             {
                 Id = _tceInWork.Id,
                 Title = TceInfoViewModel.Title,
                 TceTypeStruct = _tceInWork.TceTypeStruct,
                 Ip = TceInfoViewModel.Ip4InputViewModel.GetString(),
-                Slots = _tceInWork.Slots,
+                Slots = TceSlotsViewModel.Slots.Select(s=>s.GetTceSlot()).ToList(),
                 Comment = TceInfoViewModel.Comment,
+                AllRelationsOfTce = TceSlotsViewModel.Slots.SelectMany(s => s.GetGponPortsRelations()).ToList(),
             };
-
-            cmd.AllRelationsOfTce = TceSlotsViewModel.Slots.SelectMany(s => s.GetGponPortsRelations()).ToList();
 
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (result != null)
