@@ -65,6 +65,13 @@ namespace Iit.Fibertest.Client
 
                 SelectedMeasParams = iitMeasParams,
                 VeexMeasOtdrParameters = veexMeasParams,
+                AnalysisParameters = new AnalysisParameters()
+                {
+                    lasersParameters = new List<LasersParameter>()
+                    {
+                        new LasersParameter(){ eventLossThreshold = 0.2, eventReflectanceThreshold = -40, endOfFiberThreshold = 6 }
+                    }
+                },
 
                 IsForAutoBase = _isForAutoBase,
             };

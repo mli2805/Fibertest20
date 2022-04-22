@@ -23,6 +23,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 id = Guid.NewGuid().ToString(),
                 otdrId = dto.OtdrId,
                 otdrParameters = dto.VeexMeasOtdrParameters,
+                analysisParameters = dto.AnalysisParameters,
                 otauPorts = CreateVeexOtauPortList(dto.OtauPortDtoList[0], dto.MainOtauPortDto),
                 suspendMonitoring = true,
             };
