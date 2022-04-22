@@ -31,7 +31,6 @@ namespace Broadcaster
             LoadSnmpSets();
             SelectedSnmpEncoding = SnmpEncodings[2];
         }
-
       
         public void SendV1TestTrap()
         {
@@ -60,7 +59,6 @@ namespace Broadcaster
             SnmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT");
             SelectedSnmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251");
             EnterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220");
-
         }
 
         private void SaveInputs()

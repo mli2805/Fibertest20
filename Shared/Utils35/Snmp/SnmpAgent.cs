@@ -95,7 +95,7 @@ namespace Iit.Fibertest.UtilsLib
 
       
 
-        public bool SendSnmpV2CTrap(VbCollection trapData, DateTime systemStartTime, Oid trapObjOid)
+        public bool SendSnmpV2CTrap(VbCollection trapData, uint upTime, Oid trapObjOid)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace Iit.Fibertest.UtilsLib
                 trapAgent.SendV2Trap(new IpAddress(_snmpReceiverAddress),
                     _snmpReceiverPort,
                     "public",
-                    (uint)(DateTime.Now - systemStartTime).TotalSeconds * 100, // Huawei OLT sends UpTime in 0,1sec,
+                    upTime,
                     trapObjOid,
                     trapData);
                 _logFile.AppendLine("SendSnmpV2Trap sent.");
