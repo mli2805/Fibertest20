@@ -95,6 +95,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<CommonBopProcessor>().SingleInstance();
             builder.RegisterType<DiskSpaceProvider>().SingleInstance();
 
+            builder.RegisterType<OutOfTurnQueue>().SingleInstance();
             builder.RegisterType<TrapParser>().SingleInstance();
             builder.RegisterType<TrapExecutor>().SingleInstance();
             builder.RegisterType<TrapReceiver>().SingleInstance();

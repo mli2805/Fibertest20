@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
@@ -16,16 +17,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly TrapParser _trapParser;
+        private readonly OutOfTurnQueue _outOfTurnQueue;
         private readonly ID2RWcfManager _d2RWcfManager;
         private readonly RtuStationsRepository _rtuStationsRepository;
 
         public TrapExecutor(IniFile iniFile, IMyLog logFile, Model writeModel,
-            TrapParser trapParser, ID2RWcfManager d2RWcfManager, RtuStationsRepository rtuStationsRepository)
+            TrapParser trapParser, OutOfTurnQueue outOfTurnQueue,
+            ID2RWcfManager d2RWcfManager, RtuStationsRepository rtuStationsRepository)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _writeModel = writeModel;
             _trapParser = trapParser;
+            _outOfTurnQueue = outOfTurnQueue;
             _d2RWcfManager = d2RWcfManager;
             _rtuStationsRepository = rtuStationsRepository;
         }
@@ -66,6 +70,7 @@ namespace Iit.Fibertest.DataCenterCore
             
             var dto = new DoOutOfTurnPreciseMeasurementDto()
             {
+                Id = Guid.NewGuid(),
                 RtuId = relation.RtuId,
                 PortWithTraceDto = new PortWithTraceDto()
                 {
@@ -74,6 +79,8 @@ namespace Iit.Fibertest.DataCenterCore
                 },
                 IsTrapCaused = true,
             };
+
+            _outOfTurnQueue.Requests.Enqueue(dto);
 
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses != null)
