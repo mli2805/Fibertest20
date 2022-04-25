@@ -61,9 +61,9 @@ namespace Iit.Fibertest.Client
 
                     else
                     {
-                        GponInWork.Trace = trace;
                         if (_isTraceLinked(trace))
                             GponInWork.TraceAlreadyLinked = string.Format(Resources.SID_Trace___0___has_already_linked_to_another_interface, trace.Title);
+                        GponInWork.Trace = trace;
                     }
                 }
                 else

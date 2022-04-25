@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -60,8 +61,9 @@ namespace Iit.Fibertest.Client
                 _opticalEventsDoubleViewModel.RenderMeasurementsFromSnapshot();
                 _networkEventsDoubleViewModel.RenderNetworkEvents();
                 _bopNetworkEventsDoubleViewModel.RenderBopNetworkEvents();
-                
-                _logFile.AppendLine($@"Gpon relations number: {_readModel.GponPortRelations.Count}");
+
+                _logFile.AppendLine($@"Has {_readModel.GponPortRelations.Count} relations");
+                _logFile.AppendLine($@"Has {_readModel.Traces.Count(t => t.IsTraceLinkedWithTce)} traces with relations");
 
                 return dto.LastIncludedEvent;
             }

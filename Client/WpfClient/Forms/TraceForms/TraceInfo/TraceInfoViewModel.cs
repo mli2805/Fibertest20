@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
             }
         }
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
-        public GponRelationInfo RelationModel { get; set; }
+        public GponRelationInfo RelationModel { get; set; } = new GponRelationInfo();
         public bool IsEditEnabled { get; set; }
 
         public Visibility LengthVisibility { get; set; }

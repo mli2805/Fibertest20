@@ -64,7 +64,10 @@ namespace Iit.Fibertest.Graph
             e.ExcludedTraceIds = relations.Select(r => r.TraceId).ToList();
 
             foreach (var relation in relations)
+            {
+                model.Traces.First(t => t.TraceId == relation.TraceId).IsTraceLinkedWithTce = false;
                 model.GponPortRelations.Remove(relation);
+            }
 
             var tce = model.TcesNew.FirstOrDefault(o => o.Id == e.Id);
             if (tce != null)

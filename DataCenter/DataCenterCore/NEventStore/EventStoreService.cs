@@ -118,6 +118,8 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
+            _logFile.AppendLine($"Has {_writeModel.GponPortRelations.Count} relations");
+            _logFile.AppendLine($"Has {_writeModel.Traces.Count(t=>t.IsTraceLinkedWithTce)} traces with relations");
             return eventMessages.Count;
         }
         
