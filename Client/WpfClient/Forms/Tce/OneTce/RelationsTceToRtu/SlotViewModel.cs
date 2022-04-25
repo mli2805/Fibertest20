@@ -132,7 +132,7 @@ namespace Iit.Fibertest.Client
 
         private void CreateNewGponInterface(int i)
         {
-            var line = new GponViewModel(_readModel);
+            var line = new GponViewModel(_readModel) { Rtus = _readModel.Rtus };
             var lineModel = new GponModel()
             {
                 GponInterface = i,

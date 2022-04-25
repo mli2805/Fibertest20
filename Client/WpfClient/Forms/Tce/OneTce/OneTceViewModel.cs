@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
-        private bool _isInCreationMode;
         private TceS _tceInWork;
         public TceInfoViewModel TceInfoViewModel { get; set; } = new TceInfoViewModel();
         public TceSlotsViewModel TceSlotsViewModel { get; set; } = new TceSlotsViewModel();
@@ -27,11 +26,10 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = _isInCreationMode ? Resources.SID_Add_Equipment : Resources.SID_Settings;
+            DisplayName = Resources.SID_Settings;
         }
-        public void Initialize(TceS tce, bool isCreation)
+        public void Initialize(TceS tce)
         {
-            _isInCreationMode = isCreation;
             _tceInWork = tce;
             TceInfoViewModel.Initialize(tce);
             TceSlotsViewModel.Initialize(_readModel, tce);

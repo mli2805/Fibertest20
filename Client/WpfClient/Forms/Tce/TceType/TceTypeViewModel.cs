@@ -69,13 +69,13 @@ namespace Iit.Fibertest.Client
             var vm = new MyMessageBoxViewModel(MessageType.Confirmation,
                 new List<MyMessageBoxLineModel>()
                 {
-                    new MyMessageBoxLineModel(){ Line = "Изменение типа оборудования может привести к потере связей", FontWeight = FontWeights.Bold },
-                    new MyMessageBoxLineModel(){ Line = "порт RTU - интерфейс телекоммуникационного оборудования", FontWeight = FontWeights.Bold },
+                    new MyMessageBoxLineModel(){ Line = Resources.SID_Changing_the_type_of_equipment_can_lead_to_loss_of_links, FontWeight = FontWeights.Bold },
+                    new MyMessageBoxLineModel(){ Line = Resources.SID_RTU_port___telecommunication_equipment_interface, FontWeight = FontWeights.Bold },
                     new MyMessageBoxLineModel(){ Line = ""},
                     new MyMessageBoxLineModel(){ Line = ""},
-                    new MyMessageBoxLineModel(){ Line = "Изменения будут применены после сохранения в следующем окне."},
+                    new MyMessageBoxLineModel(){ Line = Resources.SID_Changes_will_be_applied_after_saving_in_the_next_window_},
                     new MyMessageBoxLineModel(){ Line = ""},
-                    new MyMessageBoxLineModel(){ Line = "Продолжить?"},
+                    new MyMessageBoxLineModel(){ Line = Resources.SID_Proceed_},
                 });
             _windowManager.ShowDialogWithAssignedOwner(vm);
 

@@ -1584,6 +1584,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes will be applied after saving in the next window..
+        /// </summary>
+        public static string SID_Changes_will_be_applied_after_saving_in_the_next_window_ {
+            get {
+                return ResourceManager.GetString("SID_Changes_will_be_applied_after_saving_in_the_next_window_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changing the type of equipment can lead to loss of links.
+        /// </summary>
+        public static string SID_Changing_the_type_of_equipment_can_lead_to_loss_of_links {
+            get {
+                return ResourceManager.GetString("SID_Changing_the_type_of_equipment_can_lead_to_loss_of_links", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channel.
         /// </summary>
         public static string SID_Channel {
@@ -6317,6 +6335,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proceed?.
+        /// </summary>
+        public static string SID_Proceed_ {
+            get {
+                return ResourceManager.GetString("SID_Proceed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pulse width - Tp:.
         /// </summary>
         public static string SID_Pulse_width {
@@ -6934,6 +6961,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_Manager_software_version {
             get {
                 return ResourceManager.GetString("SID_RTU_Manager_software_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU port - telecommunication equipment interface.
+        /// </summary>
+        public static string SID_RTU_port___telecommunication_equipment_interface {
+            get {
+                return ResourceManager.GetString("SID_RTU_port___telecommunication_equipment_interface", resourceCulture);
             }
         }
         

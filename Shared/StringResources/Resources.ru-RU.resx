@@ -3254,4 +3254,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Change_type" xml:space="preserve">
 		<value>Изменить тип</value>
 	</data>
+	<data name="SID_Changing_the_type_of_equipment_can_lead_to_loss_of_links" xml:space="preserve">
+		<value>Изменение типа оборудования может привести к потере связей</value>
+	</data>
+	<data name="SID_RTU_port___telecommunication_equipment_interface" xml:space="preserve">
+		<value>порт RTU - интерфейс телекоммуникационного оборудования</value>
+	</data>
+	<data name="SID_Changes_will_be_applied_after_saving_in_the_next_window_" xml:space="preserve">
+		<value>Изменения будут применены после сохранения в следующем окне.</value>
+	</data>
+	<data name="SID_Proceed_" xml:space="preserve">
+		<value>Продолжить?</value>
+	</data>
 </root>

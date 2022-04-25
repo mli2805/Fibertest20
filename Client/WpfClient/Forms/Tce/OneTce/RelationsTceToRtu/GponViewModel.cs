@@ -27,18 +27,6 @@ namespace Iit.Fibertest.Client
         {
             GponInWork = gponModel;
             GponInWork.PropertyChanged += GponInWork_PropertyChanged;
-
-            // Rtus = _readModel.Rtus;
-            // CollectOtausOnRtuChanged(GponInWork.Rtu);
-            // if (GponInWork.Otau != null && GponInWork.Rtu.RtuMaker == RtuMaker.IIT)
-            // {
-            //     // have to assign newly created instance of otau for binding purposes
-            //     var temp = gponModel.OtauPortNumberStr;
-            //     GponInWork.Otau = Otaus.FirstOrDefault(o => o.Id == GponInWork.Otau.Id);
-            //     GponInWork.OtauPortNumberStr = temp;
-            // }
-            //
-            // GponInWork.Trace = gponModel.Trace;
         }
 
         private void GponInWork_PropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -29,7 +29,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             };
             var res = await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
             if (res.ReturnCode == ReturnCode.Ok)
-                res.ClientMeasurementId = Guid.Parse(request.id); // sorry for this
+                res.ClientMeasurementId = Guid.Parse(request.id);
             return res;
         }
 

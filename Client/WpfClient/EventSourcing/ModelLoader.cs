@@ -60,6 +60,8 @@ namespace Iit.Fibertest.Client
                 _opticalEventsDoubleViewModel.RenderMeasurementsFromSnapshot();
                 _networkEventsDoubleViewModel.RenderNetworkEvents();
                 _bopNetworkEventsDoubleViewModel.RenderBopNetworkEvents();
+                
+                _logFile.AppendLine($@"Gpon relations number: {_readModel.GponPortRelations.Count}");
 
                 return dto.LastIncludedEvent;
             }

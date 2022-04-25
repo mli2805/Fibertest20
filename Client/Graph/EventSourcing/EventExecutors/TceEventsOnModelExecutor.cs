@@ -61,6 +61,8 @@ namespace Iit.Fibertest.Graph
         public static string RemoveTce(this Model model, TceRemoved e)
         {
             var relations = model.GponPortRelations.Where(r => r.TceId == e.Id).ToList();
+            e.ExcludedTraceIds = relations.Select(r => r.TraceId).ToList();
+
             foreach (var relation in relations)
                 model.GponPortRelations.Remove(relation);
 

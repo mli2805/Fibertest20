@@ -168,7 +168,8 @@ namespace Iit.Fibertest.Client
                 ? FiberState.Suspicion : e.TraceState;
         }
 
-        public void UpdateTraceLinkPictogram(TceWithRelationsAddedOrUpdated e)
+        // traces link pictogram
+        public void AddOrUpdateTceWithRelation(TceWithRelationsAddedOrUpdated e)
         {
             foreach (var traceId in e.ExcludedTraceIds)
             {
@@ -192,6 +193,21 @@ namespace Iit.Fibertest.Client
                     return;
 
                 traceLeaf.IsTraceLinkedWithTce = true;
+            }
+        }
+
+        public void RemoveTce(TceRemoved e)
+        {
+            foreach (var traceId in e.ExcludedTraceIds)
+            {
+                var acceptable = ShouldAcceptEventForTrace(traceId);
+                if (acceptable == EventAcceptability.No) continue;
+
+                var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(traceId);
+                if (traceLeaf == null)
+                    return;
+
+                traceLeaf.IsTraceLinkedWithTce = false;
             }
         }
     }
