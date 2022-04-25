@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
             var ovm = _globalScope.Resolve<OneTceViewModel>();
             var tce = selectedTceType.CreateTce();
             ovm.Initialize(tce);
-            _windowManager.ShowDialogWithAssignedOwner(ovm);
+            _windowManager.ShowWindowWithAssignedOwner(ovm);
         }
 
         public void ChangeTceType()
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
 
             var ovm = _globalScope.Resolve<OneTceViewModel>();
             ovm.Initialize(SelectedTce);
-            _windowManager.ShowDialogWithAssignedOwner(ovm);
+            _windowManager.ShowWindowWithAssignedOwner(ovm);
         }
 
         private bool AskNewTceTypeSelection(out TceTypeStruct newTceType)
@@ -138,7 +138,7 @@ namespace Iit.Fibertest.Client
             if (SelectedTce == null) return;
             var vm = _globalScope.Resolve<OneTceViewModel>();
             vm.Initialize(SelectedTce);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public async void RemoveTce()

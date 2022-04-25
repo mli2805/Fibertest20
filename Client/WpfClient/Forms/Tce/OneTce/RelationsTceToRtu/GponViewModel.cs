@@ -6,6 +6,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -18,15 +19,18 @@ namespace Iit.Fibertest.Client
         public List<Rtu> Rtus { get; set; }
         public ObservableCollection<Otau> Otaus { get; set; } = new ObservableCollection<Otau>();
 
+        private Func<Trace, bool> _isTraceLinked;
+
         public GponViewModel(Model readModel)
         {
             _readModel = readModel;
         }
 
-        public void Initialize(GponModel gponModel)
+        public void Initialize(GponModel gponModel, Func<Trace, bool> isTraceLinked)
         {
             GponInWork = gponModel;
             GponInWork.PropertyChanged += GponInWork_PropertyChanged;
+            _isTraceLinked = isTraceLinked;
         }
 
         private void GponInWork_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -47,9 +51,25 @@ namespace Iit.Fibertest.Client
             }
 
             else if (e.PropertyName == @"OtauPortNumberStr" && GponInWork.Rtu != null
-                        && GponInWork.Otau != null && GponInWork.OtauPortNumberStr != "")
+                                                            && GponInWork.Otau != null)
             {
-                GponInWork.Trace = FindTrace();
+                if (GponInWork.OtauPortNumberStr != "")
+                {
+                    var trace = FindTrace();
+                    if (trace == null)
+                        GponInWork.Trace = null;
+
+                    else
+                    {
+                        GponInWork.Trace = trace;
+                        if (_isTraceLinked(trace))
+                            GponInWork.TraceAlreadyLinked = string.Format(Resources.SID_Trace___0___has_already_linked_to_another_interface, trace.Title);
+                    }
+                }
+                else
+                {
+                    GponInWork.Trace = null;
+                }
             }
         }
 
@@ -93,7 +113,7 @@ namespace Iit.Fibertest.Client
 
         public GponPortRelation GetGponPortRelation()
         {
-            if (GponInWork.Trace == null) return null;
+            // if (GponInWork.Trace == null || !string.IsNullOrEmpty(GponInWork.TraceAlreadyLinked)) return null;
 
             var otauPortDto = new OtauPortDto()
             {
@@ -115,7 +135,6 @@ namespace Iit.Fibertest.Client
                 otauPortDto.IsPortOnMainCharon = false;
                 otauPortDto.OtauId = GponInWork.Otau.Id.ToString();
             }
-
 
             return new GponPortRelation()
             {

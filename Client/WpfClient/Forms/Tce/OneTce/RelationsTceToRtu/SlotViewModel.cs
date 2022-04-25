@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
@@ -45,17 +46,21 @@ namespace Iit.Fibertest.Client
         public ObservableCollection<GponViewModel> Gpons { get; set; } =
             new ObservableCollection<GponViewModel>();
 
+        private Func<Trace, bool> _isTraceLinked;
+
         public SlotViewModel(Model readModel)
         {
             _readModel = readModel;
         }
 
-        public void Initialize(TceS tce, int slotPosition)
+        public void Initialize(TceS tce, int slotPosition, Func<Trace, bool> isTraceLinked)
         {
             Rtus = _readModel.Rtus;
             _tce = new TceS(tce);
             SlotPosition = slotPosition;
             InterfaceCount = tce.Slots.First(s => s.Position == slotPosition).GponInterfaceCount;
+
+            _isTraceLinked = isTraceLinked;
 
             InitializeGpons();
         }
@@ -92,7 +97,7 @@ namespace Iit.Fibertest.Client
                     lineModel.Trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == relation.TraceId);
                 }
 
-                lineViewModel.Initialize(lineModel);
+                lineViewModel.Initialize(lineModel, _isTraceLinked);
                 Gpons.Add(lineViewModel);
 
                 lineViewModel.GponInWork.PropertyChanged += GponInWork_PropertyChanged;
@@ -140,7 +145,7 @@ namespace Iit.Fibertest.Client
                 Tce = _tce
             };
 
-            line.Initialize(lineModel);
+            line.Initialize(lineModel, _isTraceLinked);
             Gpons.Add(line);
             line.GponInWork.PropertyChanged += GponInWork_PropertyChanged;
         }
@@ -152,7 +157,9 @@ namespace Iit.Fibertest.Client
 
         public IEnumerable<GponPortRelation> GetGponPortsRelations()
         {
-            return Gpons.Where(g => g.GponInWork.Trace != null).Select(gponViewModel => gponViewModel.GetGponPortRelation());
+            return Gpons.Where(g => g.GponInWork.Trace != null && 
+                                                string.IsNullOrEmpty(g.GponInWork.TraceAlreadyLinked))
+                        .Select(gponViewModel => gponViewModel.GetGponPortRelation());
         }
     }
 }

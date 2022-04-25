@@ -51,6 +51,7 @@ namespace Iit.Fibertest.Client
         }
 
         private Trace _trace;
+
         public Trace Trace
         {
             get => _trace;
@@ -58,14 +59,35 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _trace)) return;
                 _trace = value;
+                if (_trace == null)
+                    _traceAlreadyLinked = "";
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(TraceTitle));
                 NotifyOfPropertyChange(nameof(TraceColor));
             }
         }
 
-        public string TraceTitle => Trace?.Title ?? "";
-        public Brush TraceColor => Trace == null || Trace.State != FiberState.NotJoined ? Brushes.Black : Brushes.Blue;
+        private string _traceAlreadyLinked;
+        public string TraceAlreadyLinked
+        {
+            get => _traceAlreadyLinked;
+            set
+            {
+                if (value == _traceAlreadyLinked) return;
+                _traceAlreadyLinked = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(TraceTitle));
+                NotifyOfPropertyChange(nameof(TraceColor));
+            }
+        }
+
+        public string TraceTitle => !string.IsNullOrEmpty(TraceAlreadyLinked) 
+            ? TraceAlreadyLinked
+            : Trace?.Title ?? "";
+        public Brush TraceColor =>  !string.IsNullOrEmpty(TraceAlreadyLinked) 
+            ? Brushes.Red 
+            : Trace == null || Trace.State != FiberState.NotJoined 
+                ? Brushes.Black : Brushes.Blue;
         
 
         public void ClearRelation()

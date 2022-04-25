@@ -8487,6 +8487,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trace &quot;{0}&quot; has already linked to another interface.
+        /// </summary>
+        public static string SID_Trace___0___has_already_linked_to_another_interface {
+            get {
+                return ResourceManager.GetString("SID_Trace___0___has_already_linked_to_another_interface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trace &quot;{0}&quot; state is changed to &quot;{1}&quot; at {2}.
         /// </summary>
         public static string SID_Trace___0___state_is_changed_to___1___at__2_ {

@@ -3266,4 +3266,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Proceed_" xml:space="preserve">
 		<value>Продолжить?</value>
 	</data>
+	<data name="SID_Trace___0___has_already_linked_to_another_interface" xml:space="preserve">
+		<value>Трасса "{0}" уже связана с другим интерфейсом</value>
+	</data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -21,13 +22,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Initialize(Model readModel, TceS tce)
+        public void Initialize(Model readModel, TceS tce, Func<Trace, bool> isTraceLinked)
         {
             Slots = new List<SlotViewModel>();
             foreach (var slotPosition in tce.TceTypeStruct.SlotPositions)
             {
                 var slot = new SlotViewModel(readModel);
-                slot.Initialize(tce, slotPosition);
+                slot.Initialize(tce, slotPosition, isTraceLinked);
                 Slots.Add(slot);
 
             }

@@ -48,9 +48,7 @@ namespace Iit.Fibertest.Client
         public void LaunchTcesView()
         {
             _tcesViewModel.Initialize();
-            _windowManager.ShowDialogWithAssignedOwner(_tcesViewModel);
+            _windowManager.ShowWindowWithAssignedOwner(_tcesViewModel);
         }
-
-     
     }
 }

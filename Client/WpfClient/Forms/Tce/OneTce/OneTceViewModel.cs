@@ -32,7 +32,13 @@ namespace Iit.Fibertest.Client
         {
             _tceInWork = tce;
             TceInfoViewModel.Initialize(tce);
-            TceSlotsViewModel.Initialize(_readModel, tce);
+            TceSlotsViewModel.Initialize(_readModel, tce, IsTraceLinked);
+        }
+
+        private bool IsTraceLinked(Trace trace)
+        {
+            return trace.IsTraceLinkedWithTce
+                   || TceSlotsViewModel.Slots.Any(s => s.Gpons.Any(g => g.GponInWork.Trace?.TraceId == trace.TraceId));
         }
 
         public async void ButtonSave()
@@ -42,7 +48,7 @@ namespace Iit.Fibertest.Client
         public async void ButtonSaveAndClose()
         {
             if (await Save())
-                TryClose(true);
+                TryClose();
         }
 
         private async Task<bool> Save()
@@ -68,7 +74,7 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
-            TryClose(false);
+            TryClose();
         }
 
     }
