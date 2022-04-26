@@ -232,10 +232,10 @@
       <DependentUpon>RtuAutoBaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseViewModel.cs" />
-    <Compile Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoAnalysisParamsView.xaml.cs">
+    <Compile Include="Forms\SpecialMeasurements\Controls\AutoAnalysisParameters\AutoAnalysisParamsView.xaml.cs">
       <DependentUpon>AutoAnalysisParamsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoAnalysisParamsViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\AutoAnalysisParameters\AutoAnalysisParamsViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressView.xaml.cs">
       <DependentUpon>MeasurementProgressView.xaml</DependentUpon>
     </Compile>
@@ -826,7 +826,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoAnalysisParamsView.xaml">
+    <Page Include="Forms\SpecialMeasurements\Controls\AutoAnalysisParameters\AutoAnalysisParamsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
