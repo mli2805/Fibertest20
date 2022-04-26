@@ -12,7 +12,7 @@ using Microsoft.Win32;
 
 namespace Iit.Fibertest.Client
 {
-    public class AutoParametersViewModel : PropertyChangedBase, IDataErrorInfo
+    public class AutoAnalysisParamsViewModel : PropertyChangedBase, IDataErrorInfo
     {
         private readonly IWindowManager _windowManager;
         private IniFile _iniFile;
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public AutoParametersViewModel(IWindowManager windowManager)
+        public AutoAnalysisParamsViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;
         }

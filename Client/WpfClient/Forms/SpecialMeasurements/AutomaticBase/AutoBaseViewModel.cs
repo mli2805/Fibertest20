@@ -35,8 +35,9 @@ namespace Iit.Fibertest.Client
 
         public bool IsOpen { get; set; }
 
-        public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
-        public AutoParametersViewModel AutoParametersViewModel { get; set; }
+
+        public OtdrParametersTemplatesViewModel OtdrParametersTemplatesViewModel { get; set; }
+        public AutoAnalysisParamsViewModel AutoAnalysisParamsViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
         public bool IsShowRef { get; set; }
 
@@ -56,15 +57,16 @@ namespace Iit.Fibertest.Client
             _baseRefMessages = baseRefMessages;
 
             _clientMeasurementModel = new ClientMeasurementModel(currentUser, readModel);
-            AutoParametersViewModel = new AutoParametersViewModel(windowManager);
+            AutoAnalysisParamsViewModel = new AutoAnalysisParamsViewModel(windowManager);
+            OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
         }
 
         public bool Initialize(TraceLeaf traceLeaf)
         {
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _clientMeasurementModel.Initialize(traceLeaf, true);
-            OtdrParametersViewModel.Initialize(_clientMeasurementModel.Rtu.AcceptableMeasParams, _iniFile);
-            if (!AutoParametersViewModel.Initialize(_iniFile)) 
+            OtdrParametersTemplatesViewModel.Initialize(_clientMeasurementModel.Rtu);
+            if (!AutoAnalysisParamsViewModel.Initialize(_iniFile)) 
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
             IsShowRef = true;
@@ -83,7 +85,9 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
             MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
-            var dto = _clientMeasurementModel.PrepareDto(OtdrParametersViewModel.GetSelectedParameters(), OtdrParametersViewModel.GetVeexSelectedParameters());
+            var dto = _clientMeasurementModel
+                .PrepareDto(OtdrParametersTemplatesViewModel.GetSelectedParameters(),
+                    OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
             MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
 
@@ -145,11 +149,11 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
-            RftsParametersModel rftsParamsModel = AutoParametersViewModel.Model;
+            RftsParametersModel rftsParamsModel = AutoAnalysisParamsViewModel.Model;
             var paramAutoLt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoLT");
-            paramAutoLt.Value = double.Parse(AutoParametersViewModel.AutoLt);
+            paramAutoLt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoLt);
             var paramAutoRt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoRT");
-            paramAutoRt.Value = double.Parse(AutoParametersViewModel.AutoRt);
+            paramAutoRt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoRt);
 
             var sorData = SorData.FromBytes(sorBytes);
             sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());

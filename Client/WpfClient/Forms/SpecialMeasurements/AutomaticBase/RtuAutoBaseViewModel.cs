@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
 
         private readonly ClientMeasurementModel _clientMeasurementModel;
         public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
-        public AutoParametersViewModel AutoParametersViewModel { get; set; }
+        public AutoAnalysisParamsViewModel AutoAnalysisParamsViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
 
 
@@ -143,11 +143,11 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
-            RftsParametersModel rftsParamsModel = AutoParametersViewModel.Model;
+            RftsParametersModel rftsParamsModel = AutoAnalysisParamsViewModel.Model;
             var paramAutoLt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoLT");
-            paramAutoLt.Value = double.Parse(AutoParametersViewModel.AutoLt);
+            paramAutoLt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoLt);
             var paramAutoRt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoRT");
-            paramAutoRt.Value = double.Parse(AutoParametersViewModel.AutoRt);
+            paramAutoRt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoRt);
 
             var sorData = SorData.FromBytes(sorBytes);
             sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());

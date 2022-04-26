@@ -350,6 +350,42 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1. For traces 0.05 - 0.5 km long.
+        /// </summary>
+        public static string SID__1__For_traces_0_05___0_5_km_long {
+            get {
+                return ResourceManager.GetString("SID__1__For_traces_0_05___0_5_km_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. For traces 0.5 - 5 km long.
+        /// </summary>
+        public static string SID__2__For_traces_0_5___5_km_long {
+            get {
+                return ResourceManager.GetString("SID__2__For_traces_0_5___5_km_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. For traces 5 - 10 km long.
+        /// </summary>
+        public static string SID__3__For_traces_5___10_km_long {
+            get {
+                return ResourceManager.GetString("SID__3__For_traces_5___10_km_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4. For traces 10 - 20 km long.
+        /// </summary>
+        public static string SID__4__For_traces_10___20_km_long {
+            get {
+                return ResourceManager.GetString("SID__4__For_traces_10___20_km_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (abs.).
         /// </summary>
         public static string SID__abs__ {
@@ -923,6 +959,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Authentication {
             get {
                 return ResourceManager.GetString("SID_Authentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attention! It is not recommended to set automatic base for traces having &apos;splices&apos; with attenuation more than 1 dB.
+        /// </summary>
+        public static string SID_AutoBaseAttention {
+            get {
+                return ResourceManager.GetString("SID_AutoBaseAttention", resourceCulture);
             }
         }
         

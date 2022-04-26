@@ -3269,4 +3269,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Trace___0___has_already_linked_to_another_interface" xml:space="preserve">
 		<value>Трасса "{0}" уже связана с другим интерфейсом</value>
 	</data>
+	<data name="SID__1__For_traces_0_05___0_5_km_long" xml:space="preserve">
+		<value>1. Для линий длиной  0.05 - 0.5 км</value>
+	</data>
+	<data name="SID__2__For_traces_0_5___5_km_long" xml:space="preserve">
+		<value>2. Для линий длиной  0.5 - 5 км</value>
+	</data>
+	<data name="SID__3__For_traces_5___10_km_long" xml:space="preserve">
+		<value>3. Для линий длиной  5 - 10 км</value>
+	</data>
+	<data name="SID__4__For_traces_10___20_km_long" xml:space="preserve">
+		<value>4. Для линий длиной  10 - 20 км</value>
+	</data>
+	<data name="SID_AutoBaseAttention" xml:space="preserve">
+		<value>Внимание! Не рекомендуется использовать режим автоматического задания базовых для трасс имеющих "проключения" с затуханием более 1 дБ</value>
+	</data>
 </root>

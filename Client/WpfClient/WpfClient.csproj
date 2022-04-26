@@ -222,18 +222,25 @@
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseRefLandmarksTool.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\ClientMeasurementModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesView.xaml.cs">
+      <DependentUpon>OtdrParametersTemplatesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml.cs">
       <DependentUpon>RtuAutoBaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseViewModel.cs" />
-    <Compile Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoParametersView.xaml.cs">
-      <DependentUpon>AutoParametersView.xaml</DependentUpon>
+    <Compile Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoAnalysisParamsView.xaml.cs">
+      <DependentUpon>AutoAnalysisParamsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoParametersViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoAnalysisParamsViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressView.xaml.cs">
       <DependentUpon>MeasurementProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParamTemplatesProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\ModelToRftsParams.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParametersModels.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsApplier.cs" />
@@ -811,11 +818,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoParametersView.xaml">
+    <Page Include="Forms\SpecialMeasurements\Controls\AutoParameters\AutoAnalysisParamsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
