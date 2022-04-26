@@ -11,6 +11,7 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
+using Iit.Fibertest.WpfCommonViews.OtdrParams;
 
 namespace Iit.Fibertest.Client
 {

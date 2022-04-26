@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews.OtdrParams
 {
     public class OtdrParametersViewModel : PropertyChangedBase
     {

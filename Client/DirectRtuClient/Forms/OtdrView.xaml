@@ -22,7 +22,8 @@
             <StackPanel>
                 <Button Name="LaunchOtdrParamView" Content="Param" Margin="5" IsEnabled="{Binding IsOtdrConnected}"/>
                 <CheckBox IsChecked="{Binding ShouldForceLmax, Mode=TwoWay}" Content="Force Lmax" Margin="5,8,5,5" IsEnabled="{Binding IsOtdrConnected}"/>
-                <Button Name="StartMeasurement" Content="Start measurement with parameters from ini files" Margin="5" IsEnabled="{Binding IsOtdrConnected}"/>
+                <Button Name="StartMeasurement" Content="Start measurement with parameters from ini files" Margin="5" 
+                        IsEnabled="{Binding IsOtdrConnected}"/>
                 <DockPanel>
                     <Button Name="ChooseMeasFilename" Content="Meas will be saved as" Width="130" Margin="5"/>
                     <TextBlock Name="CurrentFileNameTextBox" Text="{Binding MeasFileName}" Margin="5" Background="AliceBlue"/>

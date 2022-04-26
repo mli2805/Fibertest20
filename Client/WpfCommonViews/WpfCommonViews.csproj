@@ -138,6 +138,11 @@
       <DependentUpon>MyMessageBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MyMessageBox\MyMessageBoxViewModel.cs" />
+    <Compile Include="OtdrParams\OtdrParametersModel.cs" />
+    <Compile Include="OtdrParams\OtdrParametersView.xaml.cs">
+      <DependentUpon>OtdrParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OtdrParams\OtdrParametersViewModel.cs" />
     <Compile Include="RftsEvents\ForTableConvertor.cs" />
     <Compile Include="RftsEvents\OneLevelTableContent.cs" />
     <Compile Include="RftsEvents\LevelsContent.cs" />
@@ -181,6 +186,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MyMessageBox\MyMessageBoxView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OtdrParams\OtdrParametersView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

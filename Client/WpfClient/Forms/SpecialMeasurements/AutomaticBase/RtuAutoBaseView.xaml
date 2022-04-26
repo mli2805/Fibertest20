@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:otdrParams="clr-namespace:Iit.Fibertest.WpfCommonViews.OtdrParams;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         >
@@ -14,7 +15,7 @@
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Width="100" Height="22"/>
         </StackPanel>
 
-        <client:OtdrParametersView DockPanel.Dock="Top" DataContext="{Binding OtdrParametersViewModel}"/>
+        <otdrParams:OtdrParametersView DockPanel.Dock="Top" DataContext="{Binding OtdrParametersViewModel}"/>
         <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding AutoParametersViewModel}"/>
         <CheckBox DockPanel.Dock="Top"  Margin="25, 15,5,15" Content="{x:Static stringResources:Resources.SID_Show_reflectogram_on_completion}" IsChecked="{Binding IsShowRef}"/>
         <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"

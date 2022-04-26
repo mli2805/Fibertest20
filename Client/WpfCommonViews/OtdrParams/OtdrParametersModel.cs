@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews.OtdrParams
 {
     public class OtdrParametersModel : PropertyChangedBase
     {
