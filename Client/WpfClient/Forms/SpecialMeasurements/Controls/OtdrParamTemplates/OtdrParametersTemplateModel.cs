@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -45,7 +47,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<OtdrParametersTemplate> OtdrParametersTemplates { get; set; }
+        public List<OtdrParametersTemplate> OtdrParametersTemplates { get; set; } = new List<OtdrParametersTemplate>();
 
         public OtdrParametersTemplate SelectedOtdrParametersTemplate
         {
@@ -55,6 +57,26 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _selectedOtdrParametersTemplate)) return;
                 _selectedOtdrParametersTemplate = value;
                 NotifyOfPropertyChange();
+            }
+        }
+
+        public void Initialize(Rtu rtu)
+        {
+            OtdrParametersTemplates.Clear();
+            var templates = OtdrParamTemplatesProvider.Get(rtu);
+            foreach (var template in templates)
+            {
+                template.PropertyChanged += Template_PropertyChanged;
+                OtdrParametersTemplates.Add(template);
+            }
+            SelectedOtdrParametersTemplate = OtdrParametersTemplates.First(t => t.IsChecked);
+        }
+
+        private void Template_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == @"IsChecked")
+            {
+                SelectedOtdrParametersTemplate = OtdrParametersTemplates.First(t => t.IsChecked);
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(Rtu rtu)
         {
             _rtu = rtu;
-            Model.OtdrParametersTemplates = OtdrParamTemplatesProvider.Get(rtu);
+            Model.Initialize(rtu);
 
             var opUnit = _iniFile.Read(IniSection.OtdrParameters, IniKey.OpUnit, 0);
             Model.Units = rtu.AcceptableMeasParams.Units.Keys.ToList();

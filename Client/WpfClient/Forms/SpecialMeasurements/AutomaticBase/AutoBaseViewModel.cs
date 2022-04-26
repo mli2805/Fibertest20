@@ -21,7 +21,6 @@ namespace Iit.Fibertest.Client
     public class AutoBaseViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
@@ -41,13 +40,12 @@ namespace Iit.Fibertest.Client
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
         public bool IsShowRef { get; set; }
 
-        public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
+        public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
             IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
-            CurrentUser currentUser, Model readModel, 
+            CurrentUser currentUser, Model readModel,
             AutoBaseRefLandmarksTool autoBaseRefLandmarksTool, BaseRefMessages baseRefMessages)
         {
             _globalScope = globalScope;
-            _iniFile = iniFile;
             _logFile = logFile;
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
@@ -65,12 +63,23 @@ namespace Iit.Fibertest.Client
         {
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _clientMeasurementModel.Initialize(traceLeaf, true);
+
             OtdrParametersTemplatesViewModel.Initialize(_clientMeasurementModel.Rtu);
-            if (!AutoAnalysisParamsViewModel.Initialize(_iniFile)) 
+            OtdrParametersTemplatesViewModel.Model.PropertyChanged += Model_PropertyChanged;
+            if (!AutoAnalysisParamsViewModel.Initialize(OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id))
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
             IsShowRef = true;
             return true;
+        }
+
+        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == @"SelectedOtdrParametersTemplate")
+            {
+                AutoAnalysisParamsViewModel.Initialize(OtdrParametersTemplatesViewModel.Model
+                    .OtdrParametersTemplates.First(t => t.IsChecked).Id);
+            }
         }
 
         protected override void OnViewLoaded(object view)
@@ -123,7 +132,7 @@ namespace Iit.Fibertest.Client
                 {
                     var firstLine = measResult.ReturnCode != ReturnCode.Ok
                         ? measResult.ReturnCode.GetLocalizedString()
-                        : @"Failed to do Measurement(Client)!";
+                        : Resources.SID_Failed_to_do_Measurement_Client__;
 
                     var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
                     {
@@ -132,6 +141,7 @@ namespace Iit.Fibertest.Client
                         measResult.ErrorMessage,
                     }, 0);
                     _windowManager.ShowDialogWithAssignedOwner(vm);
+                    MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
                     return;
                 }
 

@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" Top="120" Left="720" ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight" Top="60" Left="720" ResizeMode="NoResize"
         d:DataContext="{d:DesignData AutoBaseViewModel}">
     <DockPanel >
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
@@ -17,7 +17,7 @@
         <TextBlock DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Width="400" Margin="5, 10"
                    Text="{x:Static stringResources:Resources.SID_AutoBaseAttention}"/>
         <client:OtdrParametersTemplatesView DockPanel.Dock="Top" DataContext="{Binding OtdrParametersTemplatesViewModel}"/>
-        <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding AutoParametersViewModel}"/>
+        <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding AutoAnalysisParamsViewModel}"/>
         <CheckBox DockPanel.Dock="Top"  Margin="25, 15,5,15" IsChecked="{Binding IsShowRef}"
                   Content="{x:Static stringResources:Resources.SID_Show_reflectogram_on_completion}" />
         <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"

@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
-using Microsoft.Win32;
 
 namespace Iit.Fibertest.Client
 {
     public class AutoAnalysisParamsViewModel : PropertyChangedBase, IDataErrorInfo
     {
         private readonly IWindowManager _windowManager;
-        private IniFile _iniFile;
-        private string _defaultFileName;
         private string _templateFileName;
         public RftsParametersModel Model;
         private string _autoLt;
@@ -49,42 +45,12 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public bool Initialize(IniFile iniFile)
+        public bool Initialize(int templateId)
         {
-            _iniFile = iniFile;
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
-            _defaultFileName = clientPath + @"\ini\RftsParamsDefaultTemplate.rft";
+            _templateFileName = clientPath + $@"\ini\RftsParamsDefaultTemplate#{templateId}.rft";
 
-            _templateFileName = iniFile.Read(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, _defaultFileName);
-            if (!DisplayParametersFromTemplateFile())
-            {
-                return SelectFileName(Path.GetDirectoryName(_defaultFileName), out _templateFileName) && DisplayParametersFromTemplateFile();
-            }
-            return true;
-        }
-
-        public void LoadFromTemplate()
-        {
-            var initialDir = Path.GetDirectoryName(_templateFileName) ?? AppDomain.CurrentDomain.BaseDirectory;
-
-            if (SelectFileName(initialDir, out _templateFileName))
-            {
-                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToRftsParamsTemplate, _templateFileName);
-                DisplayParametersFromTemplateFile();
-            }
-        }
-
-        private bool SelectFileName(string initialDir, out string filename)
-        {
-            var openFileDialog = new OpenFileDialog
-            {
-                InitialDirectory = initialDir,
-                DefaultExt = @".rft",
-                Filter = @"Template file  |*.rft"
-            };
-            var result = openFileDialog.ShowDialog() == true;
-            filename = result ? openFileDialog.FileName : "";
-            return result;
+            return DisplayParametersFromTemplateFile();
         }
 
         public void SaveInTemplate()
