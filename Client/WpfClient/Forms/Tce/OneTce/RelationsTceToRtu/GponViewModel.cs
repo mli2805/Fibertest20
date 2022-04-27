@@ -129,11 +129,14 @@ namespace Iit.Fibertest.Client
             {
                 otauPortDto.IsPortOnMainCharon = true;
                 otauPortDto.OtauId = GponInWork.Otau.RtuId.ToString();
+                otauPortDto.Serial = GponInWork.Rtu.Serial;
             }
             else
             {
                 otauPortDto.IsPortOnMainCharon = false;
                 otauPortDto.OtauId = GponInWork.Otau.Id.ToString();
+                if (GponInWork.Rtu.RtuMaker == RtuMaker.IIT)
+                    otauPortDto.Serial = _readModel.Otaus.FirstOrDefault(o => o.Id == GponInWork.Otau.Id)?.Serial;
             }
 
             return new GponPortRelation()
