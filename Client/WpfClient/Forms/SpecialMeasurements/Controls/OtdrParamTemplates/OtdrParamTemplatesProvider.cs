@@ -26,7 +26,8 @@ namespace Iit.Fibertest.Client
                     Id = 2,
                     Title = Resources.SID__2__For_traces_0_5___5_km_long,
                     Lmax = "10",
-                    Dl = "0.32",
+                    // Dl = "0.32",
+                    Dl = "0.26",
                     Tp = "25",
                     Time = "00:15",
 

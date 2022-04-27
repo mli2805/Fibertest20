@@ -19,6 +19,11 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="MeasurementClient" Margin="5">
+            <Button Name="StartMeasurementClient" Content="Start measurement (Client)" Margin="5" 
+                    IsEnabled="{Binding IsOtdrConnected}"/>
+
+        </GroupBox>
+        <GroupBox Header="Measurement with parameters in ini on RTU" Margin="5">
             <StackPanel>
                 <Button Name="LaunchOtdrParamView" Content="Param" Margin="5" IsEnabled="{Binding IsOtdrConnected}"/>
                 <CheckBox IsChecked="{Binding ShouldForceLmax, Mode=TwoWay}" Content="Force Lmax" Margin="5,8,5,5" IsEnabled="{Binding IsOtdrConnected}"/>

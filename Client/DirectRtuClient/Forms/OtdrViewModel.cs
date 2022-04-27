@@ -23,6 +23,7 @@ namespace DirectRtuClient
         public string IpAddress { get; set; }
 
         public OtdrManager OtdrManager { get; set; }
+        public TreeOfAcceptableMeasParams Tree;
 
         public bool ShouldForceLmax { get; set; } = true;
 
@@ -161,10 +162,17 @@ namespace DirectRtuClient
             using (new WaitCursor())
             {
                 await Task.Run(() => OtdrManager.ConnectOtdr(IpAddress));
+                Tree = OtdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
                 IsOtdrConnected = OtdrManager.IsOtdrConnected;
             }
         }
 
+        public void StartMeasurementClient()
+        {
+
+        }
+
+        // метод с установкой параметров напрямую в ини файле модуля
         public void LaunchOtdrParamView()
         {
             var vm = new OtdrParametersDirectSetterViewModel(OtdrManager.InterOpWrapper);

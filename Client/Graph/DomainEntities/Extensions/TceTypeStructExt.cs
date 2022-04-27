@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Graph
                 SoftwareVersion = @"MA5600V800R013C00",
                 Code = @"Huawei_MA5608T_R013", // investigated 2021
                 // SlotCount = 2,
-                SlotPositions = new[] { 1, 2 },
+                SlotPositions = new[] { 0, 1 },
                 GponInterfaceNumerationFrom = 0,
                 Comment = "",
             };

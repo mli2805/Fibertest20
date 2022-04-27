@@ -1,7 +1,6 @@
-﻿using System;
-using Caliburn.Micro;
-using Iit.Fibertest.Graph;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WpfCommonViews.OtdrParams;
 
 namespace DirectRtuClient
 {
@@ -12,6 +11,7 @@ namespace DirectRtuClient
 
         private readonly IMyLog _rtuLogger;
         private static IniFile _iniFile35;
+        public OtdrParametersViewModel OtdrParametersViewModel { get; set; } = new OtdrParametersViewModel();
 
         public ShellViewModel()
         {
@@ -22,14 +22,6 @@ namespace DirectRtuClient
 
             IpAddress = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauIp, @"192.168.96.53");
 
-
-            var str = @"Test string Тестовая строка 1234567890 !№);%:?*()";
-            var bytes = Cryptography.Encode(str);
-            var str2 = (string)Cryptography.Decode(bytes);
-            if (str != str2)
-            {
-                Console.WriteLine(@"Error!");
-            }
         }
 
         public void ParseView()

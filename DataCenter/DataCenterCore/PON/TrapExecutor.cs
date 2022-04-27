@@ -2,36 +2,32 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using SnmpSharpNet;
 
 namespace Iit.Fibertest.DataCenterCore
 {
     public class TrapExecutor
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly TrapParser _trapParser;
         private readonly OutOfTurnQueue _outOfTurnQueue;
-        private readonly ID2RWcfManager _d2RWcfManager;
-        private readonly RtuStationsRepository _rtuStationsRepository;
+        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public TrapExecutor(IniFile iniFile, IMyLog logFile, Model writeModel,
+        public TrapExecutor( IMyLog logFile, Model writeModel,
             TrapParser trapParser, OutOfTurnQueue outOfTurnQueue,
-            ID2RWcfManager d2RWcfManager, RtuStationsRepository rtuStationsRepository)
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
             _writeModel = writeModel;
             _trapParser = trapParser;
             _outOfTurnQueue = outOfTurnQueue;
-            _d2RWcfManager = d2RWcfManager;
-            _rtuStationsRepository = rtuStationsRepository;
+            _clientToRtuTransmitter = clientToRtuTransmitter;
+            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
         public async Task Process(SnmpV2Packet pkt, EndPoint endPoint)
@@ -60,8 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
             }
 
-            var trace = _writeModel.Traces.FirstOrDefault(t =>t.OtauPort != null &&
-                    t.OtauPort.Serial == relation.OtauPortDto.Serial && t.OtauPort.OpticalPort == relation.OtauPortDto.OpticalPort);
+            var trace = _writeModel.Traces.FirstOrDefault(t =>t.TraceId == relation.TraceId);
             if (trace == null)
             {
                 _logFile.AppendLine($"There is no trace on gpon interface {res.GponInterface}");
@@ -82,10 +77,12 @@ namespace Iit.Fibertest.DataCenterCore
 
             _outOfTurnQueue.Requests.Enqueue(dto);
 
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses != null)
-                await _d2RWcfManager.SetRtuAddresses(rtuAddresses, _iniFile, _logFile)
-                    .DoOutOfTurnPreciseMeasurementAsync(dto);
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return;
+
+            var unused =  rtu.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
+                : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
     }
 }
