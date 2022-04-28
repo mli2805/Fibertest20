@@ -3287,4 +3287,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Failed_to_do_Measurement_Client__" xml:space="preserve">
 		<value>Не удалось провести Измерение (Client)!</value>
 	</data>
+	<data name="SID_Splice_loss_dB" xml:space="preserve">
+		<value>Затухание в событии (LT), (1 - 4 dB)</value>
+	</data>
+	<data name="SID_Reflectance_dB" xml:space="preserve">
+		<value>Коэффициет отражения (RT), (-40 - -25 дБ)</value>
+	</data>
 </root>

@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly CurrentUser _currentUser;
         private ObservableCollection<TceS> _tces;
 
         public ObservableCollection<TceS> Tces
@@ -40,8 +41,8 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _currentUser = currentUser;
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
-            IsEnabled = currentUser.Role <= Role.Root;
         }
 
         private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -51,6 +52,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize()
         {
+            IsEnabled = _currentUser.Role <= Role.Root;
             Tces = new ObservableCollection<TceS>(_readModel.TcesNew);
             if (Tces.Count > 0)
                 SelectedTce = Tces.First();

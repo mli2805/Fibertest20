@@ -6461,6 +6461,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reflectance, dB.
+        /// </summary>
+        public static string SID_Reflectance_dB {
+            get {
+                return ResourceManager.GetString("SID_Reflectance_dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reflectogram.
         /// </summary>
         public static string SID_Reflectogram {
@@ -7853,6 +7862,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Space_available___0_ {
             get {
                 return ResourceManager.GetString("SID_Space_available___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Splice loss, dB.
+        /// </summary>
+        public static string SID_Splice_loss_dB {
+            get {
+                return ResourceManager.GetString("SID_Splice_loss_dB", resourceCulture);
             }
         }
         

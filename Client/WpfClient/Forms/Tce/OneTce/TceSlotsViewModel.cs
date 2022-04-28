@@ -22,13 +22,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Initialize(Model readModel, TceS tce, Func<Trace, bool> isTraceLinked)
+        public void Initialize(Model readModel, TceS tce, Func<Trace, bool> isTraceLinked, bool isEnabled)
         {
             Slots = new List<SlotViewModel>();
             foreach (var slotPosition in tce.TceTypeStruct.SlotPositions)
             {
                 var slot = new SlotViewModel(readModel);
-                slot.Initialize(tce, slotPosition, isTraceLinked);
+                slot.Initialize(tce, slotPosition, isTraceLinked, isEnabled);
                 Slots.Add(slot);
 
             }

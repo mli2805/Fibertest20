@@ -12,7 +12,7 @@
         <StackPanel Margin="0,0,40,10">
             <TextBlock Margin="15,10" TextWrapping="Wrap" Width="370" Text="{x:Static stringResources:Resources.SID_Event_detection_thresholds}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_AutoLT}" Margin="5" />
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Splice_loss_dB}" Margin="5" />
                 <TextBox Width="80" Margin="5">
                     <TextBox.Text>
                         <Binding Path="AutoLt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ConverterCulture="en-US">
@@ -24,7 +24,7 @@
                 </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_AutoRT}" Margin="5"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Reflectance_dB}" Margin="5"/>
                 <TextBox Width="80" Margin="5">
                     <TextBox.Text>
                         <Binding Path="AutoRt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ConverterCulture="en-US">

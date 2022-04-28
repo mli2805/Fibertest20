@@ -5,7 +5,18 @@ namespace Iit.Fibertest.Client
 {
     public class TceInfoViewModel : PropertyChangedBase
     {
-        public string Title { get; set; }
+        private string _title;
+
+        public string Title 
+        {
+            get => _title;
+            set
+            {
+                if (value == _title) return;
+                _title = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public Ip4InputViewModel Ip4InputViewModel { get; set; }
 
@@ -13,13 +24,27 @@ namespace Iit.Fibertest.Client
 
         public TceS Tce { get; set; }
 
-        public void Initialize(TceS tce)
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public void Initialize(TceS tce, bool isEnabled)
         {
             Tce = tce;
 
             Title = tce.Title;
             Ip4InputViewModel = new Ip4InputViewModel(tce.Ip);
             Comment = tce.Comment;
+
+            IsEnabled = isEnabled;
         }
     }
 }

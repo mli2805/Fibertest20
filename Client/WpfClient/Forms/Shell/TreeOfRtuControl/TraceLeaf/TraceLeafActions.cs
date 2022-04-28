@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
                 return;
             var vm = _globalScope.Resolve<TraceInfoViewModel>();
             await vm.Initialize(traceLeaf.Id, trace.EquipmentIds, trace.NodeIds, false);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public async Task ShowTrace(object param)

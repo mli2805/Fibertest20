@@ -48,12 +48,24 @@ namespace Iit.Fibertest.Client
 
         private Func<Trace, bool> _isTraceLinked;
 
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public SlotViewModel(Model readModel)
         {
             _readModel = readModel;
         }
 
-        public void Initialize(TceS tce, int slotPosition, Func<Trace, bool> isTraceLinked)
+        public void Initialize(TceS tce, int slotPosition, Func<Trace, bool> isTraceLinked, bool isEnabled)
         {
             Rtus = _readModel.Rtus;
             _tce = new TceS(tce);
@@ -61,6 +73,7 @@ namespace Iit.Fibertest.Client
             InterfaceCount = tce.Slots.First(s => s.Position == slotPosition).GponInterfaceCount;
 
             _isTraceLinked = isTraceLinked;
+            IsEnabled = isEnabled;
 
             InitializeGpons();
         }

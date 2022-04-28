@@ -8,10 +8,10 @@
              mc:Ignorable="d"
              Width="320"
              d:DataContext="{d:DesignInstance client:TceInfoViewModel}">
-    <StackPanel Margin="5">
+    <StackPanel Margin="5" IsEnabled="{Binding IsEnabled}">
         <DockPanel Margin="5">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Width="80" Margin="5"/>
-            <TextBox Name="TextBoxTitle" Text="{Binding Title}"  Margin="5"/>
+            <TextBox Name="TextBoxTitle" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="5"/>
         </DockPanel>
         <DockPanel Margin="5">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Type}" Width="80" Margin="5"/>

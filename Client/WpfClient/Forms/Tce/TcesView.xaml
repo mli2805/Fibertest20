@@ -7,12 +7,12 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:graph="clr-namespace:Iit.Fibertest.Graph;assembly=Iit.Fibertest.Graph"
         mc:Ignorable="d"
-        Height="300" SizeToContent="Width" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Height="700" SizeToContent="Width" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignData TcesViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom">
             <Button DockPanel.Dock="Right" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" 
-                    IsDefault="True" Width="100" Margin="0,20,30,15"/>
+                    IsCancel="True" Width="100" Margin="0,20,30,15"/>
             <Button Visibility="Hidden" />
         </DockPanel>
         <DockPanel>
@@ -35,14 +35,17 @@
                 <Label Grid.Column="3" Content="{x:Static stringResources:Resources.SID_Slot_count}" Margin="0,-5,0,0" />
                 <Label Grid.Column="4" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
             </Grid>
-            <ListBox ItemsSource="{Binding Tces}" SelectedItem="{Binding SelectedTce, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}">
+            <ListBox ItemsSource="{Binding Tces}" SelectedItem="{Binding SelectedTce, Mode=TwoWay}" >
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Settings}" cal:Message.Attach="UpdateTceComponents" />
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Change_type}" cal:Message.Attach="ChangeTceType" />
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveTce" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Change_type}"
+                                  IsEnabled="{Binding IsEnabled}" cal:Message.Attach="ChangeTceType" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" 
+                                  IsEnabled="{Binding IsEnabled}" cal:Message.Attach="RemoveTce" />
                         <Separator />
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" cal:Message.Attach="AddTce" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" 
+                                  IsEnabled="{Binding IsEnabled}" cal:Message.Attach="AddTce" />
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
@@ -10,6 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class OneTceViewModel : Screen
     {
+        private readonly CurrentUser _currentUser;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
@@ -17,8 +19,11 @@ namespace Iit.Fibertest.Client
         public TceInfoViewModel TceInfoViewModel { get; set; } = new TceInfoViewModel();
         public TceSlotsViewModel TceSlotsViewModel { get; set; } = new TceSlotsViewModel();
 
-        public OneTceViewModel(IWcfServiceDesktopC2D c2DWcfManager, Model readModel, IWindowManager windowManager)
+        public bool IsSaveEnabled => !string.IsNullOrEmpty(TceInfoViewModel.Title) && _currentUser.Role <= Role.Root;
+
+        public OneTceViewModel(CurrentUser currentUser, IWcfServiceDesktopC2D c2DWcfManager, Model readModel, IWindowManager windowManager)
         {
+            _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
             _windowManager = windowManager;
@@ -31,8 +36,15 @@ namespace Iit.Fibertest.Client
         public void Initialize(TceS tce)
         {
             _tceInWork = tce;
-            TceInfoViewModel.Initialize(tce);
-            TceSlotsViewModel.Initialize(_readModel, tce, IsTraceLinked);
+            TceInfoViewModel.Initialize(tce, _currentUser.Role <= Role.Root);
+            TceInfoViewModel.PropertyChanged += TceInfoViewModel_PropertyChanged;
+            TceSlotsViewModel.Initialize(_readModel, tce, IsTraceLinked, _currentUser.Role <= Role.Root);
+        }
+
+        private void TceInfoViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == @"Title")
+                NotifyOfPropertyChange(nameof(IsSaveEnabled));
         }
 
         private bool IsTraceLinked(Trace trace)

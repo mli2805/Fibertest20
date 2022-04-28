@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
 
             var vm = _globalScope.Resolve<RtuUpdateViewModel>();
             vm.Initialize(rtuLeaf.Id);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public async Task HighlightRtu(object param)
