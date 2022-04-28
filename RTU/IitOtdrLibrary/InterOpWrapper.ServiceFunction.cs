@@ -93,7 +93,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             int cmd = (int)ServiceFunctionCommand.MeasConnParamsAndLmax; //749
             int prm1 = 1; // laserUnitIndex + 1;
 
-            var linkCharacteristics = new ConnectionParams() {snr_almax = 123.456F};
+            var linkCharacteristics = new ConnectionParams() {};
             GCHandle handle1 = GCHandle.Alloc(linkCharacteristics);
             IntPtr prm2 = GCHandle.ToIntPtr(handle1);
 
@@ -104,7 +104,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 return false;
             }
 
-            _rtuLogger.AppendLine($"Lmax {linkCharacteristics.snr_almax} ns");
+            const double lightSpeed = 0.000299792458; // km/ns
+            var res = prm1 * lightSpeed / 1.4682;
+
+            _rtuLogger.AppendLine($"prm1 = {prm1} ns;     Lmax {res} km");
             handle1.Free();
             return true;
         }

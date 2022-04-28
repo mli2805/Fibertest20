@@ -101,13 +101,13 @@ Scale
 Name
 EvtDetectDeltaLen
 Value
-9
+1
 Scale
-10000
+1000
 Name
 EvtRDetectDeltaLen
 Value
-4
+6
 Scale
 10000
 Name
