@@ -40,6 +40,20 @@ namespace Iit.Fibertest.Client
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
         public bool IsShowRef { get; set; }
 
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+                OtdrParametersTemplatesViewModel.IsEnabled = _isEnabled;
+                AutoAnalysisParamsViewModel.IsEnabled = _isEnabled;
+            }
+        }
+
         public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
             IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
             CurrentUser currentUser, Model readModel,
@@ -70,6 +84,7 @@ namespace Iit.Fibertest.Client
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
             IsShowRef = true;
+            IsEnabled = true;
             return true;
         }
 
@@ -89,10 +104,11 @@ namespace Iit.Fibertest.Client
 
         public async void Start()
         {
+            IsEnabled = false;
             IsOpen = true;
             MeasurementProgressViewModel.TraceTitle = _trace.Title;
             MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
-            MeasurementProgressViewModel.IsCancelButtonEnabled = false;
+            MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
             var dto = _clientMeasurementModel
                 .PrepareDto(OtdrParametersTemplatesViewModel.GetSelectedParameters(),
@@ -103,6 +119,9 @@ namespace Iit.Fibertest.Client
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.Ok)
             {
+                MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                MeasurementProgressViewModel.IsCancelButtonEnabled = false;
+                IsEnabled = true;
                 var vm = new MyMessageBoxViewModel(MessageType.Error, startResult.ErrorMessage);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
@@ -142,16 +161,18 @@ namespace Iit.Fibertest.Client
                     }, 0);
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
-                    return;
+                    IsEnabled = true;
+                    break;
                 }
 
                 if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
                 {
                     var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
                     ProcessMeasurementResult(measResultWithSorBytes.SorBytes);
-                    return;
+                    break;
                 }
             }
+
         }
 
         public async void ProcessMeasurementResult(byte[] sorBytes)

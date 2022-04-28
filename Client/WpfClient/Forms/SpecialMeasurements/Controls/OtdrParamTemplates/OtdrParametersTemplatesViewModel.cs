@@ -13,6 +13,18 @@ namespace Iit.Fibertest.Client
         public OtdrParametersTemplateModel Model { get; set; } = new OtdrParametersTemplateModel();
         private Rtu _rtu;
 
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public OtdrParametersTemplatesViewModel(IniFile iniFile)
         {
             _iniFile = iniFile;

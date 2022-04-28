@@ -40,6 +40,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public AutoAnalysisParamsViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;

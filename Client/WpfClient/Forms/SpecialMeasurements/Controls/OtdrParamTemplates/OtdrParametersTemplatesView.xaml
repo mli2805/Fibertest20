@@ -22,13 +22,15 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Border Margin="5" Width="450" BorderBrush="Gray" BorderThickness="1" CornerRadius="5">
+    <Border Margin="5" Width="450" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" 
+            IsEnabled="{Binding IsEnabled}">
         <StackPanel Margin="0,5">
             <TextBlock Margin="15,5" Text="{x:Static stringResources:Resources.SID_Measurement_parameters}"/>
             <DockPanel>
                 <TextBlock DockPanel.Dock="Right" Width="30" Margin="5"/>
                 <ComboBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                              ItemsSource="{Binding Model.Units}" SelectedItem="{Binding Model.SelectedUnit, Mode=TwoWay}"/>
+                              ItemsSource="{Binding Model.Units}" 
+                              SelectedItem="{Binding Model.SelectedUnit, Mode=TwoWay}"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Fiber_type_wavelength}" Margin="5" HorizontalAlignment="Right"/>
             </DockPanel>
             <DockPanel>
@@ -63,10 +65,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-
-
-
         </StackPanel>
     </Border>
 </UserControl>

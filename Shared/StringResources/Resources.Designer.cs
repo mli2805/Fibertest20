@@ -6461,7 +6461,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reflectance, dB.
+        ///   Looks up a localized string similar to Reflectance (RT), (-40 - -25 dB).
         /// </summary>
         public static string SID_Reflectance_dB {
             get {
@@ -7866,7 +7866,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Splice loss, dB.
+        ///   Looks up a localized string similar to Splice loss (LT), (1 - 4 dB).
         /// </summary>
         public static string SID_Splice_loss_dB {
             get {
