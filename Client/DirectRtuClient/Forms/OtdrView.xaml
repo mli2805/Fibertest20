@@ -18,14 +18,11 @@
                 <TextBlock Margin="5" Text="{Binding InitializationMessage}" Background="AliceBlue" TextWrapping="Wrap" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="MeasurementClient" Margin="5">
-            <Button Name="StartMeasurementClient" Content="Start measurement (Client)" Margin="5" 
-                    IsEnabled="{Binding IsOtdrConnected}"/>
-
-        </GroupBox>
+        <Button Name="AutoMeasurement" Content="Auto measurement" Margin="20, 5" 
+                IsEnabled="{Binding IsOtdrConnected}"/>
         <GroupBox Header="Measurement with parameters in ini on RTU" Margin="5">
             <StackPanel>
-                <Button Name="LaunchOtdrParamView" Content="Param" Margin="5" IsEnabled="{Binding IsOtdrConnected}"/>
+                <Button Name="LaunchOtdrParamView" Content="Select and save params on RTU" Margin="5" IsEnabled="{Binding IsOtdrConnected}"/>
                 <CheckBox IsChecked="{Binding ShouldForceLmax, Mode=TwoWay}" Content="Force Lmax" Margin="5,8,5,5" IsEnabled="{Binding IsOtdrConnected}"/>
                 <Button Name="StartMeasurement" Content="Start measurement with parameters from ini files" Margin="5" 
                         IsEnabled="{Binding IsOtdrConnected}"/>

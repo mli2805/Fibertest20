@@ -167,12 +167,12 @@ namespace DirectRtuClient
             }
         }
 
-        public void StartMeasurementClient()
+        public void AutoMeasurement()
         {
-
+            OtdrManager.GetLinkCharacteristics();
         }
 
-        // метод с установкой параметров напрямую в ини файле модуля
+        // при смене значения в комбобоксе параметр записывается напрямую в ини файле модуля
         public void LaunchOtdrParamView()
         {
             var vm = new OtdrParametersDirectSetterViewModel(OtdrManager.InterOpWrapper);

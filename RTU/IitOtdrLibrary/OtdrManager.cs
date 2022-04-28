@@ -8,7 +8,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 {
     public partial class OtdrManager
     {
-        private readonly string _iitotdrFolder;
+        private readonly string _iitOtdrFolder;
         private readonly IniFile _iniFile;
         private readonly IMyLog _rtuLogger;
 
@@ -18,11 +18,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public OtdrManager(string iitotdrFolder, IniFile iniFile, IMyLog rtuLogger)
         {
-            // service can't use relative path, get it obviously
-//            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-//            var appDir = Path.GetDirectoryName(appPath);
-//            _iitotdrFolder = appDir + "\\" + iitotdrFolder;
-            _iitotdrFolder = AppDomain.CurrentDomain.BaseDirectory + iitotdrFolder;
+            _iitOtdrFolder = AppDomain.CurrentDomain.BaseDirectory + iitotdrFolder;
 
             _iniFile = iniFile;
             _rtuLogger = rtuLogger;
@@ -31,7 +27,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public string LoadDll()
         {
-            var dllPath = Path.Combine(_iitotdrFolder, @"iit_otdr.dll");
+            var dllPath = Path.Combine(_iitOtdrFolder, @"iit_otdr.dll");
             var handle = Native.LoadLibrary(dllPath);
             string message;
             if (handle == IntPtr.Zero)
@@ -55,20 +51,20 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _rtuLogger.AppendLine("Etc restore problem.");
                 return false;
             }
-            IsLibraryInitialized = InterOpWrapper.InitDll(_iitotdrFolder);
+            IsLibraryInitialized = InterOpWrapper.InitDll(_iitOtdrFolder);
             _rtuLogger.AppendLine(IsLibraryInitialized ? "Library initialized successfully!" : "Library initialization failed!");
             return IsLibraryInitialized;
         }
 
         private bool RestoreEtc()
         {
-            var destinationPath = Path.Combine(_iitotdrFolder, @"ETC");
+            var destinationPath = Path.Combine(_iitOtdrFolder, @"ETC");
             if (!Directory.Exists(destinationPath))
             {
                 _rtuLogger.AppendLine($"Can't work without <{destinationPath}> folder!");
                 return false;
             }
-            var sourcePath = _iitotdrFolder + "\\ETC_default";
+            var sourcePath = _iitOtdrFolder + "\\ETC_default";
             if (!Directory.Exists(sourcePath))
             {
                 _rtuLogger.AppendLine($"Can't work without <{sourcePath}> folder!");
@@ -78,8 +74,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
             foreach (var file in files)
             {
                 var sourceFile = Path.GetFileName(file);
-//                if (sourceFile == null)
-//                    return false;
                 var destFile = Path.Combine(destinationPath, sourceFile);
                 File.Copy(file, destFile, true);
             }

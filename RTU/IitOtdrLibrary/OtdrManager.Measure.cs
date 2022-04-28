@@ -172,5 +172,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 ? parameters | parameter
                 : parameters & ~parameter;
         }
+
+        public void GetLinkCharacteristics()
+        {
+            InterOpWrapper.GetLinkCharacteristics();
+
+        }
     }
 }

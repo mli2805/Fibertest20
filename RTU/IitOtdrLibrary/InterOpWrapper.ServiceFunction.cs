@@ -88,6 +88,25 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result == 0;
         }
 
+        public bool GetLinkCharacteristics()
+        {
+            int cmd = (int)ServiceFunctionCommand.MeasConnParamsAndLmax; //749
+            int prm1 = 1; // laserUnitIndex + 1;
 
+            var linkCharacteristics = new ConnectionParams() {snr_almax = 123.456F};
+            GCHandle handle1 = GCHandle.Alloc(linkCharacteristics);
+            IntPtr prm2 = GCHandle.ToIntPtr(handle1);
+
+            var result = ServiceFunction(cmd, ref prm1, ref prm2);
+            if (result != 1)
+            {
+                _rtuLogger.AppendLine($"GetLinkCharacteristics error={result}!");
+                return false;
+            }
+
+            _rtuLogger.AppendLine($"Lmax {linkCharacteristics.snr_almax} ns");
+            handle1.Free();
+            return true;
+        }
     }
 }

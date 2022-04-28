@@ -105,6 +105,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionParams.cs" />
     <Compile Include="InterOpWrapper.DataExchange.cs" />
     <Compile Include="InterOpWrapper.Initialization.cs" />
     <Compile Include="InterOpWrapper.Measure.cs" />
