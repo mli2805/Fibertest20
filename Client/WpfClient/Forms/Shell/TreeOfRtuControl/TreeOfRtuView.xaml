@@ -111,7 +111,7 @@
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type testBench:OtauLeaf}" 
                                           ItemsSource="{Binding ChildrenImpresario.EffectiveChildren}">
-                    <StackPanel Orientation="Horizontal" Margin="69,0,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="85,0,0,0">
                         <StackPanel.ContextMenu>
                             <ContextMenu 
                                 ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
