@@ -31,12 +31,16 @@
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Trace_removed}" Margin="5" IsChecked="{Binding IsTraceRemoved, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Base_ref_assigned}" Margin="5" IsChecked="{Binding IsBaseRefAssigned, Mode=TwoWay}"/>
                 <Separator/>
+                <CheckBox Content="TCE added" Margin="5" IsChecked="{Binding IsTceAdded, Mode=TwoWay}"/>
+                <CheckBox Content="TCE updated" Margin="5" IsChecked="{Binding IsTceUpdated, Mode=TwoWay}"/>
+                <CheckBox Content="TCE removed" Margin="5" IsChecked="{Binding IsTceRemoved, Mode=TwoWay}"/>
+                <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_settings_changed}" Margin="5" IsChecked="{Binding IsMonitoringSettingsChanged, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_started}" Margin="5" IsChecked="{Binding IsMonitoringStarted, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_stopped}" Margin="5" IsChecked="{Binding IsMonitoringStopped, Mode=TwoWay}"/>
                 <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Measurement_updated}" Margin="5" IsChecked="{Binding IsMeasurementUpdated, Mode=TwoWay}"/>
-             <Separator/>
+                <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Events_and_reflectogram_removal}" Margin="5" IsChecked="{Binding IsEventsAndSorsRemoved, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Db_restructuring}" Margin="5" IsChecked="{Binding IsSnapshotMade, Mode=TwoWay}"/>
             </StackPanel>

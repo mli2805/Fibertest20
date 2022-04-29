@@ -93,7 +93,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             int cmd = (int)ServiceFunctionCommand.MeasConnParamsAndLmax; //749
             int prm1 = 1; // laserUnitIndex + 1;
 
-            var linkCharacteristics = new ConnectionParams() {};
+            var linkCharacteristics = new ConnectionParams();
             GCHandle handle1 = GCHandle.Alloc(linkCharacteristics);
             IntPtr prm2 = GCHandle.ToIntPtr(handle1);
 

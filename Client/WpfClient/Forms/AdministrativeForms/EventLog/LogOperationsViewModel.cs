@@ -20,6 +20,9 @@ namespace Iit.Fibertest.Client
         private bool _isTraceDetached = true;
         private bool _isTraceCleaned = true;
         private bool _isTraceRemoved = true;
+        private bool _isTceAdded = true;
+        private bool _isTceUpdated = true;
+        private bool _isTceRemoved = true;
         private bool _isBaseRefAssigned = true;
         private bool _isMonitoringSettingsChanged = true;
         private bool _isMonitoringStarted = true;
@@ -28,6 +31,7 @@ namespace Iit.Fibertest.Client
         private bool _isHistoryCleared = true;
         private bool _isEventsAndSorsRemoved = true;
         private bool _isSnapshotMade = true;
+   
 
         public bool IsAll
         {
@@ -56,6 +60,9 @@ namespace Iit.Fibertest.Client
                    _isTraceDetached &&
                    _isTraceCleaned &&
                    _isTraceRemoved &&
+                   _isTceAdded &&
+                   _isTceUpdated &&
+                   _isTceRemoved &&
                    _isBaseRefAssigned &&
                    _isMonitoringSettingsChanged &&
                    _isMonitoringStarted &&
@@ -83,6 +90,10 @@ namespace Iit.Fibertest.Client
             IsTraceDetached = IsAll;
             IsTraceCleaned = IsAll;
             IsTraceRemoved = IsAll;
+
+            IsTceAdded = IsAll;
+            IsTceUpdated = IsAll;
+            IsTceRemoved = IsAll;
 
             IsBaseRefAssigned = IsAll;
             IsMonitoringSettingsChanged = IsAll;
@@ -245,6 +256,39 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isTraceRemoved) return;
                 _isTraceRemoved = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsTceAdded
+        {
+            get => _isTceAdded;
+            set
+            {
+                if (value == _isTceAdded) return;
+                _isTceAdded = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsTceUpdated
+        {
+            get => _isTceUpdated;
+            set
+            {
+                if (value == _isTceUpdated) return;
+                _isTceUpdated = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsTceRemoved
+        {
+            get => _isTceRemoved;
+            set
+            {
+                if (value == _isTceRemoved) return;
+                _isTceRemoved = value;
                 NotifyOfPropertyChange();
             }
         }

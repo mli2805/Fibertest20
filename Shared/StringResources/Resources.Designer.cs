@@ -4597,6 +4597,33 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to links added.
+        /// </summary>
+        public static string SID_links_added {
+            get {
+                return ResourceManager.GetString("SID_links_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to links exist.
+        /// </summary>
+        public static string SID_links_exist {
+            get {
+                return ResourceManager.GetString("SID_links_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to links removed.
+        /// </summary>
+        public static string SID_links_removed {
+            get {
+                return ResourceManager.GetString("SID_links_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List of SSL certificates installed in IIS.
         /// </summary>
         public static string SID_List_of_ssl_certificates {
@@ -8168,6 +8195,33 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_System_state {
             get {
                 return ResourceManager.GetString("SID_System_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TCE added.
+        /// </summary>
+        public static string SID_TCE_added {
+            get {
+                return ResourceManager.GetString("SID_TCE_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TCE removed.
+        /// </summary>
+        public static string SID_TCE_removed {
+            get {
+                return ResourceManager.GetString("SID_TCE_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TCE updated.
+        /// </summary>
+        public static string SID_TCE_updated {
+            get {
+                return ResourceManager.GetString("SID_TCE_updated", resourceCulture);
             }
         }
         

@@ -3106,7 +3106,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Изменить оборудование</value>
 	</data>
 	<data name="SID_Telecommunications_equipment" xml:space="preserve">
-		<value>Телекоммуникационное оборудование</value>
+		<value>Телекоммуникационное оборудование (TCE)</value>
 	</data>
 	<data name="SID_Equipment__0__will_be_deleted" xml:space="preserve">
 		<value>Оборудование {0} будет удалено</value>
@@ -3292,5 +3292,23 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Reflectance_dB" xml:space="preserve">
 		<value>Коэффициет отражения (RT), (-40 - -25 дБ)</value>
+	</data>
+	<data name="SID_links_added" xml:space="preserve">
+		<value>связей добавлено</value>
+	</data>
+	<data name="SID_links_exist" xml:space="preserve">
+		<value>связей существует</value>
+	</data>
+	<data name="SID_links_removed" xml:space="preserve">
+		<value>связей удалено</value>
+	</data>
+	<data name="SID_TCE_added" xml:space="preserve">
+		<value>TCE добавлено</value>
+	</data>
+	<data name="SID_TCE_updated" xml:space="preserve">
+		<value>TCE изменено</value>
+	</data>
+	<data name="SID_TCE_removed" xml:space="preserve">
+		<value>TCE удалено</value>
 	</data>
 </root>

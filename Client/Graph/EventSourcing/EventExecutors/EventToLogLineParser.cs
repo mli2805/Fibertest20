@@ -10,11 +10,14 @@ namespace Iit.Fibertest.Graph
     {
         private readonly Model _readModel;
 
-        // ID - Title
+        // rtuId - Title
         private Dictionary<Guid, string> _rtuTitles;
 
-        // ID - <Title, RTU-ID>
+        // traceId - <Title, rtuId>
         private Dictionary<Guid, Tuple<string, Guid>> _traces;
+
+        // tceId - Title
+        private Dictionary<Guid, string> _tceTitles;
 
         // SorfileId - Measurement
         private Dictionary<int, MeasurementAdded> _measurements;
@@ -24,6 +27,7 @@ namespace Iit.Fibertest.Graph
             _readModel = readModel;
             _rtuTitles = new Dictionary<Guid, string>();
             _traces = new Dictionary<Guid, Tuple<string, Guid>>();
+            _tceTitles = new Dictionary<Guid, string>();
             _measurements = new Dictionary<int, MeasurementAdded>();
         }
 
@@ -44,6 +48,9 @@ namespace Iit.Fibertest.Graph
                 case TraceRemoved evnt: return Parse(evnt);
                 case BaseRefAssigned evnt: return Parse(evnt);
 
+                case TceWithRelationsAddedOrUpdated evnt: return Parse(evnt);
+                case TceRemoved evnt: return Parse(evnt);
+
                 case MonitoringSettingsChanged evnt: return Parse(evnt);
                 case MonitoringStarted evnt: return Parse(evnt);
                 case MonitoringStopped evnt: return Parse(evnt);
@@ -63,13 +70,6 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        // public void Initialize()
-        // {
-        //     _rtuTitles = new Dictionary<Guid, string>();
-        //     _traces = new Dictionary<Guid, Tuple<string, Guid>>();
-        //     _measurements = new Dictionary<int, MeasurementAdded>();
-        // }
-
         public void InitializeBySnapshot(Model modelAtSnapshot)
         {
             // for old snapshots made before event log move to server
@@ -81,6 +81,10 @@ namespace Iit.Fibertest.Graph
 
             foreach (var trace in modelAtSnapshot.Traces)
                 _traces.Add(trace.TraceId, new Tuple<string, Guid>(trace.Title, trace.RtuId));
+
+            foreach (var tce in modelAtSnapshot.TcesNew)
+                _tceTitles.Add(tce.Id, tce.Title);
+
         }
 
         private LogLine Parse(RtuAtGpsLocationAdded e)
@@ -186,6 +190,34 @@ namespace Iit.Fibertest.Graph
             };
         }
 
+        private LogLine Parse(TceWithRelationsAddedOrUpdated e)
+        {
+            var isCreation = false;
+            if (!_tceTitles.ContainsKey(e.Id))
+            {
+                isCreation = true;
+                _tceTitles.Add(e.Id, e.Title);
+            }
+
+            var additionalInfo = isCreation
+                ? $@"TCE {e.Title}, {e.AllRelationsOfTce.Count} " + Resources.SID_links_added
+                : $@"TCE {e.Title}, {e.ExcludedTraceIds.Count} " + Resources.SID_links_removed + $@", {e.AllRelationsOfTce.Count} " + Resources.SID_links_exist;
+            return new LogLine()
+            {
+                OperationCode = isCreation ? LogOperationCode.TceAdded : LogOperationCode.TceUpdated,
+                OperationParams = additionalInfo,
+            };
+        }
+
+        private LogLine Parse(TceRemoved e)
+        {
+            return new LogLine()
+            {
+                OperationCode = LogOperationCode.TceRemoved,
+                OperationParams = $@"TCE {_tceTitles[e.Id]}",
+            };
+        }
+
         private LogLine Parse(MonitoringSettingsChanged e)
         {
             var mode = e.IsMonitoringOn ? @"AUTO" : @"MANUAL";
@@ -243,14 +275,14 @@ namespace Iit.Fibertest.Graph
             };
         }
 
-       
+
         private LogLine Parse(EventsAndSorsRemoved e)
         {
             var str = Resources.SID_Up_to;
             return new LogLine()
             {
                 OperationCode = LogOperationCode.EventsAndSorsRemoved,
-                OperationParams =  $@"{str} {e.UpTo.Date:d}  {(e.IsMeasurementsNotEvents ? 1:0)}/{(e.IsOpticalEvents ? 1:0)}/{(e.IsNetworkEvents ? 1:0)}",
+                OperationParams = $@"{str} {e.UpTo.Date:d}  {(e.IsMeasurementsNotEvents ? 1 : 0)}/{(e.IsOpticalEvents ? 1 : 0)}/{(e.IsNetworkEvents ? 1 : 0)}",
             };
         }
 

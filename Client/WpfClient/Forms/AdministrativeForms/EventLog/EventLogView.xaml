@@ -7,7 +7,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Height="450" Width="1100" Loaded="Window_Loaded"
+        Height="450" Width="1500" Loaded="Window_Loaded"
         d:DataContext="{d:DesignInstance client:EventLogViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Height="40" Orientation="Horizontal" HorizontalAlignment="Right">

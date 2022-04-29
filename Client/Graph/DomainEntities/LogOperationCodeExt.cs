@@ -25,6 +25,10 @@ namespace Iit.Fibertest.Graph
                 case LogOperationCode.TraceCleaned: return Resources.SID_Trace_cleaned;
                 case LogOperationCode.TraceRemoved: return Resources.SID_Trace_removed;
 
+                case LogOperationCode.TceAdded: return Resources.SID_TCE_added;
+                case LogOperationCode.TceUpdated: return Resources.SID_TCE_updated;
+                case LogOperationCode.TceRemoved: return Resources.SID_TCE_removed;
+
                 case LogOperationCode.BaseRefAssigned: return Resources.SID_Base_ref_assigned;
                 case LogOperationCode.MonitoringSettingsChanged: return Resources.SID_Monitoring_settings_changed;
                 case LogOperationCode.MonitoringStarted: return Resources.SID_Monitoring_started;

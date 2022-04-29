@@ -12,7 +12,7 @@
         <ListView.View>
             <GridView>
                 <GridViewColumn Header="{x:Static stringResources:Resources.SID_Type}" Width="120" DisplayMemberBinding="{Binding Model}"/>
-                <GridViewColumn Header="{x:Static stringResources:Resources.SID_Software_version}" Width="240" DisplayMemberBinding="{Binding SoftwareVersion}"/>
+                <GridViewColumn Header="{x:Static stringResources:Resources.SID_Version}" Width="240" DisplayMemberBinding="{Binding SoftwareVersion}"/>
                 <GridViewColumn Header="{x:Static stringResources:Resources.SID_Slot_count}" Width="80" DisplayMemberBinding="{Binding SlotCount}"/>
                 <GridViewColumn Header="{x:Static stringResources:Resources.SID_Comment}" Width="240" DisplayMemberBinding="{Binding Comment}"/>
             </GridView>

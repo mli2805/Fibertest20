@@ -76,7 +76,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        // public ObservableCollection<LogLine> Rows { get; set; } = new ObservableCollection<LogLine>();
 
         public List<LogLine> Rows
         {
@@ -145,6 +144,10 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.TraceDetached: return _logOperationsViewModel.IsTraceDetached;
                 case LogOperationCode.TraceCleaned: return _logOperationsViewModel.IsTraceCleaned;
                 case LogOperationCode.TraceRemoved: return _logOperationsViewModel.IsTraceRemoved;
+
+                case LogOperationCode.TceAdded: return _logOperationsViewModel.IsTceAdded;
+                case LogOperationCode.TceUpdated: return _logOperationsViewModel.IsTceUpdated;
+                case LogOperationCode.TceRemoved: return _logOperationsViewModel.IsTceRemoved;
 
                 case LogOperationCode.BaseRefAssigned: return _logOperationsViewModel.IsBaseRefAssigned;
                 case LogOperationCode.MonitoringSettingsChanged:

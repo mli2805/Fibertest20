@@ -11,7 +11,7 @@
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom" >
             <Button Name="ReSeed" Content="ReSeed" Width="120" Margin="5" DockPanel.Dock="Left" Visibility="{Binding ReSeedVisibility}"/>
-            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Width="120" Margin="5" DockPanel.Dock="Right"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Width="120" Margin="5" DockPanel.Dock="Right"/>
             <Button Name="Select" Content="{x:Static stringResources:Resources.SID_Select}" Width="120" Margin="5" DockPanel.Dock="Right"/>
             <StackPanel></StackPanel>
         </DockPanel>

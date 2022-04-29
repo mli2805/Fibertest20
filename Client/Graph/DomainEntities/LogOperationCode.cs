@@ -19,6 +19,10 @@
         TraceCleaned,
         TraceRemoved,
 
+        TceAdded,
+        TceUpdated,
+        TceRemoved,
+
         BaseRefAssigned = 401,
         MonitoringSettingsChanged,
         MonitoringStarted,

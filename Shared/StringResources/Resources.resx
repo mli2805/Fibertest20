@@ -3106,7 +3106,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 		<value>Update equipment</value>
 	</data>
 	<data name="SID_Telecommunications_equipment" xml:space="preserve">
-		<value>Telecommunications equipment</value>
+		<value>Telecommunications equipment (TCE)</value>
 	</data>
 	<data name="SID_Equipment__0__will_be_deleted" xml:space="preserve">
 		<value>Equipment {0} will be deleted</value>
@@ -3292,5 +3292,23 @@ Please try again later</value>
 	</data>
 	<data name="SID_Reflectance_dB" xml:space="preserve">
 		<value>Reflectance (RT), (-40 - -25 dB)</value>
+	</data>
+	<data name="SID_links_added" xml:space="preserve">
+		<value>links added</value>
+	</data>
+	<data name="SID_links_exist" xml:space="preserve">
+		<value>links exist</value>
+	</data>
+	<data name="SID_links_removed" xml:space="preserve">
+		<value>links removed</value>
+	</data>
+	<data name="SID_TCE_added" xml:space="preserve">
+		<value>TCE added</value>
+	</data>
+	<data name="SID_TCE_updated" xml:space="preserve">
+		<value>TCE updated</value>
+	</data>
+	<data name="SID_TCE_removed" xml:space="preserve">
+		<value>TCE removed</value>
 	</data>
 </root>
