@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public TrapExecutor( IMyLog logFile, Model writeModel,
+        public TrapExecutor(IMyLog logFile, Model writeModel,
             TrapParser trapParser, OutOfTurnQueue outOfTurnQueue,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
@@ -47,6 +47,15 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
             }
 
+            // extra logging - remove after experiments
+            {
+                _logFile.AppendLine("Trap parsed successfully!");
+                var trapTce = _writeModel.TcesNew.FirstOrDefault(t => t.Id == res.TceId);
+                _logFile.AppendLine($"{(trapTce == null ? "TCE not found" : $"TCE: {trapTce.Title}")}");
+                _logFile.AppendLine($"Slot: {res.Slot}");
+                _logFile.AppendLine($"GponInterface: {res.GponInterface}");
+            }
+
             var relation = _writeModel.GponPortRelations.FirstOrDefault(r => r.TceId == res.TceId
                                                                                 && r.SlotPosition == res.Slot
                                                                                 && r.GponInterface == res.GponInterface);
@@ -56,13 +65,13 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
             }
 
-            var trace = _writeModel.Traces.FirstOrDefault(t =>t.TraceId == relation.TraceId);
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == relation.TraceId);
             if (trace == null)
             {
                 _logFile.AppendLine($"There is no trace on gpon interface {res.GponInterface}");
                 return;
             }
-            
+
             var dto = new DoOutOfTurnPreciseMeasurementDto()
             {
                 Id = Guid.NewGuid(),
@@ -80,7 +89,7 @@ namespace Iit.Fibertest.DataCenterCore
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return;
 
-            var unused =  rtu.RtuMaker == RtuMaker.IIT
+            var unused = rtu.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
                 : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
         }

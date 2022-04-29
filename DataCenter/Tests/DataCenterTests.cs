@@ -38,13 +38,13 @@ namespace Tests
         [Fact]
         public void GetSlotTest()
         {
-            285282576.GetSlot().Should().Be(17);
+            285282576.GetNumber(1).Should().Be(17);
         }
 
         [Fact]
         public void GetGponInterfaceTest()
         {
-            285282576.GetGponInterface().Should().Be(16);
+            285282576.GetNumber(0).Should().Be(16);
         }
     }
 

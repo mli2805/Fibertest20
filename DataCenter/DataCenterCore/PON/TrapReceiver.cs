@@ -66,6 +66,7 @@ namespace Iit.Fibertest.DataCenterCore
                 int ver = SnmpPacket.GetProtocolVersion(inData, inLen);
                 if (ver == (int)SnmpVersion.Ver1)
                 {
+                    _logFile.EmptyLine();
                     _logFile.AppendLine($"** SNMP Version 1 TRAP received from {endPoint}:");
                     SnmpV1TrapPacket pkt = new SnmpV1TrapPacket();
                     pkt.decode(inData, inLen);

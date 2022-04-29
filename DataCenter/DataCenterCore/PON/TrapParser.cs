@@ -26,7 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                 case @"ZTE_C300_v1": return pkt.ParseC300(tce);
                 case @"ZTE_C300M_v4": return pkt.ParseC300M(tce);
-                case @"ZTE_C320_v1": return pkt.ParseC320(tce);
+                case @"ZTE_C320": return pkt.ParseC320(tce);
                 default:
                     _logFile.AppendLine($"Parser for OLT model {tce.TceTypeStruct.Code} is not implemented");
                     return null;

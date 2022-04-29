@@ -11,11 +11,15 @@ namespace Iit.Fibertest.DataCenterCore
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
 
-            return new TrapParserResult
-            {
-                TceId = tce.Id,
-                State = ss[2] == "eventLevel=cleared" ? FiberState.Ok : FiberState.FiberBreak
-            };
+            if (ss.Length < 3 || (ss[2] != "eventLevel=critical" && ss[2] != "eventLevel=cleared")) return null;
+
+            var pdu = pkt.Pdu[0];
+            if (pdu.Oid.ToString() != "1.3.6.1.2.1.2.2.1.1") return null;
+
+            var codeStr = pdu.Value.ToString();
+            if (!int.TryParse(codeStr, out int code)) return null;
+
+            return CreateResult(tce, ss[2], code);
         }
 
         public static TrapParserResult ParseC300(this SnmpV2Packet pkt, TceS tce)
@@ -48,21 +52,24 @@ namespace Iit.Fibertest.DataCenterCore
 
             var codeStr = oid.Substring(point + 1);
             if (!int.TryParse(codeStr, out int code)) return null;
-            
+
             return CreateResult(tce, ss[2], code);
         }
 
-        public static int GetSlot(this int code)
+        /// <summary>
+        /// zte code 0x03020100
+        /// 
+        /// zte c300 & c320 => on place 02 - slot; on place 01 - interface
+        /// 
+        /// zte c300M => on place 01 - slot; on place 00 - interface
+        /// </summary>
+        /// <param name="code">ZTE code 0x03020100</param>
+        /// <param name="place">4 places in ZTE code (3 -> 0)</param>
+        /// <returns></returns>
+        public static int GetNumber(this int code, int place)
         {
-            var shift = code >> 8;
-            var result = shift & 0x00000011;
-            return result;
-        }
-
-        public static int GetGponInterface(this int code)
-        {
-            var result = code & 0x00000011;
-            return result;
+            var shifted = code >> (place * 8);
+            return shifted & 0x00000011;
         }
 
         private static TrapParserResult CreateResult(TceS tce, string eventLevel, int code)
@@ -70,8 +77,8 @@ namespace Iit.Fibertest.DataCenterCore
             var result = new TrapParserResult
             {
                 TceId = tce.Id,
-                Slot = code.GetSlot(),
-                GponInterface = code.GetGponInterface(),
+                Slot = tce.TceTypeStruct.Code == "ZTE_C300M_v4" ? code.GetNumber(1) : code.GetNumber(2),
+                GponInterface = tce.TceTypeStruct.Code == "ZTE_C300M_v4" ? code.GetNumber(0) : code.GetNumber(1),
                 State = eventLevel == "eventLevel=critical" ? FiberState.FiberBreak : FiberState.Ok,
             };
             return result;
