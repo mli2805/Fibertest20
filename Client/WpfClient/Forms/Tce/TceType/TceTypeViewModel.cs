@@ -73,8 +73,6 @@ namespace Iit.Fibertest.Client
                     new MyMessageBoxLineModel(){ Line = Resources.SID_RTU_port___telecommunication_equipment_interface, FontWeight = FontWeights.Bold },
                     new MyMessageBoxLineModel(){ Line = ""},
                     new MyMessageBoxLineModel(){ Line = ""},
-                    new MyMessageBoxLineModel(){ Line = Resources.SID_Changes_will_be_applied_after_saving_in_the_next_window_},
-                    new MyMessageBoxLineModel(){ Line = ""},
                     new MyMessageBoxLineModel(){ Line = Resources.SID_Proceed_},
                 });
             _windowManager.ShowDialogWithAssignedOwner(vm);

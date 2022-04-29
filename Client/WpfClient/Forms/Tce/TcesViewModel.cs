@@ -80,45 +80,73 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(ovm);
         }
 
-        public void ChangeTceType()
+        public async void ChangeTceType()
         {
-            if (!AskNewTceTypeSelection(out TceTypeStruct newTceType))
+            var typeId = SelectedTce.TceTypeStruct.Id;
+            if (!AskNewTceTypeSelection(ref typeId))
                 return;
 
-            AdjustSelectedTceToNewType(newTceType);
+            var tracesLostRelations = 
+                AdjustSelectedTceToNewType(_readModel.TceTypeStructs.First(t=>t.Id == typeId))
+                                                                    .Select(g => g.TraceId);
 
-            var ovm = _globalScope.Resolve<OneTceViewModel>();
-            ovm.Initialize(SelectedTce);
-            _windowManager.ShowWindowWithAssignedOwner(ovm);
+            var cmd = new AddOrUpdateTceWithRelations()
+            {
+                Id = SelectedTce.Id,
+                Title = SelectedTce.Title,
+                TceTypeStruct = SelectedTce.TceTypeStruct,
+                Ip = SelectedTce.Ip,
+                Slots = SelectedTce.Slots,
+                Comment = SelectedTce.Comment,
+                AllRelationsOfTce = _readModel.GponPortRelations
+                    .Where(r=>r.TceId == SelectedTce.Id 
+                              && !tracesLostRelations.Contains(r.TraceId))
+                    .ToList(),
+            };
+
+            var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (result != null)
+            {
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, result));
+            }
+            else
+            {
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Information,
+                    Resources.SID_Equipment_type_changed_successfully_));
+            }
         }
 
-        private bool AskNewTceTypeSelection(out TceTypeStruct newTceType)
+        private bool AskNewTceTypeSelection(ref int newTceTypeId)
         {
-            newTceType = _readModel.TceTypeStructs.First();
+            var oldTypeId = newTceTypeId;
             var vm = _globalScope.Resolve<TceTypeViewModel>();
             vm.Initialize(SelectedTce.TceTypeStruct, false);
             if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
                 return false;
 
-            newTceType = vm.SelectedTabItem == 0
-                ? vm.HuaweiSelectionViewModel.SelectedType
-                : vm.ZteSelectionViewModel.SelectedType;
-            return true;
+            newTceTypeId = vm.SelectedTabItem == 0
+                ? vm.HuaweiSelectionViewModel.SelectedType.Id
+                : vm.ZteSelectionViewModel.SelectedType.Id;
+            return oldTypeId != newTceTypeId;
         }
 
-        private void AdjustSelectedTceToNewType(TceTypeStruct newTceType)
+        private List<GponPortRelation> AdjustSelectedTceToNewType(TceTypeStruct newTceType)
         {
             var temp = new TceS(SelectedTce);
 
             SelectedTce.TceTypeStruct = newTceType;
+            var relationsForRemoval = new List<GponPortRelation>();
             foreach (var slot in temp.Slots)
             {
                 if (SelectedTce.TceTypeStruct.SlotPositions.Contains(slot.Position)) continue;
 
-                foreach (var relation in _readModel.GponPortRelations.Where(r => r.TceId == SelectedTce.Id && r.SlotPosition == slot.Position).ToList())
-                {
-                    _readModel.GponPortRelations.Remove(relation);
-                }
+                relationsForRemoval.AddRange(_readModel.GponPortRelations
+                    .Where(r => r.TceId == SelectedTce.Id && r.SlotPosition == slot.Position));
+
+                // foreach (var relation in _readModel.GponPortRelations.Where(r => r.TceId == SelectedTce.Id && r.SlotPosition == slot.Position).ToList())
+                // {
+                //     _readModel.GponPortRelations.Remove(relation);
+                // }
             }
 
             SelectedTce.Slots = new List<TceSlot>();
@@ -133,8 +161,11 @@ namespace Iit.Fibertest.Client
             if (diff != 0)
                 foreach (var relation in _readModel.GponPortRelations.Where(r => r.TraceId == SelectedTce.Id))
                     relation.GponInterface -= diff;
+
+            return relationsForRemoval;
         }
 
+        // button Settings
         public void UpdateTceComponents()
         {
             if (SelectedTce == null) return;

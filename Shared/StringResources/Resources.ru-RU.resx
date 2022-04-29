@@ -3311,4 +3311,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_TCE_removed" xml:space="preserve">
 		<value>TCE удалено</value>
 	</data>
+	<data name="SID_Equipment_type_changed_successfully_" xml:space="preserve">
+		<value>Тип оборудования успешно изменен!</value>
+	</data>
 </root>

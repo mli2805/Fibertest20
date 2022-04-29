@@ -2854,6 +2854,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipment type changed successfully!.
+        /// </summary>
+        public static string SID_Equipment_type_changed_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Equipment_type_changed_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} without name.
         /// </summary>
         public static string SID_equipment_without_name {
@@ -8235,7 +8244,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Telecommunications equipment.
+        ///   Looks up a localized string similar to Telecommunications equipment (TCE).
         /// </summary>
         public static string SID_Telecommunications_equipment {
             get {
