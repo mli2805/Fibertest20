@@ -6,6 +6,7 @@ namespace Broadcaster {
         public GsmViewModel GsmViewModel { get; set; }
         public MsmqViewModel MsmqViewModel { get; set; }
         public SnmpViewModel SnmpViewModel { get; set; }
+        public HuaweiTrapViewModel HuaweiTrapViewModel { get; set; }
 
         public ShellViewModel()
         {
@@ -17,6 +18,7 @@ namespace Broadcaster {
             GsmViewModel = new GsmViewModel(iniFile);
             MsmqViewModel = new MsmqViewModel(iniFile);
             SnmpViewModel = new SnmpViewModel(iniFile, logFile);
+            HuaweiTrapViewModel = new HuaweiTrapViewModel(iniFile, logFile);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
@@ -20,14 +19,12 @@ namespace Broadcaster
         public string SelectedSnmpEncoding { get; set; }
         public string EnterpriseOid { get; set; }
 
-        private DateTime _startTime;
 
         public SnmpViewModel(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;
 
-            _startTime = DateTime.Now;
             LoadSnmpSets();
             SelectedSnmpEncoding = SnmpEncodings[2];
         }
@@ -41,16 +38,7 @@ namespace Broadcaster
             var unused = snmpAgent.SendTestTrap();
         }
 
-        public void SendV2CPonTestTrap()
-        {
-            // save all user's input into ini-file: snmpAgent will read them from ini-file
-            SaveInputs();
-
-            var snmpAgent = new SnmpAgent(_iniFile, _logFile);
-            var sh = new SnmpHuaweiAgent(snmpAgent);
-            var unused = sh.SendV2CPonTestTrap(_startTime);
-        }
-
+    
         private void LoadSnmpSets()
         {
             _snmpTrapVersion = _iniFile.Read(IniSection.Snmp, IniKey.SnmpTrapVersion, 1);

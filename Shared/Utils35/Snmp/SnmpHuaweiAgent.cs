@@ -16,15 +16,15 @@ namespace Iit.Fibertest.UtilsLib
             _snmpAgent = snmpAgent;
         }
 
-        public bool SendV2CPonTestTrap(DateTime systemStartTime)
+        public bool SendV2CPonTestTrap(DateTime systemStartTime, int trapNumber)
         {
-            var trapData = CreateOltTrap("192.168.96.59", 16, 2);
+            var trapData = CreateOltTrap("192.168.96.59", 16, 2, trapNumber);
             var upTime = (uint)(DateTime.Now - systemStartTime).TotalSeconds * 100; // Huawei OLT sends UpTime in 0,1sec,
             return _snmpAgent.SendSnmpV2CTrap(trapData, upTime, new Oid(HuaweiOid));
         }
 
 
-        private VbCollection CreateOltTrap(string oltIp, int slotPosition, int interfaceNumber)
+        private VbCollection CreateOltTrap(string oltIp, int slotPosition, int interfaceNumber, int trapNumber)
         {
             var data = new List<Tuple<string, string, SnmpV2CDataType>>();
 
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.UtilsLib
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, slotPosition.ToString(), SnmpV2CDataType.Integer32));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, interfaceNumber.ToString(), SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, trapNumber.ToString(), SnmpV2CDataType.Integer32));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "00000000", SnmpV2CDataType.OctetString));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "2", SnmpV2CDataType.Integer32));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "2", SnmpV2CDataType.Integer32));

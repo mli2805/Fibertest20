@@ -29,7 +29,6 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Width="200" Height="22" Content="Send Test Trap " Margin="5" Name="SendV1TestTrap"/>
-                <Button Width="200" Height="22" Content="Send V2C Pon Test Trap " Margin="5" Name="SendV2CPonTestTrap"/>
             </StackPanel>
         </StackPanel>
 </UserControl>

@@ -11,8 +11,16 @@
         <TabItem Header="          MSMQ       ">
             <broadcaster:MsmqView DataContext="{Binding MsmqViewModel}"/>
         </TabItem>
-        <TabItem Header="          SNMP       " IsSelected="True">
-            <broadcaster:SnmpView DataContext="{Binding SnmpViewModel}"/>
+        <TabItem Header="       SNMP Traps      " IsSelected="True">
+            <TabControl Margin="0, 10, 0,0">
+                <TabItem Header="        Fibertest     ">
+                    <broadcaster:SnmpView DataContext="{Binding SnmpViewModel}"/>
+                </TabItem>
+                <TabItem Header="         Huawei      " IsSelected="True">
+                    <broadcaster:HuaweiTrapView DataContext="{Binding HuaweiTrapViewModel}"/>
+                </TabItem>
+
+            </TabControl>
         </TabItem>
     </TabControl>
 

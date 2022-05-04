@@ -89,6 +89,10 @@
       <DependentUpon>GsmView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GsmViewModel.cs" />
+    <Compile Include="Controls\HuaweiTrapView.xaml.cs">
+      <DependentUpon>HuaweiTrapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\HuaweiTrapViewModel.cs" />
     <Compile Include="Controls\MsmqView.xaml.cs">
       <DependentUpon>MsmqView.xaml</DependentUpon>
     </Compile>
@@ -104,6 +108,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Controls\GsmView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HuaweiTrapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
