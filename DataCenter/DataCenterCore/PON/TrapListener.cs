@@ -9,12 +9,12 @@ using SnmpSharpNet;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class TrapReceiver
+    public class TrapListener
     {
         private readonly IMyLog _logFile;
         private readonly TrapExecutor _trapExecutor;
 
-        public TrapReceiver(IniFile iniFile, TrapExecutor trapExecutor)
+        public TrapListener(IniFile iniFile, TrapExecutor trapExecutor)
         {
             _logFile = new LogFile(iniFile, 20000);
             _logFile.AssignFile("trap.log");

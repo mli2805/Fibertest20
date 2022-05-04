@@ -13,18 +13,18 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
-        private readonly TrapParser _trapParser;
         private readonly OutOfTurnQueue _outOfTurnQueue;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public TrapExecutor(IMyLog logFile, Model writeModel,
-            TrapParser trapParser, OutOfTurnQueue outOfTurnQueue,
+        public TrapExecutor(IniFile iniFile, Model writeModel,
+             OutOfTurnQueue outOfTurnQueue,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
-            _logFile = logFile;
+            _logFile = new LogFile(iniFile, 20000);
+            _logFile.AssignFile("trap-proc.log");
+
             _writeModel = writeModel;
-            _trapParser = trapParser;
             _outOfTurnQueue = outOfTurnQueue;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
@@ -40,25 +40,16 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
             }
 
-            var res = _trapParser.Parse(pkt, tce);
+            var res = pkt.Parse(tce, _logFile);
             if (res == null)
             {
                 _logFile.AppendLine("Failed to parse trap");
                 return;
             }
 
-            // extra logging - remove after experiments
-            {
-                _logFile.AppendLine("Trap parsed successfully!");
-                var trapTce = _writeModel.TcesNew.FirstOrDefault(t => t.Id == res.TceId);
-                _logFile.AppendLine($"{(trapTce == null ? "TCE not found" : $"TCE: {trapTce.Title}")}");
-                _logFile.AppendLine($"Slot: {res.Slot}");
-                _logFile.AppendLine($"GponInterface: {res.GponInterface}");
-            }
-
             var relation = _writeModel.GponPortRelations.FirstOrDefault(r => r.TceId == res.TceId
-                                                                                && r.SlotPosition == res.Slot
-                                                                                && r.GponInterface == res.GponInterface);
+                                                                             && r.SlotPosition == res.Slot
+                                                                             && r.GponInterface == res.GponInterface);
             if (relation == null)
             {
                 _logFile.AppendLine($"There is no relation for gpon interface {res.GponInterface}");
@@ -84,6 +75,7 @@ namespace Iit.Fibertest.DataCenterCore
                 IsTrapCaused = true,
             };
 
+            _logFile.AppendLine($"Request for trace {trace.Title} placed into queue.");
             _outOfTurnQueue.Requests.Enqueue(dto);
 
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);

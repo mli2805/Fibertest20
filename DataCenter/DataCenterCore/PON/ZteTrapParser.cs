@@ -1,12 +1,11 @@
 ﻿using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using SnmpSharpNet;
 
 namespace Iit.Fibertest.DataCenterCore
 {
     public static class ZteTrapParser
     {
-        public static TrapParserResult ParseC320(this SnmpV2Packet pkt, TceS tce)
+        public static TrapParserResult ParseC320(this SnmpV2Packet pkt)
         {
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
@@ -19,10 +18,10 @@ namespace Iit.Fibertest.DataCenterCore
             var codeStr = pdu.Value.ToString();
             if (!int.TryParse(codeStr, out int code)) return null;
 
-            return CreateResult(tce, ss[2], code);
+            return CreateResult(@"ZTE_C320", ss[2], code);
         }
 
-        public static TrapParserResult ParseC300(this SnmpV2Packet pkt, TceS tce)
+        public static TrapParserResult ParseC300(this SnmpV2Packet pkt)
         {
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
@@ -35,10 +34,10 @@ namespace Iit.Fibertest.DataCenterCore
             var codeStr = pdu.Value.ToString();
             if (!int.TryParse(codeStr, out int code)) return null;
 
-            return CreateResult(tce, ss[2], code);
+            return CreateResult(@"ZTE_C300_v1", ss[2], code);
         }
 
-        public static TrapParserResult ParseC300M(this SnmpV2Packet pkt, TceS tce)
+        public static TrapParserResult ParseC300M(this SnmpV2Packet pkt)
         {
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
@@ -53,7 +52,7 @@ namespace Iit.Fibertest.DataCenterCore
             var codeStr = oid.Substring(point + 1);
             if (!int.TryParse(codeStr, out int code)) return null;
 
-            return CreateResult(tce, ss[2], code);
+            return CreateResult(@"ZTE_C300M_v4", ss[2], code);
         }
 
         /// <summary>
@@ -66,19 +65,18 @@ namespace Iit.Fibertest.DataCenterCore
         /// <param name="code">ZTE code 0x03020100</param>
         /// <param name="place">4 places in ZTE code (3 -> 0)</param>
         /// <returns></returns>
-        public static int GetNumber(this int code, int place)
+        public static int ExtractNumberFromZteCode(this int code, int place)
         {
             var shifted = code >> (place * 8);
             return shifted & 0x00000011;
         }
 
-        private static TrapParserResult CreateResult(TceS tce, string eventLevel, int code)
+        private static TrapParserResult CreateResult(string tceTypeStructCode, string eventLevel, int code)
         {
             var result = new TrapParserResult
             {
-                TceId = tce.Id,
-                Slot = tce.TceTypeStruct.Code == "ZTE_C300M_v4" ? code.GetNumber(1) : code.GetNumber(2),
-                GponInterface = tce.TceTypeStruct.Code == "ZTE_C300M_v4" ? code.GetNumber(0) : code.GetNumber(1),
+                Slot = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(1) : code.ExtractNumberFromZteCode(2),
+                GponInterface = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(0) : code.ExtractNumberFromZteCode(1),
                 State = eventLevel == "eventLevel=critical" ? FiberState.FiberBreak : FiberState.Ok,
             };
             return result;

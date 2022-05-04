@@ -96,9 +96,8 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<DiskSpaceProvider>().SingleInstance();
 
             builder.RegisterType<OutOfTurnQueue>().SingleInstance();
-            builder.RegisterType<TrapParser>().SingleInstance();
             builder.RegisterType<TrapExecutor>().SingleInstance();
-            builder.RegisterType<TrapReceiver>().SingleInstance();
+            builder.RegisterType<TrapListener>().SingleInstance();
 
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
 

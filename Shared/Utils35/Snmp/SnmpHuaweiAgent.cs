@@ -36,7 +36,10 @@ namespace Iit.Fibertest.UtilsLib
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, slotPosition.ToString(), SnmpV2CDataType.Integer32));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, interfaceNumber.ToString(), SnmpV2CDataType.Integer32));
-            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, trapNumber.ToString(), SnmpV2CDataType.Integer32));
+
+            // data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, (trapNumber + 567000).ToString(), SnmpV2CDataType.Integer32));
+
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "00000000", SnmpV2CDataType.OctetString));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "2", SnmpV2CDataType.Integer32));
             data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "2", SnmpV2CDataType.Integer32));

@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly VeexCompletedTestsFetcher _veexCompletedTestsFetcher;
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
-        private readonly TrapReceiver _trapReceiver;
+        private readonly TrapListener _trapListener;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly WcfServiceForDesktopC2DBootstrapper _wcfServiceForDesktopC2DBootstrapper;
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterService
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
             VeexCompletedTestsFetcher veexCompletedTestsFetcher, WebApiChecker webApiChecker,
-            SmsSender smsSender, TrapReceiver trapReceiver,
+            SmsSender smsSender, TrapListener trapListener,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterService
             _veexCompletedTestsFetcher = veexCompletedTestsFetcher;
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
-            _trapReceiver = trapReceiver;
+            _trapListener = trapListener;
             _ftSignalRClient = ftSignalRClient;
             _measurementsForWebNotifier = measurementsForWebNotifier;
             _wcfServiceForDesktopC2DBootstrapper = wcfServiceForDesktopC2DBootstrapper;
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.DataCenterService
             _msmqHandler.Start();
             _veexCompletedTestsFetcher.Start();
             _smsSender.Start();
-            _trapReceiver.Start();
+            _trapListener.Start();
         }
 
         private async Task InitializeEventStoreService()
