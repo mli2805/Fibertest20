@@ -26,6 +26,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
         private readonly TrapListener _trapListener;
+        private readonly OutOfTurnProcessor _outOfTurnProcessor;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly WcfServiceForDesktopC2DBootstrapper _wcfServiceForDesktopC2DBootstrapper;
@@ -38,7 +39,7 @@ namespace Iit.Fibertest.DataCenterService
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
             VeexCompletedTestsFetcher veexCompletedTestsFetcher, WebApiChecker webApiChecker,
-            SmsSender smsSender, TrapListener trapListener,
+            SmsSender smsSender, TrapListener trapListener, OutOfTurnProcessor outOfTurnProcessor,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
@@ -59,6 +60,7 @@ namespace Iit.Fibertest.DataCenterService
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
             _trapListener = trapListener;
+            _outOfTurnProcessor = outOfTurnProcessor;
             _ftSignalRClient = ftSignalRClient;
             _measurementsForWebNotifier = measurementsForWebNotifier;
             _wcfServiceForDesktopC2DBootstrapper = wcfServiceForDesktopC2DBootstrapper;
@@ -117,6 +119,7 @@ namespace Iit.Fibertest.DataCenterService
             _veexCompletedTestsFetcher.Start();
             _smsSender.Start();
             _trapListener.Start();
+            _outOfTurnProcessor.Start();
         }
 
         private async Task InitializeEventStoreService()

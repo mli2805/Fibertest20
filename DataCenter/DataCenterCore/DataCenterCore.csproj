@@ -288,7 +288,8 @@
     <Compile Include="JsonUtil.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
-    <Compile Include="OutOfTurn\OutOfTurnQueue.cs" />
+    <Compile Include="OutOfTurn\OutOfTurnProcessor.cs" />
+    <Compile Include="OutOfTurn\OutOfTurnData.cs" />
     <Compile Include="PON\HuaweiTrapParser.cs" />
     <Compile Include="PON\TrapExecutor.cs" />
     <Compile Include="PON\TrapParser.cs" />

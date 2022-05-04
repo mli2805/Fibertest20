@@ -21,8 +21,15 @@ namespace Iit.Fibertest.DataCenterCore
             _trapExecutor = trapExecutor;
         }
 
+        public void Start()
+        {
+            var thread = new Thread(Listen) { IsBackground = true };
+            thread.Start();
+        }
+
+
         // http://snmpsharpnet.com/index.php/receive-snmp-version-1-and-2c-trap-notifications/
-        public async void Start()
+        private async void Listen()
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
@@ -79,7 +86,7 @@ namespace Iit.Fibertest.DataCenterCore
                     SnmpV2Packet pkt = new SnmpV2Packet();
                     pkt.decode(inData, inLen);
                     LogSnmpVersion2TrapPacket(pkt); // Hide after debugging
-                    await _trapExecutor.Process(pkt, endPoint);
+                    await _trapExecutor.Process(pkt, endPoint, _logFile);
                 }
             }
             else

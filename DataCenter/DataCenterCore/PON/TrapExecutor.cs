@@ -11,55 +11,24 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class TrapExecutor
     {
-        private readonly IMyLog _logFile;
         private readonly Model _writeModel;
-        private readonly OutOfTurnQueue _outOfTurnQueue;
-        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
-        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
+        private readonly OutOfTurnData _outOfTurnData;
 
-        public TrapExecutor(IniFile iniFile, Model writeModel,
-             OutOfTurnQueue outOfTurnQueue,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
+        public TrapExecutor(Model writeModel, OutOfTurnData outOfTurnData)
         {
-            _logFile = new LogFile(iniFile, 20000);
-            _logFile.AssignFile("trap-proc.log");
-
             _writeModel = writeModel;
-            _outOfTurnQueue = outOfTurnQueue;
-            _clientToRtuTransmitter = clientToRtuTransmitter;
-            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+            _outOfTurnData = outOfTurnData;
         }
 
-        public async Task Process(SnmpV2Packet pkt, EndPoint endPoint)
+        public async Task Process(SnmpV2Packet pkt, EndPoint endPoint, IMyLog logFile)
         {
-            var ss = endPoint.ToString().Split(':');
-            var tce = _writeModel.TcesNew.FirstOrDefault(o => o.Ip == ss[0]);
-            if (tce == null)
-            {
-                _logFile.AppendLine($"Unknown trap source address: {ss[0]}");
-                return;
-            }
-
-            var res = pkt.Parse(tce, _logFile);
-            if (res == null)
-            {
-                _logFile.AppendLine("Failed to parse trap");
-                return;
-            }
-
-            var relation = _writeModel.GponPortRelations.FirstOrDefault(r => r.TceId == res.TceId
-                                                                             && r.SlotPosition == res.Slot
-                                                                             && r.GponInterface == res.GponInterface);
-            if (relation == null)
-            {
-                _logFile.AppendLine($"There is no relation for gpon interface {res.GponInterface}");
-                return;
-            }
+            await Task.Delay(1);
+            var relation = ParseTrapReturnRelation(pkt, endPoint, logFile);
 
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == relation.TraceId);
             if (trace == null)
             {
-                _logFile.AppendLine($"There is no trace on gpon interface {res.GponInterface}");
+                logFile.AppendLine($"There is no trace on gpon interface {relation.GponInterface}");
                 return;
             }
 
@@ -75,15 +44,34 @@ namespace Iit.Fibertest.DataCenterCore
                 IsTrapCaused = true,
             };
 
-            _logFile.AppendLine($"Request for trace {trace.Title} placed into queue.");
-            _outOfTurnQueue.Requests.Enqueue(dto);
+            logFile.AppendLine($"Request for trace {trace.Title} created.");
+            _outOfTurnData.AddNewRequest(dto, logFile);
+       }
 
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return;
+        private GponPortRelation ParseTrapReturnRelation(SnmpV2Packet pkt, EndPoint endPoint, IMyLog logFile)
+        {
+            var ss = endPoint.ToString().Split(':');
+            var tce = _writeModel.TcesNew.FirstOrDefault(o => o.Ip == ss[0]);
+            if (tce == null)
+            {
+                logFile.AppendLine($"Unknown trap source address: {ss[0]}");
+                return null;
+            }
 
-            var unused = rtu.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
-                : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
+            var res = pkt.Parse(tce, logFile);
+            if (res == null)
+            {
+                logFile.AppendLine("Failed to parse trap");
+                return null;
+            }
+
+            var relation = _writeModel.GponPortRelations.FirstOrDefault(r => r.TceId == res.TceId
+                                                                             && r.SlotPosition == res.Slot
+                                                                             && r.GponInterface == res.GponInterface);
+            if (relation == null)
+                logFile.AppendLine($"There is no relation for gpon interface {res.GponInterface}");
+
+            return relation;
         }
     }
 }

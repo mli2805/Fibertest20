@@ -16,9 +16,9 @@ namespace Iit.Fibertest.UtilsLib
             _snmpAgent = snmpAgent;
         }
 
-        public bool SendV2CPonTestTrap(DateTime systemStartTime, int trapNumber)
+        public bool SendV2CPonTestTrap(DateTime systemStartTime, int slotPosition, int interfaceNumber, int trapNumber)
         {
-            var trapData = CreateOltTrap("192.168.96.59", 16, 2, trapNumber);
+            var trapData = CreateOltTrap("192.168.96.59", slotPosition, interfaceNumber, trapNumber);
             var upTime = (uint)(DateTime.Now - systemStartTime).TotalSeconds * 100; // Huawei OLT sends UpTime in 0,1sec,
             return _snmpAgent.SendSnmpV2CTrap(trapData, upTime, new Oid(HuaweiOid));
         }

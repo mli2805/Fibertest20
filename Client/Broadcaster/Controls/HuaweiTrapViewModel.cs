@@ -12,8 +12,8 @@ namespace Broadcaster
 
         private DateTime _startTime;
 
-        public int TrapCount { get; set; } = 10;
-        public int PauseMs { get; set; } = 2000;
+        public int TrapCount { get; set; } = 5;
+        public int PauseMs { get; set; } = 10;
 
         public HuaweiTrapViewModel(IniFile iniFile, IMyLog logFile)
         {
@@ -28,7 +28,7 @@ namespace Broadcaster
             var sh = new SnmpHuaweiAgent(snmpAgent);
             for (int i = 0; i < TrapCount; i++)
             {
-                var unused = sh.SendV2CPonTestTrap(_startTime, i+1);
+                var unused = sh.SendV2CPonTestTrap(_startTime, 0, 5, i+1);
                 await Task.Delay(PauseMs);
             }
         }
