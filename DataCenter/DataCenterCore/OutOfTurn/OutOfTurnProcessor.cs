@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
         private readonly IMyLog _logFile;
 
-       
+
         public OutOfTurnProcessor(IniFile iniFile, OutOfTurnData outOfTurnData, Model writeModel,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
@@ -51,13 +51,13 @@ namespace Iit.Fibertest.DataCenterCore
                         continue;
                     }
 
-                    _logFile.AppendLine($"Request for RTU {dto.RtuId} found.");
+                    _logFile.AppendLine($"Request for RTU {dto.RtuId.First6()} / Trace {dto.PortWithTraceDto.TraceId.First6()} found.");
 
                     var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
                     if (rtu == null) return;
 
                     _outOfTurnData.SetRtuIsBusy(rtu.Id);
-                    
+
                     var unused = rtu.RtuMaker == RtuMaker.IIT
                         ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
                         : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
