@@ -20,11 +20,13 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
         private readonly IWcfServiceForRtu _wcfServiceForRtu;
+        private readonly OutOfTurnData _outOfTurnData;
         public readonly ConcurrentDictionary<Guid, string> RequestedTests = new ConcurrentDictionary<Guid, string>();
 
         public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel, CommonBopProcessor commonBopProcessor,
             SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
-            MsmqMessagesProcessor msmqMessagesProcessor, IWcfServiceForRtu wcfServiceForRtu)
+            MsmqMessagesProcessor msmqMessagesProcessor, IWcfServiceForRtu wcfServiceForRtu,
+            OutOfTurnData outOfTurnData)
         {
             _logFile = logFile;
             _writeModel = writeModel;
@@ -33,6 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
             _msmqMessagesProcessor = msmqMessagesProcessor;
             _wcfServiceForRtu = wcfServiceForRtu;
+            _outOfTurnData = outOfTurnData;
         }
 
         public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
@@ -119,6 +122,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (RequestedTests.ContainsKey(completedTest.testId))
             {
                 RequestedTests.TryRemove(completedTest.testId, out string _);
+                _outOfTurnData.SetRtuIsFree(rtu.Id);
                 return true;
             }
 

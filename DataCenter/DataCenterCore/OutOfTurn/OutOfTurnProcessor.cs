@@ -44,14 +44,12 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 while (true)
                 {
-                    var dto = _outOfTurnData.GetNextRequest();
+                    var dto = _outOfTurnData.GetNextRequest(_logFile);
                     if (dto == null)
                     {
                         Thread.Sleep(3000);
                         continue;
                     }
-
-                    _logFile.AppendLine($"Request for RTU {dto.RtuId.First6()} / Trace {dto.PortWithTraceDto.TraceId.First6()} found.");
 
                     var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
                     if (rtu == null) return;
@@ -61,7 +59,6 @@ namespace Iit.Fibertest.DataCenterCore
                     var unused = rtu.RtuMaker == RtuMaker.IIT
                         ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
                         : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
-
                 }
             }
             catch (Exception e)

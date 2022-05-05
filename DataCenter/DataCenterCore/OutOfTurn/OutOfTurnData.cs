@@ -11,19 +11,25 @@ namespace Iit.Fibertest.DataCenterCore
         public DoOutOfTurnPreciseMeasurementDto Dto;
         public DateTime Timestamp; // Time when request placed into queue
     }
+
     public class OutOfTurnData
     {
         // RTU Id - Time when request sent to RTU
-        private ConcurrentDictionary<Guid, DateTime> BusyRtus = new ConcurrentDictionary<Guid, DateTime>();
+        private readonly ConcurrentDictionary<Guid, DateTime> _busyRtus = new ConcurrentDictionary<Guid, DateTime>();
 
         // RTU Id - < Trace Id - Request >
-        private ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, OutOfTurnRequest>> Requests =
+        private readonly ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, OutOfTurnRequest>> _requests =
             new ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, OutOfTurnRequest>>();
 
 
         public void SetRtuIsBusy(Guid rtuId)
         {
-            BusyRtus.AddOrUpdate(rtuId, DateTime.Now, (guid, time) => time);
+            _busyRtus.AddOrUpdate(rtuId, DateTime.Now, (guid, time) => time);
+        }
+
+        public void SetRtuIsFree(Guid rtuId)
+        {
+            _busyRtus.TryRemove(rtuId, out DateTime _);
         }
 
         public void AddNewRequest(DoOutOfTurnPreciseMeasurementDto dto, IMyLog logFile)
@@ -31,7 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
             var newDict = new ConcurrentDictionary<Guid, OutOfTurnRequest>();
             newDict.TryAdd(dto.PortWithTraceDto.TraceId, new OutOfTurnRequest() { Dto = dto, Timestamp = DateTime.Now }); // no problem here
 
-            Requests.AddOrUpdate(dto.RtuId, newDict,
+            _requests.AddOrUpdate(dto.RtuId, newDict,
                 (guid, oneRtuDict) =>
                 {
                     oneRtuDict.AddOrUpdate(
@@ -42,17 +48,17 @@ namespace Iit.Fibertest.DataCenterCore
                     return oneRtuDict;
                 });
 
-            logFile.AppendLine($"Request added or updated, Queue of RTU {dto.RtuId.First6()} contains {Requests[dto.RtuId].Count} requests");
+            logFile.AppendLine($"Request added or updated, Queue of RTU {dto.RtuId.First6()} contains {_requests[dto.RtuId].Count} requests");
         }
 
-        public DoOutOfTurnPreciseMeasurementDto GetNextRequest()
+        public DoOutOfTurnPreciseMeasurementDto GetNextRequest(IMyLog logFile)
         {
             // local copy
-            var requests = Requests.ToArray();
+            var requests = _requests.ToArray();
 
             foreach (var oneRtuDict in requests)
             {
-                if (BusyRtus.ContainsKey(oneRtuDict.Key))
+                if (_busyRtus.ContainsKey(oneRtuDict.Key))
                     continue;
 
                 if (oneRtuDict.Value.IsEmpty)
@@ -61,8 +67,10 @@ namespace Iit.Fibertest.DataCenterCore
                 var oneRtuRequests = oneRtuDict.Value.Values.OrderBy(r => r.Timestamp);
                 var dto = oneRtuRequests.First().Dto;
 
-                Requests[oneRtuDict.Key]
+                _requests[oneRtuDict.Key]
                     .TryRemove(dto.PortWithTraceDto.TraceId, out OutOfTurnRequest _);
+                logFile.AppendLine($"Request for RTU {dto.RtuId.First6()} / Trace {dto.PortWithTraceDto.TraceId.First6()} found.");
+                logFile.AppendLine($"  Now queue of RTU {dto.RtuId.First6()} contains {_requests[dto.RtuId].Count} requests");
 
                 return dto;
             }

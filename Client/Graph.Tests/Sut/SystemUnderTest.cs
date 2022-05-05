@@ -243,6 +243,7 @@ namespace Graph.Tests
             builder.RegisterType<SnmpNotifier>().InstancePerLifetimeScope();
             builder.RegisterType<SnmpAgent>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqMessagesProcessor>().InstancePerLifetimeScope();
+            builder.RegisterType<OutOfTurnData>().InstancePerLifetimeScope();
             builder.RegisterType<VeexCompletedTestProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<VeexCompletedTestsFetcher>().InstancePerLifetimeScope();
             builder.RegisterType<CommonBopProcessor>().InstancePerLifetimeScope();
