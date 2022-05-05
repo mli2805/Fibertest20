@@ -81,8 +81,7 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
-            if (rtu == null) return;
+            if (!_readModel.TryGetRtu(rtuLeaf.Id, out Rtu rtu)) return;
 
             using (_globalScope.Resolve<IWaitCursor>())
             {
@@ -132,8 +131,7 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
-            if (rtu == null) return;
+            if (!_readModel.TryGetRtu(rtuLeaf.Id, out Rtu rtu)) return;
 
             bool result;
             using (_globalScope.Resolve<IWaitCursor>())
@@ -147,8 +145,7 @@ namespace Iit.Fibertest.Client
 
         private ApplyMonitoringSettingsDto CollectMonitoringSettingsFromTree(RtuLeaf rtuLeaf)
         {
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
-            if (rtu == null) return null;
+            if (!_readModel.TryGetRtu(rtuLeaf.Id, out Rtu rtu)) return null;
 
             var result = new ApplyMonitoringSettingsDto()
             {

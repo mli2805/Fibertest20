@@ -54,9 +54,10 @@ namespace Iit.Fibertest.Client
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
-            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceLeaf.Id);
-            if (trace == null)
+            
+            if (!_readModel.TryGetTrace(traceLeaf.Id, out Trace trace))
                 return;
+
             var vm = _globalScope.Resolve<TraceInfoViewModel>();
             await vm.Initialize(traceLeaf.Id, trace.EquipmentIds, trace.NodeIds, false);
             _windowManager.ShowWindowWithAssignedOwner(vm);

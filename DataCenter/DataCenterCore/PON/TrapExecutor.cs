@@ -26,8 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
             var relation = ParseTrapReturnRelation(pkt, endPoint, logFile);
             if (relation == null) return;
 
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == relation.TraceId);
-            if (trace == null)
+            if (!_writeModel.TryGetTrace(relation.TraceId, out Trace trace))
             {
                 logFile.AppendLine($"There is no trace on gpon interface {relation.GponInterface}");
                 return;

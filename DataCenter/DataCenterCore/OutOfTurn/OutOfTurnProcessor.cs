@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -51,8 +50,7 @@ namespace Iit.Fibertest.DataCenterCore
                         continue;
                     }
 
-                    var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-                    if (rtu == null) return;
+                    if (!_writeModel.TryGetRtu(dto.RtuId, out Rtu rtu)) return;
 
                     _outOfTurnData.SetRtuIsBusy(rtu.Id);
 

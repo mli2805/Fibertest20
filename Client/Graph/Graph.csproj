@@ -221,6 +221,7 @@
     <Compile Include="EventSourcing\Model\ModelTraceComponentsExt.cs" />
     <Compile Include="EventSourcing\Model\ModelTraceDefinitionExt.cs" />
     <Compile Include="EventSourcing\Model\ModelTraceExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelTryGetExt.cs" />
     <Compile Include="EventSourcing\Model\ModelUnusedExt.cs" />
     <Compile Include="EventSourcing\Model\ModelZonesExt.cs" />
     <Compile Include="EventSourcing\Model\OneRtuExportImport.cs" />

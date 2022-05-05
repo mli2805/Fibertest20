@@ -45,10 +45,8 @@ namespace Iit.Fibertest.Graph
 
         public static EventReportModel CreateReportModelFromMoniresult(this Model model, MonitoringResultDto dto)
         {
-            var rtu = model.Rtus.FirstOrDefault(r=>r.Id == dto.RtuId);
-            if (rtu == null) return null;
-            var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
-            if (trace == null) return null;
+            if (!model.TryGetRtu(dto.RtuId, out Rtu rtu)) return null;
+            if (!model.TryGetTrace(dto.PortWithTrace.TraceId, out Trace trace)) return null;
 
             var result = new EventReportModel
             {
