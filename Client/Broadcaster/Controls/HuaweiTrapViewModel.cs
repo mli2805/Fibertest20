@@ -30,8 +30,10 @@ namespace Broadcaster
             {
                 var unused = sh.SendV2CPonTestTrap(_startTime, 1, 2, i+1);
                 await Task.Delay(PauseMs);
-                // var unused2 = sh.SendV2CPonTestTrap(_startTime, 0, 5, i+1);
-                // await Task.Delay(PauseMs);
+                var unused1 = sh.SendV2CPonTestTrap(_startTime, 128, 2, i+1);
+                await Task.Delay(PauseMs);
+                var unused2 = sh.SendV2CPonTestTrap(_startTime, 0, 5, i+1);
+                await Task.Delay(PauseMs);
             }
         }
 

@@ -24,6 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             await Task.Delay(1);
             var relation = ParseTrapReturnRelation(pkt, endPoint, logFile);
+            if (relation == null) return;
 
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == relation.TraceId);
             if (trace == null)

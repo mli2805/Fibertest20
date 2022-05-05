@@ -23,6 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
+        private readonly OutOfTurnData _outOfTurnData;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
         private readonly SnmpNotifier _snmpNotifier;
@@ -32,7 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
             IFtSignalRClient ftSignalRClient, AccidentLineModelFactory accidentLineModelFactory,
-            Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
+            OutOfTurnData outOfTurnData, Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _logFile = logFile;
             _iniFile = iniFile;
@@ -44,6 +45,7 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStationsRepository = rtuStationsRepository;
             _ftSignalRClient = ftSignalRClient;
             _accidentLineModelFactory = accidentLineModelFactory;
+            _outOfTurnData = outOfTurnData;
             _smtp = smtp;
             _smsManager = smsManager;
             _snmpNotifier = snmpNotifier;
@@ -72,6 +74,8 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task ProcessMonitoringResult(MonitoringResultDto dto)
         {
             if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return;
+
+            _outOfTurnData.SetRtuIsFree(dto.RtuId);
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId != -1)
