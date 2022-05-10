@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
 namespace Broadcaster
 {
+    public class PayLoad
+    {
+        public int Id;
+        public int Square;
+    }
     public class HuaweiTrapViewModel : PropertyChangedBase
     {
         private readonly IniFile _iniFile;
@@ -28,12 +36,12 @@ namespace Broadcaster
             var sh = new SnmpHuaweiAgent(snmpAgent);
             for (int i = 0; i < TrapCount; i++)
             {
-                var unused = sh.SendV2CPonTestTrap(_startTime, 1, 2, i+1);
+                var unused = sh.SendV2CPonTestTrap(_startTime, 1, 2, i + 1);
                 await Task.Delay(PauseMs);
-                var unused1 = sh.SendV2CPonTestTrap(_startTime, 128, 2, i+1);
-                await Task.Delay(PauseMs);
-                var unused2 = sh.SendV2CPonTestTrap(_startTime, 0, 5, i+1);
-                await Task.Delay(PauseMs);
+                // var unused1 = sh.SendV2CPonTestTrap(_startTime, 128, 2, i+1);
+                // await Task.Delay(PauseMs);
+                // var unused2 = sh.SendV2CPonTestTrap(_startTime, 0, 5, i+1);
+                // await Task.Delay(PauseMs);
             }
         }
 

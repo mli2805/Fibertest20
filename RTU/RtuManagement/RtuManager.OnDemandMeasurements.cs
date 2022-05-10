@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -106,7 +107,7 @@ namespace Iit.Fibertest.RtuManagement
             if (IsMonitoringOn)
             {
                 StopMonitoring("Out of turn monitoring.");
-                Thread.Sleep(TimeSpan.FromSeconds(5));
+                // Thread.Sleep(TimeSpan.FromSeconds(5));
             }
 
             _rtuLog.EmptyLine();
@@ -127,11 +128,21 @@ namespace Iit.Fibertest.RtuManagement
 
             callback?.Invoke();
 
-            DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise, true);
+            var moniResult = DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise, true);
             if (_cancellationTokenSource.IsCancellationRequested)
             {
                 _rtuLog.AppendLine("Out of turn precise monitoring interrupted.");
                 return;
+            }
+
+            var monitoringPort = _monitoringQueue.Queue.FirstOrDefault(p =>
+                p.CharonSerial == dto.PortWithTraceDto.OtauPort.Serial
+                && p.OpticalPort == dto.PortWithTraceDto.OtauPort.OpticalPort);
+
+            if (monitoringPort != null)
+            {
+                monitoringPort.LastMoniResult = moniResult;
+                monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
             }
 
             if (_wasMonitoringOn)

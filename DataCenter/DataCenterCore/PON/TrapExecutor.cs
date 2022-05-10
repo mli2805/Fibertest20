@@ -61,7 +61,7 @@ namespace Iit.Fibertest.DataCenterCore
             var res = pkt.Parse(tce, logFile);
             if (res == null)
             {
-                logFile.AppendLine("Failed to parse trap");
+                logFile.AppendLine("Failed to parse trap (maybe it is not a line event trap)");
                 return null;
             }
 

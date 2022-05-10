@@ -28,6 +28,8 @@ namespace Iit.Fibertest.RtuManagement
         }
 
         public int Count() { return Queue.Count; }
+
+        public MonitorigPort Peek() { return Queue.Peek(); }
         public MonitorigPort Dequeue() { return Queue.Dequeue(); }
         public void Enqueue(MonitorigPort item) { Queue.Enqueue(item); }
 

@@ -29,7 +29,7 @@ namespace Iit.Fibertest.RtuManagement
         }
 
         private void SendCurrentMonitoringStep(MonitoringCurrentStep currentStep,
-            MonitorigPort monitorigPort = null, BaseRefType baseRefType = BaseRefType.None)
+            MonitorigPort monitoringPort = null, BaseRefType baseRefType = BaseRefType.None)
         {
             if (IsSenderBusy)
                 return;
@@ -40,17 +40,17 @@ namespace Iit.Fibertest.RtuManagement
             {
                 RtuId = _id,
                 Step = currentStep,
-                PortWithTraceDto = monitorigPort == null ? null : new PortWithTraceDto()
+                PortWithTraceDto = monitoringPort == null ? null : new PortWithTraceDto()
                 {
                     OtauPort = new OtauPortDto()
                     {
-                        Serial = monitorigPort.CharonSerial,
-//                        OtauIp = monitorigPort.NetAddress.Ip4Address,
-//                        OtauTcpPort = monitorigPort.NetAddress.Port,
-                        OpticalPort = monitorigPort.OpticalPort,
-                        IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
+                        Serial = monitoringPort.CharonSerial,
+//                        OtauIp = monitoringPort.NetAddress.Ip4Address,
+//                        OtauTcpPort = monitoringPort.NetAddress.Port,
+                        OpticalPort = monitoringPort.OpticalPort,
+                        IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
                     },
-                    TraceId = monitorigPort.TraceId,
+                    TraceId = monitoringPort.TraceId,
                 },
                 BaseRefType = baseRefType,
             };
