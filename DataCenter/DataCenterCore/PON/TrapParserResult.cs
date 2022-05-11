@@ -9,5 +9,6 @@ namespace Iit.Fibertest.DataCenterCore
         public int Slot { get; set; }
         public int GponInterface { get; set; }
         public FiberState State { get; set; }
+        public string ZteEventId { get; set; }
     }
 }

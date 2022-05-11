@@ -18,7 +18,10 @@ namespace Iit.Fibertest.DataCenterCore
             var codeStr = pdu.Value.ToString();
             if (!int.TryParse(codeStr, out int code)) return null;
 
-            return CreateResult(@"ZTE_C320", ss[2], code);
+            var ee = ss[1].Split('=');
+            var eventId = ss[2] == "eventLevel=critical" ? ee[1] : "";
+
+            return CreateResult(@"ZTE_C320", ss[2], code, eventId);
         }
 
         public static TrapParserResult ParseC300(this SnmpV2Packet pkt)
@@ -34,7 +37,10 @@ namespace Iit.Fibertest.DataCenterCore
             var codeStr = pdu.Value.ToString();
             if (!int.TryParse(codeStr, out int code)) return null;
 
-            return CreateResult(@"ZTE_C300_v1", ss[2], code);
+            var ee = ss[1].Split('=');
+            var eventId = ss[2] == "eventLevel=critical" ? ee[1] : "";
+
+            return CreateResult(@"ZTE_C300_v1", ss[2], code, eventId);
         }
 
         public static TrapParserResult ParseC300M(this SnmpV2Packet pkt)
@@ -52,7 +58,10 @@ namespace Iit.Fibertest.DataCenterCore
             var codeStr = oid.Substring(point + 1);
             if (!int.TryParse(codeStr, out int code)) return null;
 
-            return CreateResult(@"ZTE_C300M_v4", ss[2], code);
+            var ee = ss[1].Split('=');
+            var eventId = ss[2] == "eventLevel=critical" ? ee[1] : "";
+
+            return CreateResult(@"ZTE_C300M_v4", ss[2], code, eventId);
         }
 
         /// <summary>
@@ -71,13 +80,14 @@ namespace Iit.Fibertest.DataCenterCore
             return shifted & 0x00000011;
         }
 
-        private static TrapParserResult CreateResult(string tceTypeStructCode, string eventLevel, int code)
+        private static TrapParserResult CreateResult(string tceTypeStructCode, string eventLevel, int code, string eventId = "")
         {
             var result = new TrapParserResult
             {
                 Slot = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(1) : code.ExtractNumberFromZteCode(2),
                 GponInterface = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(0) : code.ExtractNumberFromZteCode(1),
                 State = eventLevel == "eventLevel=critical" ? FiberState.FiberBreak : FiberState.Ok,
+                ZteEventId = eventId,
             };
             return result;
         }

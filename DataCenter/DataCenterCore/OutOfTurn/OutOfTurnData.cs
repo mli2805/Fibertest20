@@ -35,7 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
         public void AddNewRequest(DoOutOfTurnPreciseMeasurementDto dto, IMyLog logFile)
         {
             var newDict = new ConcurrentDictionary<Guid, OutOfTurnRequest>();
-            newDict.TryAdd(dto.PortWithTraceDto.TraceId, new OutOfTurnRequest() { Dto = dto, Timestamp = DateTime.Now }); // no problem here
+            newDict.TryAdd(dto.PortWithTraceDto.TraceId, new OutOfTurnRequest() { Dto = dto, Timestamp = DateTime.Now }); // no problem could be with empty dict
 
             _requests.AddOrUpdate(dto.RtuId, newDict,
                 (guid, oneRtuDict) =>
