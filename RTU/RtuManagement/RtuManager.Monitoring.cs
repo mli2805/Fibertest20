@@ -46,17 +46,17 @@ namespace Iit.Fibertest.RtuManagement
                     var unused = _monitoringQueue.Dequeue();
                     _monitoringQueue.Enqueue(monitoringPort);
                 }
-            
+
 
                 if (!IsMonitoringOn)
                     break;
             }
 
             _rtuLog.AppendLine("Monitoring stopped.");
-            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
 
             if (!_wasMonitoringOn)
             {
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
                 var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
                 _otdrManager.DisconnectOtdr(otdrAddress);
                 IsMonitoringOn = false;

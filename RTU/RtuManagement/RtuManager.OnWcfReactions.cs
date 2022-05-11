@@ -13,7 +13,7 @@ namespace Iit.Fibertest.RtuManagement
     {
         // could contain only one element at any time
         // used as thread safe way to exchange between WCF thread and Measurement thread
-        public ConcurrentQueue<object> WcfCommandsQueue = new ConcurrentQueue<object>();
+        // public ConcurrentQueue<object> WcfCommandsQueue = new ConcurrentQueue<object>();
 
         public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
@@ -21,8 +21,9 @@ namespace Iit.Fibertest.RtuManagement
         {
             if (IsMonitoringOn || _wasMonitoringOn)
             {
+                _wasMonitoringOn = IsMonitoringOn;
                 StopMonitoring("Initialize");
-                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true); // after initialization monitoring should be resumed
+                // _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true); // after initialization monitoring should be resumed
             }
 
             LogInitializationStart();
