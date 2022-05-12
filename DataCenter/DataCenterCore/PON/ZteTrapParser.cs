@@ -77,15 +77,18 @@ namespace Iit.Fibertest.DataCenterCore
         public static int ExtractNumberFromZteCode(this int code, int place)
         {
             var shifted = code >> (place * 8);
-            return shifted & 0x00000011;
+            var result = shifted & 0x000000FF;
+            return result;
         }
 
         private static TrapParserResult CreateResult(string tceTypeStructCode, string eventLevel, int code, string eventId = "")
         {
+            var slot = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(1) : code.ExtractNumberFromZteCode(2);
+            var gponInterface = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(0) : code.ExtractNumberFromZteCode(1);
             var result = new TrapParserResult
             {
-                Slot = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(1) : code.ExtractNumberFromZteCode(2),
-                GponInterface = tceTypeStructCode == "ZTE_C300M_v4" ? code.ExtractNumberFromZteCode(0) : code.ExtractNumberFromZteCode(1),
+                Slot = slot,
+                GponInterface = gponInterface,
                 State = eventLevel == "eventLevel=critical" ? FiberState.FiberBreak : FiberState.Ok,
                 ZteEventId = eventId,
             };
