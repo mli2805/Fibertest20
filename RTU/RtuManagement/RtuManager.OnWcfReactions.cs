@@ -175,7 +175,13 @@ namespace Iit.Fibertest.RtuManagement
             RunMonitoringCycle();
         }
 
-        public void StopMonitoring(string caller)
+        public void StopMonitoringRequest(string caller)
+        {
+            StopMonitoring(caller);
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+        }
+
+        private void StopMonitoring(string caller)
         {
             IsMonitoringOn = false;
             _rtuLog.AppendLine($"{caller}: Interrupting current measurement...");

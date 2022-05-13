@@ -57,7 +57,7 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     if (_rtuWcfOperationsPermissions.ShouldStop())
-                        _rtuManager.StopMonitoring("Stop monitoring");
+                        _rtuManager.StopMonitoringRequest("Stop monitoring");
                 }
                 catch (Exception e)
                 {
