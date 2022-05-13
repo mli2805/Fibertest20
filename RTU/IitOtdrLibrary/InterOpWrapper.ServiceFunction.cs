@@ -13,7 +13,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public string GetOtdrInfo(GetOtdrInfo infoType)
         {
-            int cmd = (int)ServiceFunctionCommand.Getotdrinfo;
+            int cmd = (int)ServiceFunctionCommand.GetOtdrInfo;
             int prm = (int)infoType;
             IntPtr otdrInfo = IntPtr.Zero;
 
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         public bool SetBaseForComparison(IntPtr baseSorData)
         {
-            int cmd = (int)ServiceFunctionCommand.Setbase;
+            int cmd = (int)ServiceFunctionCommand.SetBase;
             int reserved = 0;
 
             var result = ServiceFunction(cmd, ref reserved, ref baseSorData);

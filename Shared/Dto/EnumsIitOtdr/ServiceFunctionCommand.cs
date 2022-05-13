@@ -2,10 +2,10 @@
 {
     public enum GetOtdrInfo
     {
-        ServiceCmdGetotdrinfoMfid    =  1,
-        ServiceCmdGetotdrinfoMfsn    =  2,
-        ServiceCmdGetotdrinfoOmsn    =  3,
-        ServiceCmdGetotdrinfoOmid    =  4,
+        ServiceCmdGetOtdrInfoMfid    =  1,
+        ServiceCmdGetOtdrInfoMfsn    =  2,
+        ServiceCmdGetOtdrInfoOmsn    =  3,
+        ServiceCmdGetOtdrInfoOmid    =  4,
     }
 
     public enum ServiceFunctionCommand
@@ -13,27 +13,27 @@
         IitServiceXxx = 700,
         Monitor = 701, //mean the same as ..._POINTS
         GetParam = 702,
-        Showparam = 703,
-        Setbase = 704,
+        ShowParam = 703,
+        SetBase = 704,
         SetParam = 705,
         MonitorPoints = 701, //monitor by points comparison
         MonitorEvents = 701, //monitor by events comparison
-        Getbase = 707,
+        GetBase = 707,
         SetParamFromSor = 708,
-        ShowparamLng = 709,
+        ShowParamLng = 709,
         Auto = 710,
-        Getotdrinfo = 711,
-        Getautoparam = 712,
-        Setautoparam = 713,
+        GetOtdrInfo = 711,
+        GetAutoParam = 712,
+        SetAutoParam = 713,
 
-        AutoAnalyse = 714,
+        AutoAnalyze = 714,
         DevInformation = 715,
         ApplyParam = 716,
         AutoParamFind = 717,
 
-        SetparamDefaults = 718,
-        GetYscale = 719,
-        SetYscaleFlag = 720,
+        SetParamDefaults = 718,
+        GetYScale = 719,
+        SetYScaleFlag = 720,
         AutoEof = 721,
         RangeView = 722,
         AutoMeasPrm = 723,
@@ -42,20 +42,20 @@
         GetPower = 726,
         ReloadContext = 727,
 
-        GetmodulesCount = 728,
-        GetmodulesName = 729,
-        GetmodulesVersion = 730,
+        GetModulesCount = 728,
+        GetModulesName = 729,
+        GetModulesVersion = 730,
 
-        GetMeasstepsCount = 731,
+        GetMeasStepsCount = 731,
         ApplyFilter = 732,
-        GetbaseBuffer = 733,
-        SetbaseBuffer = 734,
+        GetBaseBuffer = 733,
+        SetBaseBuffer = 734,
         MonitorBuffer = 735,
-        SetparamFromSorBuffer = 736,
+        SetParamFromSorBuffer = 736,
         AutoBuffer = 737,
         ApplyFilterBuffer = 738,
 
-        GetparamForLaser = 739,
+        GetParamForLaser = 739,
         Reserved1 = 740,
         LsControl = 741,
         LsPwrTest = 742,
@@ -66,8 +66,8 @@
         ParamMeasConqGet = 747,
         UnitGet = 748,
         MeasConnParamsAndLmax = 749,
-        ObtainLinkscanParams = 750,
-        ApplyLinkscanParamI = 751,
+        ObtainLinkScanParams = 750,
+        ApplyLinkScanParamI = 751,
         SetPonParamsForAutoParams = 752,
         ParamDevicePortCommand = 753,
 

@@ -72,13 +72,13 @@ namespace Iit.Fibertest.RtuManagement
             if (!_otdrManager.ConnectOtdr(otdrAddress))
                 return ReturnCode.FailedToConnectOtdr;
 
-            _mfid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfid);
+            _mfid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetOtdrInfoMfid);
             _rtuLog.AppendLine($"MFID = {_mfid}");
-            _mfsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfsn);
+            _mfsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetOtdrInfoMfsn);
             _rtuLog.AppendLine($"MFSN = {_mfsn}");
-            _omid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmid);
+            _omid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetOtdrInfoOmid);
             _rtuLog.AppendLine($"OMID = {_omid}");
-            _omsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmsn);
+            _omsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetOtdrInfoOmsn);
             _rtuLog.AppendLine($"OMSN = {_omsn}");
             return ReturnCode.Ok;
         }
