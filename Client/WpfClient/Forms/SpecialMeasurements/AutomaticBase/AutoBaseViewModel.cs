@@ -22,13 +22,15 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly Model _readModel;
-        private readonly AutoBaseRefLandmarksTool _autoBaseRefLandmarksTool;
+        private readonly LandmarksTool _landmarksTool;
         private readonly BaseRefMessages _baseRefMessages;
         private readonly ClientMeasurementModel _clientMeasurementModel;
         private readonly CurrentUser _currentUser;
+        private readonly int _measurementTimeout;
 
         private Trace _trace;
 
@@ -55,18 +57,21 @@ namespace Iit.Fibertest.Client
         }
 
         public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
+            IDispatcherProvider dispatcherProvider, IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
             CurrentUser currentUser, Model readModel,
-            AutoBaseRefLandmarksTool autoBaseRefLandmarksTool, BaseRefMessages baseRefMessages)
+            LandmarksTool landmarksTool, BaseRefMessages baseRefMessages)
         {
             _globalScope = globalScope;
             _logFile = logFile;
+            _dispatcherProvider = dispatcherProvider;
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _readModel = readModel;
             _currentUser = currentUser;
-            _autoBaseRefLandmarksTool = autoBaseRefLandmarksTool;
+            _landmarksTool = landmarksTool;
             _baseRefMessages = baseRefMessages;
+
+            _measurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 45000);
 
             _clientMeasurementModel = new ClientMeasurementModel(currentUser, readModel);
             AutoAnalysisParamsViewModel = new AutoAnalysisParamsViewModel(windowManager);
@@ -104,6 +109,13 @@ namespace Iit.Fibertest.Client
 
         public async void Start()
         {
+            _logFile.AppendLine(@"Start a measurement timeout");
+            _isMeasReceived = false;
+            _timer = new System.Timers.Timer(_measurementTimeout);
+            _timer.Elapsed += TimeIsOver;
+            _timer.AutoReset = false;
+            _timer.Start();
+
             IsEnabled = false;
             IsOpen = true;
             MeasurementProgressViewModel.TraceTitle = _trace.Title;
@@ -133,6 +145,24 @@ namespace Iit.Fibertest.Client
             if (_clientMeasurementModel.Rtu.RtuMaker == RtuMaker.VeEX)
                 await WaitClientMeasurementFromVeex(dto, startResult);
             // if RtuMaker is IIT - result will come through WCF contract
+        }
+
+        private System.Timers.Timer _timer;
+        private bool _isMeasReceived;
+        private void TimeIsOver(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (_isMeasReceived) return;
+
+            _logFile.AppendLine(@"Measurement timeout expired");
+
+            _dispatcherProvider.GetDispatcher().Invoke(() =>
+            {
+                MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,
+                    Resources.SID_Base_reference_assignment_failed));
+            });
+
+            TryClose();
         }
 
         private async Task WaitClientMeasurementFromVeex(DoClientMeasurementDto dto, ClientMeasurementStartedDto startResult)
@@ -177,6 +207,7 @@ namespace Iit.Fibertest.Client
 
         public async void ProcessMeasurementResult(byte[] sorBytes)
         {
+            _isMeasReceived = true;
             MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
@@ -189,7 +220,7 @@ namespace Iit.Fibertest.Client
             var sorData = SorData.FromBytes(sorBytes);
             sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());
 
-            _autoBaseRefLandmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
+            _landmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
 
             BaseRefAssignedDto result;
             using (_globalScope.Resolve<IWaitCursor>())

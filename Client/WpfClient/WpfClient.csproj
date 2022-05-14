@@ -220,7 +220,7 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\AutoBaseRefLandmarksTool.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\LandmarksTool.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\ClientMeasurementModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />

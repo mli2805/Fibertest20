@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
-        private readonly AutoBaseRefLandmarksTool _autoBaseRefLandmarksTool;
+        private readonly LandmarksTool _landmarksTool;
         private readonly BaseRefMessages _baseRefMessages;
         private List<Trace> _traces;
 
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
 
         public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, CurrentUser currentUser,
             IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
-            AutoBaseRefLandmarksTool autoBaseRefLandmarksTool, BaseRefMessages baseRefMessages)
+            LandmarksTool landmarksTool, BaseRefMessages baseRefMessages)
         {
             _globalScope = globalScope;
             _logFile = logFile;
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
-            _autoBaseRefLandmarksTool = autoBaseRefLandmarksTool;
+            _landmarksTool = landmarksTool;
             _baseRefMessages = baseRefMessages;
             _clientMeasurementModel = new ClientMeasurementModel(currentUser, readModel);
         }
@@ -153,7 +153,7 @@ namespace Iit.Fibertest.Client
             var sorData = SorData.FromBytes(sorBytes);
             sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());
 
-            _autoBaseRefLandmarksTool.ApplyTraceToAutoBaseRef(sorData, trace);
+            _landmarksTool.ApplyTraceToAutoBaseRef(sorData, trace);
 
             BaseRefAssignedDto result;
             using (_globalScope.Resolve<IWaitCursor>())

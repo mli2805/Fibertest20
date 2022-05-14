@@ -77,6 +77,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result == 0;
         }
 
+        // установка участка - он же воротики - для обнаружения новых событий
         public bool InsertIitEvents(ref IntPtr sorData)
         {
             int cmd = (int)ServiceFunctionCommand.InsertIitEvents;

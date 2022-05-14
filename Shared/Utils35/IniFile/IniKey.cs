@@ -143,6 +143,7 @@
         GraphVisibilityLevel,
         PathToClient,
         PathToRftsParamsTemplate,
+        MeasurementTimeoutMs,
 
         // LoadTesting
         Multiplier,
