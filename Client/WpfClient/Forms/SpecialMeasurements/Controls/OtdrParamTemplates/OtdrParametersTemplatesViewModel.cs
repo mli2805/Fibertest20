@@ -43,6 +43,11 @@ namespace Iit.Fibertest.Client
             Model.RefractiveIndex = branchOfAcceptableMeasParams.RefractiveIndex;
         }
 
+        public bool IsAutoLmaxSelected()
+        {
+            return Model.SelectedOtdrParametersTemplate.Id == 0;
+        }
+
         public List<MeasParam> GetSelectedParameters()
         {
             var branch = _rtu.AcceptableMeasParams.Units[Model.SelectedUnit];

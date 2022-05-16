@@ -70,8 +70,9 @@ namespace Iit.Fibertest.Client
                 OtdrParametersTemplates.Add(template);
             }
 
-            OtdrParametersTemplates[1].IsChecked = true;
-            SelectedOtdrParametersTemplate = OtdrParametersTemplates[1];
+            var defaultTemplate = 0;
+            OtdrParametersTemplates[defaultTemplate].IsChecked = true;
+            SelectedOtdrParametersTemplate = OtdrParametersTemplates[defaultTemplate];
         }
 
         private void Template_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

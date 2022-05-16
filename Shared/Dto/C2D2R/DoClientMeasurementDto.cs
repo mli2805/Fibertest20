@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public AnalysisParameters AnalysisParameters { get; set; }
 
-        [DataMember] 
+        [DataMember]
         public List<OtauPortDto> OtauPortDtoList { get; set; } = new List<OtauPortDto>();
 
         [DataMember]
@@ -42,6 +42,9 @@ namespace Iit.Fibertest.Dto
         // false - apply full auto analysis (usual client measurement)
         [DataMember]
         public bool IsForAutoBase { get; set; }
+
+        [DataMember]
+        public bool IsAutoLmax { get; set; }
     }
 
 }

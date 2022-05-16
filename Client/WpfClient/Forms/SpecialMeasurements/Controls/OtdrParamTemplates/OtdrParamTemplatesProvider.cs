@@ -32,19 +32,26 @@ namespace Iit.Fibertest.Client
             var is4100 = rtu.Omid == "RXT-4100+/1650 50dB";
 
             var result = new List<OtdrParametersTemplate>();
-            for (int i = 1; i <= 4; i++)
+            result.Add(new OtdrParametersTemplate()
+            {
+                Id = 0,
+                Title = "Auto Lmax definition",
+            });
+
+            for (int i = 0; i < 4; i++)
             {
                 result.Add(new OtdrParametersTemplate()
                 {
-                    Id = i,
-                    Title = Titles[i-1],
-                    Lmax = is4100 ? Rxt4100Lmax[i-1] : Lmax[i-1],
-                    Dl = is4100 ? Rxt4100Dl[i-1] : Dl[i-1],
-                    Tp = is4100 ? Rxt4100Tp[i-1] : Tp[i-1],
-                    Time = Time[i-1],
+                    Id = i + 1,
+                    Title = Titles[i],
+                    Lmax = is4100 ? Rxt4100Lmax[i] : Lmax[i],
+                    Dl = is4100 ? Rxt4100Dl[i] : Dl[i],
+                    Tp = is4100 ? Rxt4100Tp[i] : Tp[i],
+                    Time = Time[i],
                 });
             }
 
+           
             return result;
         }
     }

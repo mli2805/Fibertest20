@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             return otauPortDto;
         }
 
-        public DoClientMeasurementDto PrepareDto(List<MeasParam> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
+        public DoClientMeasurementDto PrepareDto(bool isAutoLmax, List<MeasParam> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
             var dto = new DoClientMeasurementDto()
             {
@@ -65,6 +65,7 @@ namespace Iit.Fibertest.Client
 
                 SelectedMeasParams = iitMeasParams,
                 VeexMeasOtdrParameters = veexMeasParams,
+
                 AnalysisParameters = new AnalysisParameters()
                 {
                     lasersParameters = new List<LasersParameter>()
@@ -74,6 +75,7 @@ namespace Iit.Fibertest.Client
                 },
 
                 IsForAutoBase = _isForAutoBase,
+                IsAutoLmax = isAutoLmax,
             };
             dto.OtauPortDtoList.Add(_otauPortDto);
 

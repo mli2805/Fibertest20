@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
             MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
-            var dto = _clientMeasurementModel.PrepareDto(OtdrParametersViewModel.GetSelectedParameters(), OtdrParametersViewModel.GetVeexSelectedParameters());
+            var dto = _clientMeasurementModel.PrepareDto(false, OtdrParametersViewModel.GetSelectedParameters(), OtdrParametersViewModel.GetVeexSelectedParameters());
 
             MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
 

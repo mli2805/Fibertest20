@@ -84,22 +84,12 @@ namespace Iit.Fibertest.Client
             _clientMeasurementModel.Initialize(traceLeaf, true);
 
             OtdrParametersTemplatesViewModel.Initialize(_clientMeasurementModel.Rtu);
-            OtdrParametersTemplatesViewModel.Model.PropertyChanged += Model_PropertyChanged;
-            if (!AutoAnalysisParamsViewModel.Initialize(OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id))
+            if (!AutoAnalysisParamsViewModel.Initialize())
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
             IsShowRef = true;
             IsEnabled = true;
             return true;
-        }
-
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == @"SelectedOtdrParametersTemplate")
-            {
-                AutoAnalysisParamsViewModel.Initialize(OtdrParametersTemplatesViewModel.Model
-                    .OtdrParametersTemplates.First(t => t.IsChecked).Id);
-            }
         }
 
         protected override void OnViewLoaded(object view)
@@ -122,9 +112,11 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
             MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
-            var dto = _clientMeasurementModel
-                .PrepareDto(OtdrParametersTemplatesViewModel.GetSelectedParameters(),
-                    OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
+            var dto = OtdrParametersTemplatesViewModel.IsAutoLmaxSelected()
+                ? _clientMeasurementModel.PrepareDto(true, null, null)
+                : _clientMeasurementModel.PrepareDto(false, 
+                            OtdrParametersTemplatesViewModel.GetSelectedParameters(),
+                                        OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
             MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
 

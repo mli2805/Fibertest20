@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Client
     public class AutoAnalysisParamsViewModel : PropertyChangedBase, IDataErrorInfo
     {
         private readonly IWindowManager _windowManager;
-        private string _templateFileName;
         public RftsParametersModel Model;
         private string _autoLt;
         private string _autoRt;
@@ -57,29 +56,38 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public bool Initialize(int templateId)
+        public bool Initialize()
         {
-            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
-            _templateFileName = clientPath + $@"\ini\RftsParamsDefaultTemplate#{templateId}.rft";
-
+        
             return DisplayParametersFromTemplateFile();
         }
 
+        // AutoLT & AutoRT are the same for all templates!
         public void SaveInTemplate()
         {
-            RftsParamsParser.TryLoad(_templateFileName, out RftsParams result, out Exception _);
-            result.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoLt));
-            result.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoRt));
-            result.Save(_templateFileName);
+            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
+            for (int i = 1; i <= 4; i++)
+            {
+              var templateFileName = clientPath + $@"\ini\RftsParamsDefaultTemplate#{i}.rft";
+
+              RftsParamsParser.TryLoad(templateFileName, out RftsParams result, out Exception _);
+              result.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoLt));
+              result.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoRt));
+              result.Save(templateFileName);
+            }
         }
 
         private bool DisplayParametersFromTemplateFile()
         {
-            if (!RftsParamsParser.TryLoad(_templateFileName, out RftsParams result, out Exception exception))
+            // AutoLT & AutoRT are the same for all templates!
+            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
+            var templateFileName = clientPath + @"\ini\RftsParamsDefaultTemplate#1.rft";
+
+            if (!RftsParamsParser.TryLoad(templateFileName, out RftsParams result, out Exception exception))
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
                 {
-                    @"Failed to load RFTS parameters template from file:!", $@"{_templateFileName}", exception.Message
+                    @"Failed to load RFTS parameters template from file:!", $@"{templateFileName}", exception.Message
                 });
                 _windowManager.ShowDialogWithAssignedOwner(mb);
 
