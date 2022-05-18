@@ -26,6 +26,7 @@
         RtuAttachOtauError = 1108,
         RtuDetachOtauError = 1109,
         RtuToggleToPortError = 1110,
+        TooLongForAutoBase = 1111,
 
         MeasurementError = 1500,
         MeasurementEndedNormally = 1501,

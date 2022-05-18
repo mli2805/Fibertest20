@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public List<MeasParam> SelectedMeasParams { get; set; }
+        public List<MeasParamByPosition> SelectedMeasParams { get; set; }
         [DataMember]
         public VeexMeasOtdrParameters VeexMeasOtdrParameters { get; set; }
         [DataMember]

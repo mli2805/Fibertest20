@@ -23,6 +23,7 @@ namespace Iit.Fibertest.RtuManagement
         private readonly IniFile _serviceIni;
         private OtdrManager _otdrManager;
         private Charon _mainCharon;
+        private TreeOfAcceptableMeasParams _treeOfAcceptableMeasParams;
         private CancellationTokenSource _cancellationTokenSource;
 
         private readonly object _isMonitoringOnLocker = new object();
@@ -144,7 +145,7 @@ namespace Iit.Fibertest.RtuManagement
                 Version = _version,
                 Version2 = _versionIitOtdr,
                 IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false),
-                AcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams(),
+                AcceptableMeasParams = _treeOfAcceptableMeasParams,
             };
         }
 

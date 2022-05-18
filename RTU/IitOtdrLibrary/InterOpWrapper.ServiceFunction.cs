@@ -89,28 +89,36 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return result == 0;
         }
 
-        public bool GetLinkCharacteristics()
+        public double GetLinkCharacteristics()
         {
             int cmd = (int)ServiceFunctionCommand.MeasConnParamsAndLmax; //749
             int prm1 = 1; // laserUnitIndex + 1;
 
             var linkCharacteristics = new ConnectionParams();
-            GCHandle handle1 = GCHandle.Alloc(linkCharacteristics);
-            IntPtr prm2 = GCHandle.ToIntPtr(handle1);
+            // GCHandle handle1 = GCHandle.Alloc(linkCharacteristics);
+            // IntPtr prm2 = GCHandle.ToIntPtr(handle1);
+            IntPtr prm2 = Marshal.AllocHGlobal(12);
+            // byte[] data = new byte[12];
+            // Marshal.Copy(prm2, data, 0, 12);
 
             var result = ServiceFunction(cmd, ref prm1, ref prm2);
             if (result != 1)
             {
                 _rtuLogger.AppendLine($"GetLinkCharacteristics error={result}!");
-                return false;
+                return -1;
             }
+
+            float[] data2 = new float[3];
+            Marshal.Copy(prm2, data2, 0, 3);
 
             const double lightSpeed = 0.000299792458; // km/ns
             var res = prm1 * lightSpeed / 1.4682;
 
-            _rtuLogger.AppendLine($"prm1 = {prm1} ns;     Lmax {res} km");
-            handle1.Free();
-            return true;
+            _rtuLogger.AppendLine($"Link characteristics:  Prm1 = {prm1} ns =>  Lmax {res:F} km");
+            _rtuLogger.AppendLine($"reflectance {data2[0]},   splice {data2[1]},   snr_almax {data2[2]}");
+            // handle1.Free();
+            Marshal.FreeHGlobal(prm2);
+            return res;
         }
     }
 }

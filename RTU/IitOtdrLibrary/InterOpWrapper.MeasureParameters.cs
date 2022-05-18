@@ -20,7 +20,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return Marshal.PtrToStringAnsi(unmanagedPointer);
         }
 
-        public string[] ParseLineOfVariantsForParam(ServiceFunctionFirstParam paramCode)
+        public string[] GetArrayOfVariantsForParam(ServiceFunctionFirstParam paramCode)
         {
             string value = GetLineOfVariantsForParam(paramCode);
             if (value == null)

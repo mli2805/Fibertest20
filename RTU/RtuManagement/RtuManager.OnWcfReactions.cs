@@ -55,6 +55,8 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuLog.AppendLine("Serials do not match! Turning monitoring off.");
             }
 
+            _treeOfAcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
+
             IsRtuInitialized = true;
             // if (!isCallbackReturned)
                 callback?.Invoke();

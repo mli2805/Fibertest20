@@ -99,31 +99,31 @@ namespace Iit.Fibertest.WpfCommonViews.OtdrParams
             Model.SelectedMeasurementTime = index != -1 ? Model.MeasurementTime[index] : Model.MeasurementTime.First();
         }
 
-        public List<MeasParam> GetSelectedParameters()
+        public List<MeasParamByPosition> GetSelectedParameters()
         {
             SaveOtdrParameters();
-            var result = new List<MeasParam>
+            var result = new List<MeasParamByPosition>
             {
-                new MeasParam {Param = ServiceFunctionFirstParam.Unit, Value = Model.Units.IndexOf(Model.SelectedUnit)},
-                new MeasParam
-                    {Param = ServiceFunctionFirstParam.Bc, Value = (int) (Model.BackscatteredCoefficient * 100)},
-                new MeasParam {Param = ServiceFunctionFirstParam.Ri, Value = (int) (Model.RefractiveIndex * 100000)},
-                new MeasParam
-                    {Param = ServiceFunctionFirstParam.Lmax, Value = Model.Distances.IndexOf(Model.SelectedDistance)},
-                new MeasParam
+                new MeasParamByPosition {Param = ServiceFunctionFirstParam.Unit, Position = Model.Units.IndexOf(Model.SelectedUnit)},
+                new MeasParamByPosition
+                    {Param = ServiceFunctionFirstParam.Bc, Position = (int) (Model.BackscatteredCoefficient * 100)},
+                new MeasParamByPosition {Param = ServiceFunctionFirstParam.Ri, Position = (int) (Model.RefractiveIndex * 100000)},
+                new MeasParamByPosition
+                    {Param = ServiceFunctionFirstParam.Lmax, Position = Model.Distances.IndexOf(Model.SelectedDistance)},
+                new MeasParamByPosition
                 {
-                    Param = ServiceFunctionFirstParam.Res, Value = Model.Resolutions.IndexOf(Model.SelectedResolution)
+                    Param = ServiceFunctionFirstParam.Res, Position = Model.Resolutions.IndexOf(Model.SelectedResolution)
                 },
-                new MeasParam
+                new MeasParamByPosition
                 {
                     Param = ServiceFunctionFirstParam.Pulse,
-                    Value = Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)
+                    Position = Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)
                 },
-                new MeasParam {Param = ServiceFunctionFirstParam.IsTime, Value = 1},
-                new MeasParam
+                new MeasParamByPosition {Param = ServiceFunctionFirstParam.IsTime, Position = 1},
+                new MeasParamByPosition
                 {
                     Param = ServiceFunctionFirstParam.Time,
-                    Value = Model.MeasurementTime.IndexOf(Model.SelectedMeasurementTime)
+                    Position = Model.MeasurementTime.IndexOf(Model.SelectedMeasurementTime)
                 },
             };
             return result;

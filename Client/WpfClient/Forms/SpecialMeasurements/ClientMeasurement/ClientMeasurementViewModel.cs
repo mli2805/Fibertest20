@@ -108,7 +108,7 @@ namespace Iit.Fibertest.Client
         }
 
         public DoClientMeasurementDto PrepareDto(Rtu rtu, OtauPortDto otauPortDto,
-            NetAddress address, List<MeasParam> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
+            NetAddress address, List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
             var dto = new DoClientMeasurementDto()
             {

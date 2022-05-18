@@ -122,6 +122,7 @@
     <Compile Include="ForWebApi\RtuTree\RtuDto.cs" />
     <Compile Include="ForWebApi\RtuTree\TraceDto.cs" />
     <Compile Include="Underlying\AccidentInSor.cs" />
+    <Compile Include="Underlying\MeasParamsTree\AutoBaseParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\BranchOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\LeafOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\TreeOfAcceptableMeasParams.cs" />
@@ -151,7 +152,7 @@
     <Compile Include="Underlying\DoubleAddress.cs" />
     <Compile Include="Enums\ReturnCode.cs" />
     <Compile Include="Underlying\GuidExt.cs" />
-    <Compile Include="Underlying\MeasParamsTree\MeasParam.cs" />
+    <Compile Include="Underlying\MeasParamsTree\MeasParamByPosition.cs" />
     <Compile Include="Underlying\MeasurementResult.cs" />
     <Compile Include="Underlying\MoniLevel.cs" />
     <Compile Include="Underlying\MoniResult.cs" />

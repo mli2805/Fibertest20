@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -15,17 +16,6 @@ namespace Iit.Fibertest.Client
             Resources.SID__3__For_traces_5___10_km_long,
             Resources.SID__4__For_traces_10___20_km_long,
         };
-
-        private static readonly List<string> Rxt4100Lmax = new List<string>() { "6.0", "10", "20", "40" };
-        private static readonly List<string> Lmax = new List<string>() { "5.0", "10", "20", "40" };
-
-        private static readonly List<string> Rxt4100Dl = new List<string>() { "0.26", "0.51", "0.51", "1.0" };
-        private static readonly List<string> Dl = new List<string>() { "0.16", "0.32", "0.64", "1.3" };
-
-        private static readonly List<string> Rxt4100Tp = new List<string>() { "10", "25", "25", "25" };
-        private static readonly List<string> Tp = new List<string>() { "12", "25", "25", "25" };
-
-        private static readonly List<string> Time = new List<string>() { "00:05", "00:15", "00:15", "00:15", };
 
         public static List<OtdrParametersTemplate> Get(Rtu rtu)
         {
@@ -44,10 +34,10 @@ namespace Iit.Fibertest.Client
                 {
                     Id = i + 1,
                     Title = Titles[i],
-                    Lmax = is4100 ? Rxt4100Lmax[i] : Lmax[i],
-                    Dl = is4100 ? Rxt4100Dl[i] : Dl[i],
-                    Tp = is4100 ? Rxt4100Tp[i] : Tp[i],
-                    Time = Time[i],
+                    Lmax = is4100 ? AutoBaseParams.Rxt4100Lmax[i] : AutoBaseParams.Lmax[i],
+                    Dl = is4100 ? AutoBaseParams.Rxt4100Dl[i] : AutoBaseParams.Dl[i],
+                    Tp = is4100 ? AutoBaseParams.Rxt4100Tp[i] : AutoBaseParams.Tp[i],
+                    Time = AutoBaseParams.Time[i],
                 });
             }
 

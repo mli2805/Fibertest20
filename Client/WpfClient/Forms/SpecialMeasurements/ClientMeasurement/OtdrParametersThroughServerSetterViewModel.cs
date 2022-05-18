@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        public List<MeasParam> GetSelectedParameters()
+        public List<MeasParamByPosition> GetSelectedParameters()
         {
             return OtdrParametersViewModel.GetSelectedParameters();
         }

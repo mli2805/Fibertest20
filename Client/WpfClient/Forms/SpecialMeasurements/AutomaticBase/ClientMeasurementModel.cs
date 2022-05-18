@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             return otauPortDto;
         }
 
-        public DoClientMeasurementDto PrepareDto(bool isAutoLmax, List<MeasParam> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
+        public DoClientMeasurementDto PrepareDto(bool isAutoLmax, List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
             var dto = new DoClientMeasurementDto()
             {

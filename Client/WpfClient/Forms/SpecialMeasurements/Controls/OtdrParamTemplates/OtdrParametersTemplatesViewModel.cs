@@ -48,37 +48,44 @@ namespace Iit.Fibertest.Client
             return Model.SelectedOtdrParametersTemplate.Id == 0;
         }
 
-        public List<MeasParam> GetSelectedParameters()
+        public List<MeasParamByPosition> GetSelectedParameters()
         {
             var branch = _rtu.AcceptableMeasParams.Units[Model.SelectedUnit];
-            var leaf = branch.Distances[Model.SelectedOtdrParametersTemplate.Lmax];
 
-            var result = new List<MeasParam>
+            var result = new List<MeasParamByPosition>
             {
-                new MeasParam {Param = ServiceFunctionFirstParam.Unit, Value = Model.Units.IndexOf(Model.SelectedUnit)},
-                new MeasParam
-                    {Param = ServiceFunctionFirstParam.Bc, Value = (int) (Model.BackScatteredCoefficient * 100)},
-                new MeasParam {Param = ServiceFunctionFirstParam.Ri, Value = (int) (Model.RefractiveIndex * 100000)},
+                new MeasParamByPosition {Param = ServiceFunctionFirstParam.Unit, Position = Model.Units.IndexOf(Model.SelectedUnit)},
+                new MeasParamByPosition
+                    {Param = ServiceFunctionFirstParam.Bc, Position = (int) (Model.BackScatteredCoefficient * 100)},
+                new MeasParamByPosition {Param = ServiceFunctionFirstParam.Ri, Position = (int) (Model.RefractiveIndex * 100000)},
+                new MeasParamByPosition {Param = ServiceFunctionFirstParam.IsTime, Position = 1},
+            };
 
-                 
-                new MeasParam
-                    { Param = ServiceFunctionFirstParam.Lmax, Value = branch.Distances.Keys.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Lmax) },
-                new MeasParam
+            if (Model.SelectedOtdrParametersTemplate.Id != 0)
+            {
+                var leaf = branch.Distances[Model.SelectedOtdrParametersTemplate.Lmax];
+                result.Add(new MeasParamByPosition
                 {
-                    Param = ServiceFunctionFirstParam.Res, Value = leaf.Resolutions.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Dl)
-                },
-                new MeasParam
+                    Param = ServiceFunctionFirstParam.Lmax,
+                    Position = branch.Distances.Keys.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Lmax)
+                });
+                result.Add(new MeasParamByPosition
+                {
+                    Param = ServiceFunctionFirstParam.Res,
+                    Position = leaf.Resolutions.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Dl)
+                });
+                result.Add(new MeasParamByPosition
                 {
                     Param = ServiceFunctionFirstParam.Pulse,
-                    Value = leaf.PulseDurations.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Tp)
-                },
-                new MeasParam {Param = ServiceFunctionFirstParam.IsTime, Value = 1},
-                new MeasParam
+                    Position = leaf.PulseDurations.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Tp)
+                });
+                result.Add(new MeasParamByPosition
                 {
                     Param = ServiceFunctionFirstParam.Time,
-                    Value = leaf.PeriodsToAverage.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Time)
-                },
-            };
+                    Position = leaf.PeriodsToAverage.ToList().IndexOf(Model.SelectedOtdrParametersTemplate.Time)
+                });
+            }
+
             return result;
         }
 
@@ -103,11 +110,16 @@ namespace Iit.Fibertest.Client
                         }
                     }
                 },
-                distanceRange = Model.SelectedOtdrParametersTemplate.Lmax,
-                resolution = Model.SelectedOtdrParametersTemplate.Dl,
-                pulseDuration = Model.SelectedOtdrParametersTemplate.Tp,
-                averagingTime = Model.SelectedOtdrParametersTemplate.Time,
+
             };
+
+            if (Model.SelectedOtdrParametersTemplate.Id != 0)
+            {
+                result.distanceRange = Model.SelectedOtdrParametersTemplate.Lmax;
+                result.resolution = Model.SelectedOtdrParametersTemplate.Dl;
+                result.pulseDuration = Model.SelectedOtdrParametersTemplate.Tp;
+                result.averagingTime = Model.SelectedOtdrParametersTemplate.Time;
+            }
 
             return result;
         }

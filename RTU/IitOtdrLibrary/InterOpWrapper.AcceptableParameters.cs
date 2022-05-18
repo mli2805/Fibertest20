@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using Iit.Fibertest.Dto;
 
@@ -10,7 +12,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public TreeOfAcceptableMeasParams GetTreeOfAcceptableMeasParams()
         {
             var result = new TreeOfAcceptableMeasParams();
-            var units = ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Unit);
+            var units = GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Unit);
             for (int i = 0; i < units.Length; i++)
             {
                 SetParam(ServiceFunctionFirstParam.Unit, i);
@@ -23,10 +25,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
         {
             var result = new BranchOfAcceptableMeasParams();
 
-            result.BackscatteredCoefficient = double.Parse(ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            result.RefractiveIndex = double.Parse(ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            result.BackscatteredCoefficient = double.Parse(GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
+            result.RefractiveIndex = double.Parse(GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
 
-            var distances = ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Lmax);
+            var distances = GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Lmax);
             for (int i = 0; i < distances.Length; i++)
             {
                 SetParam(ServiceFunctionFirstParam.Lmax, i);
@@ -38,30 +40,52 @@ namespace Iit.Fibertest.IitOtdrLibrary
         private LeafOfAcceptableMeasParams GetLeafOfAcceptableMeasParams()
         {
             var result = new LeafOfAcceptableMeasParams();
-            result.Resolutions = ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Res);
-            result.PulseDurations = ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Pulse);
+            result.Resolutions = GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Res);
+            result.PulseDurations = GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Pulse);
 
             SetParam(ServiceFunctionFirstParam.IsTime, 1);
-            result.PeriodsToAverage = ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Time);
+            result.PeriodsToAverage = GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Time);
 
             SetParam(ServiceFunctionFirstParam.IsTime, 0);
-            result.MeasCountsToAverage = ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr);
+            result.MeasCountsToAverage = GetArrayOfVariantsForParam(ServiceFunctionFirstParam.Navr);
             return result;
         }
-        
-        public void SetMeasurementParametersFromUserInput(List<MeasParam> list)
+
+        // Measurement Client
+        public void SetMeasParamsByPosition(List<MeasParamByPosition> list)
         {
             foreach (var measParam in list)
             {
-                var prms = ParseLineOfVariantsForParam(measParam.Param);
-                Thread.Sleep(50);
-
-                if ((int)measParam.Param > 8)
-                    _rtuLogger.AppendLine($"{measParam.Param.ToString()} - {measParam.Value}", 0, 3);
-                else _rtuLogger.AppendLine($"{measParam.Param.ToString()} - {measParam.Value} ({prms[measParam.Value]})", 0, 3);
-                Thread.Sleep(50);
-                SetParam(measParam.Param, measParam.Value);
+                _rtuLogger.AppendLine($"{measParam.Param} - {measParam.Position}", 0, 3);
+                SetParam(measParam.Param, measParam.Position);
+                Thread.Sleep(200);
             }
+        }
+
+        public List<MeasParamByPosition> ValuesToPositions(List<MeasParamByPosition> allParams, VeexMeasOtdrParameters measParams,
+            TreeOfAcceptableMeasParams treeOfAcceptableMeasParams)
+        {
+            var result = new List<MeasParamByPosition>(){
+                allParams.First(p=>p.Param == ServiceFunctionFirstParam.Unit),
+                allParams.First(p=>p.Param == ServiceFunctionFirstParam.Bc),
+                allParams.First(p=>p.Param == ServiceFunctionFirstParam.Ri),
+                new MeasParamByPosition(){Param = ServiceFunctionFirstParam.IsTime, Position = 1 },
+            };
+
+            var unit = treeOfAcceptableMeasParams.Units.Values.ToArray()[0];
+
+            var lmaxStr = measParams.distanceRange;
+            result.Add(new MeasParamByPosition() { Param = ServiceFunctionFirstParam.Lmax, Position = unit.Distances.Keys.ToList().IndexOf(lmaxStr) });
+            var leaf = unit.Distances[lmaxStr];
+
+            result.Add(new MeasParamByPosition
+                { Param = ServiceFunctionFirstParam.Res, Position = Array.IndexOf(leaf.Resolutions, measParams.resolution) });
+            result.Add(new MeasParamByPosition
+                { Param = ServiceFunctionFirstParam.Pulse, Position = Array.IndexOf(leaf.PulseDurations, measParams.pulseDuration) });
+            result.Add(new MeasParamByPosition
+                { Param = ServiceFunctionFirstParam.Time, Position = Array.IndexOf(leaf.PeriodsToAverage, measParams.averagingTime) });
+
+            return result;
         }
     }
 }

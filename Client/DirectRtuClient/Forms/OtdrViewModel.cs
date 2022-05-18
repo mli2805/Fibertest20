@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -19,11 +21,12 @@ namespace DirectRtuClient
     {
         private readonly IniFile _iniFile35;
         private readonly IMyLog _rtuLogger;
-    //    private readonly string _appDir;
+        //    private readonly string _appDir;
         public string IpAddress { get; set; }
 
         public OtdrManager OtdrManager { get; set; }
-        public TreeOfAcceptableMeasParams Tree;
+        private TreeOfAcceptableMeasParams _treeOfAcceptableMeasParams;
+        private Charon _activeCharon;
 
         public bool ShouldForceLmax { get; set; } = true;
 
@@ -133,7 +136,7 @@ namespace DirectRtuClient
             BaseFileName = @"..\111\bas.sor";
             MeasFileName = @"..\111\izm.sor";
             ResultFileName = @"..\111\izm.sor";
-//            ResultFileName = @"..\out\measwithbase.sor";
+            //            ResultFileName = @"..\out\measwithbase.sor";
 
 
             OtdrManager = new OtdrManager(@"OtdrMeasEngine\", _iniFile35, _rtuLogger);
@@ -162,14 +165,35 @@ namespace DirectRtuClient
             using (new WaitCursor())
             {
                 await Task.Run(() => OtdrManager.ConnectOtdr(IpAddress));
-                Tree = OtdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
+                _treeOfAcceptableMeasParams = OtdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
+                _activeCharon = GetActiveChildCharon();
                 IsOtdrConnected = OtdrManager.IsOtdrConnected;
             }
         }
 
-        public void AutoMeasurement()
+        public async void AutoMeasurement()
         {
-            OtdrManager.GetLinkCharacteristics();
+            var lmax = OtdrManager.InterOpWrapper.GetLinkCharacteristics();
+            // var lmax = 23.99;
+            var values = AutoBaseParams.GetPredefinedParamsForLmax(lmax, @"IIT MAK-100");
+            if (values == null)
+                return;
+
+            var positions = OtdrManager.InterOpWrapper
+                .ValuesToPositions(new List<MeasParamByPosition>()
+                {
+                    new MeasParamByPosition(){Param = ServiceFunctionFirstParam.Unit, Position = 0 },
+                    new MeasParamByPosition(){Param = ServiceFunctionFirstParam.Bc, Position = -8000 },
+                    new MeasParamByPosition(){Param = ServiceFunctionFirstParam.Ri, Position = 146840 },
+                    new MeasParamByPosition(){Param = ServiceFunctionFirstParam.IsTime, Position = 1 },
+                },
+                    values, _treeOfAcceptableMeasParams);
+            OtdrManager.InterOpWrapper.SetMeasParamsByPosition(positions);
+            _rtuLogger.AppendLine(@"Auto measurement parameters applied");
+            var lastSorDataBuffer = await MeasurementItself(_activeCharon);
+            var sorData = SorData.FromBytes(lastSorDataBuffer);
+            sorData.Save(MeasFileName);
+            Process.Start(@"c:\iit-fibertest\RftsReflect\Reflect.exe", MeasFileName);
         }
 
         // при смене значения в комбобоксе параметр записывается напрямую в ини файле модуля
@@ -183,21 +207,12 @@ namespace DirectRtuClient
         private CancellationTokenSource _cancellationTokenSource;
         public async Task StartMeasurement()
         {
+            var lastSorDataBuffer = await MeasurementItself(_activeCharon);
+            if (lastSorDataBuffer == null)
+                return;
+
             using (new WaitCursor())
             {
-                IsMeasurementInProgress = true;
-                Message = Resources.SID_Wait__please___;
-
-                _cancellationTokenSource = new CancellationTokenSource();
-                await Task.Run(() => OtdrManager.DoManualMeasurement(_cancellationTokenSource, ShouldForceLmax, GetActiveChildCharon()));
-
-                IsMeasurementInProgress = false;
-                Message = Resources.SID_Measurement_is_finished_;
-
-                var lastSorDataBuffer = OtdrManager.GetLastSorDataBuffer();
-                if (lastSorDataBuffer == null)
-                    return;
-
                 var sorData = SorData.FromBytes(lastSorDataBuffer);
                 sorData.Save(@"c:\temp\sor\raw_meas.sor");
 
@@ -205,8 +220,24 @@ namespace DirectRtuClient
                 var sorData2 = SorData.FromBytes(sorBytes);
                 sorData2.Save(@"c:\temp\sor\meas_779.sor");
 
-
                 // var sorData = OtdrManager.ApplyFilter(sorBytes, false);
+            }
+        }
+
+        private async Task<byte[]> MeasurementItself(Charon activeCharon)
+        {
+            using (new WaitCursor())
+            {
+                IsMeasurementInProgress = true;
+                Message = Resources.SID_Wait__please___;
+
+                _cancellationTokenSource = new CancellationTokenSource();
+                await Task.Run(() => OtdrManager.DoManualMeasurement(_cancellationTokenSource, ShouldForceLmax, activeCharon));
+
+                IsMeasurementInProgress = false;
+                Message = Resources.SID_Measurement_is_finished_;
+
+                return OtdrManager.GetLastSorDataBuffer();
             }
         }
 
@@ -215,8 +246,7 @@ namespace DirectRtuClient
             // Maybe it should be done in outer scope (something like RtuManager, which has its own MainCharon) ?
             var mainCharon = new Charon(new NetAddress(IpAddress, 23), true, _iniFile35, _rtuLogger);
             mainCharon.InitializeOtauRecursively();
-            NetAddress activeCharonAddress;
-            if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out _))
+            if (!mainCharon.GetExtendedActivePort(out var activeCharonAddress, out _))
             {
                 _rtuLogger.AppendLine(Resources.SID_Can_t_get_active_port);
                 return null;
@@ -347,7 +377,7 @@ namespace DirectRtuClient
                     Message = string.Format(Resources.SID_Monitoring_cycle__0___Wait__please___, c);
                     _rtuLogger.AppendLine(string.Format(Resources.SID_Monitoring_cycle__0__, c));
 
-                _cancellationTokenSource = new CancellationTokenSource();
+                    _cancellationTokenSource = new CancellationTokenSource();
                     var result = await Task.Run(() => OtdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, GetActiveChildCharon()));
 
                     IsMeasurementInProgress = false;

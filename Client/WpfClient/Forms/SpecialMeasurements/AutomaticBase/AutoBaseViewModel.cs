@@ -112,11 +112,9 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
             MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
-            var dto = OtdrParametersTemplatesViewModel.IsAutoLmaxSelected()
-                ? _clientMeasurementModel.PrepareDto(true, null, null)
-                : _clientMeasurementModel.PrepareDto(false, 
-                            OtdrParametersTemplatesViewModel.GetSelectedParameters(),
-                                        OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
+            var dto = _clientMeasurementModel.PrepareDto(OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
+                                             OtdrParametersTemplatesViewModel.GetSelectedParameters(),
+                                                         OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
             MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
 
