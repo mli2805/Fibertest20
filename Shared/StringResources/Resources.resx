@@ -3314,4 +3314,7 @@ Please try again later</value>
 	<data name="SID_Equipment_type_changed_successfully_" xml:space="preserve">
 		<value>Equipment type changed successfully!</value>
 	</data>
+	<data name="SID_Process_snmp_traps" xml:space="preserve">
+		<value>Process SNMP-traps</value>
+	</data>
 </root>

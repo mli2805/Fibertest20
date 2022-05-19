@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Graph
         public TceTypeStruct TceTypeStruct { get; set; }
         public string Ip { get; set; } = @"0.0.0.0";
         public List<TceSlot> Slots { get; set; } = new List<TceSlot>();
+        public bool ProcessSnmpTraps { get; set; }
         public string Comment { get; set; }
 
         public TceS()
@@ -32,6 +33,8 @@ namespace Iit.Fibertest.Graph
                     GponInterfaceCount = sourceSlot.GponInterfaceCount,
                 });
             }
+
+            ProcessSnmpTraps = source.ProcessSnmpTraps;
             Comment = source.Comment;
         }
     }

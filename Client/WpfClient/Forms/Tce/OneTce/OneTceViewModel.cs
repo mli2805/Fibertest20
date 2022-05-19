@@ -72,6 +72,7 @@ namespace Iit.Fibertest.Client
                 TceTypeStruct = _tceInWork.TceTypeStruct,
                 Ip = TceInfoViewModel.Ip4InputViewModel.GetString(),
                 Slots = TceSlotsViewModel.Slots.Select(s=>s.GetTceSlot()).ToList(),
+                ProcessSnmpTraps = TceInfoViewModel.ProcessSnmpTraps,
                 Comment = TceInfoViewModel.Comment,
                 AllRelationsOfTce = TceSlotsViewModel.Slots.SelectMany(s => s.GetGponPortsRelations()).ToList(),
             };

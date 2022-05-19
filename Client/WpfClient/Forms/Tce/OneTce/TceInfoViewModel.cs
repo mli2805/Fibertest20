@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
 
         public Ip4InputViewModel Ip4InputViewModel { get; set; }
 
+        public bool ProcessSnmpTraps { get; set; }
         public string Comment { get; set; }
 
         public TceS Tce { get; set; }
@@ -42,6 +43,7 @@ namespace Iit.Fibertest.Client
 
             Title = tce.Title;
             Ip4InputViewModel = new Ip4InputViewModel(tce.Ip);
+            ProcessSnmpTraps = tce.ProcessSnmpTraps;
             Comment = tce.Comment;
 
             IsEnabled = isEnabled;

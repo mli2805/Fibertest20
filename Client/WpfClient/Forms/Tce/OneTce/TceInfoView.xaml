@@ -26,6 +26,10 @@
             <client:Ip4InputView Margin="5" DataContext="{Binding Ip4InputViewModel}"/>
         </DockPanel>
         <DockPanel Margin="5">
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Process_snmp_traps}" Width="80" Margin="5" TextWrapping="Wrap"/>
+            <CheckBox IsChecked="{Binding ProcessSnmpTraps}" Margin="5"/>
+        </DockPanel>
+      <DockPanel Margin="5">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Width="80" Margin="5"/>
             <TextBox Text="{Binding Comment}"  Margin="5"/>
         </DockPanel>

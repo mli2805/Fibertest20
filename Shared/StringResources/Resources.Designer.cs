@@ -6434,6 +6434,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Process SNMP-traps.
+        /// </summary>
+        public static string SID_Process_snmp_traps {
+            get {
+                return ResourceManager.GetString("SID_Process_snmp_traps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pulse width - Tp:.
         /// </summary>
         public static string SID_Pulse_width {

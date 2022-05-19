@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Graph
                 tce.Title = e.Title;
                 tce.Ip = e.Ip;
                 tce.Slots = e.Slots;
+                tce.ProcessSnmpTraps = e.ProcessSnmpTraps;
                 tce.Comment = e.Comment;
             }
 

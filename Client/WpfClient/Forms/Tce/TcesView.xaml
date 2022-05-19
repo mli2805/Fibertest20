@@ -19,6 +19,7 @@
             <Grid DockPanel.Dock="Top" Background="AliceBlue" Height="20" Margin="5,5,-5,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="28" />
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="160" />
                     <ColumnDefinition Width="100" />
@@ -31,12 +32,14 @@
                 <Border Grid.Column="3" BorderThickness="0,0,1,0" BorderBrush="Black" />
                 <Border Grid.Column="4" BorderThickness="0,0,1,0" BorderBrush="Black" />
                 <Border Grid.Column="5" BorderThickness="0,0,1,0" BorderBrush="Black" />
+                <Border Grid.Column="6" BorderThickness="0,0,1,0" BorderBrush="Black" />
                 <Label Grid.Column="0" Content="{x:Static stringResources:Resources.SID_Title}" Margin="0,-5,0,0" />
-                <Label Grid.Column="1" Content="{x:Static stringResources:Resources.SID_Type}" Margin="0,-5,0,0" />
-                <Label Grid.Column="2" Content="{x:Static stringResources:Resources.SID_Version}" Margin="0,-5,0,0" />
-                <Label Grid.Column="3" Content="IP" Margin="0,-5,0,0" />
-                <Label Grid.Column="4" Content="{x:Static stringResources:Resources.SID_Slot_count}" Margin="0,-5,0,0" />
-                <Label Grid.Column="5" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
+                <Label Grid.Column="1" Content="" Margin="0,-5,0,0" />
+                <Label Grid.Column="2" Content="{x:Static stringResources:Resources.SID_Type}" Margin="0,-5,0,0" />
+                <Label Grid.Column="3" Content="{x:Static stringResources:Resources.SID_Version}" Margin="0,-5,0,0" />
+                <Label Grid.Column="4" Content="IP" Margin="0,-5,0,0" />
+                <Label Grid.Column="5" Content="{x:Static stringResources:Resources.SID_Slot_count}" Margin="0,-5,0,0" />
+                <Label Grid.Column="6" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
             </Grid>
             <ListBox ItemsSource="{Binding Tces}" SelectedItem="{Binding SelectedTce, Mode=TwoWay}" >
                 <ListBox.ContextMenu>
@@ -57,6 +60,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="28" />
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="100" />
@@ -64,11 +68,12 @@
                                     <ColumnDefinition Width="400" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Title}" />
-                                <TextBlock Grid.Column="1" Text="{Binding TceTypeStruct.Model}" />
-                                <TextBlock Grid.Column="2" Text="{Binding TceTypeStruct.SoftwareVersion}" />
-                                <TextBlock Grid.Column="3" Text="{Binding Ip}" />
-                                <TextBlock Grid.Column="4" Text="{Binding TceTypeStruct.SlotCount}" />
-                                <TextBlock Grid.Column="5" Text="{Binding Comment}" />
+                                <CheckBox Grid.Column="1" IsChecked="{Binding ProcessSnmpTraps}" IsEnabled="False"/>
+                                <TextBlock Grid.Column="2" Text="{Binding TceTypeStruct.Model}" />
+                                <TextBlock Grid.Column="3" Text="{Binding TceTypeStruct.SoftwareVersion}" />
+                                <TextBlock Grid.Column="4" Text="{Binding Ip}" />
+                                <TextBlock Grid.Column="5" Text="{Binding TceTypeStruct.SlotCount}" />
+                                <TextBlock Grid.Column="6" Text="{Binding Comment}" />
                             </Grid>
                         </Border>
                     </DataTemplate>
