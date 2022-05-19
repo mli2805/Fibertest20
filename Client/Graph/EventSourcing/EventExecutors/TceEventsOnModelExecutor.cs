@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -13,7 +14,10 @@ namespace Iit.Fibertest.Graph
         {
             var tce = model.TcesNew.FirstOrDefault(o => o.Id == e.Id);
             if (tce == null)
-                model.TcesNew.Add(Mapper.Map<TceS>(e));
+            {
+                tce = Mapper.Map<TceS>(e);
+                model.TcesNew.Add(tce);
+            }
             else
             {
                 tce.Ip = e.Ip;
@@ -43,7 +47,7 @@ namespace Iit.Fibertest.Graph
                 {
                     var trace = model.Traces.FirstOrDefault(t => t.TraceId == newRelation.TraceId);
                     if (trace != null)
-                        trace.IsTraceLinkedWithTce = true;
+                        trace.TraceToTceLinkState = tce.ProcessSnmpTraps ? TraceToTceLinkState.LinkTceOn : TraceToTceLinkState.LinkTceOff;
                 }
 
                 model.GponPortRelations.Add(newRelation);
@@ -53,7 +57,7 @@ namespace Iit.Fibertest.Graph
             {
                 var trace = model.Traces.FirstOrDefault(t => t.TraceId == excludedTraceId);
                 if (trace != null)
-                    trace.IsTraceLinkedWithTce = false;
+                    trace.TraceToTceLinkState = TraceToTceLinkState.NoLink;
             }
 
             return null;
@@ -66,7 +70,7 @@ namespace Iit.Fibertest.Graph
 
             foreach (var relation in relations)
             {
-                model.Traces.First(t => t.TraceId == relation.TraceId).IsTraceLinkedWithTce = false;
+                model.Traces.First(t => t.TraceId == relation.TraceId).TraceToTceLinkState = TraceToTceLinkState.NoLink;
                 model.GponPortRelations.Remove(relation);
             }
 

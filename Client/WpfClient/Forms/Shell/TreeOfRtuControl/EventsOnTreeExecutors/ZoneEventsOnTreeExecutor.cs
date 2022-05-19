@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
                 traceLeaf.Title = trace.Title;
                 traceLeaf.PortNumber = trace.OtauPort?.OpticalPort ?? -1;
                 traceLeaf.TraceState = trace.State;
-                traceLeaf.IsTraceLinkedWithTce = trace.IsTraceLinkedWithTce;
+                traceLeaf.TraceToTceLinkState = trace.TraceToTceLinkState;
                 traceLeaf.IsInZone = trace.ZoneIds.Contains(_currentUser.ZoneId);
                 traceLeaf.BaseRefsSet = new BaseRefsSet()
                 {

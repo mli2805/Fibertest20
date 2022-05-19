@@ -105,7 +105,7 @@ namespace Iit.Fibertest.Client
             newTraceLeaf.TraceState = e.PreviousTraceState;
             newTraceLeaf.Title = traceLeaf.Title;
             newTraceLeaf.IsInZone = acceptable == EventAcceptability.Full;
-            newTraceLeaf.IsTraceLinkedWithTce = traceLeaf.IsTraceLinkedWithTce;
+            newTraceLeaf.TraceToTceLinkState = traceLeaf.TraceToTceLinkState;
           //  newTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Black : Brushes.LightGray;
             newTraceLeaf.PortNumber = port;
 
@@ -140,7 +140,7 @@ namespace Iit.Fibertest.Client
             detachedTraceLeaf.PortNumber = 0;
             detachedTraceLeaf.Title = traceLeaf.Title;
             detachedTraceLeaf.TraceState = FiberState.NotJoined;
-            detachedTraceLeaf.IsTraceLinkedWithTce = traceLeaf.IsTraceLinkedWithTce;
+            detachedTraceLeaf.TraceToTceLinkState = traceLeaf.TraceToTceLinkState;
             detachedTraceLeaf.IsInZone = acceptable == EventAcceptability.Full;
             detachedTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Blue : Brushes.LightGray;
 
@@ -180,7 +180,7 @@ namespace Iit.Fibertest.Client
                 if (traceLeaf == null)
                     return;
 
-                traceLeaf.IsTraceLinkedWithTce = false;
+                traceLeaf.TraceToTceLinkState = TraceToTceLinkState.NoLink;
             }
 
             foreach (var portRelation in e.AllRelationsOfTce)
@@ -192,7 +192,7 @@ namespace Iit.Fibertest.Client
                 if (traceLeaf == null)
                     return;
 
-                traceLeaf.IsTraceLinkedWithTce = true;
+                traceLeaf.TraceToTceLinkState = e.ProcessSnmpTraps ? TraceToTceLinkState.LinkTceOn : TraceToTceLinkState.LinkTceOff;
             }
         }
 
@@ -207,7 +207,7 @@ namespace Iit.Fibertest.Client
                 if (traceLeaf == null)
                     return;
 
-                traceLeaf.IsTraceLinkedWithTce = false;
+                traceLeaf.TraceToTceLinkState = TraceToTceLinkState.NoLink;
             }
         }
     }

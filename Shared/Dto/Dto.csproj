@@ -76,6 +76,7 @@
     <Compile Include="Enums\OpticalAccidentTypeExt.cs" />
     <Compile Include="Enums\RtuMaker.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
+    <Compile Include="Enums\TraceToTceLinkState.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
     <Compile Include="ForWebApi\AboutDto.cs" />
     <Compile Include="ForWebApi\AssignBaseRefDtoWithFiles.cs" />

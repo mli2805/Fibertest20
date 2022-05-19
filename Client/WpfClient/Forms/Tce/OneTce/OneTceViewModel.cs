@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
 
         private bool IsTraceLinked(Trace trace)
         {
-            return trace.IsTraceLinkedWithTce
+            return trace.TraceToTceLinkState != TraceToTceLinkState.NoLink
                    || TceSlotsViewModel.Slots.Any(s => s.Gpons.Any(g => g.GponInWork.Trace?.TraceId == trace.TraceId));
         }
 

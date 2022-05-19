@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
         public Guid AdditionalId { get; set; } = Guid.Empty;
         public TimeSpan AdditionalDuration { get; set; }
 
-        public bool IsTraceLinkedWithTce { get; set; }
+        public TraceToTceLinkState TraceToTceLinkState { get; set; }
         public string Comment { get; set; }
 
         public bool HasAnyBaseRef => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;

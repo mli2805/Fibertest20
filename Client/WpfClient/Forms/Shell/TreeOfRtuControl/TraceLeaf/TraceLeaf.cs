@@ -93,22 +93,22 @@ namespace Iit.Fibertest.Client
             ? TraceState.GetPictogram()
             : new Uri(@"pack://application:,,,/Resources/LeftPanel/WhiteSquare.png");
 
-        private bool _isTraceLinkedWithTce;
-        public bool IsTraceLinkedWithTce
+       
+        private TraceToTceLinkState _traceToTceLinkState;
+        public TraceToTceLinkState TraceToTceLinkState
         {
-            get => _isTraceLinkedWithTce;
+            get => _traceToTceLinkState;
             set
             {
-                if (value == _isTraceLinkedWithTce) return;
-                _isTraceLinkedWithTce = value;
+                if (value == _traceToTceLinkState) return;
+                _traceToTceLinkState = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(TraceTceRelationPictogram));
             }
         }
 
-        public Uri TraceTceRelationPictogram => IsTraceLinkedWithTce 
-            ? new Uri(@"pack://application:,,,/Resources/LeftPanel/GreenSquare.png")
-            : new Uri(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
+
+        public Uri TraceTceRelationPictogram => TraceToTceLinkState.GetPictogram();
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 
