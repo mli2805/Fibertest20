@@ -74,8 +74,19 @@ namespace Iit.Fibertest.DataCenterCore
             var relation = _writeModel.GponPortRelations.FirstOrDefault(r => r.TceId == res.TceId
                                                                              && r.SlotPosition == res.Slot
                                                                              && r.GponInterface == res.GponInterface);
+
+
             if (relation == null)
+            {
                 logFile.AppendLine($"There is no relation for gpon interface {res.GponInterface}");
+                return null;
+            }
+
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == relation.RtuId);
+            if (rtu == null || rtu.MonitoringState != MonitoringState.On)
+            {
+                logFile.AppendLine("RTU is in Manual state or not found.");
+            }
 
             return relation;
         }
