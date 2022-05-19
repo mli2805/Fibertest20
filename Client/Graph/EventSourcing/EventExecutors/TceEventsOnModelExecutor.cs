@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Graph
 
             foreach (var oldRelation in oldRelations)
             {
-                  model.GponPortRelations.Remove(oldRelation);
+                model.GponPortRelations.Remove(oldRelation);
             }
 
             foreach (var newRelation in e.AllRelationsOfTce)
@@ -43,14 +43,13 @@ namespace Iit.Fibertest.Graph
                 {
                     e.ExcludedTraceIds.Remove(newRelation.TraceId);
                 }
-                else
-                {
-                    var trace = model.Traces.FirstOrDefault(t => t.TraceId == newRelation.TraceId);
-                    if (trace != null)
-                        trace.TraceToTceLinkState = tce.ProcessSnmpTraps ? TraceToTceLinkState.LinkTceOn : TraceToTceLinkState.LinkTceOff;
-                }
 
                 model.GponPortRelations.Add(newRelation);
+             
+                var trace = model.Traces.FirstOrDefault(t => t.TraceId == newRelation.TraceId);
+                if (trace != null)
+                    trace.TraceToTceLinkState = tce.ProcessSnmpTraps ? TraceToTceLinkState.LinkTceOn : TraceToTceLinkState.LinkTceOff;
+            
             }
 
             foreach (var excludedTraceId in e.ExcludedTraceIds)
