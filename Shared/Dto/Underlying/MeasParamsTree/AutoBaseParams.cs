@@ -10,8 +10,8 @@ namespace Iit.Fibertest.Dto
         public static readonly List<string> Rxt4100Dl = new List<string>() { "0.26", "0.51", "0.51", "1.0" };
         public static readonly List<string> Dl = new List<string>() { "0.16", "0.32", "0.64", "1.3" };
 
-        public static readonly List<string> Rxt4100Tp = new List<string>() { "10", "25", "25", "25" };
-        public static readonly List<string> Tp = new List<string>() { "12", "25", "25", "25" };
+        public static readonly List<string> Rxt4100Tp = new List<string>() { "10", "25", "25", "100" };
+        public static readonly List<string> Tp = new List<string>() { "12", "25", "25", "100" };
 
         public static readonly List<string> Time = new List<string>() { "00:05", "00:15", "00:15", "00:15", };
 
