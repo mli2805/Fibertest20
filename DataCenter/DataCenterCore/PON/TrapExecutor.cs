@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             logFile.AppendLine($"Request for trace {trace.Title} created.");
             _outOfTurnData.AddNewRequest(dto, logFile);
-       }
+        }
 
         private GponPortRelation ParseTrapReturnRelation(SnmpV2Packet pkt, EndPoint endPoint, IMyLog logFile)
         {
@@ -55,6 +55,12 @@ namespace Iit.Fibertest.DataCenterCore
             if (tce == null)
             {
                 logFile.AppendLine($"Unknown trap source address: {ss[0]}");
+                return null;
+            }
+
+            if (!tce.ProcessSnmpTraps)
+            {
+                logFile.AppendLine("Trap processing of this TCE is turned off");
                 return null;
             }
 
