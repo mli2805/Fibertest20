@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Iit.Fibertest.Dto
 {
@@ -15,34 +16,55 @@ namespace Iit.Fibertest.Dto
 
         public static readonly List<string> Time = new List<string>() { "00:05", "00:15", "00:15", "00:15", };
 
+        // AFTER measurement
+        // Client requests index of template of parameters by lmax from received sorData
+        // lmax in sorData could be slightly less than lmax in template
+        public static int GetTemplateIndexByLmaxInSorData(double lmax, string omid)
+        {
+            var is4100 = omid == "RXT-4100+/1650 50dB";
+            var list = is4100 ? Rxt4100Lmax.Select(double.Parse).ToList() : Lmax.Select(double.Parse).ToList();
+
+            if (lmax < list[0]) return 0;
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                var halfDiff = (list[i] - list[i - 1]) / 2;
+                if (lmax < list[i - 1] + halfDiff)
+                    return i - 1;
+            }
+
+            return list.Count - 1;
+        }
+
+
         public static VeexMeasOtdrParameters GetPredefinedParamsForLmax(double lmax, string omid)
         {
-            var ourLmax = ToOurLmax(lmax);
-            if (ourLmax == null) return null;
-
             var is4100 = omid == "RXT-4100+/1650 50dB";
-            var index = is4100 ? Rxt4100Lmax.IndexOf(ourLmax) : Lmax.IndexOf(ourLmax);
+            var index = GetIndexByProbeMeasurementLmax(lmax, omid);
+            if (index == -1) return null;
 
             return new VeexMeasOtdrParameters
             {
-                distanceRange = ourLmax,
+                distanceRange = is4100 ? Rxt4100Lmax[index] : Lmax[index],
                 resolution = is4100 ? Rxt4100Dl[index] : Dl[index],
                 pulseDuration = is4100 ? Rxt4100Tp[index] : Tp[index],
                 averagingTime = Time[index]
             };
         }
 
-        private static string ToOurLmax(double lmax)
+        // BEFORE measurement
+        // RTU choose index of template of parameters for measurement by LMAX from probe request
+        // this lmax is always less than lmax in template
+        private static int GetIndexByProbeMeasurementLmax(double lmax, string omid)
         {
-            if (lmax <= 5)
-                return "5.0";
-            if (lmax <= 10)
-                return "10";
-            if (lmax <= 20)
-                return "20";
-            if (lmax <= 40)
-                return "40";
-            return null;
+            var is4100 = omid == "RXT-4100+/1650 50dB";
+            var list = is4100 ? Rxt4100Lmax.Select(double.Parse).ToList() : Lmax.Select(double.Parse).ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (lmax <= list[i])
+                    return i;
+            }
+            return -1;
         }
 
     }

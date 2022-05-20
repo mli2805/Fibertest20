@@ -58,7 +58,6 @@ namespace Iit.Fibertest.Client
 
         public bool Initialize()
         {
-        
             return DisplayParametersFromTemplateFile();
         }
 
@@ -77,11 +76,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private bool DisplayParametersFromTemplateFile()
+        public RftsParametersModel LoadFromTemplate(int i)
         {
-            // AutoLT & AutoRT are the same for all templates!
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
-            var templateFileName = clientPath + @"\ini\RftsParamsDefaultTemplate#1.rft";
+            var templateFileName = clientPath + $@"\ini\RftsParamsDefaultTemplate#{i}.rft";
 
             if (!RftsParamsParser.TryLoad(templateFileName, out RftsParams result, out Exception exception))
             {
@@ -91,10 +89,15 @@ namespace Iit.Fibertest.Client
                 });
                 _windowManager.ShowDialogWithAssignedOwner(mb);
 
-                return false;
+                return null;
             }
+            return result.ToModel();
+        }
 
-            Model = result.ToModel();
+        private bool DisplayParametersFromTemplateFile()
+        {
+            // AutoLT & AutoRT are the same for all templates!
+            Model = LoadFromTemplate(1);
             AutoLt = Model.UniParams.First(u => u.Code == @"AutoLT").Value.ToString(CultureInfo.InvariantCulture);
             AutoRt = Model.UniParams.First(u => u.Code == @"AutoRT").Value.ToString(CultureInfo.InvariantCulture);
             return true;
