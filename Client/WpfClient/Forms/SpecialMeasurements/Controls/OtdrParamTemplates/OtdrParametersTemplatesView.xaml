@@ -35,14 +35,30 @@
             </DockPanel>
             <DockPanel>
                 <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="dB"/>
-                <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                             Text="{Binding Model.BackScatteredCoefficient, UpdateSourceTrigger=PropertyChanged, StringFormat=00.0, ConverterCulture=en-US}"/>
+                <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0">
+                    <TextBox.Text>
+                        <Binding Path="Model.BackScatteredCoefficient" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                                 StringFormat="00.0" ConverterCulture="en-US" >
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Backscattered_Coefficient}" Margin="5" HorizontalAlignment="Right"/>
             </DockPanel>
             <DockPanel>
                 <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text=""/>
-                <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0"
-                             Text="{Binding Model.RefractiveIndex, UpdateSourceTrigger=PropertyChanged, StringFormat=0.00000, ConverterCulture=en-US }"/>
+                <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0">
+                    <TextBox.Text>
+                        <Binding Path="Model.RefractiveIndex" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                                 StringFormat="0.00000" ConverterCulture="en-US" >
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Refractive_index}" Margin="5" HorizontalAlignment="Right"/>
             </DockPanel>
             <ListBox ItemsSource="{Binding Model.OtdrParametersTemplates}" 

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class OtdrParametersTemplateModel : PropertyChangedBase
+    public class OtdrParametersTemplateModel : PropertyChangedBase, IDataErrorInfo
     {
         private string _selectedUnit;
         private double _backScatteredCoefficient;
@@ -75,12 +77,35 @@ namespace Iit.Fibertest.Client
             SelectedOtdrParametersTemplate = OtdrParametersTemplates[defaultTemplate];
         }
 
-        private void Template_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Template_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == @"IsChecked")
             {
                 SelectedOtdrParametersTemplate = OtdrParametersTemplates.First(t => t.IsChecked);
             }
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var errorMessage = string.Empty;
+                switch (columnName)
+                {
+                    // case "Model.BackScatteredCoefficient":
+                    // if (Model.BackScatteredCoefficient < -100 || Model.BackScatteredCoefficient > -60)
+                    // errorMessage = Resources.SID_Invalid_input;
+                    // break;
+                    case "RefractiveIndex":
+                        if (RefractiveIndex < 1 || RefractiveIndex > 2)
+                            errorMessage = Resources.SID_Invalid_input;
+                        break;
+                }
+
+                return errorMessage;
+            }
+        }
+
+        public string Error { get; set; }
     }
 }
