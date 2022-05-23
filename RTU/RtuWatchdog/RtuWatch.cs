@@ -54,11 +54,12 @@ namespace Iit.Fibertest.RtuWatchdog
 
         private bool IsGapBetweenMeasurementsExceeded()
         {
-            var lastRestartTimeStr = _watchIniFile.Read(IniSection.Watchdog, IniKey.LastRestartTime, "");
+            var lastRestartTimeStr = _watchIniFile.Read(IniSection.Watchdog, IniKey.LastRestartTime, 
+                DateTime.Now.ToString(CultureInfo.CurrentCulture));
             if (!DateTime.TryParse(lastRestartTimeStr, CultureInfo.CurrentCulture, DateTimeStyles.None,
                 out DateTime lastRestartTime))
             {
-                _watchLog.AppendLine($"Cannot parse LastRestartTime {lastRestartTime}");
+                _watchLog.AppendLine($"Cannot parse LastRestartTime {lastRestartTimeStr}");
                 return false;
             }
 

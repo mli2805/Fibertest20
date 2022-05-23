@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
@@ -20,6 +21,11 @@ namespace Iit.Fibertest.RtuWatchdog
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _watchdogLog.AppendLine($"RTU Watchdog service started. Process {pid}, thread {tid}");
+            // takes version from RtuManagement.dll
+            // mind maintain the same version for all assemblies
+            var assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            _watchdogLog.AppendLine($"RTU Watchdog service version {info.FileVersion}"); 
         }
 
         protected override void OnStart(string[] args)

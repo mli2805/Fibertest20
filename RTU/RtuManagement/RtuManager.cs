@@ -110,6 +110,8 @@ namespace Iit.Fibertest.RtuManagement
 
         public void OnServiceStart()
         {
+            _serviceLog.AppendLine($"RTU Manager version {_version}");
+            _serviceLog.AppendLine($"iit_otdr.dll version {_versionIitOtdr}");
             var upTime = Utils.GetUpTime();
             _serviceLog.AppendLine($"Windows' UpTime is {upTime}");
             var limit = _serviceIni.Read(IniSection.General, IniKey.RtuUpTimeForAdditionalPause, 100);

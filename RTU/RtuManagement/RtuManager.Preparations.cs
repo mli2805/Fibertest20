@@ -17,6 +17,7 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"RTU Manager version {_version}");
+            _rtuLog.AppendLine($"iit_otdr.dll version {_versionIitOtdr}");
 
             var resetCharonResult = RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
             if (resetCharonResult != ReturnCode.Ok)
