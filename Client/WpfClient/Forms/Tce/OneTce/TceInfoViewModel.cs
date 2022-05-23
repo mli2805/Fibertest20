@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
         public TceS Tce { get; set; }
 
         private bool _isEnabled;
-        public bool IsEnabled
+        public bool IsEnabled // edit control 
         {
             get => _isEnabled;
             set

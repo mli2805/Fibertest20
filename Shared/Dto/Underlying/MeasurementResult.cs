@@ -9,5 +9,7 @@
         AdditionalBaseRefNotFound,
         HardwareProblem,
         Interrupted,
+        AnalysisFailed,
+        ComparisonFailed,
     }
 }

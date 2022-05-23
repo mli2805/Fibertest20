@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
     {
         public static TceS CreateTce(this TceTypeStruct tceTypeStruct)
         {
-            var tce = new TceS() { TceTypeStruct = tceTypeStruct };
+            var tce = new TceS() { TceTypeStruct = tceTypeStruct, ProcessSnmpTraps = true };
             foreach (var slot in tceTypeStruct.SlotPositions)
             {
                 tce.Slots.Add(new TceSlot() { Position = slot, GponInterfaceCount = 0 });

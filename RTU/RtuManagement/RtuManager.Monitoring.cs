@@ -240,14 +240,22 @@ namespace Iit.Fibertest.RtuManagement
             catch (Exception e)
             {
                 _rtuLog.AppendLine($"Exception during PrepareMeasurement: {e.Message}");
-
             }
 
-            var measBytes = _otdrManager.ApplyAutoAnalysis(buffer);
-            _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");
-            var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
-            monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
-            moniResult.BaseRefType = baseRefType;
+            MoniResult moniResult;
+            try
+            {
+                var measBytes = _otdrManager.ApplyAutoAnalysis(buffer);
+                _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");
+                moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
+                monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
+                moniResult.BaseRefType = baseRefType;
+            }
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"Exception during measurement analysis: {e.Message}");
+                return new MoniResult(){MeasurementResult =  MeasurementResult.ComparisonFailed};
+            }
 
             LastSuccessfullMeasTimestamp = DateTime.Now;
 
