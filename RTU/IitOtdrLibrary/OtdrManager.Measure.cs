@@ -125,14 +125,19 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public byte[] ApplyAutoAnalysis(byte[] measBytes)
         {
             var measIntPtr = InterOpWrapper.SetSorData(measBytes);
+            _rtuLogger.AppendLine("SetSorData done.", 4);
+
             if (!InterOpWrapper.MakeAutoAnalysis(ref measIntPtr))
             {
                 _rtuLogger.AppendLine("ApplyAutoAnalysis error.");
                 return null;
             }
+            _rtuLogger.AppendLine("ApplyAutoAnalysis done.", 4);
             var size = InterOpWrapper.GetSorDataSize(measIntPtr);
+            _rtuLogger.AppendLine("GetSorDataSize done.", 4);
             byte[] resultBytes = new byte[size];
             InterOpWrapper.GetSordata(measIntPtr, resultBytes, size);
+            _rtuLogger.AppendLine("GetSordata done.", 4);
             InterOpWrapper.FreeSorDataMemory(measIntPtr);
             return resultBytes;
         }
@@ -142,7 +147,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             var measIntPtr = InterOpWrapper.SetSorData(measBytes);
             if (!InterOpWrapper.Analyze(ref measIntPtr, 1))
                 return null;
-            
+
             if (!InterOpWrapper.InsertIitEvents(ref measIntPtr))
                 return null;
 
