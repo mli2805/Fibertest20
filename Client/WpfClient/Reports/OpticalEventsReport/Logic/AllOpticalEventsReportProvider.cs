@@ -134,7 +134,7 @@ namespace Iit.Fibertest.Client
 
         private void DrawConsolidatedTable(Section section)
         {
-            var selectedStates = _reportModel.TraceStateSelectionViewModel.GetSelected();
+            var selectedStates = _reportModel.TraceStateSelectionViewModel.GetCheckedStates();
             var data = OpticalEventsReportFunctions.Create(_events, _reportModel);
             var table = section.AddTable();
             table.Borders.Width = 0.25;
@@ -166,20 +166,19 @@ namespace Iit.Fibertest.Client
         private void DrawOpticalEvents(Section section)
         {
             _closingTimes = _events.GetAccidentsClosingTimes();
-            foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
+            var checkedStatuses = _reportModel.EventStatusViewModel.GetCheckedStatuses();
+            foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder.Where(eventStatus => checkedStatuses.Contains(eventStatus)))
             {
-                if (_reportModel.EventStatusViewModel.GetSelected().Contains(eventStatus))
-                    DrawOpticalEventsWithStatus(section, eventStatus);
+                DrawOpticalEventsWithStatus(section, eventStatus);
             }
         }
 
         private void DrawOpticalEventsWithStatus(Section section, EventStatus eventStatus)
         {
-            foreach (var state in _reportModel.TraceStateSelectionViewModel.GetSelected())
+            foreach (var state in _reportModel.TraceStateSelectionViewModel.GetCheckedStates())
             {
-                var events = _opticalEventsDoubleViewModel.AllOpticalEventsViewModel.
-                    Rows
-                        .Where(r => r.EventStatus == eventStatus 
+                var events = _events
+                        .Where(r => r.EventStatus == eventStatus
                                 && r.TraceState == state
                                 && (r.MeasurementTimestamp.Date >= _reportModel.DateFrom && r.MeasurementTimestamp.Date <= _reportModel.DateTo))
                         .OrderByDescending(e => e.EventRegistrationTimestamp)

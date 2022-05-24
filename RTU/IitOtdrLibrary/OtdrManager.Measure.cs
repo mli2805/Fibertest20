@@ -137,7 +137,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             _rtuLogger.AppendLine("GetSorDataSize done.", 4);
             byte[] resultBytes = new byte[size];
             InterOpWrapper.GetSordata(measIntPtr, resultBytes, size);
-            _rtuLogger.AppendLine("GetSordata done.", 4);
+            _rtuLogger.AppendLine("GetSorData done.", 4);
             InterOpWrapper.FreeSorDataMemory(measIntPtr);
             return resultBytes;
         }

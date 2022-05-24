@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
              Dictionary<FiberState, int> values, OpticalEventsReportModel reportModel)
         {
             var statusLine = new List<string>() { eventStatus.GetLocalizedString() };
-            foreach (var state in reportModel.TraceStateSelectionViewModel.GetSelected())
+            foreach (var state in reportModel.TraceStateSelectionViewModel.GetCheckedStates())
             {
                 statusLine.Add(values.ContainsKey(state) ? values[state].ToString() : @"0");
             }
@@ -60,8 +60,8 @@ namespace Iit.Fibertest.Client
         {
             if (opticalEventModel.MeasurementTimestamp.Date < reportModel.DateFrom.Date) return false;
             if (opticalEventModel.MeasurementTimestamp.Date > reportModel.DateTo.Date) return false;
-            if (!reportModel.EventStatusViewModel.GetSelected().Contains(opticalEventModel.EventStatus)) return false;
-            return reportModel.TraceStateSelectionViewModel.GetSelected().Contains(opticalEventModel.TraceState);
+            if (!reportModel.EventStatusViewModel.GetCheckedStatuses().Contains(opticalEventModel.EventStatus)) return false;
+            return reportModel.TraceStateSelectionViewModel.GetCheckedStates().Contains(opticalEventModel.TraceState);
         }
 
         /// <summary>

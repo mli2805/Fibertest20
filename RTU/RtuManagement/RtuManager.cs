@@ -99,13 +99,15 @@ namespace Iit.Fibertest.RtuManagement
             // mind maintain the same version for all assemblies
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
-            _version = info.FileVersion;
+            var creationTime = File.GetLastWriteTime(assembly.Location);
+            _version = $"{info.FileVersion} created {creationTime:dd/MM/yyyy}";
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
 
             var path = Path.GetDirectoryName(assembly.Location);
             var iitOtdrPath = Path.Combine(path + @"\OtdrMeasEngine\iit_otdr.dll");
+            var creationTime2 = File.GetLastWriteTime(iitOtdrPath);
             FileVersionInfo info2 = FileVersionInfo.GetVersionInfo(iitOtdrPath);
-            _versionIitOtdr = info2.FileVersion;
+            _versionIitOtdr = $"{info2.FileVersion} created {creationTime2:dd/MM/yyyy}";
         }
 
         public void OnServiceStart()

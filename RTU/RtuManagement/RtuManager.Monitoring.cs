@@ -247,7 +247,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 _rtuLog.AppendLine("Start auto analysis.");
                 var measBytes = _otdrManager.ApplyAutoAnalysis(buffer);
-                _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");
+                _rtuLog.AppendLine($"Auto analysis applied. Now sor data has {measBytes.Length} bytes.");
                 moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
                 monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
                 moniResult.BaseRefType = baseRefType;

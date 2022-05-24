@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         public bool IsSuspendedChecked { get; set; } = true;
         public bool IsConfirmedChecked { get; set; } = true;
 
-        public List<EventStatus> GetSelected()
+        public List<EventStatus> GetCheckedStatuses()
         {
             var result = new List<EventStatus>();
             if (IsConfirmedChecked) result.Add(EventStatus.Confirmed);

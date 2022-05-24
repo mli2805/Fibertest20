@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         public bool IsFiberBreakChecked { get; set; } = true;
         public bool IsNoFiberChecked { get; set; } = true;
 
-        public List<FiberState> GetSelected()
+        public List<FiberState> GetCheckedStates()
         {
             var result = new List<FiberState>();
             if (IsFiberBreakChecked) result.Add(FiberState.FiberBreak);
