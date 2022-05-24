@@ -18,10 +18,12 @@ namespace Iit.Fibertest.RtuManagement
         private TimeSpan _preciseSaveTimespan;
         private TimeSpan _fastSaveTimespan;
 
+        private bool _saveSorData;
         private void RunMonitoringCycle()
         {
             _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true);
+            _saveSorData = _rtuIni.Read(IniSection.Monitoring, IniKey.SaveSorData, false);
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");
             _rtuLog.AppendLine($"_mainCharon.Serial = {_mainCharon.Serial}", 0, 3);
@@ -222,7 +224,9 @@ namespace Iit.Fibertest.RtuManagement
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitoringPort, baseRefType);
             var buffer = _otdrManager.GetLastSorDataBuffer();
-            monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
+            if (_saveSorData)
+                monitoringPort.SaveSorData(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
+             // monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
 
             try
@@ -249,13 +253,15 @@ namespace Iit.Fibertest.RtuManagement
                 var measBytes = _otdrManager.ApplyAutoAnalysis(buffer);
                 _rtuLog.AppendLine($"Auto analysis applied. Now sor data has {measBytes.Length} bytes.");
                 moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
-                monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
+                // if (_saveSorData)
+                    // monitoringPort.SaveSorData(buffer, SorType.Meas, _rtuLog); // for investigations purpose
+                 // monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
                 moniResult.BaseRefType = baseRefType;
             }
             catch (Exception e)
             {
                 _rtuLog.AppendLine($"Exception during measurement analysis: {e.Message}");
-                return new MoniResult(){MeasurementResult =  MeasurementResult.ComparisonFailed};
+                return new MoniResult() { MeasurementResult = MeasurementResult.ComparisonFailed };
             }
 
             LastSuccessfullMeasTimestamp = DateTime.Now;

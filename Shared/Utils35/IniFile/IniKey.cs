@@ -72,6 +72,7 @@
         PreciseSaveTimespan,
         FastSaveTimespan,
         LastMeasurementTimestamp,
+        SaveSorData,
 
         // Recovering
         MikrotikRebootTimeout,
