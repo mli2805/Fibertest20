@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
 
         public bool Initialize()
         {
-            return DisplayParametersFromTemplateFile();
+            return DisplayLtAndRtFromAnyTemplateFile();
         }
 
         // AutoLT & AutoRT are the same for all templates!
@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
             return result.ToModel();
         }
 
-        private bool DisplayParametersFromTemplateFile()
+        private bool DisplayLtAndRtFromAnyTemplateFile()
         {
             // AutoLT & AutoRT are the same for all templates!
             Model = LoadFromTemplate(1);
