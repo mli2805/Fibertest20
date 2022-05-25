@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Iit.Fibertest.Dto
@@ -58,7 +60,17 @@ namespace Iit.Fibertest.Dto
         private static int GetIndexByProbeMeasurementLmax(double lmax, string omid)
         {
             var is4100 = omid == "RXT-4100+/1650 50dB";
-            var list = is4100 ? Rxt4100Lmax.Select(double.Parse).ToList() : Lmax.Select(double.Parse).ToList();
+            List<double> list = new List<double>();
+            try
+            {
+                list = is4100 
+                    ? Rxt4100Lmax.Select(s => double.Parse(s, NumberStyles.Any)).ToList() 
+                    : Lmax.Select(s => double.Parse(s, NumberStyles.Any)).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             for (int i = 0; i < list.Count; i++)
             {
                 if (lmax <= list[i])
