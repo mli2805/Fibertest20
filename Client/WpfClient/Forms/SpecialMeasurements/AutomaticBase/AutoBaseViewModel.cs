@@ -213,7 +213,7 @@ namespace Iit.Fibertest.Client
                 rftsParamsModel = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
             }
             else
-                rftsParamsModel = AutoAnalysisParamsViewModel.Model;
+                rftsParamsModel = AutoAnalysisParamsViewModel.LoadFromTemplate(OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id);
 
             var paramAutoLt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoLT");
             paramAutoLt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoLt);
