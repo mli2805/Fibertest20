@@ -226,7 +226,7 @@ namespace Iit.Fibertest.RtuManagement
             var buffer = _otdrManager.GetLastSorDataBuffer();
             if (_saveSorData)
                 monitoringPort.SaveSorData(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
-             // monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
+            monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
 
             try
@@ -251,11 +251,14 @@ namespace Iit.Fibertest.RtuManagement
             {
                 _rtuLog.AppendLine("Start auto analysis.");
                 var measBytes = _otdrManager.ApplyAutoAnalysis(buffer);
+                if (_saveSorData)
+                    monitoringPort.SaveSorData(baseRefType, buffer, SorType.Analysis, _rtuLog); // for investigations purpose
+                monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Analysis, _rtuLog); // 
                 _rtuLog.AppendLine($"Auto analysis applied. Now sor data has {measBytes.Length} bytes.");
                 moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
-                // if (_saveSorData)
-                    // monitoringPort.SaveSorData(buffer, SorType.Meas, _rtuLog); // for investigations purpose
-                 // monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
+                if (_saveSorData)
+                    monitoringPort.SaveSorData(baseRefType, buffer, SorType.Meas, _rtuLog); // for investigations purpose
+                monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
                 moniResult.BaseRefType = baseRefType;
             }
             catch (Exception e)
