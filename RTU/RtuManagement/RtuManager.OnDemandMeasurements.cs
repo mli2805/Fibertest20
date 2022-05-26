@@ -18,7 +18,10 @@ namespace Iit.Fibertest.RtuManagement
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), OtauPortDto = dto.OtauPortDtoList[0] };
 
             if (dto.IsForAutoBase && dto.IsAutoLmax)
-                PrepareAutoLmaxMeasurement(dto);
+            {
+                if (!PrepareAutoLmaxMeasurement(dto))
+                    return;
+            }
             else
                 PrepareClientMeasurement(dto);
             callback?.Invoke(); // send "started"
@@ -46,24 +49,27 @@ namespace Iit.Fibertest.RtuManagement
                 DisconnectOtdr();
         }
 
-        private void PrepareAutoLmaxMeasurement(DoClientMeasurementDto dto)
+        private bool PrepareAutoLmaxMeasurement(DoClientMeasurementDto dto)
         {
             StopMoniAndTogglePort(dto);
             if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
-                return;
+                return false;
 
             var lmax = _otdrManager.InterOpWrapper.GetLinkCharacteristics();
+            _rtuLog.AppendLine("point1");
             var values = AutoBaseParams.GetPredefinedParamsForLmax(lmax, "IIT MAK-100");
             if (values == null)
             {
                 ClientMeasurementStartedDto.ReturnCode = ReturnCode.TooLongForAutoBase;
-                return;
+                _rtuLog.AppendLine("Failed to choose measurement parameters");
+                return false;
             }
 
             var positions = _otdrManager.InterOpWrapper.ValuesToPositions(dto.SelectedMeasParams, values, _treeOfAcceptableMeasParams);
 
             _otdrManager.InterOpWrapper.SetMeasParamsByPosition(positions);
             _rtuLog.AppendLine("Auto measurement parameters applied");
+            return true;
         }
 
         private void PrepareClientMeasurement(DoClientMeasurementDto dto)

@@ -56,21 +56,18 @@ namespace Iit.Fibertest.Dto
 
         // BEFORE measurement
         // RTU choose index of template of parameters for measurement by LMAX from probe request
-        // this lmax is always less than lmax in template
+        // so now we choose first template with lmax bigger than in sorData
         private static int GetIndexByProbeMeasurementLmax(double lmax, string omid)
         {
             var is4100 = omid == "RXT-4100+/1650 50dB";
-            List<double> list = new List<double>();
-            try
-            {
-                list = is4100 
-                    ? Rxt4100Lmax.Select(s => double.Parse(s, NumberStyles.Any)).ToList() 
-                    : Lmax.Select(s => double.Parse(s, NumberStyles.Any)).ToList();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+
+            // current culture on RTU could be a culture with COMMA as a NumberDecimalSeparator (i.e. Russian or German)
+            // while our strings use POINT
+            var pointCulture = new CultureInfo("en") { NumberFormat = { NumberDecimalSeparator = "." } };
+            var list = is4100
+                ? Rxt4100Lmax.Select(s => double.Parse(s, pointCulture)).ToList()
+                : Lmax.Select(s => double.Parse(s, pointCulture)).ToList();
+
             for (int i = 0; i < list.Count; i++)
             {
                 if (lmax <= list[i])
