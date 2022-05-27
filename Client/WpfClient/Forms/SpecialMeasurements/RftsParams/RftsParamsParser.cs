@@ -94,7 +94,8 @@ namespace Iit.Fibertest.Client
             uniParam.Name = nc[0];
             uniParam.Value = int.Parse(lines[3]);
             uniParam.Scale = int.Parse(lines[5]);
-            uniParam.Comment = nc[1];
+            if (nc.Length > 1)
+                uniParam.Comment = nc[1];
 
             return uniParam;
         }
