@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -47,11 +48,35 @@ namespace Iit.Fibertest.Client
         private static IEnumerable<string> ForFile(this RftsUniParameter uniParameter)
         {
             yield return @"Name";
-            yield return uniParameter.Name;
+            yield return uniParameter.Name + @" " + uniParameter.Name.GetUniParamLocalizedName();
             yield return @"Value";
             yield return uniParameter.Value.ToString();
             yield return @"Scale";
             yield return uniParameter.Scale.ToString();
+        }
+
+        private static string GetUniParamLocalizedName(this string name)
+        {
+            switch (name)
+            {
+                case "EvtDetectDeltaCT": return Resources.SID_EvtDetectDeltaCT;
+                case "EvtSearchStep": return Resources.SID_EvtSearchStep;
+                case "EvtDetectDeltaLen": return Resources.SID_EvtDetectDeltaLen;
+                case "EvtRDetectDeltaLen": return Resources.SID_EvtRDetectDeltaLen;
+                case "AutoLT": return Resources.SID_AutoLT;
+                case "AutoRT": return Resources.SID_AutoRT;
+                case "AutoET": return Resources.SID_AutoET;
+                case "NoLinkDistance": return Resources.SID_NoLinkDistance;
+                case "NoLinkDeltaDB": return Resources.SID_NoLinkDeltaDB;
+                case "EventRT": return Resources.SID_EventRT;
+                case "EOFLMN": return Resources.SID_EOFLMN;
+                case "CorrectMarkers": return Resources.SID_CorrectMarkers;
+                case "EvtChangeLT": return Resources.SID_EvtChangeLT;
+                case "EvtChangeRT": return Resources.SID_EvtChangeRT;
+                case "EvtChangeCT": return Resources.SID_EvtChangeCT;
+                case "EvtChangeET": return Resources.SID_EvtChangeET;
+                default: return @"unknown";
+            }
         }
     }
 }

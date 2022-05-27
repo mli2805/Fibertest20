@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -13,7 +12,6 @@ namespace Iit.Fibertest.Client
     public class AutoAnalysisParamsViewModel : PropertyChangedBase, IDataErrorInfo
     {
         private readonly IWindowManager _windowManager;
-        public RftsParametersModel Model;
         private string _autoLt;
         private string _autoRt;
 
@@ -62,7 +60,7 @@ namespace Iit.Fibertest.Client
         }
 
         // AutoLT & AutoRT are the same for all templates!
-        public void SaveInTemplate()
+        public void SaveInAllTemplates()
         {
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
             for (int i = 1; i <= 4; i++)
@@ -76,7 +74,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RftsParametersModel LoadFromTemplate(int i)
+        public RftsParams LoadFromTemplate(int i)
         {
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
             var templateFileName = clientPath + $@"\ini\RftsParamsDefaultTemplate#{i}.rft";
@@ -91,15 +89,16 @@ namespace Iit.Fibertest.Client
 
                 return null;
             }
-            return result.ToModel();
+            return result;
         }
 
         private bool DisplayLtAndRtFromAnyTemplateFile()
         {
             // AutoLT & AutoRT are the same for all templates!
-            Model = LoadFromTemplate(1);
-            AutoLt = Model.UniParams.First(u => u.Code == @"AutoLT").Value.ToString(CultureInfo.InvariantCulture);
-            AutoRt = Model.UniParams.First(u => u.Code == @"AutoRT").Value.ToString(CultureInfo.InvariantCulture);
+            var rftsParams = LoadFromTemplate(1);
+            var up = rftsParams.UniParams.First(u => u.Name == @"AutoLT");
+            AutoLt = up.ToString();
+            AutoRt = rftsParams.UniParams.First(u => u.Name == @"AutoRT").ToString();
             return true;
         }
 

@@ -241,11 +241,8 @@
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\Controls\MeasurementProgress\MeasurementProgressViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParamTemplatesProvider.cs" />
-    <Compile Include="Forms\SpecialMeasurements\RftsParams\ModelToRftsParams.cs" />
-    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParametersModels.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsApplier.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsClasses.cs" />
-    <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsToModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsSaver.cs" />
     <Compile Include="Forms\SpecialMeasurements\RftsParams\RftsParamsParser.cs" />
     <Compile Include="Forms\Shell\MapUserControl\ScreenPartAsMarginProvider.cs" />

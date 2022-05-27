@@ -203,24 +203,22 @@ namespace Iit.Fibertest.Client
 
             var sorData = SorData.FromBytes(sorBytes);
 
-            RftsParametersModel rftsParamsModel;
+            RftsParams rftsParams;
             if (OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id == 0)
             {
                 var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
                 _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
                 var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _clientMeasurementModel.Rtu.Omid);
                 _logFile.AppendLine($@"Supposedly used template #{index + 1}");
-                rftsParamsModel = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
+                rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
             }
             else
-                rftsParamsModel = AutoAnalysisParamsViewModel.LoadFromTemplate(OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id);
+                rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id);
 
-            var paramAutoLt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoLT");
-            paramAutoLt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoLt);
-            var paramAutoRt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoRT");
-            paramAutoRt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoRt);
-
-            sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());
+            rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoLt));
+            rftsParams.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoRt));
+          
+            sorData.ApplyRftsParamsTemplate(rftsParams);
 
             _landmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
 

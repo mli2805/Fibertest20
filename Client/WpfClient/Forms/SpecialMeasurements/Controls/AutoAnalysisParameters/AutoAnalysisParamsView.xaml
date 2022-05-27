@@ -36,7 +36,7 @@
                 </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                <Button Content="{x:Static stringResources:Resources.SID_Save}" Name="SaveInTemplate" Margin="5" Width="100"/>
+                <Button Content="{x:Static stringResources:Resources.SID_Save}" Name="SaveInAllTemplates" Margin="5" Width="100"/>
             </StackPanel>
         </StackPanel>
     </Border>

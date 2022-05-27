@@ -56,7 +56,6 @@ namespace Iit.Fibertest.RtuManagement
                 return false;
 
             var lmax = _otdrManager.InterOpWrapper.GetLinkCharacteristics();
-            _rtuLog.AppendLine("point1");
             var values = AutoBaseParams.GetPredefinedParamsForLmax(lmax, "IIT MAK-100");
             if (values == null)
             {
@@ -65,7 +64,19 @@ namespace Iit.Fibertest.RtuManagement
                 return false;
             }
 
+            _rtuLog.AppendLine($"distanceRange {values.distanceRange}");
+            _rtuLog.AppendLine($"pulseDuration {values.pulseDuration}");
+            _rtuLog.AppendLine($"resolution {values.resolution}");
+            _rtuLog.AppendLine($"averagingTime {values.averagingTime}");
+            _rtuLog.EmptyLine('-');
+
             var positions = _otdrManager.InterOpWrapper.ValuesToPositions(dto.SelectedMeasParams, values, _treeOfAcceptableMeasParams);
+
+            foreach (var measParamByPosition in positions)
+            {
+                _rtuLog.AppendLine($"{measParamByPosition.Param} - {measParamByPosition.Position}");
+            }
+            _rtuLog.EmptyLine('-');
 
             _otdrManager.InterOpWrapper.SetMeasParamsByPosition(positions);
             _rtuLog.AppendLine("Auto measurement parameters applied");

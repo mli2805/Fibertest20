@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace Iit.Fibertest.Client
 {
@@ -37,5 +38,16 @@ namespace Iit.Fibertest.Client
         public string Name;
         public int Value;
         public int Scale;
+        public string Comment;
+
+        public override string ToString()
+        {
+            return ((double)Value / Scale).ToString(CultureInfo.InvariantCulture);
+        }
+        public void Set(double value)
+        {
+            Value = (int)(value * 10000);
+            Scale = 10000;
+        }
     }
 }

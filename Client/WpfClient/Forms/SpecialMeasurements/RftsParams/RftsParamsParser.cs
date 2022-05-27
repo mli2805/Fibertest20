@@ -90,9 +90,11 @@ namespace Iit.Fibertest.Client
         {
             var uniParam = new RftsUniParameter();
 
-            uniParam.Name = lines[1];
+            var nc = lines[1].Split(' ');
+            uniParam.Name = nc[0];
             uniParam.Value = int.Parse(lines[3]);
             uniParam.Scale = int.Parse(lines[5]);
+            uniParam.Comment = nc[1];
 
             return uniParam;
         }

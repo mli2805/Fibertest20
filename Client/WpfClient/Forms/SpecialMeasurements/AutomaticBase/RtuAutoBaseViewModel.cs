@@ -144,15 +144,18 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
             _logFile.AppendLine(@"Measurement (Client) result received");
 
-            RftsParametersModel rftsParamsModel = AutoAnalysisParamsViewModel.Model;
-            var paramAutoLt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoLT");
-            paramAutoLt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoLt);
-            var paramAutoRt = rftsParamsModel.UniParams.First(p => p.Code == @"AutoRT");
-            paramAutoRt.Value = double.Parse(AutoAnalysisParamsViewModel.AutoRt);
 
             var sorData = SorData.FromBytes(sorBytes);
-            sorData.ApplyRftsParamsTemplate(rftsParamsModel.ToRftsParams());
+            RftsParams rftsParams;
+            var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
+            _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
+            var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _clientMeasurementModel.Rtu.Omid);
+            _logFile.AppendLine($@"Supposedly used template #{index + 1}");
+            rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
+            rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoLt));
+            rftsParams.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoRt));
 
+            sorData.ApplyRftsParamsTemplate(rftsParams);
             _landmarksTool.ApplyTraceToAutoBaseRef(sorData, trace);
 
             BaseRefAssignedDto result;

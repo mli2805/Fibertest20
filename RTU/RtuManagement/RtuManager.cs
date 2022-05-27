@@ -16,6 +16,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private Guid _id;
         private readonly string _version;
+        private readonly string _versionRtuManager;
         private readonly string _versionIitOtdr;
         private readonly IMyLog _rtuLog;
         private readonly IniFile _rtuIni;
@@ -100,19 +101,20 @@ namespace Iit.Fibertest.RtuManagement
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             var creationTime = File.GetLastWriteTime(assembly.Location);
-            _version = $"{info.FileVersion} created {creationTime:dd/MM/yyyy}";
+            _version = $"{info.FileVersion}";
+            _versionRtuManager = $"{info.FileVersion} built {creationTime:dd/MM/yyyy}";
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
 
             var path = Path.GetDirectoryName(assembly.Location);
             var iitOtdrPath = Path.Combine(path + @"\OtdrMeasEngine\iit_otdr.dll");
             var creationTime2 = File.GetLastWriteTime(iitOtdrPath);
             FileVersionInfo info2 = FileVersionInfo.GetVersionInfo(iitOtdrPath);
-            _versionIitOtdr = $"{info2.FileVersion} created {creationTime2:dd/MM/yyyy}";
+            _versionIitOtdr = $"{info2.FileVersion} build {creationTime2:dd/MM/yyyy}";
         }
 
         public void OnServiceStart()
         {
-            _serviceLog.AppendLine($"RTU Manager version {_version}");
+            _serviceLog.AppendLine($"RTU Manager version {_versionRtuManager}");
             _serviceLog.AppendLine($"iit_otdr.dll version {_versionIitOtdr}");
             var upTime = Utils.GetUpTime();
             _serviceLog.AppendLine($"Windows' UpTime is {upTime}");
