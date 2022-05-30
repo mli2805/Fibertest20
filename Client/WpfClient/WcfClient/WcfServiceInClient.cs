@@ -51,6 +51,7 @@ namespace Iit.Fibertest.Client
 
         public Task<int> NotifyMeasurementClientDone(ClientMeasurementResultDto dto)
         {
+            _logFile.AppendLine($@"RTU returned measurement {dto.Id.First6()} through WCF connection");
             if (_clientMeasurementViewModel.IsOpen)
                 _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);
             if (_autoBaseViewModel.IsOpen)

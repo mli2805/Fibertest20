@@ -100,7 +100,6 @@ namespace Iit.Fibertest.Client
         public async void Start()
         {
             _logFile.AppendLine(@"Start a measurement timeout");
-            _isMeasReceived = false;
             _timer = new System.Timers.Timer(_measurementTimeout);
             _timer.Elapsed += TimeIsOver;
             _timer.AutoReset = false;
@@ -138,11 +137,8 @@ namespace Iit.Fibertest.Client
         }
 
         private System.Timers.Timer _timer;
-        private bool _isMeasReceived;
         private void TimeIsOver(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (_isMeasReceived) return;
-
             _logFile.AppendLine(@"Measurement timeout expired");
 
             _dispatcherProvider.GetDispatcher().Invoke(() =>
@@ -188,6 +184,7 @@ namespace Iit.Fibertest.Client
                 if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
                 {
                     var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
+                    _logFile.AppendLine($@"Fetched measurement {startResult.ClientMeasurementId.First6()} from VEEX RTU");
                     ProcessMeasurementResult(measResultWithSorBytes.SorBytes);
                     break;
                 }
@@ -197,8 +194,9 @@ namespace Iit.Fibertest.Client
 
         public async void ProcessMeasurementResult(byte[] sorBytes)
         {
-            _isMeasReceived = true;
-            MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
+            _timer.Stop();
+            _timer.Dispose();
+
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             var sorData = SorData.FromBytes(sorBytes);
@@ -217,7 +215,7 @@ namespace Iit.Fibertest.Client
 
             rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoLt));
             rftsParams.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoRt));
-          
+
             sorData.ApplyRftsParamsTemplate(rftsParams);
 
             _landmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
@@ -288,6 +286,8 @@ namespace Iit.Fibertest.Client
         public override void CanClose(Action<bool> callback)
         {
             IsOpen = false;
+            if (_timer != null)
+                _timer.Dispose();
             callback(true);
         }
     }
