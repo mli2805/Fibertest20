@@ -3317,4 +3317,10 @@ Please try again later</value>
 	<data name="SID_Process_snmp_traps" xml:space="preserve">
 		<value>Process SNMP-traps</value>
 	</data>
+	<data name="SID_For_traces_0_05___20_km_long" xml:space="preserve">
+		<value>For traces  0.05 - 20 km long</value>
+	</data>
+	<data name="SID_Automatic_detection_of_measurement_parameters" xml:space="preserve">
+		<value>Automatic detection of measurement parameters</value>
+	</data>
 </root>

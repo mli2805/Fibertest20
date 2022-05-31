@@ -71,7 +71,7 @@ namespace Iit.Fibertest.Client
             _landmarksTool = landmarksTool;
             _baseRefMessages = baseRefMessages;
 
-            _measurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 45000);
+            _measurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
 
             _autoBaseMeasurementModel = new AutoBaseMeasurementModel(currentUser, readModel);
             AutoAnalysisParamsViewModel = new AutoAnalysisParamsViewModel(windowManager);
@@ -125,7 +125,8 @@ namespace Iit.Fibertest.Client
                 MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
                 MeasurementProgressViewModel.IsCancelButtonEnabled = false;
                 IsEnabled = true;
-                var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() {startResult.ReturnCode.ToString(), startResult.ErrorMessage}, 0);
+                var vm = new MyMessageBoxViewModel(MessageType.Error,
+                    new List<string>() {startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage}, 0);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
@@ -147,7 +148,7 @@ namespace Iit.Fibertest.Client
             {
                 MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,
-                    Resources.SID_Base_reference_assignment_failed));
+                    new List<string>(){ Resources.SID_Base_reference_assignment_failed, "", "Measurement timeout expired" }, 0));
             });
 
             TryClose();

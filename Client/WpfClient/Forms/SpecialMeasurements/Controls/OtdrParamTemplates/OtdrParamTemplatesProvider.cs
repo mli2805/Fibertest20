@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
     {
         private static readonly List<string> Titles = new List<string>()
         {
+            Resources.SID_For_traces_0_05___20_km_long,
             Resources.SID__1__For_traces_0_05___0_5_km_long,
             Resources.SID__2__For_traces_0_5___5_km_long,
             Resources.SID__3__For_traces_5___10_km_long,
@@ -25,7 +26,7 @@ namespace Iit.Fibertest.Client
             result.Add(new OtdrParametersTemplate()
             {
                 Id = 0,
-                Title = "Auto Lmax definition",
+                Title = Titles[0],
             });
 
             for (int i = 0; i < 4; i++)
@@ -33,7 +34,7 @@ namespace Iit.Fibertest.Client
                 result.Add(new OtdrParametersTemplate()
                 {
                     Id = i + 1,
-                    Title = Titles[i],
+                    Title = Titles[i+1],
                     Lmax = is4100 ? AutoBaseParams.Rxt4100Lmax[i] : AutoBaseParams.Lmax[i],
                     Dl = is4100 ? AutoBaseParams.Rxt4100Dl[i] : AutoBaseParams.Dl[i],
                     Tp = is4100 ? AutoBaseParams.Rxt4100Tp[i] : AutoBaseParams.Tp[i],

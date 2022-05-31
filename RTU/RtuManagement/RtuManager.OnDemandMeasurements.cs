@@ -2,7 +2,6 @@
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
@@ -14,7 +13,6 @@ namespace Iit.Fibertest.RtuManagement
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
-            _wasMonitoringOn = IsMonitoringOn;
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), OtauPortDto = dto.OtauPortDtoList[0] };
 
             var prepareResult = dto.IsForAutoBase && dto.IsAutoLmax
@@ -51,7 +49,8 @@ namespace Iit.Fibertest.RtuManagement
 
         private bool PrepareAutoLmaxMeasurement(DoClientMeasurementDto dto)
         {
-            StopMoniAndTogglePort(dto);
+            StopMonitoringWithRecovering("Auto base measurement");
+            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
             if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
                 return false;
 
@@ -85,37 +84,14 @@ namespace Iit.Fibertest.RtuManagement
 
         private bool PrepareClientMeasurement(DoClientMeasurementDto dto)
         {
-            StopMoniAndTogglePort(dto);
+            StopMonitoringWithRecovering("Measurement (Client)");
+            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
             if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
                 return false;
 
             _otdrManager.InterOpWrapper.SetMeasParamsByPosition(dto.SelectedMeasParams);
             _rtuLog.AppendLine("User's measurement parameters applied");
             return true;
-        }
-
-        private void StopMoniAndTogglePort(DoClientMeasurementDto dto)
-        {
-            if (IsMonitoringOn)
-                StopMonitoring("Measurement (Client)");
-
-            _rtuLog.EmptyLine();
-            _rtuLog.AppendLine("Start Measurement (Client).");
-
-            if (!_wasMonitoringOn)
-            {
-                var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
-                var res = _otdrManager.ConnectOtdr(otdrAddress);
-                if (!res)
-                {
-                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                    res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
-                    if (!res)
-                        RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                }
-            }
-
-            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
         }
 
         private ClientMeasurementResultDto ClientMeasurementItself(DoClientMeasurementDto dto)
@@ -148,7 +124,5 @@ namespace Iit.Fibertest.RtuManagement
                     : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
             };
         }
-
-
     }
 }

@@ -11,6 +11,11 @@ namespace Iit.Fibertest.RtuManagement
 
         private ReturnCode RunMainCharonRecovery()
         {
+            if (!IsMonitoringOn && !_wasMonitoringOn) // see issue 680
+            {
+                return InitializeRtuManager(null); // Reset Charon
+            }
+
             var previousStep = (RecoveryStep)_serviceIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
 
             switch (previousStep)

@@ -41,6 +41,9 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.RtuMonitoringSettingsApplyError:
                     return Resources.SID_Failed_to_apply_monitoring_settings_;
 
+                case ReturnCode.TooLongForAutoBase:
+                    return "Line is more than 20 km long or reflectance at the end of line is ...";
+
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:
                     return Resources.SID_Cannot_establish_connection_with_DataCenter_;

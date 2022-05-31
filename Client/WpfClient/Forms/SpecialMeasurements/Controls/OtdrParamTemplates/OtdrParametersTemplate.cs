@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -11,7 +12,9 @@ namespace Iit.Fibertest.Client
         public string Tp;
         public string Time;
         private bool _isChecked;
-        public string Description => Id == 0 ? "" : $@"Lmax = {Lmax} km;   dL = {Dl} m;   Tp = {Tp} ns;   t = {Time} min:sec";
+        public string Description => Id == 0 
+            ? Resources.SID_Automatic_detection_of_measurement_parameters 
+            : $@"Lmax = {Lmax} km;   dL = {Dl} m;   Tp = {Tp} ns;   t = {Time} min:sec";
 
         public bool IsChecked
         {

@@ -999,6 +999,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatic detection of measurement parameters.
+        /// </summary>
+        public static string SID_Automatic_detection_of_measurement_parameters {
+            get {
+                return ResourceManager.GetString("SID_Automatic_detection_of_measurement_parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatic mode.
         /// </summary>
         public static string SID_Automatic_mode {
@@ -3671,6 +3680,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_for__0___1_ {
             get {
                 return ResourceManager.GetString("SID_for__0___1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For traces 0,05 - 20 km long.
+        /// </summary>
+        public static string SID_For_traces_0_05___20_km_long {
+            get {
+                return ResourceManager.GetString("SID_For_traces_0_05___20_km_long", resourceCulture);
             }
         }
         
