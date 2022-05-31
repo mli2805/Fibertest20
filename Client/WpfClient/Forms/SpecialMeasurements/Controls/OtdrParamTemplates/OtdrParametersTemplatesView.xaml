@@ -64,7 +64,8 @@
             <ListBox ItemsSource="{Binding Model.OtdrParametersTemplates}" 
                      SelectedItem="{Binding Model.SelectedOtdrParametersTemplate, Mode=TwoWay}"
                      BorderThickness="0" HorizontalAlignment="Center"
-                     ItemContainerStyle="{DynamicResource ListBoxItemStyle}">
+                     ItemContainerStyle="{DynamicResource ListBoxItemStyle}"
+                     Visibility="{Binding ListBoxVisibility}">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="client:OtdrParametersTemplate">
                         <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="4" Margin="10, 4">

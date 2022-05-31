@@ -5,7 +5,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class ClientMeasurementModel
+    public class AutoBaseMeasurementModel
     {
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
 
         private bool _isForAutoBase;
 
-        public ClientMeasurementModel(CurrentUser currentUser, Model readModel)
+        public AutoBaseMeasurementModel(CurrentUser currentUser, Model readModel)
         {
             _currentUser = currentUser;
             _readModel = readModel;

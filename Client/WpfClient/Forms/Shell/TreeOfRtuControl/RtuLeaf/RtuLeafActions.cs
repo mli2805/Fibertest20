@@ -265,7 +265,13 @@ namespace Iit.Fibertest.Client
                 return;
 
             await Task.Delay(100);
-            _rtuAutoBaseViewModel.Initialize(rtuLeaf);
+            if (!_rtuAutoBaseViewModel.Initialize(rtuLeaf))
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error,
+                    @"Can't start auto base assignment without RFTS template file!");
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return;
+            }
             _windowManager.ShowDialogWithAssignedOwner(_rtuAutoBaseViewModel);
         }
     }

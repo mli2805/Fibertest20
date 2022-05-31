@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -12,6 +13,8 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         public OtdrParametersTemplateModel Model { get; set; } = new OtdrParametersTemplateModel();
         private Rtu _rtu;
+
+        public Visibility ListBoxVisibility { get; set; }
 
         private bool _isEnabled;
         public bool IsEnabled
@@ -30,10 +33,11 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
         }
 
-        public void Initialize(Rtu rtu)
+        public void Initialize(Rtu rtu, bool isForRtu)
         {
             _rtu = rtu;
             Model.Initialize(rtu);
+            ListBoxVisibility = isForRtu ? Visibility.Collapsed : Visibility.Visible;
 
             var opUnit = _iniFile.Read(IniSection.OtdrParameters, IniKey.OpUnit, 0);
             Model.Units = rtu.AcceptableMeasParams.Units.Keys.ToList();

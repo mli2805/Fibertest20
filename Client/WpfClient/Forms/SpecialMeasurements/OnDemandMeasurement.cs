@@ -7,7 +7,6 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
-    // ReSharper disable once InconsistentNaming
     public class OnDemandMeasurement
     {
         private readonly IMyLog _logFile;
