@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace Iit.Fibertest.Dto
@@ -12,8 +11,8 @@ namespace Iit.Fibertest.Dto
         public static readonly List<string> Rxt4100Dl = new List<string>() { "0.26", "0.51", "0.51", "1.0" };
         public static readonly List<string> Dl = new List<string>() { "0.16", "0.32", "0.64", "1.3" };
 
-        public static readonly List<string> Rxt4100Tp = new List<string>() { "10", "25", "25", "100" };
-        public static readonly List<string> Tp = new List<string>() { "12", "25", "25", "100" };
+        public static readonly List<string> Rxt4100Tp = new List<string>() { "25", "25", "25", "100" };
+        public static readonly List<string> Tp = new List<string>() { "25", "25", "25", "100" };
 
         public static readonly List<string> Time = new List<string>() { "00:05", "00:15", "00:15", "00:15", };
 
@@ -37,11 +36,10 @@ namespace Iit.Fibertest.Dto
             return list.Count - 1;
         }
 
-
         public static VeexMeasOtdrParameters GetPredefinedParamsForLmax(double lmax, string omid)
         {
             var is4100 = omid == "RXT-4100+/1650 50dB";
-            var index = GetIndexByProbeMeasurementLmax(lmax, omid);
+            var index = GetIndexByProbeMeasurementLmax(lmax);
             if (index == -1) return null;
 
             return new VeexMeasOtdrParameters
@@ -55,24 +53,33 @@ namespace Iit.Fibertest.Dto
 
         // BEFORE measurement
         // RTU choose index of template of parameters for measurement by LMAX from probe request
-        // so now we choose first template with lmax bigger than in sorData
-        private static int GetIndexByProbeMeasurementLmax(double lmax, string omid)
+        // so we choose first template with lmax bigger than in sorData
+        // private static int GetIndexByProbeMeasurementLmax(double lmax, string omid)
+        // {
+        //     var is4100 = omid == "RXT-4100+/1650 50dB";
+        //
+        //     // current culture on RTU could be a culture with COMMA as a NumberDecimalSeparator (i.e. Russian or German)
+        //     // while our strings use POINT
+        //     var pointCulture = new CultureInfo("en") { NumberFormat = { NumberDecimalSeparator = "." } };
+        //     var list = is4100
+        //         ? Rxt4100Lmax.Select(s => double.Parse(s, pointCulture)).ToList()
+        //         : Lmax.Select(s => double.Parse(s, pointCulture)).ToList();
+        //
+        //     for (int i = 0; i < list.Count; i++)
+        //     {
+        //         if (lmax <= list[i])
+        //             return i;
+        //     }
+        //     return -1;
+        // }
+
+        // BEFORE measurement
+        private static int GetIndexByProbeMeasurementLmax(double lmaxInProbe)
         {
-            var is4100 = omid == "RXT-4100+/1650 50dB";
-
-            // current culture on RTU could be a culture with COMMA as a NumberDecimalSeparator (i.e. Russian or German)
-            // while our strings use POINT
-            var pointCulture = new CultureInfo("en") { NumberFormat = { NumberDecimalSeparator = "." } };
-            var list = is4100
-                ? Rxt4100Lmax.Select(s => double.Parse(s, pointCulture)).ToList()
-                : Lmax.Select(s => double.Parse(s, pointCulture)).ToList();
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (lmax <= list[i])
-                    return i;
-            }
-            return -1;
+            if (lmaxInProbe < 2) return 1;
+            if (lmaxInProbe < 10) return 2;
+            if (lmaxInProbe < 20) return 3;
+            return lmaxInProbe < 47 ? 4 : -1;
         }
 
     }
