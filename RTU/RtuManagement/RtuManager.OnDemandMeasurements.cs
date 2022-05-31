@@ -17,26 +17,26 @@ namespace Iit.Fibertest.RtuManagement
             _wasMonitoringOn = IsMonitoringOn;
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), OtauPortDto = dto.OtauPortDtoList[0] };
 
-            if (dto.IsForAutoBase && dto.IsAutoLmax)
-            {
-                if (!PrepareAutoLmaxMeasurement(dto))
-                    return;
-            }
-            else
-                PrepareClientMeasurement(dto);
+            var prepareResult = dto.IsForAutoBase && dto.IsAutoLmax
+                ? PrepareAutoLmaxMeasurement(dto)
+                : PrepareClientMeasurement(dto);
+            
             callback?.Invoke(); // send "started"
 
-            var result = ClientMeasurementItself(dto);
-            if (result == null)
+            if (prepareResult)
             {
-                _wasMonitoringOn = false;
-                return;
-            }
+                var result = ClientMeasurementItself(dto);
+                if (result == null)
+                {
+                    _wasMonitoringOn = false;
+                    return;
+                }
 
-            var sendResult = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
-            _serviceLog.AppendLine(sendResult
-                ? "RTU sent client measurement result"
-                : $"Can't send client measurement result to {_serverAddresses.Main.ToStringA()}");
+                var sendResult = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
+                _serviceLog.AppendLine(sendResult
+                    ? "RTU sent client measurement result"
+                    : $"Can't send client measurement result to {_serverAddresses.Main.ToStringA()}");
+            }
 
 
             if (_wasMonitoringOn)
@@ -83,14 +83,15 @@ namespace Iit.Fibertest.RtuManagement
             return true;
         }
 
-        private void PrepareClientMeasurement(DoClientMeasurementDto dto)
+        private bool PrepareClientMeasurement(DoClientMeasurementDto dto)
         {
             StopMoniAndTogglePort(dto);
             if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
-                return;
+                return false;
 
             _otdrManager.InterOpWrapper.SetMeasParamsByPosition(dto.SelectedMeasParams);
             _rtuLog.AppendLine("User's measurement parameters applied");
+            return true;
         }
 
         private void StopMoniAndTogglePort(DoClientMeasurementDto dto)

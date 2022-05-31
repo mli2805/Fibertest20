@@ -14,7 +14,9 @@ namespace Iit.Fibertest.DataCenterCore
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
                 if (rtuAddresses != null)
                 {
-                    var result = await _d2RWcfManager.SetRtuAddresses(rtuAddresses, _iniFile, _logFile).DoClientMeasurementAsync(dto);
+                    var result = await _d2RWcfManager
+                        .SetRtuAddresses(rtuAddresses, _iniFile, _logFile)
+                        .DoClientMeasurementAsync(dto);
                     _logFile.AppendLine($"Client's measurement started with code {result.ReturnCode.ToString()}");
                     return result;
                 }

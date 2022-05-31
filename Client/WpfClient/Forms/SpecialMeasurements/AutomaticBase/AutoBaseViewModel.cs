@@ -120,10 +120,12 @@ namespace Iit.Fibertest.Client
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.Ok)
             {
+                _timer.Stop();
+                _timer.Dispose();
                 MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
                 MeasurementProgressViewModel.IsCancelButtonEnabled = false;
                 IsEnabled = true;
-                var vm = new MyMessageBoxViewModel(MessageType.Error, startResult.ErrorMessage);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() {startResult.ReturnCode.ToString(), startResult.ErrorMessage}, 0);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
