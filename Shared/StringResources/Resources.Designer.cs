@@ -3340,6 +3340,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to automatically determine the correct measurement parameters.
+        /// </summary>
+        public static string SID_Failed_to_automatically_determine_the_correct_measurement_parameters {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_automatically_determine_the_correct_measurement_parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to detach additional otau!.
         /// </summary>
         public static string SID_Failed_to_detach_additional_otau_ {
@@ -3684,7 +3693,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For traces 0,05 - 20 km long.
+        ///   Looks up a localized string similar to For traces  0.05 - 20 km long.
         /// </summary>
         public static string SID_For_traces_0_05___20_km_long {
             get {
@@ -5097,6 +5106,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement_time_accordingly_to_base_ref_is__0_ {
             get {
                 return ResourceManager.GetString("SID_Measurement_time_accordingly_to_base_ref_is__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement timeout expired.
+        /// </summary>
+        public static string SID_Measurement_timeout_expired {
+            get {
+                return ResourceManager.GetString("SID_Measurement_timeout_expired", resourceCulture);
             }
         }
         

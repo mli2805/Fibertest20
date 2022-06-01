@@ -3323,4 +3323,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Automatic_detection_of_measurement_parameters" xml:space="preserve">
 		<value>Автоматическое определение параметров измерения</value>
 	</data>
+	<data name="SID_Failed_to_automatically_determine_the_correct_measurement_parameters" xml:space="preserve">
+		<value>Не удалось автоматически определить корректные параметры измерения</value>
+	</data>
+	<data name="SID_Measurement_timeout_expired" xml:space="preserve">
+		<value>Таймаут на проведение измерения истек</value>
+	</data>
 </root>

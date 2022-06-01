@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Failed_to_apply_monitoring_settings_;
 
                 case ReturnCode.TooLongForAutoBase:
-                    return "Line is more than 20 km long or reflectance at the end of line is ...";
+                    return Resources.SID_Failed_to_automatically_determine_the_correct_measurement_parameters;
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:

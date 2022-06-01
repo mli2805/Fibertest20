@@ -148,7 +148,7 @@ namespace Iit.Fibertest.Client
             {
                 MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,
-                    new List<string>(){ Resources.SID_Base_reference_assignment_failed, "", "Measurement timeout expired" }, 0));
+                    new List<string>(){ Resources.SID_Base_reference_assignment_failed, "", Resources.SID_Measurement_timeout_expired }, 0));
             });
 
             TryClose();
