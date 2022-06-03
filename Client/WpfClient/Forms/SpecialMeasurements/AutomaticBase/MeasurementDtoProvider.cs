@@ -10,7 +10,6 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
 
-        private RtuLeaf _rtuLeaf;
         private IPortOwner _portOwner;
         private Rtu _rtu;
         private OtauPortDto _otauPortDto;
@@ -26,12 +25,26 @@ namespace Iit.Fibertest.Client
         public MeasurementDtoProvider Initialize(TraceLeaf traceLeaf, bool isForAutoBase)
         {
             var parent = traceLeaf.Parent;
-            _rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            var rtuId = (parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent).Id;
             _portOwner = (IPortOwner)parent;
-            _rtu = _readModel.Rtus.First(r => r.Id == _rtuLeaf.Id);
+            _rtu = _readModel.Rtus.First(r => r.Id == rtuId);
 
             var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == _portOwner.Serial);
             _otauPortDto = PrepareOtauPortDto(_rtu, otau, _portOwner, traceLeaf.PortNumber);
+
+            _isForAutoBase = isForAutoBase;
+
+            return this;
+        }
+
+        public MeasurementDtoProvider Initialize(Leaf parent, int portNumber, bool isForAutoBase)
+        {
+            var rtuId = (parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent).Id;
+            _portOwner = (IPortOwner)parent;
+            _rtu = _readModel.Rtus.First(r => r.Id == rtuId);
+
+            var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == _portOwner.Serial);
+            _otauPortDto = PrepareOtauPortDto(_rtu, otau, _portOwner, portNumber);
 
             _isForAutoBase = isForAutoBase;
 

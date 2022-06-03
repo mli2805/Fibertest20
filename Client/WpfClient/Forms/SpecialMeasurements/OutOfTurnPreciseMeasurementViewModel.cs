@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
@@ -12,8 +14,10 @@ namespace Iit.Fibertest.Client
     public class OutOfTurnPreciseMeasurementViewModel : Screen
     {
         public TraceLeaf TraceLeaf { get; set; }
-        public RtuLeaf RtuLeaf { get; set; }
-        private readonly OnDemandMeasurement _onDemandMeasurement;
+        private IPortOwner _portOwner;
+        private Rtu _rtu;
+        private readonly Model _readModel;
+        private readonly MeasurementInterruptor _measurementInterruptor;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
 
@@ -43,10 +47,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OutOfTurnPreciseMeasurementViewModel(OnDemandMeasurement onDemandMeasurement, 
+        public OutOfTurnPreciseMeasurementViewModel(Model readModel, MeasurementInterruptor measurementInterruptor, 
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
-            _onDemandMeasurement = onDemandMeasurement;
+            _readModel = readModel;
+            _measurementInterruptor = measurementInterruptor;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
         }
@@ -54,6 +59,9 @@ namespace Iit.Fibertest.Client
         public void Initialize(TraceLeaf traceLeaf)
         {
             TraceLeaf = traceLeaf;
+            _portOwner = (IPortOwner)TraceLeaf.Parent;
+            var rtuLeaf = _portOwner is RtuLeaf leaf ? leaf : (RtuLeaf)TraceLeaf.Parent.Parent;
+            _rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
         }
 
         protected override async void OnViewLoaded(object view)
@@ -88,19 +96,17 @@ namespace Iit.Fibertest.Client
         {
             Message = Resources.SID_Sending_command__Wait_please___;
 
-            var parent = (IPortOwner)TraceLeaf.Parent;
-            RtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)TraceLeaf.Parent.Parent;
-
+          
             var dto = new DoOutOfTurnPreciseMeasurementDto()
             {
-                RtuId = RtuLeaf.Id,
+                RtuId = _rtu.Id,
                 PortWithTraceDto = new PortWithTraceDto()
                 {
                     OtauPort = new OtauPortDto()
                     {
-                        Serial = parent.Serial,
+                        Serial = _portOwner.Serial,
                         OpticalPort = TraceLeaf.PortNumber,
-                        IsPortOnMainCharon = parent is RtuLeaf,
+                        IsPortOnMainCharon = _portOwner is RtuLeaf,
                     },
                     TraceId = TraceLeaf.Id,
                 }
@@ -118,7 +124,7 @@ namespace Iit.Fibertest.Client
         {
             Message = Resources.SID_Interrupting_out_of_turn_monitoring__Wait_please___;
             IsCancelButtonEnabled = false;
-            await _onDemandMeasurement.Interrupt(RtuLeaf, @"out of turn precise monitoring");
+            await _measurementInterruptor.Interrupt(_rtu, @"out of turn precise monitoring");
             TryClose();
         }
     }

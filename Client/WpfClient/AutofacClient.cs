@@ -195,7 +195,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<NetAddressInputViewModel>();
             builder.RegisterType<RtuInitializeModel>();
             builder.RegisterType<RtuInitializeViewModel>();
-            builder.RegisterType<OnDemandMeasurement>().InstancePerLifetimeScope();
+            builder.RegisterType<MeasurementInterruptor>().InstancePerLifetimeScope();
             builder.RegisterType<OtdrParametersThroughServerSetterViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ClientMeasurementViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().InstancePerLifetimeScope();

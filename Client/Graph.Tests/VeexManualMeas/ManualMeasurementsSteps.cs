@@ -37,10 +37,8 @@ namespace Graph.Tests
         public void GivenПользовательЗапускаетИзмерениеClientНаПортуОсновногоПереключателя()
         {
             var vm = _sut.ClientScope.Resolve<ClientMeasurementViewModel>();
-            var otau = _sut.ReadModel.Otaus.FirstOrDefault(o => o.Serial == _rtuLeaf.Serial);
-            var otauPortDto = vm.PrepareOtauPortDto(_rtu, otau, _rtuLeaf, 5);
-            var fullDto = vm.PrepareDto(_rtu, otauPortDto, _rtuLeaf.OtauNetAddress, null, new VeexMeasOtdrParameters());
 
+            var fullDto = vm.ForUnitTests(_rtuLeaf, 5, null, new VeexMeasOtdrParameters());
             _startedDto = _sut.WcfServiceCommonC2D.DoClientMeasurementAsync(fullDto).Result;
         }
 
@@ -75,10 +73,11 @@ namespace Graph.Tests
         public void GivenПользовательЗапускаетИзмерениеClientНаПортуДопПереключателя()
         {
             var vm = _sut.ClientScope.Resolve<ClientMeasurementViewModel>();
-            var otau = _sut.ReadModel.Otaus.FirstOrDefault(o => o.Serial == _otauLeaf.Serial);
-            var otauPortDto = vm.PrepareOtauPortDto(_rtu, otau, _otauLeaf, 7);
-            var fullDto = vm.PrepareDto(_rtu, otauPortDto, _rtuLeaf.OtauNetAddress, null, new VeexMeasOtdrParameters());
+            // var otau = _sut.ReadModel.Otaus.FirstOrDefault(o => o.Serial == _otauLeaf.Serial);
+            // var otauPortDto = vm.PrepareOtauPortDto(_rtu, otau, _otauLeaf, 7);
+            // var fullDto = vm.PrepareDto(_rtu, otauPortDto, _rtuLeaf.OtauNetAddress, null, new VeexMeasOtdrParameters());
 
+            var fullDto = vm.ForUnitTests(_otauLeaf, 7, null, new VeexMeasOtdrParameters());
             _startedDto = _sut.WcfServiceCommonC2D.DoClientMeasurementAsync(fullDto).Result;
         }
 

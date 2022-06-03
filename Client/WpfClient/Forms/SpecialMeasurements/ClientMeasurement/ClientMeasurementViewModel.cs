@@ -22,8 +22,8 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
-        private readonly CurrentUser _currentUser;
-        private readonly OnDemandMeasurement _onDemandMeasurement;
+        private readonly MeasurementInterruptor _measurementInterruptor;
+        private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         public RtuLeaf RtuLeaf { get; set; }
@@ -58,15 +58,15 @@ namespace Iit.Fibertest.Client
         }
 
         public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, Model readModel,
-            CurrentUser currentUser, OnDemandMeasurement onDemandMeasurement,
+            MeasurementInterruptor measurementInterruptor, MeasurementDtoProvider measurementDtoProvider,
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
             _logFile = logFile;
             _readModel = readModel;
-            _currentUser = currentUser;
-            _onDemandMeasurement = onDemandMeasurement;
+            _measurementInterruptor = measurementInterruptor;
+            _measurementDtoProvider = measurementDtoProvider;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
         }
@@ -74,7 +74,6 @@ namespace Iit.Fibertest.Client
         public bool Initialize(Leaf parent, int portNumber)
         {
             RtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var otauLeaf = (IPortOwner)parent;
             _rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
 
             _vm = _globalScope.Resolve<OtdrParametersThroughServerSetterViewModel>();
@@ -84,65 +83,19 @@ namespace Iit.Fibertest.Client
             if (!_vm.IsAnswerPositive)
                 return false;
 
-            var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == otauLeaf.Serial);
-            var otauPortDto = PrepareOtauPortDto(_rtu, otau, otauLeaf, portNumber);
-            _dto = PrepareDto(_rtu, otauPortDto, otauLeaf.OtauNetAddress, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
+            _dto = _measurementDtoProvider
+                .Initialize(parent, portNumber, false)
+                .PrepareDto(false, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
+
             return true;
         }
 
-        public OtauPortDto PrepareOtauPortDto(Rtu rtu, Otau otau, IPortOwner otauLeaf, int portNumber)
+        public DoClientMeasurementDto ForUnitTests(Leaf parent, int portNumber, 
+            List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
-            var otauId = otau == null
-                ? rtu.MainVeexOtau.id
-                : otau.Id.ToString();
-
-            var otauPortDto = new OtauPortDto()
-            {
-                OtauId = otauId,
-                OpticalPort = portNumber,
-                Serial = otauLeaf.Serial,
-                IsPortOnMainCharon = otauLeaf is RtuLeaf,
-                MainCharonPort = otau?.MasterPort ?? 1
-            };
-            return otauPortDto;
-        }
-
-        public DoClientMeasurementDto PrepareDto(Rtu rtu, OtauPortDto otauPortDto,
-            NetAddress address, List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
-        {
-            var dto = new DoClientMeasurementDto()
-            {
-                ConnectionId = _currentUser.ConnectionId,
-                RtuId = rtu.Id,
-                OtdrId = rtu.OtdrId,
-                OtauIp = address.Ip4Address,
-                OtauTcpPort = address.Port,
-
-                SelectedMeasParams = iitMeasParams,
-                VeexMeasOtdrParameters = veexMeasParams,
-                AnalysisParameters = new AnalysisParameters()
-                {
-                    lasersParameters = new List<LasersParameter>()
-                    {
-                        new LasersParameter(){ eventLossThreshold = 0.2, eventReflectanceThreshold = -40, endOfFiberThreshold = 6 }
-                    }
-                },
-
-                IsForAutoBase = false,
-            };
-            dto.OtauPortDtoList.Add(otauPortDto);
-
-            if (!otauPortDto.IsPortOnMainCharon && rtu.RtuMaker == RtuMaker.VeEX)
-            {
-                dto.MainOtauPortDto = new OtauPortDto()
-                {
-                    IsPortOnMainCharon = true,
-                    OtauId = rtu.MainVeexOtau.id,
-                    OpticalPort = otauPortDto.MainCharonPort,
-                };
-            }
-
-            return dto;
+            return _measurementDtoProvider
+                .Initialize(parent, portNumber, false)
+                .PrepareDto(false, iitMeasParams, veexMeasParams);
         }
 
         protected override async void OnViewLoaded(object view)
@@ -231,10 +184,8 @@ namespace Iit.Fibertest.Client
         {
             Message = Resources.SID_Interrupting_Measurement__Client___Wait_please___;
             IsCancelButtonEnabled = false;
-            await _onDemandMeasurement.Interrupt(RtuLeaf, @"measurement (Client)");
+            await _measurementInterruptor.Interrupt(_rtu, @"measurement (Client)");
             TryClose();
         }
-
-
     }
 }
