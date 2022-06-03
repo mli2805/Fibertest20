@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
     public class AutoAnalysisParamsViewModel : PropertyChangedBase, IDataErrorInfo
     {
+        private readonly IMyLog _logFile;
         private readonly IWindowManager _windowManager;
         private string _autoLt;
         private string _autoRt;
@@ -49,8 +53,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public AutoAnalysisParamsViewModel(IWindowManager windowManager)
+        public AutoAnalysisParamsViewModel(IMyLog logFile, IWindowManager windowManager)
         {
+            _logFile = logFile;
             _windowManager = windowManager;
         }
 
@@ -91,6 +96,26 @@ namespace Iit.Fibertest.Client
             }
             return result;
         }
+
+        public RftsParams GetRftsParams(OtdrDataKnownBlocks sorData, int templateId, Rtu rtu)
+        {
+            RftsParams rftsParams;
+            if (templateId == 0)
+            {
+                var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
+                _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
+                var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, rtu.Omid);
+                _logFile.AppendLine($@"Supposedly used template #{index + 1}");
+                rftsParams = LoadFromTemplate(index + 1);
+            }
+            else
+                rftsParams = LoadFromTemplate(templateId);
+
+            rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoLt));
+            rftsParams.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoRt));
+            return rftsParams;
+        }
+
 
         private bool DisplayLtAndRtFromAnyTemplateFile()
         {

@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
             _tempSorFile = $@"{traceTitle} - {baseType} - {timestamp:dd-MM-yyyy-HH-mm-ss}.sor";
         }
 
-        private string SaveInTempFolderAndOpenInReflect(byte[] sorBytes)
+        private string SaveInTempFolder(byte[] sorBytes)
         {
             var tempFolder = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory) + @"\Temp\";
             if (!Directory.Exists(tempFolder))
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         public async void ShowRefWithBase(int sorFileId)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            var fullFilename = SaveInTempFolder(sorbytes);
             OpenSorInReflect(fullFilename);
         }
 
@@ -60,33 +60,44 @@ namespace Iit.Fibertest.Client
         {
             byte[] sorbytesWithBase = await GetSorBytes(sorFileId);
             byte[] sorbytes = SorData.GetRidOfBase(sorbytesWithBase);
-            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            var fullFilename = SaveInTempFolder(sorbytes);
             OpenSorInReflect(fullFilename);
         }
 
         public async void ShowBaseReflectogram(int sorFileId)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            var fullFilename = SaveInTempFolder(sorbytes);
             OpenSorInReflect(fullFilename);
         }
         public async void ShowBaseReflectogramWithSelectedLandmark(int sorFileId, int lmNumber)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            var fullFilename = SaveInTempFolder(sorbytes);
             OpenSorInReflect(fullFilename, $@"-lm {lmNumber}");
         }
 
         public async void SaveReflectogramAs(int sorFileId, bool shouldBaseRefBeExcluded)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            SaveAs(shouldBaseRefBeExcluded ? SorData.GetRidOfBase(sorbytes) : sorbytes);
+            SaveAsDlg(shouldBaseRefBeExcluded ? SorData.GetRidOfBase(sorbytes) : sorbytes);
         }
 
         public async void SaveBaseReflectogramAs(int sorFileId)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            SaveAs(sorbytes);
+            SaveAsDlg(sorbytes);
+        }
+
+        public void ShowClientMeasurement(byte[] sorBytes)
+        {
+            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
+            if (!Directory.Exists(clientPath + @"\temp"))
+                Directory.CreateDirectory(clientPath + @"\temp");
+            var filename = clientPath + $@"\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
+            File.WriteAllBytes(filename, sorBytes);
+            var iitPath = FileOperations.GetParentFolder(clientPath);
+            Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
         }
 
         public async void ShowRftsEvents(int sorFileId, string traceTitle)
@@ -127,7 +138,7 @@ namespace Iit.Fibertest.Client
             process.Start();
         }
 
-        private void SaveAs(byte[] sorbytes)
+        private void SaveAsDlg(byte[] sorbytes)
         {
             // if InitialDirectory for OpenFileDialog does not exist:
             //   when drive in InitialDirectory exists - it's ok - will be used previous path from Windows

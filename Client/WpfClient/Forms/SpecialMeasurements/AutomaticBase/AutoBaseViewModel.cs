@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,21 +10,19 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
-using Optixsoft.SorExaminer.OtdrDataFormat;
 using Trace = Iit.Fibertest.Graph.Trace;
 
 namespace Iit.Fibertest.Client
 {
     public class AutoBaseViewModel : Screen
     {
-        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
+        private readonly ReflectogramManager _reflectogramManager;
         private readonly Model _readModel;
-        private readonly LandmarksTool _landmarksTool;
-        private readonly BaseRefMessages _baseRefMessages;
+        private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
         private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly CurrentUser _currentUser;
         private readonly int _measurementTimeout;
@@ -58,25 +53,26 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            IDispatcherProvider dispatcherProvider, IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
-            CurrentUser currentUser, Model readModel, MeasurementDtoProvider measurementDtoProvider,
-            LandmarksTool landmarksTool, BaseRefMessages baseRefMessages)
+        public AutoBaseViewModel(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
+            IDispatcherProvider dispatcherProvider, IWindowManager windowManager, 
+            IWcfServiceCommonC2D c2DWcfCommonManager, ReflectogramManager reflectogramManager,
+            MeasurementDtoProvider measurementDtoProvider,
+            MeasurementAsBaseAssigner measurementAsBaseAssigner,
+            AutoAnalysisParamsViewModel autoAnalysisParamsViewModel
+            )
         {
-            _globalScope = globalScope;
             _logFile = logFile;
             _dispatcherProvider = dispatcherProvider;
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
+            _reflectogramManager = reflectogramManager;
             _readModel = readModel;
             _measurementDtoProvider = measurementDtoProvider;
             _currentUser = currentUser;
-            _landmarksTool = landmarksTool;
-            _baseRefMessages = baseRefMessages;
+            _measurementAsBaseAssigner = measurementAsBaseAssigner;
 
             _measurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
-
-            AutoAnalysisParamsViewModel = new AutoAnalysisParamsViewModel(windowManager);
+            AutoAnalysisParamsViewModel = autoAnalysisParamsViewModel;
             OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
         }
 
@@ -90,6 +86,7 @@ namespace Iit.Fibertest.Client
             if (!AutoAnalysisParamsViewModel.Initialize())
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
+            _measurementAsBaseAssigner.Initialize(_currentUser, _rtu, _trace);
             IsShowRef = true;
             IsEnabled = true;
             return true;
@@ -204,93 +201,27 @@ namespace Iit.Fibertest.Client
         {
             _timer.Stop();
             _timer.Dispose();
-
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             var sorData = SorData.FromBytes(sorBytes);
-
-            RftsParams rftsParams;
-            if (OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id == 0)
-            {
-                var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
-                _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
-                var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _rtu.Omid);
-                _logFile.AppendLine($@"Supposedly used template #{index + 1}");
-                rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
-            }
-            else
-                rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id);
-
-            rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoLt));
-            rftsParams.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoRt));
-
+            var rftsParams = AutoAnalysisParamsViewModel
+                .GetRftsParams(sorData, OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id, _rtu);
             sorData.ApplyRftsParamsTemplate(rftsParams);
 
-            _landmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
+            var result = await _measurementAsBaseAssigner
+                .ProcessMeasurementResult(sorData, MeasurementProgressViewModel);
 
-            BaseRefAssignedDto result;
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                var dto = PrepareDto(_trace, sorData.ToBytes(), _currentUser.UserName);
-                result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
-            }
-
-            MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
-            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                _baseRefMessages.Display(result, _trace);
-            else if (IsShowRef)
-                ShowReflectogram(sorData);
+            if (result && IsShowRef)
+                _reflectogramManager.ShowClientMeasurement(sorBytes);
 
             TryClose();
         }
 
-        private void ShowReflectogram(OtdrDataKnownBlocks sorData)
-        {
-            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
-            if (!Directory.Exists(clientPath + @"\temp"))
-                Directory.CreateDirectory(clientPath + @"\temp");
-            var filename = clientPath + $@"\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
-            sorData.Save(filename);
-            var iitPath = FileOperations.GetParentFolder(clientPath);
-            Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
-        }
-
-        private AssignBaseRefsDto PrepareDto(Trace trace, byte[] sorBytes, string username)
-        {
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            if (rtu == null) return null;
-            var dto = new AssignBaseRefsDto()
-            {
-                RtuId = trace.RtuId,
-                RtuMaker = rtu.RtuMaker,
-                OtdrId = rtu.OtdrId,
-                TraceId = trace.TraceId,
-                OtauPortDto = trace.OtauPort,
-                BaseRefs = new List<BaseRefDto>(),
-                DeleteOldSorFileIds = new List<int>()
-            };
-
-            if (trace.OtauPort != null && !trace.OtauPort.IsPortOnMainCharon && rtu.RtuMaker == RtuMaker.VeEX)
-            {
-                dto.MainOtauPortDto = new OtauPortDto()
-                {
-                    IsPortOnMainCharon = true,
-                    OtauId = rtu.MainVeexOtau.id,
-                    OpticalPort = trace.OtauPort.MainCharonPort,
-                };
-            }
-
-            dto.BaseRefs = new List<BaseRefDto>()
-            {
-                BaseRefDtoFactory.CreateFromBytes(BaseRefType.Precise, sorBytes, username),
-                BaseRefDtoFactory.CreateFromBytes(BaseRefType.Fast, sorBytes, username)
-            };
-            return dto;
-        }
         public void Close()
         {
             TryClose();
         }
+
         public override void CanClose(Action<bool> callback)
         {
             IsOpen = false;

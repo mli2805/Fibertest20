@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -16,14 +15,10 @@ namespace Iit.Fibertest.Client
 {
     public class RtuAutoBaseViewModel : Screen
     {
-        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
-        private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
-        private readonly LandmarksTool _landmarksTool;
-        private readonly BaseRefMessages _baseRefMessages;
         private List<Trace> _traces;
 
         public bool IsOpen { get; set; }
@@ -49,21 +44,19 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuAutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
-            Model readModel, CurrentUser currentUser,
+        public RtuAutoBaseViewModel(IniFile iniFile, IMyLog logFile,
+            Model readModel,
             IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
-            LandmarksTool landmarksTool, BaseRefMessages baseRefMessages)
+            AutoAnalysisParamsViewModel autoAnalysisParamsViewModel
+
+            )
         {
-            _globalScope = globalScope;
             _logFile = logFile;
             _readModel = readModel;
-            _currentUser = currentUser;
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
-            _landmarksTool = landmarksTool;
-            _baseRefMessages = baseRefMessages;
 
-            AutoAnalysisParamsViewModel = new AutoAnalysisParamsViewModel(windowManager);
+            AutoAnalysisParamsViewModel = autoAnalysisParamsViewModel;
             OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
         }
 
@@ -165,70 +158,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async void ProcessMeasurementResult(byte[] sorBytes, Trace trace)
+        public void ProcessMeasurementResult(byte[] sorBytes, Trace trace)
         {
-            MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
-            _logFile.AppendLine(@"Measurement (Client) result received");
-
-
-            var sorData = SorData.FromBytes(sorBytes);
-            RftsParams rftsParams;
-            var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
-            _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
-            var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _rtu.Omid);
-            _logFile.AppendLine($@"Supposedly used template #{index + 1}");
-            rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
-            rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoLt));
-            rftsParams.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoRt));
-
-            sorData.ApplyRftsParamsTemplate(rftsParams);
-            _landmarksTool.ApplyTraceToAutoBaseRef(sorData, trace);
-
-            BaseRefAssignedDto result;
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                var dto = PrepareAssignBaseRefsDto(trace, sorData.ToBytes(), _currentUser.UserName);
-                result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
-            }
-
-            MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
-            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                _baseRefMessages.Display(result, trace);
+            _logFile.AppendLine($@"Measurement processing: trace {trace.Title},  {sorBytes.Length}");
 
             TryClose();
-        }
-
-        private AssignBaseRefsDto PrepareAssignBaseRefsDto(Trace trace, byte[] sorBytes, string username)
-        {
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            if (rtu == null) return null;
-            var dto = new AssignBaseRefsDto()
-            {
-                RtuId = trace.RtuId,
-                RtuMaker = rtu.RtuMaker,
-                OtdrId = rtu.OtdrId,
-                TraceId = trace.TraceId,
-                OtauPortDto = trace.OtauPort,
-                BaseRefs = new List<BaseRefDto>(),
-                DeleteOldSorFileIds = new List<int>()
-            };
-
-            if (trace.OtauPort != null && !trace.OtauPort.IsPortOnMainCharon && rtu.RtuMaker == RtuMaker.VeEX)
-            {
-                dto.MainOtauPortDto = new OtauPortDto()
-                {
-                    IsPortOnMainCharon = true,
-                    OtauId = rtu.MainVeexOtau.id,
-                    OpticalPort = trace.OtauPort.MainCharonPort,
-                };
-            }
-
-            dto.BaseRefs = new List<BaseRefDto>()
-            {
-                BaseRefDtoFactory.CreateFromBytes(BaseRefType.Precise, sorBytes, username),
-                BaseRefDtoFactory.CreateFromBytes(BaseRefType.Fast, sorBytes, username)
-            };
-            return dto;
         }
 
         public void Close()

@@ -221,6 +221,7 @@
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\LandmarksTool.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementAsBaseAssigner.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementDtoProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />

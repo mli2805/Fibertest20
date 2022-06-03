@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -20,12 +18,12 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly MeasurementInterruptor _measurementInterruptor;
         private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly ReflectogramManager _reflectogramManager;
         public RtuLeaf RtuLeaf { get; set; }
         private Rtu _rtu;
         private DoClientMeasurementDto _dto;
@@ -57,18 +55,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, Model readModel,
+        public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, Model readModel,
             MeasurementInterruptor measurementInterruptor, MeasurementDtoProvider measurementDtoProvider,
-            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager, ReflectogramManager reflectogramManager)
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
-            _logFile = logFile;
             _readModel = readModel;
             _measurementInterruptor = measurementInterruptor;
             _measurementDtoProvider = measurementDtoProvider;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
+            _reflectogramManager = reflectogramManager;
         }
 
         public bool Initialize(Leaf parent, int portNumber)
@@ -90,7 +88,7 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        public DoClientMeasurementDto ForUnitTests(Leaf parent, int portNumber, 
+        public DoClientMeasurementDto ForUnitTests(Leaf parent, int portNumber,
             List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
             return _measurementDtoProvider
@@ -163,14 +161,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowReflectogram(byte[] sorBytes)
         {
-            _logFile.AppendLine(@"Measurement (Client) result received");
-            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
-            if (!Directory.Exists(clientPath + @"\temp"))
-                Directory.CreateDirectory(clientPath + @"\temp");
-            var filename = clientPath + $@"\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
-            File.WriteAllBytes(filename, sorBytes);
-            var iitPath = FileOperations.GetParentFolder(clientPath);
-            Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
+            _reflectogramManager.ShowClientMeasurement(sorBytes);
             TryClose(true);
         }
 
