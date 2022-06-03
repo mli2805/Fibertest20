@@ -5,35 +5,37 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class AutoBaseMeasurementModel
+    public class MeasurementDtoProvider
     {
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
 
         private RtuLeaf _rtuLeaf;
         private IPortOwner _portOwner;
-        public Rtu Rtu;
+        private Rtu _rtu;
         private OtauPortDto _otauPortDto;
 
         private bool _isForAutoBase;
 
-        public AutoBaseMeasurementModel(CurrentUser currentUser, Model readModel)
+        public MeasurementDtoProvider(CurrentUser currentUser, Model readModel)
         {
             _currentUser = currentUser;
             _readModel = readModel;
         }
 
-        public void Initialize(TraceLeaf traceLeaf, bool isForAutoBase)
+        public MeasurementDtoProvider Initialize(TraceLeaf traceLeaf, bool isForAutoBase)
         {
             var parent = traceLeaf.Parent;
             _rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
             _portOwner = (IPortOwner)parent;
-            Rtu = _readModel.Rtus.First(r => r.Id == _rtuLeaf.Id);
+            _rtu = _readModel.Rtus.First(r => r.Id == _rtuLeaf.Id);
 
             var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == _portOwner.Serial);
-            _otauPortDto = PrepareOtauPortDto(Rtu, otau, _portOwner, traceLeaf.PortNumber);
+            _otauPortDto = PrepareOtauPortDto(_rtu, otau, _portOwner, traceLeaf.PortNumber);
 
             _isForAutoBase = isForAutoBase;
+
+            return this;
         }
 
         private OtauPortDto PrepareOtauPortDto(Rtu rtu, Otau otau, IPortOwner otauLeaf, int portNumber)
@@ -58,8 +60,8 @@ namespace Iit.Fibertest.Client
             var dto = new DoClientMeasurementDto()
             {
                 ConnectionId = _currentUser.ConnectionId,
-                RtuId = Rtu.Id,
-                OtdrId = Rtu.OtdrId,
+                RtuId = _rtu.Id,
+                OtdrId = _rtu.OtdrId,
                 OtauIp = _portOwner.OtauNetAddress.Ip4Address,
                 OtauTcpPort = _portOwner.OtauNetAddress.Port,
 
@@ -79,12 +81,12 @@ namespace Iit.Fibertest.Client
             };
             dto.OtauPortDtoList.Add(_otauPortDto);
 
-            if (!_otauPortDto.IsPortOnMainCharon && Rtu.RtuMaker == RtuMaker.VeEX)
+            if (!_otauPortDto.IsPortOnMainCharon && _rtu.RtuMaker == RtuMaker.VeEX)
             {
                 dto.MainOtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
-                    OtauId = Rtu.MainVeexOtau.id,
+                    OtauId = _rtu.MainVeexOtau.id,
                     OpticalPort = _otauPortDto.MainCharonPort,
                 };
             }

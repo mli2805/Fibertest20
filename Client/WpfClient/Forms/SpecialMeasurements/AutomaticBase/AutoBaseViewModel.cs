@@ -28,11 +28,13 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly LandmarksTool _landmarksTool;
         private readonly BaseRefMessages _baseRefMessages;
-        private readonly AutoBaseMeasurementModel _autoBaseMeasurementModel;
+        private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly CurrentUser _currentUser;
         private readonly int _measurementTimeout;
 
+        private TraceLeaf _traceLeaf;
         private Trace _trace;
+        private Rtu _rtu;
 
         public bool IsOpen { get; set; }
 
@@ -58,7 +60,7 @@ namespace Iit.Fibertest.Client
 
         public AutoBaseViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
             IDispatcherProvider dispatcherProvider, IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
-            CurrentUser currentUser, Model readModel,
+            CurrentUser currentUser, Model readModel, MeasurementDtoProvider measurementDtoProvider,
             LandmarksTool landmarksTool, BaseRefMessages baseRefMessages)
         {
             _globalScope = globalScope;
@@ -67,23 +69,24 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _readModel = readModel;
+            _measurementDtoProvider = measurementDtoProvider;
             _currentUser = currentUser;
             _landmarksTool = landmarksTool;
             _baseRefMessages = baseRefMessages;
 
             _measurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
 
-            _autoBaseMeasurementModel = new AutoBaseMeasurementModel(currentUser, readModel);
             AutoAnalysisParamsViewModel = new AutoAnalysisParamsViewModel(windowManager);
             OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
         }
 
         public bool Initialize(TraceLeaf traceLeaf)
         {
+            _traceLeaf = traceLeaf;
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            _autoBaseMeasurementModel.Initialize(traceLeaf, true);
+            _rtu = _readModel.Rtus.First(r => r.Id == _trace.RtuId);
 
-            OtdrParametersTemplatesViewModel.Initialize(_autoBaseMeasurementModel.Rtu, false);
+            OtdrParametersTemplatesViewModel.Initialize(_rtu, false);
             if (!AutoAnalysisParamsViewModel.Initialize())
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
@@ -111,7 +114,9 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
             MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
-            var dto = _autoBaseMeasurementModel.PrepareDto(OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
+            var dto = _measurementDtoProvider
+                .Initialize(_traceLeaf, true)
+                .PrepareDto(OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
                                              OtdrParametersTemplatesViewModel.GetSelectedParameters(),
                                                          OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
@@ -134,7 +139,7 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
             MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
-            if (_autoBaseMeasurementModel.Rtu.RtuMaker == RtuMaker.VeEX)
+            if (_rtu.RtuMaker == RtuMaker.VeEX)
                 await WaitClientMeasurementFromVeex(dto, startResult);
             // if RtuMaker is IIT - result will come through WCF contract
         }
@@ -209,7 +214,7 @@ namespace Iit.Fibertest.Client
             {
                 var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
                 _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
-                var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _autoBaseMeasurementModel.Rtu.Omid);
+                var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _rtu.Omid);
                 _logFile.AppendLine($@"Supposedly used template #{index + 1}");
                 rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
             }

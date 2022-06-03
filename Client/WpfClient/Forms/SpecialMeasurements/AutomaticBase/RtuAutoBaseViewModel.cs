@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsOpen { get; set; }
 
-        private readonly AutoBaseMeasurementModel _autoBaseMeasurementModel;
+        private Rtu _rtu;
         public OtdrParametersTemplatesViewModel OtdrParametersTemplatesViewModel { get; set; }
         public AutoAnalysisParamsViewModel AutoAnalysisParamsViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
@@ -63,7 +63,6 @@ namespace Iit.Fibertest.Client
             _landmarksTool = landmarksTool;
             _baseRefMessages = baseRefMessages;
 
-            _autoBaseMeasurementModel = new AutoBaseMeasurementModel(currentUser, readModel);
             AutoAnalysisParamsViewModel = new AutoAnalysisParamsViewModel(windowManager);
             OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
         }
@@ -77,8 +76,8 @@ namespace Iit.Fibertest.Client
                 .OfType<OtauLeaf>()
                 .SelectMany(GetAttachedTraces));
 
-            var rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
-            OtdrParametersTemplatesViewModel.Initialize(rtu, true);
+            _rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
+            OtdrParametersTemplatesViewModel.Initialize(_rtu, true);
             if (!AutoAnalysisParamsViewModel.Initialize())
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
@@ -124,7 +123,7 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
             MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
-            if (_autoBaseMeasurementModel.Rtu.RtuMaker == RtuMaker.VeEX)
+            if (_rtu.RtuMaker == RtuMaker.VeEX)
                 await WaitClientMeasurementFromVeex(dto, startResult, _traces[0]);
             // if RtuMaker is IIT - result will come through WCF contract
         }
@@ -176,7 +175,7 @@ namespace Iit.Fibertest.Client
             RftsParams rftsParams;
             var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
             _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
-            var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _autoBaseMeasurementModel.Rtu.Omid);
+            var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, _rtu.Omid);
             _logFile.AppendLine($@"Supposedly used template #{index + 1}");
             rftsParams = AutoAnalysisParamsViewModel.LoadFromTemplate(index + 1);
             rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoAnalysisParamsViewModel.AutoLt));
