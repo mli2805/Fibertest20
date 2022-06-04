@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
+        // AutoBase Trace
         public MeasurementDtoProvider Initialize(TraceLeaf traceLeaf, bool isForAutoBase)
         {
             var parent = traceLeaf.Parent;
@@ -37,6 +38,7 @@ namespace Iit.Fibertest.Client
             return this;
         }
 
+        // Client Measurement & UnitTests
         public MeasurementDtoProvider Initialize(Leaf parent, int portNumber, bool isForAutoBase)
         {
             var rtuId = (parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent).Id;

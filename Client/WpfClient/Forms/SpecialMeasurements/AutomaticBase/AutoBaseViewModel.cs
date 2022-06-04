@@ -33,7 +33,6 @@ namespace Iit.Fibertest.Client
 
         public bool IsOpen { get; set; }
 
-
         public OtdrParametersTemplatesViewModel OtdrParametersTemplatesViewModel { get; set; }
         public AutoAnalysisParamsViewModel AutoAnalysisParamsViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
@@ -194,7 +193,6 @@ namespace Iit.Fibertest.Client
                     break;
                 }
             }
-
         }
 
         public async void ProcessMeasurementResult(byte[] sorBytes)
