@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
     public class RtuAutoBaseViewModel : Screen
     {
         private readonly IMyLog _logFile;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.Client
         public bool IsOpen { get; set; }
 
         private Rtu _rtu;
+        private Trace _trace;
         public OtdrParametersTemplatesViewModel OtdrParametersTemplatesViewModel { get; set; }
         public AutoAnalysisParamsViewModel AutoAnalysisParamsViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }
@@ -48,7 +50,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuAutoBaseViewModel(IniFile iniFile, IMyLog logFile, Model readModel,
+        public RtuAutoBaseViewModel(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager,
             IDispatcherProvider dispatcherProvider,
             MeasurementDtoProvider measurementDtoProvider,
@@ -58,6 +60,7 @@ namespace Iit.Fibertest.Client
             )
         {
             _logFile = logFile;
+            _currentUser = currentUser;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
@@ -74,12 +77,14 @@ namespace Iit.Fibertest.Client
         public bool Initialize(RtuLeaf rtuLeaf)
         {
             _traceLeaves = rtuLeaf.GetAttachedTraces();
+            _trace = _readModel.Traces.First(t => t.TraceId == _traceLeaves[0].Id);
 
             _rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
             OtdrParametersTemplatesViewModel.Initialize(_rtu, true);
             if (!AutoAnalysisParamsViewModel.Initialize())
                 return false;
             MeasurementProgressViewModel = new MeasurementProgressViewModel();
+            _measurementAsBaseAssigner.Initialize(_currentUser, _rtu, _trace);
             ShouldStartMonitoring = true;
             IsEnabled = true;
             return true;
@@ -93,6 +98,7 @@ namespace Iit.Fibertest.Client
         public async void Start()
         {
             StartTimer();
+
             IsEnabled = false;
             IsOpen = true;
             MeasurementProgressViewModel.DisplayStartMeasurement(_traceLeaves[0].Title);
@@ -101,7 +107,7 @@ namespace Iit.Fibertest.Client
                 .Initialize(_traceLeaves[0], true)
                 .PrepareDto(OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
                     OtdrParametersTemplatesViewModel.GetSelectedParameters(),
-                    OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
+                                OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.Ok)
@@ -123,8 +129,7 @@ namespace Iit.Fibertest.Client
             if (_rtu.RtuMaker == RtuMaker.VeEX)
             {
                 var veexMeasBytes = await _veexMeasurementFetcher.Fetch(dto.RtuId, startResult.ClientMeasurementId);
-                if (veexMeasBytes != null)
-                    ProcessMeasurementResult(veexMeasBytes);
+                ProcessMeasurementResult(veexMeasBytes);
             } // if RtuMaker is IIT - result will come through WCF contract
         }
 
@@ -156,6 +161,12 @@ namespace Iit.Fibertest.Client
         {
             _timer.Stop();
             _timer.Dispose();
+            if (sorBytes == null) // veex
+            {
+                MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                IsEnabled = true;
+                return;
+            }
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             var sorData = SorData.FromBytes(sorBytes);
@@ -164,7 +175,7 @@ namespace Iit.Fibertest.Client
             sorData.ApplyRftsParamsTemplate(rftsParams);
 
             var result = await _measurementAsBaseAssigner
-                .ProcessMeasurementResult(sorData, MeasurementProgressViewModel);
+                .Assign(sorData, MeasurementProgressViewModel);
 
             Console.WriteLine($@"result {result}");
         }

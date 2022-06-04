@@ -132,8 +132,7 @@ namespace Iit.Fibertest.Client
             if (_rtu.RtuMaker == RtuMaker.VeEX)
             {
                 var veexMeasBytes = await _veexMeasurementFetcher.Fetch(dto.RtuId, startResult.ClientMeasurementId);
-                if (veexMeasBytes != null)
-                    ProcessMeasurementResult(veexMeasBytes);
+                ProcessMeasurementResult(veexMeasBytes);
             }
             // if RtuMaker is IIT - result will come through WCF contract
         }
@@ -161,6 +160,7 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
+        // public for WCF 
         public async void ProcessMeasurementResult(byte[] sorBytes)
         {
             _timer.Stop();
@@ -179,7 +179,7 @@ namespace Iit.Fibertest.Client
             sorData.ApplyRftsParamsTemplate(rftsParams);
 
             var result = await _measurementAsBaseAssigner
-                .ProcessMeasurementResult(sorData, MeasurementProgressViewModel);
+                .Assign(sorData, MeasurementProgressViewModel);
 
             if (result && IsShowRef)
                 _reflectogramManager.ShowClientMeasurement(sorBytes);

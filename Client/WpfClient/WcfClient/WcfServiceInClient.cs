@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ClientPoller _clientPoller;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly AutoBaseViewModel _autoBaseViewModel;
+        private readonly RtuAutoBaseViewModel _rtuAutoBaseViewModel;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly CurrentUser _currentUser;
         private readonly WaitViewModel _waitViewModel;
@@ -27,7 +28,8 @@ namespace Iit.Fibertest.Client
 
         public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, 
             Heartbeater heartbeater, ClientPoller clientPoller, CurrentUser currentUser,
-            ClientMeasurementViewModel clientMeasurementViewModel, AutoBaseViewModel autoBaseViewModel,
+            ClientMeasurementViewModel clientMeasurementViewModel, 
+            AutoBaseViewModel autoBaseViewModel, RtuAutoBaseViewModel rtuAutoBaseViewModel,
             IWcfServiceCommonC2D commonC2DWcfManager,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
@@ -37,6 +39,7 @@ namespace Iit.Fibertest.Client
             _clientPoller = clientPoller;
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _autoBaseViewModel = autoBaseViewModel;
+            _rtuAutoBaseViewModel = rtuAutoBaseViewModel;
             _commonC2DWcfManager = commonC2DWcfManager;
             _currentUser = currentUser;
             _waitViewModel = waitViewModel;
@@ -56,6 +59,8 @@ namespace Iit.Fibertest.Client
                 _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);
             if (_autoBaseViewModel.IsOpen)
                 _autoBaseViewModel.ProcessMeasurementResult(dto.SorBytes);
+            if (_rtuAutoBaseViewModel.IsOpen)
+                _rtuAutoBaseViewModel.ProcessMeasurementResult(dto.SorBytes);
             return Task.FromResult(0);
         }
 

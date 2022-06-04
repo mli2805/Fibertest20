@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public async Task<bool> ProcessMeasurementResult(OtdrDataKnownBlocks sorData, 
+        public async Task<bool> Assign(OtdrDataKnownBlocks sorData, 
             MeasurementProgressViewModel measurementProgressViewModel)
         {
             _landmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
