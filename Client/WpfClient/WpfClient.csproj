@@ -224,6 +224,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\LandmarksTool.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementAsBaseAssigner.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementDtoProvider.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\VeexMeasurementFetcher.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesView.xaml.cs">

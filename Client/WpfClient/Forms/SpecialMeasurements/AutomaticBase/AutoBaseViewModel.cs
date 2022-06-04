@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -23,6 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly Model _readModel;
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
+        private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
         private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly CurrentUser _currentUser;
         private readonly int _measurementTimeout;
@@ -53,10 +53,11 @@ namespace Iit.Fibertest.Client
         }
 
         public AutoBaseViewModel(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
-            IDispatcherProvider dispatcherProvider, IWindowManager windowManager, 
+            IDispatcherProvider dispatcherProvider, IWindowManager windowManager,
             IWcfServiceCommonC2D c2DWcfCommonManager, ReflectogramManager reflectogramManager,
             MeasurementDtoProvider measurementDtoProvider,
             MeasurementAsBaseAssigner measurementAsBaseAssigner,
+            VeexMeasurementFetcher veexMeasurementFetcher,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel
             )
         {
@@ -69,6 +70,7 @@ namespace Iit.Fibertest.Client
             _measurementDtoProvider = measurementDtoProvider;
             _currentUser = currentUser;
             _measurementAsBaseAssigner = measurementAsBaseAssigner;
+            _veexMeasurementFetcher = veexMeasurementFetcher;
 
             _measurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
             AutoAnalysisParamsViewModel = autoAnalysisParamsViewModel;
@@ -98,25 +100,17 @@ namespace Iit.Fibertest.Client
 
         public async void Start()
         {
-            _logFile.AppendLine(@"Start a measurement timeout");
-            _timer = new System.Timers.Timer(_measurementTimeout);
-            _timer.Elapsed += TimeIsOver;
-            _timer.AutoReset = false;
-            _timer.Start();
+            StartTimer();
 
             IsEnabled = false;
             IsOpen = true;
-            MeasurementProgressViewModel.TraceTitle = _trace.Title;
-            MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
-            MeasurementProgressViewModel.IsCancelButtonEnabled = true;
+            MeasurementProgressViewModel.DisplayStartMeasurement(_trace.Title);
 
             var dto = _measurementDtoProvider
                 .Initialize(_traceLeaf, true)
                 .PrepareDto(OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
                                              OtdrParametersTemplatesViewModel.GetSelectedParameters(),
                                                          OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
-
-            MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
 
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.Ok)
@@ -127,7 +121,7 @@ namespace Iit.Fibertest.Client
                 MeasurementProgressViewModel.IsCancelButtonEnabled = false;
                 IsEnabled = true;
                 var vm = new MyMessageBoxViewModel(MessageType.Error,
-                    new List<string>() {startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage}, 0);
+                    new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage }, 0);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
@@ -136,11 +130,23 @@ namespace Iit.Fibertest.Client
             MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
             if (_rtu.RtuMaker == RtuMaker.VeEX)
-                await WaitClientMeasurementFromVeex(dto, startResult);
+            {
+                var veexMeasBytes = await _veexMeasurementFetcher.Fetch(dto.RtuId, startResult.ClientMeasurementId);
+                if (veexMeasBytes != null)
+                    ProcessMeasurementResult(veexMeasBytes);
+            }
             // if RtuMaker is IIT - result will come through WCF contract
         }
 
         private System.Timers.Timer _timer;
+        private void StartTimer()
+        {
+            _logFile.AppendLine(@"Start a measurement timeout");
+            _timer = new System.Timers.Timer(_measurementTimeout);
+            _timer.Elapsed += TimeIsOver;
+            _timer.AutoReset = false;
+            _timer.Start();
+        }
         private void TimeIsOver(object sender, System.Timers.ElapsedEventArgs e)
         {
             _logFile.AppendLine(@"Measurement timeout expired");
@@ -149,56 +155,22 @@ namespace Iit.Fibertest.Client
             {
                 MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,
-                    new List<string>(){ Resources.SID_Base_reference_assignment_failed, "", Resources.SID_Measurement_timeout_expired }, 0));
+                    new List<string>() { Resources.SID_Base_reference_assignment_failed, "", Resources.SID_Measurement_timeout_expired }, 0));
             });
 
             TryClose();
-        }
-
-        private async Task WaitClientMeasurementFromVeex(DoClientMeasurementDto dto, ClientMeasurementStartedDto startResult)
-        {
-            var getDto = new GetClientMeasurementDto()
-            {
-                RtuId = dto.RtuId,
-                VeexMeasurementId = startResult.ClientMeasurementId.ToString(),
-            };
-            while (true)
-            {
-                await Task.Delay(5000);
-                var measResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
-
-                if (measResult.ReturnCode != ReturnCode.Ok || measResult.VeexMeasurementStatus == @"failed")
-                {
-                    var firstLine = measResult.ReturnCode != ReturnCode.Ok
-                        ? measResult.ReturnCode.GetLocalizedString()
-                        : Resources.SID_Failed_to_do_Measurement_Client__;
-
-                    var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
-                    {
-                        firstLine,
-                        "",
-                        measResult.ErrorMessage,
-                    }, 0);
-                    _windowManager.ShowDialogWithAssignedOwner(vm);
-                    MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
-                    IsEnabled = true;
-                    break;
-                }
-
-                if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
-                {
-                    var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
-                    _logFile.AppendLine($@"Fetched measurement {startResult.ClientMeasurementId.First6()} from VEEX RTU");
-                    ProcessMeasurementResult(measResultWithSorBytes.SorBytes);
-                    break;
-                }
-            }
         }
 
         public async void ProcessMeasurementResult(byte[] sorBytes)
         {
             _timer.Stop();
             _timer.Dispose();
+            if (sorBytes == null) // veex
+            {
+                MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                IsEnabled = true;
+                return;
+            }
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             var sorData = SorData.FromBytes(sorBytes);

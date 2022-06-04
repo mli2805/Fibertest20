@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -53,6 +54,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-      
+        public void DisplayStartMeasurement(string traceTitle)
+        {
+            TraceTitle = traceTitle;
+            ControlVisibility = Visibility.Visible;
+            IsCancelButtonEnabled = true;
+            Message = Resources.SID_Sending_command__Wait_please___;
+
+        }
     }
 }

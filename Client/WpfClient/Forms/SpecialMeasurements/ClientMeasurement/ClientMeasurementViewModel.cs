@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -23,6 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
         private readonly ReflectogramManager _reflectogramManager;
         public RtuLeaf RtuLeaf { get; set; }
         private Rtu _rtu;
@@ -57,7 +57,9 @@ namespace Iit.Fibertest.Client
 
         public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, Model readModel,
             MeasurementInterruptor measurementInterruptor, MeasurementDtoProvider measurementDtoProvider,
-            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager, ReflectogramManager reflectogramManager)
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager, 
+            VeexMeasurementFetcher veexMeasurementFetcher,
+            ReflectogramManager reflectogramManager)
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
@@ -66,6 +68,7 @@ namespace Iit.Fibertest.Client
             _measurementDtoProvider = measurementDtoProvider;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
+            _veexMeasurementFetcher = veexMeasurementFetcher;
             _reflectogramManager = reflectogramManager;
         }
 
@@ -98,11 +101,12 @@ namespace Iit.Fibertest.Client
 
         protected override async void OnViewLoaded(object view)
         {
+            DisplayName = Resources.SID_Measurement__Client_;
             IsOpen = true;
             IsCancelButtonEnabled = false;
-            DisplayName = Resources.SID_Measurement__Client_;
 
-            var startResult = await StartRequestedMeasurement();
+            Message = Resources.SID_Sending_command__Wait_please___;
+            var startResult = await _c2RWcfManager.DoClientMeasurementAsync(_dto);
             if (startResult.ReturnCode != ReturnCode.Ok)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, startResult.ErrorMessage);
@@ -116,47 +120,11 @@ namespace Iit.Fibertest.Client
 
             if (_rtu.RtuMaker == RtuMaker.VeEX)
             {
-                var getDto = new GetClientMeasurementDto()
-                {
-                    RtuId = _dto.RtuId,
-                    VeexMeasurementId = startResult.ClientMeasurementId.ToString(), // sorry, if ReturnCode is OK, ErrorMessage contains Id
-                };
-                while (true)
-                {
-                    await Task.Delay(5000);
-                    var measResult = await _c2RWcfManager.GetClientMeasurementAsync(getDto);
-
-                    if (measResult.ReturnCode != ReturnCode.Ok || measResult.VeexMeasurementStatus == @"failed")
-                    {
-                        var firstLine = measResult.ReturnCode != ReturnCode.Ok
-                            ? measResult.ReturnCode.GetLocalizedString()
-                            : @"Failed to do Measurement(Client)!";
-
-                        var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
-                        {
-                            firstLine,
-                            "",
-                            measResult.ErrorMessage,
-                        }, 0);
-                        _windowManager.ShowDialogWithAssignedOwner(vm);
-                        TryClose(true);
-                        return;
-                    }
-                    if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
-                    {
-                        var measResultWithSorBytes = await _c2RWcfManager.GetClientMeasurementSorBytesAsync(getDto);
-                        ShowReflectogram(measResultWithSorBytes.SorBytes);
-                        TryClose(true);
-                        return;
-                    }
-                }
+                var veexMeasBytes = await _veexMeasurementFetcher.Fetch(_dto.RtuId, startResult.ClientMeasurementId);
+                if (veexMeasBytes != null)
+                    ShowReflectogram(veexMeasBytes);
+                TryClose(true);
             }
-        }
-
-        private async Task<ClientMeasurementStartedDto> StartRequestedMeasurement()
-        {
-            Message = Resources.SID_Sending_command__Wait_please___;
-            return await _c2RWcfManager.DoClientMeasurementAsync(_dto);
         }
 
         public void ShowReflectogram(byte[] sorBytes)
