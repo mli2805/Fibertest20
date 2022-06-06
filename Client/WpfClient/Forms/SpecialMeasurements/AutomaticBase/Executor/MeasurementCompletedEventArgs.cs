@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Client
         public MeasurementCompletedStatus CompletedStatus;
         public List<string> Lines;
         public byte[] SorBytes;
+        public TraceLeaf TraceLeaf; // for report
 
         public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, string message, byte[] sorBytes = null)
         {

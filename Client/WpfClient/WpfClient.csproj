@@ -221,6 +221,7 @@
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\FailedAutoBasePdfProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\LandmarksIntoBaseSetter.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementAsBaseAssigner.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementCompletedEventArgs.cs" />

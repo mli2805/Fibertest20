@@ -1134,6 +1134,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base refs assigned successfully.
+        /// </summary>
+        public static string SID_Base_refs_assigned_successfully {
+            get {
+                return ResourceManager.GetString("SID_Base_refs_assigned_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base refs assignment.
         /// </summary>
         public static string SID_Base_refs_assignment {
@@ -3340,6 +3349,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to assign as base.
+        /// </summary>
+        public static string SID_Failed_to_assign_as_base {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_assign_as_base", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to automatically determine the correct measurement parameters.
         /// </summary>
         public static string SID_Failed_to_automatically_determine_the_correct_measurement_parameters {
@@ -3372,6 +3390,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_establish_connection_ {
             get {
                 return ResourceManager.GetString("SID_Failed_to_establish_connection_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to fetch measurement from Rtu4000.
+        /// </summary>
+        public static string SID_Failed_to_fetch_measurement_from_Rtu4000 {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_fetch_measurement_from_Rtu4000", resourceCulture);
             }
         }
         
@@ -3473,6 +3500,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_set_AntiGhost_parameter___0_ {
             get {
                 return ResourceManager.GetString("SID_Failed_to_set_AntiGhost_parameter___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to start measurement.
+        /// </summary>
+        public static string SID_Failed_to_start {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_start", resourceCulture);
             }
         }
         
@@ -4962,6 +4998,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement__RFTS_Reflect_ {
             get {
                 return ResourceManager.GetString("SID_Measurement__RFTS_Reflect_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement completed successfully.
+        /// </summary>
+        public static string SID_Measurement_completed_successfully {
+            get {
+                return ResourceManager.GetString("SID_Measurement_completed_successfully", resourceCulture);
             }
         }
         

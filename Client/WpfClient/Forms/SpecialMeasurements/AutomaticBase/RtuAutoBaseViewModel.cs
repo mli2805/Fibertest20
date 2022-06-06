@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Caliburn.Micro;
@@ -14,17 +16,23 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
+        private readonly IWindowManager _windowManager;
+        private readonly FailedAutoBasePdfProvider _failedAutoBasePdfProvider;
         private List<TraceLeaf> _traceLeaves;
         private int _currentTraceIndex;
         public bool IsOpen { get; set; }
         public OneMeasurementExecutor OneMeasurementExecutor { get; }
         public bool ShouldStartMonitoring { get; set; }
+        private Rtu _rtu;
+        private List<MeasurementCompletedEventArgs> _pdfSource;
 
-        public RtuAutoBaseViewModel(IMyLog logFile, Model readModel, 
-            OneMeasurementExecutor oneMeasurementExecutor)
+        public RtuAutoBaseViewModel(IMyLog logFile, Model readModel, IWindowManager windowManager,
+            OneMeasurementExecutor oneMeasurementExecutor, FailedAutoBasePdfProvider failedAutoBasePdfProvider)
         {
             _logFile = logFile;
             _readModel = readModel;
+            _windowManager = windowManager;
+            _failedAutoBasePdfProvider = failedAutoBasePdfProvider;
             OneMeasurementExecutor = oneMeasurementExecutor;
         }
 
@@ -37,14 +45,15 @@ namespace Iit.Fibertest.Client
 
         public bool Initialize(RtuLeaf rtuLeaf)
         {
+            _pdfSource = new List<MeasurementCompletedEventArgs>();
             _traceLeaves = rtuLeaf.GetAttachedTraces();
             if (_traceLeaves.Count == 0)
                 return false;
             _currentTraceIndex = 0;
 
-            var rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
+            _rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
 
-            if (!OneMeasurementExecutor.Initialize(rtu, true))
+            if (!OneMeasurementExecutor.Initialize(_rtu, true))
                 return false;
 
             ShouldStartMonitoring = true;
@@ -57,6 +66,11 @@ namespace Iit.Fibertest.Client
         {
             var result = (MeasurementCompletedEventArgs)e;
             _logFile.AppendLine($@"Measurement on trace {_traceLeaves[_currentTraceIndex].Title}: {result.CompletedStatus}");
+            if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
+            {
+                result.TraceLeaf = _traceLeaves[_currentTraceIndex];
+                _pdfSource.Add(result);
+            }
         
             if (++_currentTraceIndex < _traceLeaves.Count)
             {
@@ -66,6 +80,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 _waitCursor.Dispose();
+                ShowReport();
                 OneMeasurementExecutor.Model.IsEnabled = true;
                 TryClose();
             }
@@ -82,6 +97,25 @@ namespace Iit.Fibertest.Client
         private async void StartOneMeasurement()
         {
             await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex]);
+        }
+
+        private void ShowReport()
+        {
+            try
+            {
+                var report = _failedAutoBasePdfProvider.Create(_rtu, _pdfSource);
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string filename = Path.Combine(folder, $@"FialedAutoBaseMeasurementsReport{DateTime.Now:yyyyMMddHHmmss}.pdf");
+                report.Save(filename);
+                Process.Start(filename);
+            }
+            catch (Exception e)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"ShowReport: " + e.Message);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
         }
 
         public void Close()
