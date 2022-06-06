@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -16,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private TraceLeaf _traceLeaf;
 
+        public bool IsOpen { get; set; }
         public OneMeasurementExecutor OneMeasurementExecutor { get; }
         public bool IsShowRef { get; set; }
 
@@ -27,6 +29,13 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             OneMeasurementExecutor = oneMeasurementExecutor;
             _reflectogramManager = reflectogramManager;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = Resources.SID_Assign_base_refs_automatically;
+            IsOpen = true;
+            OneMeasurementExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
         }
 
         public bool Initialize(TraceLeaf traceLeaf)
@@ -48,6 +57,11 @@ namespace Iit.Fibertest.Client
         private void OneMeasurementExecutor_MeasurementCompleted(object sender, EventArgs e)
         {
             var result = (MeasurementCompletedEventArgs)e;
+            _logFile.AppendLine($@"Trace {result.Trace}  Model {result.ModelGuid.First6()}   Executor {result.ExecutorGuid.First6()}   Status {result.CompletedStatus}");
+
+
+            _waitCursor.Dispose();
+            OneMeasurementExecutor.Model.IsEnabled = true;
 
             if (result.CompletedStatus == MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
             {
@@ -62,16 +76,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        protected override void OnViewLoaded(object view)
-        {
-            DisplayName = Resources.SID_Assign_base_refs_automatically;
-            OneMeasurementExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
-        }
-
+        private WaitCursor _waitCursor;
         public async void Start()
         {
-            var result = await OneMeasurementExecutor.Start(_traceLeaf);
-            _logFile.AppendLine($@"Measurement on trace {_traceLeaf.Title} started: {result}");
+            _waitCursor = new WaitCursor();
+            OneMeasurementExecutor.Model.IsEnabled = false;
+            await OneMeasurementExecutor.Start(_traceLeaf);
         }
 
 
@@ -82,7 +92,7 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            OneMeasurementExecutor.Model.IsOpen = false;
+            IsOpen = false;
             OneMeasurementExecutor.MeasurementCompleted -= OneMeasurementExecutor_MeasurementCompleted;
             callback(true);
         }

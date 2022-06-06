@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
-using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WpfCommonViews;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
     public class MeasurementAsBaseAssigner
     {
-        private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly LandmarksIntoBaseSetter _landmarksIntoBaseSetter;
         private readonly BaseRefMessages _baseRefMessages;
@@ -21,10 +18,9 @@ namespace Iit.Fibertest.Client
         private CurrentUser _currentUser;
         private Rtu _rtu;
 
-        public MeasurementAsBaseAssigner(ILifetimeScope globalScope, CurrentUser currentUser,
-            IWcfServiceCommonC2D c2DWcfCommonManager, LandmarksIntoBaseSetter landmarksIntoBaseSetter, BaseRefMessages baseRefMessages)
+        public MeasurementAsBaseAssigner(CurrentUser currentUser, IWcfServiceCommonC2D c2DWcfCommonManager, 
+            LandmarksIntoBaseSetter landmarksIntoBaseSetter, BaseRefMessages baseRefMessages)
         {
-            _globalScope = globalScope;
             _currentUser = currentUser;
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _landmarksIntoBaseSetter = landmarksIntoBaseSetter;
@@ -36,17 +32,13 @@ namespace Iit.Fibertest.Client
             _rtu = rtu;
         }
 
-        public async Task<BaseRefAssignedDto> Assign(OtdrDataKnownBlocks sorData, Trace trace, 
+        public async Task<BaseRefAssignedDto> Assign(OtdrDataKnownBlocks sorData, Trace trace,
             MeasurementProgressViewModel measurementProgressViewModel)
         {
             _landmarksIntoBaseSetter.ApplyTraceToAutoBaseRef(sorData, trace);
 
-            BaseRefAssignedDto result;
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                var dto = PrepareDto(sorData.ToBytes(), trace);
-                result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
-            }
+            var dto = PrepareDto(sorData.ToBytes(), trace);
+            var result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
 
             measurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)

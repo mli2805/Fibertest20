@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -16,6 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private List<TraceLeaf> _traceLeaves;
         private int _currentTraceIndex;
+        public bool IsOpen { get; set; }
         public OneMeasurementExecutor OneMeasurementExecutor { get; }
         public bool ShouldStartMonitoring { get; set; }
 
@@ -26,6 +29,13 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _windowManager = windowManager;
             OneMeasurementExecutor = oneMeasurementExecutor;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = Resources.SID_Assign_base_refs_automatically;
+            IsOpen = true;
+            OneMeasurementExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
         }
 
         public bool Initialize(RtuLeaf rtuLeaf)
@@ -49,28 +59,34 @@ namespace Iit.Fibertest.Client
         private void OneMeasurementExecutor_MeasurementCompleted(object sender, EventArgs e)
         {
             var result = (MeasurementCompletedEventArgs)e;
-            _logFile.AppendLine($@"Measurement on trace {_traceLeaves[0].Title}: {result.CompletedStatus}");
-            _currentTraceIndex++;
-            if (_currentTraceIndex < _traceLeaves.Count)
-                Start();
+
+            _logFile.AppendLine($@"Measurement on trace {result.Trace}: Model {result.ModelGuid.First6()};   Executor {result.ExecutorGuid.First6()};   {result.CompletedStatus}");
+        
+            // _currentTraceIndex++;
+            if (++_currentTraceIndex < _traceLeaves.Count)
+            {
+                Thread.Sleep(1000);
+                StartOneMeasurement();
+            }
             else
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Information, @"Done!");
-                _windowManager.ShowDialogWithAssignedOwner(vm);
+                _waitCursor.Dispose();
+                OneMeasurementExecutor.Model.IsEnabled = true;
                 TryClose();
             }
         }
 
-        protected override void OnViewLoaded(object view)
+        private WaitCursor _waitCursor;
+        public void Start()
         {
-            DisplayName = Resources.SID_Assign_base_refs_automatically;
-            OneMeasurementExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
+            _waitCursor = new WaitCursor();
+            OneMeasurementExecutor.Model.IsEnabled = false;
+            StartOneMeasurement();
         }
 
-        public async void Start()
+        private async void StartOneMeasurement()
         {
-            var result = await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex]);
-            _logFile.AppendLine($@"Measurement on trace {_traceLeaves[_currentTraceIndex].Title} started: {result}");
+            await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex]);
         }
 
         public void Close()
@@ -79,7 +95,7 @@ namespace Iit.Fibertest.Client
         }
         public override void CanClose(Action<bool> callback)
         {
-            OneMeasurementExecutor.Model.IsOpen = false;
+            IsOpen = false;
             OneMeasurementExecutor.MeasurementCompleted -= OneMeasurementExecutor_MeasurementCompleted;
             callback(true);
         }

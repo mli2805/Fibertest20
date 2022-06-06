@@ -1,13 +1,14 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
     public class OneMeasurementModel : PropertyChangedBase
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public CurrentUser CurrentUser;
         public Rtu Rtu;
-        public bool IsOpen { get; set; }
         public int MeasurementTimeout;
 
         public OtdrParametersTemplatesViewModel OtdrParametersTemplatesViewModel { get; set; }

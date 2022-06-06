@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" Top="20" Left="720" ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight" Top="20" Left="720" Loaded="Window_Loaded" ResizeMode="NoResize"
         d:DataContext="{d:DesignData AutoBaseViewModel}">
     <DockPanel >
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" 

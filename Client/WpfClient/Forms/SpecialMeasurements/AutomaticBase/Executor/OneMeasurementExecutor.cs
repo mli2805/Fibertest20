@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.Client
 {
     public class OneMeasurementExecutor
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
@@ -53,13 +55,11 @@ namespace Iit.Fibertest.Client
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }
 
-        public async Task<bool> Start(TraceLeaf traceLeaf)
+        public async Task Start(TraceLeaf traceLeaf)
         {
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             StartTimer();
 
-            Model.IsEnabled = false;
-            Model.IsOpen = true;
             Model.MeasurementProgressViewModel.DisplayStartMeasurement(traceLeaf.Title);
 
             var dto = _measurementDtoProvider
@@ -80,9 +80,9 @@ namespace Iit.Fibertest.Client
                 var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
                 MeasurementCompleted?
                     .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, list));
-              
+
                 Model.IsEnabled = true;
-                return false;
+                return;
             }
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
@@ -101,7 +101,6 @@ namespace Iit.Fibertest.Client
                 }
             } // if RtuMaker is IIT - result will come through WCF contract
 
-            return true;
         }
 
         private System.Timers.Timer _timer;
@@ -123,12 +122,12 @@ namespace Iit.Fibertest.Client
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
 
                 MeasurementCompleted?
-                    .Invoke(this, 
+                    .Invoke(this,
                         new MeasurementCompletedEventArgs(
-                            MeasurementCompletedStatus.MeasurementTimeoutExpired, 
+                            MeasurementCompletedStatus.MeasurementTimeoutExpired,
                             new List<string>()
                             {
-                                Resources.SID_Base_reference_assignment_failed, "", 
+                                Resources.SID_Base_reference_assignment_failed, "",
                                 Resources.SID_Measurement_timeout_expired
                             }));
                 Model.IsEnabled = true;
@@ -139,8 +138,11 @@ namespace Iit.Fibertest.Client
         {
             _timer.Stop();
             _timer.Dispose();
-           
+
             _logFile.AppendLine(@"Measurement (Client) result received");
+
+            Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
+            Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
             var sorData = SorData.FromBytes(sorBytes);
             var rftsParams = Model.AutoAnalysisParamsViewModel
@@ -155,6 +157,11 @@ namespace Iit.Fibertest.Client
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
                     ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", sorBytes)
+                    {
+                        Trace = _trace,
+                        ModelGuid = Model.Id,
+                        ExecutorGuid = Id,
+                    }
                     : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, result.ErrorMessage));
         }
 
