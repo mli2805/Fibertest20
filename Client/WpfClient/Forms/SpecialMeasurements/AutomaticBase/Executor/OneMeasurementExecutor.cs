@@ -153,15 +153,9 @@ namespace Iit.Fibertest.Client
             var result = await _measurementAsBaseAssigner
                 .Assign(sorData, _trace, Model.MeasurementProgressViewModel);
 
-            Model.IsEnabled = true;
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
                     ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", sorBytes)
-                    {
-                        Trace = _trace,
-                        ModelGuid = Model.Id,
-                        ExecutorGuid = Id,
-                    }
                     : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, result.ErrorMessage));
         }
 

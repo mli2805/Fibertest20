@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -57,7 +56,7 @@ namespace Iit.Fibertest.Client
         private void OneMeasurementExecutor_MeasurementCompleted(object sender, EventArgs e)
         {
             var result = (MeasurementCompletedEventArgs)e;
-            _logFile.AppendLine($@"Trace {result.Trace}  Model {result.ModelGuid.First6()}   Executor {result.ExecutorGuid.First6()}   Status {result.CompletedStatus}");
+            _logFile.AppendLine($@"Measurement on trace {_traceLeaf.Title}: {result.CompletedStatus}");
 
 
             _waitCursor.Dispose();

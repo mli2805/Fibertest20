@@ -28,7 +28,5 @@ namespace Iit.Fibertest.Client
                 AutoAnalysisParamsViewModel.IsEnabled = _isEnabled;
             }
         }
-
-
     }
 }

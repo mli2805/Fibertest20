@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -15,19 +14,17 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
-        private readonly IWindowManager _windowManager;
         private List<TraceLeaf> _traceLeaves;
         private int _currentTraceIndex;
         public bool IsOpen { get; set; }
         public OneMeasurementExecutor OneMeasurementExecutor { get; }
         public bool ShouldStartMonitoring { get; set; }
 
-        public RtuAutoBaseViewModel(IMyLog logFile, Model readModel, IWindowManager windowManager, 
+        public RtuAutoBaseViewModel(IMyLog logFile, Model readModel, 
             OneMeasurementExecutor oneMeasurementExecutor)
         {
             _logFile = logFile;
             _readModel = readModel;
-            _windowManager = windowManager;
             OneMeasurementExecutor = oneMeasurementExecutor;
         }
 
@@ -59,10 +56,8 @@ namespace Iit.Fibertest.Client
         private void OneMeasurementExecutor_MeasurementCompleted(object sender, EventArgs e)
         {
             var result = (MeasurementCompletedEventArgs)e;
-
-            _logFile.AppendLine($@"Measurement on trace {result.Trace}: Model {result.ModelGuid.First6()};   Executor {result.ExecutorGuid.First6()};   {result.CompletedStatus}");
+            _logFile.AppendLine($@"Measurement on trace {_traceLeaves[_currentTraceIndex].Title}: {result.CompletedStatus}");
         
-            // _currentTraceIndex++;
             if (++_currentTraceIndex < _traceLeaves.Count)
             {
                 Thread.Sleep(1000);
