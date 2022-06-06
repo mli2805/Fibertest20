@@ -19,64 +19,62 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefMessages _baseRefMessages;
 
         private CurrentUser _currentUser;
-        private Trace _trace;
         private Rtu _rtu;
 
-        public MeasurementAsBaseAssigner(ILifetimeScope globalScope, 
+        public MeasurementAsBaseAssigner(ILifetimeScope globalScope, CurrentUser currentUser,
             IWcfServiceCommonC2D c2DWcfCommonManager, LandmarksTool landmarksTool, BaseRefMessages baseRefMessages)
         {
             _globalScope = globalScope;
+            _currentUser = currentUser;
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _landmarksTool = landmarksTool;
             _baseRefMessages = baseRefMessages;
         }
 
-        public void Initialize(CurrentUser currentUser, Rtu rtu, Trace trace)
+        public void Initialize(Rtu rtu)
         {
             _rtu = rtu;
-            _trace = trace;
-            _currentUser = currentUser;
         }
 
-        public async Task<bool> Assign(OtdrDataKnownBlocks sorData, 
+        public async Task<BaseRefAssignedDto> Assign(OtdrDataKnownBlocks sorData, Trace trace, 
             MeasurementProgressViewModel measurementProgressViewModel)
         {
-            _landmarksTool.ApplyTraceToAutoBaseRef(sorData, _trace);
+            _landmarksTool.ApplyTraceToAutoBaseRef(sorData, trace);
 
             BaseRefAssignedDto result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                var dto = PrepareDto(sorData.ToBytes());
+                var dto = PrepareDto(sorData.ToBytes(), trace);
                 result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
             }
 
             measurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                _baseRefMessages.Display(result, _trace);
+                _baseRefMessages.Display(result, trace);
 
-            return result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully;
+            return result;
         }
 
-        private AssignBaseRefsDto PrepareDto(byte[] sorBytes)
+        private AssignBaseRefsDto PrepareDto(byte[] sorBytes, Trace trace)
         {
             var dto = new AssignBaseRefsDto()
             {
-                RtuId = _trace.RtuId,
+                RtuId = trace.RtuId,
                 RtuMaker = _rtu.RtuMaker,
                 OtdrId = _rtu.OtdrId,
-                TraceId = _trace.TraceId,
-                OtauPortDto = _trace.OtauPort,
+                TraceId = trace.TraceId,
+                OtauPortDto = trace.OtauPort,
                 BaseRefs = new List<BaseRefDto>(),
                 DeleteOldSorFileIds = new List<int>()
             };
 
-            if (_trace.OtauPort != null && !_trace.OtauPort.IsPortOnMainCharon && _rtu.RtuMaker == RtuMaker.VeEX)
+            if (trace.OtauPort != null && !trace.OtauPort.IsPortOnMainCharon && _rtu.RtuMaker == RtuMaker.VeEX)
             {
                 dto.MainOtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
                     OtauId = _rtu.MainVeexOtau.id,
-                    OpticalPort = _trace.OtauPort.MainCharonPort,
+                    OpticalPort = trace.OtauPort.MainCharonPort,
                 };
             }
 

@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
     public class VeexMeasurementFetcher
     {
         private readonly IMyLog _logFile;
-        private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
 
-        public VeexMeasurementFetcher(IMyLog logFile, IWindowManager windowManager, IWcfServiceCommonC2D c2DWcfCommonManager)
+        public VeexMeasurementFetcher(IMyLog logFile, IWcfServiceCommonC2D c2DWcfCommonManager)
         {
             _logFile = logFile;
-            _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
         }
 
-        public async Task<byte[]> Fetch(Guid rtuId, Guid clientMeasurementId)
+        public async Task<MeasurementCompletedEventArgs> Fetch(Guid rtuId, Guid clientMeasurementId)
         {
             var getDto = new GetClientMeasurementDto()
             {
@@ -42,21 +38,22 @@ namespace Iit.Fibertest.Client
                         ? measResult.ReturnCode.GetLocalizedString()
                         : Resources.SID_Failed_to_do_Measurement_Client__;
 
-                    var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
-                    {
-                        firstLine,
-                        "",
-                        measResult.ErrorMessage,
-                    }, 0);
-                    _windowManager.ShowDialogWithAssignedOwner(vm);
-                    return null;
+                    return new MeasurementCompletedEventArgs(
+                        MeasurementCompletedStatus.FailedToFetchFromRtu4000,
+                        new List<string>() 
+                                {
+                                    firstLine,
+                                    "",
+                                    measResult.ErrorMessage,
+                                });
                 }
 
                 if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
                 {
                     var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
                     _logFile.AppendLine($@"Fetched measurement {clientMeasurementId.First6()} from VEEX RTU");
-                    return measResultWithSorBytes.SorBytes;
+                    return new MeasurementCompletedEventArgs(
+                        MeasurementCompletedStatus.MeasurementCompletedSuccessfully, "", measResultWithSorBytes.SorBytes);
                 }
             }
         }

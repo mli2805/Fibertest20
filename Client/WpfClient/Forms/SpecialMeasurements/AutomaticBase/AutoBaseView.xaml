@@ -10,7 +10,7 @@
         d:DataContext="{d:DesignData AutoBaseViewModel}">
     <DockPanel >
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" 
-                    IsEnabled="{Binding IsEnabled}"  Margin="0,10">
+                    IsEnabled="{Binding Model.IsEnabled}"  Margin="0,10">
             <Button Name="Start" Content="{x:Static stringResources:Resources.SID_Start}" IsDefault="True" Margin="5" Width="100" Height="22"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Width="100" Height="22"/>
         </StackPanel>
@@ -18,12 +18,12 @@
         <TextBlock DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Width="400" Margin="5, 10"
                    Text="{x:Static stringResources:Resources.SID_AutoBaseAttention}"/>
         <client:OtdrParametersTemplatesView DockPanel.Dock="Top"
-                                            DataContext="{Binding OtdrParametersTemplatesViewModel}" />
-        <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding AutoAnalysisParamsViewModel}"/>
+                                            DataContext="{Binding Model.OtdrParametersTemplatesViewModel}" />
+        <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding Model.AutoAnalysisParamsViewModel}"/>
         <CheckBox DockPanel.Dock="Top"  Margin="25, 15,5,15" IsChecked="{Binding IsShowRef}"
                   Content="{x:Static stringResources:Resources.SID_Show_reflectogram_on_completion}" />
         <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"
-                                            DataContext="{Binding MeasurementProgressViewModel}" 
+                                            DataContext="{Binding Model.MeasurementProgressViewModel}" 
                                             Visibility="{Binding ControlVisibility}" />
         <StackPanel/>
     </DockPanel>

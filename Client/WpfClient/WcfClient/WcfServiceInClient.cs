@@ -57,10 +57,10 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"RTU returned measurement {dto.Id.First6()} through WCF connection");
             if (_clientMeasurementViewModel.IsOpen)
                 _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);
-            if (_autoBaseViewModel.IsOpen)
-                _autoBaseViewModel.ProcessMeasurementResult(dto.SorBytes);
-            if (_rtuAutoBaseViewModel.IsOpen)
-                _rtuAutoBaseViewModel.ProcessMeasurementResult(dto.SorBytes);
+            if (_autoBaseViewModel.Model.IsOpen)
+                _autoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto.SorBytes);
+            if (_rtuAutoBaseViewModel.Model.IsOpen)
+                _rtuAutoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto.SorBytes);
             return Task.FromResult(0);
         }
 

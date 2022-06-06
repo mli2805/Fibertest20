@@ -223,7 +223,11 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\LandmarksTool.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementAsBaseAssigner.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementCompletedEventArgs.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementCompletedStatus.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\MeasurementDtoProvider.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\OneMeasurementExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\OneMeasurementModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\VeexMeasurementFetcher.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />
