@@ -5,12 +5,12 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
 {
-    public class LandmarksTool
+    public class LandmarksIntoBaseSetter
     {
         private readonly Model _readModel;
         private readonly TraceModelBuilder _traceModelBuilder;
 
-        public LandmarksTool(Model readModel, TraceModelBuilder traceModelBuilder)
+        public LandmarksIntoBaseSetter(Model readModel, TraceModelBuilder traceModelBuilder)
         {
             _readModel = readModel;
             _traceModelBuilder = traceModelBuilder;

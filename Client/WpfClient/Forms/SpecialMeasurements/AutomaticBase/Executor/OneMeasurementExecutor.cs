@@ -21,13 +21,12 @@ namespace Iit.Fibertest.Client
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
         private Trace _trace;
-        public OneMeasurementModel Model { get; set; }
+        public OneMeasurementModel Model { get; set; } = new OneMeasurementModel();
 
-        public OneMeasurementExecutor(IMyLog logFile, Model readModel,
-            IWcfServiceCommonC2D c2DWcfCommonManager,
-            IDispatcherProvider dispatcherProvider,
-            MeasurementDtoProvider measurementDtoProvider,
-            VeexMeasurementFetcher veexMeasurementFetcher,
+        public OneMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
+            IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
+            AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
+            MeasurementDtoProvider measurementDtoProvider, VeexMeasurementFetcher veexMeasurementFetcher,
             MeasurementAsBaseAssigner measurementAsBaseAssigner
             )
         {
@@ -38,6 +37,20 @@ namespace Iit.Fibertest.Client
             _measurementDtoProvider = measurementDtoProvider;
             _veexMeasurementFetcher = veexMeasurementFetcher;
             _measurementAsBaseAssigner = measurementAsBaseAssigner;
+
+            Model.CurrentUser = currentUser;
+            Model.MeasurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
+            Model.OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
+            Model.AutoAnalysisParamsViewModel = autoAnalysisParamsViewModel;
+            Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
+        }
+
+        public bool Initialize(Rtu rtu, bool isForRtu)
+        {
+            Model.Rtu = rtu;
+
+            Model.OtdrParametersTemplatesViewModel.Initialize(rtu, isForRtu);
+            return Model.AutoAnalysisParamsViewModel.Initialize();
         }
 
         public async Task<bool> Start(TraceLeaf traceLeaf)

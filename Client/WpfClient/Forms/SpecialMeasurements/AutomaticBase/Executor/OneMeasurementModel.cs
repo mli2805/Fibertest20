@@ -28,7 +28,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool ShouldStartMonitoring { get; set; }
 
     }
 }

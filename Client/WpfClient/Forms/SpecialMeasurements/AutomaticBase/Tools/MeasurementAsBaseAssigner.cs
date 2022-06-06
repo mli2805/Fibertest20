@@ -15,19 +15,19 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
-        private readonly LandmarksTool _landmarksTool;
+        private readonly LandmarksIntoBaseSetter _landmarksIntoBaseSetter;
         private readonly BaseRefMessages _baseRefMessages;
 
         private CurrentUser _currentUser;
         private Rtu _rtu;
 
         public MeasurementAsBaseAssigner(ILifetimeScope globalScope, CurrentUser currentUser,
-            IWcfServiceCommonC2D c2DWcfCommonManager, LandmarksTool landmarksTool, BaseRefMessages baseRefMessages)
+            IWcfServiceCommonC2D c2DWcfCommonManager, LandmarksIntoBaseSetter landmarksIntoBaseSetter, BaseRefMessages baseRefMessages)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
             _c2DWcfCommonManager = c2DWcfCommonManager;
-            _landmarksTool = landmarksTool;
+            _landmarksIntoBaseSetter = landmarksIntoBaseSetter;
             _baseRefMessages = baseRefMessages;
         }
 
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
         public async Task<BaseRefAssignedDto> Assign(OtdrDataKnownBlocks sorData, Trace trace, 
             MeasurementProgressViewModel measurementProgressViewModel)
         {
-            _landmarksTool.ApplyTraceToAutoBaseRef(sorData, trace);
+            _landmarksIntoBaseSetter.ApplyTraceToAutoBaseRef(sorData, trace);
 
             BaseRefAssignedDto result;
             using (_globalScope.Resolve<IWaitCursor>())

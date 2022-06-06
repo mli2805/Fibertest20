@@ -13,31 +13,20 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
-        public readonly OneMeasurementExecutor OneMeasurementExecutor;
         private readonly ReflectogramManager _reflectogramManager;
         private TraceLeaf _traceLeaf;
 
-        public OneMeasurementModel Model { get; set; } = new OneMeasurementModel();
+        public OneMeasurementExecutor OneMeasurementExecutor { get; }
         public bool IsShowRef { get; set; }
 
-        public AutoBaseViewModel(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
-            IWindowManager windowManager, AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
-            OneMeasurementExecutor oneMeasurementExecutor, ReflectogramManager reflectogramManager
-            )
+        public AutoBaseViewModel(IMyLog logFile, Model readModel, IWindowManager windowManager,
+            OneMeasurementExecutor oneMeasurementExecutor, ReflectogramManager reflectogramManager)
         {
             _logFile = logFile;
             _readModel = readModel;
             _windowManager = windowManager;
             OneMeasurementExecutor = oneMeasurementExecutor;
-            OneMeasurementExecutor.Model = Model;
-            OneMeasurementExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
             _reflectogramManager = reflectogramManager;
-
-            Model.CurrentUser = currentUser;
-            Model.MeasurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
-            Model.AutoAnalysisParamsViewModel = autoAnalysisParamsViewModel;
-            Model.OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
-            Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
         }
 
         public bool Initialize(TraceLeaf traceLeaf)
@@ -45,13 +34,13 @@ namespace Iit.Fibertest.Client
             _traceLeaf = traceLeaf;
 
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            Model.Rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
+            var rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
 
-            Model.OtdrParametersTemplatesViewModel.Initialize(Model.Rtu, false);
-            if (!Model.AutoAnalysisParamsViewModel.Initialize())
+            if (!OneMeasurementExecutor.Initialize(rtu, false))
                 return false;
+
             IsShowRef = true;
-            Model.IsEnabled = true;
+            OneMeasurementExecutor.Model.IsEnabled = true;
 
             return true;
         }
@@ -59,7 +48,6 @@ namespace Iit.Fibertest.Client
         private void OneMeasurementExecutor_MeasurementCompleted(object sender, EventArgs e)
         {
             var result = (MeasurementCompletedEventArgs)e;
-
 
             if (result.CompletedStatus == MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
             {
@@ -77,6 +65,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Assign_base_refs_automatically;
+            OneMeasurementExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
         }
 
         public async void Start()
@@ -93,7 +82,8 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            Model.IsOpen = false;
+            OneMeasurementExecutor.Model.IsOpen = false;
+            OneMeasurementExecutor.MeasurementCompleted -= OneMeasurementExecutor_MeasurementCompleted;
             callback(true);
         }
     }
