@@ -168,6 +168,7 @@
       <DependentUpon>ServerConnectionLostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServerConnectionLost\ServerConnectionLostViewModel.cs" />
+    <Compile Include="Utils\PdfExposer.cs" />
     <Compile Include="WaitForm\LongOperation.cs" />
     <Compile Include="WaitForm\LongOperationExt.cs" />
     <Compile Include="WaitForm\WaitView.xaml.cs">

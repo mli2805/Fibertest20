@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
@@ -189,21 +187,7 @@ namespace Iit.Fibertest.Client
             var logLines = view.Cast<LogLine>().ToList();
 
             var report = EventLogReportProvider.Create(logLines);
-            if (report == null) return;
-            try
-            {
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-
-                string filename = Path.Combine(folder, $@"EventLog{DateTime.Now:yyyyMMddHHmmss}.pdf");
-                report.Save(filename);
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, @"Event Log Export to pdf" + e.Message);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-            }
+            PdfExposer.Show(report, $@"EventLog{DateTime.Now:yyyyMMddHHmmss}.pdf", _windowManager);
         }
 
         public void Close()

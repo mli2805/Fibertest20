@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Caliburn.Micro;
@@ -101,21 +99,10 @@ namespace Iit.Fibertest.Client
 
         private void ShowReport()
         {
-            try
-            {
-                var report = _failedAutoBasePdfProvider.Create(_rtu, _pdfSource);
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-
-                string filename = Path.Combine(folder, $@"FialedAutoBaseMeasurementsReport{DateTime.Now:yyyyMMddHHmmss}.pdf");
-                report.Save(filename);
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, @"ShowReport: " + e.Message);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-            }
+            var report = _failedAutoBasePdfProvider.Create(_rtu, _pdfSource);
+            PdfExposer.Show(report, 
+                $@"FailedAutoBaseMeasurementsReport{DateTime.Now:yyyyMMddHHmmss}.pdf", 
+                _windowManager);
         }
 
         public void Close()

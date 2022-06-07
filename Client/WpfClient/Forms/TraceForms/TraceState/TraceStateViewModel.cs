@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly CurrentGis _currentGis;
+        private readonly IWindowManager _windowManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly Model _readModel;
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
 
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, CurrentGis currentGis,
-            ReflectogramManager reflectogramManager,
+            IWindowManager windowManager, ReflectogramManager reflectogramManager,
             SoundManager soundManager, Model readModel, GraphReadModel graphReadModel,
             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager, 
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
@@ -67,6 +67,7 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _currentUser = currentUser;
             _currentGis = currentGis;
+            _windowManager = windowManager;
             HasPrivilegies = currentUser.Role <= Role.Operator;
             IsEditEnabled = true;
             _reflectogramManager = reflectogramManager;
@@ -203,31 +204,21 @@ namespace Iit.Fibertest.Client
 
         public void ShowReport()
         {
-            try
+            var reportModel = new TraceReportModel()
             {
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+                TraceTitle = Model.Header.TraceTitle,
+                TraceState = Model.TraceState.ToLocalizedString(),
+                RtuTitle = Model.Header.RtuTitle,
+                RtuSoftwareVersion = Model.Header.RtuSoftwareVersion,
+                PortTitle = Model.Header.PortTitle,
+                MeasurementTimestamp = $@"{Model.MeasurementTimestamp:G}",
+                RegistrationTimestamp = $@"{Model.RegistrationTimestamp:G}",
 
-                string filename = Path.Combine(folder, @"TraceStateReport.pdf");
-                var reportModel = new TraceReportModel()
-                {
-                    TraceTitle = Model.Header.TraceTitle,
-                    TraceState = Model.TraceState.ToLocalizedString(),
-                    RtuTitle = Model.Header.RtuTitle,
-                    RtuSoftwareVersion = Model.Header.RtuSoftwareVersion,
-                    PortTitle = Model.Header.PortTitle,
-                    MeasurementTimestamp = $@"{Model.MeasurementTimestamp:G}",
-                    RegistrationTimestamp = $@"{Model.RegistrationTimestamp:G}",
+                Accidents = Model.Accidents,
+            };
+            var report = _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters);
 
-                    Accidents = Model.Accidents,
-                };
-                _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters).Save(filename);
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(@"ShowReport: " + e.Message);
-            }
+            PdfExposer.Show(report, @"TraceStateReport.pdf", _windowManager);
         }
 
         public async void SaveMeasurementChanges()

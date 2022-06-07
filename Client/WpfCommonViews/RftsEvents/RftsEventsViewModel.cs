@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -82,21 +79,7 @@ namespace Iit.Fibertest.WpfCommonViews
         public void ExportToPdf()
         {
             var report = RftsEventsPdfProvider.Create(LevelsContent.GetAll(), _traceTitle);
-            if (report == null) return;
-            try
-            {
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-
-                string filename = Path.Combine(folder, @"RFTS events.pdf");
-                report.Save(filename);
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-            }
+            PdfExposer.Show(report, @"RFTS events.pdf", _windowManager);
         }
 
         public void Close()

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using Autofac;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -13,20 +11,10 @@ namespace Iit.Fibertest.Client
             _componentsReportViewModel.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(_componentsReportViewModel);
             if (_componentsReportViewModel.Report == null) return;
-            try
-            {
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-                string filename = Path.Combine(folder, $@"MonitoringSystemComponentsReport{DateTime.Now:yyyyMMddHHmmss}.pdf");
-                _componentsReportViewModel.Report.Save(filename);
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, @"LaunchComponentsReport: " + e.Message);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-            }
+            PdfExposer.Show(_componentsReportViewModel.Report, 
+                $@"MonitoringSystemComponentsReport{DateTime.Now:yyyyMMddHHmmss}.pdf",
+                _windowManager);
         }
 
         public void LaunchOpticalEventsReport()
@@ -35,20 +23,9 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(_opticalEventsReportViewModel);
             if (_opticalEventsReportViewModel.Report == null) return;
 
-            try
-            {
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-
-                string filename = Path.Combine(folder, $@"OpticalEventsReport{DateTime.Now:yyyyMMddHHmmss}.pdf");
-                _opticalEventsReportViewModel.Report.Save(filename);
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, @"LaunchOpticalEventsReport: " + e.Message);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-            }
+            PdfExposer.Show(_opticalEventsReportViewModel.Report,
+                $@"OpticalEventsReport{DateTime.Now:yyyyMMddHHmmss}.pdf",
+                _windowManager);
         }
 
         public void LaunchEventLogView()

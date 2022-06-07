@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
@@ -127,20 +125,7 @@ namespace Iit.Fibertest.Licenser
             var provider = new PdfCertificateProvider();
             var pdfDoc = provider.Create(LicenseInFileModel);
             if (pdfDoc == null) return;
-
-            try
-            {
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-
-                string filename = Path.Combine(folder, @"LicenseCertificate.pdf");
-                pdfDoc.Save(filename);
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+            PdfExposer.Show(pdfDoc, @"LicenseCertificate.pdf", new WindowManager());
         }
 
         public void Close()
