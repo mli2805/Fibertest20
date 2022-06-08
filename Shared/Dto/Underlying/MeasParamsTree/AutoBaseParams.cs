@@ -77,8 +77,8 @@ namespace Iit.Fibertest.Dto
         private static int GetIndexByProbeMeasurementLmax(double lmaxInProbe)
         {
             if (lmaxInProbe < 2) return 0;
-            if (lmaxInProbe < 10) return 1;
-            if (lmaxInProbe < 20) return 2;
+            if (lmaxInProbe < 11.5) return 1;
+            if (lmaxInProbe < 23) return 2;
             return lmaxInProbe < 47 ? 3 : -1;
         }
 
