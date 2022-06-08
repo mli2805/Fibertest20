@@ -120,9 +120,7 @@ namespace Iit.Fibertest.Graph
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
-            {
                 return $@"TraceAttached: Trace {e.TraceId} not found";
-            }
 
             if (!e.OtauPortDto.IsPortOnMainCharon)
             {
