@@ -126,8 +126,12 @@ namespace Iit.Fibertest.Graph
 
             if (!e.OtauPortDto.IsPortOnMainCharon)
             {
-                var otau = model.Otaus.FirstOrDefault(o => o.Id.ToString() == e.OtauPortDto.OtauId);
+                var otau = e.OtauPortDto.OtauId == null  // in commands sent on old version e.OtauPortDto.OtauId == null
+                    ? model.Otaus.FirstOrDefault(o => o.Serial == e.OtauPortDto.Serial)
+                    : model.Otaus.FirstOrDefault(o => o.Id.ToString() == e.OtauPortDto.OtauId);
                 e.OtauPortDto.MainCharonPort = otau?.MasterPort ?? 1;
+                if (e.OtauPortDto.OtauId == null) // in commands sent on old version e.OtauPortDto.OtauId == null
+                    e.OtauPortDto.OtauId = otau?.Id.ToString();
             }
 
             trace.Port = e.OtauPortDto.OpticalPort;
