@@ -17,8 +17,15 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 MainVeexOtau = model.MainVeexOtau,
                 IsMonitoringOn = model.IsMonitoringOn,
                 Timespans = model.CreateFrequenciesDto(),
-                Ports = model.CreatePortWithTraceList()
+                // Ports = ask explicitly ! 
             };
+        }
+
+        public static ApplyMonitoringSettingsDto AddPortList(this ApplyMonitoringSettingsDto dto,
+            MonitoringSettingsModel model)
+        {
+            dto.Ports = model.CreatePortWithTraceList();
+            return dto;
         }
 
         public static List<PortWithTraceDto> CreatePortWithTraceList(this MonitoringSettingsModel model)

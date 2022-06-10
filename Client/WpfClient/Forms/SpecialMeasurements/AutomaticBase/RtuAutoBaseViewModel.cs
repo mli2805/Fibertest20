@@ -3,36 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Client.MonitoringSettings;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuAutoBaseViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceDesktopC2D _desktopC2DWcfManager;
+        private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly FailedAutoBasePdfProvider _failedAutoBasePdfProvider;
+        private readonly MonitoringSettingsModelFactory _monitoringSettingsModelFactory;
         private List<TraceLeaf> _traceLeaves;
         private int _currentTraceIndex;
         public bool IsOpen { get; set; }
         public OneMeasurementExecutor OneMeasurementExecutor { get; }
         public bool ShouldStartMonitoring { get; set; }
+        private RtuLeaf _rtuLeaf;
         private Rtu _rtu;
         private List<MeasurementCompletedEventArgs> _badResults;
         private List<TraceLeaf> _goodTraceLeaves;
 
-        public RtuAutoBaseViewModel(IMyLog logFile, Model readModel, IWindowManager windowManager,
-            OneMeasurementExecutor oneMeasurementExecutor, FailedAutoBasePdfProvider failedAutoBasePdfProvider)
+        public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, IWindowManager windowManager,
+            IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
+            OneMeasurementExecutor oneMeasurementExecutor, FailedAutoBasePdfProvider failedAutoBasePdfProvider,
+            MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
+            _globalScope = globalScope;
             _logFile = logFile;
             _readModel = readModel;
             _windowManager = windowManager;
+            _desktopC2DWcfManager = desktopC2DWcfManager;
+            _commonC2DWcfManager = commonC2DWcfManager;
             _failedAutoBasePdfProvider = failedAutoBasePdfProvider;
+            _monitoringSettingsModelFactory = monitoringSettingsModelFactory;
             OneMeasurementExecutor = oneMeasurementExecutor;
         }
 
@@ -52,6 +67,7 @@ namespace Iit.Fibertest.Client
                 return false;
             _currentTraceIndex = 0;
 
+            _rtuLeaf = rtuLeaf;
             _rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
 
             if (!OneMeasurementExecutor.Initialize(_rtu, true))
@@ -73,7 +89,7 @@ namespace Iit.Fibertest.Client
                 _badResults.Add(result);
             }
             else _goodTraceLeaves.Add(_traceLeaves[_currentTraceIndex]);
-        
+
             if (++_currentTraceIndex < _traceLeaves.Count)
             {
                 Thread.Sleep(1000);
@@ -82,7 +98,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 _waitCursor.Dispose();
-                await ApplyResults();
+                var _ = await ApplyResults();
                 OneMeasurementExecutor.Model.IsEnabled = true;
                 TryClose();
             }
@@ -101,24 +117,52 @@ namespace Iit.Fibertest.Client
             await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex]);
         }
 
-        private async Task ApplyResults()
+        private async Task<bool> ApplyResults()
         {
-            if (ShouldStartMonitoring)
-                await StartMonitoring();
             if (_badResults.Any())
                 ShowReport();
+            if (ShouldStartMonitoring && _goodTraceLeaves.Any())
+                return await StartMonitoring();
+            return true;
         }
 
-        private async Task StartMonitoring()
+        private async Task<bool> StartMonitoring()
         {
+            var monitoringSettingsModel = _monitoringSettingsModelFactory.Create(_rtuLeaf, false);
 
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                var dto = monitoringSettingsModel.CreateDto();
+                dto.Ports = _goodTraceLeaves
+                    .Select(goodTraceLeaf => _readModel.Traces.First(t => t.TraceId == goodTraceLeaf.Id))
+                    .Select(trace => new PortWithTraceDto()
+                    {
+                        OtauPort = trace.OtauPort,
+                        TraceId = trace.TraceId
+                    }).ToList();
+                dto.IsMonitoringOn = true;
+
+                var resultDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+                if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
+                {
+                    var cmd = dto.CreateCommand();
+                    var result = await _desktopC2DWcfManager.SendCommandAsObj(cmd);
+                    if (string.IsNullOrEmpty(result)) return true;
+
+                    var mb = new MyMessageBoxViewModel(MessageType.Error, result);
+                    _windowManager.ShowDialogWithAssignedOwner(mb);
+                    return false;
+                }
+
+                return false;
+            }
         }
 
         private void ShowReport()
         {
             var report = _failedAutoBasePdfProvider.Create(_rtu, _badResults);
-            PdfExposer.Show(report, 
-                $@"FailedAutoBaseMeasurementsReport{DateTime.Now:yyyyMMddHHmmss}.pdf", 
+            PdfExposer.Show(report,
+                $@"FailedAutoBaseMeasurementsReport{DateTime.Now:yyyyMMddHHmmss}.pdf",
                 _windowManager);
         }
 

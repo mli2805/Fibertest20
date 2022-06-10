@@ -78,7 +78,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 MessageProp = Resources.SID_Command_is_processing___;
-                var dto = Model.CreateDto();
+                var dto = Model
+                    .CreateDto()
+                    .AddPortList(Model);
                 if (dto.IsMonitoringOn && !dto.Ports.Any())
                 {
                     var mb = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_are_no_ports_for_monitoring_);
@@ -99,7 +101,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             IsButtonsEnabled = true;
         }
 
-        public async Task<int> ReSendBaseRefsForAllSelectedTraces()  // Ctrl+B
+        // Ctrl+B
+        // only for traces included into monitoring cycle !
+        public async Task<int> ReSendBaseRefsForAllSelectedTraces()  
         {
             MessageProp = Resources.SID_Resending_base_refs_to_RTU___;
 
