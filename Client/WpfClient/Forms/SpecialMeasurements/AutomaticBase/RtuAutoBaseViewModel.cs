@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client.MonitoringSettings;
@@ -32,6 +33,7 @@ namespace Iit.Fibertest.Client
         public bool ShouldStartMonitoring { get; set; }
         private RtuLeaf _rtuLeaf;
         private Rtu _rtu;
+
         private List<MeasurementCompletedEventArgs> _badResults;
         private List<TraceLeaf> _goodTraceLeaves;
 
@@ -83,6 +85,13 @@ namespace Iit.Fibertest.Client
         {
             var result = (MeasurementCompletedEventArgs)e;
             _logFile.AppendLine($@"Measurement on trace {_traceLeaves[_currentTraceIndex].Title}: {result.CompletedStatus}");
+            OneMeasurementExecutor.Model.TraceResults
+                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_, 
+                    _currentTraceIndex + 1, 
+                    _traceLeaves.Count, 
+                    _traceLeaves[_currentTraceIndex].Title, 
+                    result.CompletedStatus.GetLocalizedString()));
+
             if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
             {
                 result.TraceLeaf = _traceLeaves[_currentTraceIndex];
@@ -97,18 +106,24 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                _waitCursor.Dispose();
-                var _ = await ApplyResults();
+                _waitCursor.Dispose(); 
+                await ApplyResults();
                 OneMeasurementExecutor.Model.IsEnabled = true;
+                OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                OneMeasurementExecutor.Model.TraceResultsVisibility = Visibility.Collapsed;
+                OneMeasurementExecutor.Model.TraceResults.Clear();
                 TryClose();
             }
         }
 
         private WaitCursor _waitCursor;
+
         public void Start()
         {
             _waitCursor = new WaitCursor();
             OneMeasurementExecutor.Model.IsEnabled = false;
+            OneMeasurementExecutor.Model.TraceResultsVisibility = Visibility.Visible;
+            OneMeasurementExecutor.Model.TraceResults.Add($@"There are {_traceLeaves.Count} trace(s) attached to ports of the RTU");
             StartOneMeasurement();
         }
 
@@ -117,17 +132,19 @@ namespace Iit.Fibertest.Client
             await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex]);
         }
 
-        private async Task<bool> ApplyResults()
+        private async Task ApplyResults()
         {
             if (_badResults.Any())
                 ShowReport();
             if (ShouldStartMonitoring && _goodTraceLeaves.Any())
-                return await StartMonitoring();
-            return true;
+                await StartMonitoring();
         }
 
-        private async Task<bool> StartMonitoring()
+        private async Task StartMonitoring()
         {
+            OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
+            OneMeasurementExecutor.Model.MeasurementProgressViewModel.Message1 = @"Start monitoring";
+            OneMeasurementExecutor.Model.MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
             var monitoringSettingsModel = _monitoringSettingsModelFactory.Create(_rtuLeaf, false);
 
             using (_globalScope.Resolve<IWaitCursor>())
@@ -147,14 +164,13 @@ namespace Iit.Fibertest.Client
                 {
                     var cmd = dto.CreateCommand();
                     var result = await _desktopC2DWcfManager.SendCommandAsObj(cmd);
-                    if (string.IsNullOrEmpty(result)) return true;
-
-                    var mb = new MyMessageBoxViewModel(MessageType.Error, result);
-                    _windowManager.ShowDialogWithAssignedOwner(mb);
-                    return false;
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        var mb = new MyMessageBoxViewModel(MessageType.Error, result);
+                        _windowManager.ShowDialogWithAssignedOwner(mb);
+                    }
                 }
 
-                return false;
             }
         }
 

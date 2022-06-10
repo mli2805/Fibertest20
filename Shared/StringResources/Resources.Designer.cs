@@ -178,6 +178,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}/{1}  Measurement on trace {2}: {3}.
+        /// </summary>
+        public static string SID__0___1___Measurement_on_trace__2____3_ {
+            get {
+                return ResourceManager.GetString("SID__0___1___Measurement_on_trace__2____3_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0: 0.00000} km.
         /// </summary>
         public static string SID__0__0_00000__km {

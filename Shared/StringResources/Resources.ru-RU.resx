@@ -3344,4 +3344,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Failed_to_assign_as_base" xml:space="preserve">
 		<value>Не удалось задать в качестве базовой</value>
 	</data>
+	<data name="SID__0___1___Measurement_on_trace__2____3_" xml:space="preserve">
+		<value>{0}/{1}  Измерение по трассе {2}: {3}</value>
+	</data>
 </root>
