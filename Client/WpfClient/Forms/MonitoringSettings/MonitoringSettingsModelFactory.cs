@@ -90,13 +90,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             var result = new List<MonitoringPortModel>();
             for (int i = 0; i < portOwner.OwnPortCount; i++)
             {
-
-                var traceLeaf = portOwner.ChildrenImpresario.Children[i] as TraceLeaf;
-                if (traceLeaf != null)
+                if (portOwner.ChildrenImpresario.Children[i] is TraceLeaf traceLeaf)
                 {
-                    var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceLeaf.Id);
-                    if (trace == null)
-                        return null; // it couldn't be!
+                    var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
                     result.Add(new MonitoringPortModel()
                     {
                         PortNumber = i+1,
