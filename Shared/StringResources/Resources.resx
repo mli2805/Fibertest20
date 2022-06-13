@@ -3347,4 +3347,10 @@ Please try again later</value>
 	<data name="SID_Start_monitoring_when_completed" xml:space="preserve">
 		<value>Start monitoring when completed</value>
 	</data>
+	<data name="SID_Starting_monitoring" xml:space="preserve">
+		<value>Starting monitoring</value>
+	</data>
+	<data name="SID_There_are__0__trace_s__attached_to_ports_of_the_RTU" xml:space="preserve">
+		<value>There are {0} trace(s) attached to ports of the RTU</value>
+	</data>
 </root>

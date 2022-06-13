@@ -929,15 +929,6 @@ namespace Iit.Fibertest.StringResources {
         /// <summary>
         ///   Looks up a localized string similar to Attention!.
         /// </summary>
-        public static string SID_Attention {
-            get {
-                return ResourceManager.GetString("SID_Attention", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attention!.
-        /// </summary>
         public static string SID_Attention_ {
             get {
                 return ResourceManager.GetString("SID_Attention_", resourceCulture);
@@ -8046,6 +8037,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Starting monitoring.
+        /// </summary>
+        public static string SID_Starting_monitoring {
+            get {
+                return ResourceManager.GetString("SID_Starting_monitoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State.
         /// </summary>
         public static string SID_State {
@@ -8420,6 +8420,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_The_changes_will_be_applied_after_application_restart {
             get {
                 return ResourceManager.GetString("SID_The_changes_will_be_applied_after_application_restart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are {0} trace(s) attached to ports of the RTU.
+        /// </summary>
+        public static string SID_There_are__0__trace_s__attached_to_ports_of_the_RTU {
+            get {
+                return ResourceManager.GetString("SID_There_are__0__trace_s__attached_to_ports_of_the_RTU", resourceCulture);
             }
         }
         

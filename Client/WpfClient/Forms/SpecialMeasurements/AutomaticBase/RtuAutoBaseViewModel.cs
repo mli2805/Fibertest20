@@ -123,7 +123,8 @@ namespace Iit.Fibertest.Client
             _waitCursor = new WaitCursor();
             OneMeasurementExecutor.Model.IsEnabled = false;
             OneMeasurementExecutor.Model.TraceResultsVisibility = Visibility.Visible;
-            OneMeasurementExecutor.Model.TraceResults.Add($@"There are {_traceLeaves.Count} trace(s) attached to ports of the RTU");
+            OneMeasurementExecutor.Model.TraceResults
+                .Add(string.Format(Resources.SID_There_are__0__trace_s__attached_to_ports_of_the_RTU, _traceLeaves.Count));
             StartOneMeasurement();
         }
 
@@ -143,7 +144,7 @@ namespace Iit.Fibertest.Client
         private async Task StartMonitoring()
         {
             OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
-            OneMeasurementExecutor.Model.MeasurementProgressViewModel.Message1 = @"Start monitoring";
+            OneMeasurementExecutor.Model.MeasurementProgressViewModel.Message1 = Resources.SID_Starting_monitoring;
             OneMeasurementExecutor.Model.MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
             var monitoringSettingsModel = _monitoringSettingsModelFactory.Create(_rtuLeaf, false);
 
