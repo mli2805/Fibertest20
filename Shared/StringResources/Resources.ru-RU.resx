@@ -2558,9 +2558,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Database_optimization" xml:space="preserve">
     <value>Оптимизация БД</value>
   </data>
-	<data name="SID_Attention" xml:space="preserve">
-    <value>Внимание!</value>
-  </data>
 	<data name="SID_Db_optimization_warning1" xml:space="preserve">
     <value>1. Настоятельно рекомендуется сделать резервную копию БД перед проведением оптимизации!</value>
   </data>
@@ -3282,7 +3279,7 @@ RTU инициализируется в данный момент!</value>
 		<value>4. Для линий длиной  10 - 20 км</value>
 	</data>
 	<data name="SID_AutoBaseAttention" xml:space="preserve">
-		<value>Внимание! Не рекомендуется использовать режим автоматического задания базовых для трасс имеющих "проключения" с затуханием более 1 дБ</value>
+		<value>Внимание! Не рекомендуется использовать режим автоматического задания базовых для трасс имеющих неоднородности с затуханием более 1 дБ</value>
 	</data>
 	<data name="SID_Failed_to_do_Measurement_Client__" xml:space="preserve">
 		<value>Не удалось провести Измерение (Client)!</value>
@@ -3346,5 +3343,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID__0___1___Measurement_on_trace__2____3_" xml:space="preserve">
 		<value>{0}/{1}  Измерение по трассе {2}: {3}</value>
+	</data>
+	<data name="SID_Start_monitoring_when_completed" xml:space="preserve">
+		<value>Запустить мониторинг по завершении</value>
 	</data>
 </root>

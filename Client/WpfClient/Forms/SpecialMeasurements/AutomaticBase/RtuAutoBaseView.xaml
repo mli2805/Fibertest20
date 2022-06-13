@@ -17,6 +17,8 @@
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Width="100" Height="22"/>
         </StackPanel>
 
+        <TextBlock DockPanel.Dock="Top" TextAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Width="400" Margin="5, 10"
+                   Text="{x:Static stringResources:Resources.SID_AutoBaseAttention}"/>
         <client:OtdrParametersTemplatesView DockPanel.Dock="Top"
                                             DataContext="{Binding OneMeasurementExecutor.Model.OtdrParametersTemplatesViewModel}" />
         <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding OneMeasurementExecutor.Model.AutoAnalysisParamsViewModel}"/>
@@ -34,7 +36,8 @@
         </Border>
         
         <CheckBox DockPanel.Dock="Top"  Margin="25, 15,5,15" 
-                  Content="Start automatic monitoring when completed" IsChecked="{Binding ShouldStartMonitoring}"/>
+                  Content="{x:Static stringResources:Resources.SID_Start_monitoring_when_completed}" 
+                  IsChecked="{Binding ShouldStartMonitoring}"/>
         <StackPanel/>
     </DockPanel>
 </Window>

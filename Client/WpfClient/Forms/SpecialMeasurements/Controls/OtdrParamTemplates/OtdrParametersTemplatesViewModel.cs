@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
         private Rtu _rtu;
 
         public Visibility ListBoxVisibility { get; set; }
+        public Visibility NoOptionsLineVisibility { get; set; }
 
         private bool _isEnabled;
         public bool IsEnabled
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.Client
             _rtu = rtu;
             Model.Initialize(rtu);
             ListBoxVisibility = isForRtu ? Visibility.Collapsed : Visibility.Visible;
+            NoOptionsLineVisibility = isForRtu ? Visibility.Visible : Visibility.Collapsed;
 
             var opUnit = _iniFile.Read(IniSection.OtdrParameters, IniKey.OpUnit, 0);
             Model.Units = rtu.AcceptableMeasParams.Units.Keys.ToList();

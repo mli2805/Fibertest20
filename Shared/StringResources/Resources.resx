@@ -2558,9 +2558,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Database_optimization" xml:space="preserve">
     <value>Database optimization</value>
   </data>
-	<data name="SID_Attention" xml:space="preserve">
-    <value>Attention!</value>
-  </data>
 	<data name="SID_Db_optimization_warning1" xml:space="preserve">
     <value>1. It's highly recommended to make a backup before cleaning!</value>
   </data>
@@ -3282,7 +3279,7 @@ Please try again later</value>
 		<value>4. For traces  10 - 20 km long</value>
 	</data>
 	<data name="SID_AutoBaseAttention" xml:space="preserve">
-		<value>Attention! It is not recommended to set automatic base for traces having 'crosses' with attenuation more than 1 dB</value>
+		<value>Attention! It is not recommended to set automatic base for traces having inclusions with attenuation more than 1 dB</value>
 	</data>
 	<data name="SID_Failed_to_do_Measurement_Client__" xml:space="preserve">
 		<value>Failed to do Measurement(Client)!</value>
@@ -3346,5 +3343,8 @@ Please try again later</value>
 	</data>
 	<data name="SID__0___1___Measurement_on_trace__2____3_" xml:space="preserve">
 		<value>{0}/{1}  Measurement on trace {2}: {3}</value>
+	</data>
+	<data name="SID_Start_monitoring_when_completed" xml:space="preserve">
+		<value>Start monitoring when completed</value>
 	</data>
 </root>

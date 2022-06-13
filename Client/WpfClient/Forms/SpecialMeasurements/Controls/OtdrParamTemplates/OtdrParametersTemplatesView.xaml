@@ -61,11 +61,18 @@
                 </TextBox>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Refractive_index}" Margin="5" HorizontalAlignment="Right"/>
             </DockPanel>
-            <ListBox ItemsSource="{Binding Model.OtdrParametersTemplates}" 
-                     SelectedItem="{Binding Model.SelectedOtdrParametersTemplate, Mode=TwoWay}"
-                     BorderThickness="0" HorizontalAlignment="Center"
-                     ItemContainerStyle="{DynamicResource ListBoxItemStyle}"
-                     Visibility="{Binding ListBoxVisibility}">
+            <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="4" Margin="20, 10"
+                    Visibility="{Binding NoOptionsLineVisibility}">
+                <StackPanel Margin="0, 5" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Model.Title}"  FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Model.Description}"/>
+                </StackPanel>
+            </Border>
+                <ListBox ItemsSource="{Binding Model.OtdrParametersTemplates}" 
+                         SelectedItem="{Binding Model.SelectedOtdrParametersTemplate, Mode=TwoWay}"
+                         BorderThickness="0" HorizontalAlignment="Center"
+                         ItemContainerStyle="{DynamicResource ListBoxItemStyle}"
+                         Visibility="{Binding ListBoxVisibility}">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="client:OtdrParametersTemplate">
                         <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="4" Margin="10, 4">

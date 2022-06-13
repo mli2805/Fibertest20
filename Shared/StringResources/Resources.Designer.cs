@@ -972,7 +972,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attention! It is not recommended to set automatic base for traces having &apos;crosses&apos; with attenuation more than 1 dB.
+        ///   Looks up a localized string similar to Attention! It is not recommended to set automatic base for traces having inclusions with attenuation more than 1 dB.
         /// </summary>
         public static string SID_AutoBaseAttention {
             get {
@@ -8033,6 +8033,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Start {
             get {
                 return ResourceManager.GetString("SID_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start monitoring when completed.
+        /// </summary>
+        public static string SID_Start_monitoring_when_completed {
+            get {
+                return ResourceManager.GetString("SID_Start_monitoring_when_completed", resourceCulture);
             }
         }
         

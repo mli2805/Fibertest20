@@ -8,7 +8,7 @@
         Width="800" SizeToContent="Height" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData CleaningViewModel}">
     <DockPanel IsEnabled="{Binding Model.IsEnabled}">
         <DockPanel DockPanel.Dock="Top" Margin="33,15">
-            <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Attention}" Width="120" 
+            <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Attention_}" Width="120" 
                        TextAlignment="Right" Margin="5" FontWeight="Bold"/>
             <StackPanel Margin="5,0,70,0">
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Db_optimization_warning1}" 

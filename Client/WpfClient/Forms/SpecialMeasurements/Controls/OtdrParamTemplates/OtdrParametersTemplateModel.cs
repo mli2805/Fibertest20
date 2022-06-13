@@ -50,6 +50,8 @@ namespace Iit.Fibertest.Client
         }
 
         public List<OtdrParametersTemplate> OtdrParametersTemplates { get; set; } = new List<OtdrParametersTemplate>();
+        public string Title { get; set; }
+        public string Description { get; set; }
 
         public OtdrParametersTemplate SelectedOtdrParametersTemplate
         {
@@ -66,6 +68,8 @@ namespace Iit.Fibertest.Client
         {
             OtdrParametersTemplates.Clear();
             var templates = OtdrParamTemplatesProvider.Get(rtu);
+            Title = templates[0].Title;
+            Description = templates[0].Description;
             foreach (var template in templates)
             {
                 template.PropertyChanged += Template_PropertyChanged;
