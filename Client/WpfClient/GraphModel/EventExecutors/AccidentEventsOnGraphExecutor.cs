@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
 
-        public AccidentEventsOnGraphExecutor(GraphReadModel graphReadModel, Model readModel, 
+        public AccidentEventsOnGraphExecutor(GraphReadModel graphReadModel, Model readModel,
             CurrentUser currentUser)
         {
             _graphReadModel = graphReadModel;
@@ -65,8 +65,9 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberId in fibers)
             {
-                var fiberVm = _graphReadModel.Data.Fibers.First(f => f.Id == fiberId);
-                fiberVm.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
+                var fiberVm = _graphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiberVm != null)
+                    fiberVm.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
             }
         }
 
