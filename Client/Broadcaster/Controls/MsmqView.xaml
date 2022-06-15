@@ -23,6 +23,9 @@
                 <TextBlock Text="Sent" Margin="5"/>
                 <TextBlock Text="{Binding SentCount}" Margin="5"/>
             </StackPanel>
-            <Button Width="200" Height="22" Content="Start sending" Margin="5" Name="StartSending"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Width="200" Height="22" Content="Start sending OK" Margin="5" Name="StartSendingOk" />
+                <Button Width="200" Height="22" Content="Start sending Broken" Margin="5" Name="StartSendingBroken" />
+                </StackPanel>
         </StackPanel>
 </UserControl>
