@@ -43,13 +43,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task Tick()
         {
-            if (_measurements.TryDequeue(out ClientMeasurementResultDto sorBytesDto))
+            if (_measurements.TryDequeue(out ClientMeasurementResultDto clientMeasurementResultDto))
             {
-                sorBytesDto.Id = Guid.NewGuid();
-                _measDict.TryAdd(sorBytesDto.Id, sorBytesDto.SorBytes);
-                sorBytesDto.SorBytes = null;
-                _logFile.AppendLine($"measurement result saved with id {sorBytesDto.Id}");
-                await _ftSignalRClient.SendToOne(sorBytesDto.ConnectionId, "ClientMeasurementDone", sorBytesDto.ToCamelCaseJson());
+                clientMeasurementResultDto.ClientMeasurementId = Guid.NewGuid();
+                _measDict.TryAdd(clientMeasurementResultDto.ClientMeasurementId, clientMeasurementResultDto.SorBytes);
+                clientMeasurementResultDto.SorBytes = null;
+                _logFile.AppendLine($"measurement result saved with id {clientMeasurementResultDto.ClientMeasurementId}");
+                await _ftSignalRClient.SendToOne(
+                    clientMeasurementResultDto.ConnectionId, "ClientMeasurementDone", clientMeasurementResultDto.ToCamelCaseJson());
             }
         }
 

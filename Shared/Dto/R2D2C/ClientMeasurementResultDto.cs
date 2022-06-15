@@ -18,7 +18,10 @@ namespace Iit.Fibertest.Dto
         public byte[] SorBytes { get; set; }
 
         [DataMember]
-        public Guid Id { get; set; }
+        public Guid ClientMeasurementId { get; set; }
+
+        [DataMember]
+        public OtauPortDto OtauPortDto { get; set; }
     }
 
   

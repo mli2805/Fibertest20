@@ -18,7 +18,7 @@ namespace Iit.Fibertest.RtuManagement
             var prepareResult = dto.IsForAutoBase && dto.IsAutoLmax
                 ? PrepareAutoLmaxMeasurement(dto)
                 : PrepareClientMeasurement(dto);
-            
+
             callback?.Invoke(); // send "started"
 
             if (prepareResult)
@@ -113,12 +113,14 @@ namespace Iit.Fibertest.RtuManagement
                     ReturnCode = ReturnCode.MeasurementError,
                     ConnectionId = dto.ConnectionId,
                     ClientIp = dto.ClientIp,
+                    OtauPortDto = dto.OtauPortDtoList[0],
                 };
             return new ClientMeasurementResultDto()
             {
                 ReturnCode = ReturnCode.MeasurementEndedNormally,
                 ConnectionId = dto.ConnectionId,
                 ClientIp = dto.ClientIp,
+                OtauPortDto = dto.OtauPortDtoList[0],
                 SorBytes = dto.IsForAutoBase
                     ? _otdrManager.Sf780_779(lastSorDataBuffer)
                     : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
