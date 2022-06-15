@@ -27,7 +27,7 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId);
             if (trace == null) return;
             _viewModel = _sut.ClientScope.Resolve<TraceInfoViewModel>();
-            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds, false);
+            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds, false).Wait();
             _viewModel.Title = NewTitle;
             _viewModel.Model.Comment = NewComment;
             _viewModel.Model.IsTraceModeLight = false;
@@ -53,7 +53,7 @@ namespace Graph.Tests
             if (trace == null) return;
 
             _viewModel = _sut.ClientScope.Resolve<TraceInfoViewModel>();
-            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds, false);
+            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds, false).Wait();
             _viewModel.Title.Should().Be(NewTitle);
             _viewModel.Model.Comment.Should().Be(NewComment);
             _viewModel.Model.IsTraceModeLight.Should().BeFalse();
@@ -66,7 +66,7 @@ namespace Graph.Tests
             if (trace == null) return;
 
             _viewModel = _sut.ClientScope.Resolve<TraceInfoViewModel>();
-            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds, false);
+            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds, false).Wait();
             _viewModel.Title.Should().NotBe(NewTitle);
             _viewModel.Model.Comment.Should().NotBe(NewComment);
             _viewModel.Model.IsTraceModeLight.Should().BeTrue();
