@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
             ? 53 // not attached 
             : Parent is RtuLeaf // attached
                 ? 53            // RTU  
-                : 74;           // BOP
+                : 90;           // BOP
 
         public Visibility IconsVisibility => IsInZone ? Visibility.Visible : Visibility.Hidden;
 
