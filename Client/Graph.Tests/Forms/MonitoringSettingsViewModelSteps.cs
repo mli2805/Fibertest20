@@ -138,7 +138,7 @@ namespace Graph.Tests
             _vm.Model.IsMonitoringOn = true;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _vm.Apply();
+            _vm.Apply().Wait();
         }
 
         [Then(@"Сообщение что не задана ни одна трасса для мониторинга")]
@@ -192,7 +192,7 @@ namespace Graph.Tests
         public void WhenПользовательВключаетАвтоРежимИЖметПрименить()
         {
             _vm.Model.IsMonitoringOn = true;
-            _vm.Apply();
+            _vm.Apply().Wait();
         }
 
         [When(@"Пользователь жмет секретную комбинацию Ctrl-B для пересылки базовых на RTU")]
