@@ -39,14 +39,14 @@ namespace Broadcaster
             _iniFile = iniFile;
         }
 
-        bool flag = false;
+        bool _flag;
         public void StartSendingOk()
         {
             var s = _iniFile.Read(IniSection.Broadcast, IniKey.MsmqTestRtuId, "00bf8f28-345f-44dc-af18-1ba6d9e4c563");
             RtuId = Guid.Parse(s);
             s = _iniFile.Read(IniSection.Broadcast, IniKey.MsmqTestTraceId, "d7f1f9ab-23bc-418d-82e6-ff755fc2b469");
             TraceId = Guid.Parse(s);
-            flag = true;
+            _flag = true;
             Task.Factory.StartNew(VeryLongOperation);
         }
 
@@ -56,7 +56,7 @@ namespace Broadcaster
             RtuId = Guid.Parse(s);
             s = _iniFile.Read(IniSection.Broadcast, IniKey.MsmqTestTraceId, "d7f1f9ab-23bc-418d-82e6-ff755fc2b469");
             TraceId = Guid.Parse(s);
-            flag = false;
+            _flag = false;
             Task.Factory.StartNew(VeryLongOperation);
         }
 
@@ -69,7 +69,7 @@ namespace Broadcaster
             var connectionString = $@"FormatName:DIRECT=TCP:{ServerIp}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
             System.Messaging.Message message;
-            if (flag)
+            if (_flag)
             {
                 message = new System.Messaging.Message(dto, new BinaryMessageFormatter());
             }
