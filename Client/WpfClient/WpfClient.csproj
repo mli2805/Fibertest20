@@ -222,6 +222,10 @@
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBatchAutoBaseView.xaml.cs">
+      <DependentUpon>RtuBatchAutoBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBatchAutoBaseViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\FailedAutoBasePdfProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\LandmarksIntoBaseSetter.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementAsBaseAssigner.cs" />
@@ -230,6 +234,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementDtoProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\OtauPortDtoProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\VeexMeasurementFetcher.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />
@@ -816,6 +821,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuBatchAutoBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
