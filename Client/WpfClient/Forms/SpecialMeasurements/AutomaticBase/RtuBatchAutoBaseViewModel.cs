@@ -12,6 +12,10 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
+// ReSharper disable UnusedMember.Local
+// ReSharper disable NotAccessedField.Local
+// ReSharper disable CollectionNeverUpdated.Local
+#pragma warning disable CS0414
 
 namespace Iit.Fibertest.Client
 {
