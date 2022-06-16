@@ -231,7 +231,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementAsBaseAssigner.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementCompletedEventArgs.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementCompletedStatus.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementDtoProvider.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\ClientMeasurementDtoFactory.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\OtauPortDtoProvider.cs" />

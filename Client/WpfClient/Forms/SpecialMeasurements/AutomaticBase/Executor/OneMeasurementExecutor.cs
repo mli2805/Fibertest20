@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IDispatcherProvider _dispatcherProvider;
-        private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
@@ -28,7 +27,7 @@ namespace Iit.Fibertest.Client
         public OneMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
-            MeasurementDtoProvider measurementDtoProvider, VeexMeasurementFetcher veexMeasurementFetcher,
+            VeexMeasurementFetcher veexMeasurementFetcher,
             MeasurementAsBaseAssigner measurementAsBaseAssigner
             )
         {
@@ -36,7 +35,6 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _dispatcherProvider = dispatcherProvider;
-            _measurementDtoProvider = measurementDtoProvider;
             _veexMeasurementFetcher = veexMeasurementFetcher;
             _measurementAsBaseAssigner = measurementAsBaseAssigner;
 
@@ -62,9 +60,9 @@ namespace Iit.Fibertest.Client
 
             Model.MeasurementProgressViewModel.DisplayStartMeasurement(traceLeaf.Title);
 
-            var dto = _measurementDtoProvider
-                .Initialize(traceLeaf, true)
-                .PrepareDto(Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
+            var dto = traceLeaf.Parent
+                .CreateDoClientMeasurementDto(traceLeaf.PortNumber, _readModel, Model.CurrentUser)
+                .SetParams(true, Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
                     Model.OtdrParametersTemplatesViewModel.GetSelectedParameters(),
                     Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 

@@ -23,10 +23,10 @@ namespace Iit.Fibertest.Dto
         public AnalysisParameters AnalysisParameters { get; set; }
 
         [DataMember]
-        public List<OtauPortDto> OtauPortDtoList { get; set; } = new List<OtauPortDto>(); // always used only first instance in list ?!
+        public List<List<OtauPortDto>> OtauPortDtoList { get; set; } 
 
-        [DataMember]
-        public OtauPortDto MainOtauPortDto { get; set; } // optional, filled in if trace attached to the child otau, for VEEX
+        // [DataMember]
+        // public OtauPortDto MainOtauPortDto { get; set; } // optional, filled in if trace attached to the child otau, for VEEX
 
         [DataMember]
         public string OtdrId { get; set; }

@@ -13,7 +13,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
-            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), OtauPortDto = dto.OtauPortDtoList[0] };
+            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), OtauPortDto = dto.OtauPortDtoList[0][0] };
 
             var prepareResult = dto.IsForAutoBase && dto.IsAutoLmax
                 ? PrepareAutoLmaxMeasurement(dto)
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.RtuManagement
         private bool PrepareAutoLmaxMeasurement(DoClientMeasurementDto dto)
         {
             StopMonitoringWithRecovering("Auto base measurement");
-            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
+            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0][0] ) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
             if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
                 return false;
 
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.RtuManagement
         private bool PrepareClientMeasurement(DoClientMeasurementDto dto)
         {
             StopMonitoringWithRecovering("Measurement (Client)");
-            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
+            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0][0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
             if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
                 return false;
 
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private ClientMeasurementResultDto ClientMeasurementItself(DoClientMeasurementDto dto)
         {
-            var activeBop = dto.OtauPortDtoList[0].IsPortOnMainCharon
+            var activeBop = dto.OtauPortDtoList[0][0].IsPortOnMainCharon
                 ? null
                 : new Charon(new NetAddress(dto.OtauIp, dto.OtauTcpPort), false, _rtuIni, _rtuLog);
             _cancellationTokenSource = new CancellationTokenSource();
@@ -113,14 +113,14 @@ namespace Iit.Fibertest.RtuManagement
                     ReturnCode = ReturnCode.MeasurementError,
                     ConnectionId = dto.ConnectionId,
                     ClientIp = dto.ClientIp,
-                    OtauPortDto = dto.OtauPortDtoList[0],
+                    OtauPortDto = dto.OtauPortDtoList[0][0],
                 };
             return new ClientMeasurementResultDto()
             {
                 ReturnCode = ReturnCode.MeasurementEndedNormally,
                 ConnectionId = dto.ConnectionId,
                 ClientIp = dto.ClientIp,
-                OtauPortDto = dto.OtauPortDtoList[0],
+                OtauPortDto = dto.OtauPortDtoList[0][0],
                 SorBytes = dto.IsForAutoBase
                     ? _otdrManager.Sf780_779(lastSorDataBuffer)
                     : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),

@@ -17,9 +17,9 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly MeasurementInterruptor _measurementInterruptor;
-        private readonly MeasurementDtoProvider _measurementDtoProvider;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
@@ -55,17 +55,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, Model readModel,
-            MeasurementInterruptor measurementInterruptor, MeasurementDtoProvider measurementDtoProvider,
+        public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, CurrentUser currentUser, Model readModel,
+            MeasurementInterruptor measurementInterruptor, 
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager, 
             VeexMeasurementFetcher veexMeasurementFetcher,
             ReflectogramManager reflectogramManager)
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
+            _currentUser = currentUser;
             _readModel = readModel;
             _measurementInterruptor = measurementInterruptor;
-            _measurementDtoProvider = measurementDtoProvider;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
             _veexMeasurementFetcher = veexMeasurementFetcher;
@@ -84,9 +84,9 @@ namespace Iit.Fibertest.Client
             if (!_vm.IsAnswerPositive)
                 return false;
 
-            _dto = _measurementDtoProvider
-                .Initialize(parent, portNumber, false)
-                .PrepareDto(false, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
+            _dto = parent
+                .CreateDoClientMeasurementDto(portNumber, _readModel, _currentUser)
+                .SetParams(false, false, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
 
             return true;
         }
@@ -94,9 +94,9 @@ namespace Iit.Fibertest.Client
         public DoClientMeasurementDto ForUnitTests(Leaf parent, int portNumber,
             List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
-            return _measurementDtoProvider
-                .Initialize(parent, portNumber, false)
-                .PrepareDto(false, iitMeasParams, veexMeasParams);
+            return parent 
+                .CreateDoClientMeasurementDto(portNumber, _readModel, _currentUser)
+                .SetParams(false, false, iitMeasParams, veexMeasParams);
         }
 
         protected override async void OnViewLoaded(object view)
