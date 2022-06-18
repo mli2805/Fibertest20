@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
+        private readonly LandmarksIntoBaseSetter _landmarksIntoBaseSetter;
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
         private Trace _trace;
@@ -26,7 +27,7 @@ namespace Iit.Fibertest.Client
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
             VeexMeasurementFetcher veexMeasurementFetcher,
-            MeasurementAsBaseAssigner measurementAsBaseAssigner
+            LandmarksIntoBaseSetter landmarksIntoBaseSetter, MeasurementAsBaseAssigner measurementAsBaseAssigner
             )
         {
             _logFile = logFile;
@@ -34,6 +35,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _dispatcherProvider = dispatcherProvider;
             _veexMeasurementFetcher = veexMeasurementFetcher;
+            _landmarksIntoBaseSetter = landmarksIntoBaseSetter;
             _measurementAsBaseAssigner = measurementAsBaseAssigner;
 
             Model.CurrentUser = currentUser;
@@ -145,13 +147,14 @@ namespace Iit.Fibertest.Client
                 .GetRftsParams(sorData, Model.OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id, Model.Rtu);
             sorData.ApplyRftsParamsTemplate(rftsParams);
 
+            _landmarksIntoBaseSetter.ApplyTraceToAutoBaseRef(sorData, _trace);
             _measurementAsBaseAssigner.Initialize(Model.Rtu);
             var result = await _measurementAsBaseAssigner
                 .Assign(sorData, _trace, Model.MeasurementProgressViewModel);
 
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
-                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", sorBytes)
+                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", sorData.ToBytes())
                     : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, result.ErrorMessage));
         }
 

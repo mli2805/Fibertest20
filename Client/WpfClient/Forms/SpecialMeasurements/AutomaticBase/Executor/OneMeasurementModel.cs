@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -8,7 +7,6 @@ namespace Iit.Fibertest.Client
 {
     public class OneMeasurementModel : PropertyChangedBase
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public CurrentUser CurrentUser;
         public Rtu Rtu;
         public int MeasurementTimeout;
