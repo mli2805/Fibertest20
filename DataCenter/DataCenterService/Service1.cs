@@ -92,10 +92,12 @@ namespace Iit.Fibertest.DataCenterService
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
             _logFile.AppendLine($"Current UI culture is {Thread.CurrentThread.CurrentUICulture}");
 
-            var previousStartOnVersion = IniFile.Read(IniSection.General, IniKey.Version, "0.0.0.0");
-            IniFile.Write(IniSection.Server, IniKey.PreviousStartOnVersion, previousStartOnVersion);
+           
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            // for clean installation it would set "previous" version the same as current
+            var previousStartOnVersion = IniFile.Read(IniSection.General, IniKey.Version, info.FileVersion);
+            IniFile.Write(IniSection.Server, IniKey.PreviousStartOnVersion, previousStartOnVersion);
             _logFile.AppendLine($"Data-center version {info.FileVersion}");
             IniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
 
