@@ -222,10 +222,11 @@
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBatchAutoBaseView.xaml.cs">
-      <DependentUpon>RtuBatchAutoBaseView.xaml</DependentUpon>
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\BanchOfMeasurementsExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBanchAutoBaseView.cs">
+      <DependentUpon>RtuBanchAutoBaseView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBatchAutoBaseViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBanchAutoBaseViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\FailedAutoBasePdfProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\LandmarksIntoBaseSetter.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementAsBaseAssigner.cs" />
@@ -824,7 +825,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuBatchAutoBaseView.xaml">
+    <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuBanchAutoBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

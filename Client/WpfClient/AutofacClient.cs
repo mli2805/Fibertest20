@@ -203,9 +203,11 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<AutoAnalysisParamsViewModel>();
             builder.RegisterType<VeexMeasurementFetcher>().InstancePerLifetimeScope();
             builder.RegisterType<OneMeasurementExecutor>();
+            builder.RegisterType<BanchOfMeasurementsExecutor>();
             builder.RegisterType<AutoBaseViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<FailedAutoBasePdfProvider>().InstancePerLifetimeScope();
             builder.RegisterType<RtuAutoBaseViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuBanchAutoBaseViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<NodeVmActions>().InstancePerLifetimeScope();
             builder.RegisterType<CommonVmActions>().InstancePerLifetimeScope();

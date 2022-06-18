@@ -73,6 +73,13 @@ namespace Iit.Fibertest.Client
                 CommandParameter = rtuLeaf
             });
 
+           menu.Add(new MenuItemVm()
+            {
+                Header = @"Banch (Only IIT)",
+                Command = new ContextMenuAsyncAction(_rtuLeafActions.AssignBanchBaseRefsAutomatically, _rtuLeafActionsPermissions.CanAssignBaseRefsAutomatically),
+                CommandParameter = rtuLeaf
+            });
+
             menu.Add(null);
 
             menu.Add(new MenuItemVm()

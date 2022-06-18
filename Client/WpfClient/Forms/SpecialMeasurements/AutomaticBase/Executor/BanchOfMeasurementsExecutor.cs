@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Iit.Fibertest.Dto;
@@ -10,30 +9,24 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
-    public class OneMeasurementExecutor
+    public class BanchOfMeasurementsExecutor
     {
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
-        private readonly IDispatcherProvider _dispatcherProvider;
-        private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
-        private Trace _trace;
         public OneMeasurementModel Model { get; set; } = new OneMeasurementModel();
 
-        public OneMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
-            IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
+        public BanchOfMeasurementsExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
+            IWcfServiceCommonC2D c2DWcfCommonManager,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
-            VeexMeasurementFetcher veexMeasurementFetcher,
             MeasurementAsBaseAssigner measurementAsBaseAssigner
-            )
+        )
         {
             _logFile = logFile;
             _readModel = readModel;
             _c2DWcfCommonManager = c2DWcfCommonManager;
-            _dispatcherProvider = dispatcherProvider;
-            _veexMeasurementFetcher = veexMeasurementFetcher;
             _measurementAsBaseAssigner = measurementAsBaseAssigner;
 
             Model.CurrentUser = currentUser;
@@ -43,23 +36,22 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
         }
 
-        public bool Initialize(Rtu rtu, bool isForRtu)
+        public bool Initialize(Rtu rtu)
         {
             Model.Rtu = rtu;
 
-            Model.OtdrParametersTemplatesViewModel.Initialize(rtu, isForRtu);
+            Model.OtdrParametersTemplatesViewModel.Initialize(rtu, true);
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }
 
-        public async Task Start(TraceLeaf traceLeaf)
+        public async Task Start(RtuLeaf rtuLeaf)
         {
-            _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            StartTimer();
+            // StartTimer();
 
-            Model.MeasurementProgressViewModel.DisplayStartMeasurement(traceLeaf.Title);
+            Model.MeasurementProgressViewModel.DisplayStartMeasurement(@"Let's get started!");
 
-            var dto = traceLeaf.Parent
-                .CreateDoClientMeasurementDto(traceLeaf.PortNumber, _readModel, Model.CurrentUser)
+            var dto = rtuLeaf
+                .CreateDoClientMeasurementDto(_readModel, Model.CurrentUser)
                 .SetParams(true, Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
                     Model.OtdrParametersTemplatesViewModel.GetSelectedParameters(),
                     Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
@@ -67,8 +59,8 @@ namespace Iit.Fibertest.Client
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.Ok)
             {
-                _timer.Stop();
-                _timer.Dispose();
+                // _timer.Stop();
+                // _timer.Dispose();
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
                 Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
                 Model.IsEnabled = true;
@@ -84,74 +76,69 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
             Model.MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
-            if (Model.Rtu.RtuMaker == RtuMaker.VeEX)
-            {
-                var veexResult = await _veexMeasurementFetcher.Fetch(dto.RtuId, startResult.ClientMeasurementId);
-                if (veexResult.CompletedStatus == MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
-                    ProcessMeasurementResult(veexResult.SorBytes);
-                else
-                {
-                    _timer.Stop();
-                    _timer.Dispose();
-                    MeasurementCompleted?.Invoke(this, veexResult);
-                }
-            } // if RtuMaker is IIT - result will come through WCF contract
+            // RtuMaker is IIT - result will come through WCF contract
 
         }
+        //
+        // private System.Timers.Timer _timer;
+        // private void StartTimer()
+        // {
+        //     _logFile.AppendLine(@"Start a measurement timeout");
+        //     _timer = new System.Timers.Timer(Model.MeasurementTimeout);
+        //     _timer.Elapsed += TimeIsOver;
+        //     _timer.AutoReset = false;
+        //     _timer.Start();
+        // }
+        // private void TimeIsOver(object sender, System.Timers.ElapsedEventArgs e)
+        // {
+        //     _logFile.AppendLine(@"Measurement timeout expired");
+        //     // _timer.Dispose();
+        //
+        //     _dispatcherProvider.GetDispatcher().Invoke(() =>
+        //     {
+        //         Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+        //
+        //         MeasurementCompleted?
+        //             .Invoke(this,
+        //                 new MeasurementCompletedEventArgs(
+        //                     MeasurementCompletedStatus.MeasurementTimeoutExpired,
+        //                     new List<string>()
+        //                     {
+        //                         Resources.SID_Base_reference_assignment_failed, "",
+        //                         Resources.SID_Measurement_timeout_expired
+        //                     }));
+        //         Model.IsEnabled = true;
+        //     });
+        // }
 
-        private System.Timers.Timer _timer;
-        private void StartTimer()
+        public async void ProcessMeasurementResult(ClientMeasurementResultDto dto)
         {
-            _logFile.AppendLine(@"Start a measurement timeout");
-            _timer = new System.Timers.Timer(Model.MeasurementTimeout);
-            _timer.Elapsed += TimeIsOver;
-            _timer.AutoReset = false;
-            _timer.Start();
-        }
-        private void TimeIsOver(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            _logFile.AppendLine(@"Measurement timeout expired");
-            _timer.Dispose();
-
-            _dispatcherProvider.GetDispatcher().Invoke(() =>
-            {
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
-
-                MeasurementCompleted?
-                    .Invoke(this,
-                        new MeasurementCompletedEventArgs(
-                            MeasurementCompletedStatus.MeasurementTimeoutExpired,
-                            new List<string>()
-                            {
-                                Resources.SID_Base_reference_assignment_failed, "",
-                                Resources.SID_Measurement_timeout_expired
-                            }));
-                Model.IsEnabled = true;
-            });
-        }
-
-        public async void ProcessMeasurementResult(byte[] sorBytes)
-        {
-            _timer.Stop();
-            _timer.Dispose();
+            // _timer.Stop();
+            // _timer.Dispose();
 
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
             Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
-            var sorData = SorData.FromBytes(sorBytes);
+            var sorData = SorData.FromBytes(dto.SorBytes);
             var rftsParams = Model.AutoAnalysisParamsViewModel
                 .GetRftsParams(sorData, Model.OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id, Model.Rtu);
             sorData.ApplyRftsParamsTemplate(rftsParams);
 
+            if (!_readModel.TryGetTraceByOtauPortDto(dto.OtauPortDto, out Trace trace))
+            {
+                _logFile.AppendLine($@"Not found trace on otau {dto.OtauPortDto.OtauId} serial {dto.OtauPortDto.Serial} port {dto.OtauPortDto.OpticalPort}");
+                return;
+            }
+
             _measurementAsBaseAssigner.Initialize(Model.Rtu);
             var result = await _measurementAsBaseAssigner
-                .Assign(sorData, _trace, Model.MeasurementProgressViewModel);
+                .Assign(sorData, trace, Model.MeasurementProgressViewModel);
 
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
-                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", sorBytes)
+                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", dto.SorBytes)
                     : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, result.ErrorMessage));
         }
 

@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly AutoBaseViewModel _autoBaseViewModel;
         private readonly RtuAutoBaseViewModel _rtuAutoBaseViewModel;
+        private readonly RtuBanchAutoBaseViewModel _rtuBanchAutoBaseViewModel;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly CurrentUser _currentUser;
         private readonly WaitViewModel _waitViewModel;
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.Client
         public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, 
             Heartbeater heartbeater, ClientPoller clientPoller, CurrentUser currentUser,
             ClientMeasurementViewModel clientMeasurementViewModel, 
-            AutoBaseViewModel autoBaseViewModel, RtuAutoBaseViewModel rtuAutoBaseViewModel,
+            AutoBaseViewModel autoBaseViewModel, RtuAutoBaseViewModel rtuAutoBaseViewModel, RtuBanchAutoBaseViewModel rtuBanchAutoBaseViewModel,
             IWcfServiceCommonC2D commonC2DWcfManager,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
@@ -40,6 +41,7 @@ namespace Iit.Fibertest.Client
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _autoBaseViewModel = autoBaseViewModel;
             _rtuAutoBaseViewModel = rtuAutoBaseViewModel;
+            _rtuBanchAutoBaseViewModel = rtuBanchAutoBaseViewModel;
             _commonC2DWcfManager = commonC2DWcfManager;
             _currentUser = currentUser;
             _waitViewModel = waitViewModel;
@@ -61,6 +63,8 @@ namespace Iit.Fibertest.Client
                 _autoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto.SorBytes);
             if (_rtuAutoBaseViewModel.IsOpen)
                 _rtuAutoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto.SorBytes);
+            if (_rtuBanchAutoBaseViewModel.IsOpen)
+                _rtuBanchAutoBaseViewModel.BanchOfMeasurementsExecutor.ProcessMeasurementResult(dto);
             return Task.FromResult(0);
         }
 

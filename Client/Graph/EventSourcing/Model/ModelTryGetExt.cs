@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -14,6 +15,15 @@ namespace Iit.Fibertest.Graph
         public static bool TryGetTrace(this Model model, Guid traceId, out Trace trace)
         {
             trace = model.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            return trace != null;
+        }
+
+        public static bool TryGetTraceByOtauPortDto(this Model model, OtauPortDto otauPortDto, out Trace trace)
+        {
+            trace = model.Traces.FirstOrDefault(t => t.OtauPort != null
+                                                && t.OtauPort.OtauId == otauPortDto.OtauId
+                                                && t.OtauPort.Serial == otauPortDto.Serial
+                                                && t.OtauPort.OpticalPort == otauPortDto.OpticalPort);
             return trace != null;
         }
     }

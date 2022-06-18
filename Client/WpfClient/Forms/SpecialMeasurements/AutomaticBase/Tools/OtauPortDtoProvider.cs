@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Client
     public static class OtauPortDtoProvider
     {
         // AutoBase Whole RTU
-        public static List<List<OtauPortDto>> PrepareBatchOfOtauPortDto(this RtuLeaf rtuLeaf, Model readModel)
+        public static List<List<OtauPortDto>> PrepareBanchOfOtauPortDto(this RtuLeaf rtuLeaf, Model readModel)
         {
             var rtu = readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
             var traceLeaves = rtuLeaf.GetAttachedTraces();

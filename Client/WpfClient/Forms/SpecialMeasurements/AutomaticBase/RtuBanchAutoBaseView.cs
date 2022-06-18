@@ -5,9 +5,9 @@ using System.Windows.Interop;
 namespace Iit.Fibertest.Client
 {
     /// <summary>
-    /// Interaction logic for RtuBatchAutoBaseView.xaml
+    /// Interaction logic for RtuBanchAutoBaseView.xaml
     /// </summary>
-    public partial class RtuBatchAutoBaseView
+    public partial class RtuBanchAutoBaseView
     {
         private const int GwlStyle = -16;
         private const int WsSysMenu = 0x80000;
@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        public RtuBatchAutoBaseView()
+        public RtuBanchAutoBaseView()
         {
             InitializeComponent();
         }
