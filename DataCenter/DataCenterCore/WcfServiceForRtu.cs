@@ -75,16 +75,15 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (_globalState.IsDatacenterInDbOptimizationMode)
                 return;
-            if (result.SorBytes == null || result.SorBytes.Length == 0)
-            {
-                _logFile.AppendLine("Bad measurement client result.");
-                return;
-            }
-            _logFile.AppendLine($"Measurement Client result for {result.ConnectionId} / {result.ClientIp}, {result.SorBytes.Length} bytes");
+
+            var word = (result.SorBytes == null || result.SorBytes.Length == 0)
+                ? $": {result.ReturnCode}"
+                : $", {result.SorBytes.Length} bytes";
+            _logFile.AppendLine($"Measurement Client result for {_clientsCollection.Get(result.ConnectionId)}{word}");
 
             try
             {
-                var client = _clientsCollection.GetClientByConnectionId(result.ConnectionId);
+                var client = _clientsCollection.Get(result.ConnectionId);
                 if (client == null)
                 {
                     _logFile.AppendLine($@"TransmitClientMeasurementResult: client {result.ConnectionId} not found");
@@ -99,7 +98,7 @@ namespace Iit.Fibertest.DataCenterCore
                 else
                 {
                     _logFile.AppendLine(
-                        $@"TransmitClientMeasurementResult: meas will be sent to desktop client {result.ClientIp}");
+                        $@"TransmitClientMeasurementResult: meas will be sent to desktop client {result.ConnectionId}");
                     _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>()
                     {
                         new DoubleAddress()

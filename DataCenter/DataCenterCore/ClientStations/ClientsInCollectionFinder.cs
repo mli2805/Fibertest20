@@ -14,15 +14,9 @@ namespace Iit.Fibertest.DataCenterCore
                 .ToList();
         }
 
-        public static ClientStation GetClientByConnectionId(this ClientsCollection collection, string connectionId)
+        public static ClientStation Get(this ClientsCollection collection, string connectionId)
         {
             return connectionId == null ? null : collection.Clients.FirstOrDefault(c => c.ConnectionId == connectionId);
-        }
-
-        public static string GetClientName(this ClientsCollection collection, string connectionId)
-        {
-            var client = collection.GetClientByConnectionId(connectionId);
-            return client == null ? "" : client.UserName;
         }
 
         public static bool HasAnyWebClients(this ClientsCollection collection)
@@ -34,44 +28,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return collection.Clients.FirstOrDefault(c => c.ClientIp == clientIp);
         }
-
-        // public DoubleAddress GetOneDesktopClientAddress(string clientIp)
-        // {
-        //     if (clientIp == null)
-        //         return null;
-        //     var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp && !c.IsWebClient);
-        //     return client == null
-        //         ? null
-        //         : new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) };
-        // }
-        //
-        // public DoubleAddress GetClientAddressByConnectionId(string connectionId)
-        // {
-        //     if (connectionId == null)
-        //         return null;
-        //
-        //     var client = _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
-        //     return client == null
-        //         ? null
-        //         : new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) };
-        // }
-
-      
-        // public List<string> GetWebClientsId()
-        // {
-        //     return _clients.Where(c => c.IsWebClient).Select(l => l.ConnectionId).ToList();
-        // }
-        //
-        // public List<ClientStation> GetWebClients()
-        // {
-        //     return _clients.Where(c => c.IsWebClient).ToList();
-        // }
-
-        // public ClientStation GetStationByConnectionId(string connectionId)
-        // {
-        //     return _clients.FirstOrDefault(s => s.ConnectionId == connectionId);
-        // }
-
 
     }
 }

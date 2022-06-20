@@ -22,5 +22,9 @@ namespace Iit.Fibertest.Dto
 
         public DateTime LastConnectionTimestamp { get; set; }
 
+        public override string ToString()
+        {
+            return $"{UserName} / {ClientIp}";
+        }
     }
 }

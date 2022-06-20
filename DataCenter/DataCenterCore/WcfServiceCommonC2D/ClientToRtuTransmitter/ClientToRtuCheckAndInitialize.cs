@@ -35,13 +35,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.GetClientName(dto.ConnectionId)} / {dto.ClientIp} check RTU {dto.NetAddress.ToStringA()} connection");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} check RTU {dto.NetAddress.ToStringA()} connection");
             return await _d2RWcfManager.CheckRtuConnection(dto, _iniFile, _logFile);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.GetClientName(dto.ConnectionId)} / from {dto.ClientIp} sent initialize RTU {dto.RtuId.First6()} request");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent initialize RTU {dto.RtuId.First6()} request");
 
             dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)
