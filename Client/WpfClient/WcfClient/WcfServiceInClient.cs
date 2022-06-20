@@ -60,9 +60,9 @@ namespace Iit.Fibertest.Client
             if (_clientMeasurementViewModel.IsOpen)
                 _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);
             if (_autoBaseViewModel.IsOpen)
-                _autoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto.SorBytes);
+                _autoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
             if (_rtuAutoBaseViewModel.IsOpen)
-                _rtuAutoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto.SorBytes);
+                _rtuAutoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
             if (_rtuBanchAutoBaseViewModel.IsOpen)
                 _rtuBanchAutoBaseViewModel.BanchOfMeasurementsExecutor.ProcessMeasurementResult(dto);
             return Task.FromResult(0);

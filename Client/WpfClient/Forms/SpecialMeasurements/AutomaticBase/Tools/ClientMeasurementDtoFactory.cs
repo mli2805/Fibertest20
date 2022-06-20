@@ -17,10 +17,6 @@ namespace Iit.Fibertest.Client
                 RtuId = rtu.Id,
                 OtdrId = rtu.OtdrId,
 
-                // many addresses - 
-                // OtauIp = portOwner.OtauNetAddress.Ip4Address,
-                // OtauTcpPort = portOwner.OtauNetAddress.Port,
-
                 OtauPortDtoList = rtuLeaf.PrepareBanchOfOtauPortDto(readModel),
             };
         }
@@ -28,7 +24,6 @@ namespace Iit.Fibertest.Client
         public static DoClientMeasurementDto CreateDoClientMeasurementDto(this Leaf parent, int portNumber, Model readModel, CurrentUser currentUser)
         {
             var rtuId = (parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent).Id;
-            var portOwner = (IPortOwner)parent;
             var rtu = readModel.Rtus.First(r => r.Id == rtuId);
 
             var listOfOtauPortDto = parent.PreparePairOfOtauPortDto(portNumber, readModel);
@@ -38,13 +33,10 @@ namespace Iit.Fibertest.Client
                 ConnectionId = currentUser.ConnectionId,
                 RtuId = rtu.Id,
                 OtdrId = rtu.OtdrId,
-                OtauIp = portOwner.OtauNetAddress.Ip4Address,
-                OtauTcpPort = portOwner.OtauNetAddress.Port,
 
                 OtauPortDtoList = new List<List<OtauPortDto>>() { listOfOtauPortDto },
             };
         }
-
 
         public static DoClientMeasurementDto SetParams(this DoClientMeasurementDto dto, bool isForAutoBase,
             bool isAutoLmax, List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)

@@ -73,6 +73,8 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
+            var otauPortDto = dto.OtauPortDtoList[0][0];
+            Model.MeasurementProgressViewModel.Message1 = $@"Measurement {otauPortDto.NetAddress.Ip4Address} port {otauPortDto.OpticalPort}";
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
             Model.MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
@@ -115,6 +117,14 @@ namespace Iit.Fibertest.Client
         {
             // _timer.Stop();
             // _timer.Dispose();
+
+            if (dto.ReturnCode != ReturnCode.Ok)
+            {
+                MeasurementCompleted?
+                    .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, ""));
+                return;
+
+            }
 
             _logFile.AppendLine(@"Measurement (Client) result received");
 

@@ -90,7 +90,10 @@ namespace Iit.Fibertest.Client
             {
                 var veexResult = await _veexMeasurementFetcher.Fetch(dto.RtuId, startResult.ClientMeasurementId);
                 if (veexResult.CompletedStatus == MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
-                    ProcessMeasurementResult(veexResult.SorBytes);
+                {
+                    var res = new ClientMeasurementResultDto() { SorBytes = veexResult.SorBytes };
+                    ProcessMeasurementResult(res);
+                }
                 else
                 {
                     _timer.Stop();
@@ -132,17 +135,26 @@ namespace Iit.Fibertest.Client
             });
         }
 
-        public async void ProcessMeasurementResult(byte[] sorBytes)
+        public async void ProcessMeasurementResult(ClientMeasurementResultDto dto)
         {
             _timer.Stop();
             _timer.Dispose();
+
+            if (dto.SorBytes == null)
+            {
+                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                Model.IsEnabled = true;
+                MeasurementCompleted?
+                    .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, dto.ReturnCode.GetLocalizedString()));
+                return;
+            }
 
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
             Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
-            var sorData = SorData.FromBytes(sorBytes);
+            var sorData = SorData.FromBytes(dto.SorBytes);
             var rftsParams = Model.AutoAnalysisParamsViewModel
                 .GetRftsParams(sorData, Model.OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id, Model.Rtu);
             sorData.ApplyRftsParamsTemplate(rftsParams);

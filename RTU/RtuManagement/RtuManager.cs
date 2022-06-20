@@ -36,6 +36,15 @@ namespace Iit.Fibertest.RtuManagement
         }
         private bool _wasMonitoringOn;
 
+
+        private readonly object _isAutoBaseModeLocker = new object();
+        private bool _isAutoBaseMode;
+        public bool IsAutoBaseMode
+        {
+            get { lock (_isAutoBaseModeLocker) { return _isAutoBaseMode; } }
+            set { lock (_isAutoBaseModeLocker) { _isAutoBaseMode = value; } }
+        }
+
         private readonly object _lastSuccessfullMeasTimestampLocker = new object();
         private DateTime _lastSuccessfullMeasTimestamp;
         public DateTime LastSuccessfullMeasTimestamp

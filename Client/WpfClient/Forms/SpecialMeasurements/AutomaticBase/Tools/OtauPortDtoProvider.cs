@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
             var otauPortDto = new OtauPortDto()
             {
                 OtauId = otauId,
+                NetAddress = otau?.NetAddress ?? rtu.MainChannel,
                 OpticalPort = portNumber,
                 Serial = otauLeaf.Serial,
                 IsPortOnMainCharon = otauLeaf is RtuLeaf,

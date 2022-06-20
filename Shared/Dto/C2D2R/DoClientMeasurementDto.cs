@@ -23,20 +23,10 @@ namespace Iit.Fibertest.Dto
         public AnalysisParameters AnalysisParameters { get; set; }
 
         [DataMember]
-        public List<List<OtauPortDto>> OtauPortDtoList { get; set; } 
-
-        // [DataMember]
-        // public OtauPortDto MainOtauPortDto { get; set; } // optional, filled in if trace attached to the child otau, for VEEX
+        public List<List<OtauPortDto>> OtauPortDtoList { get; set; }
 
         [DataMember]
         public string OtdrId { get; set; }
-
-        // only to show message on display
-        [DataMember]
-        public string OtauIp { get; set; }
-
-        [DataMember]
-        public int OtauTcpPort { get; set; }
 
         // true - apply semi-analysis (only start/end and one section between them (for auto base ref mode)
         // false - apply full auto analysis (usual client measurement)

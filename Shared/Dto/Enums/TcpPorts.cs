@@ -21,5 +21,8 @@
 
         // SuperClient
         SuperClientListenTo = 11839,
+
+        // БОП - IIT additional OTAU block
+        IitBop = 11834,
     }
 }

@@ -9,7 +9,7 @@ namespace Iit.Fibertest.RtuManagement
     {
         public void StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto, Action callback)
         {
-            StopMonitoringWithRecovering("Out of turn precise measurement");
+            StopMonitoringAndConnectOtdrWithRecovering("Out of turn precise measurement");
 
             callback?.Invoke();
 
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.RtuManagement
                 DisconnectOtdr();
         }
 
-        private void StopMonitoringWithRecovering(string customer)
+        private void StopMonitoringAndConnectOtdrWithRecovering(string customer)
         {
             _wasMonitoringOn = IsMonitoringOn;
             if (IsMonitoringOn)

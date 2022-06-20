@@ -13,29 +13,50 @@ namespace Iit.Fibertest.RtuManagement
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
-            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), OtauPortDto = dto.OtauPortDtoList[0][0] };
+            IsAutoBaseMode = dto.IsForAutoBase;
+            StopMonitoringAndConnectOtdrWithRecovering(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
 
-            var prepareResult = dto.IsForAutoBase && dto.IsAutoLmax
-                ? PrepareAutoLmaxMeasurement(dto)
-                : PrepareClientMeasurement(dto);
-
+            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.Ok };
             callback?.Invoke(); // send "started"
 
-            if (prepareResult)
+            foreach (var listOfOtauPort in dto.OtauPortDtoList)
             {
-                var result = ClientMeasurementItself(dto);
-                if (result == null)
+                if (ToggleToPort(listOfOtauPort[0]))
                 {
-                    _wasMonitoringOn = false;
-                    return;
-                }
+                    var prepareResult = dto.IsAutoLmax
+                        ? PrepareAutoLmaxMeasurement(dto)
+                        : PrepareClientMeasurement(dto);
 
-                var sendResult = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
-                _serviceLog.AppendLine(sendResult
-                    ? "RTU sent client measurement result"
-                    : $"Can't send client measurement result to {_serverAddresses.Main.ToStringA()}");
+                    ClientMeasurementResultDto result;
+                    if (prepareResult)
+                    {
+                        result = ClientMeasurementItself(dto, listOfOtauPort[0]);
+                        if (result == null) // measurement interrupted
+                        {
+                            _wasMonitoringOn = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        result = new ClientMeasurementResultDto()
+                        {
+                            ReturnCode = ReturnCode.TooLongForAutoBase,
+                            ConnectionId = dto.ConnectionId,
+                            ClientIp = dto.ClientIp,
+                            OtauPortDto = listOfOtauPort[0],
+                        };
+                    }
+
+                    var sendResult = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog)
+                        .SendClientMeasurementDone(result);
+                    _rtuLog.AppendLine(sendResult
+                        ? $"RTU sent client measurement result ({result.ReturnCode})"
+                        : $"Can't send client measurement result to {_serverAddresses.Main.ToStringA()}");
+                }
             }
 
+            IsAutoBaseMode = false;
 
             if (_wasMonitoringOn)
             {
@@ -49,33 +70,32 @@ namespace Iit.Fibertest.RtuManagement
 
         private bool PrepareAutoLmaxMeasurement(DoClientMeasurementDto dto)
         {
-            StopMonitoringWithRecovering("Auto base measurement");
-            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0][0] ) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
-            if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
-                return false;
-
             var lmax = _otdrManager.InterOpWrapper.GetLinkCharacteristics();
             var values = AutoBaseParams.GetPredefinedParamsForLmax(lmax, "IIT MAK-100");
             if (values == null)
             {
-                ClientMeasurementStartedDto.ReturnCode = ReturnCode.TooLongForAutoBase;
                 _rtuLog.AppendLine("Failed to choose measurement parameters");
+                _rtuLog.EmptyLine();
                 return false;
             }
 
+            /*
             _rtuLog.AppendLine($"distanceRange {values.distanceRange}");
             _rtuLog.AppendLine($"pulseDuration {values.pulseDuration}");
             _rtuLog.AppendLine($"resolution {values.resolution}");
             _rtuLog.AppendLine($"averagingTime {values.averagingTime}");
             _rtuLog.EmptyLine('-');
+            */
 
             var positions = _otdrManager.InterOpWrapper.ValuesToPositions(dto.SelectedMeasParams, values, _treeOfAcceptableMeasParams);
 
+            /*
             foreach (var measParamByPosition in positions)
             {
                 _rtuLog.AppendLine($"{measParamByPosition.Param} - {measParamByPosition.Position}");
             }
             _rtuLog.EmptyLine('-');
+            */
 
             _otdrManager.InterOpWrapper.SetMeasParamsByPosition(positions);
             _rtuLog.AppendLine("Auto measurement parameters applied");
@@ -84,21 +104,16 @@ namespace Iit.Fibertest.RtuManagement
 
         private bool PrepareClientMeasurement(DoClientMeasurementDto dto)
         {
-            StopMonitoringWithRecovering("Measurement (Client)");
-            ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDtoList[0][0]) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
-            if (ClientMeasurementStartedDto.ReturnCode == ReturnCode.RtuToggleToPortError)
-                return false;
-
             _otdrManager.InterOpWrapper.SetMeasParamsByPosition(dto.SelectedMeasParams);
             _rtuLog.AppendLine("User's measurement parameters applied");
             return true;
         }
 
-        private ClientMeasurementResultDto ClientMeasurementItself(DoClientMeasurementDto dto)
+        private ClientMeasurementResultDto ClientMeasurementItself(DoClientMeasurementDto dto, OtauPortDto currentOtauPortDto)
         {
-            var activeBop = dto.OtauPortDtoList[0][0].IsPortOnMainCharon
+            var activeBop = currentOtauPortDto.IsPortOnMainCharon
                 ? null
-                : new Charon(new NetAddress(dto.OtauIp, dto.OtauTcpPort), false, _rtuIni, _rtuLog);
+                : new Charon(new NetAddress(currentOtauPortDto.NetAddress.Ip4Address, TcpPorts.IitBop), false, _rtuIni, _rtuLog);
             _cancellationTokenSource = new CancellationTokenSource();
             _otdrManager.DoManualMeasurement(_cancellationTokenSource, true, activeBop);
             if (_cancellationTokenSource.IsCancellationRequested)
@@ -110,17 +125,19 @@ namespace Iit.Fibertest.RtuManagement
             if (lastSorDataBuffer == null)
                 return new ClientMeasurementResultDto()
                 {
+                    ClientMeasurementId = Guid.NewGuid(),
                     ReturnCode = ReturnCode.MeasurementError,
                     ConnectionId = dto.ConnectionId,
                     ClientIp = dto.ClientIp,
-                    OtauPortDto = dto.OtauPortDtoList[0][0],
+                    OtauPortDto = currentOtauPortDto,
                 };
             return new ClientMeasurementResultDto()
             {
+                ClientMeasurementId = Guid.NewGuid(),
                 ReturnCode = ReturnCode.MeasurementEndedNormally,
                 ConnectionId = dto.ConnectionId,
                 ClientIp = dto.ClientIp,
-                OtauPortDto = dto.OtauPortDtoList[0][0],
+                OtauPortDto = currentOtauPortDto,
                 SorBytes = dto.IsForAutoBase
                     ? _otdrManager.Sf780_779(lastSorDataBuffer)
                     : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
