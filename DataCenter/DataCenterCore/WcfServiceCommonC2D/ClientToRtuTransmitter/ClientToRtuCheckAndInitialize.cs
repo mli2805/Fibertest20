@@ -11,18 +11,20 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly ID2RWcfManager _d2RWcfManager;
         private readonly IFtSignalRClient _ftSignalRClient;
 
         private readonly DoubleAddress _serverDoubleAddress;
 
-        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile,
+        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager,
             IFtSignalRClient ftSignalRClient)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RWcfManager = d2RWcfManager;
             _ftSignalRClient = ftSignalRClient;
@@ -33,13 +35,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($"Client from {dto.ClientIp} check RTU {dto.NetAddress.ToStringA()} connection");
+            _logFile.AppendLine($"Client {_clientsCollection.GetClientName(dto.ConnectionId)} / {dto.ClientIp} check RTU {dto.NetAddress.ToStringA()} connection");
             return await _d2RWcfManager.CheckRtuConnection(dto, _iniFile, _logFile);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client from {dto.ClientIp} sent initialize RTU {dto.RtuId.First6()} request");
+            _logFile.AppendLine($"Client {_clientsCollection.GetClientName(dto.ConnectionId)} / from {dto.ClientIp} sent initialize RTU {dto.RtuId.First6()} request");
 
             dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)

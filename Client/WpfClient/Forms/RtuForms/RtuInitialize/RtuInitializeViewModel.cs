@@ -123,6 +123,7 @@ namespace Iit.Fibertest.Client
                     : (int)TcpPorts.RtuVeexListenTo;
             return new InitializeRtuDto()
             {
+                ConnectionId = _currentUser.ConnectionId,
                 RtuMaker = rtuMaker, // it depends on which initialization button was pressed
 
                 RtuId = FullModel.OriginalRtu.Id,

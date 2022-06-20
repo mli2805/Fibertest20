@@ -19,6 +19,12 @@ namespace Iit.Fibertest.DataCenterCore
             return connectionId == null ? null : collection.Clients.FirstOrDefault(c => c.ConnectionId == connectionId);
         }
 
+        public static string GetClientName(this ClientsCollection collection, string connectionId)
+        {
+            var client = collection.GetClientByConnectionId(connectionId);
+            return client == null ? "" : client.UserName;
+        }
+
         public static bool HasAnyWebClients(this ClientsCollection collection)
         {
             return collection.Clients.Any(s => s.IsWebClient);

@@ -101,6 +101,7 @@ namespace Iit.Fibertest.Client
             {
                 var dto = new CheckRtuConnectionDto()
                 {
+                    ConnectionId = _currentUser.ConnectionId,
                     NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
                 };
                 var resultDto = await _c2RWcfManager.CheckRtuConnectionAsync(dto);
