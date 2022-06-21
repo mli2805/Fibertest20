@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Client
         BaseRefAssignedSuccessfully,
 
         FailedToStart,
+        InvalidValueLmax,
         MeasurementTimeoutExpired,
         FailedToFetchFromRtu4000,
         FailedToAssignAsBase,
@@ -26,6 +27,8 @@ namespace Iit.Fibertest.Client
 
                 case MeasurementCompletedStatus.FailedToStart:
                     return Resources.SID_Failed_to_start;
+                case MeasurementCompletedStatus.InvalidValueLmax:
+                    return Resources.SID_Failed_to_automatically_determine_the_correct_measurement_parameters;
                 case MeasurementCompletedStatus.MeasurementTimeoutExpired:
                     return Resources.SID_Measurement_timeout_expired;
                 case MeasurementCompletedStatus.FailedToFetchFromRtu4000:

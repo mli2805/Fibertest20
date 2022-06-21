@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -60,6 +61,7 @@ namespace Iit.Fibertest.Client
 
 
             _waitCursor.Dispose();
+            OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             OneMeasurementExecutor.Model.IsEnabled = true;
 
             if (result.CompletedStatus == MeasurementCompletedStatus.BaseRefAssignedSuccessfully)

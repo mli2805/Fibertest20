@@ -3353,4 +3353,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_There_are__0__trace_s__attached_to_ports_of_the_RTU" xml:space="preserve">
 		<value>{0} трасс(ы) подключено к портам данного RTU</value>
 	</data>
+	<data name="SID_Measurements_are_in_progress__Please_wait___" xml:space="preserve">
+		<value>Проводятся измерения. Пожалуйста, подождите...</value>
+	</data>
 </root>

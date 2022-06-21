@@ -1,27 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
     public class MeasurementCompletedEventArgs : EventArgs
     {
         public MeasurementCompletedStatus CompletedStatus;
-        public List<string> Lines;
+        public List<string> Lines = new List<string>();
         public byte[] SorBytes;
-        public TraceLeaf TraceLeaf; // for report
+
+        public ClientMeasurementResultDto Dto;
+
+        public Trace Trace;
 
         public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, string message, byte[] sorBytes = null)
         {
             CompletedStatus = completedStatus;
-            Lines = new List<string>() {message};
+            Lines = new List<string>() { message };
             SorBytes = sorBytes;
         }
-        
+
         public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, List<string> lines, byte[] sorBytes = null)
         {
             CompletedStatus = completedStatus;
             Lines = lines;
             SorBytes = sorBytes;
+        }
+        public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, ClientMeasurementResultDto dto, Trace trace)
+        {
+            CompletedStatus = completedStatus;
+            Dto = dto;
+            Trace = trace;
         }
     }
 }

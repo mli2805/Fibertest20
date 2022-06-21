@@ -35,7 +35,8 @@ xcopy LicenseDocs\*.xps PackRtu\LicenseDocs\*.* /S/D/Y
      
 xcopy ..\RTU\RtuService\bin\Release\*.* PackRtu\RtuFiles\*.* /S/D/Y
 xcopy ..\RTU\RtuWatchdog\bin\Release\*.* PackRtu\RtuFiles\*.* /S/D/Y
-rem OtdrMeasEngine folder will be copied from another build on TeamCity to Temp folder
+rem OtdrMeasEngine folder will be created from Iit_Otdr_Vs build (Fibertest Itself dependecies) 
+rem files from Iit_Otdr_Vs will be copied from to Temp folder
 xcopy Temp\OtdrMeasEngine\*.* PackRtu\RtuFiles\OtdrMeasEngine\*.* /S/D/Y
 xcopy ..\Utils\*.* PackRtu\Utils\*.* /S/D/Y
  

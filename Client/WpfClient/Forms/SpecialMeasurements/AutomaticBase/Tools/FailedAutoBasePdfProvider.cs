@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
             var traceParagraph = section.AddParagraph();
             traceParagraph.Format.Font.Size = 12;
             traceParagraph.Format.SpaceBefore = Unit.FromCentimeter(0.2);
-            traceParagraph.AddFormattedText($@"{StringResources.Resources.SID_Trace}: {measurement.TraceLeaf.Title}", TextFormat.Bold);
+            traceParagraph.AddFormattedText($@"{StringResources.Resources.SID_Trace}: {measurement.Trace.Title}", TextFormat.Bold);
 
             var statusParagraph = section.AddParagraph();
             statusParagraph.Format.Font.Size = 11;

@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly RtuRemover _rtuRemover;
         private readonly TabulatorViewModel _tabulatorViewModel;
-        private readonly RtuAutoBaseViewModel _rtuAutoBaseViewModel;
+        private readonly VeexRtuAutoBaseViewModel _veexRtuAutoBaseViewModel;
         private readonly RtuBanchAutoBaseViewModel _rtuBanchAutoBaseViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Client
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
-            RtuAutoBaseViewModel rtuAutoBaseViewModel, RtuBanchAutoBaseViewModel rtuBanchAutoBaseViewModel,
+            VeexRtuAutoBaseViewModel veexRtuAutoBaseViewModel, RtuBanchAutoBaseViewModel rtuBanchAutoBaseViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
             _commonC2DWcfManager = commonC2DWcfManager;
             _rtuRemover = rtuRemover;
             _tabulatorViewModel = tabulatorViewModel;
-            _rtuAutoBaseViewModel = rtuAutoBaseViewModel;
+            _veexRtuAutoBaseViewModel = veexRtuAutoBaseViewModel;
             _rtuBanchAutoBaseViewModel = rtuBanchAutoBaseViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
             _landmarksViewsManager = landmarksViewsManager;
@@ -266,32 +266,30 @@ namespace Iit.Fibertest.Client
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
-
             await Task.Delay(100);
-            if (!_rtuAutoBaseViewModel.Initialize(rtuLeaf))
-            {
-                var mb = new MyMessageBoxViewModel(MessageType.Error,
-                    @"Can't start auto base assignment without RFTS template file!");
-                _windowManager.ShowDialogWithAssignedOwner(mb);
-                return;
-            }
-            _windowManager.ShowDialogWithAssignedOwner(_rtuAutoBaseViewModel);
-        }
 
-        public async Task AssignBanchBaseRefsAutomatically(object param)
-        {
-            if (!(param is RtuLeaf rtuLeaf))
-                return;
-
-            await Task.Delay(100);
-            if (!_rtuBanchAutoBaseViewModel.Initialize(rtuLeaf))
+            if (rtuLeaf.RtuMaker == RtuMaker.IIT)
             {
-                var mb = new MyMessageBoxViewModel(MessageType.Error,
-                    @"Can't start auto base assignment without RFTS template file!");
-                _windowManager.ShowDialogWithAssignedOwner(mb);
-                return;
+                if (!_rtuBanchAutoBaseViewModel.Initialize(rtuLeaf))
+                {
+                    var mb = new MyMessageBoxViewModel(MessageType.Error,
+                        @"Can't start auto base assignment without RFTS template file!");
+                    _windowManager.ShowDialogWithAssignedOwner(mb);
+                    return;
+                }
+                _windowManager.ShowDialogWithAssignedOwner(_rtuBanchAutoBaseViewModel);
             }
-            _windowManager.ShowDialogWithAssignedOwner(_rtuBanchAutoBaseViewModel);
+            else
+            {
+                if (!_veexRtuAutoBaseViewModel.Initialize(rtuLeaf))
+                {
+                    var mb = new MyMessageBoxViewModel(MessageType.Error,
+                        @"Can't start auto base assignment without RFTS template file!");
+                    _windowManager.ShowDialogWithAssignedOwner(mb);
+                    return;
+                }
+                _windowManager.ShowDialogWithAssignedOwner(_veexRtuAutoBaseViewModel);
+            }
         }
     }
 }

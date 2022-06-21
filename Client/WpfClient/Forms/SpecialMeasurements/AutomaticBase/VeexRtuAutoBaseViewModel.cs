@@ -16,7 +16,7 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-    public class RtuAutoBaseViewModel : Screen
+    public class VeexRtuAutoBaseViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
         private List<MeasurementCompletedEventArgs> _badResults;
         private List<TraceLeaf> _goodTraceLeaves;
 
-        public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, IWindowManager windowManager,
+        public VeexRtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, IWindowManager windowManager,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             OneMeasurementExecutor oneMeasurementExecutor, FailedAutoBasePdfProvider failedAutoBasePdfProvider,
             MonitoringSettingsModelFactory monitoringSettingsModelFactory)
@@ -94,7 +94,6 @@ namespace Iit.Fibertest.Client
 
             if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
             {
-                result.TraceLeaf = _traceLeaves[_currentTraceIndex];
                 _badResults.Add(result);
             }
             else _goodTraceLeaves.Add(_traceLeaves[_currentTraceIndex]);

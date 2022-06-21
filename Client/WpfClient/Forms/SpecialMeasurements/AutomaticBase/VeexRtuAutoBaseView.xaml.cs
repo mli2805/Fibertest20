@@ -5,9 +5,9 @@ using System.Windows.Interop;
 namespace Iit.Fibertest.Client
 {
     /// <summary>
-    /// Interaction logic for RtuAutoBaseView.xaml
+    /// Interaction logic for VeexRtuAutoBaseView.xaml
     /// </summary>
-    public partial class RtuAutoBaseView
+    public partial class VeexRtuAutoBaseView
     {
         private const int GwlStyle = -16;
         private const int WsSysMenu = 0x80000;
@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        public RtuAutoBaseView()
+        public VeexRtuAutoBaseView()
         {
             InitializeComponent();
         }

@@ -97,8 +97,6 @@ namespace Iit.Fibertest.DataCenterCore
                 }
                 else
                 {
-                    _logFile.AppendLine(
-                        $@"TransmitClientMeasurementResult: meas will be sent to desktop client {_clientsCollection.Get(result.ConnectionId)}");
                     _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>()
                     {
                         new DoubleAddress()

@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.RtuMonitoringSettingsApplyError:
                     return Resources.SID_Failed_to_apply_monitoring_settings_;
 
-                case ReturnCode.TooLongForAutoBase:
+                case ReturnCode.InvalidValueOfLmax:
                     return Resources.SID_Failed_to_automatically_determine_the_correct_measurement_parameters;
 
                 // 2000

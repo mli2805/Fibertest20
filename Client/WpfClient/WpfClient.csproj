@@ -243,10 +243,10 @@
       <DependentUpon>OtdrParametersTemplatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesViewModel.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml.cs">
-      <DependentUpon>RtuAutoBaseView.xaml</DependentUpon>
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\VeexRtuAutoBaseView.xaml.cs">
+      <DependentUpon>VeexRtuAutoBaseView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\VeexRtuAutoBaseViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\AutoAnalysisParameters\AutoAnalysisParamsView.xaml.cs">
       <DependentUpon>AutoAnalysisParamsView.xaml</DependentUpon>
     </Compile>
@@ -833,7 +833,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml">
+    <Page Include="Forms\SpecialMeasurements\AutomaticBase\VeexRtuAutoBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

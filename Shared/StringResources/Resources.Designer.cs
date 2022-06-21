@@ -5173,6 +5173,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurements are in progress. Please wait....
+        /// </summary>
+        public static string SID_Measurements_are_in_progress__Please_wait___ {
+            get {
+                return ResourceManager.GetString("SID_Measurements_are_in_progress__Please_wait___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurements chosen for deletion {0}. Removing....
         /// </summary>
         public static string SID_Measurements_chosen_for_deletion__0___Removing___ {

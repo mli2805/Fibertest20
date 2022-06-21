@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -35,7 +34,7 @@ namespace Iit.Fibertest.Client
         private Rtu _rtu;
 
         private List<MeasurementCompletedEventArgs> _badResults;
-        private List<TraceLeaf> _goodTraceLeaves;
+        private List<Trace> _goodTraces;
 
         public RtuBanchAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, IWindowManager windowManager,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
@@ -62,7 +61,7 @@ namespace Iit.Fibertest.Client
 
         public bool Initialize(RtuLeaf rtuLeaf)
         {
-            _goodTraceLeaves = new List<TraceLeaf>();
+            _goodTraces = new List<Trace>();
             _badResults = new List<MeasurementCompletedEventArgs>();
             _traceLeaves = rtuLeaf.GetAttachedTraces();
             if (_traceLeaves.Count == 0)
@@ -84,29 +83,23 @@ namespace Iit.Fibertest.Client
         private async void BanchOfMeasurementsExecutor_MeasurementCompleted(object sender, EventArgs e)
         {
             var result = (MeasurementCompletedEventArgs)e;
-            _logFile.AppendLine($@"Measurement on trace {_traceLeaves[_currentTraceIndex].Title}: {result.CompletedStatus}");
+            _logFile.AppendLine($@"VM: #{_currentTraceIndex} Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
             BanchOfMeasurementsExecutor.Model.TraceResults
-                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_, 
-                    _currentTraceIndex + 1, 
-                    _traceLeaves.Count, 
-                    _traceLeaves[_currentTraceIndex].Title, 
+                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
+                    _currentTraceIndex + 1,
+                    _traceLeaves.Count,
+                    result.Trace.Title,
                     result.CompletedStatus.GetLocalizedString()));
 
             if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
             {
-                result.TraceLeaf = _traceLeaves[_currentTraceIndex];
                 _badResults.Add(result);
             }
-            else _goodTraceLeaves.Add(_traceLeaves[_currentTraceIndex]);
+            else _goodTraces.Add(result.Trace);
 
-            if (++_currentTraceIndex < _traceLeaves.Count)
+            if (++_currentTraceIndex >= _traceLeaves.Count)
             {
-                Thread.Sleep(1000);
-                StartOneMeasurement();
-            }
-            else
-            {
-                _waitCursor.Dispose(); 
+                _waitCursor.Dispose();
                 await ApplyResults();
                 BanchOfMeasurementsExecutor.Model.IsEnabled = true;
                 BanchOfMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
@@ -125,28 +118,21 @@ namespace Iit.Fibertest.Client
             BanchOfMeasurementsExecutor.Model.TraceResults
                 .Add(string.Format(Resources.SID_There_are__0__trace_s__attached_to_ports_of_the_RTU, _traceLeaves.Count));
 
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!
-            // var dto = _rtuLeaf
-            //     .CreateDoClientMeasurementDto(_readModel, BanchOfMeasurementsExecutor.Model.CurrentUser)
-            //     .SetParams(true, true, BanchOfMeasurementsExecutor.Model.OtdrParametersTemplatesViewModel.GetSelectedParameters(),
-            //         BanchOfMeasurementsExecutor.Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
-            // var startResult = await _commonC2DWcfManager.DoClientMeasurementAsync(dto);
-            // _logFile.AppendLine(startResult.ReturnCode.GetLocalizedString());
-
-            await BanchOfMeasurementsExecutor.Start(_rtuLeaf);
+            var startRes = await BanchOfMeasurementsExecutor.Start(_rtuLeaf);
+            if (startRes.ReturnCode != ReturnCode.Ok)
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error,
+                    new List<string>() { startRes.ReturnCode.GetLocalizedString(), startRes.ErrorMessage });
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                _waitCursor.Dispose();
+            }
         }
-
-        private async void StartOneMeasurement()
-        {
-            await BanchOfMeasurementsExecutor.Start(_rtuLeaf);
-        }
-
 
         private async Task ApplyResults()
         {
             if (_badResults.Any())
                 ShowReport();
-            if (ShouldStartMonitoring && _goodTraceLeaves.Any())
+            if (ShouldStartMonitoring && _goodTraces.Any())
                 await StartMonitoring();
         }
 
@@ -160,8 +146,7 @@ namespace Iit.Fibertest.Client
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var dto = monitoringSettingsModel.CreateDto();
-                dto.Ports = _goodTraceLeaves
-                    .Select(goodTraceLeaf => _readModel.Traces.First(t => t.TraceId == goodTraceLeaf.Id))
+                dto.Ports = _goodTraces
                     .Select(trace => new PortWithTraceDto()
                     {
                         OtauPort = trace.OtauPort,
@@ -180,7 +165,6 @@ namespace Iit.Fibertest.Client
                         _windowManager.ShowDialogWithAssignedOwner(mb);
                     }
                 }
-
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -30,13 +29,11 @@ namespace Iit.Fibertest.Client
             _rtu = rtu;
         }
 
-        public async Task<BaseRefAssignedDto> Assign(OtdrDataKnownBlocks sorData, Trace trace,
-            MeasurementProgressViewModel measurementProgressViewModel)
+        public async Task<BaseRefAssignedDto> Assign(OtdrDataKnownBlocks sorData, Trace trace)
         {
             var dto = PrepareDto(sorData.ToBytes(), trace);
             var result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
 
-            measurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 _baseRefMessages.Display(result, trace);
 

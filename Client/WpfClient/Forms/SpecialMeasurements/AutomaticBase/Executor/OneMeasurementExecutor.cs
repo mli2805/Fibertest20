@@ -162,11 +162,11 @@ namespace Iit.Fibertest.Client
             _landmarksIntoBaseSetter.ApplyTraceToAutoBaseRef(sorData, _trace);
             _measurementAsBaseAssigner.Initialize(Model.Rtu);
             var result = await _measurementAsBaseAssigner
-                .Assign(sorData, _trace, Model.MeasurementProgressViewModel);
+                .Assign(sorData, _trace);
 
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
-                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", sorData.ToBytes())
+                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, dto, _trace)
                     : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, result.ErrorMessage));
         }
 

@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ClientPoller _clientPoller;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly AutoBaseViewModel _autoBaseViewModel;
-        private readonly RtuAutoBaseViewModel _rtuAutoBaseViewModel;
+        private readonly VeexRtuAutoBaseViewModel _veexRtuAutoBaseViewModel;
         private readonly RtuBanchAutoBaseViewModel _rtuBanchAutoBaseViewModel;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly CurrentUser _currentUser;
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
         public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, 
             Heartbeater heartbeater, ClientPoller clientPoller, CurrentUser currentUser,
             ClientMeasurementViewModel clientMeasurementViewModel, 
-            AutoBaseViewModel autoBaseViewModel, RtuAutoBaseViewModel rtuAutoBaseViewModel, RtuBanchAutoBaseViewModel rtuBanchAutoBaseViewModel,
+            AutoBaseViewModel autoBaseViewModel, VeexRtuAutoBaseViewModel veexRtuAutoBaseViewModel, RtuBanchAutoBaseViewModel rtuBanchAutoBaseViewModel,
             IWcfServiceCommonC2D commonC2DWcfManager,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
             _clientPoller = clientPoller;
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _autoBaseViewModel = autoBaseViewModel;
-            _rtuAutoBaseViewModel = rtuAutoBaseViewModel;
+            _veexRtuAutoBaseViewModel = veexRtuAutoBaseViewModel;
             _rtuBanchAutoBaseViewModel = rtuBanchAutoBaseViewModel;
             _commonC2DWcfManager = commonC2DWcfManager;
             _currentUser = currentUser;
@@ -61,8 +61,8 @@ namespace Iit.Fibertest.Client
                 _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);
             if (_autoBaseViewModel.IsOpen)
                 _autoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
-            if (_rtuAutoBaseViewModel.IsOpen)
-                _rtuAutoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
+            if (_veexRtuAutoBaseViewModel.IsOpen)
+                _veexRtuAutoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
             if (_rtuBanchAutoBaseViewModel.IsOpen)
                 _rtuBanchAutoBaseViewModel.BanchOfMeasurementsExecutor.ProcessMeasurementResult(dto);
             return Task.FromResult(0);

@@ -41,7 +41,7 @@ namespace Iit.Fibertest.RtuManagement
                     {
                         result = new ClientMeasurementResultDto()
                         {
-                            ReturnCode = ReturnCode.TooLongForAutoBase,
+                            ReturnCode = ReturnCode.InvalidValueOfLmax,
                             ConnectionId = dto.ConnectionId,
                             ClientIp = dto.ClientIp,
                             OtauPortDto = listOfOtauPort[0],
@@ -51,8 +51,9 @@ namespace Iit.Fibertest.RtuManagement
                     var sendResult = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog)
                         .SendClientMeasurementDone(result);
                     _rtuLog.AppendLine(sendResult
-                        ? $"RTU sent client measurement result ({result.ReturnCode})"
+                        ? $"Send client measurement result ({result.ReturnCode})"
                         : $"Can't send client measurement result to {_serverAddresses.Main.ToStringA()}");
+                    _rtuLog.EmptyLine();
                 }
             }
 
@@ -75,7 +76,6 @@ namespace Iit.Fibertest.RtuManagement
             if (values == null)
             {
                 _rtuLog.AppendLine("Failed to choose measurement parameters");
-                _rtuLog.EmptyLine();
                 return false;
             }
 
