@@ -166,7 +166,7 @@ namespace Iit.Fibertest.Client
 
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
-                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, dto, _trace)
+                    ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, "", sorData.ToBytes())
                     : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, result.ErrorMessage));
         }
 
