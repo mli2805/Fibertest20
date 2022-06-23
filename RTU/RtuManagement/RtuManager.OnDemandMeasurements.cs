@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuManagement
 {
@@ -13,12 +16,67 @@ namespace Iit.Fibertest.RtuManagement
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
-            IsAutoBaseMode = dto.IsForAutoBase;
             StopMonitoringAndConnectOtdrWithRecovering(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
+            if (dto.IsForWholeRtu)
+            {
+                IsRtuAutoBaseMode = true;
+                SaveDoClientMeasurementDto(dto);
+            }
 
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.Ok };
-            callback?.Invoke(); // send "started"
+            callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
+            Measure(dto);
+
+            IsRtuAutoBaseMode = false;
+
+            if (_wasMonitoringOn)
+            {
+                IsMonitoringOn = true;
+                _wasMonitoringOn = false;
+                RunMonitoringCycle();
+            }
+            else
+                DisconnectOtdr();
+        }
+
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+        private readonly string _autoBaseDtoFile = Utils.FileNameForSure(@"..\ini\", @"autobase.dto", false);
+
+        public void SaveDoClientMeasurementDto(DoClientMeasurementDto dto)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+                File.WriteAllText(_autoBaseDtoFile, json);
+            }
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"AutoBase dto saving: {e.Message}");
+            }
+        }
+
+        public DoClientMeasurementDto LoadDoClientMeasurementDto()
+        {
+            DoClientMeasurementDto result = null;
+            try
+            {
+                var context = File.ReadAllText(_autoBaseDtoFile);
+                result = JsonConvert.DeserializeObject<DoClientMeasurementDto>(context);
+            }
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"AutoBase dto loading: {e.Message}");
+            }
+
+            return result;
+        }
+
+        private void Measure(DoClientMeasurementDto dto)
+        {
             foreach (var listOfOtauPort in dto.OtauPortDtoList)
             {
                 if (ToggleToPort(listOfOtauPort[0]))
@@ -56,17 +114,6 @@ namespace Iit.Fibertest.RtuManagement
                     _rtuLog.EmptyLine();
                 }
             }
-
-            IsAutoBaseMode = false;
-
-            if (_wasMonitoringOn)
-            {
-                IsMonitoringOn = true;
-                _wasMonitoringOn = false;
-                RunMonitoringCycle();
-            }
-            else
-                DisconnectOtdr();
         }
 
         private bool PrepareAutoLmaxMeasurement(DoClientMeasurementDto dto)
@@ -79,24 +126,7 @@ namespace Iit.Fibertest.RtuManagement
                 return false;
             }
 
-            /*
-            _rtuLog.AppendLine($"distanceRange {values.distanceRange}");
-            _rtuLog.AppendLine($"pulseDuration {values.pulseDuration}");
-            _rtuLog.AppendLine($"resolution {values.resolution}");
-            _rtuLog.AppendLine($"averagingTime {values.averagingTime}");
-            _rtuLog.EmptyLine('-');
-            */
-
             var positions = _otdrManager.InterOpWrapper.ValuesToPositions(dto.SelectedMeasParams, values, _treeOfAcceptableMeasParams);
-
-            /*
-            foreach (var measParamByPosition in positions)
-            {
-                _rtuLog.AppendLine($"{measParamByPosition.Param} - {measParamByPosition.Position}");
-            }
-            _rtuLog.EmptyLine('-');
-            */
-
             _otdrManager.InterOpWrapper.SetMeasParamsByPosition(positions);
             _rtuLog.AppendLine("Auto measurement parameters applied");
             return true;

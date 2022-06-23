@@ -20,7 +20,7 @@ namespace Iit.Fibertest.RtuManagement
         private readonly string _monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
         private readonly string _monitoringSettingFileBackup = Utils.FileNameForSure(@"..\ini\", @"monitoring.que.bac", false);
         private readonly string _monitoringSettingsMd5File = Utils.FileNameForSure(@"..\ini\", @"monitoring.que.md5", false);
-        public Queue<MonitorigPort> Queue { get; set; }
+        public Queue<MonitoringPort> Queue { get; set; }
 
         public MonitoringQueue(IMyLog logFile)
         {
@@ -29,9 +29,9 @@ namespace Iit.Fibertest.RtuManagement
 
         public int Count() { return Queue.Count; }
 
-        public MonitorigPort Peek() { return Queue.Peek(); }
-        public MonitorigPort Dequeue() { return Queue.Dequeue(); }
-        public void Enqueue(MonitorigPort item) { Queue.Enqueue(item); }
+        public MonitoringPort Peek() { return Queue.Peek(); }
+        public MonitoringPort Dequeue() { return Queue.Dequeue(); }
+        public void Enqueue(MonitoringPort item) { Queue.Enqueue(item); }
 
         private string[] LoadWithMd5()
         {
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             _logFile.EmptyLine();
             _logFile.AppendLine("Monitoring queue assembling...");
-            Queue = new Queue<MonitorigPort>();
+            Queue = new Queue<MonitoringPort>();
 
             try
             {
@@ -73,7 +73,7 @@ namespace Iit.Fibertest.RtuManagement
 
                 foreach (var port in list)
                 {
-                    Queue.Enqueue(new MonitorigPort(port));
+                    Queue.Enqueue(new MonitoringPort(port));
                 }
             }
             catch (Exception e)
@@ -119,18 +119,18 @@ namespace Iit.Fibertest.RtuManagement
 
             foreach (var portWithTrace in ports)
             {
-                MonitorigPort theSamePortInOldQueue = TryGetTheSameMonitoringPortInOldQueue(oldQueue, portWithTrace);
+                MonitoringPort theSamePortInOldQueue = TryGetTheSameMonitoringPortInOldQueue(oldQueue, portWithTrace);
                 if (theSamePortInOldQueue != null)
                 {
                     theSamePortInOldQueue.TraceId = portWithTrace.TraceId;
                     Queue.Enqueue(theSamePortInOldQueue);
                 }
                 else
-                    Queue.Enqueue(new MonitorigPort(portWithTrace));
+                    Queue.Enqueue(new MonitoringPort(portWithTrace));
             }
         }
 
-        private MonitorigPort TryGetTheSameMonitoringPortInOldQueue(List<MonitorigPort> oldQueue, PortWithTraceDto portWithTrace)
+        private MonitoringPort TryGetTheSameMonitoringPortInOldQueue(List<MonitoringPort> oldQueue, PortWithTraceDto portWithTrace)
         {
             foreach (var portInOldQueue in oldQueue)
             {

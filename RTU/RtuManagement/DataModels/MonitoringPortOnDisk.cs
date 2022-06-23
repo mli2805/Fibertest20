@@ -25,7 +25,7 @@ namespace Iit.Fibertest.RtuManagement
             
         }
 
-        public MonitoringPortOnDisk(MonitorigPort port)
+        public MonitoringPortOnDisk(MonitoringPort port)
         {
             Serial = port.CharonSerial;
             OpticalPort = port.OpticalPort;

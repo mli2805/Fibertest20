@@ -66,7 +66,7 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        private void ProcessOnePort(MonitorigPort monitoringPort)
+        private void ProcessOnePort(MonitoringPort monitoringPort)
         {
             var hasFastPerformed = false;
 
@@ -103,7 +103,7 @@ namespace Iit.Fibertest.RtuManagement
             monitoringPort.IsConfirmationRequired = false;
         }
 
-        private MoniResult DoFastMeasurement(MonitorigPort monitoringPort)
+        private MoniResult DoFastMeasurement(MonitoringPort monitoringPort)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"MEAS. {_measurementNumber}, Fast, port {monitoringPort.ToStringB(_mainCharon)}");
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-        private MoniResult DoSecondMeasurement(MonitorigPort monitoringPort, bool hasFastPerformed,
+        private MoniResult DoSecondMeasurement(MonitoringPort monitoringPort, bool hasFastPerformed,
             BaseRefType baseType, bool isOutOfTurnMeasurement = false)
         {
             _rtuLog.EmptyLine();
@@ -186,7 +186,7 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-        private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitoringPort, bool shouldChangePort = true)
+        private MoniResult DoMeasurement(BaseRefType baseRefType, MonitoringPort monitoringPort, bool shouldChangePort = true)
         {
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -267,7 +267,7 @@ namespace Iit.Fibertest.RtuManagement
                 return new MoniResult() { MeasurementResult = MeasurementResult.ComparisonFailed };
             }
 
-            LastSuccessfullMeasTimestamp = DateTime.Now;
+            LastSuccessfulMeasTimestamp = DateTime.Now;
 
             _rtuLog.AppendLine($"Trace state is {moniResult.GetAggregatedResult()}");
             if (moniResult.Accidents != null)
@@ -286,7 +286,7 @@ namespace Iit.Fibertest.RtuManagement
             _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
         }
 
-        private MonitoringResultDto CreateDto(MoniResult moniResult, MonitorigPort monitorigPort)
+        private MonitoringResultDto CreateDto(MoniResult moniResult, MonitoringPort monitoringPort)
         {
             var dto = new MonitoringResultDto()
             {
@@ -296,13 +296,13 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     OtauPort = new OtauPortDto()
                     {
-                        Serial = monitorigPort.CharonSerial,
+                        Serial = monitoringPort.CharonSerial,
                         //                        OtauIp = monitoringPort.NetAddress.Ip4Address,
                         //                        OtauTcpPort = monitoringPort.NetAddress.Port,
-                        IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
-                        OpticalPort = monitorigPort.OpticalPort,
+                        IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
+                        OpticalPort = monitoringPort.OpticalPort,
                     },
-                    TraceId = monitorigPort.TraceId,
+                    TraceId = monitoringPort.TraceId,
                 },
                 BaseRefType = moniResult.BaseRefType,
                 TraceState = moniResult.GetAggregatedResult(),
@@ -331,9 +331,9 @@ namespace Iit.Fibertest.RtuManagement
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
-        private bool ToggleToPort(MonitorigPort monitorigPort)
+        private bool ToggleToPort(MonitoringPort monitoringPort)
         {
-            var cha = monitorigPort.IsPortOnMainCharon ? _mainCharon : _mainCharon.GetBopCharonWithLogging(monitorigPort.CharonSerial);
+            var cha = monitoringPort.IsPortOnMainCharon ? _mainCharon : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
             // TCP port here is not important
             DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == cha.NetAddress.Ip4Address);
             if (damagedOtau != null)
@@ -351,9 +351,9 @@ namespace Iit.Fibertest.RtuManagement
                 }
             }
 
-            SendCurrentMonitoringStep(MonitoringCurrentStep.Toggle, monitorigPort);
+            SendCurrentMonitoringStep(MonitoringCurrentStep.Toggle, monitoringPort);
 
-            var toggleResult = _mainCharon.SetExtendedActivePort(monitorigPort.CharonSerial, monitorigPort.OpticalPort);
+            var toggleResult = _mainCharon.SetExtendedActivePort(monitoringPort.CharonSerial, monitoringPort.OpticalPort);
             switch (toggleResult)
             {
                 case CharonOperationResult.Ok:
@@ -372,7 +372,7 @@ namespace Iit.Fibertest.RtuManagement
                                 var dto = new BopStateChangedDto()
                                 {
                                     RtuId = _id,
-                                    Serial = monitorigPort.CharonSerial,
+                                    Serial = monitoringPort.CharonSerial,
                                     OtauIp = cha.NetAddress.Ip4Address,
                                     TcpPort = cha.NetAddress.Port,
                                     IsOk = true,
@@ -395,7 +395,7 @@ namespace Iit.Fibertest.RtuManagement
                     {
                         if (damagedOtau == null)
                         {
-                            damagedOtau = new DamagedOtau(cha.NetAddress.Ip4Address, cha.NetAddress.Port, monitorigPort.CharonSerial);
+                            damagedOtau = new DamagedOtau(cha.NetAddress.Ip4Address, cha.NetAddress.Port, monitoringPort.CharonSerial);
                             _damagedOtaus.Add(damagedOtau);
                         }
                         RunAdditionalOtauRecovery(damagedOtau);

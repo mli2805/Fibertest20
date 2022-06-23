@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
                 OtdrId = rtu.OtdrId,
 
                 OtauPortDtoList = rtuLeaf.PrepareBanchOfOtauPortDto(readModel),
+                IsForWholeRtu = true,
             };
         }
 

@@ -6,7 +6,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.RtuManagement
 {
-    public class MonitorigPort
+    public class MonitoringPort
     {
         public bool IsPortOnMainCharon { get; set; }
 
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.RtuManagement
         public bool IsMonitoringModeChanged { get; set; }
         public bool IsConfirmationRequired { get; set; }
 
-        public MonitorigPort(MonitoringPortOnDisk port)
+        public MonitoringPort(MonitoringPortOnDisk port)
         {
             CharonSerial = port.Serial;
             OpticalPort = port.OpticalPort;
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.RtuManagement
         }
 
         // new port for monitoring in user's command
-        public MonitorigPort(PortWithTraceDto port)
+        public MonitoringPort(PortWithTraceDto port)
         {
             CharonSerial = port.OtauPort.Serial;
             OpticalPort = port.OtauPort.OpticalPort;

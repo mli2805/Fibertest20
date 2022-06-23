@@ -13,7 +13,7 @@ namespace Iit.Fibertest.RtuManagement
 
             callback?.Invoke();
 
-            var moniResult = DoSecondMeasurement(new MonitorigPort(dto.PortWithTraceDto), false, BaseRefType.Precise, true);
+            var moniResult = DoSecondMeasurement(new MonitoringPort(dto.PortWithTraceDto), false, BaseRefType.Precise, true);
             if (_cancellationTokenSource.IsCancellationRequested)
             {
                 _rtuLog.AppendLine("Out of turn precise monitoring interrupted.");

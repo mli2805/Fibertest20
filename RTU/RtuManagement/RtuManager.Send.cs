@@ -29,7 +29,7 @@ namespace Iit.Fibertest.RtuManagement
         }
 
         private void SendCurrentMonitoringStep(MonitoringCurrentStep currentStep,
-            MonitorigPort monitoringPort = null, BaseRefType baseRefType = BaseRefType.None)
+            MonitoringPort monitoringPort = null, BaseRefType baseRefType = BaseRefType.None)
         {
             if (IsSenderBusy)
                 return;

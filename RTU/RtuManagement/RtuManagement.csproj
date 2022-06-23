@@ -116,7 +116,7 @@
   <ItemGroup>
     <Compile Include="BaseRefsSaver.cs" />
     <Compile Include="DataModels\DamagedOtau.cs" />
-    <Compile Include="DataModels\MonitorigPort.cs" />
+    <Compile Include="DataModels\MonitoringPort.cs" />
     <Compile Include="DataModels\MonitoringQueue.cs" />
     <Compile Include="DataModels\MonitoringPortOnDisk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

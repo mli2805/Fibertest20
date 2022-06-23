@@ -33,6 +33,11 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public bool IsForAutoBase { get; set; }
 
+        // false - AutoBase for one trace only
+        // true - AutoBase for whole RTU
+        [DataMember]
+        public bool IsForWholeRtu { get; set; }
+
         [DataMember]
         public bool IsAutoLmax { get; set; }
     }
