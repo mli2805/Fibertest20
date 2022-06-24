@@ -6,7 +6,7 @@ using System.Threading;
 // ReSharper disable All
 
 // class found on stackoverflow.com
-namespace Iit.Fibertest.UtilsLib.ServiceManager
+namespace Iit.Fibertest.UtilsLib
 {
     public static class ServiceInstaller
     {

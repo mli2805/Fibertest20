@@ -4,7 +4,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using MySql.Data.MySqlClient;
 
-namespace DbMigrationWpf.BaseRefMigration
+namespace DbMigrationWpf
 {
     public class TraceBaseFetcher
     {

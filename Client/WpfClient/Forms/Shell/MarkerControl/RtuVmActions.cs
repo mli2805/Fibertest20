@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Iit.Fibertest.Graph.Requests;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {

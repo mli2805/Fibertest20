@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.WpfCommonViews.OtdrParams
+﻿namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
     /// Interaction logic for OtdrParametersView.xaml

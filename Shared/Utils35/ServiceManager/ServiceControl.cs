@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.UtilsLib.ServiceManager
+﻿namespace Iit.Fibertest.UtilsLib
 {
     public enum ServiceControl
     {

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using Iit.Fibertest.UtilsLib.ServiceManager;
 
 namespace Iit.Fibertest.UtilsLib
 {

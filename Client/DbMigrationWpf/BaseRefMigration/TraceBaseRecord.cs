@@ -1,7 +1,7 @@
 ﻿using System;
 using Iit.Fibertest.Dto;
 
-namespace DbMigrationWpf.BaseRefMigration
+namespace DbMigrationWpf
 {
     public class TraceBaseRecord
     {

@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Graph.Requests
+﻿namespace Iit.Fibertest.Graph
 {
     public class RequestAddRtuAtGpsLocation
     {

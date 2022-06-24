@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace DbMigrationWpf.BaseRefMigration
+namespace DbMigrationWpf
 {
     public static class SorFetcher
     {

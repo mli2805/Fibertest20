@@ -5,7 +5,6 @@ using Autofac;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Requests;
 
 namespace Graph.Tests
 {

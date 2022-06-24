@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WpfCommonViews.OtdrParams;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace DirectRtuClient
 {
