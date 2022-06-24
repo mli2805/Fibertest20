@@ -140,7 +140,7 @@ namespace Iit.Fibertest.Client
         public void UpdateWithDto(RtuInitializedDto dto)
         {
             OriginalRtu.MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
-            OriginalRtu.OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone();
+            OriginalRtu.OtdrNetAddress = dto.OtdrAddress.Clone();
             OriginalRtu.ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
 
             OtdrAddressViewModel.FromRtu(OriginalRtu);

@@ -174,7 +174,7 @@ namespace Iit.Fibertest.Client
             ServersComboboxVisibility = Visibility.Collapsed;
 
             ServerConnectionTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
-                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest((NetAddress)_serverInWorkAddress.Clone(), false)));
+                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(_serverInWorkAddress.Clone(), false)));
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
 
             NewServerTitleVisibility = Visibility.Visible;
@@ -185,7 +185,7 @@ namespace Iit.Fibertest.Client
         {
             ServersComboboxVisibility = Visibility.Visible;
 
-            var address = (NetAddress)SelectedServer?.ServerAddress.Main.Clone() ?? new NetAddress(@"0.0.0.0", 11840);
+            var address = SelectedServer?.ServerAddress.Main.Clone() ?? new NetAddress(@"0.0.0.0", 11840);
             ServerConnectionTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
                 (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(address, false)));
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
@@ -208,7 +208,7 @@ namespace Iit.Fibertest.Client
                 Title = NewServerTitle,
                 ServerAddress = new DoubleAddress()
                 {
-                    Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone()
+                    Main = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone()
                 },
                 ClientIpAddress = _clientAddress,
                 IsLastSelected = true,
@@ -234,7 +234,7 @@ namespace Iit.Fibertest.Client
 
             if (SelectedServer != null)
             {
-                SelectedServer.ServerAddress.Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone();
+                SelectedServer.ServerAddress.Main = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone();
                 _iniFile.WriteServerAddresses(SelectedServer.ServerAddress);
                 _iniFile.Write(IniSection.Server, IniKey.ServerTitle, SelectedServer.Title);
             }

@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
                 RtuId = rtu.Id,
                 RtuMaker = rtu.RtuMaker,
                 OpticalPort = MasterPort,
-                NetAddress = (NetAddress)OtauNetAddress.Clone(),
+                NetAddress = OtauNetAddress.Clone(),
             };
             OtauDetachedDto result;
             using (_globalScope.Resolve<IWaitCursor>())

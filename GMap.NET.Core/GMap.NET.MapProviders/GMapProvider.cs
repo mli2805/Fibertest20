@@ -603,7 +603,7 @@ namespace GMap.NET.MapProviders
 
         public override int GetHashCode()
         {
-            return (int)DbId;
+            return DbId;
         }
 
         public override bool Equals(object obj)

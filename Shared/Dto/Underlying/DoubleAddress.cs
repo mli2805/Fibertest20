@@ -12,9 +12,9 @@ namespace Iit.Fibertest.Dto
         {
             return new DoubleAddress()
             {
-                Main = (NetAddress)Main.Clone(),
+                Main = Main.Clone(),
                 HasReserveAddress = HasReserveAddress,
-                Reserve = (NetAddress)Reserve?.Clone(),
+                Reserve = Reserve?.Clone(),
             };
         }
     }

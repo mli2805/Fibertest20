@@ -24,5 +24,12 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public int MainCharonPort { get; set; } // only for additional otau - port of main otau this otau is connected to
+
+        public OtauPortDto Clone()
+        {
+            var clone = (OtauPortDto)MemberwiseClone();
+            clone.NetAddress = NetAddress.Clone();
+            return clone;
+        }
     }
 }

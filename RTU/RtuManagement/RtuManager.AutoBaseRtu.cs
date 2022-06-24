@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -12,18 +13,21 @@ namespace Iit.Fibertest.RtuManagement
         private void DoAutoBaseMeasurementsForRtu(DoClientMeasurementDto dto)
         {
             IsRtuAutoBaseMode = true;
-            SaveDoClientMeasurementDto(dto);
 
             MeasureAllPorts(dto);
+
             IsRtuAutoBaseMode = false;
         }
 
         private void MeasureAllPorts(DoClientMeasurementDto dto)
         {
             var result = new ClientMeasurementResultDto().Initialize(dto);
-            foreach (var listOfOtauPort in dto.OtauPortDtoList)
+
+            SaveDoClientMeasurementDto(dto);
+            var portListCopy = dto.OtauPortDtoList.Select(i => i[0].Clone()).ToList();
+
+            foreach (var currentPort in portListCopy)
             {
-                var currentPort = listOfOtauPort[0];
                 if (!ToggleToPort(currentPort))
                     result.Set(currentPort, ReturnCode.RtuToggleToPortError);
                 else if (!PrepareAutoLmaxMeasurement(dto))
@@ -36,10 +40,13 @@ namespace Iit.Fibertest.RtuManagement
                 while (!r2DWcfManager.SendClientMeasurementDone(result) && attempts-- > 0) { }
 
                 _rtuLog.EmptyLine();
+
+                dto.OtauPortDtoList.RemoveAt(0);
+                SaveDoClientMeasurementDto(dto);
             }
         }
 
-        # region Save-Load dto
+        # region Save-Load dto with auto base port list
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {

@@ -76,7 +76,7 @@ namespace GMap.NET.Projections
          var ei = Math.Sqrt(ei2);
          var n = (a - b) / (a + b);
          var G = a * (1.0 - n) * (1.0 - n * n) * (1.0 + (9 / 4.0) * n * n + (255.0 / 64.0) * Math.Pow(n, 4)) * (PI / 180.0);
-         var w = londdd - ((double) (zone * 6 - 183));
+         var w = londdd - (zone * 6 - 183);
          w = DegreesToRadians(w);
          var t = Math.Tan(latrad);
          var rho = a * (1.0 - e2) / Math.Pow(1.0 - (e2 * Math.Sin(latrad) * Math.Sin(latrad)), (3 / 2.0));
@@ -211,8 +211,8 @@ namespace GMap.NET.Projections
          var size = GetTileMatrixSizePixel(zoom);
          {
             var l = WGSToPP(lat, lng);
-            ret.X = (long)l[0] >> (20 - zoom);
-            ret.Y = size.Height - ((long)l[1] >> (20 - zoom));
+            ret.X = l[0] >> (20 - zoom);
+            ret.Y = size.Height - (l[1] >> (20 - zoom));
          }
          return ret;
       }

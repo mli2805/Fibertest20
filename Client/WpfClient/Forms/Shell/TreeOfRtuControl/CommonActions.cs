@@ -135,8 +135,8 @@ namespace Iit.Fibertest.Client
             var isUcc = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.102"; // БУС
 
             var mainCharonAddress = isMak100 || isUcc
-                ? (NetAddress)rtu.MainChannel.Clone()
-                : (NetAddress)rtu.OtdrNetAddress.Clone();
+                ? rtu.MainChannel.Clone()
+                : rtu.OtdrNetAddress.Clone();
             mainCharonAddress.Port = 23;
             var mainCharon = new Charon(mainCharonAddress, true, _iniFile35, _logFile)
             {

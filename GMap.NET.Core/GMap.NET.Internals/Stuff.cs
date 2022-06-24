@@ -36,7 +36,7 @@ namespace GMap.NET.Internals
 
          for(int i = 0; i < N; ++i)
          {
-            int r = i + (int)(random.Next(N - i));
+            int r = i + random.Next(N - i);
             T t = deck[r];
             deck[r] = deck[i];
             deck[i] = t;

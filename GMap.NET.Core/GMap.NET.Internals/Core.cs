@@ -278,7 +278,7 @@ namespace GMap.NET.Internals
 
                 if (Zoom != mmaxZoom)
                 {
-                    Zoom = (int)mmaxZoom;
+                    Zoom = mmaxZoom;
                 }
 
                 return true;
@@ -555,7 +555,7 @@ namespace GMap.NET.Internals
             }
             else
             {
-                for (int i = (int)zoom; i <= maxZoom; i++)
+                for (int i = zoom; i <= maxZoom; i++)
                 {
                     GPoint p1 = Provider.Projection.FromLatLngToPixel(rect.LocationTopLeft, i);
                     GPoint p2 = Provider.Projection.FromLatLngToPixel(rect.LocationRightBottom, i);
@@ -711,7 +711,7 @@ namespace GMap.NET.Internals
                 LastLocationInBounds = Position;
 
                 IsDragging = true;
-                Position = FromLocalToLatLng((int)Width / 2, (int)Height / 2);
+                Position = FromLocalToLatLng(Width / 2, Height / 2);
                 IsDragging = false;
             }
 
@@ -741,7 +741,7 @@ namespace GMap.NET.Internals
             if (IsDragging)
             {
                 LastLocationInBounds = Position;
-                Position = FromLocalToLatLng((int)Width / 2, (int)Height / 2);
+                Position = FromLocalToLatLng(Width / 2, Height / 2);
 
                 if (OnMapDrag != null)
                 {

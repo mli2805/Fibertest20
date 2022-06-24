@@ -65,12 +65,12 @@ namespace Iit.Fibertest.DataCenterCore
                 FullPortCount = r.FullPortCount,
                 OwnPortCount = r.OwnPortCount,
 
-                MainChannel = (NetAddress)r.MainChannel.Clone(),
+                MainChannel = r.MainChannel.Clone(),
                 MainChannelState = r.MainChannelState,
-                ReserveChannel = (NetAddress)r.ReserveChannel.Clone(),
+                ReserveChannel = r.ReserveChannel.Clone(),
                 ReserveChannelState = r.ReserveChannelState,
                 IsReserveChannelSet = r.IsReserveChannelSet,
-                OtdrNetAddress = (NetAddress)r.OtdrNetAddress.Clone(),
+                OtdrNetAddress = r.OtdrNetAddress.Clone(),
                 BopState = r.BopState,
 
                 MonitoringMode = r.MonitoringState,

@@ -145,7 +145,7 @@ namespace GMap.NET
       /// <returns></returns>
       public virtual GPoint FromPixelToTileXY(GPoint p)
       {
-         return new GPoint((long)(p.X / TileSize.Width), (long)(p.Y / TileSize.Height));
+         return new GPoint(p.X / TileSize.Width, p.Y / TileSize.Height);
       }
 
       /// <summary>
@@ -439,8 +439,8 @@ namespace GMap.NET
 
       public double GetDistanceInPixels(GPoint point1, GPoint point2)
       {
-         double a = (double)(point2.X - point1.X);
-         double b = (double)(point2.Y - point1.Y);
+         double a = point2.X - point1.X;
+         double b = point2.Y - point1.Y;
 
          return Math.Sqrt(a * a + b * b);
       }

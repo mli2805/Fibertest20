@@ -83,9 +83,9 @@ namespace Iit.Fibertest.RtuService
             // both could be changed due initialization
             _rtuId = Guid.Parse(_serviceIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
             var currentAddresses = _serviceIni.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
-            _mainAddressOnly = new DoubleAddress() { Main = (NetAddress)currentAddresses.Main.Clone() };
+            _mainAddressOnly = new DoubleAddress() { Main = currentAddresses.Main.Clone() };
             _hasReserveAddress = currentAddresses.HasReserveAddress;
-            _reserveAddressOnly = new DoubleAddress() { Main = (NetAddress)currentAddresses.Reserve.Clone() };
+            _reserveAddressOnly = new DoubleAddress() { Main = currentAddresses.Reserve.Clone() };
         }
 
 

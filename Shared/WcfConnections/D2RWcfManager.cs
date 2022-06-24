@@ -24,7 +24,7 @@ namespace Iit.Fibertest.WcfConnections
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
             var backward = new RtuWcfServiceBackward();
 
-            var addressToCheck = new DoubleAddress() { Main = (NetAddress)dto.NetAddress.Clone() };
+            var addressToCheck = new DoubleAddress() { Main = dto.NetAddress.Clone() };
             if (addressToCheck.Main.Port == -1)
             {
                 logFile.AppendLine("D2RWcfManager: new RTU address.");
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.WcfConnections
             }
 
             result.IsConnectionSuccessfull = rtuConnection != null;
-            result.NetAddress = (NetAddress)dto.NetAddress.Clone();
+            result.NetAddress = dto.NetAddress.Clone();
 
             if (result.IsConnectionSuccessfull)
                 result.NetAddress.Port = addressToCheck.Main.Port;

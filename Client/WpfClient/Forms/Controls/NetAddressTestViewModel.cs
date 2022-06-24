@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Client
                 var dto = new CheckRtuConnectionDto()
                 {
                     ConnectionId = _currentUser.ConnectionId,
-                    NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
+                    NetAddress = NetAddressInputViewModel.GetNetAddress().Clone()
                 };
                 var resultDto = await _c2RWcfManager.CheckRtuConnectionAsync(dto);
                 if (resultDto.IsConnectionSuccessfull && dto.NetAddress.Port == -1)
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.Client
                 var addressForTesting = new DoubleAddress()
                 {
                     HasReserveAddress = false,
-                    Main = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
+                    Main = NetAddressInputViewModel.GetNetAddress().Clone()
                 };
                 ((DesktopC2DWcfManager)_c2DWcfManager).SetServerAddresses(addressForTesting, "", "");
                 return await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());

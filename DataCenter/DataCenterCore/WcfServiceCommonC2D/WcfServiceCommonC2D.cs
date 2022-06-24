@@ -125,7 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
                 MasterPort = dto.OpticalPort,
                 Serial = result.Serial,
                 PortCount = result.PortCount,
-                NetAddress = (NetAddress)dto.NetAddress.Clone(),
+                NetAddress = dto.NetAddress.Clone(),
                 IsOk = true,
             };
             var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;

@@ -166,8 +166,8 @@ namespace Iit.Fibertest.DataCenterCore
             dto.RtuMaker = rtu.RtuMaker;
             dto.RtuAddresses = new DoubleAddress()
             {
-                Main = (NetAddress)rtu.MainChannel.Clone(),
-                Reserve = (NetAddress)rtu.ReserveChannel.Clone(),
+                Main = rtu.MainChannel.Clone(),
+                Reserve = rtu.ReserveChannel.Clone(),
                 HasReserveAddress = rtu.IsReserveChannelSet,
             };
             dto.IsFirstInitialization = false;

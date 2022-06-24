@@ -221,7 +221,7 @@ namespace GMap.NET.WindowsPresentation
                }
             }
 
-            worker.ReportProgress((int)((i + 1) * 100 / all), i + 1);
+            worker.ReportProgress((i + 1) * 100 / all, i + 1);
 
             System.Threading.Thread.Sleep(sleep);
          }
