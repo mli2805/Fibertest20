@@ -3,7 +3,7 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.Client.MonitoringSettings
+namespace Iit.Fibertest.Client
 {
     public class MonitoringPortModel : PropertyChangedBase
     {

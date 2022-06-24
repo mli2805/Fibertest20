@@ -9,7 +9,7 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
-namespace Iit.Fibertest.Client.MonitoringSettings
+namespace Iit.Fibertest.Client
 {
     public class MonitoringSettingsViewModel : Screen
     {

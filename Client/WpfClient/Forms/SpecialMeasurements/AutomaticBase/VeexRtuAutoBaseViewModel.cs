@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Input;
 // ReSharper disable All
 
-namespace Iit.Fibertest.Client.Input
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     ///   Class used to define a converter for the <see cref="MultiKeyGesture" /> class.

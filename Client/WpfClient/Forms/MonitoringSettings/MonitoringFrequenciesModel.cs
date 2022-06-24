@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.Client.MonitoringSettings
+namespace Iit.Fibertest.Client
 {
     public class MonitoringFrequenciesModel : PropertyChangedBase
     {

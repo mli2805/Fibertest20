@@ -1,0 +1,82 @@
+﻿using System;
+using System.IO;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
+using Newtonsoft.Json;
+
+namespace Iit.Fibertest.RtuManagement
+{
+    public partial class RtuManager
+    {
+        private void DoAutoBaseMeasurementsForRtu(DoClientMeasurementDto dto)
+        {
+            IsRtuAutoBaseMode = true;
+            SaveDoClientMeasurementDto(dto);
+
+            MeasureAllPorts(dto);
+            IsRtuAutoBaseMode = false;
+        }
+
+        private void MeasureAllPorts(DoClientMeasurementDto dto)
+        {
+            var result = new ClientMeasurementResultDto().Initialize(dto);
+            foreach (var listOfOtauPort in dto.OtauPortDtoList)
+            {
+                var currentPort = listOfOtauPort[0];
+                if (!ToggleToPort(currentPort))
+                    result.Set(currentPort, ReturnCode.RtuToggleToPortError);
+                else if (!PrepareAutoLmaxMeasurement(dto))
+                    result.Set(currentPort, ReturnCode.InvalidValueOfLmax);
+                else
+                    result = ClientMeasurementItself(dto, currentPort);
+
+                var attempts = 3;
+                var r2DWcfManager = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog);
+                while (!r2DWcfManager.SendClientMeasurementDone(result) && attempts-- > 0) { }
+
+                _rtuLog.EmptyLine();
+            }
+        }
+
+        # region Save-Load dto
+
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+        private readonly string _autoBaseDtoFile = Utils.FileNameForSure(@"..\ini\", @"autobase.dto", false);
+
+        private void SaveDoClientMeasurementDto(DoClientMeasurementDto dto)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+                File.WriteAllText(_autoBaseDtoFile, json);
+            }
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"AutoBase dto saving: {e.Message}");
+            }
+        }
+
+        public DoClientMeasurementDto LoadDoClientMeasurementDto()
+        {
+            DoClientMeasurementDto result = null;
+            try
+            {
+                var context = File.ReadAllText(_autoBaseDtoFile);
+                result = JsonConvert.DeserializeObject<DoClientMeasurementDto>(context);
+            }
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"AutoBase dto loading: {e.Message}");
+            }
+
+            return result;
+        }
+
+        #endregion
+
+    }
+}

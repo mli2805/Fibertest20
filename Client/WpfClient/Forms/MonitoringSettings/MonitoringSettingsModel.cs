@@ -4,7 +4,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.Client.MonitoringSettings
+namespace Iit.Fibertest.Client
 {
     public class MonitoringSettingsModel : PropertyChangedBase
     {

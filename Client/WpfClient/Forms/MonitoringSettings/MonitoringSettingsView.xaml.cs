@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace Iit.Fibertest.Client.MonitoringSettings
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Interaction logic for MonitoringSettingsView.xaml

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Iit.Fibertest.Client;
-using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 

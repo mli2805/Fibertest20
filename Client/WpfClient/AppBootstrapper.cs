@@ -10,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Client.Input;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 

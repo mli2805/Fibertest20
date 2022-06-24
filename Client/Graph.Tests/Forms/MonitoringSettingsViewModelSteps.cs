@@ -2,7 +2,6 @@
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
-using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;

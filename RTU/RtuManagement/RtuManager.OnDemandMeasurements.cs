@@ -1,15 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuManagement
 {
-
     public partial class RtuManager
     {
         public ClientMeasurementStartedDto ClientMeasurementStartedDto;
@@ -17,18 +13,14 @@ namespace Iit.Fibertest.RtuManagement
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
             StopMonitoringAndConnectOtdrWithRecovering(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
-            if (dto.IsForWholeRtu)
-            {
-                IsRtuAutoBaseMode = true;
-                SaveDoClientMeasurementDto(dto);
-            }
 
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.Ok };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
-            Measure(dto);
-
-            IsRtuAutoBaseMode = false;
+            if (dto.IsForWholeRtu)
+                DoAutoBaseMeasurementsForRtu(dto);
+            else
+                Measure(dto);
 
             if (_wasMonitoringOn)
             {
@@ -40,79 +32,37 @@ namespace Iit.Fibertest.RtuManagement
                 DisconnectOtdr();
         }
 
-        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
-        private readonly string _autoBaseDtoFile = Utils.FileNameForSure(@"..\ini\", @"autobase.dto", false);
-
-        public void SaveDoClientMeasurementDto(DoClientMeasurementDto dto)
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-                File.WriteAllText(_autoBaseDtoFile, json);
-            }
-            catch (Exception e)
-            {
-                _rtuLog.AppendLine($"AutoBase dto saving: {e.Message}");
-            }
-        }
-
-        public DoClientMeasurementDto LoadDoClientMeasurementDto()
-        {
-            DoClientMeasurementDto result = null;
-            try
-            {
-                var context = File.ReadAllText(_autoBaseDtoFile);
-                result = JsonConvert.DeserializeObject<DoClientMeasurementDto>(context);
-            }
-            catch (Exception e)
-            {
-                _rtuLog.AppendLine($"AutoBase dto loading: {e.Message}");
-            }
-
-            return result;
-        }
-
         private void Measure(DoClientMeasurementDto dto)
         {
-            foreach (var listOfOtauPort in dto.OtauPortDtoList)
+            if (ToggleToPort(dto.OtauPortDtoList[0][0]))
             {
-                if (ToggleToPort(listOfOtauPort[0]))
+                var prepareResult = dto.IsAutoLmax
+                    ? PrepareAutoLmaxMeasurement(dto)
+                    : PrepareClientMeasurement(dto);
+
+                ClientMeasurementResultDto result;
+                if (prepareResult)
                 {
-                    var prepareResult = dto.IsAutoLmax
-                        ? PrepareAutoLmaxMeasurement(dto)
-                        : PrepareClientMeasurement(dto);
-
-                    ClientMeasurementResultDto result;
-                    if (prepareResult)
+                    result = ClientMeasurementItself(dto, dto.OtauPortDtoList[0][0]);
+                    if (result == null) // measurement interrupted
                     {
-                        result = ClientMeasurementItself(dto, listOfOtauPort[0]);
-                        if (result == null) // measurement interrupted
-                        {
-                            _wasMonitoringOn = false;
-                            break;
-                        }
+                        _wasMonitoringOn = false;
                     }
-                    else
-                    {
-                        result = new ClientMeasurementResultDto()
-                        {
-                            ReturnCode = ReturnCode.InvalidValueOfLmax,
-                            ConnectionId = dto.ConnectionId,
-                            ClientIp = dto.ClientIp,
-                            OtauPortDto = listOfOtauPort[0],
-                        };
-                    }
-
-                    var sendResult = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog)
-                        .SendClientMeasurementDone(result);
-                    _rtuLog.AppendLine(sendResult
-                        ? $"Send client measurement result ({result.ReturnCode})"
-                        : $"Can't send client measurement result to {_serverAddresses.Main.ToStringA()}");
-                    _rtuLog.EmptyLine();
                 }
+                else
+                {
+                    result = new ClientMeasurementResultDto()
+                    {
+                        ReturnCode = ReturnCode.InvalidValueOfLmax,
+                        ConnectionId = dto.ConnectionId,
+                        ClientIp = dto.ClientIp,
+                        OtauPortDto = dto.OtauPortDtoList[0][0],
+                    };
+                }
+
+                var _ = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog)
+                    .SendClientMeasurementDone(result);
+                _rtuLog.EmptyLine();
             }
         }
 
@@ -141,6 +91,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private ClientMeasurementResultDto ClientMeasurementItself(DoClientMeasurementDto dto, OtauPortDto currentOtauPortDto)
         {
+            var result = new ClientMeasurementResultDto().Initialize(dto);
             var activeBop = currentOtauPortDto.IsPortOnMainCharon
                 ? null
                 : new Charon(new NetAddress(currentOtauPortDto.NetAddress.Ip4Address, TcpPorts.IitBop), false, _rtuIni, _rtuLog);
@@ -153,25 +104,34 @@ namespace Iit.Fibertest.RtuManagement
             }
             var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
             if (lastSorDataBuffer == null)
-                return new ClientMeasurementResultDto()
-                {
-                    ClientMeasurementId = Guid.NewGuid(),
-                    ReturnCode = ReturnCode.MeasurementError,
-                    ConnectionId = dto.ConnectionId,
-                    ClientIp = dto.ClientIp,
-                    OtauPortDto = currentOtauPortDto,
-                };
-            return new ClientMeasurementResultDto()
-            {
-                ClientMeasurementId = Guid.NewGuid(),
-                ReturnCode = ReturnCode.MeasurementEndedNormally,
-                ConnectionId = dto.ConnectionId,
-                ClientIp = dto.ClientIp,
-                OtauPortDto = currentOtauPortDto,
-                SorBytes = dto.IsForAutoBase
+                return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);
+
+            return result.Set(currentOtauPortDto, ReturnCode.MeasurementEndedNormally,
+               dto.IsForAutoBase
                     ? _otdrManager.Sf780_779(lastSorDataBuffer)
-                    : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
-            };
+                    : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer));
+        }
+    }
+
+    public static class ClientMeasurementResultFactory
+    {
+        public static ClientMeasurementResultDto Initialize(this ClientMeasurementResultDto result, DoClientMeasurementDto dto)
+        {
+            result.ConnectionId = dto.ConnectionId;
+            result.ClientIp = dto.ClientIp;
+
+            return result;
+        }
+
+        public static ClientMeasurementResultDto Set(this ClientMeasurementResultDto result,
+            OtauPortDto otauPortDto, ReturnCode returnCode, byte[] sorBytes = null)
+        {
+            result.ClientMeasurementId = Guid.NewGuid();
+            result.ReturnCode = returnCode;
+            result.OtauPortDto = otauPortDto;
+            result.SorBytes = sorBytes;
+
+            return result;
         }
     }
 }

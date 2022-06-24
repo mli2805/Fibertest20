@@ -68,6 +68,7 @@ namespace Iit.Fibertest.WcfConnections
                 var channel = wcfConnection.CreateChannel();
                 channel.TransmitClientMeasurementResult(dto);
                 wcfConnection.Close();
+                _logFile.AppendLine("SendClientMeasurementDone: " + dto.ReturnCode);
                 return true;
             }
             catch (Exception e)

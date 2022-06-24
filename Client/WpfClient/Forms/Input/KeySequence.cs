@@ -2,7 +2,7 @@
 using System.Text;
 using System.Windows.Input;
 
-namespace Iit.Fibertest.Client.Input
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     ///   Class used to store multi-key gesture data.

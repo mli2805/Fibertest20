@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
-namespace Iit.Fibertest.Client.Input
+namespace Iit.Fibertest.Client
 {
     public class KeyTrigger : TriggerBase<UIElement>
     {
