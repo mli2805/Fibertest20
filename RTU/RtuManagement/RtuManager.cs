@@ -49,40 +49,16 @@ namespace Iit.Fibertest.RtuManagement
         private DateTime _lastSuccessfulMeasTimestamp;
         public DateTime LastSuccessfulMeasTimestamp
         {
-            get
-            {
-                lock (_lastSuccessfulMeasTimestampLocker)
-                {
-                    return _lastSuccessfulMeasTimestamp;
-                }
-            }
-            set
-            {
-                lock (_lastSuccessfulMeasTimestampLocker)
-                {
-                    _lastSuccessfulMeasTimestamp = value;
-                }
-            }
+            get { lock (_lastSuccessfulMeasTimestampLocker) { return _lastSuccessfulMeasTimestamp; } }
+            set { lock (_lastSuccessfulMeasTimestampLocker) { _lastSuccessfulMeasTimestamp = value; } }
         }
 
         private readonly object _isRtuInitializedLocker = new object();
         private bool _isRtuInitialized;
-        public bool IsRtuInitialized
-        {
-            get
-            {
-                lock (_isRtuInitializedLocker)
-                {
-                    return _isRtuInitialized;
-                }
-            }
-            set
-            {
-                lock (_isRtuInitializedLocker)
-                {
-                    _isRtuInitialized = value;
-                }
-            }
+        public bool IsRtuInitialized 
+        { 
+            get { lock (_isRtuInitializedLocker) { return _isRtuInitialized; } }
+            set { lock (_isRtuInitializedLocker) { _isRtuInitialized = value; } }
         }
 
         private ReturnCode _rtuInitializationResult;

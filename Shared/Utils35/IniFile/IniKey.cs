@@ -73,6 +73,8 @@
         FastSaveTimespan,
         LastMeasurementTimestamp,
         SaveSorData,
+        IsRtuAutoBaseMode,
+
 
         // Recovering
         MikrotikRebootTimeout,

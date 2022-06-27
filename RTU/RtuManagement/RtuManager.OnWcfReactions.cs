@@ -23,7 +23,6 @@ namespace Iit.Fibertest.RtuManagement
             {
                 _wasMonitoringOn = IsMonitoringOn;
                 StopMonitoring("Initialize");
-                // _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true); // after initialization monitoring should be resumed
             }
 
             LogInitializationStart();
@@ -41,11 +40,8 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             _rtuInitializationResult = InitializeRtuManager(param);
-            // bool isCallbackReturned = false;
             if (_rtuInitializationResult != ReturnCode.Ok && param == null)
             {
-                // callback?.Invoke();
-                // isCallbackReturned = true;
                 while (RunMainCharonRecovery() != ReturnCode.Ok) { }
             }
 
@@ -58,8 +54,21 @@ namespace Iit.Fibertest.RtuManagement
             _treeOfAcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
 
             IsRtuInitialized = true;
-            // if (!isCallbackReturned)
-                callback?.Invoke();
+            callback?.Invoke();
+
+            IsRtuAutoBaseMode = _rtuIni.Read(IniSection.Monitoring, IniKey.IsRtuAutoBaseMode, false);
+            if (IsRtuAutoBaseMode)
+            {
+                _rtuLog.EmptyLine();
+                var dto = LoadDoClientMeasurementDto();
+                if (dto != null)
+                {
+                    _rtuLog.AppendLine($"RTU was in Auto base mode, {dto.OtauPortDtoList.Count} port(s) remain");
+                    DoAutoBaseMeasurementsForRtu(dto);
+                }
+                DisconnectOtdr();
+                return;
+            }
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
             if (IsMonitoringOn || _wasMonitoringOn)
@@ -190,7 +199,7 @@ namespace Iit.Fibertest.RtuManagement
             _cancellationTokenSource?.Cancel();
 
             // if Lmax = 240km and Time = 10min one step lasts 5-6 sec
-            Thread.Sleep(TimeSpan.FromSeconds(6)); 
+            Thread.Sleep(TimeSpan.FromSeconds(6));
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings, Action callback)

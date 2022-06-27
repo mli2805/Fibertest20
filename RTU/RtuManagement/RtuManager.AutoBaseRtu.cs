@@ -13,10 +13,12 @@ namespace Iit.Fibertest.RtuManagement
         private void DoAutoBaseMeasurementsForRtu(DoClientMeasurementDto dto)
         {
             IsRtuAutoBaseMode = true;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsRtuAutoBaseMode, true);
 
             MeasureAllPorts(dto);
 
             IsRtuAutoBaseMode = false;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsRtuAutoBaseMode, false);
         }
 
         private void MeasureAllPorts(DoClientMeasurementDto dto)
@@ -67,7 +69,7 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        public DoClientMeasurementDto LoadDoClientMeasurementDto()
+        private DoClientMeasurementDto LoadDoClientMeasurementDto()
         {
             DoClientMeasurementDto result = null;
             try
