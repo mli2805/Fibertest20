@@ -18,7 +18,10 @@ namespace Iit.Fibertest.RtuManagement
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
             if (dto.IsForWholeRtu)
+            {
+                _serviceLog.AppendLine($"User asked to measure {dto.OtauPortDtoList.Count} port(s) to set base refs");
                 DoAutoBaseMeasurementsForRtu(dto);
+            }
             else
                 Measure(dto);
 

@@ -19,6 +19,7 @@ namespace Iit.Fibertest.RtuManagement
 
             IsRtuAutoBaseMode = false;
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsRtuAutoBaseMode, false);
+            _serviceLog.AppendLine("All auto base measurements finished");
         }
 
         private void MeasureAllPorts(DoClientMeasurementDto dto)
