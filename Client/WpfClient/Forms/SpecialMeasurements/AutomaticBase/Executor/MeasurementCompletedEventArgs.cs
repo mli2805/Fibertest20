@@ -6,10 +6,10 @@ namespace Iit.Fibertest.Client
 {
     public class MeasurementCompletedEventArgs : EventArgs
     {
-        public MeasurementCompletedStatus CompletedStatus;
-        public Trace Trace;
-        public List<string> Lines;
-        public byte[] SorBytes;
+        public readonly MeasurementCompletedStatus CompletedStatus;
+        public readonly Trace Trace;
+        public readonly List<string> Lines;
+        public readonly byte[] SorBytes;
 
         public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, Trace trace, string message, byte[] sorBytes = null)
         {

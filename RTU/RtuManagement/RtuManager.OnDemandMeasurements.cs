@@ -2,6 +2,7 @@
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
@@ -12,7 +13,11 @@ namespace Iit.Fibertest.RtuManagement
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
-            StopMonitoringAndConnectOtdrWithRecovering(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
+            if (!IsRtuAutoBaseMode)
+                StopMonitoringAndConnectOtdrWithRecovering(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
+
+            IsRtuAutoBaseMode = dto.KeepOtdrConnection;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsRtuAutoBaseMode, IsRtuAutoBaseMode);
 
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.Ok };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
@@ -26,7 +31,10 @@ namespace Iit.Fibertest.RtuManagement
                 RunMonitoringCycle();
             }
             else
-                DisconnectOtdr();
+            {
+                if (!dto.KeepOtdrConnection)
+                    DisconnectOtdr();
+            }
         }
 
         private void Measure(DoClientMeasurementDto dto)

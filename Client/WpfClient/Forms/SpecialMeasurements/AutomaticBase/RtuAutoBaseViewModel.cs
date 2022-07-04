@@ -128,7 +128,7 @@ namespace Iit.Fibertest.Client
 
         private async void StartOneMeasurement()
         {
-            await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex]);
+            await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex], _currentTraceIndex < _traceLeaves.Count - 1);
         }
 
         private async Task ApplyResults()

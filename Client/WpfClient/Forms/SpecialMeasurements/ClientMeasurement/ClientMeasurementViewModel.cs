@@ -85,7 +85,7 @@ namespace Iit.Fibertest.Client
                 return false;
 
             _dto = parent
-                .CreateDoClientMeasurementDto(portNumber, _readModel, _currentUser)
+                .CreateDoClientMeasurementDto(portNumber, false, _readModel, _currentUser)
                 .SetParams(false, false, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
 
             return true;
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
             List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
             return parent 
-                .CreateDoClientMeasurementDto(portNumber, _readModel, _currentUser)
+                .CreateDoClientMeasurementDto(portNumber, false, _readModel, _currentUser)
                 .SetParams(false, false, iitMeasParams, veexMeasParams);
         }
 

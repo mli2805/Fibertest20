@@ -37,9 +37,9 @@ namespace Iit.Fibertest.Dto
         public bool IsForAutoBase { get; set; }
 
         // false - AutoBase for one trace only
-        // true - AutoBase for whole RTU
+        // true - when AutoBase for whole RTU, DO NOT disconnect from OTDR between measurements
         [DataMember]
-        public bool IsForWholeRtu { get; set; }
+        public bool KeepOtdrConnection { get; set; }
 
         [DataMember]
         public bool IsAutoLmax { get; set; }

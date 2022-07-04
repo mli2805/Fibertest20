@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }
 
-        public async Task Start(TraceLeaf traceLeaf)
+        public async Task Start(TraceLeaf traceLeaf, bool keepOtdrConnection = false)
         {
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             StartTimer();
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel.DisplayStartMeasurement(traceLeaf.Title);
 
             var dto = traceLeaf.Parent
-                .CreateDoClientMeasurementDto(traceLeaf.PortNumber, _readModel, Model.CurrentUser)
+                .CreateDoClientMeasurementDto(traceLeaf.PortNumber, keepOtdrConnection, _readModel, Model.CurrentUser)
                 .SetParams(true, Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
                     Model.OtdrParametersTemplatesViewModel.GetSelectedParameters(),
                     Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
