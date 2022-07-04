@@ -73,7 +73,6 @@
         FastSaveTimespan,
         LastMeasurementTimestamp,
         SaveSorData,
-        IsRtuAutoBaseMode,
 
 
         // Recovering

@@ -56,20 +56,6 @@ namespace Iit.Fibertest.RtuManagement
             IsRtuInitialized = true;
             callback?.Invoke();
 
-            IsRtuAutoBaseMode = _rtuIni.Read(IniSection.Monitoring, IniKey.IsRtuAutoBaseMode, false);
-            if (IsRtuAutoBaseMode)
-            {
-                _rtuLog.EmptyLine();
-                var dto = LoadDoClientMeasurementDto();
-                if (dto != null)
-                {
-                    _rtuLog.AppendLine($"RTU was in Auto base mode, {dto.OtauPortDtoList.Count} port(s) remain");
-                    DoAutoBaseMeasurementsForRtu(dto);
-                }
-                DisconnectOtdr();
-                return;
-            }
-
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
             if (IsMonitoringOn || _wasMonitoringOn)
                 RunMonitoringCycle();

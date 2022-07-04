@@ -26,15 +26,14 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly RtuRemover _rtuRemover;
         private readonly TabulatorViewModel _tabulatorViewModel;
-        private readonly VeexRtuAutoBaseViewModel _veexRtuAutoBaseViewModel;
-        private readonly RtuBanchAutoBaseViewModel _rtuBanchAutoBaseViewModel;
+        private readonly RtuAutoBaseViewModel _rtuAutoBaseViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
-            VeexRtuAutoBaseViewModel veexRtuAutoBaseViewModel, RtuBanchAutoBaseViewModel rtuBanchAutoBaseViewModel,
+            RtuAutoBaseViewModel rtuAutoBaseViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
@@ -46,8 +45,7 @@ namespace Iit.Fibertest.Client
             _commonC2DWcfManager = commonC2DWcfManager;
             _rtuRemover = rtuRemover;
             _tabulatorViewModel = tabulatorViewModel;
-            _veexRtuAutoBaseViewModel = veexRtuAutoBaseViewModel;
-            _rtuBanchAutoBaseViewModel = rtuBanchAutoBaseViewModel;
+            _rtuAutoBaseViewModel = rtuAutoBaseViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
             _landmarksViewsManager = landmarksViewsManager;
         }
@@ -267,28 +265,14 @@ namespace Iit.Fibertest.Client
                 return;
             await Task.Delay(100);
 
-            if (rtuLeaf.RtuMaker == RtuMaker.IIT)
+            if (!_rtuAutoBaseViewModel.Initialize(rtuLeaf))
             {
-                if (!_rtuBanchAutoBaseViewModel.Initialize(rtuLeaf))
-                {
-                    var mb = new MyMessageBoxViewModel(MessageType.Error,
-                        @"Can't start auto base assignment without RFTS template file!");
-                    _windowManager.ShowDialogWithAssignedOwner(mb);
-                    return;
-                }
-                _windowManager.ShowDialogWithAssignedOwner(_rtuBanchAutoBaseViewModel);
+                var mb = new MyMessageBoxViewModel(MessageType.Error,
+                    @"Can't start auto base assignment without RFTS template file!");
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return;
             }
-            else
-            {
-                if (!_veexRtuAutoBaseViewModel.Initialize(rtuLeaf))
-                {
-                    var mb = new MyMessageBoxViewModel(MessageType.Error,
-                        @"Can't start auto base assignment without RFTS template file!");
-                    _windowManager.ShowDialogWithAssignedOwner(mb);
-                    return;
-                }
-                _windowManager.ShowDialogWithAssignedOwner(_veexRtuAutoBaseViewModel);
-            }
+            _windowManager.ShowDialogWithAssignedOwner(_rtuAutoBaseViewModel);
         }
     }
 }

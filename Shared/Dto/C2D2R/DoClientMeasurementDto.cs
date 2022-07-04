@@ -22,8 +22,11 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public AnalysisParameters AnalysisParameters { get; set; }
 
+        // [DataMember]
+        // public List<List<OtauPortDto>> OtauPortDtoList { get; set; }
+
         [DataMember]
-        public List<List<OtauPortDto>> OtauPortDtoList { get; set; }
+        public List<OtauPortDto> OtauPortDto { get; set; }
 
         [DataMember]
         public string OtdrId { get; set; }

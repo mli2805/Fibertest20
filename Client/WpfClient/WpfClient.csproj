@@ -222,11 +222,6 @@
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\BanchOfMeasurementsExecutor.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBanchAutoBaseView.cs">
-      <DependentUpon>RtuBanchAutoBaseView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuBanchAutoBaseViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\FailedAutoBasePdfProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\LandmarksIntoBaseSetter.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementAsBaseAssigner.cs" />
@@ -243,10 +238,10 @@
       <DependentUpon>OtdrParametersTemplatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesViewModel.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\VeexRtuAutoBaseView.xaml.cs">
-      <DependentUpon>VeexRtuAutoBaseView.xaml</DependentUpon>
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml.cs">
+      <DependentUpon>RtuAutoBaseView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\VeexRtuAutoBaseViewModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseViewModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\AutoAnalysisParameters\AutoAnalysisParamsView.xaml.cs">
       <DependentUpon>AutoAnalysisParamsView.xaml</DependentUpon>
     </Compile>
@@ -825,15 +820,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuBanchAutoBaseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SpecialMeasurements\AutomaticBase\VeexRtuAutoBaseView.xaml">
+    <Page Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,21 +7,6 @@ namespace Iit.Fibertest.Client
 {
     public static class ClientMeasurementDtoFactory
     {
-        public static DoClientMeasurementDto CreateDoClientMeasurementDto(this RtuLeaf rtuLeaf, Model readModel, CurrentUser currentUser)
-        {
-            var rtu = readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
-
-            return new DoClientMeasurementDto()
-            {
-                ConnectionId = currentUser.ConnectionId,
-                RtuId = rtu.Id,
-                OtdrId = rtu.OtdrId,
-
-                OtauPortDtoList = rtuLeaf.PrepareBanchOfOtauPortDto(readModel),
-                IsForWholeRtu = true,
-            };
-        }
-
         public static DoClientMeasurementDto CreateDoClientMeasurementDto(this Leaf parent, int portNumber, Model readModel, CurrentUser currentUser)
         {
             var rtuId = (parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent).Id;
@@ -35,7 +20,7 @@ namespace Iit.Fibertest.Client
                 RtuId = rtu.Id,
                 OtdrId = rtu.OtdrId,
 
-                OtauPortDtoList = new List<List<OtauPortDto>>() { listOfOtauPortDto },
+                OtauPortDto = listOfOtauPortDto,
             };
         }
 

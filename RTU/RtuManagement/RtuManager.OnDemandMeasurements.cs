@@ -17,13 +17,7 @@ namespace Iit.Fibertest.RtuManagement
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.Ok };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
-            if (dto.IsForWholeRtu)
-            {
-                _serviceLog.AppendLine($"User asked to measure {dto.OtauPortDtoList.Count} port(s) to set base refs");
-                DoAutoBaseMeasurementsForRtu(dto);
-            }
-            else
-                Measure(dto);
+            Measure(dto);
 
             if (_wasMonitoringOn)
             {
@@ -37,7 +31,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private void Measure(DoClientMeasurementDto dto)
         {
-            if (ToggleToPort(dto.OtauPortDtoList[0][0]))
+            if (ToggleToPort(dto.OtauPortDto[0]))
             {
                 var prepareResult = dto.IsAutoLmax
                     ? PrepareAutoLmaxMeasurement(dto)
@@ -46,7 +40,7 @@ namespace Iit.Fibertest.RtuManagement
                 ClientMeasurementResultDto result;
                 if (prepareResult)
                 {
-                    result = ClientMeasurementItself(dto, dto.OtauPortDtoList[0][0]);
+                    result = ClientMeasurementItself(dto, dto.OtauPortDto[0]);
                     if (result == null) // measurement interrupted
                     {
                         _wasMonitoringOn = false;
@@ -59,7 +53,7 @@ namespace Iit.Fibertest.RtuManagement
                         ReturnCode = ReturnCode.InvalidValueOfLmax,
                         ConnectionId = dto.ConnectionId,
                         ClientIp = dto.ClientIp,
-                        OtauPortDto = dto.OtauPortDtoList[0][0],
+                        OtauPortDto = dto.OtauPortDto[0],
                     };
                 }
 

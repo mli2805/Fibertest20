@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -8,31 +7,24 @@ namespace Iit.Fibertest.Client
     public class MeasurementCompletedEventArgs : EventArgs
     {
         public MeasurementCompletedStatus CompletedStatus;
-        public List<string> Lines = new List<string>();
+        public Trace Trace;
+        public List<string> Lines;
         public byte[] SorBytes;
 
-        public ClientMeasurementResultDto Dto;
-
-        public Trace Trace;
-
-        public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, string message, byte[] sorBytes = null)
+        public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, Trace trace, string message, byte[] sorBytes = null)
         {
             CompletedStatus = completedStatus;
+            Trace = trace;
             Lines = new List<string>() { message };
             SorBytes = sorBytes;
         }
 
-        public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, List<string> lines, byte[] sorBytes = null)
+        public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, Trace trace, List<string> lines, byte[] sorBytes = null)
         {
             CompletedStatus = completedStatus;
+            Trace = trace;
             Lines = lines;
             SorBytes = sorBytes;
-        }
-        public MeasurementCompletedEventArgs(MeasurementCompletedStatus completedStatus, ClientMeasurementResultDto dto, Trace trace)
-        {
-            CompletedStatus = completedStatus;
-            Dto = dto;
-            Trace = trace;
         }
     }
 }

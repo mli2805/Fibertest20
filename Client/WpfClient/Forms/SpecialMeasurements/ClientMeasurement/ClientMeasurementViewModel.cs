@@ -120,7 +120,7 @@ namespace Iit.Fibertest.Client
 
             if (_rtu.RtuMaker == RtuMaker.VeEX)
             {
-                var veexResult = await _veexMeasurementFetcher.Fetch(_dto.RtuId, startResult.ClientMeasurementId);
+                var veexResult = await _veexMeasurementFetcher.Fetch(_dto.RtuId, null, startResult.ClientMeasurementId);
                 if (veexResult.CompletedStatus == MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
                     ShowReflectogram(veexResult.SorBytes);
                 TryClose(true);

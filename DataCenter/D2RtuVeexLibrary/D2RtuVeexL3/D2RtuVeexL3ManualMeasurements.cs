@@ -24,8 +24,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 otdrId = dto.OtdrId,
                 otdrParameters = dto.VeexMeasOtdrParameters,
                 analysisParameters = dto.AnalysisParameters,
-                otauPorts = CreateVeexOtauPortList(dto.OtauPortDtoList[0][0],
-                    dto.OtauPortDtoList[0].Count > 1 ? dto.OtauPortDtoList[0][1] : null),
+                otauPorts = CreateVeexOtauPortList(dto.OtauPortDto[0],
+                    dto.OtauPortDto.Count > 1 ? dto.OtauPortDto[1] : null),
                 suspendMonitoring = true,
             };
             var res = await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
