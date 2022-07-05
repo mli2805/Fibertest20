@@ -33,6 +33,7 @@ namespace Iit.Fibertest.Client
                     return Resources.SID_Measurement_timeout_expired;
                 case MeasurementCompletedStatus.FailedToFetchFromRtu4000:
                     return Resources.SID_Failed_to_fetch_measurement_from_Rtu4000;
+
                 case MeasurementCompletedStatus.FailedToAssignAsBase:
                     return Resources.SID_Failed_to_assign_as_base;
             }

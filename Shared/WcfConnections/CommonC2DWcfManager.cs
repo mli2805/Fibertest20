@@ -250,7 +250,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
+                _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...", 2);
                 dto.Username = _username;
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();

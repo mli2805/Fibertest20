@@ -103,9 +103,9 @@ namespace Iit.Fibertest.Client
             if (templateId == 0)
             {
                 var lmax = sorData.OwtToLenKm(sorData.FixedParameters.AcquisitionRange);
-                _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}");
+                _logFile.AppendLine($@"Fully automatic measurement: acquisition range = {lmax}", 2);
                 var index = AutoBaseParams.GetTemplateIndexByLmaxInSorData(lmax, rtu.Omid);
-                _logFile.AppendLine($@"Supposedly used template #{index + 1}");
+                _logFile.AppendLine($@"Supposedly used template #{index + 1}", 2);
                 rftsParams = LoadFromTemplate(index + 1);
             }
             else

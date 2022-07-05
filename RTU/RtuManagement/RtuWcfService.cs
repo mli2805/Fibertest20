@@ -104,9 +104,11 @@ namespace Iit.Fibertest.RtuManagement
                 var result = new BaseRefAssignedDto();
                 try
                 {
+                    _serviceLog.EmptyLine();
                     result.ReturnCode = _rtuWcfOperationsPermissions.ShouldExecute("User sent assign base refs command")
                         ? _baseRefsSaver.SaveBaseRefs(dto)
                         : ReturnCode.RtuIsBusy;
+                    _serviceLog.EmptyLine();
                 }
                 catch (Exception e)
                 {

@@ -27,4 +27,5 @@ namespace Iit.Fibertest.Client
             SorBytes = sorBytes;
         }
     }
+
 }

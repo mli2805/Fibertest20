@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
             if (_autoBaseViewModel.IsOpen)
                 _autoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
             if (_rtuAutoBaseViewModel.IsOpen)
-                _rtuAutoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
+                _rtuAutoBaseViewModel.WholeRtuMeasurementsExecutor.ProcessMeasurementResult(dto);
             return Task.FromResult(0);
         }
 

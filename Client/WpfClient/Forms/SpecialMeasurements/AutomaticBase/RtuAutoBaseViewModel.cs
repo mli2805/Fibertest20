@@ -15,142 +15,206 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
+    public class RtuAutoBaseProgress
+    {
+        public readonly TraceLeaf TraceLeaf;
+        public readonly Trace Trace;
+        public readonly int Ordinal;
+        public bool MeasurementDone;
+        public bool BaseRefAssigned;
+
+        public RtuAutoBaseProgress(TraceLeaf traceLeaf, Trace trace, int ordinal)
+        {
+            TraceLeaf = traceLeaf;
+            Trace = trace;
+            Ordinal = ordinal;
+        }
+    }
     public class RtuAutoBaseViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceDesktopC2D _desktopC2DWcfManager;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly FailedAutoBasePdfProvider _failedAutoBasePdfProvider;
         private readonly MonitoringSettingsModelFactory _monitoringSettingsModelFactory;
-        private List<TraceLeaf> _traceLeaves;
-        private int _currentTraceIndex;
+        private List<RtuAutoBaseProgress> _progress;
         public bool IsOpen { get; set; }
-        public OneMeasurementExecutor OneMeasurementExecutor { get; }
+        public WholeRtuMeasurementsExecutor WholeRtuMeasurementsExecutor { get; }
         public bool ShouldStartMonitoring { get; set; }
         private RtuLeaf _rtuLeaf;
         private Rtu _rtu;
 
         private List<MeasurementCompletedEventArgs> _badResults;
-        private List<TraceLeaf> _goodTraceLeaves;
+        private List<Trace> _goodTraces;
 
-        public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, IWindowManager windowManager,
+        public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile,
+            IDispatcherProvider dispatcherProvider, Model readModel, IWindowManager windowManager,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
-            OneMeasurementExecutor oneMeasurementExecutor, FailedAutoBasePdfProvider failedAutoBasePdfProvider,
+            WholeRtuMeasurementsExecutor wholeRtuMeasurementsExecutor, FailedAutoBasePdfProvider failedAutoBasePdfProvider,
             MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
             _logFile = logFile;
+            _dispatcherProvider = dispatcherProvider;
             _readModel = readModel;
             _windowManager = windowManager;
             _desktopC2DWcfManager = desktopC2DWcfManager;
             _commonC2DWcfManager = commonC2DWcfManager;
             _failedAutoBasePdfProvider = failedAutoBasePdfProvider;
             _monitoringSettingsModelFactory = monitoringSettingsModelFactory;
-            OneMeasurementExecutor = oneMeasurementExecutor;
+            WholeRtuMeasurementsExecutor = wholeRtuMeasurementsExecutor;
         }
 
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Assign_base_refs_automatically;
             IsOpen = true;
-            OneMeasurementExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
+            WholeRtuMeasurementsExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
+            WholeRtuMeasurementsExecutor.BaseRefAssigned += OneMeasurementExecutor_BaseRefAssigned;
         }
 
         public bool Initialize(RtuLeaf rtuLeaf)
         {
-            _goodTraceLeaves = new List<TraceLeaf>();
+            _goodTraces = new List<Trace>();
             _badResults = new List<MeasurementCompletedEventArgs>();
-            _traceLeaves = rtuLeaf.GetAttachedTraces();
-            if (_traceLeaves.Count == 0)
+            var i = 0;
+            _progress = rtuLeaf
+                .GetAttachedTraces()
+                .Select(t => new RtuAutoBaseProgress(
+                    t, _readModel.Traces.First(tt => tt.TraceId == t.Id), ++i))
+                .ToList();
+            if (_progress.Count == 0)
                 return false;
-            _currentTraceIndex = 0;
 
             _rtuLeaf = rtuLeaf;
             _rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
 
-            if (!OneMeasurementExecutor.Initialize(_rtu, true))
+            if (!WholeRtuMeasurementsExecutor.Initialize(_rtu, true))
                 return false;
 
-            ShouldStartMonitoring = true;
-            OneMeasurementExecutor.Model.IsEnabled = true;
+            // ShouldStartMonitoring = true;
+            WholeRtuMeasurementsExecutor.Model.IsEnabled = true;
 
             return true;
         }
 
-        private async void OneMeasurementExecutor_MeasurementCompleted(object sender, EventArgs e)
-        {
-            var result = (MeasurementCompletedEventArgs)e;
-            _logFile.AppendLine($@"Measurement on trace {_traceLeaves[_currentTraceIndex].Title}: {result.CompletedStatus}");
-            OneMeasurementExecutor.Model.TraceResults
-                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_, 
-                    _currentTraceIndex + 1, 
-                    _traceLeaves.Count, 
-                    _traceLeaves[_currentTraceIndex].Title, 
-                    result.CompletedStatus.GetLocalizedString()));
-
-            if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
-            {
-                _badResults.Add(result);
-            }
-            else _goodTraceLeaves.Add(_traceLeaves[_currentTraceIndex]);
-
-            if (++_currentTraceIndex < _traceLeaves.Count)
-            {
-                Thread.Sleep(1000);
-                StartOneMeasurement();
-            }
-            else
-            {
-                _waitCursor.Dispose(); 
-                await ApplyResults();
-                OneMeasurementExecutor.Model.IsEnabled = true;
-                OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
-                OneMeasurementExecutor.Model.TraceResultsVisibility = Visibility.Collapsed;
-                OneMeasurementExecutor.Model.TraceResults.Clear();
-                TryClose();
-            }
-        }
-
         private WaitCursor _waitCursor;
-
         public void Start()
         {
             _waitCursor = new WaitCursor();
-            OneMeasurementExecutor.Model.IsEnabled = false;
-            OneMeasurementExecutor.Model.TraceResultsVisibility = Visibility.Visible;
-            OneMeasurementExecutor.Model.TraceResults
-                .Add(string.Format(Resources.SID_There_are__0__trace_s__attached_to_ports_of_the_RTU, _traceLeaves.Count));
-            StartOneMeasurement();
+            WholeRtuMeasurementsExecutor.Model.IsEnabled = false;
+            WholeRtuMeasurementsExecutor.Model.TraceResults.Clear();
+            WholeRtuMeasurementsExecutor.Model.TraceResults
+                .Add(string.Format(Resources.SID_There_are__0__trace_s__attached_to_ports_of_the_RTU, _progress.Count));
+            WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Visible;
+            _logFile.EmptyLine();
+            var progressItem = _progress.First();
+            Task.Factory.StartNew(() =>
+                WholeRtuMeasurementsExecutor.Start(progressItem, progressItem.Ordinal < _progress.Count));
         }
 
-        private async void StartOneMeasurement()
+        private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementCompletedEventArgs result)
         {
-            await OneMeasurementExecutor.Start(_traceLeaves[_currentTraceIndex], _currentTraceIndex < _traceLeaves.Count - 1);
+            var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
+            progressItem.MeasurementDone = true;
+            _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
+            WholeRtuMeasurementsExecutor.Model.TraceResults
+                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
+                    progressItem.Ordinal,
+                    _progress.Count,
+                    result.Trace.Title,
+                    result.CompletedStatus.GetLocalizedString()));
+
+            if (result.CompletedStatus != MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
+            {
+                _badResults.Add(result);
+                progressItem.BaseRefAssigned = true; // nothing to assign
+            }
+            else
+            {
+                _logFile.AppendLine($@"Assign base refs for {result.Trace.Title}", 2);
+                await Task.Factory.StartNew(() => WholeRtuMeasurementsExecutor.SetAsBaseRef(result.SorBytes, result.Trace));
+            }
+
+            var nextItem = _progress.FirstOrDefault(i => !i.MeasurementDone);
+            if (nextItem != null)
+            {
+                _logFile.AppendLine($@"Start next measurement for {nextItem.Trace.Title}");
+                Thread.Sleep(100);
+                await Task.Factory.StartNew(() =>
+                    WholeRtuMeasurementsExecutor.Start(nextItem, nextItem.Ordinal < _progress.Count));
+            }
+            else
+            {
+                if (_progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
+                {
+                    await Finish();
+                }
+            }
         }
 
-        private async Task ApplyResults()
+        private void OneMeasurementExecutor_BaseRefAssigned(object sender, MeasurementCompletedEventArgs result)
         {
+            _dispatcherProvider.GetDispatcher().Invoke(() => ProcessBaseRefAssignedResult(result)); // sync, GUI thread
+        }
+
+        private async void ProcessBaseRefAssignedResult(MeasurementCompletedEventArgs result)
+        {
+            var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
+            progressItem.BaseRefAssigned = true;
+            _logFile.AppendLine($@"Assigned base ref for trace {result.Trace.Title}: {result.CompletedStatus}", 2);
+
+            WholeRtuMeasurementsExecutor.Model.TraceResults
+                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
+                    progressItem.Ordinal,
+                    _progress.Count,
+                    result.Trace.Title,
+                    result.CompletedStatus.GetLocalizedString()));
+
+            if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
+                _badResults.Add(result);
+            else
+                _goodTraces.Add(result.Trace);
+
+            if (_progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
+            {
+               await Finish();
+            }
+        }
+
+
+        private async Task Finish()
+        {
+            _waitCursor.Dispose();
+            _logFile.EmptyLine();
+
             if (_badResults.Any())
                 ShowReport();
-            if (ShouldStartMonitoring && _goodTraceLeaves.Any())
+            if (ShouldStartMonitoring && _goodTraces.Any())
                 await StartMonitoring();
+
+            WholeRtuMeasurementsExecutor.Model.IsEnabled = true;
+            WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+            WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Collapsed;
+            WholeRtuMeasurementsExecutor.Model.TraceResults.Clear();
+            TryClose();
         }
 
         private async Task StartMonitoring()
         {
-            OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
-            OneMeasurementExecutor.Model.MeasurementProgressViewModel.Message1 = Resources.SID_Starting_monitoring;
-            OneMeasurementExecutor.Model.MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
+            WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
+            WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.Message1 = Resources.SID_Starting_monitoring;
+            WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
             var monitoringSettingsModel = _monitoringSettingsModelFactory.Create(_rtuLeaf, false);
 
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var dto = monitoringSettingsModel.CreateDto();
-                dto.Ports = _goodTraceLeaves
-                    .Select(goodTraceLeaf => _readModel.Traces.First(t => t.TraceId == goodTraceLeaf.Id))
+                dto.Ports = _goodTraces
                     .Select(trace => new PortWithTraceDto()
                     {
                         OtauPort = trace.OtauPort,
@@ -188,7 +252,8 @@ namespace Iit.Fibertest.Client
         public override void CanClose(Action<bool> callback)
         {
             IsOpen = false;
-            OneMeasurementExecutor.MeasurementCompleted -= OneMeasurementExecutor_MeasurementCompleted;
+            WholeRtuMeasurementsExecutor.MeasurementCompleted -= OneMeasurementExecutor_MeasurementCompleted;
+            WholeRtuMeasurementsExecutor.BaseRefAssigned -= OneMeasurementExecutor_BaseRefAssigned;
             callback(true);
         }
     }
