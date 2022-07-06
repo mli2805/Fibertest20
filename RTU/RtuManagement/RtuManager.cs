@@ -36,12 +36,12 @@ namespace Iit.Fibertest.RtuManagement
         }
         private bool _wasMonitoringOn;
 
-        private readonly object _isAutoBaseModeLocker = new object();
-        private bool _isRtuAutoBaseMode;
-        public bool IsRtuAutoBaseMode
+        private readonly object _keepOtdrConnectionLocker = new object();
+        private bool _keepOtdrConnection;
+        public bool KeepOtdrConnection
         {
-            get { lock (_isAutoBaseModeLocker) { return _isRtuAutoBaseMode; } }
-            set { lock (_isAutoBaseModeLocker) { _isRtuAutoBaseMode = value; } }
+            get { lock (_keepOtdrConnectionLocker) { return _keepOtdrConnection; } }
+            set { lock (_keepOtdrConnectionLocker) { _keepOtdrConnection = value; } }
         }
         
         private readonly object _lastSuccessfulMeasTimestampLocker = new object();

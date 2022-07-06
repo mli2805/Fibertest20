@@ -13,11 +13,12 @@ namespace Iit.Fibertest.RtuManagement
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
-            if (!IsRtuAutoBaseMode)
+            _rtuLog.AppendLine("DoClientMeasurement command received");
+            if (!KeepOtdrConnection)
                 StopMonitoringAndConnectOtdrWithRecovering(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
 
-            IsRtuAutoBaseMode = dto.KeepOtdrConnection;
-            _rtuIni.Write(IniSection.Monitoring, IniKey.IsRtuAutoBaseMode, IsRtuAutoBaseMode);
+            KeepOtdrConnection = dto.KeepOtdrConnection;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.KeepOtdrConnection, KeepOtdrConnection);
 
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.Ok };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")

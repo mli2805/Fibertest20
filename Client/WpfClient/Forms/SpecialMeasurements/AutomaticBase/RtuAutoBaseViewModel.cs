@@ -186,7 +186,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         private async Task Finish()
         {
             _waitCursor.Dispose();
@@ -233,15 +232,13 @@ namespace Iit.Fibertest.Client
                         _windowManager.ShowDialogWithAssignedOwner(mb);
                     }
                 }
-
             }
         }
 
         private void ShowReport()
         {
             var report = _failedAutoBasePdfProvider.Create(_rtu, _badResults);
-            PdfExposer.Show(report,
-                $@"FailedAutoBaseMeasurementsReport{DateTime.Now:yyyyMMddHHmmss}.pdf",
+            PdfExposer.Show(report, $@"FailedAutoBaseMeasurementsReport{DateTime.Now:yyyyMMddHHmmss}.pdf",
                 _windowManager);
         }
 
