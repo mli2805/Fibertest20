@@ -32,6 +32,12 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
             }
 
+            if (!trace.IsIncludedInMonitoringCycle)
+            {
+                logFile.AppendLine("Trace excluded from monitoring cycle");
+                return;
+            }
+
             var dto = new DoOutOfTurnPreciseMeasurementDto()
             {
                 Id = Guid.NewGuid(),
