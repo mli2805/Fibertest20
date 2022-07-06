@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
             set { }
         }
 
-        public int LeftMargin => Parent is OtauLeaf ? 122 : 101;
+        public int LeftMargin => Parent is OtauLeaf ? 138 : 101;
 
         public PortLeaf(
             // Specified manually
