@@ -89,7 +89,7 @@ TNUP
 Name
 EvtDetectDeltaCT
 Value
-1
+4
 Scale
 1
 Name
@@ -131,9 +131,9 @@ Scale
 Name
 NoLinkDistance
 Value
-300
+5
 Scale
-10000
+100
 Name
 NoLinkDeltaDB
 Value
