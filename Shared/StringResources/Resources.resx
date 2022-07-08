@@ -3356,4 +3356,13 @@ Please try again later</value>
 	<data name="SID_Measurements_are_in_progress__Please_wait___" xml:space="preserve">
 		<value>Measurements are in progress. Please wait...</value>
 	</data>
+	<data name="SID_Failed_to_toggle_to_port" xml:space="preserve">
+		<value>Failed to toggle to port</value>
+	</data>
+	<data name="SID_Measurement_error" xml:space="preserve">
+		<value>Measurement error</value>
+	</data>
+	<data name="SID_Measurement_preparation_error" xml:space="preserve">
+		<value>Measurement preparation error</value>
+	</data>
 </root>

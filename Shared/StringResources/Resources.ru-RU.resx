@@ -3356,4 +3356,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurements_are_in_progress__Please_wait___" xml:space="preserve">
 		<value>Проводятся измерения. Пожалуйста, подождите...</value>
 	</data>
+	<data name="SID_Failed_to_toggle_to_port" xml:space="preserve">
+		<value>Не удалось переключиться в порт</value>
+	</data>
+	<data name="SID_Measurement_error" xml:space="preserve">
+		<value>Ошибка измерения</value>
+	</data>
+	<data name="SID_Measurement_preparation_error" xml:space="preserve">
+		<value>Ошибка подготовки измерения</value>
+	</data>
 </root>

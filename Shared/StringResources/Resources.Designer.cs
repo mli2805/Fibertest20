@@ -3513,6 +3513,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to toggle to port.
+        /// </summary>
+        public static string SID_Failed_to_toggle_to_port {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_toggle_to_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to uninstall {0}.
         /// </summary>
         public static string SID_Failed_to_uninstall__0_ {
@@ -5011,6 +5020,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement error.
+        /// </summary>
+        public static string SID_Measurement_error {
+            get {
+                return ResourceManager.GetString("SID_Measurement_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement error, see log.
         /// </summary>
         public static string SID_Measurement_error__see_log {
@@ -5106,6 +5124,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement_parameters_are_not_compatible_with_this_RTU {
             get {
                 return ResourceManager.GetString("SID_Measurement_parameters_are_not_compatible_with_this_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement preparation error.
+        /// </summary>
+        public static string SID_Measurement_preparation_error {
+            get {
+                return ResourceManager.GetString("SID_Measurement_preparation_error", resourceCulture);
             }
         }
         

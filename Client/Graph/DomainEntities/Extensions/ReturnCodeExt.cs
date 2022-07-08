@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Cannot_initialize_dll_;
                 case ReturnCode.OtauInitializationError:
                     return Resources.SID_Failed_to_initialize_optical_switch;
-                case  ReturnCode.OtdrInitializationFailed:
+                case ReturnCode.OtdrInitializationFailed:
                     return Resources.SID_Failed_to_initialize_OTDR + $@" {exceptionMessage}";
                 case ReturnCode.RtuDoesNotSupportBop:
                     return Resources.SID_RTU_does_not_support_BOP;
@@ -41,8 +41,16 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.RtuMonitoringSettingsApplyError:
                     return Resources.SID_Failed_to_apply_monitoring_settings_;
 
+                case ReturnCode.RtuToggleToPortError:
+                    return Resources.SID_Failed_to_toggle_to_port;
                 case ReturnCode.InvalidValueOfLmax:
                     return Resources.SID_Failed_to_automatically_determine_the_correct_measurement_parameters;
+                case ReturnCode.MeasurementError:
+                    return Resources.SID_Measurement_error;
+                 case ReturnCode.MeasurementPreparationError:
+                    return Resources.SID_Measurement_preparation_error; 
+                case ReturnCode.MeasurementInterrupted:
+                    return Resources.SID_Measurement_interrupted;
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:

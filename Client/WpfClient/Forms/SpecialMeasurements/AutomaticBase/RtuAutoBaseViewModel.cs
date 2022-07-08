@@ -122,12 +122,16 @@ namespace Iit.Fibertest.Client
             var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
             progressItem.MeasurementDone = true;
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
-            WholeRtuMeasurementsExecutor.Model.TraceResults
-                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
-                    progressItem.Ordinal,
-                    _progress.Count,
-                    result.Trace.Title,
-                    result.CompletedStatus.GetLocalizedString()));
+
+            _dispatcherProvider.GetDispatcher().Invoke(() =>
+            {
+                WholeRtuMeasurementsExecutor.Model.TraceResults
+                    .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
+                        progressItem.Ordinal,
+                        _progress.Count,
+                        result.Trace.Title,
+                        result.CompletedStatus.GetLocalizedString()));
+            }); // sync, GUI thread
 
             if (result.CompletedStatus != MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
             {

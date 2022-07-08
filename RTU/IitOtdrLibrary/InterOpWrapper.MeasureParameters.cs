@@ -34,14 +34,18 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return strs.Skip(1).ToArray();
         }
 
-        public void SetParam(ServiceFunctionFirstParam param, int indexInLine)
+        public bool SetParam(ServiceFunctionFirstParam param, int indexInLine)
         {
             int cmd = (int)ServiceFunctionCommand.SetParam;
             int prm1 = (int)param;
             IntPtr prm2 = new IntPtr(indexInLine);
             var result = ServiceFunction(cmd, ref prm1, ref prm2);
             if (result != 0)
+            {
                 _rtuLogger.AppendLine($"Set parameter error={result}!");
+                return false;
+            }
+            return true;
         }
 
         public bool SetMeasurementParametersFromSor(ref IntPtr baseSorData)

@@ -52,14 +52,16 @@ namespace Iit.Fibertest.IitOtdrLibrary
         }
 
         // Measurement Client
-        public void SetMeasParamsByPosition(List<MeasParamByPosition> list)
+        public bool SetMeasParamsByPosition(List<MeasParamByPosition> list)
         {
             foreach (var measParam in list)
             {
                 _rtuLogger.AppendLine($"{measParam.Param} - {measParam.Position}", 0, 3);
-                SetParam(measParam.Param, measParam.Position);
+                if (!SetParam(measParam.Param, measParam.Position))
+                    return false;
                 Thread.Sleep(200);
             }
+            return true;
         }
 
         public List<MeasParamByPosition> ValuesToPositions(List<MeasParamByPosition> allParams, VeexMeasOtdrParameters measParams,
