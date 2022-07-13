@@ -48,6 +48,20 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return true;
         }
 
+        public bool SetTuningApdMode(int mode)
+        {
+            int cmd = (int)ServiceFunctionCommand.SetParam;
+            int prm1 = (int)ServiceFunctionFirstParam.TuningApdMode;
+            IntPtr prm2 = new IntPtr(mode);
+            var result = ServiceFunction(cmd, ref prm1, ref prm2);
+            if (result != 0)
+            {
+                _rtuLogger.AppendLine($"Set TuningAPDMode error={result}!");
+                return false;
+            }
+            return true;
+        }
+
         public bool SetMeasurementParametersFromSor(ref IntPtr baseSorData)
         {
             int cmd = (int)ServiceFunctionCommand.SetParamFromSor;

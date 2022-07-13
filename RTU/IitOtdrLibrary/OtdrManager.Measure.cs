@@ -54,6 +54,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
             bopCharonToShowPortOnDisplay?.ShowMessageMeasurementPort();
 
+            if (!InterOpWrapper.SetTuningApdMode(1))
+            {
+                _rtuLogger.AppendLine("Prepare measurement error!");
+                return ReturnCode.MeasurementPreparationError;
+            }
+
             var result = MeasureSteps(cts);
 
             bopCharonToShowPortOnDisplay?.ShowOnDisplayMessageReady();

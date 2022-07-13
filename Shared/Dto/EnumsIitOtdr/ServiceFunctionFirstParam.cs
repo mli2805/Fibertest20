@@ -35,6 +35,7 @@
         ScaleAvrVal = 81,
         DwdmChannel = 82,
         FastAvrNumber = 83,
+        TuningApdMode = 86,
 
         ActiveUnit = 20,
         ActiveLmax = 21,
