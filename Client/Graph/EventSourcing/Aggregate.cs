@@ -150,16 +150,13 @@ namespace Iit.Fibertest.Graph
         #region Fiber
         private string Validate(AddFiber cmd)
         {
-            // Guid a = cmd.NodeId1;
-            // Guid b = cmd.NodeId2;
-            // if (_writeModel.Fibers.Any(f =>
-            //     f.NodeId1 == a && f.NodeId2 == b ||
-            //     f.NodeId1 == b && f.NodeId2 == a))
-            //     return Resources.SID_Section_already_exists;
+            // for Kadastr Loader
+            if (_writeModel.Nodes.FirstOrDefault(n => n.NodeId == cmd.NodeId1) == null
+                || _writeModel.Nodes.FirstOrDefault(n => n.NodeId == cmd.NodeId2) == null)
+                return @"At least one node does not exist";
 
             if (_writeModel.HasDirectFiberDontMindPoints(cmd.NodeId1, cmd.NodeId2))
                 return Resources.SID_Section_already_exists;
-
 
             return _eventsQueue.Add(Mapper.Map<FiberAdded>(cmd));
         }
