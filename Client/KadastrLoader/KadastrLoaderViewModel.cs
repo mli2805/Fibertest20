@@ -14,6 +14,7 @@ namespace KadastrLoader
 {
     public class KadastrLoaderViewModel : Screen, IShell
     {
+        private readonly IMyLog _logFile;
         private readonly LoadedAlready _loadedAlready;
         private readonly KadastrDbProvider _kadastrDbProvider;
         private readonly KadastrFilesParser _kadastrFilesParser;
@@ -72,10 +73,11 @@ namespace KadastrLoader
 
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
-        public KadastrLoaderViewModel(IniFile iniFile, LoadedAlready loadedAlready,
-            KadastrDbProvider kadastrDbProvider,
+        public KadastrLoaderViewModel(IniFile iniFile, IMyLog logFile, 
+            LoadedAlready loadedAlready, KadastrDbProvider kadastrDbProvider,
             KadastrFilesParser kadastrFilesParser, DesktopC2DWcfManager desktopC2DWcfManager)
         {
+            _logFile = logFile;
             _loadedAlready = loadedAlready;
             _kadastrDbProvider = kadastrDbProvider;
             _kadastrFilesParser = kadastrFilesParser;
@@ -123,11 +125,8 @@ namespace KadastrLoader
         private async Task<bool> CheckDataCenter()
         {
             var isReady = await _desktopC2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
-            if (!isReady)
-            {
-                ServerMessage = Resources.SID_DataCenter_connection_failed_;
-            }
-            else ServerMessage = Resources.SID_DataCenter_connected_successfully_;
+            ServerMessage = isReady ? Resources.SID_DataCenter_connected_successfully_ : Resources.SID_DataCenter_connection_failed_;
+            _logFile.AppendLine(ServerMessage);
             return isReady;
         }
 

@@ -2,19 +2,23 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
 namespace KadastrLoader
 {
     public class ChannelParser
     {
+        private readonly IMyLog _logFile;
         private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
-        public ChannelParser(DesktopC2DWcfManager desktopC2DWcfManager, LoadedAlready loadedAlready)
+        public ChannelParser(IMyLog logFile, DesktopC2DWcfManager desktopC2DWcfManager, LoadedAlready loadedAlready)
         {
+            _logFile = logFile;
             _desktopC2DWcfManager = desktopC2DWcfManager;
             _loadedAlready = loadedAlready;
         }
@@ -39,12 +43,22 @@ namespace KadastrLoader
             if (fields.Length < 4) return "invalid line";
 
             var cmd = CreateFiberCmd(fields);
-            return cmd == null ? "invalid line" : _desktopC2DWcfManager.SendCommandAsObj(cmd).Result;
+            if (cmd == null) return "invalid line";
+
+            var result = _desktopC2DWcfManager.SendCommandAsObj(cmd).Result;
+            if (result == "Fiber already exists")
+                return result;
+
+            _logFile.AppendLine($"command create fiber {cmd.FiberId.First6()} between: {cmd.NodeId1.First6()} and {cmd.NodeId2.First6()}");
+            _logFile.AppendLine(result == null
+                ? "Fiber added successfully."
+                : $"Failed to add fiber. {result}");
+            return result;
         }
 
         private AddFiber CreateFiberCmd(string[] parts)
         {
-            var cmd = new AddFiber {FiberId = Guid.NewGuid()};
+            var cmd = new AddFiber { FiberId = Guid.NewGuid() };
 
             if (!int.TryParse(parts[0], out int inKadastrIdL)) return null;
             var wellL = _loadedAlready.Wells.FirstOrDefault(w => w.InKadastrId == inKadastrIdL);

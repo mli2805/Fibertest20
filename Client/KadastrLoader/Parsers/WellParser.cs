@@ -6,19 +6,22 @@ using System.Threading;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
 namespace KadastrLoader
 {
     public class WellParser
     {
+        private readonly IMyLog _logFile;
         private readonly KadastrDbProvider _kadastrDbProvider;
         private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
-        public WellParser(KadastrDbProvider kadastrDbProvider, 
+        public WellParser(IMyLog logFile, KadastrDbProvider kadastrDbProvider, 
             DesktopC2DWcfManager desktopC2DWcfManager, LoadedAlready loadedAlready)
         {
+            _logFile = logFile;
             _kadastrDbProvider = kadastrDbProvider;
             _desktopC2DWcfManager = desktopC2DWcfManager;
             _loadedAlready = loadedAlready;
@@ -57,7 +60,11 @@ namespace KadastrLoader
             _kadastrDbProvider.AddWell(well).Wait();
 
             var cmd = CreateNodeCmd(fields, well.InFibertestId);
-            return _desktopC2DWcfManager.SendCommandAsObj(cmd).Result;
+            var result = _desktopC2DWcfManager.SendCommandAsObj(cmd).Result;
+            _logFile.AppendLine(result == null
+                ? $"Well {fields[1].Trim()} added successfully."
+                : $"Failed to add well {fields[1].Trim()}.  {result}");
+            return result;
         }
 
         private AddEquipmentAtGpsLocationWithNodeTitle CreateNodeCmd(string[] parts, Guid inFibertestId)

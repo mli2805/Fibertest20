@@ -58,6 +58,11 @@
             iniFile.AssignFile(iniFileName);
             builder.RegisterInstance(iniFile);
 
+            var logFileName = @"kadastr.log";
+            var logFile = new LogFile(iniFile);
+            logFile.AssignFile(logFileName);
+            builder.RegisterInstance<IMyLog>(logFile);
+
             _container = builder.Build();
 
             var currentCulture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
