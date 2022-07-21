@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Client
 
         public void Start()
         {
-            _logFile.AppendLine($@"Polling started from {_currentEventNumber}");
+            _logFile.AppendLine($@"Polling started from {_currentEventNumber + 1}");
             _eventLogComposer.Initialize();
             _pollerThread = new Thread(DoPolling) { IsBackground = true };
             _pollerThread.Start();
