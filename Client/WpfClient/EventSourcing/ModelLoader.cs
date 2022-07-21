@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
                 {
                     var portion = await _c2DWcfManager.GetModelPortion(i);
                     portion.CopyTo(bb, offset);
-                    offset = offset + portion.Length;
+                    offset += portion.Length;
                     _logFile.AppendLine($@"portion {i}  {portion.Length} bytes received");
                 }
 

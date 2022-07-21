@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using NEventStore;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -171,7 +172,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 PortionsCount = _serializedModel.Length / PortionSize + 1,
                 Size = _serializedModel.Length,
-                LastIncludedEvent = _eventStoreService.GetEventsCount(),
+                LastIncludedEvent = _eventStoreService.StoreEvents.OpenStream(_eventStoreService.StreamIdOriginal).StreamRevision,
             };
         }
 
