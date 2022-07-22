@@ -53,6 +53,9 @@ namespace Iit.Fibertest.Graph
 
         public static string AddEquipmentAtGpsLocationWithNodeTitle(this Model model, EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
+            if (model.Nodes.Any(i => i.NodeId == e.NodeId)) // kadastr loader
+                return @"node with the same id found";
+
             model.Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude),
                 TypeOfLastAddedEquipment = e.Type, Title = e.Title, Comment = e.Comment });
 

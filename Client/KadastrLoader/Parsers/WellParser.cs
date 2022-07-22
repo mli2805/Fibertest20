@@ -49,12 +49,13 @@ namespace KadastrLoader
 
             if (!int.TryParse(fields[0], out int inKadastrId)) return "invalid line";
 
-            if (_loadedAlready.Wells.FirstOrDefault(w => w.InKadastrId == inKadastrId) != null) return "well exists already";
+            var existingWell = _loadedAlready.Wells.FirstOrDefault(w => w.InKadastrId == inKadastrId);
+            // if (existingWell != null) return "well exists already";
 
             var well = new Well()
             {
                 InKadastrId = inKadastrId,
-                InFibertestId = Guid.NewGuid(),
+                InFibertestId = existingWell?.InFibertestId ?? Guid.NewGuid(),
             };
             _loadedAlready.Wells.Add(well);
             _kadastrDbProvider.AddWell(well).Wait();
