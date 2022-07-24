@@ -63,6 +63,19 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"There is no trace on gpon interface {res.GponInterface}");
                 return;
             }
+
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu == null)
+            {
+                _logFile.AppendLine("RTU for trace from trap not found (something strange!)");
+                return;
+            }
+
+            if (rtu.MonitoringState != MonitoringState.On)
+            {
+                _logFile.AppendLine("RTU is not in automatic monitoring mode, trap ignored.");
+                return;
+            }
             
             var dto = new DoOutOfTurnPreciseMeasurementDto()
             {
