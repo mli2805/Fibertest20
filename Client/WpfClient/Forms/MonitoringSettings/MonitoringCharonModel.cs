@@ -2,7 +2,7 @@
 using System.Linq;
 using Caliburn.Micro;
 
-namespace Iit.Fibertest.Client.MonitoringSettings
+namespace Iit.Fibertest.Client
 {
     public class MonitoringCharonModel : PropertyChangedBase
     {
