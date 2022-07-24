@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Client.GraphOptimization
+﻿namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Interaction logic for GraphOptimizationView.xaml

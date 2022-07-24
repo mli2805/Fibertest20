@@ -8,7 +8,7 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
-namespace Iit.Fibertest.Client.GraphOptimization
+namespace Iit.Fibertest.Client
 {
     public class GraphOptimizationViewModel : Screen
     {

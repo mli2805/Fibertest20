@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using Autofac;
-using Iit.Fibertest.Client.GraphOptimization;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 

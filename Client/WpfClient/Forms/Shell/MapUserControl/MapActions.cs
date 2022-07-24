@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph.Requests;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {

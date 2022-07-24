@@ -2,7 +2,7 @@
 using GMap.NET;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.Graph.Requests
+namespace Iit.Fibertest.Graph
 {
     public class RequestAddNodeIntoFiber
     {

@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
+using Iit.Fibertest.Client.Input;
 
-namespace Iit.Fibertest.Client.Input
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     ///   Class used to define a multi-key gesture.
