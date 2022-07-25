@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -56,7 +57,8 @@ namespace Iit.Fibertest.Client
         // временно для экспериментов Хазанова
         private static List<string> TempGetTps(string acceptableTps)
         {
-            var filename = "..\\ini\\temp_tps.txt";
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var filename = basePath + "..\\ini\\temp_tps.txt";
             if (!File.Exists(filename))
                 File.WriteAllLines(filename, new List<string>(){"Допустимые значения: "+acceptableTps, "25", "25", "25", "100"});
             var content = File.ReadAllLines(filename);
