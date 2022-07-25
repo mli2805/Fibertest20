@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -29,6 +31,11 @@ namespace Iit.Fibertest.Client
                 Title = Titles[0],
             });
 
+            // временно для экспериментов Хазанова
+            var ddd = rtu.AcceptableMeasParams.Units.Values.First().Distances.Last().Value.PulseDurations;
+            var tps = TempGetTps(string.Join(", ", ddd));
+            // ----------------------
+
             for (int i = 0; i < 4; i++)
             {
                 result.Add(new OtdrParametersTemplate()
@@ -37,13 +44,23 @@ namespace Iit.Fibertest.Client
                     Title = Titles[i+1],
                     Lmax = is4100 ? AutoBaseParams.Rxt4100Lmax[i] : AutoBaseParams.Lmax[i],
                     Dl = is4100 ? AutoBaseParams.Rxt4100Dl[i] : AutoBaseParams.Dl[i],
-                    Tp = is4100 ? AutoBaseParams.Rxt4100Tp[i] : AutoBaseParams.Tp[i],
+                    // Tp = is4100 ? AutoBaseParams.Rxt4100Tp[i] : AutoBaseParams.Tp[i], // временно для экспериментов Хазанова
+                    Tp = tps[i].Trim(),
                     Time = AutoBaseParams.Time[i],
                 });
             }
-
            
             return result;
+        }
+
+        // временно для экспериментов Хазанова
+        private static List<string> TempGetTps(string acceptableTps)
+        {
+            var filename = "..\\ini\\temp_tps.txt";
+            if (!File.Exists(filename))
+                File.WriteAllLines(filename, new List<string>(){"Допустимые значения: "+acceptableTps, "25", "25", "25", "100"});
+            var content = File.ReadAllLines(filename);
+            return content.Skip(1).ToList(); // first line is comment
         }
     }
 }
