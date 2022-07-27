@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using PdfSharp.Pdf;
@@ -22,10 +24,7 @@ namespace Iit.Fibertest.Client
             Section section = doc.AddSection();
             section.PageSetup.DifferentFirstPageHeaderFooter = false;
 
-            var paragraph = section.AddParagraph();
-            paragraph.AddFormattedText($@"RTU {rtu.Title}", TextFormat.Bold);
-            paragraph.Format.Font.Size = 16;
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
+            CreateHeader(section, rtu);
 
             foreach (var measurement in measurements)
             {
@@ -39,12 +38,29 @@ namespace Iit.Fibertest.Client
             return pdfDocumentRenderer.PdfDocument;
         }
 
-        public void OneFailedMeasurement(Section section, MeasurementCompletedEventArgs measurement)
+        private void CreateHeader(Section section, Rtu rtu)
+        {
+            var paragraph = section.AddParagraph();
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
+            paragraph.Format.Font.Size = 16;
+            paragraph.AddFormattedText($@"{Resources.SID_The_process_of_setting_base_ref_for_RTU}", TextFormat.Bold);
+
+            paragraph = section.AddParagraph();
+            paragraph.Format.Font.Size = 16;
+            paragraph.AddFormattedText($@"{rtu.Title}", TextFormat.Bold);
+
+            paragraph = section.AddParagraph();
+            var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
+            paragraph.AddFormattedText($@"{Resources.SID_is_completed_at_ + timestamp}", TextFormat.Bold);
+            paragraph.Format.Font.Size = 16;
+        }
+
+        private void OneFailedMeasurement(Section section, MeasurementCompletedEventArgs measurement)
         {
             var traceParagraph = section.AddParagraph();
             traceParagraph.Format.Font.Size = 12;
             traceParagraph.Format.SpaceBefore = Unit.FromCentimeter(0.2);
-            traceParagraph.AddFormattedText($@"{StringResources.Resources.SID_Trace}: {measurement.Trace.Title}", TextFormat.Bold);
+            traceParagraph.AddFormattedText($@"{Resources.SID_Trace}: {measurement.Trace.Title}", TextFormat.Bold);
 
             var statusParagraph = section.AddParagraph();
             statusParagraph.Format.Font.Size = 11;

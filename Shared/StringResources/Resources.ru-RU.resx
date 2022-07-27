@@ -3365,4 +3365,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurement_preparation_error" xml:space="preserve">
 		<value>Ошибка подготовки измерения</value>
 	</data>
+	<data name="SID_The_process_of_setting_base_ref_for_RTU" xml:space="preserve">
+		<value>Процесс задания базовых рефлектограмм для RTU</value>
+	</data>
+	<data name="SID_is_completed_at_" xml:space="preserve">
+		<value>завершен в </value>
+	</data>
 </root>

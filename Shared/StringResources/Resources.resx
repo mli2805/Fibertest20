@@ -3365,4 +3365,10 @@ Please try again later</value>
 	<data name="SID_Measurement_preparation_error" xml:space="preserve">
 		<value>Measurement preparation error</value>
 	</data>
+	<data name="SID_The_process_of_setting_base_ref_for_RTU" xml:space="preserve">
+		<value>The process of setting base ref for RTU</value>
+	</data>
+	<data name="SID_is_completed_at_" xml:space="preserve">
+		<value>is completed at </value>
+	</data>
 </root>

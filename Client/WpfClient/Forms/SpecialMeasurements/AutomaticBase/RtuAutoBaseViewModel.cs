@@ -200,8 +200,14 @@ namespace Iit.Fibertest.Client
             if (ShouldStartMonitoring && _goodTraces.Any())
                 await StartMonitoring();
 
-            WholeRtuMeasurementsExecutor.Model.IsEnabled = true;
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+
+            var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
+            var strs = new List<string>() { Resources.SID_The_process_of_setting_base_ref_for_RTU, _rtu.Title, Resources.SID_is_completed_at_ + timestamp };
+            var mb = new MyMessageBoxViewModel(MessageType.Information, strs);
+            _windowManager.ShowDialogWithAssignedOwner(mb);
+
+            WholeRtuMeasurementsExecutor.Model.IsEnabled = true;
             WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Collapsed;
             WholeRtuMeasurementsExecutor.Model.TraceResults.Clear();
             TryClose();

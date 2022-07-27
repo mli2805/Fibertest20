@@ -4309,6 +4309,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to is completed at .
+        /// </summary>
+        public static string SID_is_completed_at_ {
+            get {
+                return ResourceManager.GetString("SID_is_completed_at_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is SNMP notification turned on.
         /// </summary>
         public static string SID_Is_SNMP_notification_turned_on {
@@ -8456,6 +8465,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_The_changes_will_be_applied_after_application_restart {
             get {
                 return ResourceManager.GetString("SID_The_changes_will_be_applied_after_application_restart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The process of setting base ref for RTU.
+        /// </summary>
+        public static string SID_The_process_of_setting_base_ref_for_RTU {
+            get {
+                return ResourceManager.GetString("SID_The_process_of_setting_base_ref_for_RTU", resourceCulture);
             }
         }
         
