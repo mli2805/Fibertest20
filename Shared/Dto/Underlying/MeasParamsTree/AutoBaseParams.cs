@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Iit.Fibertest.Dto
@@ -42,36 +44,20 @@ namespace Iit.Fibertest.Dto
             var index = GetIndexByProbeMeasurementLmax(lmax);
             if (index == -1) return null;
 
+            // временно для экспериментов Хазанова
+            var tps = TempGetTps();
+            // ----------------------
+
+
             return new VeexMeasOtdrParameters
             {
                 distanceRange = is4100 ? Rxt4100Lmax[index] : Lmax[index],
                 resolution = is4100 ? Rxt4100Dl[index] : Dl[index],
-                pulseDuration = is4100 ? Rxt4100Tp[index] : Tp[index],
+                //pulseDuration = is4100 ? Rxt4100Tp[index] : Tp[index],
+                pulseDuration = tps[index].Trim(),
                 averagingTime = Time[index]
             };
         }
-
-        // BEFORE measurement
-        // RTU choose index of template of parameters for measurement by LMAX from probe request
-        // so we choose first template with lmax bigger than in sorData
-        // private static int GetIndexByProbeMeasurementLmax(double lmax, string omid)
-        // {
-        //     var is4100 = omid == "RXT-4100+/1650 50dB";
-        //
-        //     // current culture on RTU could be a culture with COMMA as a NumberDecimalSeparator (i.e. Russian or German)
-        //     // while our strings use POINT
-        //     var pointCulture = new CultureInfo("en") { NumberFormat = { NumberDecimalSeparator = "." } };
-        //     var list = is4100
-        //         ? Rxt4100Lmax.Select(s => double.Parse(s, pointCulture)).ToList()
-        //         : Lmax.Select(s => double.Parse(s, pointCulture)).ToList();
-        //
-        //     for (int i = 0; i < list.Count; i++)
-        //     {
-        //         if (lmax <= list[i])
-        //             return i;
-        //     }
-        //     return -1;
-        // }
 
         // BEFORE measurement
         private static int GetIndexByProbeMeasurementLmax(double lmaxInProbe)
@@ -83,5 +69,15 @@ namespace Iit.Fibertest.Dto
             return lmaxInProbe < 47 ? 3 : -1;
         }
 
+        // временно для экспериментов Хазанова
+        private static List<string> TempGetTps()
+        {
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var filename = basePath + "..\\ini\\temp_tps.txt";
+            if (!File.Exists(filename))
+                File.WriteAllLines(filename, new List<string>(){"Pulse durations", "25", "25", "25", "100"});
+            var content = File.ReadAllLines(filename);
+            return content.Skip(1).ToList(); // first line is comment
+        }
     }
 }
