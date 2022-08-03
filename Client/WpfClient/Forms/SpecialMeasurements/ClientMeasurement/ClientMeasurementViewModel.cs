@@ -17,9 +17,10 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
-        private readonly MeasurementInterruptor _measurementInterruptor;
+        private readonly MeasurementInterrupter _measurementInterrupter;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
@@ -55,17 +56,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, CurrentUser currentUser, Model readModel,
-            MeasurementInterruptor measurementInterruptor, 
+        public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
+            CurrentUser currentUser, Model readModel, MeasurementInterrupter measurementInterrupter, 
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager, 
             VeexMeasurementFetcher veexMeasurementFetcher,
             ReflectogramManager reflectogramManager)
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
+            _logFile = logFile;
             _currentUser = currentUser;
             _readModel = readModel;
-            _measurementInterruptor = measurementInterruptor;
+            _measurementInterrupter = measurementInterrupter;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
             _veexMeasurementFetcher = veexMeasurementFetcher;
@@ -127,7 +129,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void ShowReflectogram(byte[] sorBytes)
+        public void ShowResult(ClientMeasurementResultDto dto)
+        {
+            if (dto.ReturnCode == ReturnCode.MeasurementInterrupted)
+                _logFile.AppendLine(@"Measurement interrupted");
+            else
+                ShowReflectogram(dto.SorBytes);
+        }
+
+        private void ShowReflectogram(byte[] sorBytes)
         {
             _reflectogramManager.ShowClientMeasurement(sorBytes);
             TryClose(true);
@@ -143,7 +153,7 @@ namespace Iit.Fibertest.Client
         {
             Message = Resources.SID_Interrupting_Measurement__Client___Wait_please___;
             IsCancelButtonEnabled = false;
-            await _measurementInterruptor.Interrupt(_rtu, @"measurement (Client)");
+            await _measurementInterrupter.Interrupt(_rtu, @"measurement (Client)");
             TryClose();
         }
     }

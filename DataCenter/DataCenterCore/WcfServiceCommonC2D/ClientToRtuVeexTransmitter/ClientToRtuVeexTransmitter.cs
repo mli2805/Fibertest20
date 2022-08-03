@@ -159,6 +159,11 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to do measurement on VeEX RTU {dto.RtuId.First6()}");

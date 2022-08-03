@@ -31,9 +31,11 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         [OperationContract]
         void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto);
 
+        [OperationContract]
+        void BeginInterruptMeasurement(InterruptMeasurementDto dto);
 
         // for WatchDog
         [OperationContract]
-        bool CheckLastSuccessfullMeasTime();
+        bool CheckLastSuccessfulMeasTime();
     }
 }

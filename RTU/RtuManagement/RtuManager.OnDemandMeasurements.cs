@@ -112,8 +112,6 @@ namespace Iit.Fibertest.RtuManagement
                 : new Charon(new NetAddress(currentOtauPortDto.NetAddress.Ip4Address, TcpPorts.IitBop), false, _rtuIni, _rtuLog);
             _cancellationTokenSource = new CancellationTokenSource();
             var measResult = _otdrManager.DoManualMeasurement(_cancellationTokenSource, true, activeBop);
-            if (measResult != ReturnCode.MeasurementEndedNormally)
-                return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);
             if (_cancellationTokenSource.IsCancellationRequested)
             {
                 _rtuLog.AppendLine("Measurement (Client) interrupted.");
@@ -122,6 +120,8 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuIni.Write(IniSection.Monitoring, IniKey.KeepOtdrConnection, KeepOtdrConnection);
                 return result.Set(currentOtauPortDto, ReturnCode.MeasurementInterrupted);
             }
+            if (measResult != ReturnCode.MeasurementEndedNormally)
+                return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);
             var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
             if (lastSorDataBuffer == null)
                 return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);

@@ -60,7 +60,7 @@ namespace Iit.Fibertest.WcfConnections
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
             if (rtuDuplexConnection == null)
-                return new RtuInitializedDto(){ ReturnCode = ReturnCode.D2RWcfConnectionError };
+                return new RtuInitializedDto() { ReturnCode = ReturnCode.D2RWcfConnectionError };
 
             try
             {
@@ -220,6 +220,27 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("StartOutOfTurnMeasurementAsync: " + e.Message);
+                return null;
+            }
+        }
+
+        public async Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)
+        {
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
+            if (rtuDuplexConnection == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.D2RWcfConnectionError };
+
+            try
+            {
+                var channel = rtuDuplexConnection.CreateChannel();
+                var result = await channel.StartInterruptMeasurementAsync(backward, dto);
+                rtuDuplexConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("StartInterruptMeasurementAsync: " + e.Message);
                 return null;
             }
         }

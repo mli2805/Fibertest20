@@ -487,6 +487,16 @@ namespace Iit.Fibertest.DataCenterCore
                 : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
 
+        public async Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)
+        {
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
+
+            return rtu.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.InterruptMeasurementAsync(dto)
+                : await _clientToRtuVeexTransmitter.InterruptMeasurementAsync(dto);
+        }
+
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
         public async Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto)

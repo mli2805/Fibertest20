@@ -26,10 +26,10 @@ namespace Iit.Fibertest.Client
         private readonly WaitViewModel _waitViewModel;
         private readonly IWindowManager _windowManager;
 
-        public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, 
+        public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager,
             Heartbeater heartbeater, ClientPoller clientPoller, CurrentUser currentUser,
-            ClientMeasurementViewModel clientMeasurementViewModel, 
-            AutoBaseViewModel autoBaseViewModel, RtuAutoBaseViewModel rtuAutoBaseViewModel, 
+            ClientMeasurementViewModel clientMeasurementViewModel,
+            AutoBaseViewModel autoBaseViewModel, RtuAutoBaseViewModel rtuAutoBaseViewModel,
             IWcfServiceCommonC2D commonC2DWcfManager,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Client
         {
             _logFile.AppendLine($@"RTU returned measurement {dto.ClientMeasurementId.First6()} through WCF connection");
             if (_clientMeasurementViewModel.IsOpen)
-                _clientMeasurementViewModel.ShowReflectogram(dto.SorBytes);
+                _clientMeasurementViewModel.ShowResult(dto);
             if (_autoBaseViewModel.IsOpen)
                 _autoBaseViewModel.OneMeasurementExecutor.ProcessMeasurementResult(dto);
             if (_rtuAutoBaseViewModel.IsOpen)
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
         public async Task<int> SuperClientAsksClientToExit()
         {
             _logFile.AppendLine(@"SuperClient asks to exit.");
-            await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto(){ConnectionId = _currentUser.ConnectionId});
+            await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto() { ConnectionId = _currentUser.ConnectionId });
             await Task.Factory.StartNew(ExitApp);
             return 0;
         }

@@ -34,5 +34,8 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
         public Handler<RequestAnswer> HandlerForOutOfTurnMeasurement { get; } = new Handler<RequestAnswer>();
         public void EndStartOutOfTurnMeasurement(RequestAnswer result) => HandlerForOutOfTurnMeasurement.End(result);
+
+        public Handler<RequestAnswer> HandlerForInterruptMeasurement { get; } = new Handler<RequestAnswer>();
+        public void EndInterruptMeasurement(RequestAnswer result) => HandlerForInterruptMeasurement.End(result);
     }
 }

@@ -6,12 +6,12 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
-    public class MeasurementInterruptor
+    public class MeasurementInterrupter
     {
         private readonly IMyLog _logFile;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
 
-        public MeasurementInterruptor(IMyLog logFile, IWcfServiceCommonC2D c2RWcfManager)
+        public MeasurementInterrupter(IMyLog logFile, IWcfServiceCommonC2D c2RWcfManager)
         {
             _logFile = logFile;
             _c2RWcfManager = c2RWcfManager;
@@ -21,13 +21,11 @@ namespace Iit.Fibertest.Client
         {
             _logFile.AppendLine($@"Interrupting {log}...");
 
-            var dto = new InitializeRtuDto()
+            var dto = new InterruptMeasurementDto()
             {
                 RtuId = rtu.Id,
-                RtuAddresses = new DoubleAddress() { Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel },
-                IsFirstInitialization = false,
             };
-            await _c2RWcfManager.InitializeRtuAsync(dto);
+            await _c2RWcfManager.InterruptMeasurementAsync(dto);
         }
     }
 }

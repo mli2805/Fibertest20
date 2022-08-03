@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         private IPortOwner _portOwner;
         private Rtu _rtu;
         private readonly Model _readModel;
-        private readonly MeasurementInterruptor _measurementInterruptor;
+        private readonly MeasurementInterrupter _measurementInterrupter;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
 
@@ -47,11 +47,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OutOfTurnPreciseMeasurementViewModel(Model readModel, MeasurementInterruptor measurementInterruptor, 
+        public OutOfTurnPreciseMeasurementViewModel(Model readModel, MeasurementInterrupter measurementInterrupter, 
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _readModel = readModel;
-            _measurementInterruptor = measurementInterruptor;
+            _measurementInterrupter = measurementInterrupter;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
         }
@@ -124,7 +124,7 @@ namespace Iit.Fibertest.Client
         {
             Message = Resources.SID_Interrupting_out_of_turn_monitoring__Wait_please___;
             IsCancelButtonEnabled = false;
-            await _measurementInterruptor.Interrupt(_rtu, @"out of turn precise monitoring");
+            await _measurementInterrupter.Interrupt(_rtu, @"out of turn precise monitoring");
             TryClose();
         }
     }

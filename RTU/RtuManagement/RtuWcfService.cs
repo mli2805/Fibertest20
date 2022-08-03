@@ -124,11 +124,22 @@ namespace Iit.Fibertest.RtuManagement
 
         public void BeginDetachOtau(DetachOtauDto dto) { _wcfOtauOperator.DetachOtau(dto); }
 
-        public void BeginClientMeasurement(DoClientMeasurementDto dto) { _wcfMeasurementsOperator.StartClientMeasurement(dto); }
+        public void BeginClientMeasurement(DoClientMeasurementDto dto)
+        {
+            _serviceLog.EmptyLine();
+            _serviceLog.AppendLine("Client asks to do measurement(client)");
+            _wcfMeasurementsOperator.StartClientMeasurement(dto);
+        }
 
         public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto) { _wcfMeasurementsOperator.OutOfTurnPreciseMeasurement(dto); }
+        public void BeginInterruptMeasurement(InterruptMeasurementDto dto)
+        {
+            _serviceLog.EmptyLine();
+            _serviceLog.AppendLine("Client asks to interrupt current measurement");
+            _wcfMeasurementsOperator.InterruptMeasurement(dto);
+        }
 
-        public bool CheckLastSuccessfullMeasTime()
+        public bool CheckLastSuccessfulMeasTime()
         {
             _serviceLog.AppendLine("WatchDog asks time of last successful measurement");
             return true;

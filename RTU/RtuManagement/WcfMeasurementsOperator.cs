@@ -56,6 +56,28 @@ namespace Iit.Fibertest.RtuManagement
                     callbackChannel.EndStartOutOfTurnMeasurement(result);
                 }
             });
+        }  
+        
+        public void InterruptMeasurement(InterruptMeasurementDto dto)
+        {
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    _rtuManager.InterruptMeasurement(dto, () => callbackChannel.EndInterruptMeasurement(
+                            new RequestAnswer()
+                            {
+                                ReturnCode = ReturnCode.Ok, ErrorMessage = "Measurement interrupted successfully."
+                            }));
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                    var result = new RequestAnswer { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
+                    callbackChannel.EndInterruptMeasurement(result);
+                }
+            });
         }
     }
 }

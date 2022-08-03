@@ -7,6 +7,14 @@ namespace Iit.Fibertest.RtuManagement
 {
     public partial class RtuManager
     {
+        public void InterruptMeasurement(InterruptMeasurementDto dto, Action callback)
+        {
+            _rtuLog.AppendLine($"Client {dto.ClientIp}: Interrupting current measurement...");
+            _cancellationTokenSource?.Cancel();
+
+            callback?.Invoke();
+        }
+
         public void StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto, Action callback)
         {
             StopMonitoringAndConnectOtdrWithRecovering("Out of turn precise measurement");

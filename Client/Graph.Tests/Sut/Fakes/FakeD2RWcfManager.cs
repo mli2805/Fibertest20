@@ -113,5 +113,10 @@ namespace Graph.Tests
         {
             return Task.FromResult(new RequestAnswer() { ReturnCode = ReturnCode.Ok });
         }
+
+        public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)
+        {
+            return Task.FromResult(new RequestAnswer() { ReturnCode = ReturnCode.Ok });
+        }
     }
 }

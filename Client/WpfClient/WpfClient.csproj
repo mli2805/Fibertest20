@@ -613,7 +613,7 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\PortLeaf\PortLeafContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\BaseRefsSet.cs" />
-    <Compile Include="Forms\SpecialMeasurements\MeasurementInterruptor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\MeasurementInterrupter.cs" />
     <Compile Include="Forms\SpecialMeasurements\OutOfTurnPreciseMeasurementView.xaml.cs">
       <DependentUpon>OutOfTurnPreciseMeasurementView.xaml</DependentUpon>
     </Compile>
