@@ -49,8 +49,15 @@ namespace Iit.Fibertest.Client
 
         private bool IsTraceLinked(Trace trace)
         {
-            return trace.TraceToTceLinkState != TraceToTceLinkState.NoLink
-                   || TceSlotsViewModel.Slots.Any(s => s.Gpons.Any(g => g.GponInWork.Trace?.TraceId == trace.TraceId));
+            var relation = _readModel.GponPortRelations.FirstOrDefault(r => r.TraceId == trace.TraceId);
+            if (relation != null && relation.TceId != _tceInWork.Id)
+                return true;
+
+            return TceSlotsViewModel.Slots.Any(s => s.Gpons.Any(g => g.GponInWork.Trace?.TraceId == trace.TraceId));
+
+            // не дает изменить связь если она существовала (т.к. у трассы уже выставлен флаг и не изменится пока не сохранишь удаление)
+            //return trace.TraceToTceLinkState != TraceToTceLinkState.NoLink
+            //       || TceSlotsViewModel.Slots.Any(s => s.Gpons.Any(g => g.GponInWork.Trace?.TraceId == trace.TraceId));
         }
 
         public async void ButtonSave()
