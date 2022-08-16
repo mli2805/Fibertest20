@@ -123,14 +123,17 @@ namespace Iit.Fibertest.Client
             progressItem.MeasurementDone = true;
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
 
+            //var line1 = string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
+            //    progressItem.Ordinal,
+            //    _progress.Count,
+            //    result.Trace.Title,
+            //    result.CompletedStatus.GetLocalizedString());
+
+            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}"; 
+
             _dispatcherProvider.GetDispatcher().Invoke(() =>
             {
-                WholeRtuMeasurementsExecutor.Model.TraceResults
-                    .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
-                        progressItem.Ordinal,
-                        _progress.Count,
-                        result.Trace.Title,
-                        result.CompletedStatus.GetLocalizedString()));
+                WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
             }); // sync, GUI thread
 
             if (result.CompletedStatus != MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
@@ -172,12 +175,15 @@ namespace Iit.Fibertest.Client
             progressItem.BaseRefAssigned = true;
             _logFile.AppendLine($@"Assigned base ref for trace {result.Trace.Title}: {result.CompletedStatus}", 2);
 
-            WholeRtuMeasurementsExecutor.Model.TraceResults
-                .Add(string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
-                    progressItem.Ordinal,
-                    _progress.Count,
-                    result.Trace.Title,
-                    result.CompletedStatus.GetLocalizedString()));
+            //var line1 = string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
+            //    progressItem.Ordinal,
+            //    _progress.Count,
+            //    result.Trace.Title,
+            //    result.CompletedStatus.GetLocalizedString());
+
+            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}"; 
+
+            WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
 
             if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
                 _badResults.Add(result);

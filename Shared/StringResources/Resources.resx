@@ -3371,4 +3371,16 @@ Please try again later</value>
 	<data name="SID_is_completed_at_" xml:space="preserve">
 		<value>is completed at </value>
 	</data>
+	<data name="SID_Measurement___successfully" xml:space="preserve">
+		<value>Measurement - successfully</value>
+	</data>
+	<data name="SID_Assignment___successfully" xml:space="preserve">
+		<value>Assignment - successfully</value>
+	</data>
+	<data name="SID_Measurement___failed" xml:space="preserve">
+		<value>Measurement - failed</value>
+	</data>
+	<data name="SID_Assignment___failed" xml:space="preserve">
+		<value>Assignment - failed</value>
+	</data>
 </root>

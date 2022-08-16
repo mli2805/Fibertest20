@@ -40,5 +40,26 @@ namespace Iit.Fibertest.Client
 
             return @"Unknown status";
         }
+
+        public static string KhazanovStyle(this MeasurementCompletedStatus status)
+        {
+            switch (status)
+            {
+                case MeasurementCompletedStatus.MeasurementCompletedSuccessfully:
+                    return Resources.SID_Measurement___successfully;
+                case MeasurementCompletedStatus.BaseRefAssignedSuccessfully:
+                    return Resources.SID_Assignment___successfully;
+
+                case MeasurementCompletedStatus.FailedToStart:
+                case MeasurementCompletedStatus.InvalidValueLmax:
+                case MeasurementCompletedStatus.MeasurementTimeoutExpired:
+                case MeasurementCompletedStatus.FailedToFetchFromRtu4000:
+                    return Resources.SID_Measurement___failed;
+
+                case MeasurementCompletedStatus.FailedToAssignAsBase:
+                    return Resources.SID_Assignment___failed;
+            }
+            return @"Unknown status";
+        }
     }
 }

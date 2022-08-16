@@ -3371,4 +3371,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_is_completed_at_" xml:space="preserve">
 		<value>завершен в </value>
 	</data>
+	<data name="SID_Measurement___successfully" xml:space="preserve">
+		<value>Измерение - успешно</value>
+	</data>
+	<data name="SID_Assignment___successfully" xml:space="preserve">
+		<value>Применение - успешно</value>
+	</data>
+	<data name="SID_Measurement___failed" xml:space="preserve">
+		<value>Измерение - не удалось</value>
+	</data>
+	<data name="SID_Assignment___failed" xml:space="preserve">
+		<value>Применение - не удалось</value>
+	</data>
 </root>

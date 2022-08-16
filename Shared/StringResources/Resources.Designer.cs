@@ -864,6 +864,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assignment - failed.
+        /// </summary>
+        public static string SID_Assignment___failed {
+            get {
+                return ResourceManager.GetString("SID_Assignment___failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assignment - successfully.
+        /// </summary>
+        public static string SID_Assignment___successfully {
+            get {
+                return ResourceManager.GetString("SID_Assignment___successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attach.
         /// </summary>
         public static string SID_Attach {
@@ -4989,6 +5007,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measure {
             get {
                 return ResourceManager.GetString("SID_Measure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement - failed.
+        /// </summary>
+        public static string SID_Measurement___failed {
+            get {
+                return ResourceManager.GetString("SID_Measurement___failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement - successfully.
+        /// </summary>
+        public static string SID_Measurement___successfully {
+            get {
+                return ResourceManager.GetString("SID_Measurement___successfully", resourceCulture);
             }
         }
         
