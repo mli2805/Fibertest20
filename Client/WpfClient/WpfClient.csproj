@@ -282,6 +282,8 @@
       <DependentUpon>SlotView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tce\OneTce\RelationsTceToRtu\SlotViewModel.cs" />
+    <Compile Include="Forms\Tce\PdfReporter.cs" />
+    <Compile Include="Forms\Tce\TceReportProvider.cs" />
     <Compile Include="Forms\Tce\TcesView.xaml.cs">
       <DependentUpon>TcesView.xaml</DependentUpon>
     </Compile>

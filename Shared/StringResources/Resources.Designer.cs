@@ -4246,6 +4246,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to interface #.
+        /// </summary>
+        public static string SID_interface__ {
+            get {
+                return ResourceManager.GetString("SID_interface__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interface count.
         /// </summary>
         public static string SID_Interface_count {
@@ -5848,6 +5857,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to not configured.
+        /// </summary>
+        public static string SID_not_configured {
+            get {
+                return ResourceManager.GetString("SID_not_configured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not confirmed.
         /// </summary>
         public static string SID_Not_confirmed {
@@ -5929,6 +5947,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OFF.
+        /// </summary>
+        public static string SID_OFF {
+            get {
+                return ResourceManager.GetString("SID_OFF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         public static string SID_Ok {
@@ -5943,6 +5970,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_OK_BOP {
             get {
                 return ResourceManager.GetString("SID_OK_BOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ON.
+        /// </summary>
+        public static string SID_ON {
+            get {
+                return ResourceManager.GetString("SID_ON", resourceCulture);
             }
         }
         
@@ -7758,6 +7794,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Setting up interaction between telecommunications equipment and RTU.
+        /// </summary>
+        public static string SID_Setting_up_interaction_between_telecommunications_equipment_and_RTU {
+            get {
+                return ResourceManager.GetString("SID_Setting_up_interaction_between_telecommunications_equipment_and_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string SID_Settings {
@@ -8411,6 +8456,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_TCE_removed {
             get {
                 return ResourceManager.GetString("SID_TCE_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TCE title.
+        /// </summary>
+        public static string SID_TCE_title {
+            get {
+                return ResourceManager.GetString("SID_TCE_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TCE type.
+        /// </summary>
+        public static string SID_TCE_type {
+            get {
+                return ResourceManager.GetString("SID_TCE_type", resourceCulture);
             }
         }
         

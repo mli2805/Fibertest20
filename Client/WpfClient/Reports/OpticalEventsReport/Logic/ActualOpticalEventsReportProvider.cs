@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
             Section section = doc.AddSection();
             section.PageSetup.DifferentFirstPageHeaderFooter = false;
 
-            SetFooter(section);
+            section.SetLandscapeFooter(Resources.SID_Current_optical_events_report);
 
             LetsGetStarted(section);
 
@@ -81,24 +81,6 @@ namespace Iit.Fibertest.Client
             paragraph3.AddFormattedText(zone, TextFormat.Bold);
             paragraph3.Format.Font.Size = 14;
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
-        }
-
-        private void SetFooter(Section section)
-        {
-            Paragraph footer = new Paragraph();
-            var reportNameInFooter = Resources.SID_Current_optical_events_report;
-            var timestamp = $@"{DateTime.Now:g}";
-            timestamp = timestamp.PadLeft(20, '\u00A0');
-            var pageNumber = Resources.SID_Page_;
-            pageNumber = pageNumber.PadLeft(120, '\u00A0');
-            footer.AddFormattedText($@"Fibertest 2.0 (c) {reportNameInFooter}.{timestamp}{pageNumber}");
-            footer.AddPageField();
-            footer.AddFormattedText(@" / ");
-            footer.AddNumPagesField();
-            footer.Format.Font.Size = 10;
-            footer.Format.Alignment = ParagraphAlignment.Left;
-            section.Footers.Primary.Add(footer);
-            section.Footers.EvenPage.Add(footer.Clone());
         }
 
         private void DrawOpticalEvents(Section section, bool isAccidentPlaceShown)

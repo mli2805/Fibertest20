@@ -135,8 +135,11 @@ namespace Iit.Fibertest.Client
             {
                 otauPortDto.IsPortOnMainCharon = false;
                 otauPortDto.OtauId = GponInWork.Otau.Id.ToString();
+                var otau = _readModel.Otaus.FirstOrDefault(o => o.Id == GponInWork.Otau.Id);
                 if (GponInWork.Rtu.RtuMaker == RtuMaker.IIT)
-                    otauPortDto.Serial = _readModel.Otaus.FirstOrDefault(o => o.Id == GponInWork.Otau.Id)?.Serial;
+                    otauPortDto.Serial = otau?.Serial;
+                if (otau != null)
+                    otauPortDto.NetAddress = otau.NetAddress.Clone();
             }
 
             return new GponPortRelation()

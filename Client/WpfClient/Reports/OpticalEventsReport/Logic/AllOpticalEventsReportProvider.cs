@@ -51,7 +51,8 @@ namespace Iit.Fibertest.Client
             Section section = doc.AddSection();
             section.PageSetup.DifferentFirstPageHeaderFooter = false;
 
-            SetFooter(section);
+            var reportNameInFooter = string.Format(Resources.SID_Optical_events_report_for__0_d_____1_d_, _reportModel.DateFrom, _reportModel.DateTo);
+            section.SetLandscapeFooter(reportNameInFooter);
 
             LetsGetStarted(section);
 
@@ -77,24 +78,6 @@ namespace Iit.Fibertest.Client
                     result.Add(opticalEventModel);
             }
             return result;
-        }
-
-        private void SetFooter(Section section)
-        {
-            Paragraph footer = new Paragraph();
-            var reportNameInFooter = string.Format(Resources.SID_Optical_events_report_for__0_d_____1_d_, _reportModel.DateFrom, _reportModel.DateTo);
-            var timestamp = $@"{DateTime.Now:g}";
-            timestamp = timestamp.PadLeft(20, '\u00A0');
-            var pageNumber = Resources.SID_Page_;
-            pageNumber = pageNumber.PadLeft(90, '\u00A0');
-            footer.AddFormattedText($@"Fibertest 2.0 (c) {reportNameInFooter}.{timestamp}{pageNumber}");
-            footer.AddPageField();
-            footer.AddFormattedText(@" / ");
-            footer.AddNumPagesField();
-            footer.Format.Font.Size = 10;
-            footer.Format.Alignment = ParagraphAlignment.Left;
-            section.Footers.Primary.Add(footer);
-            section.Footers.EvenPage.Add(footer.Clone());
         }
 
         private void LetsGetStarted(Section section)

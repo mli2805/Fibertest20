@@ -3383,4 +3383,25 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Assignment___failed" xml:space="preserve">
 		<value>Применение - не удалось</value>
 	</data>
+	<data name="SID_ON" xml:space="preserve">
+		<value>Включено</value>
+	</data>
+	<data name="SID_OFF" xml:space="preserve">
+		<value>Выключено</value>
+	</data>
+	<data name="SID_TCE_type" xml:space="preserve">
+		<value>Тип TCE</value>
+	</data>
+	<data name="SID_TCE_title" xml:space="preserve">
+		<value>Название TCE</value>
+	</data>
+	<data name="SID_interface__" xml:space="preserve">
+		<value>интерфейс №</value>
+	</data>
+	<data name="SID_Setting_up_interaction_between_telecommunications_equipment_and_RTU" xml:space="preserve">
+		<value>Настройка взаимодействия между телекоммуникационным оборудованием и RTU</value>
+	</data>
+	<data name="SID_not_configured" xml:space="preserve">
+		<value>не настроено</value>
+	</data>
 </root>
