@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -20,13 +21,32 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
         private Rtu _rtu;
+
+        private string _searchMask;
+        public string SearchMask    
+        {
+            get => _searchMask;
+            set
+            {
+                if (value == _searchMask) return;
+                _searchMask = value;
+                NotifyOfPropertyChange();
+
+                Choices.Clear();
+                _readModel.Traces
+                    .Where(t => t.RtuId == _rtu.Id && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId)
+                                    && t.Title.Contains(_searchMask))
+                    .ToList()
+                    .ForEach(t => Choices.Add(t));
+            }
+        }
+
+        public ObservableCollection<Trace> Choices { get; set; } = new ObservableCollection<Trace>();
+
         private Trace _selectedTrace;
-
-        public List<Trace> Choices { get; set; }
-
         public Trace SelectedTrace
         {
-            get { return _selectedTrace; }
+            get => _selectedTrace;
             set
             {
                 if (Equals(value, _selectedTrace)) return;
@@ -36,9 +56,10 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isButtonsEnabled = true;
+
         public bool IsButtonsEnabled
         {
-            get { return _isButtonsEnabled; }
+            get => _isButtonsEnabled;
             set
             {
                 if (value == _isButtonsEnabled) return;
@@ -61,7 +82,11 @@ namespace Iit.Fibertest.Client
         {
             _rtu = rtu;
             _otauPortDto = otauPortDto;
-            Choices = _readModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId)).ToList();
+            Choices.Clear();
+            _readModel.Traces
+                .Where(t => t.RtuId == rtu.Id && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId))
+                .ToList()
+                .ForEach(t => Choices.Add(t));
             SelectedTrace = Choices.FirstOrDefault();
         }
 
@@ -72,6 +97,8 @@ namespace Iit.Fibertest.Client
 
         public async Task FullAttach()
         {
+            if (SelectedTrace == null) return;
+
             IsButtonsEnabled = false;
             var dto = new AttachTraceDto()
             {

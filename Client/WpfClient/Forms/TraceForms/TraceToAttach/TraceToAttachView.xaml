@@ -10,11 +10,10 @@
         SizeToContent="Height" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:TraceToAttachViewModel}">
     <StackPanel>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_List_of_traces}" Margin="5,10,5,5">
-        <ComboBox ItemsSource="{Binding Choices}" 
-                  SelectedItem="{Binding SelectedTrace}"
-                  Margin="10,10,10,25"/>
-        </GroupBox>
+        <TextBox Margin="5" Text="{Binding SearchMask, UpdateSourceTrigger=PropertyChanged}"/>
+        <ListBox Margin="5" Height="240"  
+                 ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedTrace}"/>
+       
         <StackPanel Orientation="Horizontal" Margin="0,10">
             <Button Name="FullAttach" Content="{x:Static stringResources:Resources.SID_Attach}" 
                     Height="22" Width="100" Margin="30,5,5,5" IsDefault="True" 
