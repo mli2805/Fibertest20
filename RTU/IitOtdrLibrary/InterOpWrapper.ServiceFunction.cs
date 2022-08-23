@@ -90,7 +90,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
         }
 
         // https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.marshal.structuretoptr?view=netframework-4.0
-        public double GetLinkCharacteristics()
+        public double GetLinkCharacteristics(out ConnectionParams cp)
         {
             int cmd = (int)ServiceFunctionCommand.MeasConnParamsAndLmax; //749
             int prm1 = 1; // laserUnitIndex + 1;
@@ -103,10 +103,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 if (result != 1)
                 {
                     _rtuLogger.AppendLine($"GetLinkCharacteristics error={result}!");
+                    cp = new ConnectionParams();
                     return -1;
                 }
 
-                var cp = (ConnectionParams)Marshal.PtrToStructure(prm2, typeof(ConnectionParams));
+                cp = (ConnectionParams)Marshal.PtrToStructure(prm2, typeof(ConnectionParams));
 
                 const double lightSpeed = 0.000299792458; // km/ns
                 var res = prm1 * lightSpeed / 1.4682;

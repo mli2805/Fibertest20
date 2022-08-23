@@ -173,8 +173,9 @@ namespace DirectRtuClient
 
         public async void AutoMeasurement()
         {
-            var lmax = OtdrManager.InterOpWrapper.GetLinkCharacteristics();
-            // var lmax = 23.99;
+            var lmax = OtdrManager.InterOpWrapper.GetLinkCharacteristics(out ConnectionParams cp);
+            if (lmax.Equals(-1.0) || cp.snr_almax == 0)
+                return;
             var values = AutoBaseParams.GetPredefinedParamsForLmax(lmax, @"IIT MAK-100");
             if (values == null)
                 return;

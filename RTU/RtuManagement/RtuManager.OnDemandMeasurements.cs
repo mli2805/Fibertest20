@@ -2,6 +2,7 @@
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -27,6 +28,7 @@ namespace Iit.Fibertest.RtuManagement
             var result = Measure(dto);
             if (result.ReturnCode != ReturnCode.MeasurementEndedNormally &&
                     result.ReturnCode != ReturnCode.InvalidValueOfLmax &&
+                    result.ReturnCode != ReturnCode.SnrIs0 &&
                     result.ReturnCode != ReturnCode.MeasurementInterrupted)
             {
                 ReInitializeDlls();
@@ -70,16 +72,22 @@ namespace Iit.Fibertest.RtuManagement
 
         private ReturnCode PrepareAutoLmaxMeasurement(DoClientMeasurementDto dto)
         {
-            var lmax = _otdrManager.InterOpWrapper.GetLinkCharacteristics();
+            var lmax = _otdrManager.InterOpWrapper.GetLinkCharacteristics(out ConnectionParams cp);
             if (lmax.Equals(-1.0))
             {
                 _rtuLog.AppendLine("Failed to get link characteristics");
                 return ReturnCode.MeasurementPreparationError;
             }
+
+            if (cp.snr_almax == 0)
+            {
+                _rtuLog.AppendLine("SNR == 0, No fiber!");
+                return ReturnCode.SnrIs0;
+            }
             var values = AutoBaseParams.GetPredefinedParamsForLmax(lmax, "IIT MAK-100");
             if (values == null)
             {
-                _rtuLog.AppendLine("Failed to choose measurement parameters");
+                _rtuLog.AppendLine("Lmax is out of valid range");
                 return ReturnCode.InvalidValueOfLmax;
             }
 

@@ -45,6 +45,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Failed_to_toggle_to_port;
                 case ReturnCode.InvalidValueOfLmax:
                     return Resources.SID_Failed_to_automatically_determine_the_correct_measurement_parameters;
+                case ReturnCode.SnrIs0:
+                    return Resources.SID_No_fiber;
                 case ReturnCode.MeasurementError:
                     return Resources.SID_Measurement_error;
                  case ReturnCode.MeasurementPreparationError:

@@ -27,6 +27,7 @@
         RtuDetachOtauError = 1109,
         RtuToggleToPortError = 1110,
         InvalidValueOfLmax = 1111,
+        SnrIs0 = 1112,
 
         MeasurementError = 1500,
         MeasurementEndedNormally = 1501,
