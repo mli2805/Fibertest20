@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -43,10 +44,19 @@ namespace Iit.Fibertest.Client
                 EventTimestamp = networkEvent.EventTimestamp,
                 RtuId = networkEvent.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEvent.RtuId)?.Title,
-                MainChannel = rtu.MainChannelState,
-                ReserveChannel = rtu.ReserveChannelState,
+                IsRtuAvailable = networkEvent.IsRtuAvailable,
                 OnMainChannel = networkEvent.OnMainChannel,
                 OnReserveChannel = networkEvent.OnReserveChannel,
+                MainChannel = networkEvent.OnMainChannel == ChannelEvent.Nothing 
+                    ? rtu.MainChannelState
+                    : networkEvent.OnMainChannel == ChannelEvent.Broken 
+                        ? RtuPartState.Broken 
+                        : RtuPartState.Ok,
+                ReserveChannel = networkEvent.OnReserveChannel == ChannelEvent.Nothing
+                    ? rtu.ReserveChannelState
+                    : networkEvent.OnReserveChannel == ChannelEvent.Broken
+                        ? RtuPartState.Broken
+                        : RtuPartState.Ok,
             });
         }
 

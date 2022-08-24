@@ -14,7 +14,8 @@ namespace Iit.Fibertest.Client
         public string RtuTitle { get; set; }
         public Guid RtuId { get; set; }
 
-        private bool IsRtuAvailable => MainChannel == RtuPartState.Ok || ReserveChannel == RtuPartState.Ok;
+      //  private bool IsRtuAvailable => MainChannel == RtuPartState.Ok || ReserveChannel == RtuPartState.Ok;
+        public bool IsRtuAvailable;
         public string RtuAvailabilityString => IsRtuAvailable ? Resources.SID_Available : Resources.SID_Not_available;
         public Brush RtuAvailabilityBrush => GetAvailabilityBrush();
 
