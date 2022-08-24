@@ -4,7 +4,7 @@ namespace Iit.Fibertest.Client
 {
     public class GponRelationInfo
     {
-        public Visibility Visibility { get; set; } = Visibility.Collapsed;
+        public Visibility Visibility { get; set; } = Visibility.Visible;
 
         public string TceTitle { get; set; }
         public string TceType { get; set; }
