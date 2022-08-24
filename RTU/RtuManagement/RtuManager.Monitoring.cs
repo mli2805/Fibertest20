@@ -43,7 +43,7 @@ namespace Iit.Fibertest.RtuManagement
 
                 ProcessOnePort(monitoringPort);
 
-                if (monitoringPort.LastMoniResult.MeasurementResult == MeasurementResult.Success)
+                if (monitoringPort.LastMoniResult.MeasurementResult != MeasurementResult.Interrupted)
                 {
                     var unused = _monitoringQueue.Dequeue();
                     _monitoringQueue.Enqueue(monitoringPort);
