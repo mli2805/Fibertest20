@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
 
-        public void AttaceTrace(TraceAttached e)
+        public void AttachTrace(TraceAttached e)
         {
             var acceptable = ShouldAcceptEventForTrace(e.TraceId);
             if (acceptable == EventAcceptability.No) return;

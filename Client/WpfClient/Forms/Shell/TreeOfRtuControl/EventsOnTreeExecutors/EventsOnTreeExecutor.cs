@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
                     case TraceUpdated evnt: _traceEventsOnTreeExecutor.UpdateTrace(evnt); return;
                     case TraceCleaned evnt: _traceEventsOnTreeExecutor.CleanTrace(evnt); return;
                     case TraceRemoved evnt: _traceEventsOnTreeExecutor.RemoveTrace(evnt); return;
-                    case TraceAttached evnt: _traceEventsOnTreeExecutor.AttaceTrace(evnt); return;
+                    case TraceAttached evnt: _traceEventsOnTreeExecutor.AttachTrace(evnt); return;
                     case TraceDetached evnt: _traceEventsOnTreeExecutor.DetachTrace(evnt); return;
                     case MeasurementAdded evnt: _traceEventsOnTreeExecutor.AddMeasurement(evnt); return;
 
