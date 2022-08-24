@@ -8,7 +8,10 @@ namespace Iit.Fibertest.Client
 
         public string TceTitle { get; set; }
         public string TceType { get; set; }
-        public int SlotPosition { get; set; }
-        public int GponInterfaceNumber { get; set; }
+        public int SlotPosition;
+        public string SlotPositionStr => SlotPosition == 0 ? "" : SlotPosition.ToString();
+
+        public int GponInterfaceNumber;
+        public string GponInterfaceNumberStr => GponInterfaceNumber == 0 ? "" : GponInterfaceNumber.ToString();
     }
 }

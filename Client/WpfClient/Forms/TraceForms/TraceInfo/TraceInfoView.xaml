@@ -86,11 +86,11 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Slot}" Width="90"/>
-                    <TextBlock Text="{Binding RelationModel.SlotPosition}" Width="40"/>
+                    <TextBlock Text="{Binding RelationModel.SlotPositionStr}" Width="40"/>
                 </StackPanel>
           <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Interface_No}" Width="90"/>
-                    <TextBlock Text="{Binding RelationModel.GponInterfaceNumber}"/>
+                    <TextBlock Text="{Binding RelationModel.GponInterfaceNumberStr}"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
