@@ -125,7 +125,6 @@ namespace Iit.Fibertest.Client
 
             var info = new GponRelationInfo()
             {
-                Visibility = Visibility.Visible,
                 TceTitle = tce.Title,
                 TceType = tce.TceTypeStruct.TypeTitle,
                 SlotPosition = relation.SlotPosition,
