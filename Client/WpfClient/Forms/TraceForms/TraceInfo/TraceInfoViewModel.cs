@@ -116,8 +116,7 @@ namespace Iit.Fibertest.Client
         private GponRelationInfo GetRelationInfo(Trace trace)
         {
             var relation = _readModel.GponPortRelations
-                .FirstOrDefault(r => r.RtuId == Model.Rtu.Id 
-                                                && r.OtauPortDto.OpticalPort == trace.Port);
+                .FirstOrDefault(r => r.TraceId == trace.TraceId);
             if (relation == null) return new GponRelationInfo();
 
             var tce = _readModel.TcesNew.FirstOrDefault(t => t.Id == relation.TceId);
