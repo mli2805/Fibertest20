@@ -5,7 +5,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class OneMeasurementModel : PropertyChangedBase
+    public class MeasurementModel : PropertyChangedBase
     {
         public CurrentUser CurrentUser;
         public Rtu Rtu;

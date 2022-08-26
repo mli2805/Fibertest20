@@ -65,11 +65,11 @@
                         <DataGridTemplateColumn Width="120*" Header="{x:Static stringResources:Resources.SID_Trace_state}">
                             <DataGridTemplateColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
-                                    <Setter Property="Background" Value="{Binding (client:MeasurementModel.TraceStateBrush)}"/>
+                                    <Setter Property="Background" Value="{Binding (client:TraceMeasurementModel.TraceStateBrush)}"/>
                                 </Style>
                             </DataGridTemplateColumn.CellStyle>
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="{x:Type client:MeasurementModel}">
+                                <DataTemplate DataType="{x:Type client:TraceMeasurementModel}">
                                     <TextBlock Text="{Binding TraceStateOnScreen}" TextAlignment="Center" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

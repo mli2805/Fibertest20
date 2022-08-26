@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
         private Trace _trace;
-        public OneMeasurementModel Model { get; set; } = new OneMeasurementModel();
+        public MeasurementModel Model { get; set; } = new MeasurementModel();
 
         public WholeRtuMeasurementsExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
@@ -73,13 +73,11 @@ namespace Iit.Fibertest.Client
                 _timer.Dispose();
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
-                Model.IsEnabled = true;
 
                 var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
                 MeasurementCompleted?
                     .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, _trace, list));
 
-                Model.IsEnabled = true;
                 return;
             }
 
@@ -132,7 +130,6 @@ namespace Iit.Fibertest.Client
                                 Resources.SID_Base_reference_assignment_failed, "",
                                 Resources.SID_Measurement_timeout_expired
                             }));
-                Model.IsEnabled = true;
             });
         }
 
@@ -146,7 +143,6 @@ namespace Iit.Fibertest.Client
             if (dto.SorBytes == null)
             {
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
-                Model.IsEnabled = true;
                 MeasurementCompleted?
                     .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart,
                         _trace, dto.ReturnCode.GetLocalizedString()));

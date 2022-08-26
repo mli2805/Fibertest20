@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
         private Trace _trace;
-        public OneMeasurementModel Model { get; set; } = new OneMeasurementModel();
+        public MeasurementModel Model { get; set; } = new MeasurementModel();
 
         public OneMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,

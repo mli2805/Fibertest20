@@ -231,7 +231,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementCompletedStatus.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\ClientMeasurementDtoFactory.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementExecutor.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementModel.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\OtauPortDtoProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\VeexMeasurementFetcher.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
@@ -644,7 +644,7 @@
     </Compile>
     <Compile Include="Forms\TraceForms\TraceState\TraceStateViewModel.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateModel.cs" />
-    <Compile Include="Forms\TraceForms\TraceStatistics\MeasurementModel.cs" />
+    <Compile Include="Forms\TraceForms\TraceStatistics\TraceMeasurementModel.cs" />
     <Compile Include="Forms\TraceForms\TraceStatistics\TraceStatisticsView.xaml.cs">
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
     </Compile>

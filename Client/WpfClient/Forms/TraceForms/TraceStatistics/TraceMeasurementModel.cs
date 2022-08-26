@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class MeasurementModel
+    public class TraceMeasurementModel
     {
         public Measurement Measurement { get; set; }
 
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
             ? FiberState.Suspicion.ToLocalizedString()
             : Measurement.TraceState.ToLocalizedString();
 
-        public MeasurementModel(Measurement measurement)
+        public TraceMeasurementModel(Measurement measurement)
         {
             Measurement = measurement;
         }
