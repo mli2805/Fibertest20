@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
             var report = _tceReportProvider.Create(_tceInWork);
             if (report == null) return;
 
-            PdfExposer.Show(report, $@"TceReport{DateTime.Now:yyyyMMddHHmmss}.pdf", _windowManager);
+            PdfExposer.Show(report, $@"TceReport_{_tceInWork.Title}_{DateTime.Now:yyyyMMddHHmmss}.pdf", _windowManager);
         }
 
         public async void ButtonSave()

@@ -123,13 +123,7 @@ namespace Iit.Fibertest.Client
             progressItem.MeasurementDone = true;
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
 
-            //var line1 = string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
-            //    progressItem.Ordinal,
-            //    _progress.Count,
-            //    result.Trace.Title,
-            //    result.CompletedStatus.GetLocalizedString());
-
-            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}"; 
+            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
 
             _dispatcherProvider.GetDispatcher().Invoke(() =>
             {
@@ -159,7 +153,7 @@ namespace Iit.Fibertest.Client
             {
                 if (_progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
                 {
-                    await Finish();
+                    await _dispatcherProvider.GetDispatcher().Invoke(Finish);
                 }
             }
         }
@@ -175,13 +169,7 @@ namespace Iit.Fibertest.Client
             progressItem.BaseRefAssigned = true;
             _logFile.AppendLine($@"Assigned base ref for trace {result.Trace.Title}: {result.CompletedStatus}", 2);
 
-            //var line1 = string.Format(Resources.SID__0___1___Measurement_on_trace__2____3_,
-            //    progressItem.Ordinal,
-            //    _progress.Count,
-            //    result.Trace.Title,
-            //    result.CompletedStatus.GetLocalizedString());
-
-            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}"; 
+            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
 
             WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
 
@@ -192,7 +180,7 @@ namespace Iit.Fibertest.Client
 
             if (_progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
             {
-               await Finish();
+                await _dispatcherProvider.GetDispatcher().Invoke(Finish);
             }
         }
 
