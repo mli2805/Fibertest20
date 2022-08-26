@@ -24,7 +24,7 @@
         <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding WholeRtuMeasurementsExecutor.Model.AutoAnalysisParamsViewModel}"/>
         <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"
                                         DataContext="{Binding WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel}" 
-                                        Visibility="{Binding ControlVisibility}" />
+                                        Visibility="{Binding ControlVisibility}"/>
         <Border DockPanel.Dock="Top" Height="100" Width="450" Margin="5" 
                 Visibility="{Binding WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility}"
                 BorderThickness="1" BorderBrush="Gray" CornerRadius="5">

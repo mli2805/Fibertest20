@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,21 +16,6 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-    public class RtuAutoBaseProgress
-    {
-        public readonly TraceLeaf TraceLeaf;
-        public readonly Trace Trace;
-        public readonly int Ordinal;
-        public bool MeasurementDone;
-        public bool BaseRefAssigned;
-
-        public RtuAutoBaseProgress(TraceLeaf traceLeaf, Trace trace, int ordinal)
-        {
-            TraceLeaf = traceLeaf;
-            Trace = trace;
-            Ordinal = ordinal;
-        }
-    }
     public class RtuAutoBaseViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
@@ -203,7 +189,7 @@ namespace Iit.Fibertest.Client
 
             WholeRtuMeasurementsExecutor.Model.IsEnabled = true;
             WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Collapsed;
-            WholeRtuMeasurementsExecutor.Model.TraceResults.Clear();
+            WholeRtuMeasurementsExecutor.Model.TraceResults = new ObservableCollection<string>();
             TryClose();
         }
 

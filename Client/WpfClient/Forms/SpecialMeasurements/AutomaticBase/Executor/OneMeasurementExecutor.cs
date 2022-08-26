@@ -71,7 +71,7 @@ namespace Iit.Fibertest.Client
             {
                 _timer.Stop();
                 _timer.Dispose();
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
                 Model.IsEnabled = true;
 
@@ -120,7 +120,7 @@ namespace Iit.Fibertest.Client
 
             _dispatcherProvider.GetDispatcher().Invoke(() =>
             {
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
 
                 MeasurementCompleted?
                     .Invoke(this,
@@ -143,7 +143,7 @@ namespace Iit.Fibertest.Client
 
             if (dto.SorBytes == null)
             {
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 Model.IsEnabled = true;
                 MeasurementCompleted?
                     .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, _trace, dto.ReturnCode.GetLocalizedString()));

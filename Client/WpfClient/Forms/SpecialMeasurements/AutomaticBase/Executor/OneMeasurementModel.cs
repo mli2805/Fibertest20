@@ -29,7 +29,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ObservableCollection<string> TraceResults { get; set; } = new ObservableCollection<string>();
+        private ObservableCollection<string> _traceResults = new ObservableCollection<string>();
+        public ObservableCollection<string> TraceResults
+        {
+            get => _traceResults;
+            set
+            {
+                if (Equals(value, _traceResults)) return;
+                _traceResults = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private Visibility _traceResultsVisibility = Visibility.Collapsed;
         public Visibility TraceResultsVisibility

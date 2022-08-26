@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
 
 
             _waitCursor.Dispose();
-            OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+            OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
             OneMeasurementExecutor.Model.IsEnabled = true;
 
             if (result.CompletedStatus == MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
