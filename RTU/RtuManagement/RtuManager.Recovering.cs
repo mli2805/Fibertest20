@@ -11,10 +11,11 @@ namespace Iit.Fibertest.RtuManagement
 
         private ReturnCode RunMainCharonRecovery()
         {
-            if (!IsMonitoringOn && !_wasMonitoringOn) // see issue 680
-            {
-                return InitializeRtuManager(null); // Reset Charon
-            }
+            // see issue 713
+            //if (!IsMonitoringOn && !_wasMonitoringOn) // see issue 680
+            //{
+            //    return InitializeRtuManager(null); // Reset Charon
+            //}
 
             var previousStep = (RecoveryStep)_serviceIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
 
@@ -23,14 +24,17 @@ namespace Iit.Fibertest.RtuManagement
                 case RecoveryStep.Ok:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                     RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
-                    return InitializeRtuManager(null); // Reset Charon
+                    var recoveryResult = InitializeRtuManager(null);
+                    if (recoveryResult == ReturnCode.Ok)
+                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                    return recoveryResult; // Reset Charon
                 case RecoveryStep.ResetArpAndCharon:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
                     _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
                     _serviceLog.AppendLine("Recovery procedure: Exit rtu service.");
                     Environment.FailFast("Recovery procedure: Exit rtu service.");
-//                    Environment.Exit(1); // ваще не выходит
-                  //  new ServiceController("FibertestRtuService").Stop(); // медленно выходит, успевает выполнить еще несколько операторов
+                    //                    Environment.Exit(1); // ваще не выходит
+                    //  new ServiceController("FibertestRtuService").Stop(); // медленно выходит, успевает выполнить еще несколько операторов
                     // ReSharper disable once HeuristicUnreachableCode
                     return ReturnCode.Ok;
                 case RecoveryStep.RestartService:
@@ -49,12 +53,18 @@ namespace Iit.Fibertest.RtuManagement
                     {
                         _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                         RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
-                        return InitializeRtuManager(null);
+                        var recoveryResult1 = InitializeRtuManager(null);
+                        if (recoveryResult1 == ReturnCode.Ok)
+                            _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                        return recoveryResult1;
                     }
                 case RecoveryStep.RebootPc:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                     RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
-                    return InitializeRtuManager(null);
+                    var recoveryResult2 = InitializeRtuManager(null);
+                    if (recoveryResult2 == ReturnCode.Ok)
+                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                    return recoveryResult2;
             }
 
             return ReturnCode.Ok;
@@ -68,11 +78,15 @@ namespace Iit.Fibertest.RtuManagement
 
             var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 3);
             if (damagedOtau.RebootAttempts == mikrotikRebootAttemptsBeforeNotification)
-               SendByMsmq(new BopStateChangedDto()
-               {
-                   RtuId = _id, OtauIp = damagedOtau.Ip, TcpPort = damagedOtau.TcpPort, Serial = damagedOtau.Serial, IsOk = false
-               });
-                // SendByMsmq(new BopStateChangedDto() { RtuId = _id, Serial = damagedOtau.Serial, IsOk = false });
+                SendByMsmq(new BopStateChangedDto()
+                {
+                    RtuId = _id,
+                    OtauIp = damagedOtau.Ip,
+                    TcpPort = damagedOtau.TcpPort,
+                    Serial = damagedOtau.Serial,
+                    IsOk = false
+                });
+            // SendByMsmq(new BopStateChangedDto() { RtuId = _id, Serial = damagedOtau.Serial, IsOk = false });
 
             _serviceLog.AppendLine($"Mikrotik {damagedOtau.Ip} reboot N{damagedOtau.RebootAttempts}");
             _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");

@@ -52,6 +52,7 @@ namespace Iit.Fibertest.RtuManagement
             // permit to send heartbeats
             ShouldSendHeartbeat.Enqueue(new object());
 
+            _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
             return ReturnCode.Ok;
         }
 
@@ -86,7 +87,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
         {
-            var msl= 2;
+            var msl = 2;
 
             _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel: msl);
             foreach (var pair in _mainCharon.Children)
@@ -104,34 +105,34 @@ namespace Iit.Fibertest.RtuManagement
                 var expPorts = dto.Children.ToDictionary(pair => pair.Key, pair => pair.Value.NetAddress);
                 _mainCharon.RewriteIni(expPorts);
             }
-           
 
-/*
-            // detach bops if they are not attached in client
-            foreach (var pair in _mainCharon.Children.ToArray())
-            {
-                _rtuLog.AppendLine($"RTU hardware has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: msl);
 
-                if (!dto.Children.ContainsKey(pair.Key) ||
-                    pair.Value.Serial != dto.Children[pair.Key].Serial)
-                {
-                    _mainCharon.DetachOtauFromPort(pair.Key);
-                }
-            }
+            /*
+                        // detach bops if they are not attached in client
+                        foreach (var pair in _mainCharon.Children.ToArray())
+                        {
+                            _rtuLog.AppendLine($"RTU hardware has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: msl);
 
-            // attach bops if they are attached in client (even if there are no such bop in reality)
-            // initialize all child bops to get their states
-            foreach (var pair in dto.Children)
-            {
-                _rtuLog.AppendLine($"RTU in client has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: msl);
+                            if (!dto.Children.ContainsKey(pair.Key) ||
+                                pair.Value.Serial != dto.Children[pair.Key].Serial)
+                            {
+                                _mainCharon.DetachOtauFromPort(pair.Key);
+                            }
+                        }
 
-                if (!_mainCharon.Children.ContainsKey(pair.Key)
-                    || _mainCharon.Children[pair.Key].Serial != pair.Value.Serial)
-                {
-                    _mainCharon.AttachOtauToPort(pair.Value.NetAddress, pair.Key);
-                }
-            }
-*/
+                        // attach bops if they are attached in client (even if there are no such bop in reality)
+                        // initialize all child bops to get their states
+                        foreach (var pair in dto.Children)
+                        {
+                            _rtuLog.AppendLine($"RTU in client has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: msl);
+
+                            if (!_mainCharon.Children.ContainsKey(pair.Key)
+                                || _mainCharon.Children[pair.Key].Serial != pair.Value.Serial)
+                            {
+                                _mainCharon.AttachOtauToPort(pair.Value.NetAddress, pair.Key);
+                            }
+                        }
+            */
             return InitializeOtau();
         }
 

@@ -128,7 +128,14 @@ namespace Iit.Fibertest.RtuManagement
         {
             _serviceLog.EmptyLine();
             _serviceLog.AppendLine("Client asks to do measurement(client)");
-            _wcfMeasurementsOperator.StartClientMeasurement(dto);
+            if (_rtuManager.IsRtuInitialized)
+                _wcfMeasurementsOperator.StartClientMeasurement(dto);
+            else
+            {
+                _serviceLog.AppendLine("RTU initialization is in progress.");
+                var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+                callbackChannel.EndStartClientMeasurement(new ClientMeasurementStartedDto(){ReturnCode = ReturnCode.RtuInitializationInProgress});
+            }
         }
 
         public void BeginOutOfTurnPreciseMeasurement(DoOutOfTurnPreciseMeasurementDto dto) { _wcfMeasurementsOperator.OutOfTurnPreciseMeasurement(dto); }

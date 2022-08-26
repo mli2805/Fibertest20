@@ -21,6 +21,7 @@
         RtuTooBigPortNumber = 1013,
 
         RtuIsBusy = 1100,
+        RtuInitializationInProgress = 1101,
         RtuBaseRefAssignmentError = 1106,
         RtuMonitoringSettingsApplyError = 1107,
         RtuAttachOtauError = 1108,
