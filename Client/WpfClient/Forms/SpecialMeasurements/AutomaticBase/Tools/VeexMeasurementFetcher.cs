@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
                         : Resources.SID_Failed_to_do_Measurement_Client__;
 
                     return new MeasurementCompletedEventArgs(
-                        MeasurementCompletedStatus.FailedToFetchFromRtu4000,
+                        MeasurementCompletedStatus.FetchMeasurementFromRtu4000Failed,
                         trace,
                         new List<string>() 
                                 {

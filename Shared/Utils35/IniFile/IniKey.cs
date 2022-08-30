@@ -68,6 +68,7 @@
 
         // Monitoring
         IsMonitoringOn,
+        IsAutoBaseMeasurementInProgress,
         PreciseMakeTimespan,
         PreciseSaveTimespan,
         FastSaveTimespan,

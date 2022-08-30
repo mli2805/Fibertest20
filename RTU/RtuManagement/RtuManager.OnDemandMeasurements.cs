@@ -14,28 +14,50 @@ namespace Iit.Fibertest.RtuManagement
 
         public void DoClientMeasurement(DoClientMeasurementDto dto, Action callback)
         {
+            if (!IsRtuInitialized)
+            {
+                _serviceLog.AppendLine("I am initializing now. Ignore command.");
+                ClientMeasurementStartedDto = new ClientMeasurementStartedDto() 
+                    { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.RtuInitializationInProgress };
+                callback?.Invoke();
+                return;
+            }
+
+            if (IsAutoBaseMeasurementInProgress)
+            {
+                _serviceLog.AppendLine("Auto Base Measurement In Progress. Ignore command.");
+                ClientMeasurementStartedDto = new ClientMeasurementStartedDto() 
+                    { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.RtuAutoBaseMeasurementInProgress };
+                callback?.Invoke();
+                return;
+            }
+
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("DoClientMeasurement command received");
+
             if (!KeepOtdrConnection)
                 StopMonitoringAndConnectOtdrWithRecovering(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
 
             KeepOtdrConnection = dto.KeepOtdrConnection;
             _rtuIni.Write(IniSection.Monitoring, IniKey.KeepOtdrConnection, KeepOtdrConnection);
+            if (dto.IsForAutoBase)
+            {
+                IsAutoBaseMeasurementInProgress = true;
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, true);
+            }
 
-            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.Ok };
+            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() 
+                { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
             var result = Measure(dto);
-            if (result.ReturnCode != ReturnCode.MeasurementEndedNormally &&
-                    result.ReturnCode != ReturnCode.InvalidValueOfLmax &&
-                    result.ReturnCode != ReturnCode.SnrIs0 &&
-                    result.ReturnCode != ReturnCode.MeasurementInterrupted)
+           
+            var _ = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
+            if (dto.IsForAutoBase)
             {
-                ReInitializeDlls();
-                result = Measure(dto);
+                IsAutoBaseMeasurementInProgress = false;
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, false);
             }
-            var _ = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog)
-                .SendClientMeasurementDone(result);
             _rtuLog.EmptyLine();
 
             if (_wasMonitoringOn)
@@ -120,7 +142,9 @@ namespace Iit.Fibertest.RtuManagement
                 : new Charon(new NetAddress(currentOtauPortDto.NetAddress.Ip4Address, TcpPorts.IitBop), false, _rtuIni, _rtuLog);
             _cancellationTokenSource = new CancellationTokenSource();
             var measResult = _otdrManager.DoManualMeasurement(_cancellationTokenSource, true, activeBop);
-            if (_cancellationTokenSource.IsCancellationRequested)
+
+            // во время измерения или прямо сейчас
+            if (measResult == ReturnCode.MeasurementInterrupted || _cancellationTokenSource.IsCancellationRequested)
             {
                 _rtuLog.AppendLine("Measurement (Client) interrupted.");
                 _wasMonitoringOn = false;
@@ -128,8 +152,14 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuIni.Write(IniSection.Monitoring, IniKey.KeepOtdrConnection, KeepOtdrConnection);
                 return result.Set(currentOtauPortDto, ReturnCode.MeasurementInterrupted);
             }
+
             if (measResult != ReturnCode.MeasurementEndedNormally)
+            {
+                if (RunMainCharonRecovery() != ReturnCode.Ok)
+                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                 return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);
+            }
+
             var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
             if (lastSorDataBuffer == null)
                 return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);

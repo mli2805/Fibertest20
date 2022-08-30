@@ -43,7 +43,7 @@ namespace Iit.Fibertest.RtuManagement
             get { lock (_keepOtdrConnectionLocker) { return _keepOtdrConnection; } }
             set { lock (_keepOtdrConnectionLocker) { _keepOtdrConnection = value; } }
         }
-        
+
         private readonly object _lastSuccessfulMeasTimestampLocker = new object();
         private DateTime _lastSuccessfulMeasTimestamp;
         public DateTime LastSuccessfulMeasTimestamp
@@ -54,10 +54,18 @@ namespace Iit.Fibertest.RtuManagement
 
         private readonly object _isRtuInitializedLocker = new object();
         private bool _isRtuInitialized;
-        public bool IsRtuInitialized 
-        { 
+        public bool IsRtuInitialized
+        {
             get { lock (_isRtuInitializedLocker) { return _isRtuInitialized; } }
             set { lock (_isRtuInitializedLocker) { _isRtuInitialized = value; } }
+        }
+
+        private readonly object _isAutoBaseMeasurementInProgressLocker = new object();
+        private bool _isAutoBaseMeasurementInProgress;
+        public bool IsAutoBaseMeasurementInProgress
+        {
+            get { lock (_isAutoBaseMeasurementInProgressLocker) { return _isAutoBaseMeasurementInProgress; } }
+            set { lock (_isAutoBaseMeasurementInProgressLocker) { _isAutoBaseMeasurementInProgress = value; } }
         }
 
         private ReturnCode _rtuInitializationResult;

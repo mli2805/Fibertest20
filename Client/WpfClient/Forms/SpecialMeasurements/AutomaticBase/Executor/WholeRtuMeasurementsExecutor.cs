@@ -70,14 +70,14 @@ namespace Iit.Fibertest.Client
                     Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
-            if (startResult.ReturnCode != ReturnCode.Ok)
+            if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
             {
                 _timer.Stop();
                 _timer.Dispose();
 
                 var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, _trace, list));
+                    .Invoke(this, new MeasurementCompletedEventArgs(startResult.ReturnCode.Convert(), _trace, list));
 
                 return;
             }
@@ -143,7 +143,7 @@ namespace Iit.Fibertest.Client
             {
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart,
+                    .Invoke(this, new MeasurementCompletedEventArgs(dto.ReturnCode.Convert(),
                         _trace, dto.ReturnCode.GetLocalizedString()));
                 return;
             }
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.Client
             BaseRefAssigned?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
                     ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, trace, "", sorData.ToBytes())
-                    : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, trace, result.ErrorMessage));
+                    : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignmentFailed, trace, result.ErrorMessage));
         }
 
         public delegate void MeasurementHandler(object sender, MeasurementCompletedEventArgs e);

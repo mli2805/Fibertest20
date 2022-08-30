@@ -105,25 +105,35 @@ namespace Iit.Fibertest.Client
         private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementCompletedEventArgs result)
         {
             var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
-            progressItem.MeasurementDone = true;
+            progressItem.MeasurementDone = 
+                result.CompletedStatus != MeasurementCompletedStatus.RtuInitializationInProgress && 
+                    result.CompletedStatus != MeasurementCompletedStatus.RtuAutoBaseMeasurementInProgress;
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
-
-            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
-            _dispatcherProvider.GetDispatcher().Invoke(() =>
+            if (progressItem.MeasurementDone)
             {
-                WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
-            }); // sync, GUI thread
+                var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
+                _dispatcherProvider.GetDispatcher().Invoke(() =>
+                {
+                    WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
+                }); // sync, GUI thread
 
-            if (result.CompletedStatus != MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
-            {
-                _badResults.Add(result);
-                progressItem.BaseRefAssigned = true; // nothing to assign
+                if (result.CompletedStatus != MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
+                {
+                    _badResults.Add(result);
+                    progressItem.BaseRefAssigned = true; // nothing to assign
+                }
+                else
+                {
+                    _logFile.AppendLine($@"Assign base refs for {result.Trace.Title}", 2);
+                    await Task.Factory.StartNew(() => WholeRtuMeasurementsExecutor.SetAsBaseRef(result.SorBytes, result.Trace));
+                }
             }
             else
             {
-                _logFile.AppendLine($@"Assign base refs for {result.Trace.Title}", 2);
-                await Task.Factory.StartNew(() => WholeRtuMeasurementsExecutor.SetAsBaseRef(result.SorBytes, result.Trace));
+                Thread.Sleep(10000);
+
             }
+            
 
             var nextItem = _progress.FirstOrDefault(i => !i.MeasurementDone);
             if (nextItem != null)

@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Client
 
                 var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, _trace, list));
+                    .Invoke(this, new MeasurementCompletedEventArgs(startResult.ReturnCode.Convert(), _trace, list));
 
                 Model.IsEnabled = true;
                 return;
@@ -144,7 +144,7 @@ namespace Iit.Fibertest.Client
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 Model.IsEnabled = true;
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToStart, _trace, dto.ReturnCode.GetLocalizedString()));
+                    .Invoke(this, new MeasurementCompletedEventArgs(MeasurementCompletedStatus.MeasurementError, _trace, dto.ReturnCode.GetLocalizedString()));
                 return;
             }
 
@@ -165,7 +165,7 @@ namespace Iit.Fibertest.Client
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
                     ? new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignedSuccessfully, _trace, "", sorData.ToBytes())
-                    : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.FailedToAssignAsBase, _trace, result.ErrorMessage));
+                    : new MeasurementCompletedEventArgs(MeasurementCompletedStatus.BaseRefAssignmentFailed, _trace, result.ErrorMessage));
         }
 
         public delegate void MeasurementHandler(object sender, MeasurementCompletedEventArgs e);

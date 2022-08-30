@@ -22,6 +22,7 @@
 
         RtuIsBusy = 1100,
         RtuInitializationInProgress = 1101,
+        RtuAutoBaseMeasurementInProgress = 1102,
         RtuBaseRefAssignmentError = 1106,
         RtuMonitoringSettingsApplyError = 1107,
         RtuAttachOtauError = 1108,
@@ -85,5 +86,8 @@
         FirstLicenseKeyMustNotBeIncremental = 9501,
         LicenseCouldNotBeAppliedRepeatedly,
         LicenseCouldNotBeApplied,
+
+        MeasurementClientStartedSuccessfully = 9601,
+        FetchMeasurementFromRtu4000Failed = 9632,
     }
 }
