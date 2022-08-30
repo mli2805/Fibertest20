@@ -29,6 +29,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _totalTraces;
+        public string TotalTraces
+        {
+            get => _totalTraces;
+            set
+            {
+                if (value == _totalTraces) return;
+                _totalTraces = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private ObservableCollection<string> _traceResults = new ObservableCollection<string>();
         public ObservableCollection<string> TraceResults
         {

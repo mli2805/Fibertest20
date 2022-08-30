@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,7 +78,7 @@ namespace Iit.Fibertest.Client
             _rtuLeaf = rtuLeaf;
             _rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
 
-            if (!WholeRtuMeasurementsExecutor.Initialize(_rtu, true))
+            if (!WholeRtuMeasurementsExecutor.Initialize(_rtu))
                 return false;
 
             // ShouldStartMonitoring = true;
@@ -92,15 +91,15 @@ namespace Iit.Fibertest.Client
         public void Start()
         {
             _waitCursor = new WaitCursor();
-            WholeRtuMeasurementsExecutor.Model.IsEnabled = false;
-            WholeRtuMeasurementsExecutor.Model.TraceResults.Clear();
-            WholeRtuMeasurementsExecutor.Model.TraceResults
-                .Add(string.Format(Resources.SID_There_are__0__trace_s__attached_to_ports_of_the_RTU, _progress.Count));
-            WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Visible;
             _logFile.EmptyLine();
+            WholeRtuMeasurementsExecutor.Model.IsEnabled = false;
+            WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Visible;
+            WholeRtuMeasurementsExecutor.Model.TotalTraces = 
+                string.Format(Resources.SID_There_are__0__trace_s__attached_to_ports_of_the_RTU, _progress.Count);
+
             var progressItem = _progress.First();
             Task.Factory.StartNew(() =>
-                WholeRtuMeasurementsExecutor.Start(progressItem, progressItem.Ordinal < _progress.Count));
+                WholeRtuMeasurementsExecutor.StartOneMeasurement(progressItem, progressItem.Ordinal < _progress.Count));
         }
 
         private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementCompletedEventArgs result)
@@ -110,7 +109,6 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
 
             var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
-
             _dispatcherProvider.GetDispatcher().Invoke(() =>
             {
                 WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
@@ -133,7 +131,7 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine($@"Start next measurement for {nextItem.Trace.Title}");
                 Thread.Sleep(100);
                 await Task.Factory.StartNew(() =>
-                    WholeRtuMeasurementsExecutor.Start(nextItem, nextItem.Ordinal < _progress.Count));
+                    WholeRtuMeasurementsExecutor.StartOneMeasurement(nextItem, nextItem.Ordinal < _progress.Count));
             }
             else
             {
@@ -146,7 +144,7 @@ namespace Iit.Fibertest.Client
 
         private void OneMeasurementExecutor_BaseRefAssigned(object sender, MeasurementCompletedEventArgs result)
         {
-            _dispatcherProvider.GetDispatcher().Invoke(() => ProcessBaseRefAssignedResult(result)); // sync, GUI thread
+            ProcessBaseRefAssignedResult(result);
         }
 
         private async void ProcessBaseRefAssignedResult(MeasurementCompletedEventArgs result)
@@ -156,8 +154,10 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"Assigned base ref for trace {result.Trace.Title}: {result.CompletedStatus}", 2);
 
             var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
-
-            WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
+            _dispatcherProvider.GetDispatcher().Invoke(() =>
+            {
+                WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
+            });
 
             if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
                 _badResults.Add(result);
@@ -188,14 +188,13 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(mb);
 
             WholeRtuMeasurementsExecutor.Model.IsEnabled = true;
+            WholeRtuMeasurementsExecutor.Model.TraceResults.Clear();
             WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Collapsed;
-            WholeRtuMeasurementsExecutor.Model.TraceResults = new ObservableCollection<string>();
             TryClose();
         }
 
         private async Task StartMonitoring()
         {
-            WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Visible;
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.Message1 = Resources.SID_Starting_monitoring;
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
             var monitoringSettingsModel = _monitoringSettingsModelFactory.Create(_rtuLeaf, false);

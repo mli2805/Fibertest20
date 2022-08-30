@@ -25,15 +25,18 @@
         <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"
                                         DataContext="{Binding WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel}" 
                                         Visibility="{Binding ControlVisibility}"/>
-        <Border DockPanel.Dock="Top" Height="100" Width="450" Margin="5" 
+        <GroupBox DockPanel.Dock="Top" Height="150" Width="450" Margin="5" 
                 Visibility="{Binding WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility}"
-                BorderThickness="1" BorderBrush="Gray" CornerRadius="5">
-            <ListView ItemsSource="{Binding WholeRtuMeasurementsExecutor.Model.TraceResults}" BorderThickness="0" Margin="5">
-                <i:Interaction.Behaviors>
-                    <wpfCommonViews:ScrollToBottomOnAddBehavior/>
-                </i:Interaction.Behaviors>
-            </ListView>
-        </Border>
+                BorderThickness="1" BorderBrush="Gray" >
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding WholeRtuMeasurementsExecutor.Model.TotalTraces}" Margin="7, 10, 0, 0"/>
+                <ListView ItemsSource="{Binding WholeRtuMeasurementsExecutor.Model.TraceResults}" BorderThickness="0, 1, 0, 0"
+                          Margin="0, 5">
+                    <i:Interaction.Behaviors>
+                        <wpfCommonViews:ScrollToBottomOnAddBehavior />
+                    </i:Interaction.Behaviors>
+                </ListView></DockPanel>
+        </GroupBox>
         
         <CheckBox DockPanel.Dock="Top"  Margin="25, 15,5,15" 
                   Content="{x:Static stringResources:Resources.SID_Start_monitoring_when_completed}" 

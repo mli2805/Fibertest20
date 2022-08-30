@@ -42,23 +42,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private bool _isCancelButtonEnabled;
-        public bool IsCancelButtonEnabled
-        {
-            get => _isCancelButtonEnabled;
-            set
-            {
-                if (value == _isCancelButtonEnabled) return;
-                _isCancelButtonEnabled = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public void DisplayStartMeasurement(string traceTitle)
         {
             Message1 = traceTitle;
             ControlVisibility = Visibility.Visible;
-            IsCancelButtonEnabled = true;
             Message = Resources.SID_Sending_command__Wait_please___;
 
         }

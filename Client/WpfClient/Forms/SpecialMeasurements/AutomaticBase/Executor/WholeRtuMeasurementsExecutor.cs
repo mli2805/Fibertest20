@@ -20,8 +20,9 @@ namespace Iit.Fibertest.Client
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
         private Trace _trace;
-        public MeasurementModel Model { get; set; } = new MeasurementModel();
 
+        public MeasurementModel Model { get; set; } = new MeasurementModel();
+       
         public WholeRtuMeasurementsExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
@@ -44,17 +45,19 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
         }
 
-        public bool Initialize(Rtu rtu, bool isForRtu)
+        public bool Initialize(Rtu rtu)
         {
             Model.Rtu = rtu;
+            Model.TraceResults.Clear();
 
-            Model.OtdrParametersTemplatesViewModel.Initialize(rtu, isForRtu);
+            Model.OtdrParametersTemplatesViewModel.Initialize(rtu, true);
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }
 
-        public async Task Start(RtuAutoBaseProgress item, bool keepOtdrConnection = false)
+        public async Task StartOneMeasurement(RtuAutoBaseProgress item, bool keepOtdrConnection = false)
         {
-            _logFile.AppendLine($@"Start auto base measurement for {item.Trace.Title}");
+            _logFile.EmptyLine();
+            _logFile.AppendLine($@"Start auto base measurement for {item.Trace.Title}.");
             _trace = item.Trace;
             StartTimer();
 
@@ -71,8 +74,6 @@ namespace Iit.Fibertest.Client
             {
                 _timer.Stop();
                 _timer.Dispose();
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
-                Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
                 var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
                 MeasurementCompleted?
@@ -81,8 +82,11 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
-            Model.MeasurementProgressViewModel.IsCancelButtonEnabled = true;
+            _dispatcherProvider.GetDispatcher().Invoke(() =>
+            {
+                Model.MeasurementProgressViewModel.Message =
+                        Resources.SID_Measurement__Client__in_progress__Please_wait___;
+            });
 
             if (Model.Rtu.RtuMaker == RtuMaker.VeEX)
             {
@@ -116,21 +120,16 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine(@"Measurement timeout expired");
             _timer.Dispose();
 
-            _dispatcherProvider.GetDispatcher().Invoke(() =>
-            {
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
-
-                MeasurementCompleted?
-                    .Invoke(this,
-                        new MeasurementCompletedEventArgs(
-                            MeasurementCompletedStatus.MeasurementTimeoutExpired,
-                            _trace,
-                            new List<string>()
-                            {
-                                Resources.SID_Base_reference_assignment_failed, "",
+            MeasurementCompleted?
+                  .Invoke(this,
+                      new MeasurementCompletedEventArgs(
+                          MeasurementCompletedStatus.MeasurementTimeoutExpired,
+                          _trace,
+                          new List<string>()
+                          {
+                                Resources.SID_Measurement___failed, "",
                                 Resources.SID_Measurement_timeout_expired
-                            }));
-            });
+                          }));
         }
 
         public void ProcessMeasurementResult(ClientMeasurementResultDto dto)
@@ -157,7 +156,6 @@ namespace Iit.Fibertest.Client
         public async Task SetAsBaseRef(byte[] sorBytes, Trace trace)
         {
             Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
-            Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
             var sorData = SorData.FromBytes(sorBytes);
             var rftsParams = Model.AutoAnalysisParamsViewModel
@@ -166,8 +164,7 @@ namespace Iit.Fibertest.Client
 
             _landmarksIntoBaseSetter.ApplyTraceToAutoBaseRef(sorData, trace);
             _measurementAsBaseAssigner.Initialize(Model.Rtu);
-            var result = await _measurementAsBaseAssigner
-                .Assign(sorData, trace);
+            var result = await _measurementAsBaseAssigner.Assign(sorData, trace);
 
             BaseRefAssigned?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully

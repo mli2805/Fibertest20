@@ -72,7 +72,6 @@ namespace Iit.Fibertest.Client
                 _timer.Stop();
                 _timer.Dispose();
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
-                Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
                 Model.IsEnabled = true;
 
                 var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
@@ -84,7 +83,6 @@ namespace Iit.Fibertest.Client
             }
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
-            Model.MeasurementProgressViewModel.IsCancelButtonEnabled = true;
 
             if (Model.Rtu.RtuMaker == RtuMaker.VeEX)
             {
@@ -153,7 +151,6 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine(@"Measurement (Client) result received");
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
-            Model.MeasurementProgressViewModel.IsCancelButtonEnabled = false;
 
             var sorData = SorData.FromBytes(dto.SorBytes);
             var rftsParams = Model.AutoAnalysisParamsViewModel
