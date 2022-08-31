@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
         private RtuLeaf _rtuLeaf;
         private Rtu _rtu;
 
-        private List<MeasurementCompletedEventArgs> _badResults;
+        private List<MeasurementEventArgs> _badResults;
         private List<Trace> _goodTraces;
 
         public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile,
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
         public bool Initialize(RtuLeaf rtuLeaf)
         {
             _goodTraces = new List<Trace>();
-            _badResults = new List<MeasurementCompletedEventArgs>();
+            _badResults = new List<MeasurementEventArgs>();
             var i = 0;
             _progress = rtuLeaf
                 .GetAttachedTraces()
@@ -102,22 +102,22 @@ namespace Iit.Fibertest.Client
                 WholeRtuMeasurementsExecutor.StartOneMeasurement(progressItem, progressItem.Ordinal < _progress.Count));
         }
 
-        private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementCompletedEventArgs result)
+        private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementEventArgs result)
         {
             var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
             progressItem.MeasurementDone = 
-                result.CompletedStatus != MeasurementCompletedStatus.RtuInitializationInProgress && 
-                    result.CompletedStatus != MeasurementCompletedStatus.RtuAutoBaseMeasurementInProgress;
-            _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.CompletedStatus}");
+                result.Code != ReturnCode.RtuInitializationInProgress && 
+                    result.Code != ReturnCode.RtuAutoBaseMeasurementInProgress;
+            _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.Code}");
             if (progressItem.MeasurementDone)
             {
-                var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
+                var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.Code.RtuAutoBaseStyle()}";
                 _dispatcherProvider.GetDispatcher().Invoke(() =>
                 {
                     WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
                 }); // sync, GUI thread
 
-                if (result.CompletedStatus != MeasurementCompletedStatus.MeasurementCompletedSuccessfully)
+                if (result.Code != ReturnCode.MeasurementEndedNormally)
                 {
                     _badResults.Add(result);
                     progressItem.BaseRefAssigned = true; // nothing to assign
@@ -152,24 +152,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void OneMeasurementExecutor_BaseRefAssigned(object sender, MeasurementCompletedEventArgs result)
+        private void OneMeasurementExecutor_BaseRefAssigned(object sender, MeasurementEventArgs result)
         {
             ProcessBaseRefAssignedResult(result);
         }
 
-        private async void ProcessBaseRefAssignedResult(MeasurementCompletedEventArgs result)
+        private async void ProcessBaseRefAssignedResult(MeasurementEventArgs result)
         {
             var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
             progressItem.BaseRefAssigned = true;
-            _logFile.AppendLine($@"Assigned base ref for trace {result.Trace.Title}: {result.CompletedStatus}", 2);
+            _logFile.AppendLine($@"Assigned base ref for trace {result.Trace.Title}: {result.Code}", 2);
 
-            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.CompletedStatus.KhazanovStyle()}";
+            var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.Code.RtuAutoBaseStyle()}";
             _dispatcherProvider.GetDispatcher().Invoke(() =>
             {
                 WholeRtuMeasurementsExecutor.Model.TraceResults.Add(line);
             });
 
-            if (result.CompletedStatus != MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
+            if (result.Code != ReturnCode.BaseRefAssignedSuccessfully)
                 _badResults.Add(result);
             else
                 _goodTraces.Add(result.Trace);

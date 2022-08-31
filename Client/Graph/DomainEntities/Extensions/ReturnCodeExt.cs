@@ -34,6 +34,10 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_RTU_does_not_support_BOP;
                 case ReturnCode.RtuTooBigPortNumber:
                     return Resources.SID_Too_big_port_number_for_BOP_attachment;
+                case ReturnCode.RtuInitializationInProgress:
+                    return @"RTU initialization in progress";
+                case ReturnCode.RtuAutoBaseMeasurementInProgress:
+                    return @"Auto base measurement in progress";
                 case ReturnCode.RtuAttachOtauError:
                     return Resources.SID_Attach_OTAU_error_;
                 case ReturnCode.RtuDetachOtauError:
@@ -49,10 +53,15 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_No_fiber;
                 case ReturnCode.MeasurementError:
                     return Resources.SID_Measurement_error;
-                 case ReturnCode.MeasurementPreparationError:
-                    return Resources.SID_Measurement_preparation_error; 
+                case ReturnCode.MeasurementEndedNormally:
+                    return Resources.SID_Measurement_completed_successfully;
+                case ReturnCode.MeasurementPreparationError:
+                    return Resources.SID_Measurement_preparation_error;
                 case ReturnCode.MeasurementInterrupted:
                     return Resources.SID_Measurement_interrupted;
+                case ReturnCode.MeasurementTimeoutExpired:
+                    return Resources.SID_Measurement_timeout_expired;
+
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:
@@ -121,8 +130,39 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.LicenseCouldNotBeAppliedRepeatedly:
                     return Resources.SID_License_could_not_be_applied_repeatedly_;
 
+                //9601
+                case ReturnCode.MeasurementClientStartedSuccessfully:
+                    return @"Measurement(Client) started.";
+
+             
                 default: return Resources.SID_Unknown_return_code + @":  " + ((int)returnCode);
             }
+        }
+
+        public static string RtuAutoBaseStyle(this ReturnCode status)
+        {
+            switch (status)
+            {
+                case ReturnCode.MeasurementClientStartedSuccessfully:
+                    return @"Measurement started";
+                case ReturnCode.MeasurementEndedNormally:
+                    return Resources.SID_Measurement___successfully;
+                case ReturnCode.BaseRefAssignedSuccessfully:
+                    return Resources.SID_Assignment___successfully;
+
+                case ReturnCode.RtuInitializationInProgress:
+                case ReturnCode.RtuAutoBaseMeasurementInProgress:
+                case ReturnCode.InvalidValueOfLmax:
+                case ReturnCode.SnrIs0:
+                case ReturnCode.MeasurementError:
+                case ReturnCode.MeasurementTimeoutExpired:
+                case ReturnCode.FetchMeasurementFromRtu4000Failed:
+                    return Resources.SID_Measurement___failed;
+
+                case ReturnCode.BaseRefAssignmentFailed:
+                    return Resources.SID_Assignment___failed;
+            }
+            return @"Unknown status";
         }
     }
 }

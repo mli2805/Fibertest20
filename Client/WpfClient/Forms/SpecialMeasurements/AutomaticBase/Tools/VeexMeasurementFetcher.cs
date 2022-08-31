@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfCommonManager = c2DWcfCommonManager;
         }
 
-        public async Task<MeasurementCompletedEventArgs> Fetch(Guid rtuId, Trace trace, Guid clientMeasurementId)
+        public async Task<MeasurementEventArgs> Fetch(Guid rtuId, Trace trace, Guid clientMeasurementId)
         {
             var getDto = new GetClientMeasurementDto()
             {
@@ -38,8 +38,8 @@ namespace Iit.Fibertest.Client
                         ? measResult.ReturnCode.GetLocalizedString()
                         : Resources.SID_Failed_to_do_Measurement_Client__;
 
-                    return new MeasurementCompletedEventArgs(
-                        MeasurementCompletedStatus.FetchMeasurementFromRtu4000Failed,
+                    return new MeasurementEventArgs(
+                        ReturnCode.FetchMeasurementFromRtu4000Failed,
                         trace,
                         new List<string>() 
                                 {
@@ -53,8 +53,8 @@ namespace Iit.Fibertest.Client
                 {
                     var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
                     _logFile.AppendLine($@"Fetched measurement {clientMeasurementId.First6()} from VEEX RTU");
-                    return new MeasurementCompletedEventArgs(
-                        MeasurementCompletedStatus.MeasurementCompletedSuccessfully, trace, "", measResultWithSorBytes.SorBytes);
+                    return new MeasurementEventArgs(
+                        ReturnCode.MeasurementEndedNormally, trace, "", measResultWithSorBytes.SorBytes);
                 }
             }
         }

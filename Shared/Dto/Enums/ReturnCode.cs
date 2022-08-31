@@ -35,6 +35,7 @@
         MeasurementEndedNormally = 1501,
         MeasurementPreparationError = 1502,
         MeasurementInterrupted = 1503,
+        MeasurementTimeoutExpired,
 
         TcpConnectionError = 2000,
         C2DWcfConnectionError = 2001,

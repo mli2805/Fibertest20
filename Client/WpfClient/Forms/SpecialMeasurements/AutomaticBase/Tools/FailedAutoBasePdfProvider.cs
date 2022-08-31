@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class FailedAutoBasePdfProvider
     {
-        public PdfDocument Create(Rtu rtu, List<MeasurementCompletedEventArgs> measurements)
+        public PdfDocument Create(Rtu rtu, List<MeasurementEventArgs> measurements)
         {
             Document doc = new Document();
             doc.DefaultPageSetup.Orientation = Orientation.Portrait;
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
             paragraph.Format.Font.Size = 16;
         }
 
-        private void OneFailedMeasurement(Section section, MeasurementCompletedEventArgs measurement)
+        private void OneFailedMeasurement(Section section, MeasurementEventArgs measurement)
         {
             var traceParagraph = section.AddParagraph();
             traceParagraph.Format.Font.Size = 12;
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
             statusParagraph.Format.Font.Size = 11;
             statusParagraph.Format.SpaceBefore = Unit.FromCentimeter(0.2);
             statusParagraph.Format.LeftIndent = Unit.FromCentimeter(1);
-            statusParagraph.AddFormattedText($@"{measurement.CompletedStatus.GetLocalizedString()}");
+            statusParagraph.AddFormattedText($@"{measurement.Code.GetLocalizedString()}");
 
             foreach (var line in measurement.Lines.Where(l => l != null))
             {

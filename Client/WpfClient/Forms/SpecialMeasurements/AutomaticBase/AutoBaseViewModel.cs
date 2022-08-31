@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -56,15 +57,15 @@ namespace Iit.Fibertest.Client
 
         private void OneMeasurementExecutor_MeasurementCompleted(object sender, EventArgs e)
         {
-            var result = (MeasurementCompletedEventArgs)e;
-            _logFile.AppendLine($@"Measurement on trace {_traceLeaf.Title}: {result.CompletedStatus}");
+            var result = (MeasurementEventArgs)e;
+            _logFile.AppendLine($@"Measurement on trace {_traceLeaf.Title}: {result.Code}");
 
 
             _waitCursor.Dispose();
             OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             OneMeasurementExecutor.Model.IsEnabled = true;
 
-            if (result.CompletedStatus == MeasurementCompletedStatus.BaseRefAssignedSuccessfully)
+            if (result.Code == ReturnCode.BaseRefAssignedSuccessfully)
             {
                 if (IsShowRef)
                     _reflectogramManager.ShowClientMeasurement(result.SorBytes);
