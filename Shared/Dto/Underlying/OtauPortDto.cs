@@ -31,5 +31,11 @@ namespace Iit.Fibertest.Dto
             clone.NetAddress = NetAddress.Clone();
             return clone;
         }
+
+        public string ToStringB()
+        {
+            return IsPortOnMainCharon ? OpticalPort.ToString() : $"{MainCharonPort}:{OpticalPort}";
+            return IsPortOnMainCharon ? OpticalPort.ToString() : $"{MainCharonPort}:{OpticalPort}";
+        }
     }
 }

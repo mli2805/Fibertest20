@@ -77,10 +77,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             ClientMeasurementResultDto result = new ClientMeasurementResultDto().Initialize(dto);
             if (!ToggleToPort(dto.OtauPortDto[0]))
-            {
-                _rtuLog.AppendLine("Failed to toggle to port");
                 return result.Set(dto.OtauPortDto[0], ReturnCode.RtuToggleToPortError);
-            }
 
             var prepareResult = dto.IsAutoLmax
                 ? PrepareAutoLmaxMeasurement(dto)

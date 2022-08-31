@@ -188,13 +188,19 @@ namespace Iit.Fibertest.Client
             if (_badResults.Any())
                 ShowReport();
 
+            string startMonitoringResult = "";
             if (ShouldStartMonitoring && _goodTraces.Any())
-                await StartMonitoring();
+                startMonitoringResult = await StartMonitoring();
 
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
 
             var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
             var strs = new List<string>() { Resources.SID_The_process_of_setting_base_ref_for_RTU, _rtu.Title, Resources.SID_is_completed_at_ + timestamp };
+            if (ShouldStartMonitoring)
+            {
+                strs.Add("");
+                strs.Add(string.IsNullOrEmpty(startMonitoringResult) ? Resources.SID_Monitoring_settings_applied_successfully_ : startMonitoringResult);
+            }
             var mb = new MyMessageBoxViewModel(MessageType.Information, strs);
             _windowManager.ShowDialogWithAssignedOwner(mb);
 
@@ -204,7 +210,7 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        private async Task StartMonitoring()
+        private async Task<string> StartMonitoring()
         {
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.Message1 = Resources.SID_Starting_monitoring;
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.Message = Resources.SID_Sending_command__Wait_please___;
@@ -225,12 +231,11 @@ namespace Iit.Fibertest.Client
                 if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 {
                     var cmd = dto.CreateCommand();
-                    var result = await _desktopC2DWcfManager.SendCommandAsObj(cmd);
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        var mb = new MyMessageBoxViewModel(MessageType.Error, result);
-                        _windowManager.ShowDialogWithAssignedOwner(mb);
-                    }
+                    return await _desktopC2DWcfManager.SendCommandAsObj(cmd);
+                }
+                else
+                {
+                    return Resources.SID_Failed_to_apply_monitoring_settings_;
                 }
             }
         }

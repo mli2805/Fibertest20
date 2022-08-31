@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -75,9 +74,8 @@ namespace Iit.Fibertest.Client
                 _timer.Stop();
                 _timer.Dispose();
 
-                var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementEventArgs(startResult.ReturnCode, _trace, list));
+                    .Invoke(this, new MeasurementEventArgs(startResult.ReturnCode, _trace, startResult.ErrorMessage));
 
                 return;
             }
@@ -121,15 +119,7 @@ namespace Iit.Fibertest.Client
             _timer.Dispose();
 
             MeasurementCompleted?
-                  .Invoke(this,
-                      new MeasurementEventArgs(
-                          ReturnCode.MeasurementTimeoutExpired,
-                          _trace,
-                          new List<string>()
-                          {
-                                Resources.SID_Measurement___failed, "",
-                                Resources.SID_Measurement_timeout_expired
-                          }));
+                  .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementTimeoutExpired, _trace, ""));
         }
 
         public void ProcessMeasurementResult(ClientMeasurementResultDto dto)
@@ -144,7 +134,7 @@ namespace Iit.Fibertest.Client
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 MeasurementCompleted?
                     .Invoke(this, new MeasurementEventArgs(dto.ReturnCode,
-                        _trace, dto.ReturnCode.GetLocalizedString()));
+                        _trace, ""));
                 return;
             }
 

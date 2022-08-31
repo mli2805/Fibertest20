@@ -85,7 +85,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.BaseRefAssignedSuccessfully:
                     return Resources.SID_Base_ref_s__are_saved_successfully_;
                 case ReturnCode.MonitoringSettingsAppliedSuccessfully:
-                    return Resources.SID_Monitoring_settings_are_applied_successfully_;
+                    return Resources.SID_Monitoring_settings_applied_successfully_;
                 // 9000
                 case ReturnCode.ClientRegisteredSuccessfully:
                     return @"OK";
@@ -141,9 +141,9 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public static string RtuAutoBaseStyle(this ReturnCode status)
+        public static string RtuAutoBaseStyle(this ReturnCode code)
         {
-            switch (status)
+            switch (code)
             {
                 case ReturnCode.MeasurementClientStartedSuccessfully:
                     return @"Measurement started";
@@ -159,12 +159,19 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.MeasurementError:
                 case ReturnCode.MeasurementTimeoutExpired:
                 case ReturnCode.FetchMeasurementFromRtu4000Failed:
+
+                case ReturnCode.C2DWcfConnectionError:
+                case ReturnCode.C2DWcfOperationError:
+                case ReturnCode.D2RWcfConnectionError:
+                case ReturnCode.D2RWcfOperationError:
+                case ReturnCode.C2RWcfConnectionError:
+                case ReturnCode.C2RWcfOperationError:
                     return Resources.SID_Measurement___failed;
 
                 case ReturnCode.BaseRefAssignmentFailed:
                     return Resources.SID_Assignment___failed;
             }
-            return @"Unknown status";
+            return Resources.SID_Unknown_code;
         }
     }
 }

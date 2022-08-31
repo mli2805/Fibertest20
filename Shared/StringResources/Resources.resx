@@ -1172,8 +1172,8 @@ RTU is initializing right now!</value>
 	<data name="SID_Base_ref_s__are_saved_successfully_" xml:space="preserve">
     <value>Base ref(s) are saved successfully.</value>
   </data>
-	<data name="SID_Monitoring_settings_are_applied_successfully_" xml:space="preserve">
-    <value>Monitoring settings are applied successfully.</value>
+	<data name="SID_Monitoring_settings_applied_successfully_" xml:space="preserve">
+    <value>Monitoring settings applied successfully.</value>
   </data>
 	<data name="SID_User_with_the_same_name_is_registered_on_another_PC" xml:space="preserve">
     <value>User with the same name is registered from another device</value>
@@ -3362,12 +3362,6 @@ Please try again later</value>
 	<data name="SID_Measurement_preparation_error" xml:space="preserve">
 		<value>Measurement preparation error</value>
 	</data>
-	<data name="SID_The_process_of_setting_base_ref_for_RTU" xml:space="preserve">
-		<value>The process of setting base ref for RTU</value>
-	</data>
-	<data name="SID_is_completed_at_" xml:space="preserve">
-		<value>is completed at </value>
-	</data>
 	<data name="SID_Measurement___successfully" xml:space="preserve">
 		<value>Measurement - successfully</value>
 	</data>
@@ -3400,5 +3394,17 @@ Please try again later</value>
 	</data>
 	<data name="SID_not_configured" xml:space="preserve">
 		<value>not configured</value>
+	</data>
+	<data name="SID_Unsuccessful_attempts_to_set_base_refs_for_RTU" xml:space="preserve">
+		<value>Unsuccessful attempts to set base refs for RTU</value>
+	</data>
+	<data name="SID_The_process_completed_at_" xml:space="preserve">
+		<value>The process completed at </value>
+	</data>
+	<data name="SID_The_process_of_setting_base_ref_for_RTU" xml:space="preserve">
+		<value>The process of setting base ref for RTU</value>
+	</data>
+	<data name="SID_is_completed_at_" xml:space="preserve">
+		<value>is completed at </value>
 	</data>
 </root>

@@ -127,7 +127,7 @@ namespace Iit.Fibertest.RtuManagement
         public void BeginClientMeasurement(DoClientMeasurementDto dto)
         {
             _serviceLog.EmptyLine();
-            _serviceLog.AppendLine($"Client asks to do measurement(client) {dto.OtauPortDto[0].NetAddress.Ip4Address}:{dto.OtauPortDto[0].OpticalPort}");
+            _serviceLog.AppendLine($"Client asks to do measurement(client) on port {dto.OtauPortDto[0].ToStringB()}");
             if (_rtuManager.IsRtuInitialized)
                 _wcfMeasurementsOperator.StartClientMeasurement(dto);
             else

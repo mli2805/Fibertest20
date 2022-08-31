@@ -233,6 +233,7 @@ namespace Iit.Fibertest.RtuManagement
         private bool ToggleToPort(OtauPortDto port)
         {
             var toggleResult = _mainCharon.SetExtendedActivePort(port.Serial, port.OpticalPort);
+            _rtuLog.AppendLine(toggleResult == CharonOperationResult.Ok ? "Toggled Ok." : "Failed to toggle to port");
             return toggleResult == CharonOperationResult.Ok;
         }
     }

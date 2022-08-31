@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Iit.Fibertest.Dto;
@@ -74,9 +73,8 @@ namespace Iit.Fibertest.Client
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 Model.IsEnabled = true;
 
-                var list = new List<string>() { startResult.ReturnCode.GetLocalizedString(), startResult.ErrorMessage };
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementEventArgs(startResult.ReturnCode, _trace, list));
+                    .Invoke(this, new MeasurementEventArgs(startResult.ReturnCode, _trace, startResult.ErrorMessage));
 
                 Model.IsEnabled = true;
                 return;
@@ -121,15 +119,7 @@ namespace Iit.Fibertest.Client
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
 
                 MeasurementCompleted?
-                    .Invoke(this,
-                        new MeasurementEventArgs(
-                            ReturnCode.MeasurementTimeoutExpired,
-                            _trace,
-                            new List<string>()
-                            {
-                                Resources.SID_Base_reference_assignment_failed, "",
-                                Resources.SID_Measurement_timeout_expired
-                            }));
+                    .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementTimeoutExpired, _trace, ""));
                 Model.IsEnabled = true;
             });
         }
@@ -144,7 +134,7 @@ namespace Iit.Fibertest.Client
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
                 Model.IsEnabled = true;
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementError, _trace, dto.ReturnCode.GetLocalizedString()));
+                    .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementError, _trace, ""));
                 return;
             }
 

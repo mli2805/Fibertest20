@@ -43,16 +43,16 @@ namespace Iit.Fibertest.Client
             var paragraph = section.AddParagraph();
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
             paragraph.Format.Font.Size = 16;
-            paragraph.AddFormattedText($@"{Resources.SID_The_process_of_setting_base_ref_for_RTU}", TextFormat.Bold);
+            paragraph.AddFormattedText(Resources.SID_Unsuccessful_attempts_to_set_base_refs_for_RTU, TextFormat.Bold);
 
             paragraph = section.AddParagraph();
-            paragraph.Format.Font.Size = 16;
+            paragraph.Format.Font.Size = 18;
             paragraph.AddFormattedText($@"{rtu.Title}", TextFormat.Bold);
 
             paragraph = section.AddParagraph();
             var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
-            paragraph.AddFormattedText($@"{Resources.SID_is_completed_at_ + timestamp}", TextFormat.Bold);
-            paragraph.Format.Font.Size = 16;
+            paragraph.AddFormattedText(Resources.SID_The_process_completed_at_ + timestamp, TextFormat.Bold);
+            paragraph.Format.Font.Size = 12;
         }
 
         private void OneFailedMeasurement(Section section, MeasurementEventArgs measurement)

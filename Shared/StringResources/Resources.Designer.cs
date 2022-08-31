@@ -1458,15 +1458,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot establish connection with RTU.
-        /// </summary>
-        public static string SID_Cannot_establish_connection_with_RTU {
-            get {
-                return ResourceManager.GetString("SID_Cannot_establish_connection_with_RTU", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot establish connection with RTU!.
         /// </summary>
         public static string SID_Cannot_establish_connection_with_RTU_ {
@@ -5389,20 +5380,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monitoring settings applied successfully..
+        /// </summary>
+        public static string SID_Monitoring_settings_applied_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_settings_applied_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monitoring settings applied successfully: {0}.
         /// </summary>
         public static string SID_Monitoring_settings_applied_successfully___0_ {
             get {
                 return ResourceManager.GetString("SID_Monitoring_settings_applied_successfully___0_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monitoring settings are applied successfully..
-        /// </summary>
-        public static string SID_Monitoring_settings_are_applied_successfully_ {
-            get {
-                return ResourceManager.GetString("SID_Monitoring_settings_are_applied_successfully_", resourceCulture);
             }
         }
         
@@ -8568,6 +8559,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The process completed at .
+        /// </summary>
+        public static string SID_The_process_completed_at_ {
+            get {
+                return ResourceManager.GetString("SID_The_process_completed_at_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The process of setting base ref for RTU.
         /// </summary>
         public static string SID_The_process_of_setting_base_ref_for_RTU {
@@ -9347,6 +9347,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Unprocessed {
             get {
                 return ResourceManager.GetString("SID_Unprocessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsuccessful attempts to set base refs for RTU.
+        /// </summary>
+        public static string SID_Unsuccessful_attempts_to_set_base_refs_for_RTU {
+            get {
+                return ResourceManager.GetString("SID_Unsuccessful_attempts_to_set_base_refs_for_RTU", resourceCulture);
             }
         }
         

@@ -1175,7 +1175,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Base_ref_s__are_saved_successfully_" xml:space="preserve">
     <value>Базовая/ые сохранены успешно</value>
   </data>
-	<data name="SID_Monitoring_settings_are_applied_successfully_" xml:space="preserve">
+	<data name="SID_Monitoring_settings_applied_successfully_" xml:space="preserve">
     <value>Настройки мониторинга применены успешно.</value>
   </data>
 	<data name="SID_User_with_the_same_name_is_registered_on_another_PC" xml:space="preserve">
@@ -3362,12 +3362,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurement_preparation_error" xml:space="preserve">
 		<value>Ошибка подготовки измерения</value>
 	</data>
-	<data name="SID_The_process_of_setting_base_ref_for_RTU" xml:space="preserve">
-		<value>Процесс задания базовых рефлектограмм для RTU</value>
-	</data>
-	<data name="SID_is_completed_at_" xml:space="preserve">
-		<value>завершен в </value>
-	</data>
 	<data name="SID_Measurement___successfully" xml:space="preserve">
 		<value>Измерение - успешно</value>
 	</data>
@@ -3400,5 +3394,17 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_not_configured" xml:space="preserve">
 		<value>не настроено</value>
+	</data>
+	<data name="SID_Unsuccessful_attempts_to_set_base_refs_for_RTU" xml:space="preserve">
+		<value>Неудачные попытки задания базовых рефлектограмм для RTU</value>
+	</data>
+	<data name="SID_The_process_completed_at_" xml:space="preserve">
+		<value>Процесс завершен в </value>
+	</data>
+	<data name="SID_The_process_of_setting_base_ref_for_RTU" xml:space="preserve">
+		<value>Процесс задания базовых для RTU</value>
+	</data>
+	<data name="SID_is_completed_at_" xml:space="preserve">
+		<value>завершен в </value>
 	</data>
 </root>
