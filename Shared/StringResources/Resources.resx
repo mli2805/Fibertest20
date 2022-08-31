@@ -1163,9 +1163,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Error_during_Client_Datacenter_connection" xml:space="preserve">
     <value>Error during Client-Datacenter connection</value>
   </data>
-	<data name="SID_Cannot_establish_connection_with_RTU" xml:space="preserve">
-    <value>Cannot establish connection with RTU</value>
-  </data>
 	<data name="SID_Error_during_Datacenter_Rtu_connection" xml:space="preserve">
     <value>Error during Datacenter-Rtu connection</value>
   </data>

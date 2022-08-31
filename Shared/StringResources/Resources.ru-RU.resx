@@ -1166,9 +1166,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Error_during_Client_Datacenter_connection" xml:space="preserve">
     <value>Ошибка во время соединения Клиент-Датацентр</value>
   </data>
-	<data name="SID_Cannot_establish_connection_with_RTU" xml:space="preserve">
-    <value>Невозможно установить соединение с RTU</value>
-  </data>
 	<data name="SID_Error_during_Datacenter_Rtu_connection" xml:space="preserve">
     <value>Ошибка во время соединения Датацентр-RTU</value>
   </data>

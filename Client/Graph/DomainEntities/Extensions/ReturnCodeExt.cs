@@ -69,9 +69,11 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.C2DWcfOperationError:
                     return Resources.SID_Error_during_Client_Datacenter_connection + $@" {exceptionMessage}";
                 case ReturnCode.D2RWcfConnectionError:
-                    return Resources.SID_Cannot_establish_connection_with_RTU;
+                    return Resources.SID_Cannot_establish_connection_with_RTU_ + $@" {exceptionMessage}";
                 case ReturnCode.D2RWcfOperationError:
                     return Resources.SID_Error_during_Datacenter_Rtu_connection + $@" {exceptionMessage}";
+                case ReturnCode.C2RWcfConnectionError:
+                    return Resources.SID_Cannot_establish_connection_with_RTU_ + $@" {exceptionMessage}";
                 case ReturnCode.C2RWcfOperationError:
                     return Resources.SID_Error_during_Client_RTU_operation__ + $@" {exceptionMessage}";
 
@@ -134,7 +136,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.MeasurementClientStartedSuccessfully:
                     return @"Measurement(Client) started.";
 
-             
+
                 default: return Resources.SID_Unknown_return_code + @":  " + ((int)returnCode);
             }
         }

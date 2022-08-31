@@ -187,6 +187,7 @@ namespace Iit.Fibertest.Client
 
             if (_badResults.Any())
                 ShowReport();
+
             if (ShouldStartMonitoring && _goodTraces.Any())
                 await StartMonitoring();
 
