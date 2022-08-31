@@ -134,7 +134,6 @@ namespace Iit.Fibertest.Client
 
             }
             
-
             var nextItem = _progress.FirstOrDefault(i => !i.MeasurementDone);
             if (nextItem != null)
             {
