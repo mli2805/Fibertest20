@@ -109,7 +109,7 @@ namespace Iit.Fibertest.Client
 
             Message = Resources.SID_Sending_command__Wait_please___;
             var startResult = await _c2RWcfManager.DoClientMeasurementAsync(_dto);
-            if (startResult.ReturnCode != ReturnCode.Ok)
+            if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, startResult.ErrorMessage);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
