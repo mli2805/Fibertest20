@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Client
             statusParagraph.Format.LeftIndent = Unit.FromCentimeter(1);
             statusParagraph.AddFormattedText($@"{measurement.Code.GetLocalizedString()}");
 
-            foreach (var line in measurement.Lines.Where(l => l != null))
+            foreach (var line in measurement.AdditionalErrorLines.Where(l => !string.IsNullOrEmpty(l)))
             {
                 var lineParagraph = section.AddParagraph();
                 lineParagraph.Format.Font.Size = 10;

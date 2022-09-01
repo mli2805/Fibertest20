@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System.Windows;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -119,7 +118,7 @@ namespace Iit.Fibertest.Client
             _timer.Dispose();
 
             MeasurementCompleted?
-                  .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementTimeoutExpired, _trace, ""));
+                  .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementTimeoutExpired, _trace));
         }
 
         public void ProcessMeasurementResult(ClientMeasurementResultDto dto)
@@ -131,16 +130,13 @@ namespace Iit.Fibertest.Client
 
             if (dto.SorBytes == null)
             {
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
-                MeasurementCompleted?
-                    .Invoke(this, new MeasurementEventArgs(dto.ReturnCode,
-                        _trace, ""));
+                MeasurementCompleted?.Invoke(this, new MeasurementEventArgs(dto.ReturnCode, _trace));
                 return;
             }
 
             MeasurementCompleted?
                 .Invoke(this, new MeasurementEventArgs(
-                    ReturnCode.MeasurementEndedNormally, _trace, "", dto.SorBytes));
+                    ReturnCode.MeasurementEndedNormally, _trace, dto.SorBytes));
         }
 
         public async Task SetAsBaseRef(byte[] sorBytes, Trace trace)
@@ -158,7 +154,7 @@ namespace Iit.Fibertest.Client
 
             BaseRefAssigned?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
-                    ? new MeasurementEventArgs(ReturnCode.BaseRefAssignedSuccessfully, trace, "", sorData.ToBytes())
+                    ? new MeasurementEventArgs(ReturnCode.BaseRefAssignedSuccessfully, trace, sorData.ToBytes())
                     : new MeasurementEventArgs(ReturnCode.BaseRefAssignmentFailed, trace, result.ErrorMessage));
         }
 

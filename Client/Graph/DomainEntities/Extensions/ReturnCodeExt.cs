@@ -46,6 +46,7 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Failed_to_apply_monitoring_settings_;
 
                 case ReturnCode.RtuToggleToPortError:
+                case ReturnCode.RtuToggleToBopPortError:
                     return Resources.SID_Failed_to_toggle_to_port;
                 case ReturnCode.InvalidValueOfLmax:
                     return Resources.SID_Failed_to_automatically_determine_the_correct_measurement_parameters;
@@ -154,6 +155,8 @@ namespace Iit.Fibertest.Graph
 
                 case ReturnCode.RtuInitializationInProgress:
                 case ReturnCode.RtuAutoBaseMeasurementInProgress:
+                case ReturnCode.RtuToggleToPortError:
+                case ReturnCode.RtuToggleToBopPortError:
                 case ReturnCode.InvalidValueOfLmax:
                 case ReturnCode.SnrIs0:
                 case ReturnCode.MeasurementError:

@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
                     Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
-            if (startResult.ReturnCode != ReturnCode.Ok)
+            if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
             {
                 _timer.Stop();
                 _timer.Dispose();
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Client
                 Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
 
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementTimeoutExpired, _trace, ""));
+                    .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementTimeoutExpired, _trace));
                 Model.IsEnabled = true;
             });
         }
@@ -131,10 +131,8 @@ namespace Iit.Fibertest.Client
 
             if (dto.SorBytes == null)
             {
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
-                Model.IsEnabled = true;
                 MeasurementCompleted?
-                    .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementError, _trace, ""));
+                    .Invoke(this, new MeasurementEventArgs(dto.ReturnCode, _trace));
                 return;
             }
 
@@ -149,12 +147,11 @@ namespace Iit.Fibertest.Client
 
             _landmarksIntoBaseSetter.ApplyTraceToAutoBaseRef(sorData, _trace);
             _measurementAsBaseAssigner.Initialize(Model.Rtu);
-            var result = await _measurementAsBaseAssigner
-                .Assign(sorData, _trace);
+            var result = await _measurementAsBaseAssigner.Assign(sorData, _trace);
 
             MeasurementCompleted?
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
-                    ? new MeasurementEventArgs(ReturnCode.BaseRefAssignedSuccessfully, _trace, "", sorData.ToBytes())
+                    ? new MeasurementEventArgs(ReturnCode.BaseRefAssignedSuccessfully, _trace, sorData.ToBytes())
                     : new MeasurementEventArgs(ReturnCode.BaseRefAssignmentFailed, _trace, result.ErrorMessage));
         }
 

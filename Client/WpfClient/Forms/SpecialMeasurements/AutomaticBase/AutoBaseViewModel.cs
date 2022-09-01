@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
@@ -15,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly ReflectogramManager _reflectogramManager;
         private TraceLeaf _traceLeaf;
 
@@ -22,12 +24,13 @@ namespace Iit.Fibertest.Client
         public OneMeasurementExecutor OneMeasurementExecutor { get; }
         public bool IsShowRef { get; set; }
 
-        public AutoBaseViewModel(IMyLog logFile, Model readModel, IWindowManager windowManager,
+        public AutoBaseViewModel(IMyLog logFile, Model readModel, IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
             OneMeasurementExecutor oneMeasurementExecutor, ReflectogramManager reflectogramManager)
         {
             _logFile = logFile;
             _readModel = readModel;
             _windowManager = windowManager;
+            _dispatcherProvider = dispatcherProvider;
             OneMeasurementExecutor = oneMeasurementExecutor;
             _reflectogramManager = reflectogramManager;
         }
@@ -60,7 +63,11 @@ namespace Iit.Fibertest.Client
             var result = (MeasurementEventArgs)e;
             _logFile.AppendLine($@"Measurement on trace {_traceLeaf.Title}: {result.Code}");
 
+            _dispatcherProvider.GetDispatcher().Invoke(() => Finish(result));
+        }
 
+        private void Finish(MeasurementEventArgs result)
+        {
             _waitCursor.Dispose();
             OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
             OneMeasurementExecutor.Model.IsEnabled = true;
@@ -73,7 +80,10 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result.Lines, 0);
+                var strings = new List<string>() { result.Code.GetLocalizedString() };
+                if (result.AdditionalErrorLines[0] != "")
+                    strings.AddRange(result.AdditionalErrorLines);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, strings, 0);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }

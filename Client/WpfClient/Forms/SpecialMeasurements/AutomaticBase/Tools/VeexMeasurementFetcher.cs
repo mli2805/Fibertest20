@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
                     var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
                     _logFile.AppendLine($@"Fetched measurement {clientMeasurementId.First6()} from VEEX RTU");
                     return new MeasurementEventArgs(
-                        ReturnCode.MeasurementEndedNormally, trace, "", measResultWithSorBytes.SorBytes);
+                        ReturnCode.MeasurementEndedNormally, trace, measResultWithSorBytes.SorBytes);
                 }
             }
         }

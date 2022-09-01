@@ -73,6 +73,7 @@
         PreciseSaveTimespan,
         FastSaveTimespan,
         LastMeasurementTimestamp,
+        LastAutoBaseMeasurementTimestamp,
         SaveSorData,
         KeepOtdrConnection,
 
@@ -88,6 +89,7 @@
         RtuServiceName,
         LastRestartTime,
         MaxGapBetweenMeasurements,
+        MaxGapBetweenAutoBaseMeasurements,
 
         // NetTcpBinding
         OpenTimeoutMs,

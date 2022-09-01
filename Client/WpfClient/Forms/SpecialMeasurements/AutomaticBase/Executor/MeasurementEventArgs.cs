@@ -9,23 +9,32 @@ namespace Iit.Fibertest.Client
     {
         public readonly ReturnCode Code;
         public readonly Trace Trace;
-        public readonly List<string> Lines;
+        public readonly List<string> AdditionalErrorLines;
         public readonly byte[] SorBytes;
 
-        public MeasurementEventArgs(ReturnCode code, Trace trace, string message, byte[] sorBytes = null)
+        // success
+        public MeasurementEventArgs(ReturnCode code, Trace trace, byte[] sorBytes)
         {
             Code = code;
             Trace = trace;
-            Lines = new List<string>() { message };
+            AdditionalErrorLines = null;
             SorBytes = sorBytes;
         }
 
-        public MeasurementEventArgs(ReturnCode code, Trace trace, List<string> lines, byte[] sorBytes = null)
+        public MeasurementEventArgs(ReturnCode code, Trace trace, string errorMessage = "")
         {
             Code = code;
             Trace = trace;
-            Lines = lines;
-            SorBytes = sorBytes;
+            AdditionalErrorLines = new List<string>() { errorMessage };
+            SorBytes = null;
+        }
+
+        public MeasurementEventArgs(ReturnCode code, Trace trace, List<string> additionalErrorLines)
+        {
+            Code = code;
+            Trace = trace;
+            AdditionalErrorLines = additionalErrorLines;
+            SorBytes = null;
         }
     }
 

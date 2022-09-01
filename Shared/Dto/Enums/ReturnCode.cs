@@ -28,8 +28,9 @@
         RtuAttachOtauError = 1108,
         RtuDetachOtauError = 1109,
         RtuToggleToPortError = 1110,
-        InvalidValueOfLmax = 1111,
-        SnrIs0 = 1112,
+        RtuToggleToBopPortError = 1111,
+        InvalidValueOfLmax = 1121,
+        SnrIs0 = 1122,
 
         MeasurementError = 1500,
         MeasurementEndedNormally = 1501,

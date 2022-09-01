@@ -230,11 +230,37 @@ namespace Iit.Fibertest.RtuManagement
         }
 
 
-        private bool ToggleToPort(OtauPortDto port)
+        // private bool ToggleToPort(OtauPortDto port)
+        // {
+        //     var toggleResult = _mainCharon.SetExtendedActivePort(port.Serial, port.OpticalPort);
+        //     _rtuLog.AppendLine(toggleResult == CharonOperationResult.Ok ? "Toggled Ok." : "Failed to toggle to port");
+        //     return toggleResult == CharonOperationResult.Ok;
+        // }
+
+        private CharonOperationResult ToggleToPort2(OtauPortDto port)
         {
             var toggleResult = _mainCharon.SetExtendedActivePort(port.Serial, port.OpticalPort);
-            _rtuLog.AppendLine(toggleResult == CharonOperationResult.Ok ? "Toggled Ok." : "Failed to toggle to port");
-            return toggleResult == CharonOperationResult.Ok;
+            _rtuLog.AppendLine(toggleResult == CharonOperationResult.Ok 
+                ? "Toggled Ok." 
+                : toggleResult == CharonOperationResult.MainOtauError 
+                    ? "Failed to toggle to main otau port" : "Failed to toggle to additional otau port");
+
+            if (toggleResult == CharonOperationResult.AdditionalOtauError)
+            {
+                var connectionTimeout = _rtuIni.Read(IniSection.Charon, IniKey.ConnectionTimeout, 30);
+                var mikrotik = new MikrotikInBop(_rtuLog, port.NetAddress.Ip4Address, connectionTimeout);
+                try
+                {
+                    if (mikrotik.Connect())
+                        mikrotik.Reboot();
+                }
+                catch (Exception e)
+                {
+                    _rtuLog.AppendLine($"Cannot connect Mikrotik {port.NetAddress.Ip4Address}" + e.Message);
+                }
+            }
+           
+            return toggleResult;
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
             _logFile.EmptyLine();
             WholeRtuMeasurementsExecutor.Model.IsEnabled = false;
             WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Visible;
-            WholeRtuMeasurementsExecutor.Model.TotalTraces = 
+            WholeRtuMeasurementsExecutor.Model.TotalTraces =
                 string.Format(Resources.SID_There_are__0__trace_s__attached_to_ports_of_the_RTU, _progress.Count);
 
             var progressItem = _progress.First();
@@ -102,13 +102,47 @@ namespace Iit.Fibertest.Client
                 WholeRtuMeasurementsExecutor.StartOneMeasurement(progressItem, progressItem.Ordinal < _progress.Count));
         }
 
+        private string _brokenBop = "";
+
+        private void ProcessBrokenBop(RtuAutoBaseProgress progressItem)
+        {
+            var otauLeaf = progressItem.TraceLeaf.Parent as OtauLeaf;
+            if (otauLeaf == null) return; // impossible
+            var bopAddress = otauLeaf.OtauNetAddress.Ip4Address;
+            if (_brokenBop != bopAddress)
+            {
+                _brokenBop = bopAddress;
+                Thread.Sleep(60000);
+                return;
+            }
+
+            // second time the same problem 
+            var thisBopTraces = _progress
+                .Where(i => i.TraceLeaf.Parent is OtauLeaf o && o.OtauNetAddress.Ip4Address == _brokenBop).ToList();
+            foreach (var item in thisBopTraces)
+            {
+                item.MeasurementDone = true;
+                item.BaseRefAssigned = true;
+                if (item != progressItem)
+                    _badResults.Add(new MeasurementEventArgs(ReturnCode.RtuToggleToBopPortError, item.Trace));
+            }
+
+            _brokenBop = "";
+        }
+
         private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementEventArgs result)
         {
-            var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
-            progressItem.MeasurementDone = 
-                result.Code != ReturnCode.RtuInitializationInProgress && 
-                    result.Code != ReturnCode.RtuAutoBaseMeasurementInProgress;
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.Code}");
+            var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
+            if (result.Code == ReturnCode.RtuToggleToBopPortError)
+            {
+                ProcessBrokenBop(progressItem);
+            }
+            else
+                progressItem.MeasurementDone =
+                    result.Code != ReturnCode.RtuInitializationInProgress &&
+                        result.Code != ReturnCode.RtuAutoBaseMeasurementInProgress;
+
             if (progressItem.MeasurementDone)
             {
                 var line = $@"{progressItem.Ordinal}/{_progress.Count} {result.Trace.Title} : {result.Code.RtuAutoBaseStyle()}";
@@ -131,9 +165,13 @@ namespace Iit.Fibertest.Client
             else
             {
                 Thread.Sleep(10000);
-
             }
-            
+
+            await StartNextMeasurement();
+        }
+
+        private async Task StartNextMeasurement()
+        {
             var nextItem = _progress.FirstOrDefault(i => !i.MeasurementDone);
             if (nextItem != null)
             {
@@ -190,6 +228,7 @@ namespace Iit.Fibertest.Client
             string startMonitoringResult = "";
             if (ShouldStartMonitoring && _goodTraces.Any())
                 startMonitoringResult = await StartMonitoring();
+            // else await _commonC2DWcfManager.StopMonitoringAsync(new StopMonitoringDto(){RtuId = _rtu.Id, RtuMaker = _rtu.RtuMaker});
 
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
 

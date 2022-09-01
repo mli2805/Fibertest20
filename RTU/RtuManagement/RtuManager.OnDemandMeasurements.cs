@@ -17,8 +17,8 @@ namespace Iit.Fibertest.RtuManagement
             if (!IsRtuInitialized)
             {
                 _serviceLog.AppendLine("I am initializing now. Ignore command.");
-                ClientMeasurementStartedDto = new ClientMeasurementStartedDto() 
-                    { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.RtuInitializationInProgress };
+                ClientMeasurementStartedDto = new ClientMeasurementStartedDto()
+                { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.RtuInitializationInProgress };
                 callback?.Invoke();
                 return;
             }
@@ -26,8 +26,8 @@ namespace Iit.Fibertest.RtuManagement
             if (IsAutoBaseMeasurementInProgress)
             {
                 _serviceLog.AppendLine("Auto Base Measurement In Progress. Ignore command.");
-                ClientMeasurementStartedDto = new ClientMeasurementStartedDto() 
-                    { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.RtuAutoBaseMeasurementInProgress };
+                ClientMeasurementStartedDto = new ClientMeasurementStartedDto()
+                { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.RtuAutoBaseMeasurementInProgress };
                 callback?.Invoke();
                 return;
             }
@@ -46,12 +46,12 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, true);
             }
 
-            ClientMeasurementStartedDto = new ClientMeasurementStartedDto() 
-                { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
+            ClientMeasurementStartedDto = new ClientMeasurementStartedDto()
+            { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
             var result = Measure(dto);
-           
+
             var _ = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
             if (dto.IsForAutoBase)
             {
@@ -76,8 +76,10 @@ namespace Iit.Fibertest.RtuManagement
         private ClientMeasurementResultDto Measure(DoClientMeasurementDto dto)
         {
             ClientMeasurementResultDto result = new ClientMeasurementResultDto().Initialize(dto);
-            if (!ToggleToPort(dto.OtauPortDto[0]))
-                return result.Set(dto.OtauPortDto[0], ReturnCode.RtuToggleToPortError);
+            var toggleResult = ToggleToPort2(dto.OtauPortDto[0]);
+            if (toggleResult != CharonOperationResult.Ok)
+                return result.Set(dto.OtauPortDto[0], 
+                    toggleResult == CharonOperationResult.MainOtauError ? ReturnCode.RtuToggleToPortError : ReturnCode.RtuToggleToBopPortError);
 
             var prepareResult = dto.IsAutoLmax
                 ? PrepareAutoLmaxMeasurement(dto)
