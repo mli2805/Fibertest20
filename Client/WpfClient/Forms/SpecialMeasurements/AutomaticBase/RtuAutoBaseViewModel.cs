@@ -112,7 +112,7 @@ namespace Iit.Fibertest.Client
             if (_brokenBop != bopAddress)
             {
                 _brokenBop = bopAddress;
-                Thread.Sleep(60000);
+                Thread.Sleep(48000);
                 return;
             }
 
@@ -220,6 +220,8 @@ namespace Iit.Fibertest.Client
         private async Task Finish()
         {
             _waitCursor.Dispose();
+            var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto(){RtuId = _rtu.Id});
+            _logFile.AppendLine($@"Free OTDR result is {r.ReturnCode}");
             _logFile.EmptyLine();
 
             if (_badResults.Any())
@@ -230,11 +232,7 @@ namespace Iit.Fibertest.Client
             {
                 startMonitoringResult = await StartMonitoring();
             }
-            else
-            {
-                var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto(){RtuId = _rtu.Id});
-                _logFile.AppendLine($@"Free OTDR result is {r.ReturnCode}");
-            }
+
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
 
             var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
@@ -244,6 +242,7 @@ namespace Iit.Fibertest.Client
                 strs.Add("");
                 strs.Add(string.IsNullOrEmpty(startMonitoringResult) ? Resources.SID_Monitoring_settings_applied_successfully_ : startMonitoringResult);
             }
+
             var mb = new MyMessageBoxViewModel(MessageType.Information, strs);
             _windowManager.ShowDialogWithAssignedOwner(mb);
 
