@@ -18,6 +18,8 @@ namespace Iit.Fibertest.RtuManagement
         public void FreeOtdr(FreeOtdrDto dto, Action callback)
         {
             _rtuLog.AppendLine($"Client {dto.ClientIp} required to free OTDR");
+            KeepOtdrConnection = false;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.KeepOtdrConnection, false);
             DisconnectOtdr();
 
             callback?.Invoke();

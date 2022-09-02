@@ -227,7 +227,9 @@ namespace Iit.Fibertest.Client
 
             string startMonitoringResult = "";
             if (ShouldStartMonitoring && _goodTraces.Any())
+            {
                 startMonitoringResult = await StartMonitoring();
+            }
             else
             {
                 var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto(){RtuId = _rtu.Id});
@@ -237,7 +239,7 @@ namespace Iit.Fibertest.Client
 
             var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
             var strs = new List<string>() { Resources.SID_The_process_of_setting_base_ref_for_RTU, _rtu.Title, Resources.SID_is_completed_at_ + timestamp };
-            if (ShouldStartMonitoring)
+            if (ShouldStartMonitoring && _goodTraces.Any())
             {
                 strs.Add("");
                 strs.Add(string.IsNullOrEmpty(startMonitoringResult) ? Resources.SID_Monitoring_settings_applied_successfully_ : startMonitoringResult);
