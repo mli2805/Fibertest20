@@ -15,6 +15,14 @@ namespace Iit.Fibertest.RtuManagement
             callback?.Invoke();
         }
 
+        public void FreeOtdr(FreeOtdrDto dto, Action callback)
+        {
+            _rtuLog.AppendLine($"Client {dto.ClientIp} required to free OTDR");
+            DisconnectOtdr();
+
+            callback?.Invoke();
+        }
+
         public void StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto, Action callback)
         {
             StopMonitoringAndConnectOtdrWithRecovering("Out of turn precise measurement");

@@ -70,6 +70,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto);
 
         [OperationContract]
+        Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto);
+
+        [OperationContract]
         Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto);
 
         // C2Database

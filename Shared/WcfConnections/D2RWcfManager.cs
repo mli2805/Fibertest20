@@ -244,5 +244,26 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
+
+        public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
+        {
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
+            if (rtuDuplexConnection == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.D2RWcfConnectionError };
+
+            try
+            {
+                var channel = rtuDuplexConnection.CreateChannel();
+                var result = await channel.StartFreeOtdrAsync(backward, dto);
+                rtuDuplexConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("StartFreeOtdrAsync: " + e.Message);
+                return null;
+            }
+        }
     }
 }

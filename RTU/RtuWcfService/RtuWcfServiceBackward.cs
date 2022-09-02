@@ -37,5 +37,8 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
         public Handler<RequestAnswer> HandlerForInterruptMeasurement { get; } = new Handler<RequestAnswer>();
         public void EndInterruptMeasurement(RequestAnswer result) => HandlerForInterruptMeasurement.End(result);
+
+        public Handler<RequestAnswer> HandlerForFreeOtdr { get; } = new Handler<RequestAnswer>();
+        public void EndFreeOtdr(RequestAnswer result) => HandlerForFreeOtdr.End(result);
     }
 }

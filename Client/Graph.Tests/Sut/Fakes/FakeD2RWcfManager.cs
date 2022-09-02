@@ -118,5 +118,9 @@ namespace Graph.Tests
         {
             return Task.FromResult(new RequestAnswer() { ReturnCode = ReturnCode.Ok });
         }
+        public Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
+        {
+            return Task.FromResult(new RequestAnswer() { ReturnCode = ReturnCode.Ok });
+        }
     }
 }

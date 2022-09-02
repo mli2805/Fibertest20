@@ -228,8 +228,11 @@ namespace Iit.Fibertest.Client
             string startMonitoringResult = "";
             if (ShouldStartMonitoring && _goodTraces.Any())
                 startMonitoringResult = await StartMonitoring();
-            // else await _commonC2DWcfManager.StopMonitoringAsync(new StopMonitoringDto(){RtuId = _rtu.Id, RtuMaker = _rtu.RtuMaker});
-
+            else
+            {
+                var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto(){RtuId = _rtu.Id});
+                _logFile.AppendLine($@"Free OTDR result is {r.ReturnCode}");
+            }
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
 
             var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";

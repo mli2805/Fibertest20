@@ -78,6 +78,28 @@ namespace Iit.Fibertest.RtuManagement
                     callbackChannel.EndInterruptMeasurement(result);
                 }
             });
+        }  
+        
+        public void FreeOtdr(FreeOtdrDto dto)
+        {
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    _rtuManager.FreeOtdr(dto, () => callbackChannel.EndFreeOtdr(
+                            new RequestAnswer()
+                            {
+                                ReturnCode = ReturnCode.Ok, ErrorMessage = "Otdr freed successfully."
+                            }));
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                    var result = new RequestAnswer { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
+                    callbackChannel.EndFreeOtdr(result);
+                }
+            });
         }
     }
 }

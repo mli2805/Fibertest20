@@ -188,7 +188,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var resultFromRtu = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto)
-                : await  _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto);
+                : await _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto);
 
             if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
@@ -251,12 +251,12 @@ namespace Iit.Fibertest.DataCenterCore
                     return transferResult;
 
                 if (dto.RtuMaker == RtuMaker.VeEX)
-                    // Veex and there are base refs so veexTests table should be updated
+                // Veex and there are base refs so veexTests table should be updated
                 {
                     var updateResult = await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
                     if (updateResult.ReturnCode != ReturnCode.Ok)
                         return new BaseRefAssignedDto()
-                            {ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage};
+                        { ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage };
                 }
             }
 
@@ -348,7 +348,7 @@ namespace Iit.Fibertest.DataCenterCore
             BaseRefAssignedDto transferResult = await SendBaseRefsIfAny(dto);
 
             if (transferResult != null && transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = transferResult.ErrorMessage};
+                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = transferResult.ErrorMessage };
 
             var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
             var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
@@ -365,7 +365,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
         }
 
-      
+
         private async Task<BaseRefAssignedDto> SendBaseRefsIfAny(AttachTraceDto dto)
         {
             var dto1 = await CreateAssignBaseRefsDto(dto);
@@ -495,6 +495,16 @@ namespace Iit.Fibertest.DataCenterCore
             return rtu.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InterruptMeasurementAsync(dto)
                 : await _clientToRtuVeexTransmitter.InterruptMeasurementAsync(dto);
+        }
+
+        public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
+        {
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
+
+            return rtu.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.FreeOtdrAsync(dto)
+                : await _clientToRtuVeexTransmitter.FreeOtdrAsync(dto);
         }
 
         private static readonly IMapper Mapper = new MapperConfiguration(

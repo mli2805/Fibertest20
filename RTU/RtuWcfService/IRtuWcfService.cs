@@ -34,6 +34,9 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         [OperationContract]
         void BeginInterruptMeasurement(InterruptMeasurementDto dto);
 
+        [OperationContract]
+        void BeginFreeOtdr(FreeOtdrDto dto);
+
         // for WatchDog
         [OperationContract]
         bool CheckLastSuccessfulMeasTime();

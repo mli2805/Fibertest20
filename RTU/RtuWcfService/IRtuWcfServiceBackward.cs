@@ -32,5 +32,8 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
         [OperationContract(IsOneWay = true)]
         void EndInterruptMeasurement(RequestAnswer result);
+
+        [OperationContract(IsOneWay = true)]
+        void EndFreeOtdr(RequestAnswer result);
     }
 }

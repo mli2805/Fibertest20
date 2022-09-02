@@ -79,6 +79,14 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             backwardService.HandlerForInterruptMeasurement.AddHandler(src);
             rtuWcfService.BeginInterruptMeasurement(dto);
             return src.Task;
+        }  
+        public static Task<RequestAnswer> StartFreeOtdrAsync(
+             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, FreeOtdrDto dto)
+        {
+            var src = new TaskCompletionSource<RequestAnswer>();
+            backwardService.HandlerForFreeOtdr.AddHandler(src);
+            rtuWcfService.BeginFreeOtdr(dto);
+            return src.Task;
         }
     }
 }

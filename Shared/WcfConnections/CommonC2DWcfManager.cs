@@ -464,6 +464,28 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to free otdr on RTU {dto.RtuId.First6()}");
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.FreeOtdrAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("FreeOtdrAsync:" + e.Message);
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();

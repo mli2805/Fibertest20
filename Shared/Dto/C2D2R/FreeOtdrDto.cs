@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class InterruptMeasurementDto
+    public class FreeOtdrDto
     {
         [DataMember]
         public string ClientIp { get; set; }

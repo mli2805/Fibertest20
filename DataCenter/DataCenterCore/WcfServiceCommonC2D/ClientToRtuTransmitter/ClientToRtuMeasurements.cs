@@ -71,5 +71,29 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
+        {
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to free OTDR on RTU {dto.RtuId.First6()}");
+            try
+            {
+                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+                if (rtuAddresses != null)
+                {
+                    var res = await _d2RWcfManager.SetRtuAddresses(rtuAddresses, _iniFile, _logFile)
+                        .FreeOtdrAsync(dto);
+                    _logFile.AppendLine($"FreeOtdrAsync result is {res.ReturnCode}");
+                    return res;
+                }
+
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new RequestAnswer() { ReturnCode = ReturnCode.DbError };
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("FreeOtdrAsync:" + e.Message);
+                return new RequestAnswer() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
+            }
+        }
+
     }
 }

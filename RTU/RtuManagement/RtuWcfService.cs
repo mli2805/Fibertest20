@@ -134,7 +134,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 _serviceLog.AppendLine("RTU initialization is in progress.");
                 var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
-                callbackChannel.EndStartClientMeasurement(new ClientMeasurementStartedDto(){ReturnCode = ReturnCode.RtuInitializationInProgress});
+                callbackChannel.EndStartClientMeasurement(new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.RtuInitializationInProgress });
             }
         }
 
@@ -144,6 +144,13 @@ namespace Iit.Fibertest.RtuManagement
             _serviceLog.EmptyLine();
             _serviceLog.AppendLine("Client asks to interrupt current measurement");
             _wcfMeasurementsOperator.InterruptMeasurement(dto);
+        }
+
+        public void BeginFreeOtdr(FreeOtdrDto dto)
+        {
+            _serviceLog.EmptyLine();
+            _serviceLog.AppendLine("Client asks to free OTDR");
+            _wcfMeasurementsOperator.FreeOtdr(dto);
         }
 
         public bool CheckLastSuccessfulMeasTime()
