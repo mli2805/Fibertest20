@@ -47,7 +47,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto()
-            { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
+                { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
             var result = Measure(dto);
@@ -97,6 +97,13 @@ namespace Iit.Fibertest.RtuManagement
             if (lmax.Equals(-1.0))
             {
                 _rtuLog.AppendLine("Failed to get link characteristics");
+                return ReturnCode.MeasurementPreparationError;
+            }
+
+            if (lmax.Equals(0) && cp.splice == 0)
+            {
+                if (RunMainCharonRecovery() != ReturnCode.Ok)
+                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                 return ReturnCode.MeasurementPreparationError;
             }
 
