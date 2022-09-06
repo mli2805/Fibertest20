@@ -135,8 +135,8 @@ namespace Iit.Fibertest.WpfCommonViews
             var result = new VeexMeasOtdrParameters()
             {
                 measurementType = @"manual",
-                fastMeasurement = false,
-                highFrequencyResolution = false,
+                // fastMeasurement = false,
+                // highFrequencyResolution = false,
                 lasers = new List<Laser>() { new Laser() { laserUnit = Model.SelectedUnit } },
                 opticalLineProperties = new OpticalLineProperties()
                 {

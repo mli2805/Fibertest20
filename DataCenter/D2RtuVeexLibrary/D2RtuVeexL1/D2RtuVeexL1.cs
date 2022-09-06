@@ -65,7 +65,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> DoMeasurementRequest(DoubleAddress rtuDoubleAddress, VeexMeasurementRequest dto)
         {
-            var jsonData = JsonConvert.SerializeObject(dto);
+            var jsonData = JsonConvert.SerializeObject(dto, IgnoreNulls);
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
                 @"measurements", "post", "application/json", jsonData);
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;

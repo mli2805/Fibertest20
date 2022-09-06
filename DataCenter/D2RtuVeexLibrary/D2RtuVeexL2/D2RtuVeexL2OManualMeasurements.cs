@@ -21,7 +21,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ReturnCode = ReturnCode.Error,
                     ErrorMessage = res.ErrorMessage + Environment.NewLine + res.ResponseJson,
                 };
-            return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Ok };
+            return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
         }
 
         public async Task<ClientMeasurementVeexResultDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress, string measId)

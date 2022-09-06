@@ -39,6 +39,16 @@ namespace Iit.Fibertest.Client
                         { eventLossThreshold = 0.2, eventReflectanceThreshold = -40, endOfFiberThreshold = 6 }
                 }
             };
+            if (isForAutoBase)
+            {
+                dto.AnalysisParameters.findOnlyFirstAndLastEvents = true;
+                dto.AnalysisParameters.setUpIitEvents = true;
+            }
+
+            if (isAutoLmax)
+            {
+                dto.VeexMeasOtdrParameters.measurementType = @"auto";
+            }
 
             dto.IsForAutoBase = isForAutoBase;
             dto.IsAutoLmax = isAutoLmax;
