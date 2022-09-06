@@ -140,8 +140,9 @@ namespace Iit.Fibertest.Client
             }
             else
                 progressItem.MeasurementDone =
+                    result.Code != ReturnCode.D2RWcfConnectionError &&
                     result.Code != ReturnCode.RtuInitializationInProgress &&
-                        result.Code != ReturnCode.RtuAutoBaseMeasurementInProgress;
+                    result.Code != ReturnCode.RtuAutoBaseMeasurementInProgress;
 
             if (progressItem.MeasurementDone)
             {
@@ -164,7 +165,7 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                Thread.Sleep(10000);
+                Thread.Sleep(7000);
             }
 
             await StartNextMeasurement();

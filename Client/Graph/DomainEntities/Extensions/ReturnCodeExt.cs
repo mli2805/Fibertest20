@@ -6,11 +6,16 @@ namespace Iit.Fibertest.Graph
 {
     public static class ReturnCodeExt
     {
-        public static string GetLocalizedString(this ReturnCode returnCode, string exceptionMessage = "")
+        public static string GetLocalizedWithOsInfo(this ReturnCode returnCode, string exceptionMessage)
         {
             if (exceptionMessage != null)
                 exceptionMessage = Environment.NewLine + Resources.SID_Additional_OS_info_ + Environment.NewLine + exceptionMessage;
 
+            return returnCode.GetLocalizedString() + exceptionMessage;
+        }
+
+        public static string GetLocalizedString(this ReturnCode returnCode)
+        {
             switch (returnCode)
             {
                 case ReturnCode.Ok: return @"OK";
@@ -19,7 +24,7 @@ namespace Iit.Fibertest.Graph
 
                 // 1000
                 case ReturnCode.RtuInitializationError:
-                    return Resources.SID_RTU_initialization_error_ + $@" {exceptionMessage}";
+                    return Resources.SID_RTU_initialization_error_;
                 case ReturnCode.RtuInitializedSuccessfully:
                     return Resources.SID_RTU_initialized_successfully_;
                 case ReturnCode.OtdrInitializationCannotLoadDll:
@@ -29,7 +34,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.OtauInitializationError:
                     return Resources.SID_Failed_to_initialize_optical_switch;
                 case ReturnCode.OtdrInitializationFailed:
-                    return Resources.SID_Failed_to_initialize_OTDR + $@" {exceptionMessage}";
+                    return Resources.SID_Failed_to_initialize_OTDR;
                 case ReturnCode.RtuDoesNotSupportBop:
                     return Resources.SID_RTU_does_not_support_BOP;
                 case ReturnCode.RtuTooBigPortNumber:
@@ -68,19 +73,19 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.C2DWcfConnectionError:
                     return Resources.SID_Cannot_establish_connection_with_DataCenter_;
                 case ReturnCode.C2DWcfOperationError:
-                    return Resources.SID_Error_during_Client_Datacenter_connection + $@" {exceptionMessage}";
+                    return Resources.SID_Error_during_Client_Datacenter_connection;
                 case ReturnCode.D2RWcfConnectionError:
-                    return Resources.SID_Cannot_establish_connection_with_RTU_ + $@" {exceptionMessage}";
+                    return Resources.SID_Cannot_establish_connection_with_RTU_;
                 case ReturnCode.D2RWcfOperationError:
-                    return Resources.SID_Error_during_Datacenter_Rtu_connection + $@" {exceptionMessage}";
+                    return Resources.SID_Error_during_Datacenter_Rtu_connection;
                 case ReturnCode.C2RWcfConnectionError:
-                    return Resources.SID_Cannot_establish_connection_with_RTU_ + $@" {exceptionMessage}";
+                    return Resources.SID_Cannot_establish_connection_with_RTU_;
                 case ReturnCode.C2RWcfOperationError:
-                    return Resources.SID_Error_during_Client_RTU_operation__ + $@" {exceptionMessage}";
+                    return Resources.SID_Error_during_Client_RTU_operation__;
 
                 // 3000
                 case ReturnCode.DbError:
-                    return Resources.SID_Database_error_ + $@" {exceptionMessage}";
+                    return Resources.SID_Database_error_;
 
                 // 4000
                 case ReturnCode.BaseRefAssignedSuccessfully:
@@ -138,7 +143,7 @@ namespace Iit.Fibertest.Graph
                     return @"Measurement(Client) started.";
 
 
-                default: return Resources.SID_Unknown_return_code + @":  " + ((int)returnCode);
+                default: return Resources.SID_Unknown_return_code + @":  " + (int)returnCode;
             }
         }
 

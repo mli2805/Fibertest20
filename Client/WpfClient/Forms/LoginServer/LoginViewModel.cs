@@ -235,7 +235,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 _logFile.AppendLine(result.ReturnCode.ToString());
-                Status = result.ReturnCode.GetLocalizedString(result.ErrorMessage);
+                Status = result.ReturnCode.GetLocalizedWithOsInfo(result.ErrorMessage);
             }
         }
 

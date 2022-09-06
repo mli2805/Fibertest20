@@ -222,7 +222,7 @@ namespace Iit.Fibertest.Client
                     break;
                 case ReturnCode.OtdrInitializationFailed:
                     vm = new MyMessageBoxViewModel
-                        (MessageType.Error, dto.ReturnCode.GetLocalizedString(dto.ErrorMessage).Split('\n'), 0);
+                        (MessageType.Error, dto.ReturnCode.GetLocalizedWithOsInfo(dto.ErrorMessage).Split('\n'), 0);
                     break;
                 default:
                     var strs3 = new List<string>() { ReturnCode.RtuInitializationError.GetLocalizedString(), "", dto.ErrorMessage };
