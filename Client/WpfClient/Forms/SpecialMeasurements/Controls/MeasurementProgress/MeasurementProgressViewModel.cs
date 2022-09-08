@@ -47,7 +47,12 @@ namespace Iit.Fibertest.Client
             Message1 = traceTitle;
             ControlVisibility = Visibility.Visible;
             Message = Resources.SID_Sending_command__Wait_please___;
+        }
 
+        public void DisplayFinishInProgress()
+        {
+            Message1 = "";
+            Message = Resources.SID_The_process_is_finishing__Please_wait___;
         }
     }
 }

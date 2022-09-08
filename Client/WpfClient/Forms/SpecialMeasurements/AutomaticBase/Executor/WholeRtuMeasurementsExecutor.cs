@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         private Trace _trace;
 
         public MeasurementModel Model { get; set; } = new MeasurementModel();
-       
+
         public WholeRtuMeasurementsExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
@@ -47,6 +47,7 @@ namespace Iit.Fibertest.Client
         {
             Model.Rtu = rtu;
             Model.TraceResults.Clear();
+            Model.InterruptedPressed = false;
 
             Model.OtdrParametersTemplatesViewModel.Initialize(rtu, true);
             return Model.AutoAnalysisParamsViewModel.Initialize();
@@ -79,11 +80,12 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            _dispatcherProvider.GetDispatcher().Invoke(() =>
-            {
-                Model.MeasurementProgressViewModel.Message =
-                        Resources.SID_Measurement__Client__in_progress__Please_wait___;
-            });
+            if (!Model.InterruptedPressed)
+                _dispatcherProvider.GetDispatcher().Invoke(() =>
+                {
+                    Model.MeasurementProgressViewModel.Message =
+                            Resources.SID_Measurement__Client__in_progress__Please_wait___;
+                });
 
             if (Model.Rtu.RtuMaker == RtuMaker.VeEX)
             {

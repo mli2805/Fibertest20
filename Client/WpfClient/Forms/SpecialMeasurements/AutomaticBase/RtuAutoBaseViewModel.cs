@@ -36,6 +36,31 @@ namespace Iit.Fibertest.Client
         private List<MeasurementEventArgs> _badResults;
         private List<Trace> _goodTraces;
 
+        private string _buttonName = Resources.SID_Close;
+        public string ButtonName
+        {
+            get => _buttonName;
+            set
+            {
+                if (value == _buttonName) return;
+                _buttonName = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private bool _interruptPressed;
+        private bool _isInterruptEnabled = true;
+        public bool IsInterruptEnabled
+        {
+            get => _isInterruptEnabled;
+            set
+            {
+                if (value == _isInterruptEnabled) return;
+                _isInterruptEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile,
             IDispatcherProvider dispatcherProvider, Model readModel, IWindowManager windowManager,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
@@ -64,6 +89,11 @@ namespace Iit.Fibertest.Client
 
         public bool Initialize(RtuLeaf rtuLeaf)
         {
+            _interruptPressed = false;
+            IsInterruptEnabled = true;
+            ButtonName = Resources.SID_Close;
+            _finishInProgress = false;
+
             _goodTraces = new List<Trace>();
             _badResults = new List<MeasurementEventArgs>();
             var i = 0;
@@ -91,6 +121,7 @@ namespace Iit.Fibertest.Client
         public void Start()
         {
             _waitCursor = new WaitCursor();
+            ButtonName = Resources.SID_Interrupt;
             _logFile.EmptyLine();
             WholeRtuMeasurementsExecutor.Model.IsEnabled = false;
             WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility = Visibility.Visible;
@@ -132,6 +163,12 @@ namespace Iit.Fibertest.Client
 
         private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementEventArgs result)
         {
+            //if (_interruptPressed)
+            //{
+            //    await _dispatcherProvider.GetDispatcher().Invoke(Finish);
+            //    return;
+            //}
+
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.Code}");
             var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
             if (result.Code == ReturnCode.RtuToggleToBopPortError)
@@ -174,7 +211,7 @@ namespace Iit.Fibertest.Client
         private async Task StartNextMeasurement()
         {
             var nextItem = _progress.FirstOrDefault(i => !i.MeasurementDone);
-            if (nextItem != null)
+            if (!_interruptPressed && nextItem != null)
             {
                 _logFile.AppendLine($@"Start next measurement for {nextItem.Trace.Title}");
                 Thread.Sleep(100);
@@ -183,7 +220,7 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                if (_progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
+                if (_interruptPressed || _progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
                 {
                     await _dispatcherProvider.GetDispatcher().Invoke(Finish);
                 }
@@ -212,40 +249,50 @@ namespace Iit.Fibertest.Client
             else
                 _goodTraces.Add(result.Trace);
 
-            if (_progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
+            if (_interruptPressed || _progress.All(i => i.MeasurementDone && i.BaseRefAssigned))
             {
                 await _dispatcherProvider.GetDispatcher().Invoke(Finish);
             }
         }
 
+        private bool _finishInProgress;
         private async Task Finish()
         {
+            if (_finishInProgress) return;
+            _finishInProgress = true;
+
             _waitCursor.Dispose();
-            var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto(){RtuId = _rtu.Id});
+            var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto() { RtuId = _rtu.Id });
             _logFile.AppendLine($@"Free OTDR result is {r.ReturnCode}");
             _logFile.EmptyLine();
 
-            if (_badResults.Any())
+            if (_interruptPressed)
+                TryClose();
+
+            if (!_interruptPressed && _badResults.Any())
                 ShowReport();
 
             string startMonitoringResult = "";
-            if (ShouldStartMonitoring && _goodTraces.Any())
+            if (!_interruptPressed && ShouldStartMonitoring && _goodTraces.Any())
             {
                 startMonitoringResult = await StartMonitoring();
             }
 
             WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
 
-            var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
-            var strs = new List<string>() { Resources.SID_The_process_of_setting_base_ref_for_RTU, _rtu.Title, Resources.SID_is_completed_at_ + timestamp };
-            if (ShouldStartMonitoring && _goodTraces.Any())
+            if (!_interruptPressed)
             {
-                strs.Add("");
-                strs.Add(string.IsNullOrEmpty(startMonitoringResult) ? Resources.SID_Monitoring_settings_applied_successfully_ : startMonitoringResult);
-            }
+                var timestamp = $@"{DateTime.Now:d} {DateTime.Now:t}";
+                var strs = new List<string>() { Resources.SID_The_process_of_setting_base_ref_for_RTU, _rtu.Title, Resources.SID_is_completed_at_ + timestamp };
+                if (ShouldStartMonitoring && _goodTraces.Any())
+                {
+                    strs.Add("");
+                    strs.Add(string.IsNullOrEmpty(startMonitoringResult) ? Resources.SID_Monitoring_settings_applied_successfully_ : startMonitoringResult);
+                }
 
-            var mb = new MyMessageBoxViewModel(MessageType.Information, strs);
-            _windowManager.ShowDialogWithAssignedOwner(mb);
+                var mb = new MyMessageBoxViewModel(MessageType.Information, strs);
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+            }
 
             WholeRtuMeasurementsExecutor.Model.IsEnabled = true;
             WholeRtuMeasurementsExecutor.Model.TraceResults.Clear();
@@ -292,7 +339,16 @@ namespace Iit.Fibertest.Client
 
         public void Close()
         {
-            TryClose();
+            if (ButtonName == Resources.SID_Close)
+                TryClose();
+            else
+            {
+                _interruptPressed = true;
+                WholeRtuMeasurementsExecutor.Model.InterruptedPressed = true;
+                IsInterruptEnabled = false;
+                ButtonName = Resources.SID_Wait___;
+                WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.DisplayFinishInProgress();
+            }
         }
         public override void CanClose(Action<bool> callback)
         {

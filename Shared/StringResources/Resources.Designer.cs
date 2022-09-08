@@ -4264,6 +4264,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interrupt.
+        /// </summary>
+        public static string SID_Interrupt {
+            get {
+                return ResourceManager.GetString("SID_Interrupt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interrupting Measurement (Client). Wait please....
         /// </summary>
         public static string SID_Interrupting_Measurement__Client___Wait_please___ {
@@ -8564,6 +8573,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_The_process_completed_at_ {
             get {
                 return ResourceManager.GetString("SID_The_process_completed_at_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The process is finishing. Please wait....
+        /// </summary>
+        public static string SID_The_process_is_finishing__Please_wait___ {
+            get {
+                return ResourceManager.GetString("SID_The_process_is_finishing__Please_wait___", resourceCulture);
             }
         }
         

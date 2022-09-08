@@ -11,6 +11,8 @@ namespace Iit.Fibertest.Client
         public Rtu Rtu;
         public int MeasurementTimeout;
 
+        public bool InterruptedPressed;
+
         public OtdrParametersTemplatesViewModel OtdrParametersTemplatesViewModel { get; set; }
         public AutoAnalysisParamsViewModel AutoAnalysisParamsViewModel { get; set; }
         public MeasurementProgressViewModel MeasurementProgressViewModel { get; set; }

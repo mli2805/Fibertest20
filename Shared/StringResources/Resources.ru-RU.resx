@@ -3407,4 +3407,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_is_completed_at_" xml:space="preserve">
 		<value>завершен в </value>
 	</data>
+	<data name="SID_Interrupt" xml:space="preserve">
+		<value>Прервать</value>
+	</data>
+	<data name="SID_The_process_is_finishing__Please_wait___" xml:space="preserve">
+		<value>Идет завершение процесса. Пожалуйста, подождите...</value>
+	</data>
 </root>
