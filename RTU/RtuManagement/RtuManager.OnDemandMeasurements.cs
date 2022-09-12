@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -44,10 +45,11 @@ namespace Iit.Fibertest.RtuManagement
             {
                 IsAutoBaseMeasurementInProgress = true;
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, true);
+                _rtuIni.Write(IniSection.Monitoring, IniKey.LastAutoBaseMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
             }
 
             ClientMeasurementStartedDto = new ClientMeasurementStartedDto()
-                { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
+            { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
             var result = Measure(dto);
@@ -78,7 +80,7 @@ namespace Iit.Fibertest.RtuManagement
             ClientMeasurementResultDto result = new ClientMeasurementResultDto().Initialize(dto);
             var toggleResult = ToggleToPort2(dto.OtauPortDto[0]);
             if (toggleResult != CharonOperationResult.Ok)
-                return result.Set(dto.OtauPortDto[0], 
+                return result.Set(dto.OtauPortDto[0],
                     toggleResult == CharonOperationResult.MainOtauError ? ReturnCode.RtuToggleToPortError : ReturnCode.RtuToggleToBopPortError);
 
             var prepareResult = dto.IsAutoLmax

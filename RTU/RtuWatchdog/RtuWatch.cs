@@ -13,6 +13,7 @@ namespace Iit.Fibertest.RtuWatchdog
 
         private string _rtuServiceName;
         private TimeSpan _maxGapBetweenMeasurements;
+        private TimeSpan _maxGapBetweenAutoBaseMeasurements;
         private string _rtuManagerIniFile;
 
         public RtuWatch(IniFile watchIniFile, IMyLog watchLog)
@@ -40,7 +41,8 @@ namespace Iit.Fibertest.RtuWatchdog
                         continue;
                     }
 
-                    if (IsGapBetweenMeasurementsExceeded())
+                    if (IsLastRestartTimeParsed(out DateTime lastRestartTime)
+                        && (IsGapBetweenMeasurementsExceeded(lastRestartTime) || IsGapBetweenAutoBaseMeasurementsExceeded(lastRestartTime)))
                         StopRtuManager(sc);
                 }
                 catch (Exception e)
@@ -52,17 +54,21 @@ namespace Iit.Fibertest.RtuWatchdog
             }
         }
 
-        private bool IsGapBetweenMeasurementsExceeded()
+        private bool IsLastRestartTimeParsed(out DateTime lastRestartTime)
         {
-            var lastRestartTimeStr = _watchIniFile.Read(IniSection.Watchdog, IniKey.LastRestartTime, 
+            var lastRestartTimeStr = _watchIniFile.Read(IniSection.Watchdog, IniKey.LastRestartTime,
                 DateTime.Now.ToString(CultureInfo.CurrentCulture));
             if (!DateTime.TryParse(lastRestartTimeStr, CultureInfo.CurrentCulture, DateTimeStyles.None,
-                out DateTime lastRestartTime))
+                    out lastRestartTime))
             {
                 _watchLog.AppendLine($"Cannot parse LastRestartTime {lastRestartTimeStr}");
                 return false;
             }
+            return true;
+        }
 
+        private bool IsGapBetweenMeasurementsExceeded(DateTime lastRestartTime)
+        {
             if (DateTime.Now - lastRestartTime < _maxGapBetweenMeasurements)
                 return false;
 
@@ -85,6 +91,30 @@ namespace Iit.Fibertest.RtuWatchdog
             return DateTime.Now - lastMeasurementTime > _maxGapBetweenMeasurements;
         }
 
+        private bool IsGapBetweenAutoBaseMeasurementsExceeded(DateTime lastRestartTime)
+        {
+            if (DateTime.Now - lastRestartTime < _maxGapBetweenAutoBaseMeasurements)
+                return false;
+
+            var isAutoBaseMeasurementInProgressStr = _watchIniFile.ReadForeignIni(_rtuManagerIniFile, IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress);
+            if (!bool.TryParse(isAutoBaseMeasurementInProgressStr, out bool isAutoBaseMeasurementInProgress))
+            {
+                _watchLog.AppendLine($"Cannot parse IsMonitoringOn {isAutoBaseMeasurementInProgressStr}");
+                return false;
+            }
+            if (!isAutoBaseMeasurementInProgress) return false;
+
+            var lastAutoBaseMeasurementTimeStr = _watchIniFile.ReadForeignIni(_rtuManagerIniFile, IniSection.Monitoring, IniKey.LastAutoBaseMeasurementTimestamp);
+            if (!DateTime.TryParse(lastAutoBaseMeasurementTimeStr, CultureInfo.CurrentCulture, DateTimeStyles.None,
+                out DateTime lastAutoBaseMeasurementTime))
+            {
+                _watchLog.AppendLine($"Cannot parse LastMeasurementTime {lastAutoBaseMeasurementTimeStr}");
+                return false;
+            }
+
+            return DateTime.Now - lastAutoBaseMeasurementTime > _maxGapBetweenAutoBaseMeasurements;
+        }
+
         private void StopRtuManager(ServiceController sc)
         {
             _watchLog.AppendLine("Gap between measurements exceeded, stop RtuManager service...");
@@ -99,6 +129,10 @@ namespace Iit.Fibertest.RtuWatchdog
             var maxGapBetweenMeasurements =
                 _watchIniFile.Read(IniSection.Watchdog, IniKey.MaxGapBetweenMeasurements, 600);
             _maxGapBetweenMeasurements = TimeSpan.FromSeconds(maxGapBetweenMeasurements);
+
+            var maxGapBetweenAutoBaseMeasurements =
+                _watchIniFile.Read(IniSection.Watchdog, IniKey.MaxGapBetweenAutoBaseMeasurements, 300);
+            _maxGapBetweenAutoBaseMeasurements = TimeSpan.FromSeconds(maxGapBetweenAutoBaseMeasurements);
 
             _rtuManagerIniFile = Utils.FileNameForSure(@"..\Ini\", "RtuManager.ini", false);
         }
