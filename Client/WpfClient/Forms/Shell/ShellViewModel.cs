@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
             IClientWcfServiceHost host, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             IWcfServiceInSuperClient c2SWcfManager,
             GraphReadModel graphReadModel, IWindowManager windowManager,
-            LoginViewModel loginViewModel, 
+            LoginViewModel loginViewModel,
             Heartbeater heartbeater, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
@@ -128,6 +128,7 @@ namespace Iit.Fibertest.Client
             if (_commandLineParameters.IsUnderSuperClientStart)
             {
                 _iniFile.WriteServerAddresses(new DoubleAddress() { Main = _commandLineParameters.ServerNetAddress });
+                _iniFile.Write(IniSection.Server, IniKey.ServerTitle, _commandLineParameters.ServerTitle);
                 _iniFile.Write(IniSection.General, IniKey.Culture, _commandLineParameters.SuperClientCulture);
                 _iniFile.Write(IniSection.ClientLocalAddress, IniKey.ClientOrdinal, _commandLineParameters.ClientOrdinal);
                 await _loginViewModel.RegisterClientAsync(_commandLineParameters.Username, _commandLineParameters.Password,
@@ -220,7 +221,7 @@ namespace Iit.Fibertest.Client
             {
                 BackgroundMessage = Resources.SID_Data_is_loading;
                 var res = await _modelLoader.DownloadAndApplyModel();
-               _clientPoller.CurrentEventNumber = res;
+                _clientPoller.CurrentEventNumber = res;
             }
         }
 

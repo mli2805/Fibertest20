@@ -11,7 +11,7 @@ namespace Iit.Fibertest.SuperClient
         private readonly GasketViewModel _gasketViewModel;
         private readonly Dictionary<int, Process> _processes = new Dictionary<int, Process>();
 
-        private const string DebugClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
+        private const string DebugClientFilename = @"c:\VsGitProjects\Fibertest20\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
         private const string ReleaseClientFilename = @"c:\Iit-Fibertest\Client\bin\Iit.Fibertest.Client.exe";
         private readonly string _clientFilename;
 
@@ -53,7 +53,8 @@ namespace Iit.Fibertest.SuperClient
             {
                 StartInfo = {
                     FileName = _clientFilename,
-                    Arguments = $@"{ftServerEntity.Postfix} {Thread.CurrentThread.CurrentUICulture} {ftServerEntity.Username} {ftServerEntity.Password} {Guid.NewGuid()} {ftServerEntity.ServerIp} {ftServerEntity.ServerTcpPort}"
+                    Arguments = $@"{ftServerEntity.Postfix} {Thread.CurrentThread.CurrentUICulture} {ftServerEntity.Username} {ftServerEntity.Password} {Guid.NewGuid()} {ftServerEntity.ServerIp} {ftServerEntity.ServerTcpPort}" 
+                                + " \""  + ftServerEntity.ServerTitle + "\"",
                 }
             };
             process.Start();

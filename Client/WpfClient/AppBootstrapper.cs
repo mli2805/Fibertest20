@@ -137,10 +137,11 @@ namespace Iit.Fibertest.Client
                     parameters.ConnectionId = args[4];
                 }
 
-                if (args.Length == 7)
+                if (args.Length == 8)
                 {
                     if (int.TryParse(args[6], out int serverPort))
                         parameters.ServerNetAddress = new NetAddress(args[5], serverPort);
+                    parameters.ServerTitle = args[7];
                 }
             }
             return parameters;

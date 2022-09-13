@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client
         public NetAddress ServerNetAddress { get; set; }
         public int ClientOrdinal { get; set; }
         public string SuperClientCulture { get; set; }
+        public string ServerTitle { get; set; }
 
     }
 }
