@@ -227,7 +227,7 @@ namespace Iit.Fibertest.Client
                 _currentDatacenterParameters.FillIn(result);
                 _currentGis.IsWithoutMapMode = result.IsWithoutMapMode;
 
-                _logFile.AppendLine(@"Registered successfully");
+                _logFile.AppendLine($@"Successfully registered on server {_currentDatacenterParameters.ServerTitle}");
                 _logFile.AppendLine($@"StreamIdOriginal = {result.StreamIdOriginal}  Last event number in snapshot {result.SnapshotLastEvent}");
                 IsRegistrationSuccessful = true;
                 TryClose();
