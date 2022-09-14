@@ -28,6 +28,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     dto.OtauPortDto.Count > 1 ? dto.OtauPortDto[1] : null),
                 suspendMonitoring = true,
             };
+
+            // эксперименты для авто измерения
+            // request.otdrParameters.fastMeasurement = true;
+            // request.otdrParameters.averagingTime = "0.001";
+            // request.otdrParameters.requiredConnectionQualities = new List<RequiredConnectionQualitiesItem>()
+            // {
+            //     new RequiredConnectionQualitiesItem() { loss = 0.5, reflectance = 35 }
+            // };
             var res = await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
             if (res.ReturnCode == ReturnCode.MeasurementClientStartedSuccessfully)
                 res.ClientMeasurementId = Guid.Parse(request.id);
