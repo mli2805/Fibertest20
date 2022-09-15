@@ -73,8 +73,10 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
   setStandardView(resultDto: RtuInitializedWebDto) {
     if (resultDto.returnCode === ReturnCode.Error) {
       resultDto.returnCode = ReturnCode.RtuInitializationError;
+    } else {
+      resultDto.returnCode = ReturnCode.RtuInitializedSuccessfully;
     }
-    window.alert(this.returnCodePipe.transform(resultDto.returnCode));
+   // window.alert(this.returnCodePipe.transform(resultDto.returnCode));
     this.isSpinnerVisible = false;
     this.isButtonDisabled = false;
 
