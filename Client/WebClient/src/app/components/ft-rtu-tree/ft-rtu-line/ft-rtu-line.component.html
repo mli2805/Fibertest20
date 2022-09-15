@@ -34,7 +34,7 @@
           {{ "SID_State" | translate }}
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="monitoringSettings(rtu)" [disabled]="!isRtuAvailable(rtu)"> 
+        <button mat-menu-item (click)="monitoringSettings(rtu)" [disabled]="!isRtuAvailable()"> 
           {{ "SID_Monitoring_settings" | translate }}
         </button>
         <button
