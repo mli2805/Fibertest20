@@ -6,6 +6,6 @@ export class ClientMeasurementDoneDto {
   clientIp: string;
   returnCode: ReturnCode;
   sorBytes: number[];
-  id: string;
+  clientMeasurementId: string;
   rtuMaker: RtuMaker;
 }

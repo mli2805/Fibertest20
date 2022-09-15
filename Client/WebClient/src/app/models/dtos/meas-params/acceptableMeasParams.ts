@@ -6,11 +6,11 @@ export class LeafOfAcceptableMeasParams {
 }
 
 export class BranchOfAcceptableMeasParams {
-  public Distances: object;
+  public Distances: Map<number, LeafOfAcceptableMeasParams>;
   public BackscatteredCoefficient: number;
   public RefractiveIndex: number;
 }
 
 export class TreeOfAcceptableVeasParams {
-  public Units: object;
+  public Units: Map<string, BranchOfAcceptableMeasParams>;
 }

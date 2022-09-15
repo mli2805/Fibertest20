@@ -105,11 +105,11 @@ export class SorViewerComponent implements OnInit {
     console.log(`start loading sor ${measGuid}  from server`);
 
     const params = new GetSorDataParams();
-    params.isSorFile = isSorFile.toString();
+    params.isSorFileOrMeasurementClient = isSorFile.toString();
     params.sorFileId = sorFileId.toString();
     params.measGuid = measGuid;
     params.isBase = isBase.toString();
-    params.isInVxSorFormat = true.toString();
+    params.isForDisplayOrSaveFormat = true.toString();
     params.rtuGuid = rtuGuid;
 
     const blob = (await this.oneApiService

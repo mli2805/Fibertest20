@@ -53,6 +53,7 @@ namespace Iit.Fibertest.RtuManagement
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
             var result = Measure(dto);
+            _rtuLog.AppendLine($"Measurement Client done. Sor size is {result.SorBytes.Length}");
 
             var _ = new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
             if (dto.IsForAutoBase)

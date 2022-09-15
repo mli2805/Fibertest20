@@ -7,12 +7,27 @@ export class DoClientMeasurementDto {
 
   selectedMeasParams: MeasParam[];
   veexMeasOtdrParameters : VeexMeasOtdrParameters;
+  analysisParameters : AnalysisParameters
 
+  otauPortDto: OtauPortDto[];
   otdrId: string;
-  otauPortDtoList: OtauPortDto[];
-  mainOtauPortDto: OtauPortDto;
-  otauIp: string;
-  otauTcpPort: number;
+
+  isForAutoBase : boolean;
+  IsAutoLmax : boolean;
+  KeepOtdrConnection : boolean
+}
+
+export class AnalysisParameters{
+  macrobendThreshold : number;
+  findOnlyFirstAndLastEvents : boolean;
+  setUpIitEvents : boolean;
+  lasersParameters : LasersParameter[];
+}
+
+export class LasersParameter{
+  eventLossThreshold : number;
+  eventReflectanceThreshold : number;
+  endOfFiberThreshold : number;
 }
 
 export class VeexMeasOtdrParameters{
@@ -59,10 +74,10 @@ export class Laser{
 
 export class MeasParam {
   param: number;
-  value: number;
+  position: number;
 
-  constructor(param: number, value: number) {
+  constructor(param: number, position: number) {
     this.param = param;
-    this.value = value;
+    this.position = position;
   }
 }

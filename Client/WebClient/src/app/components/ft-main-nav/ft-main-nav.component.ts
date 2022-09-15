@@ -224,17 +224,17 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
     if (signal.returnCode === ReturnCode.MeasurementEndedNormally) {
       console.log(
-        `Measurement (Client) done. Request bytes for id ${signal.id}`
+        `Measurement (Client) done. Request bytes for id ${signal.clientMeasurementId}`
       );
       SorFileManager.Show(
         this.router,
         false,
         0,
-        signal.id,
+        signal.clientMeasurementId,
         false,
         "meas",
         new Date(),
-        ""
+        "",
       );
     }
   }

@@ -8,7 +8,12 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
+
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to do measurement on RTU {dto.RtuId.First6()}");
+            
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(dto);
+            _logFile.AppendLine(json);
+            
             try
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);

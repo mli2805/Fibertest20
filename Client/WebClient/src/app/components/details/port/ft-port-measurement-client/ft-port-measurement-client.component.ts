@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
+import { BranchOfAcceptableMeasParams, LeafOfAcceptableMeasParams, TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
 import {
+  AnalysisParameters,
   DoClientMeasurementDto,
   Laser,
+  LasersParameter,
   LasersProperty,
   MeasParam,
   OpticalLineProperties,
@@ -215,21 +217,26 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     dto.connectionId = currentUser.connectionId;
     dto.rtuId = params.rtu.rtuId;
     dto.otdrId = params.rtu.otdrId;
-    dto.otauPortDtoList = [params.otauPortDto];
-
-    const mainOtau = new OtauPortDto();
-    mainOtau.isPortOnMainCharon = true;
-    mainOtau.otauId = params.rtu.mainVeexOtau.id;
-    mainOtau.opticalPort = params.otauPortDto.mainCharonPort;
-    dto.mainOtauPortDto = mainOtau;
+    dto.otauPortDto = [params.otauPortDto];
 
     dto.selectedMeasParams = this.getSelectedParameters();
     dto.veexMeasOtdrParameters = this.getVeexSelectedParameters();
+    dto.analysisParameters = new AnalysisParameters();
+    let lp = new LasersParameter();
+    lp.eventLossThreshold = 0.2;
+    lp.eventReflectanceThreshold = -40;
+    lp.endOfFiberThreshold = 6;
+    dto.analysisParameters.lasersParameters = new Array(lp);
+
+    dto.IsAutoLmax = false;
+    dto.isForAutoBase = false;
+    dto.KeepOtdrConnection = false;
+
     console.log(dto);
     const res = (await this.oneApiService
       .postRequest("measurement/start-measurement-client", dto)
       .toPromise()) as ClientMeasurementStartedDto;
-    if (res.returnCode !== ReturnCode.Ok) {
+    if (res.returnCode !== ReturnCode.MeasurementClientStartedSuccessfully) {
       this.message = res.errorMessage;
       this.isSpinnerVisible = false;
       this.isButtonDisabled = false;
@@ -244,7 +251,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
 
       const getDto = new GetClientMeasurementDto();
       getDto.rtuId = params.rtu.rtuId;
-      getDto.veexMeasurementId = res.clientMeasurementId; // sorry, if ReturnCode is OK, ErrorMessage contains Id
+      getDto.veexMeasurementId = res.clientMeasurementId; // sorry, if ReturnCode is MeasurementClientStartedSuccessfully, ErrorMessage contains Id
       var measRes: ClientMeasurementVeexResultDto;
       while (true) {
         await new Promise(f => setTimeout(f, 5000));

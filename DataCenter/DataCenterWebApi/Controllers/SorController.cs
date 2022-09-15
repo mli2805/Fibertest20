@@ -80,6 +80,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
 
             _logFile.AppendLine($"Got sor file: {sorBytes.Length} bytes");
+            // var otdrData = SorData.FromBytes(sorBytes);
+            // otdrData.Save(@"c:\temp\rrr.sor");
+
 
             if (isVxSor)
                 sorBytes = await VxSor(sorBytes, isBaseIncluded);

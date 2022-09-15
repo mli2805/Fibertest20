@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
                 //detached traces
                 foreach (var trace in writeModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port == -1))
                 {
-                    rtuDto.Children.Add(trace.CreateTraceDto());
+                    rtuDto.Children.Add(trace.CreateTraceDto(rtu, null));
                 }
 
                 yield return rtuDto;
@@ -98,7 +98,7 @@ namespace Iit.Fibertest.DataCenterCore
                                                                             && t.OtauPort.OpticalPort == j
                                                                             && t.ZoneIds.Contains(user.ZoneId));
                     otauWebDto.Children.Add(traceOnOtau != null
-                        ? traceOnOtau.CreateTraceDto()
+                        ? traceOnOtau.CreateTraceDto(rtu, otauWebDto)
                         : new ChildDto(ChildType.FreePort) { Port = j });
                 }
                 return otauWebDto;
@@ -110,18 +110,38 @@ namespace Iit.Fibertest.DataCenterCore
                                                               && t.Port == port
                                                               && t.ZoneIds.Contains(user.ZoneId));
             return trace != null
-                ? trace.CreateTraceDto()
+                ? trace.CreateTraceDto(rtu, null)
                 : new ChildDto(ChildType.FreePort) { Port = port };
         }
 
-        private static TraceDto CreateTraceDto(this Trace t)
+        private static TraceDto CreateTraceDto(this Trace t, Rtu rtu, OtauWebDto otauWebDto)
         {
+            OtauPortDto otauPortDto = null;
+            if (t.OtauPort != null) // trace attached
+            {
+                var otauId = t.OtauPort.IsPortOnMainCharon
+                    ? rtu.RtuMaker == RtuMaker.IIT
+                        ? null
+                        : rtu.MainVeexOtau.id
+                    : t.OtauPort.OtauId;
+
+                otauPortDto = new OtauPortDto()
+                {
+                    OtauId = otauId,
+                    NetAddress = t.OtauPort.IsPortOnMainCharon ? rtu.MainChannel : t.OtauPort.NetAddress,
+                    OpticalPort = t.Port,
+                    Serial = otauWebDto == null ? rtu.Serial : otauWebDto.Serial,
+                    IsPortOnMainCharon = t.OtauPort.IsPortOnMainCharon,
+                    MainCharonPort = t.OtauPort.MainCharonPort,
+                };
+            }
+
             return new TraceDto(ChildType.Trace)
             {
                 TraceId = t.TraceId,
                 RtuId = t.RtuId,
                 Title = t.Title,
-                OtauPort = t.OtauPort,
+                OtauPort = t.OtauPort != null ? otauPortDto : null,
                 IsAttached = t.IsAttached,
                 Port = t.Port,
                 State = t.State,
