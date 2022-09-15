@@ -1,16 +1,16 @@
 export class LeafOfAcceptableMeasParams {
-  public Resolutions: string[];
-  public PulseDurations: string[];
-  public PeriodsToAverage: string[];
-  public MeasCountsToAverage: string[];
+  public resolutions: string[];
+  public pulseDurations: string[];
+  public periodsToAverage: string[];
+  public measCountsToAverage: string[];
 }
 
 export class BranchOfAcceptableMeasParams {
-  public Distances: Map<number, LeafOfAcceptableMeasParams>;
-  public BackscatteredCoefficient: number;
-  public RefractiveIndex: number;
+  public distances: Map<string, LeafOfAcceptableMeasParams>;
+  public backscatteredCoefficient: number;
+  public refractiveIndex: number;
 }
 
 export class TreeOfAcceptableVeasParams {
-  public Units: Map<string, BranchOfAcceptableMeasParams>;
+  public units: Map<string, BranchOfAcceptableMeasParams>;
 }

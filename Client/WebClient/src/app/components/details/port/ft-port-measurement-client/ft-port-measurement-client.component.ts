@@ -99,17 +99,25 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   }
 
   initializeLists() {
-    const units = Object.keys(this.tree["units"]);
+    const units = Object.keys(this.tree.units);
     this.itemsSourceUnits = units;
     this.selectedUnit = units[0];
 
-    const selectedUnitBranch = this.tree["units"][this.selectedUnit];
+    const selectedUnitBranch : BranchOfAcceptableMeasParams = this.tree.units[this.selectedUnit];
     this.selectedBc = selectedUnitBranch["backscatteredCoefficient"];
     this.selectedRi = selectedUnitBranch["refractiveIndex"];
-    const distances = selectedUnitBranch["distances"];
-    console.log(`distances = `, distances);
+    const distances = selectedUnitBranch.distances;
 
-    const distancesKeys = Object.keys(distances);
+    const distancesKeys = [];
+    let sortable = [];
+    for (var ddd in distances){
+      sortable.push([ddd, Number(ddd)]);
+    }
+    sortable.sort(function(a,b){return a[1]-b[1]});
+    for (var i = 0; i < sortable.length; i++){
+      distancesKeys.push(sortable[i][0]);
+    }
+
     console.log(`distancesKeys = ${distancesKeys}`);
     this.itemsSourceDistances = distancesKeys;
     this.selectedDistance = distancesKeys[0];
