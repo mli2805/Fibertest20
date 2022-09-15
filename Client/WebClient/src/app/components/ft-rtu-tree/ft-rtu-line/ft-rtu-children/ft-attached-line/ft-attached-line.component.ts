@@ -12,6 +12,7 @@ import { Role } from "src/app/models/enums/role";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { FiberState } from "src/app/models/enums/fiberState";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
+import { RtuPartState } from "src/app/models/enums/rtuPartState";
 
 @Component({
   selector: "ft-attached-line",
@@ -109,13 +110,17 @@ export class FtAttachedLineComponent implements OnInit {
       sessionStorage.getItem("currentUser")
     );
     return (
-      user.role > Role.Root ||
+      user.role > Role.WebOperator ||
       (this.trace.isIncludedInMonitoringCycle &&
-        this.trace.rtuMonitoringMode === MonitoringMode.On)
+        this.trace.rtuMonitoringMode === MonitoringMode.On) || !this.isRtuAvailable()
     );
   }
 
   hasBase(): boolean {
     return !this.trace.hasEnoughBaseRefsToPerformMonitoring;
+  }
+
+  isRtuAvailable() : boolean {
+    return this.parentRtu.mainChannelState === RtuPartState.Ok || this.parentRtu.reserveChannelState === RtuPartState.Ok;
   }
 }

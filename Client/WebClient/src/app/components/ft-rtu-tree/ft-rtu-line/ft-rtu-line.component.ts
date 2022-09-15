@@ -17,6 +17,7 @@ import {
   MessageBoxStyle,
 } from "../../ft-simple-dialog/ft-message-box";
 import { TranslateService } from "@ngx-translate/core";
+import { RtuPartState } from "src/app/models/enums/rtuPartState";
 
 @Component({
   selector: "ft-rtu-line",
@@ -114,10 +115,16 @@ export class FtRtuLineComponent implements OnInit {
   }
 
   isManualModeDisabled(rtu: RtuDto): boolean {
-    return rtu.monitoringMode !== MonitoringMode.On;
+    return rtu.monitoringMode !== MonitoringMode.On
+            || !this.isRtuAvailable();
   }
 
   isAutomaticModeDisabled(rtu: RtuDto): boolean {
-    return rtu.monitoringMode !== MonitoringMode.Off;
+    return rtu.monitoringMode !== MonitoringMode.Off
+            || !this.isRtuAvailable();
+  }
+
+  isRtuAvailable() : boolean {
+    return this.rtu.mainChannelState === RtuPartState.Ok || this.rtu.reserveChannelState === RtuPartState.Ok;
   }
 }

@@ -40,11 +40,11 @@
     <button
       mat-menu-item
       (click)="outOfTurnMeasurement()"
-      [disabled]="hasBase()"
+      [disabled]="hasBase() || !isRtuAvailable()"
     >
       {{ "SID_Precise_monitoring_out_of_turn" | translate }}
     </button>
-    <button mat-menu-item (click)="measurementClient()">
+    <button mat-menu-item (click)="measurementClient()" [disabled]="!isRtuAvailable()">
       {{ "SID_Measurement__Client_" | translate }}
     </button>
   </mat-menu>
