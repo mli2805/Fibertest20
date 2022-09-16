@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -70,6 +71,7 @@ namespace Graph.Tests
                     result.Content = new StringContent(JsonConvert.SerializeObject(new VeexMeasurementResult()
                     {
                         id = FakeVeexRtuModel.MeasurementRequestId.ToString(),
+                        connectionQualities = new List<ConnectionQuality>(){new ConnectionQuality()},
                         status = "finished"
                     }));
                     break;

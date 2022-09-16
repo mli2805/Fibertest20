@@ -49,6 +49,7 @@
     <Compile Include="C2D2R\DoClientMeasurementDto.cs" />
     <Compile Include="C2D2R\FreeOtdrDto.cs" />
     <Compile Include="C2D2R\GetClientMeasurementDto.cs" />
+    <Compile Include="C2D2R\GetLineParametersDto.cs" />
     <Compile Include="C2D2R\InterruptMeasurementDto.cs" />
     <Compile Include="C2D2R\PrepareReflectMeasurementDto.cs" />
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />

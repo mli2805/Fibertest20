@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Dto
         public string resolution { get; set; }
         public bool? fastMeasurement { get; set; } = null;
         public string averagingTime { get; set; }
-        public bool highFrequencyResolution { get; set; }
+        public bool? highFrequencyResolution { get; set; } = null;
         public List<RequiredConnectionQualitiesItem> requiredConnectionQualities { get; set; }
     }
 

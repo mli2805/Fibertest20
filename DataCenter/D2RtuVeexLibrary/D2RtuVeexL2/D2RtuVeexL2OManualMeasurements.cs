@@ -41,6 +41,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 ReturnCode = ReturnCode.Ok,
                 VeexMeasurementStatus = measResult.status,
                 ErrorMessage = measResult.extendedStatus,
+                ConnectionQuality = measResult.connectionQualities,
             };
         }
 

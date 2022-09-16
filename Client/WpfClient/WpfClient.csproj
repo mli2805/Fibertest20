@@ -222,6 +222,8 @@
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IOneMeasurementExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneVeexMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseProgress.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\FailedAutoBasePdfProvider.cs" />

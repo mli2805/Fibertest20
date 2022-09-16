@@ -95,29 +95,12 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
+       
+
+      
         public VeexMeasOtdrParameters GetVeexSelectedParameters()
         {
-            var result = new VeexMeasOtdrParameters()
-            {
-                measurementType = @"manual",
-                // fastMeasurement = false,
-                // highFrequencyResolution = false,
-                lasers = new List<Laser>() { new Laser() { laserUnit = Model.SelectedUnit } },
-                opticalLineProperties = new OpticalLineProperties()
-                {
-                    kind = @"point_to_point",
-                    lasersProperties = new List<LasersProperty>()
-                    {
-                        new LasersProperty()
-                        {
-                            laserUnit = Model.SelectedUnit,
-                            backscatterCoefficient = (int)Model.BackScatteredCoefficient,
-                            refractiveIndex = Model.RefractiveIndex,
-                        }
-                    }
-                },
-
-            };
+            var result = Model.GetVeexMeasOtdrParametersBase(false);
 
             if (Model.SelectedOtdrParametersTemplate.Id != 0)
             {
@@ -131,4 +114,5 @@ namespace Iit.Fibertest.Client
         }
 
     }
+   
 }

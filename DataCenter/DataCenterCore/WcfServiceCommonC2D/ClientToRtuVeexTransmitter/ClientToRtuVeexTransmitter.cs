@@ -201,7 +201,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             var result = await _d2RtuVeexLayer3.GetMeasurementClientResultAsync(rtuAddresses, dto.VeexMeasurementId);
-            _logFile.AppendLine($"Get measurement result is {result.ReturnCode}");
+            _logFile.AppendLine($"Get measurement result: request is {result.ReturnCode}; measurement status is {result.VeexMeasurementStatus}");
             return result;
         }  
         

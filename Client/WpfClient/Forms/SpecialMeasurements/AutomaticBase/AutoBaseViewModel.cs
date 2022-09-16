@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,6 +14,7 @@ namespace Iit.Fibertest.Client
 {
     public class AutoBaseViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
@@ -21,17 +23,18 @@ namespace Iit.Fibertest.Client
         private TraceLeaf _traceLeaf;
 
         public bool IsOpen { get; set; }
-        public OneMeasurementExecutor OneMeasurementExecutor { get; }
+        public IOneMeasurementExecutor OneMeasurementExecutor { get; set; }
         public bool IsShowRef { get; set; }
 
-        public AutoBaseViewModel(IMyLog logFile, Model readModel, IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
-            OneMeasurementExecutor oneMeasurementExecutor, ReflectogramManager reflectogramManager)
+        public AutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, 
+            IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
+            ReflectogramManager reflectogramManager)
         {
+            _globalScope = globalScope;
             _logFile = logFile;
             _readModel = readModel;
             _windowManager = windowManager;
             _dispatcherProvider = dispatcherProvider;
-            OneMeasurementExecutor = oneMeasurementExecutor;
             _reflectogramManager = reflectogramManager;
         }
 
@@ -49,6 +52,9 @@ namespace Iit.Fibertest.Client
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
 
+            OneMeasurementExecutor = rtu.RtuMaker == RtuMaker.IIT 
+                ? (IOneMeasurementExecutor)_globalScope.Resolve<OneMeasurementExecutor>()
+                : _globalScope.Resolve<OneVeexMeasurementExecutor>();
             if (!OneMeasurementExecutor.Initialize(rtu, false))
                 return false;
 

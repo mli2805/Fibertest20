@@ -29,7 +29,6 @@ namespace Iit.Fibertest.Client
             };
             while (true)
             {
-                await Task.Delay(5000);
                 var measResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
 
                 if (measResult.ReturnCode != ReturnCode.Ok || measResult.VeexMeasurementStatus == @"failed")
@@ -51,11 +50,17 @@ namespace Iit.Fibertest.Client
 
                 if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
                 {
+                    var cq = measResult.ConnectionQuality[0];
+                    _logFile.AppendLine($@"lmax = {cq.lmaxKm:F},  loss = {cq.loss:F},  reflectance = {cq.reflectance:F},  SNR = {cq.snr:F}");
+
+
                     var measResultWithSorBytes = await _c2DWcfCommonManager.GetClientMeasurementSorBytesAsync(getDto);
                     _logFile.AppendLine($@"Fetched measurement {clientMeasurementId.First6()} from VEEX RTU");
                     return new MeasurementEventArgs(
                         ReturnCode.MeasurementEndedNormally, trace, measResultWithSorBytes.SorBytes);
                 }
+
+                await Task.Delay(2000);
             }
         }
 

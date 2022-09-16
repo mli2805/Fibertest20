@@ -74,7 +74,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetMeasurementResult(DoubleAddress rtuDoubleAddress, string measId)
         {
-            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress, $"measurements/{measId}", "get");
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress, $"measurements/{measId}?emode", "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             res.ResponseObject = JsonConvert.DeserializeObject<VeexMeasurementResult>(res.ResponseJson);
             return res;

@@ -1,15 +1,15 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Iit.Fibertest.Client
 {
-    public class OneMeasurementExecutor : IOneMeasurementExecutor
+    public class OneVeexMeasurementExecutor : IOneMeasurementExecutor
     {
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
@@ -22,12 +22,11 @@ namespace Iit.Fibertest.Client
         private Trace _trace;
         public MeasurementModel Model { get; set; } = new MeasurementModel();
 
-        public OneMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
+        public OneVeexMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
             VeexMeasurementFetcher veexMeasurementFetcher,
-            LandmarksIntoBaseSetter landmarksIntoBaseSetter, MeasurementAsBaseAssigner measurementAsBaseAssigner
-            )
+            LandmarksIntoBaseSetter landmarksIntoBaseSetter, MeasurementAsBaseAssigner measurementAsBaseAssigner)
         {
             _logFile = logFile;
             _readModel = readModel;
@@ -59,11 +58,38 @@ namespace Iit.Fibertest.Client
 
             Model.MeasurementProgressViewModel.DisplayStartMeasurement(traceLeaf.Title);
 
+            VeexMeasOtdrParameters veexMeasOtdrParameters;
+            if (Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected())
+            {
+                var lineParamsDto = await GetLineParametersAsync(traceLeaf);
+                if (lineParamsDto.ReturnCode != ReturnCode.Ok)
+                {
+                    MeasurementCompleted?
+                        .Invoke(this, new MeasurementEventArgs(lineParamsDto.ReturnCode, _trace));
+                    return;
+                }
+
+                veexMeasOtdrParameters = Model.OtdrParametersTemplatesViewModel.Model
+                    .GetVeexMeasOtdrParametersBase(false)
+                    .FillInWithTemplate(lineParamsDto.ConnectionQuality, Model.Rtu.Omid);
+
+                if (veexMeasOtdrParameters == null)
+                {
+                    MeasurementCompleted?
+                        .Invoke(this, new MeasurementEventArgs(ReturnCode.InvalidValueOfLmax, _trace));
+
+                    Model.IsEnabled = true;             
+                    return;
+                }
+            }
+            else
+            {
+                veexMeasOtdrParameters = Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters();
+            }
+
             var dto = traceLeaf.Parent
-                .CreateDoClientMeasurementDto(traceLeaf.PortNumber, keepOtdrConnection, _readModel, Model.CurrentUser)
-                .SetParams(true, Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
-                    Model.OtdrParametersTemplatesViewModel.GetSelectedParameters(),
-                    Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
+                .CreateDoClientMeasurementDto(traceLeaf.PortNumber, false, _readModel, Model.CurrentUser)
+                .SetParams(true, false, null, veexMeasOtdrParameters);
 
             var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
@@ -82,22 +108,46 @@ namespace Iit.Fibertest.Client
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
 
-            if (Model.Rtu.RtuMaker == RtuMaker.VeEX)
+            await Task.Delay(veexMeasOtdrParameters.averagingTime == @"00:05" ? 10000 : 20000);
+            var veexResult = await _veexMeasurementFetcher.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId);
+            if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
             {
-                var veexResult = await _veexMeasurementFetcher.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId);
-                if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
-                {
-                    var res = new ClientMeasurementResultDto() { SorBytes = veexResult.SorBytes };
-                    ProcessMeasurementResult(res);
-                }
-                else
-                {
-                    _timer.Stop();
-                    _timer.Dispose();
-                    MeasurementCompleted?.Invoke(this, veexResult);
-                }
-            } // if RtuMaker is IIT - result will come through WCF contract
+                var res = new ClientMeasurementResultDto() { SorBytes = veexResult.SorBytes };
+                ProcessMeasurementResult(res);
+            }
+            else
+            {
+                _timer.Stop();
+                _timer.Dispose();
+                MeasurementCompleted?.Invoke(this, veexResult);
+            }
 
+        }
+
+        private async Task<LineParametersDto> GetLineParametersAsync(TraceLeaf traceLeaf)
+        {
+            var templateModel = Model.OtdrParametersTemplatesViewModel.Model;
+            var veexMeasOtdrParameters = templateModel.GetVeexMeasOtdrParametersBase(true);
+            var dto = traceLeaf.Parent
+                .CreateDoClientMeasurementDto(traceLeaf.PortNumber, false, _readModel, Model.CurrentUser)
+                .SetParams(true, true, null, veexMeasOtdrParameters);
+
+            var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
+            if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
+                return new LineParametersDto(){ReturnCode = startResult.ReturnCode};
+
+            await Task.Delay(5000);
+            var getDto = new GetClientMeasurementDto()
+            {
+                RtuId = dto.RtuId,
+                VeexMeasurementId = startResult.ClientMeasurementId.ToString(),
+            };  
+            var lineCheckResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
+            if (lineCheckResult.ReturnCode != ReturnCode.Ok)
+                return new LineParametersDto(){ReturnCode = lineCheckResult.ReturnCode};
+
+            return new LineParametersDto()
+                { ReturnCode = ReturnCode.Ok, ConnectionQuality = lineCheckResult.ConnectionQuality[0] };
         }
 
         private System.Timers.Timer _timer;
@@ -157,6 +207,6 @@ namespace Iit.Fibertest.Client
 
         public delegate void MeasurementHandler(object sender, MeasurementEventArgs e);
 
-        public event MeasurementHandler MeasurementCompleted;
+        public event OneMeasurementExecutor.MeasurementHandler MeasurementCompleted;
     }
 }
