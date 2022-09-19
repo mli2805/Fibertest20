@@ -14,7 +14,7 @@
       {{ "SID_Information" | translate }}
     </button>
     <!-- <button mat-menu-item>{{ "SID_Show_trace" | translate }}</button> -->
-    <button mat-menu-item (click)="assignBaseRefs()">
+    <button mat-menu-item (click)="assignBaseRefs()" [disabled]="isAssignBaseDisabled()">
       {{ "SID_Base_refs_assignment" | translate }}
     </button>
     <button mat-menu-item (click)="displayState()">

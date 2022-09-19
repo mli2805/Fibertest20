@@ -2,6 +2,8 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
+import { Role } from "src/app/models/enums/role";
 
 @Component({
   selector: "ft-detached-line",
@@ -58,5 +60,13 @@ export class FtDetachedLineComponent implements OnInit {
 
   displayLandmarks() {
     this.router.navigate(["/ft-main-nav/trace-landmarks", this.trace.traceId]);
+  }
+
+  isAssignBaseDisabled() : boolean {
+    const user: RegistrationAnswerDto = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
+    return (user.role > Role.WebOperator);
+ 
   }
 }

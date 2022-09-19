@@ -116,6 +116,23 @@ export class FtAttachedLineComponent implements OnInit {
     );
   }
 
+  isOutOfTurnPreciseDisabled(): boolean {
+    const user: RegistrationAnswerDto = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
+    return (
+      user.role > Role.WebOperator ||
+      !this.trace.hasEnoughBaseRefsToPerformMonitoring || !this.isRtuAvailable()
+    );
+  }
+
+  isMeasurementClientDisabled(): boolean {
+    const user: RegistrationAnswerDto = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
+    return (user.role > Role.WebOperator || !this.isRtuAvailable());
+  }
+
   hasBase(): boolean {
     return !this.trace.hasEnoughBaseRefsToPerformMonitoring;
   }
