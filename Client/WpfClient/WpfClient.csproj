@@ -223,8 +223,10 @@
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IOneMeasurementExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IWholeRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneVeexMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeRtuMeasurementsExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeVeexRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseProgress.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\FailedAutoBasePdfProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\LandmarksIntoBaseSetter.cs" />
@@ -234,7 +236,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\OtauPortDtoProvider.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\VeexMeasurementFetcher.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\VeexMeasurement.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesView.xaml.cs">

@@ -15,7 +15,6 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IDispatcherProvider _dispatcherProvider;
-        private readonly VeexMeasurementFetcher _veexMeasurementFetcher;
         private readonly LandmarksIntoBaseSetter _landmarksIntoBaseSetter;
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
@@ -25,7 +24,6 @@ namespace Iit.Fibertest.Client
         public OneMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
-            VeexMeasurementFetcher veexMeasurementFetcher,
             LandmarksIntoBaseSetter landmarksIntoBaseSetter, MeasurementAsBaseAssigner measurementAsBaseAssigner
             )
         {
@@ -33,7 +31,6 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _dispatcherProvider = dispatcherProvider;
-            _veexMeasurementFetcher = veexMeasurementFetcher;
             _landmarksIntoBaseSetter = landmarksIntoBaseSetter;
             _measurementAsBaseAssigner = measurementAsBaseAssigner;
 
@@ -82,22 +79,7 @@ namespace Iit.Fibertest.Client
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
 
-            if (Model.Rtu.RtuMaker == RtuMaker.VeEX)
-            {
-                var veexResult = await _veexMeasurementFetcher.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId);
-                if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
-                {
-                    var res = new ClientMeasurementResultDto() { SorBytes = veexResult.SorBytes };
-                    ProcessMeasurementResult(res);
-                }
-                else
-                {
-                    _timer.Stop();
-                    _timer.Dispose();
-                    MeasurementCompleted?.Invoke(this, veexResult);
-                }
-            } // if RtuMaker is IIT - result will come through WCF contract
-
+           // RtuMaker is IIT - result will come through WCF contract
         }
 
         private System.Timers.Timer _timer;

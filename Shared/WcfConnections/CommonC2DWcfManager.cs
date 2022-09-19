@@ -340,7 +340,10 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                _logFile.AppendLine($@"Sending command to do client's measurement on RTU {dto.RtuId.First6()}");
+                if (dto.VeexMeasOtdrParameters.measurementType == "auto_skip_measurement")
+                    _logFile.AppendLine($@"Sending command to get line parameters on RTU {dto.RtuId.First6()}");
+                else
+                    _logFile.AppendLine($@"Sending command to do client's measurement on RTU {dto.RtuId.First6()}");
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.DoClientMeasurementAsync(dto);

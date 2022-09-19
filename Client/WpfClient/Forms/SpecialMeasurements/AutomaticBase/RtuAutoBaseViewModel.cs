@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
         private readonly MonitoringSettingsModelFactory _monitoringSettingsModelFactory;
         private List<RtuAutoBaseProgress> _progress;
         public bool IsOpen { get; set; }
-        public WholeRtuMeasurementsExecutor WholeRtuMeasurementsExecutor { get; }
+        public IWholeRtuMeasurementsExecutor WholeRtuMeasurementsExecutor { get; set; }
         public bool ShouldStartMonitoring { get; set; }
         private RtuLeaf _rtuLeaf;
         private Rtu _rtu;
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
         public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile,
             IDispatcherProvider dispatcherProvider, Model readModel, IWindowManager windowManager,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
-            WholeRtuMeasurementsExecutor wholeRtuMeasurementsExecutor, FailedAutoBasePdfProvider failedAutoBasePdfProvider,
+            FailedAutoBasePdfProvider failedAutoBasePdfProvider,
             MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
@@ -76,15 +76,14 @@ namespace Iit.Fibertest.Client
             _commonC2DWcfManager = commonC2DWcfManager;
             _failedAutoBasePdfProvider = failedAutoBasePdfProvider;
             _monitoringSettingsModelFactory = monitoringSettingsModelFactory;
-            WholeRtuMeasurementsExecutor = wholeRtuMeasurementsExecutor;
         }
 
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Assign_base_refs_automatically;
             IsOpen = true;
-            WholeRtuMeasurementsExecutor.MeasurementCompleted += OneMeasurementExecutor_MeasurementCompleted;
-            WholeRtuMeasurementsExecutor.BaseRefAssigned += OneMeasurementExecutor_BaseRefAssigned;
+            WholeRtuMeasurementsExecutor.MeasurementCompleted += MeasurementExecutor_MeasurementCompleted;
+            WholeRtuMeasurementsExecutor.BaseRefAssigned += MeasurementExecutor_BaseRefAssigned;
         }
 
         public bool Initialize(RtuLeaf rtuLeaf)
@@ -93,6 +92,10 @@ namespace Iit.Fibertest.Client
             IsInterruptEnabled = true;
             ButtonName = Resources.SID_Close;
             _finishInProgress = false;
+
+            WholeRtuMeasurementsExecutor = rtuLeaf.RtuMaker == RtuMaker.IIT
+                ? (IWholeRtuMeasurementsExecutor)_globalScope.Resolve<WholeRtuMeasurementsExecutor>()
+                : _globalScope.Resolve<WholeVeexRtuMeasurementsExecutor>();
 
             _goodTraces = new List<Trace>();
             _badResults = new List<MeasurementEventArgs>();
@@ -161,14 +164,8 @@ namespace Iit.Fibertest.Client
             _brokenBop = "";
         }
 
-        private async void OneMeasurementExecutor_MeasurementCompleted(object sender, MeasurementEventArgs result)
+        private async void MeasurementExecutor_MeasurementCompleted(object sender, MeasurementEventArgs result)
         {
-            //if (_interruptPressed)
-            //{
-            //    await _dispatcherProvider.GetDispatcher().Invoke(Finish);
-            //    return;
-            //}
-
             _logFile.AppendLine($@"Measurement on trace {result.Trace.Title}: {result.Code}");
             var progressItem = _progress.First(i => i.Trace.TraceId == result.Trace.TraceId);
             if (result.Code == ReturnCode.RtuToggleToBopPortError)
@@ -213,7 +210,6 @@ namespace Iit.Fibertest.Client
             var nextItem = _progress.FirstOrDefault(i => !i.MeasurementDone);
             if (!_interruptPressed && nextItem != null)
             {
-                _logFile.AppendLine($@"Start next measurement for {nextItem.Trace.Title}");
                 Thread.Sleep(100);
                 await Task.Factory.StartNew(() =>
                     WholeRtuMeasurementsExecutor.StartOneMeasurement(nextItem, nextItem.Ordinal < _progress.Count));
@@ -227,7 +223,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void OneMeasurementExecutor_BaseRefAssigned(object sender, MeasurementEventArgs result)
+        private void MeasurementExecutor_BaseRefAssigned(object sender, MeasurementEventArgs result)
         {
             ProcessBaseRefAssignedResult(result);
         }
@@ -262,9 +258,12 @@ namespace Iit.Fibertest.Client
             _finishInProgress = true;
 
             _waitCursor.Dispose();
-            var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto() { RtuId = _rtu.Id });
-            _logFile.AppendLine($@"Free OTDR result is {r.ReturnCode}");
-            _logFile.EmptyLine();
+            if (_rtu.RtuMaker == RtuMaker.IIT)
+            {
+                var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto() { RtuId = _rtu.Id });
+                _logFile.AppendLine($@"Free OTDR result is {r.ReturnCode}");
+                _logFile.EmptyLine();
+            }
 
             if (_interruptPressed)
                 TryClose();
@@ -353,8 +352,8 @@ namespace Iit.Fibertest.Client
         public override void CanClose(Action<bool> callback)
         {
             IsOpen = false;
-            WholeRtuMeasurementsExecutor.MeasurementCompleted -= OneMeasurementExecutor_MeasurementCompleted;
-            WholeRtuMeasurementsExecutor.BaseRefAssigned -= OneMeasurementExecutor_BaseRefAssigned;
+            WholeRtuMeasurementsExecutor.MeasurementCompleted -= MeasurementExecutor_MeasurementCompleted;
+            WholeRtuMeasurementsExecutor.BaseRefAssigned -= MeasurementExecutor_BaseRefAssigned;
             callback(true);
         }
     }

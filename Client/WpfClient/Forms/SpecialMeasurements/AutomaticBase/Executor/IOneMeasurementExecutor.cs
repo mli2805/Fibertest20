@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
         bool Initialize(Rtu rtu, bool isForRtu);
         Task Start(TraceLeaf traceLeaf, bool keepOtdrConnection = false);
         void ProcessMeasurementResult(ClientMeasurementResultDto dto);
+
         event OneMeasurementExecutor.MeasurementHandler MeasurementCompleted;
     }
 }
