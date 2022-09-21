@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
@@ -11,10 +10,9 @@ namespace Iit.Fibertest.Client
     public class ConfigurationViewModel : Screen
     {
         private readonly IniFile _iniFile;
+        private readonly CurrentClientConfiguration _currentClientConfiguration;
         private readonly SoundManager _soundManager;
         public List<string> SupportedLanguages { get; set; } = new List<string>(){@"ru-RU", @"en-US"};
-
-        public bool IsEnabled { get; set; }
 
         private bool _isSoundOn;
         private string _soundButtonContent;
@@ -30,6 +28,7 @@ namespace Iit.Fibertest.Client
         }
 
         private string _selectedLanguage;
+
         public string SelectedLanguage
         {
             get => _selectedLanguage;
@@ -40,15 +39,29 @@ namespace Iit.Fibertest.Client
             }
         }
 
-   
+        private bool _doNotSignalAboutSuspicion;
+        public bool DoNotSignalAboutSuspicion
+        {
+            get => _doNotSignalAboutSuspicion;
+            set
+            {
+                if (value == _doNotSignalAboutSuspicion) return;
+                _doNotSignalAboutSuspicion = value;
+                NotifyOfPropertyChange();
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, _doNotSignalAboutSuspicion);
+                _currentClientConfiguration.DoNotSignalAboutSuspicion = _doNotSignalAboutSuspicion;
+            }
+        }
 
-        public ConfigurationViewModel(IniFile iniFile, CurrentUser currentUser, SoundManager soundManager)
+        public ConfigurationViewModel(IniFile iniFile, CurrentClientConfiguration currentClientConfiguration, SoundManager soundManager)
         {
             _iniFile = iniFile;
+            _currentClientConfiguration = currentClientConfiguration;
             _soundManager = soundManager;
-            IsEnabled = currentUser.Role < Role.SuperClient;
 
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            DoNotSignalAboutSuspicion =
+                _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, false);
             SoundButtonContent = Resources.SID_Turn_alarm_on;
             _isSoundOn = false;
         }
@@ -71,7 +84,6 @@ namespace Iit.Fibertest.Client
                 _soundManager.StopAlert();
             callback(true);
         }
-
 
         public void Close() { TryClose(); }
     }

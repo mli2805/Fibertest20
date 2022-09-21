@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
         {
             builder.RegisterType<GraphGpsCalculator>().InstancePerLifetimeScope();
 
+            builder.RegisterType<CurrentClientConfiguration>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentGis>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentDatacenterParameters>().InstancePerLifetimeScope();

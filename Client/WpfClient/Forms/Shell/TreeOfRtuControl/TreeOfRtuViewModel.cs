@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 using Caliburn.Micro;
 
 namespace Iit.Fibertest.Client
@@ -24,12 +25,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Visibility SuspicionVisibility { get; set; } = Visibility.Hidden;
+
         private int _foundCounter;
         public string Found => _foundCounter == 0 ? "" : _foundCounter.ToString();
 
-        public TreeOfRtuViewModel(TreeOfRtuModel treeOfRtuModel, FreePorts freePorts, 
+        public TreeOfRtuViewModel(CurrentClientConfiguration currentClientConfiguration, TreeOfRtuModel treeOfRtuModel, FreePorts freePorts, 
             ChildrenViews childrenViews, EventArrivalNotifier eventArrivalNotifier)
         {
+            currentClientConfiguration.PropertyChanged += CurrentClientConfiguration_PropertyChanged;
             _childrenViews = childrenViews;
             TreeOfRtuModel = treeOfRtuModel;
             TreeOfRtuModel.RefreshStatistics();
@@ -38,6 +42,12 @@ namespace Iit.Fibertest.Client
             FreePorts.AreVisible = true;
 
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
+        }
+
+        private void CurrentClientConfiguration_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SuspicionVisibility = ((CurrentClientConfiguration)sender).DoNotSignalAboutSuspicion ? Visibility.Visible : Visibility.Hidden;
+            NotifyOfPropertyChange(nameof(SuspicionVisibility));
         }
 
         public void ChangeFreePortsVisibility()

@@ -9,15 +9,24 @@
         Height="450" Width="450" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:ConfigurationViewModel}">
     <DockPanel>
-        <Button DockPanel.Dock="Bottom" Width="100" Height="22" Margin="5,5,5,10" Content="{x:Static stringResources:Resources.SID_Close}" Name="Close"/>
+        <Button DockPanel.Dock="Bottom" Width="100" Height="22" Margin="5,5,5,10" 
+                Content="{x:Static stringResources:Resources.SID_Close}" Name="Close"/>
         <StackPanel Margin="5,10,5,5">
             <StackPanel Orientation="Horizontal" Margin="5">
-                <ComboBox ItemsSource="{Binding SupportedLanguages}" SelectedItem="{Binding SelectedLanguage}" Width="100"/>
+                <ComboBox ItemsSource="{Binding SupportedLanguages}" 
+                          SelectedItem="{Binding SelectedLanguage}" Width="100"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Change_the_language}" Margin="15,2" />
             </StackPanel>
             <Separator></Separator>
             <TextBlock Text="{x:Static stringResources:Resources.SID_The_changes_will_be_applied_after_application_restart}" Margin="5"/>
-          <Button Height="23" Width="200" Content="{Binding SoundButtonContent}" HorizontalAlignment="Left" Margin="5,10" Name="TestSound"/>
+            <GroupBox Margin="0,20,0,0">
+                <StackPanel>
+                    <CheckBox Content="{x:Static stringResources:Resources.SID_Do_not_signal_about_Suspicion}" 
+                              IsChecked="{Binding DoNotSignalAboutSuspicion}"  Margin="5,10,5,5"/>
+                    <Button Height="23" Width="300" Content="{Binding SoundButtonContent}" HorizontalAlignment="Left"
+                            Margin="5,10" Name="TestSound" />
+                    </StackPanel>
+            </GroupBox>
         </StackPanel>
 
     </DockPanel>

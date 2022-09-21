@@ -38,31 +38,41 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar Name="ExpandBar">
-                <Button Name="Expand" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Expand_Click"
-                    RenderOptions.BitmapScalingMode="NearestNeighbor" Margin="0,0,0,1" VerticalAlignment="Bottom">
-                    <Image Source="../../../Resources/Buttons/Expand.png" Width="16" Height="16"/>
-                </Button>
-                <Button Name="Collapse" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Collapse_Click"
-                    RenderOptions.BitmapScalingMode="NearestNeighbor">
-                    <Image Source="../../../Resources/Buttons/Collapse.png" Width="16" Height="16"/>
-                </Button>
-                <ToggleButton Name="ChangeFreePortsVisibility" Background="Transparent" BorderThickness="0" Width="20" Height="20"
-                          Style="{StaticResource MyToggleButtonStyle}"
-                          RenderOptions.BitmapScalingMode="NearestNeighbor">
-                </ToggleButton>
-            </ToolBar>
-            <ToolBar>
-                <TextBox Text="{Binding TextToFind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
-                <TextBlock Text="{Binding Found}" Width="50" Height="22" Margin="3,0" Padding="8,2,0,0"  
-                           Background="Azure" HorizontalAlignment="Center"/>
-                <Button Name="ClearButton" Background="Transparent" BorderThickness="0" Width="20" Height="20"
-                        RenderOptions.BitmapScalingMode="NearestNeighbor">
-                    <Image Source="../../../Resources/Buttons/CloseChildren.png" Width="16" Height="16"/>
-                </Button> 
-            </ToolBar>
-        </ToolBarTray>
+        <DockPanel DockPanel.Dock="Top" Background="AliceBlue">
+            <Border DockPanel.Dock="Right" Margin="1" Visibility="{Binding SuspicionVisibility}" 
+                    BorderBrush="Black" BorderThickness="1"  CornerRadius="1" >
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Suspicion_off}" Margin="10,2,10,0"/>
+            </Border>
+            <ToolBarTray DockPanel.Dock="Left" Background="AliceBlue">
+                <ToolBar Name="ExpandBar"  Background="AliceBlue">
+                    <Button Name="Expand" Background="Transparent" BorderThickness="0" Width="20" Height="20"
+                            Click="Expand_Click"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor" Margin="0,0,0,1"
+                            VerticalAlignment="Bottom">
+                        <Image Source="../../../Resources/Buttons/Expand.png" Width="16" Height="16" />
+                    </Button>
+                    <Button Name="Collapse" Background="Transparent" BorderThickness="0" Width="20" Height="20"
+                            Click="Collapse_Click"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor">
+                        <Image Source="../../../Resources/Buttons/Collapse.png" Width="16" Height="16" />
+                    </Button>
+                    <ToggleButton Name="ChangeFreePortsVisibility" Background="Transparent" BorderThickness="0"
+                                  Width="20" Height="20"
+                                  Style="{StaticResource MyToggleButtonStyle}"
+                                  RenderOptions.BitmapScalingMode="NearestNeighbor">
+                    </ToggleButton>
+                </ToolBar>
+                <ToolBar Background="AliceBlue">
+                    <TextBox Text="{Binding TextToFind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" />
+                    <TextBlock Text="{Binding Found}" Width="50" Height="22" Margin="3,0" Padding="8,2,0,0"
+                               Background="Azure" HorizontalAlignment="Center" />
+                    <Button Name="ClearButton" Background="Transparent" BorderThickness="0" Width="20" Height="20"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor">
+                        <Image Source="../../../Resources/Buttons/CloseChildren.png" Width="16" Height="16" />
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+        </DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="25">
             <StatusBarItem Width="40" Background="White">
                 <Button Name="CloseChildren" Background="Transparent" BorderThickness="0" Width="20" Height="20" 

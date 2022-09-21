@@ -2692,6 +2692,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do not signal about `Suspicion`.
+        /// </summary>
+        public static string SID_Do_not_signal_about_Suspicion {
+            get {
+                return ResourceManager.GetString("SID_Do_not_signal_about_Suspicion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do not use equipment.
         /// </summary>
         public static string SID_Do_not_use {
@@ -8384,6 +8393,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Suspicion {
             get {
                 return ResourceManager.GetString("SID_Suspicion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspicion off.
+        /// </summary>
+        public static string SID_Suspicion_off {
+            get {
+                return ResourceManager.GetString("SID_Suspicion_off", resourceCulture);
             }
         }
         

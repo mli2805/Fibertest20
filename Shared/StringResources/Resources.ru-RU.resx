@@ -2451,7 +2451,7 @@ RTU инициализируется в данный момент!</value>
     <value>Статус события изменен</value>
   </data>
 	<data name="SID_Turn_alarm_on" xml:space="preserve">
-    <value>Включить сигнализацию</value>
+    <value>Тестировать звуковую сигнализацию</value>
   </data>
 	<data name="SID_Select_trace" xml:space="preserve">
     <value>Выберите трассу</value>
@@ -3412,5 +3412,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_The_process_is_finishing__Please_wait___" xml:space="preserve">
 		<value>Идет завершение процесса. Пожалуйста, подождите...</value>
+	</data>
+	<data name="SID_Do_not_signal_about_Suspicion" xml:space="preserve">
+		<value>Не сигнализировать о `Подозрение`</value>
+	</data>
+	<data name="SID_Suspicion_off" xml:space="preserve">
+		<value>Подозрение выкл</value>
 	</data>
 </root>

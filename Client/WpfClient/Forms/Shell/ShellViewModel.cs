@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Client
         private readonly ClientPoller _clientPoller;
         private readonly ModelLoader _modelLoader;
         private readonly IMyLog _logFile;
+        private readonly CurrentClientConfiguration _currentClientConfiguration;
         private readonly CurrentUser _currentUser;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly CommandLineParameters _commandLineParameters;
@@ -43,7 +44,8 @@ namespace Iit.Fibertest.Client
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
-        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser,
+        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
+            CurrentClientConfiguration currentClientConfiguration, CurrentUser currentUser,
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
             IClientWcfServiceHost host, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             IWcfServiceInSuperClient c2SWcfManager,
@@ -77,6 +79,7 @@ namespace Iit.Fibertest.Client
             _clientPoller = clientPoller;
             _modelLoader = modelLoader;
             _logFile = logFile;
+            _currentClientConfiguration = currentClientConfiguration;
             _currentUser = currentUser;
             _currentDatacenterParameters = currentDatacenterParameters;
             _commandLineParameters = commandLineParameters;
@@ -152,6 +155,8 @@ namespace Iit.Fibertest.Client
                 if (_commandLineParameters.IsUnderSuperClientStart)
                     await Task.Factory.StartNew(() => NotifySuperClientImReady(_commandLineParameters.ClientOrdinal));
                 IsEnabled = true;
+                _currentClientConfiguration.DoNotSignalAboutSuspicion = 
+                    _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, false);
                 TreeOfRtuViewModel.CollapseAll();
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
                 var unused = await CheckFreeSpaceThreshold();

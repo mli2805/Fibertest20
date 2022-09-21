@@ -21,12 +21,14 @@ namespace Iit.Fibertest.Client
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentClientConfiguration _currentClientConfiguration;
         private readonly ChildrenViews _childrenViews;
 
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            CommonC2DWcfManager commonC2DWcfManager, Model readModel, CurrentUser currentUser,
+            CommonC2DWcfManager commonC2DWcfManager, Model readModel, 
+            CurrentUser currentUser, CurrentClientConfiguration currentClientConfiguration,
             ChildrenViews childrenViews, TraceStateModelFactory traceStateModelFactory,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
@@ -37,6 +39,7 @@ namespace Iit.Fibertest.Client
             _commonC2DWcfManager = commonC2DWcfManager;
             _readModel = readModel;
             _currentUser = currentUser;
+            _currentClientConfiguration = currentClientConfiguration;
             _childrenViews = childrenViews;
 
             childrenViews.PropertyChanged += ChildrenViewsPropertyChanged;
@@ -71,6 +74,9 @@ namespace Iit.Fibertest.Client
 
         private void AddMeasurement(MeasurementAdded evnt)
         {
+            if (evnt.BaseRefType == BaseRefType.Fast && _currentClientConfiguration.DoNotSignalAboutSuspicion)
+                return;
+
             var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == evnt.TraceId);
             if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId)) return;
 

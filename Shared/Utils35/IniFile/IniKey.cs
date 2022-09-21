@@ -149,6 +149,7 @@
         PathToClient,
         PathToRftsParamsTemplate,
         MeasurementTimeoutMs,
+        DoNotSignalAboutSuspicion,
 
         // LoadTesting
         Multiplier,

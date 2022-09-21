@@ -3413,4 +3413,10 @@ Please try again later</value>
 	<data name="SID_The_process_is_finishing__Please_wait___" xml:space="preserve">
 		<value>The process is finishing. Please wait...</value>
 	</data>
+	<data name="SID_Do_not_signal_about_Suspicion" xml:space="preserve">
+		<value>Do not signal about `Suspicion`</value>
+	</data>
+	<data name="SID_Suspicion_off" xml:space="preserve">
+		<value>Suspicion off</value>
+	</data>
 </root>
