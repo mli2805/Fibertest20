@@ -71,7 +71,8 @@ namespace Iit.Fibertest.RtuManagement
             var hasFastPerformed = false;
 
             // FAST 
-            if (monitoringPort.IsMonitoringModeChanged ||
+            if (
+                monitoringPort.IsMonitoringModeChanged ||
                 (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan) ||
                 monitoringPort.LastTraceState == FiberState.Ok)
             {
@@ -122,10 +123,10 @@ namespace Iit.Fibertest.RtuManagement
                     message = $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
                     monitoringPort.IsConfirmationRequired = true;
                 }
-                else if (monitoringPort.IsMonitoringModeChanged)
-                {
-                    message = "Monitoring mode was changed";
-                }
+                // else if (monitoringPort.IsMonitoringModeChanged)
+                // {
+                //     message = "Monitoring mode was changed";
+                // }
                 else if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan)
                 {
                     _rtuLog.AppendLine($"last fast saved - {monitoringPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
@@ -163,8 +164,8 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     message = $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
                 }
-                else if (monitoringPort.IsMonitoringModeChanged)
-                    message = "Monitoring mode was changed";
+                // else if (monitoringPort.IsMonitoringModeChanged)
+                //     message = "Monitoring mode was changed";
                 else if (monitoringPort.IsConfirmationRequired)
                     message = "Accident confirmation - should be saved";
                 else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
