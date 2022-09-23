@@ -18,6 +18,8 @@ import {
 } from "../../ft-simple-dialog/ft-message-box";
 import { TranslateService } from "@ngx-translate/core";
 import { RtuPartState } from "src/app/models/enums/rtuPartState";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
+import { Role } from "src/app/models/enums/role";
 
 @Component({
   selector: "ft-rtu-line",
@@ -31,6 +33,8 @@ export class FtRtuLineComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
+  user: RegistrationAnswerDto;
+
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
@@ -39,7 +43,11 @@ export class FtRtuLineComponent implements OnInit {
     private matDialog: MatDialog
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
+  }
 
   expand(rtu: RtuDto) {
     rtu.expanded = !rtu.expanded;
@@ -115,12 +123,14 @@ export class FtRtuLineComponent implements OnInit {
   }
 
   isManualModeDisabled(rtu: RtuDto): boolean {
-    return rtu.monitoringMode !== MonitoringMode.On
+    return this.user.role > Role.WebOperator ||
+            rtu.monitoringMode !== MonitoringMode.On
             || !this.isRtuAvailable();
   }
 
   isAutomaticModeDisabled(rtu: RtuDto): boolean {
-    return rtu.monitoringMode !== MonitoringMode.Off
+    return this.user.role > Role.WebOperator ||
+            rtu.monitoringMode !== MonitoringMode.Off
             || !this.isRtuAvailable();
   }
 

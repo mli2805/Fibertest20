@@ -25,9 +25,13 @@ export class FtFreePortComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
+  user: RegistrationAnswerDto;
+
   constructor(private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+  }
 
   onContextMenu(event: MouseEvent) {
     event.preventDefault();
@@ -80,28 +84,19 @@ export class FtFreePortComponent implements OnInit {
   }
 
   public isAttachTraceDisabled() {
-    const user: RegistrationAnswerDto = JSON.parse(
-      sessionStorage.getItem("currentUser")
-    );
-    return user.role > Role.WebOperator || this.isRtuAvailable() !== true;
+    return this.user.role > Role.WebOperator || this.isRtuAvailable() !== true;
   }
 
   public isAttachSwitchDisabled() {
-    const user: RegistrationAnswerDto = JSON.parse(
-      sessionStorage.getItem("currentUser")
-    );
     return (
       this.parentRtu.monitoringMode === MonitoringMode.On ||
       this.isRtuAvailable() !== true ||
-      user.role > Role.Root
+      this.user.role > Role.Root
     );
   }
 
   public isMeasurementClientDisabled() {
-    const user: RegistrationAnswerDto = JSON.parse(
-      sessionStorage.getItem("currentUser")
-    );
-    return user.role > Role.WebOperator || this.isRtuAvailable() !== true;
+     return this.user.role > Role.WebOperator || this.isRtuAvailable() !== true;
   }
 
   private isRtuAvailable(): boolean {

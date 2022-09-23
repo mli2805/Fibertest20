@@ -9,6 +9,9 @@ import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { OneApiService } from "src/app/api/one.service";
 import { Utils } from "src/app/utils/utils";
 import { RtuMaker } from "src/app/models/enums/rtuMaker";
+import { userInfo } from "os";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
+import { Role } from "src/app/models/enums/role";
 
 @Component({
   selector: "ft-rtu-network-settings",
@@ -23,13 +26,14 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
   public initializationMessage: string;
   allRtuMakers = RtuMaker;
 
+  user: RegistrationAnswerDto;
+
   constructor(
     private activeRoute: ActivatedRoute,
     private oneApiService: OneApiService,
     private returnCodePipe: ReturnCodePipe
   ) {
     this.isSpinnerVisible = true;
-    this.isButtonDisabled = false;
   }
 
   async ngOnInit() {
@@ -40,6 +44,8 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
     console.log("rtu network settings received");
     this.isSpinnerVisible = false;
     this.allRtuMakers = RtuMaker;
+    this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+    this.isButtonDisabled = this.user.role > Role.WebOperator;
   }
 
   processInitializationResult(resultDto: RtuInitializedWebDto) {
@@ -78,7 +84,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
     }
    // window.alert(this.returnCodePipe.transform(resultDto.returnCode));
     this.isSpinnerVisible = false;
-    this.isButtonDisabled = false;
+    this.isButtonDisabled = this.user.role > Role.WebOperator;
 
     const matCard = document.querySelector("mat-card");
     matCard.removeAttribute("id");

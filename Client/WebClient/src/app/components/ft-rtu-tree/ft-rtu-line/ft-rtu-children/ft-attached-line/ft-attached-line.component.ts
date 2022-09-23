@@ -27,13 +27,17 @@ export class FtAttachedLineComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
+  user: RegistrationAnswerDto;
+ 
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
     private ftRtuTreeEventService: FtRtuTreeEventService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+  }
 
   onContextMenu(event: MouseEvent) {
     event.preventDefault();
@@ -106,31 +110,22 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   isDetachTraceDisabled(): boolean {
-    const user: RegistrationAnswerDto = JSON.parse(
-      sessionStorage.getItem("currentUser")
-    );
-    return (
-      user.role > Role.WebOperator ||
+     return (
+      this.user.role > Role.WebOperator ||
       (this.trace.isIncludedInMonitoringCycle &&
         this.trace.rtuMonitoringMode === MonitoringMode.On) || !this.isRtuAvailable()
     );
   }
 
   isOutOfTurnPreciseDisabled(): boolean {
-    const user: RegistrationAnswerDto = JSON.parse(
-      sessionStorage.getItem("currentUser")
-    );
-    return (
-      user.role > Role.WebOperator ||
+     return (
+      this.user.role > Role.WebOperator ||
       !this.trace.hasEnoughBaseRefsToPerformMonitoring || !this.isRtuAvailable()
     );
   }
 
   isMeasurementClientDisabled(): boolean {
-    const user: RegistrationAnswerDto = JSON.parse(
-      sessionStorage.getItem("currentUser")
-    );
-    return (user.role > Role.WebOperator || !this.isRtuAvailable());
+        return (this.user.role > Role.WebOperator || !this.isRtuAvailable());
   }
 
   hasBase(): boolean {

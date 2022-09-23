@@ -13,7 +13,7 @@
               <mat-option
                 *ngFor="let item of itemsSourceMeas"
                 [value]="item.index"
-                [disabled]="isBusy"
+                [disabled]="isFormDisabled"
               >
                 {{ item.name }}</mat-option
               >
@@ -25,7 +25,7 @@
               <mat-option
                 *ngFor="let item of itemsSourceSave"
                 [value]="item.index"
-                [disabled]="isBusy"
+                [disabled]="isFormDisabled"
               >
                 {{ item.name }}</mat-option
               >
@@ -48,7 +48,7 @@
               <mat-option
                 *ngFor="let item of itemsSourceSave"
                 [value]="item.index"
-                [disabled]="isBusy"
+                [disabled]="isFormDisabled"
               >
                 {{ item.name }}</mat-option
               >
@@ -63,7 +63,7 @@
         <mat-radio-group
           [(ngModel)]="monitoringMode"
           color="primary"
-          [disabled]="isBusy"
+          [disabled]="isFormDisabled"
         >
           <mat-radio-button [value]="0">{{
             "SID_Auto" | translate
@@ -76,7 +76,7 @@
         <button
           mat-stroked-button
           color="primary"
-          [disabled]="isBusy"
+          [disabled]="isFormDisabled"
           (click)="onButtonClicked()"
         >
           {{ "SID_Apply" | translate }}
@@ -87,13 +87,13 @@
     <div class="portTable">
       <ft-rtu-monitoring-ports
         [ports]="vm.lines"
-        [disabled]="isBusy"
+        [disabled]="isFormDisabled"
         #ports
       ></ft-rtu-monitoring-ports>
     </div>
 
     <div class="spinner-container">
-      <mat-spinner *ngIf="isBusy"></mat-spinner>
+      <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
     </div>
   </div>
 </div>

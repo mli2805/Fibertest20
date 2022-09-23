@@ -16,6 +16,8 @@ import {
 } from "src/app/components/ft-simple-dialog/ft-message-box";
 import { MatDialog } from "@angular/material";
 import { TranslateService } from "@ngx-translate/core";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
+import { Role } from "src/app/models/enums/role";
 
 @Component({
   selector: "ft-rtu-monitoring-settings",
@@ -25,7 +27,8 @@ import { TranslateService } from "@ngx-translate/core";
 export class FtRtuMonitoringSettingsComponent implements OnInit {
   @ViewChild(FtRtuMonitoringPortsComponent, { static: false })
   private portTableComponent: FtRtuMonitoringPortsComponent;
-  public isBusy = true;
+  public isSpinnerVisible = false;
+  public isFormDisabled = true;
   public initializationMessage: string;
   vm: RtuMonitoringSettingsDto = new RtuMonitoringSettingsDto();
 
@@ -38,6 +41,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
   selectedFastSave;
 
   monitoringMode;
+  user: RegistrationAnswerDto;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -46,7 +50,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     private ts: TranslateService,
     private matDialog: MatDialog
   ) {
-    this.isBusy = true;
+    this.isFormDisabled = true;
   }
 
   async ngOnInit() {
@@ -78,7 +82,9 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     this.selectedFastSave = res.fastSave;
 
     this.monitoringMode = res.monitoringMode === MonitoringMode.On ? 0 : 1;
-    this.isBusy = false;
+
+    this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+    this.isFormDisabled = this.user.role > Role.WebOperator;
   }
 
   async onButtonClicked() {
@@ -134,10 +140,12 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
   whileRequestView() {
     this.initializationMessage = "";
-    this.isBusy = true;
+    this.isSpinnerVisible = true;
+    this.isFormDisabled = true;
   }
 
   standardView() {
-    this.isBusy = false;
+    this.isSpinnerVisible = false;
+    this.isFormDisabled = false;
   }
 }
