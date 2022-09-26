@@ -5,6 +5,7 @@ using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -40,6 +41,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<EventToLogLineParser>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();
             builder.RegisterType<SnapshotRepository>().SingleInstance();
+            builder.RegisterType<RtuOccupations>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<GraphGpsCalculator>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();

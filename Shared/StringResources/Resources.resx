@@ -3419,4 +3419,13 @@ Please try again later</value>
 	<data name="SID_Suspicion_off" xml:space="preserve">
 		<value>Suspicion off</value>
 	</data>
+	<data name="SID_Auto_base_measurement_in_progress" xml:space="preserve">
+		<value>Auto base measurement in progress</value>
+	</data>
+	<data name="SID_RTU_initialization_in_progress" xml:space="preserve">
+		<value>RTU initialization in progress</value>
+	</data>
+	<data name="SID_RTU_is_busy" xml:space="preserve">
+		<value>RTU is busy</value>
+	</data>
 </root>

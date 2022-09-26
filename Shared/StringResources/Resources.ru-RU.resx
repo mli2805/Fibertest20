@@ -3419,4 +3419,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Suspicion_off" xml:space="preserve">
 		<value>Подозрение выкл</value>
 	</data>
+	<data name="SID_Auto_base_measurement_in_progress" xml:space="preserve">
+		<value>Идет автоматическое задание базовых рефлектограм</value>
+	</data>
+	<data name="SID_RTU_initialization_in_progress" xml:space="preserve">
+		<value>Идет инициализация RTU</value>
+	</data>
+	<data name="SID_RTU_is_busy" xml:space="preserve">
+		<value>RTU занят</value>
+	</data>
 </root>

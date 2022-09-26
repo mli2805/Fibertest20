@@ -6,6 +6,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -181,7 +182,11 @@ namespace Iit.Fibertest.Client
             var rtuName = dto.RtuAddresses != null ? $@"RTU {dto.RtuAddresses.Main.Ip4Address}" : @"RTU";
             var message = dto.IsInitialized
                 ? $@"{rtuName} initialized successfully."
-                : $@"{rtuName} initialization failed. " + Environment.NewLine + dto.ErrorMessage;
+                : $@"{rtuName} initialization failed. " + Environment.NewLine + dto.ReturnCode.GetLocalizedString();
+            if (!string.IsNullOrEmpty(dto.ErrorMessage))
+            {
+                message += Environment.NewLine + dto.ErrorMessage;
+            }
 
             _logFile.AppendLine(message);
 
@@ -213,20 +218,21 @@ namespace Iit.Fibertest.Client
                     };
                     vm = new MyMessageBoxViewModel(MessageType.Error, strs);
                     break;
-                case ReturnCode.OtauInitializationError:
-                    var strs2 = new List<string>()
-                    {
-                        Resources.SID_RTU_initialization_error_, "", dto.ReturnCode.GetLocalizedString(), "", dto.ErrorMessage
-                    };
-                    vm = new MyMessageBoxViewModel(MessageType.Error, strs2, 2);
+                case ReturnCode.RtuIsBusy:
+                case ReturnCode.RtuInitializationInProgress:
+                case ReturnCode.RtuAutoBaseMeasurementInProgress:
+                    vm = new MyMessageBoxViewModel(
+                        MessageType.Error, new List<string>()
+                        {
+                            ReturnCode.RtuIsBusy.GetLocalizedString(), "", dto.RtuOccupationState.GetLocalized(),
+                        }, 1);
                     break;
+                case ReturnCode.RtuInitializationError:
+                case ReturnCode.OtauInitializationError:
                 case ReturnCode.OtdrInitializationFailed:
+                default:
                     vm = new MyMessageBoxViewModel
                         (MessageType.Error, dto.ReturnCode.GetLocalizedWithOsInfo(dto.ErrorMessage).Split('\n'), 0);
-                    break;
-                default:
-                    var strs3 = new List<string>() { ReturnCode.RtuInitializationError.GetLocalizedString(), "", dto.ErrorMessage };
-                    vm = new MyMessageBoxViewModel(MessageType.Error, strs3, 2);
                     break;
             }
             _windowManager.ShowDialogWithAssignedOwner(vm);

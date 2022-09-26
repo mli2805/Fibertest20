@@ -383,6 +383,8 @@
     <Compile Include="Requests\RequestRemoveRtu.cs" />
     <Compile Include="Requests\RequestUpdateFiber.cs" />
     <Compile Include="Requests\RequestUpdateRtu.cs" />
+    <Compile Include="RtuOccupy\RtuOccupationStateExt.cs" />
+    <Compile Include="RtuOccupy\RtuOccupations.cs" />
     <Compile Include="VeexTestMappingProfile.cs" />
   </ItemGroup>
   <ItemGroup>

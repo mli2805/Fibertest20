@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IDispatcherProvider _dispatcherProvider;
-        private readonly VeexMeasurement _veexMeasurement;
+        private readonly VeexMeasurementTool _veexMeasurementTool;
         private readonly LandmarksIntoBaseSetter _landmarksIntoBaseSetter;
         private readonly MeasurementAsBaseAssigner _measurementAsBaseAssigner;
 
@@ -25,14 +25,14 @@ namespace Iit.Fibertest.Client
         public OneVeexMeasurementExecutor(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel,
             IWcfServiceCommonC2D c2DWcfCommonManager, IDispatcherProvider dispatcherProvider,
             AutoAnalysisParamsViewModel autoAnalysisParamsViewModel,
-            VeexMeasurement veexMeasurement,
+            VeexMeasurementTool veexMeasurementTool,
             LandmarksIntoBaseSetter landmarksIntoBaseSetter, MeasurementAsBaseAssigner measurementAsBaseAssigner)
         {
             _logFile = logFile;
             _readModel = readModel;
             _c2DWcfCommonManager = c2DWcfCommonManager;
             _dispatcherProvider = dispatcherProvider;
-            _veexMeasurement = veexMeasurement;
+            _veexMeasurementTool = veexMeasurementTool;
             _landmarksIntoBaseSetter = landmarksIntoBaseSetter;
             _measurementAsBaseAssigner = measurementAsBaseAssigner;
 
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             VeexMeasOtdrParameters veexMeasOtdrParameters;
             if (Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected())
             {
-                var lineParamsDto = await _veexMeasurement.GetLineParametersAsync(Model, traceLeaf);
+                var lineParamsDto = await _veexMeasurementTool.GetLineParametersAsync(Model, traceLeaf);
                 if (lineParamsDto.ReturnCode != ReturnCode.Ok)
                 {
                     MeasurementCompleted?
@@ -109,7 +109,7 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
 
             await Task.Delay(veexMeasOtdrParameters.averagingTime == @"00:05" ? 10000 : 20000);
-            var veexResult = await _veexMeasurement.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId);
+            var veexResult = await _veexMeasurementTool.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId);
             if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
             {
                 var res = new ClientMeasurementResultDto() { SorBytes = veexResult.SorBytes };

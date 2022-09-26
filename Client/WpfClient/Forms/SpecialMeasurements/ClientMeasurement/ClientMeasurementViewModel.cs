@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly MeasurementInterrupter _measurementInterrupter;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly VeexMeasurement _veexMeasurement;
+        private readonly VeexMeasurementTool _veexMeasurementTool;
         private readonly ReflectogramManager _reflectogramManager;
         public RtuLeaf RtuLeaf { get; set; }
         private Rtu _rtu;
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
         public ClientMeasurementViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
             CurrentUser currentUser, Model readModel, MeasurementInterrupter measurementInterrupter, 
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager, 
-            VeexMeasurement veexMeasurement,
+            VeexMeasurementTool veexMeasurementTool,
             ReflectogramManager reflectogramManager)
         {
             _globalScope = globalScope;
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Client
             _measurementInterrupter = measurementInterrupter;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
-            _veexMeasurement = veexMeasurement;
+            _veexMeasurementTool = veexMeasurementTool;
             _reflectogramManager = reflectogramManager;
         }
 
@@ -122,7 +122,7 @@ namespace Iit.Fibertest.Client
 
             if (_rtu.RtuMaker == RtuMaker.VeEX)
             {
-                var veexResult = await _veexMeasurement.Fetch(_dto.RtuId, null, startResult.ClientMeasurementId);
+                var veexResult = await _veexMeasurementTool.Fetch(_dto.RtuId, null, startResult.ClientMeasurementId);
                 if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
                     ShowReflectogram(veexResult.SorBytes);
                 TryClose(true);

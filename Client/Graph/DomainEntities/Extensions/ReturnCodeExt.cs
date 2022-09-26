@@ -39,10 +39,14 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_RTU_does_not_support_BOP;
                 case ReturnCode.RtuTooBigPortNumber:
                     return Resources.SID_Too_big_port_number_for_BOP_attachment;
+
+                case ReturnCode.RtuIsBusy:
+                    return Resources.SID_RTU_is_busy;
                 case ReturnCode.RtuInitializationInProgress:
-                    return @"RTU initialization in progress";
+                    return Resources.SID_RTU_initialization_in_progress;
                 case ReturnCode.RtuAutoBaseMeasurementInProgress:
-                    return @"Auto base measurement in progress";
+                    return Resources.SID_Auto_base_measurement_in_progress;
+
                 case ReturnCode.RtuAttachOtauError:
                     return Resources.SID_Attach_OTAU_error_;
                 case ReturnCode.RtuDetachOtauError:

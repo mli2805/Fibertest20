@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -8,8 +9,18 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to do measurement on RTU {dto.RtuId.First6()}");
+            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            var occupation = dto.IsForAutoBase ? RtuOccupation.AutoBaseMeasurement : RtuOccupation.MeasurementClient;
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, username, out RtuOccupationState currentState))
+            {
+                return new ClientMeasurementStartedDto()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                    RtuOccupationState = currentState,
+                    ErrorMessage = username,
+                };
+            }
             
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(dto);
             _logFile.AppendLine(json);
@@ -79,6 +90,16 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to free OTDR on RTU {dto.RtuId.First6()}");
+            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState currentState))
+            {
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                    RtuOccupationState = currentState,
+                    ErrorMessage = username,
+                };
+            }
             try
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);

@@ -8,6 +8,7 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
@@ -226,6 +227,7 @@ namespace Graph.Tests
             builder.RegisterType<TestParameterizer>().As<IParameterizer>().InstancePerLifetimeScope();
 
             builder.RegisterType<ClientsCollection>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuOccupations>().InstancePerLifetimeScope();
             builder.RegisterType<RtuStationsRepository>().InstancePerLifetimeScope();
             builder.RegisterType<IntermediateLayer>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToRtuTransmitter>().InstancePerLifetimeScope();

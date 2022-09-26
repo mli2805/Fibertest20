@@ -236,7 +236,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\OtauPortDtoProvider.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\VeexMeasurement.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\VeexMeasurementTool.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplate.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplateModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesView.xaml.cs">

@@ -981,6 +981,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto base measurement in progress.
+        /// </summary>
+        public static string SID_Auto_base_measurement_in_progress {
+            get {
+                return ResourceManager.GetString("SID_Auto_base_measurement_in_progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attention! It is not recommended to set automatic base for traces having inclusions with attenuation more than 1 dB.
         /// </summary>
         public static string SID_AutoBaseAttention {
@@ -7172,6 +7181,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU initialization in progress.
+        /// </summary>
+        public static string SID_RTU_initialization_in_progress {
+            get {
+                return ResourceManager.GetString("SID_RTU_initialization_in_progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service is started and initialized successfully..
         /// </summary>
         public static string SID_Rtu_initialized {
@@ -7213,6 +7231,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_is_being_initialized___ {
             get {
                 return ResourceManager.GetString("SID_RTU_is_being_initialized___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU is busy.
+        /// </summary>
+        public static string SID_RTU_is_busy {
+            get {
+                return ResourceManager.GetString("SID_RTU_is_busy", resourceCulture);
             }
         }
         
