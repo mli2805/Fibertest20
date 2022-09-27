@@ -7,6 +7,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -264,6 +265,23 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
             await Task.Delay(100);
+
+            var result = await _commonC2DWcfManager.SetRtuOccupationState(new OccupyRtuDto()
+            {
+                RtuId = rtuLeaf.Id,
+                State = new RtuOccupationState() { RtuId = rtuLeaf.Id, RtuOccupation = RtuOccupation.AutoBaseMeasurement },
+            });
+
+            if (result == null) return;
+            if (result.ReturnCode == ReturnCode.RtuIsBusy)
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                {
+                    ReturnCode.RtuIsBusy.GetLocalizedString(), "", result.RtuOccupationState.GetLocalized(),
+                });
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return;
+            }
 
             if (!_rtuAutoBaseViewModel.Initialize(rtuLeaf))
             {

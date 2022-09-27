@@ -7,6 +7,7 @@ using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -26,6 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IntermediateLayer _intermediateLayer;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly IFtSignalRClient _ftSignalRClient;
+        private readonly RtuOccupations _rtuOccupations;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
@@ -34,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefsCheckerOnServer baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
             IntermediateLayer intermediateLayer, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            IFtSignalRClient ftSignalRClient,
+            IFtSignalRClient ftSignalRClient, RtuOccupations rtuOccupations,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {
@@ -49,6 +51,7 @@ namespace Iit.Fibertest.DataCenterCore
             _intermediateLayer = intermediateLayer;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _ftSignalRClient = ftSignalRClient;
+            _rtuOccupations = rtuOccupations;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
@@ -72,6 +75,23 @@ namespace Iit.Fibertest.DataCenterCore
             await _eventStoreService.SendCommand(command, dto.UserName, dto.ClientIp);
 
             return result;
+        }
+
+        public async Task<RequestAnswer> SetRtuOccupationState(OccupyRtuDto dto)
+        {
+            await Task.Delay(1);
+            _logFile.AppendLine($"Client {dto.Username} asked to occupy RTU {dto.RtuId.First6()}");
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, dto.State.RtuOccupation, dto.Username, out RtuOccupationState currentState))
+            {
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                    RtuOccupationState = currentState,
+                    ErrorMessage = "",
+                };
+            }
+
+            return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
         }
 
         public async Task<RequestAnswer> RegisterHeartbeat(string connectionId)
@@ -227,7 +247,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client from {dto.ClientIp} sent base ref for trace {dto.TraceId.First6()}");
+            //                                                            в тестах не создается клиентская станция?
+            _logFile.AppendLine($"Client {_clientsCollection.GetClientByClientIp(dto.ClientIp)?.ToString() ?? ""} sent base ref for trace {dto.TraceId.First6()}");
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
             if (trace == null)
                 return new BaseRefAssignedDto

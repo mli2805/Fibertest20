@@ -10,7 +10,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to do measurement on RTU {dto.RtuId.First6()}");
-            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            var username = _clientsCollection.Clients.FirstOrDefault(u => u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
             var occupation = dto.IsForAutoBase ? RtuOccupation.AutoBaseMeasurement : RtuOccupation.MeasurementClient;
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, username, out RtuOccupationState currentState))
             {
@@ -18,13 +18,9 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     ReturnCode = ReturnCode.RtuIsBusy,
                     RtuOccupationState = currentState,
-                    ErrorMessage = username,
                 };
             }
-            
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(dto);
-            _logFile.AppendLine(json);
-            
+
             try
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
@@ -89,8 +85,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to free OTDR on RTU {dto.RtuId.First6()}");
-            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            var clientStation = _clientsCollection.Get(dto.ConnectionId);
+            _logFile.AppendLine($"Client {clientStation} asked to free OTDR on RTU {dto.RtuId.First6()}");
+            var username = clientStation.UserName ?? "unknown user";
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState currentState))
             {
                 return new RequestAnswer()

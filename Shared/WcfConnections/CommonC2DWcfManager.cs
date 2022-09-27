@@ -49,6 +49,29 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<RequestAnswer> SetRtuOccupationState(OccupyRtuDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2DWcfConnectionError };
+
+            try
+            {
+                dto.Username = _username;
+                dto.State.UserName = _username;
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SetRtuOccupationState(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SetRtuOccupationState: " + e.Message);
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2DWcfOperationError, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<RequestAnswer> RegisterHeartbeat(string connectionId)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();

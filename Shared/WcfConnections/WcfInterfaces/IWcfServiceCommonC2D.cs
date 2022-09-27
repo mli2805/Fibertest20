@@ -14,6 +14,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);
 
         [OperationContract]
+        Task<RequestAnswer> SetRtuOccupationState(OccupyRtuDto dto);
+
+        [OperationContract]
         Task<RequestAnswer> RegisterHeartbeat(string connectionId);
 
         [OperationContract]

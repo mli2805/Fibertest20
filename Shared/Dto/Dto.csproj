@@ -126,6 +126,7 @@
     <Compile Include="ForWebApi\RtuTree\OtauWebDto.cs" />
     <Compile Include="ForWebApi\RtuTree\RtuDto.cs" />
     <Compile Include="ForWebApi\RtuTree\TraceDto.cs" />
+    <Compile Include="RtuOccupy\OccupyRtuDto.cs" />
     <Compile Include="RtuOccupy\RtuOccupation.cs" />
     <Compile Include="Underlying\AccidentInSor.cs" />
     <Compile Include="Underlying\MeasParamsTree\AutoBaseParams.cs" />
