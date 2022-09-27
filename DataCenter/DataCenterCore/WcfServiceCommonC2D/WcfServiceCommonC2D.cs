@@ -80,7 +80,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RequestAnswer> SetRtuOccupationState(OccupyRtuDto dto)
         {
             await Task.Delay(1);
-            _logFile.AppendLine($"Client {dto.Username} asked to occupy RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {dto.Username} asked to occupy RTU {dto.RtuId.First6()} for {dto.State.RtuOccupation}");
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, dto.State.RtuOccupation, dto.Username, out RtuOccupationState currentState))
             {
                 return new RequestAnswer()

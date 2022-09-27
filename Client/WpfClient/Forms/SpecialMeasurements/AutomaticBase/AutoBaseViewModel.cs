@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             var rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
 
             OneMeasurementExecutor = rtu.RtuMaker == RtuMaker.IIT 
-                ? (IOneMeasurementExecutor)_globalScope.Resolve<OneMeasurementExecutor>()
+                ? (IOneMeasurementExecutor)_globalScope.Resolve<OneIitMeasurementExecutor>()
                 : _globalScope.Resolve<OneVeexMeasurementExecutor>();
             if (!OneMeasurementExecutor.Initialize(rtu, false))
                 return false;

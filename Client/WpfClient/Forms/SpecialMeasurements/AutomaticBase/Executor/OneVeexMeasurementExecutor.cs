@@ -181,7 +181,7 @@ namespace Iit.Fibertest.Client
 
         public delegate void MeasurementHandler(object sender, MeasurementEventArgs e);
 
-        public event OneMeasurementExecutor.MeasurementHandler MeasurementCompleted;
+        public event OneIitMeasurementExecutor.MeasurementHandler MeasurementCompleted;
     }
 
 }

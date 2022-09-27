@@ -226,7 +226,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IOneMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IWholeRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneVeexMeasurementExecutor.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeRtuMeasurementsExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeIitRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeVeexRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseProgress.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\FailedAutoBasePdfProvider.cs" />
@@ -234,7 +234,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\MeasurementAsBaseAssigner.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementEventArgs.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\ClientMeasurementDtoFactory.cs" />
-    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneMeasurementExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneIitMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\MeasurementModel.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\OtauPortDtoProvider.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Tools\VeexMeasurementTool.cs" />

@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
             _finishInProgress = false;
 
             WholeRtuMeasurementsExecutor = rtuLeaf.RtuMaker == RtuMaker.IIT
-                ? (IWholeRtuMeasurementsExecutor)_globalScope.Resolve<WholeRtuMeasurementsExecutor>()
+                ? (IWholeRtuMeasurementsExecutor)_globalScope.Resolve<WholeIitRtuMeasurementsExecutor>()
                 : _globalScope.Resolve<WholeVeexRtuMeasurementsExecutor>();
 
             _goodTraces = new List<Trace>();
@@ -266,7 +266,10 @@ namespace Iit.Fibertest.Client
             }
 
             if (_interruptPressed)
+            {
                 TryClose();
+                return;
+            }
 
             if (!_interruptPressed && _badResults.Any())
                 ShowReport();
@@ -336,6 +339,7 @@ namespace Iit.Fibertest.Client
                 _windowManager);
         }
 
+        // button Close or Interrupt
         public void Close()
         {
             if (ButtonName == Resources.SID_Close)
@@ -349,11 +353,19 @@ namespace Iit.Fibertest.Client
                 WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.DisplayFinishInProgress();
             }
         }
-        public override void CanClose(Action<bool> callback)
+
+        public override async void CanClose(Action<bool> callback)
         {
             IsOpen = false;
             WholeRtuMeasurementsExecutor.MeasurementCompleted -= MeasurementExecutor_MeasurementCompleted;
             WholeRtuMeasurementsExecutor.BaseRefAssigned -= MeasurementExecutor_BaseRefAssigned;
+
+            await _commonC2DWcfManager.SetRtuOccupationState(new OccupyRtuDto()
+            {
+                RtuId = _rtu.Id,
+                State = new RtuOccupationState() { RtuId = _rtu.Id, RtuOccupation = RtuOccupation.None }
+            });
+
             callback(true);
         }
     }

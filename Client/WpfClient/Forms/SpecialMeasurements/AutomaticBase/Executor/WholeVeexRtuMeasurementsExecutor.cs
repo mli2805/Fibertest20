@@ -179,7 +179,7 @@ namespace Iit.Fibertest.Client
         public delegate void MeasurementHandler(object sender, MeasurementEventArgs e);
         public delegate void BaseRefHandler(object sender, MeasurementEventArgs e);
 
-        public event WholeRtuMeasurementsExecutor.MeasurementHandler MeasurementCompleted;
-        public event WholeRtuMeasurementsExecutor.BaseRefHandler BaseRefAssigned;
+        public event WholeIitRtuMeasurementsExecutor.MeasurementHandler MeasurementCompleted;
+        public event WholeIitRtuMeasurementsExecutor.BaseRefHandler BaseRefAssigned;
     }
 }

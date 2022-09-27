@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
         void ProcessMeasurementResult(ClientMeasurementResultDto dto);
         Task SetAsBaseRef(byte[] sorBytes, Trace trace);
 
-        event WholeRtuMeasurementsExecutor.MeasurementHandler MeasurementCompleted;
-        event WholeRtuMeasurementsExecutor.BaseRefHandler BaseRefAssigned;
+        event WholeIitRtuMeasurementsExecutor.MeasurementHandler MeasurementCompleted;
+        event WholeIitRtuMeasurementsExecutor.BaseRefHandler BaseRefAssigned;
     }
 }

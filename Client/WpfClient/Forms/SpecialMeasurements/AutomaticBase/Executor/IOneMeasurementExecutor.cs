@@ -11,6 +11,6 @@ namespace Iit.Fibertest.Client
         Task Start(TraceLeaf traceLeaf, bool keepOtdrConnection = false);
         void ProcessMeasurementResult(ClientMeasurementResultDto dto);
 
-        event OneMeasurementExecutor.MeasurementHandler MeasurementCompleted;
+        event OneIitMeasurementExecutor.MeasurementHandler MeasurementCompleted;
     }
 }
