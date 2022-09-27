@@ -4,7 +4,7 @@ namespace Iit.Fibertest.Dto
 {
     public enum RtuOccupation
     {
-        None, AutoBaseMeasurement, MeasurementClient, Initialization,
+        None, AutoBaseMeasurement, MeasurementClient, Initialization, MonitoringSettings
     }
 
     public class RtuOccupationState

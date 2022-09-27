@@ -300,7 +300,7 @@
     <Compile Include="PON\TrapListener.cs" />
     <Compile Include="RtuResultsProcessing\VeexCompletedTestProcessor.cs" />
     <Compile Include="RtuResultsProcessing\VeexCompletedTestsFetcher.cs" />
-    <Compile Include="WcfServiceCommonC2D\IntermediateLayer.cs" />
+    <Compile Include="WcfServiceCommonC2D\RtuInitializationToGraphApplier.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForEventSourcing.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForRemoveUnused.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceNotifyWebClient.cs" />

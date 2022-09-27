@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Client
     public class MonitoringSettingsModel : PropertyChangedBase
     {
         public Guid RtuId { get; set; }
+        public string RtuTitle { get; set; }
         public RtuMaker RtuMaker { get; set; }
         public string OtdrId { get; set; }
         // public string OtauId { get; set; }

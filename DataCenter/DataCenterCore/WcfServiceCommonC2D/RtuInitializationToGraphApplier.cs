@@ -8,39 +8,25 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class IntermediateLayer
+    public class RtuInitializationToGraphApplier
     {
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly EventStoreService _eventStoreService;
-        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly ClientsCollection _clientsCollection;
-        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
-        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public IntermediateLayer(IMyLog logFile, Model writeModel, EventStoreService eventStoreService,
-            IFtSignalRClient ftSignalRClient, ClientsCollection clientsCollection,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
+        public RtuInitializationToGraphApplier(IMyLog logFile, Model writeModel, EventStoreService eventStoreService,
+            ClientsCollection clientsCollection
             )
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _eventStoreService = eventStoreService;
-            _ftSignalRClient = ftSignalRClient;
             _clientsCollection = clientsCollection;
-            _clientToRtuTransmitter = clientToRtuTransmitter;
-            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
-        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> ApplyRtuInitializationResult(InitializeRtuDto dto, RtuInitializedDto result)
         {
-            var result = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.InitializeRtuAsync(dto)
-                : await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto);
-
-            await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
-
-            // apply initialization to graph
             if (result.IsInitialized)
             {
                 var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;

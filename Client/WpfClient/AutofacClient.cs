@@ -30,6 +30,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<LicenseFromFileDecoder>().InstancePerLifetimeScope();
             builder.RegisterType<LicenseFileChooser>().As<ILicenseFileChooser>().InstancePerLifetimeScope();
 
+            builder.RegisterType<RtuHolder>().InstancePerLifetimeScope();
             builder.RegisterType<ReflectogramManager>().InstancePerLifetimeScope();
             builder.RegisterType<TraceStateViewsManager>().InstancePerLifetimeScope();
 

@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceCommonC2D _c2RWcfManager;
+        private readonly IWcfServiceCommonC2D _wcfServiceCommonC2D;
         private readonly IMyLog _logFile;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
-            IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
+            IWindowManager windowManager, IWcfServiceCommonC2D wcfServiceCommonC2D,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             IsIdle = true;
             IsCloseEnabled = true;
             _windowManager = windowManager;
-            _c2RWcfManager = c2RWcfManager;
+            _wcfServiceCommonC2D = wcfServiceCommonC2D;
             _logFile = logFile;
             _commonStatusBarViewModel = commonStatusBarViewModel;
 
@@ -74,6 +74,18 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Network_settings;
         }
 
+        public async Task InitializeRtuButton()
+        {
+            if (!FullModel.Validate()) return;
+          
+            var rtuHolder = _globalScope.Resolve<RtuHolder>();
+            if (!await rtuHolder.SetRtuOccupationState(FullModel.OriginalRtu.Id, FullModel.OriginalRtu.Title, RtuOccupation.Initialization))
+                return;
+
+            await InitializeRtu();
+        }
+
+        // tests start here
         public async Task InitializeRtu()
         {
             if (!FullModel.Validate()) return;
@@ -93,7 +105,7 @@ namespace Iit.Fibertest.Client
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
 
                     var initializeRtuDto = CreateDto(rtuMaker);
-                    result = await _c2RWcfManager.InitializeRtuAsync(initializeRtuDto);
+                    result = await _wcfServiceCommonC2D.InitializeRtuAsync(initializeRtuDto);
                 }
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
                 ReactRtuInitialized(result);

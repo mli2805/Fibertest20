@@ -5065,6 +5065,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement (Client) in progress.
+        /// </summary>
+        public static string SID_Measurement__Client__in_progress {
+            get {
+                return ResourceManager.GetString("SID_Measurement__Client__in_progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement (Client) in progress. Please wait....
         /// </summary>
         public static string SID_Measurement__Client__in_progress__Please_wait___ {
@@ -5421,6 +5430,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Monitoring_settings_applied_successfully___0_ {
             get {
                 return ResourceManager.GetString("SID_Monitoring_settings_applied_successfully___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitoring settings are being applied.
+        /// </summary>
+        public static string SID_Monitoring_settings_are_being_applied {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_settings_are_being_applied", resourceCulture);
             }
         }
         
@@ -7087,6 +7105,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Rtu {
             get {
                 return ResourceManager.GetString("SID_Rtu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU {0} is busy..
+        /// </summary>
+        public static string SID_RTU__0__is_busy_ {
+            get {
+                return ResourceManager.GetString("SID_RTU__0__is_busy_", resourceCulture);
             }
         }
         

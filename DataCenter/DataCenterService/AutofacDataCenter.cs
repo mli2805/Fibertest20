@@ -52,7 +52,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<BaseRefsCheckerOnServer>().SingleInstance();
 
             builder.RegisterType<SorFileRepository>().SingleInstance();
-            builder.RegisterType<IntermediateLayer>().SingleInstance();
+            builder.RegisterType<RtuInitializationToGraphApplier>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
             builder.RegisterType<ClientToRtuVeexTransmitter>().SingleInstance();
 

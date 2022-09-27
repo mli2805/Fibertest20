@@ -3428,4 +3428,13 @@ Please try again later</value>
 	<data name="SID_RTU_is_busy" xml:space="preserve">
 		<value>RTU is busy</value>
 	</data>
+	<data name="SID_RTU__0__is_busy_" xml:space="preserve">
+		<value>RTU {0} is busy.</value>
+	</data>
+	<data name="SID_Measurement__Client__in_progress" xml:space="preserve">
+		<value>Measurement (Client) in progress</value>
+	</data>
+	<data name="SID_Monitoring_settings_are_being_applied" xml:space="preserve">
+		<value>Monitoring settings are being applied</value>
+	</data>
 </root>

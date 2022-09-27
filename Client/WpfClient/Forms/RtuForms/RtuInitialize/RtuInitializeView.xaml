@@ -54,7 +54,7 @@
         </GroupBox>
 
         <StackPanel Orientation="Horizontal"  Margin="5,10">
-            <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" 
+            <Button Name="InitializeRtuButton" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" 
                     Height="22" Width="140" IsEnabled="{Binding IsInitializationPermitted}"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5"
                     Height="22" Width="90" IsEnabled="{Binding IsCloseEnabled}"/>

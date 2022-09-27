@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
             var model = new MonitoringSettingsModel()
             {
                 RtuId = _rtuLeaf.Id,
+                RtuTitle = _rtuLeaf.Title,
                 RtuMaker = _rtuLeaf.RtuMaker,
                 OtdrId = rtu.OtdrId,
                 MainVeexOtau = rtu.MainVeexOtau,

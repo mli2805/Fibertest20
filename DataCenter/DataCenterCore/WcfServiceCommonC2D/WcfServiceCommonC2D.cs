@@ -24,7 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly BaseRefsCheckerOnServer _baseRefsChecker;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
-        private readonly IntermediateLayer _intermediateLayer;
+        private readonly RtuInitializationToGraphApplier _rtuInitializationToGraphApplier;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly RtuOccupations _rtuOccupations;
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefsCheckerOnServer baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
-            IntermediateLayer intermediateLayer, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
+            RtuInitializationToGraphApplier rtuInitializationToGraphApplier, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             IFtSignalRClient ftSignalRClient, RtuOccupations rtuOccupations,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _baseRefsChecker = baseRefsChecker;
             _baseRefLandmarksTool = baseRefLandmarksTool;
-            _intermediateLayer = intermediateLayer;
+            _rtuInitializationToGraphApplier = rtuInitializationToGraphApplier;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _ftSignalRClient = ftSignalRClient;
             _rtuOccupations = rtuOccupations;
@@ -120,7 +120,16 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            return await _intermediateLayer.InitializeRtuAsync(dto);
+            var result = dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.InitializeRtuAsync(dto)
+                : await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto);
+
+            await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
+
+            await SetRtuOccupationState(new OccupyRtuDto()
+                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.None } });
+
+            return await _rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, result);
         }
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
@@ -201,6 +210,9 @@ namespace Iit.Fibertest.DataCenterCore
                 await _ftSignalRClient.NotifyAll("MonitoringStopped", cmd.ToCamelCaseJson());
             }
 
+            await SetRtuOccupationState(new OccupyRtuDto()
+                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.None } });
+
             return isStopped;
         }
 
@@ -242,6 +254,10 @@ namespace Iit.Fibertest.DataCenterCore
                         await _ftSignalRClient.NotifyAll("MonitoringStopped", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
                 }
             }
+
+            await SetRtuOccupationState(new OccupyRtuDto()
+                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.None } });
+
             return resultFromRtu;
         }
 

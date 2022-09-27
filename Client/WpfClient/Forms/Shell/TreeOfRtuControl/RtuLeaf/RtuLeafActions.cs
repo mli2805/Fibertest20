@@ -7,7 +7,6 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -134,12 +133,16 @@ namespace Iit.Fibertest.Client
 
             if (!_readModel.TryGetRtu(rtuLeaf.Id, out Rtu rtu)) return;
 
+            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
+                return;
+
             bool result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 result =
                     await _commonC2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker });
             }
+
             _logFile.AppendLine($@"Stop monitoring result - {result}");
         }
 
@@ -203,6 +206,9 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
+            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
+                return;
+
             var dto = CollectMonitoringSettingsFromTree(rtuLeaf);
             if (dto.Ports.Count == 0)
             {
@@ -217,6 +223,7 @@ namespace Iit.Fibertest.Client
             {
                 resultDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(dto);
             }
+
             if (resultDto.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
                 var lines = new List<string>()
@@ -266,22 +273,8 @@ namespace Iit.Fibertest.Client
                 return;
             await Task.Delay(100);
 
-            var result = await _commonC2DWcfManager.SetRtuOccupationState(new OccupyRtuDto()
-            {
-                RtuId = rtuLeaf.Id,
-                State = new RtuOccupationState() { RtuId = rtuLeaf.Id, RtuOccupation = RtuOccupation.AutoBaseMeasurement },
-            });
-
-            if (result == null) return;
-            if (result.ReturnCode == ReturnCode.RtuIsBusy)
-            {
-                var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
-                {
-                    ReturnCode.RtuIsBusy.GetLocalizedString(), "", result.RtuOccupationState.GetLocalized(),
-                });
-                _windowManager.ShowDialogWithAssignedOwner(mb);
+            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.AutoBaseMeasurement))
                 return;
-            }
 
             if (!_rtuAutoBaseViewModel.Initialize(rtuLeaf))
             {
