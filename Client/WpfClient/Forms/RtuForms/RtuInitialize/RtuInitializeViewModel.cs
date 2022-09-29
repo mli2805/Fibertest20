@@ -77,6 +77,10 @@ namespace Iit.Fibertest.Client
         public async Task InitializeRtuButton()
         {
             if (!FullModel.Validate()) return;
+
+            FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port = -1;
+            if (FullModel.IsReserveChannelEnabled)
+                FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Port = -1;
           
             var rtuHolder = _globalScope.Resolve<RtuHolder>();
             if (!await rtuHolder.SetRtuOccupationState(FullModel.OriginalRtu.Id, FullModel.OriginalRtu.Title, RtuOccupation.Initialization))

@@ -91,12 +91,6 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> TestConnection()
         {
-//            if (!NetAddressInputViewModel.IsValidIpAddress())
-//            {
-//                _windowManager.ShowDialogWithAssignedOwner(
-//                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
-//                return false;
-//            }
             if (_netAddressForConnectionTest.IsRtuAddress)
             {
                 var dto = new CheckRtuConnectionDto()
