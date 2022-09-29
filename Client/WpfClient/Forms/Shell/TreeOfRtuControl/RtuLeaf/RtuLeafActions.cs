@@ -239,12 +239,18 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
+            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.DetachTraces))
+                return;
+
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var cmd = new DetachAllTraces() { RtuId = rtuLeaf.Id };
                 await _c2DWcfManager.SendCommandAsObj(cmd);
                 _rtuStateViewsManager.NotifyUserTraceChanged(rtuLeaf.Id);
             }
+
+            await _globalScope.Resolve<RtuHolder>()
+                .SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.None);
         }
 
         public async Task RemoveRtu(object param)
