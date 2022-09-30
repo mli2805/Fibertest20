@@ -45,17 +45,30 @@ namespace Iit.Fibertest.Client
             var parent = GetParent(param);
             if (parent == null) return;
 
-            await Task.Delay(0);
+            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MeasurementClient))
+                return;
+
             if (_clientMeasurementViewModel.Initialize(parent, GetPortNumber(param)))
                 _windowManager.ShowDialogWithAssignedOwner(_clientMeasurementViewModel);
+
+            await _globalScope.Resolve<RtuHolder>()
+                .SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.None);
         }
 
         public async Task MeasurementRftsReflectAction(object param)
         {
-            await Task.Delay(0);
             var parent = GetParent(param);
-            if (parent != null)
-                DoMeasurementRftsReflect(parent, GetPortNumber(param));
+            if (parent == null) return;
+
+            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MeasurementClient))
+                return;
+
+            DoMeasurementRftsReflect(parent, GetPortNumber(param));
+
+            await _globalScope.Resolve<RtuHolder>()
+                .SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.None);
         }
 
         private Leaf GetParent(object param)
@@ -222,7 +235,7 @@ namespace Iit.Fibertest.Client
             }
             if (answer.ReturnCode == ReturnCode.Ok)
                 return true;
-          
+
             var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{answer.ErrorMessage}");
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;

@@ -431,6 +431,7 @@
     <Compile Include="Sut\Fakes\FakeHttpClient\RequestFromUri.cs" />
     <Compile Include="Sut\Fakes\FakeLicenseFileReader.cs" />
     <Compile Include="Sut\Fakes\FakeMachineKeyProvider.cs" />
+    <Compile Include="Sut\Fakes\FakeRtuHolder.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForHideTraces.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForResponsibilityZones.cs" />

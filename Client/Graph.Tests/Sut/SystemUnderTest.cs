@@ -196,6 +196,7 @@ namespace Graph.Tests
             builder.RegisterInstance(parameters);
 
             // fakes
+            builder.RegisterType<FakeRtuHolder>().As<IRtuHolder>().InstancePerLifetimeScope();
             builder.RegisterType<FakeVeexRtuModel>().InstancePerLifetimeScope();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
             builder.RegisterType<FakeD2RWcfManager>().As<ID2RWcfManager>().InstancePerLifetimeScope();

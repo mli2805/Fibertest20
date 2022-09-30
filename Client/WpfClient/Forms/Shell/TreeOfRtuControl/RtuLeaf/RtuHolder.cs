@@ -10,7 +10,12 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-    public class RtuHolder
+    public interface IRtuHolder
+    {
+        Task<bool> SetRtuOccupationState(Guid rtuId, string rtuTitle, RtuOccupation rtuOccupation);
+    }
+
+    public class RtuHolder : IRtuHolder
     {
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;

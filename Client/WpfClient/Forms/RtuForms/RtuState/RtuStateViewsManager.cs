@@ -144,7 +144,7 @@ namespace Iit.Fibertest.Client
                 vm.RefreshModel(rtuLeaf);
         }
 
-        private void NotifyUserRtuUpdated(Guid rtuId)
+        public void NotifyUserRtuUpdated(Guid rtuId)
         {
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(rtuId);
             if (rtuLeaf == null) return; // trace\RTU could be not in zone
