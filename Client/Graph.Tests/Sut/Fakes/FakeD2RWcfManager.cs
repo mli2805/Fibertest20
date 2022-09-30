@@ -39,6 +39,7 @@ namespace Graph.Tests
                 RtuId = dto.RtuId,
                 IsConnectionSuccessfull = true,
                 IsPingSuccessful = true,
+                NetAddress = dto.NetAddress.Clone(),
             });
         }
 

@@ -98,8 +98,9 @@ namespace Iit.Fibertest.Client
                     ConnectionId = _currentUser.ConnectionId,
                     NetAddress = NetAddressInputViewModel.GetNetAddress().Clone()
                 };
+
                 var resultDto = await _c2RWcfManager.CheckRtuConnectionAsync(dto);
-                if (resultDto.IsConnectionSuccessfull && dto.NetAddress.Port == -1)
+                if (resultDto.IsConnectionSuccessfull && dto.NetAddress.Port != resultDto.NetAddress.Port)
                 {
                     NetAddressInputViewModel = new NetAddressInputViewModel(resultDto.NetAddress, _currentUser.Role <= Role.Root);
                 }

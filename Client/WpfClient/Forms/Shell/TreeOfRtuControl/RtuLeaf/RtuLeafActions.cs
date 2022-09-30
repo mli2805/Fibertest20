@@ -133,7 +133,7 @@ namespace Iit.Fibertest.Client
 
             if (!_readModel.TryGetRtu(rtuLeaf.Id, out Rtu rtu)) return;
 
-            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
                 return;
 
             bool result;
@@ -206,7 +206,7 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
                 return;
 
             var dto = CollectMonitoringSettingsFromTree(rtuLeaf);
@@ -239,7 +239,7 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.DetachTraces))
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.DetachTraces))
                 return;
 
             using (_globalScope.Resolve<IWaitCursor>())
@@ -249,7 +249,7 @@ namespace Iit.Fibertest.Client
                 _rtuStateViewsManager.NotifyUserRtuUpdated(rtuLeaf.Id);
             }
 
-            await _globalScope.Resolve<RtuHolder>()
+            await _globalScope.Resolve<IRtuHolder>()
                 .SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.None);
         }
 
@@ -279,7 +279,7 @@ namespace Iit.Fibertest.Client
                 return;
             await Task.Delay(100);
 
-            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.AutoBaseMeasurement))
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.AutoBaseMeasurement))
                 return;
 
             if (!_rtuAutoBaseViewModel.Initialize(rtuLeaf))

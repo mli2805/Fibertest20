@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Client
 
         public async Task Apply()
         {
-            if (!await _globalScope.Resolve<RtuHolder>().SetRtuOccupationState(Model.RtuId, Model.RtuTitle, RtuOccupation.MonitoringSettings))
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(Model.RtuId, Model.RtuTitle, RtuOccupation.MonitoringSettings))
                 return;
 
             IsButtonsEnabled = false;

@@ -36,9 +36,11 @@ namespace Iit.Fibertest.WcfConnections
             var rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
             await Task.Factory.StartNew(() => Thread.Sleep(1)); // just to have await in function :)
 
-            if (rtuConnection == null && dto.NetAddress.Port == -1)
+            if (rtuConnection == null)
             {
-                addressToCheck.Main.Port = (int)TcpPorts.RtuVeexListenTo;
+                addressToCheck.Main.Port = addressToCheck.Main.Port == (int)TcpPorts.RtuListenTo
+                    ? (int)TcpPorts.RtuVeexListenTo
+                    : (int)TcpPorts.RtuListenTo;
                 logFile.AppendLine($"Testing {addressToCheck.Main.ToStringA()} ...");
                 wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
                 rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);

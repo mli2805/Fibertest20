@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
             if (_clientMeasurementViewModel.Initialize(parent, GetPortNumber(param)))
                 _windowManager.ShowDialogWithAssignedOwner(_clientMeasurementViewModel);
 
-            await _globalScope.Resolve<RtuHolder>()
+            await _globalScope.Resolve<IRtuHolder>()
                 .SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.None);
         }
 
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
 
             DoMeasurementRftsReflect(parent, GetPortNumber(param));
 
-            await _globalScope.Resolve<RtuHolder>()
+            await _globalScope.Resolve<IRtuHolder>()
                 .SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.None);
         }
 

@@ -78,10 +78,6 @@ namespace Iit.Fibertest.Client
         {
             if (!FullModel.Validate()) return;
 
-            // FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port = -1;
-            // if (FullModel.IsReserveChannelEnabled)
-            //     FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Port = -1;
-
             var rtuHolder = _globalScope.Resolve<IRtuHolder>();
             if (!await rtuHolder.SetRtuOccupationState(FullModel.OriginalRtu.Id, FullModel.OriginalRtu.Title, RtuOccupation.Initialization))
                 return;
@@ -94,7 +90,8 @@ namespace Iit.Fibertest.Client
 
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
-                    if (!await CheckConnectionBeforeInitialization()) return;
+                    if (!await CheckConnectionBeforeInitialization()) 
+                        return;
                     var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == (int)TcpPorts.RtuListenTo
                         ? RtuMaker.IIT
                         : RtuMaker.VeEX;
