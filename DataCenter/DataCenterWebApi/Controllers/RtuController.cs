@@ -247,6 +247,25 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
+        [HttpPost("Set-rtu-occupation-state")]
+        public async Task<RequestAnswer> SetRtuOccupationState()
+        {
+            string body;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = await reader.ReadToEndAsync();
+            }
+            _logFile.AppendLine("body: " + body);
+            var dto = JsonConvert.DeserializeObject<OccupyRtuDto>(body);
+
+            var res = await _commonC2DWcfManager
+                .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                .SetRtuOccupationState(dto);
+
+            return res;
+        }
+
+        [Authorize]
         [HttpPost("Stop-monitoring/{id}")]
         public async Task<bool> StopMonitoring(string id)
         {

@@ -14,7 +14,6 @@ namespace Iit.Fibertest.DataCenterCore
             var occupation = dto.IsForAutoBase ? RtuOccupation.AutoBaseMeasurement : RtuOccupation.MeasurementClient;
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, username, out RtuOccupationState currentState))
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} is occupied by {currentState.UserName} (current state is {currentState.RtuOccupation}, expiration {currentState.Expired})");
                 return new ClientMeasurementStartedDto()
                 {
                     ReturnCode = ReturnCode.RtuIsBusy,

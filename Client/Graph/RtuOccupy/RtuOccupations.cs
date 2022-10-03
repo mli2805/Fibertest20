@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph.RtuOccupy
 {
     public class RtuOccupations
     {
+        private readonly IMyLog _logFile;
+
         public ConcurrentDictionary<Guid, RtuOccupationState> RtuStates =
             new ConcurrentDictionary<Guid, RtuOccupationState>();
+
+        public RtuOccupations(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
 
         public bool TrySetOccupation(Guid rtuId, RtuOccupation rtuOccupation, string userName, out RtuOccupationState state)
         {
@@ -46,6 +54,8 @@ namespace Iit.Fibertest.Graph.RtuOccupy
                     }
                     else
                     {
+                        var cs = $@"(current state is {currentState.RtuOccupation}, expiration {currentState.Expired})";
+                        _logFile.AppendLine($@"RTU {rtuId.First6()} is occupied by {currentState.UserName} {cs}");
                         return false;
                     }
                 }

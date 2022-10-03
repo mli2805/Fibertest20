@@ -13,6 +13,8 @@ import { VX_DIALOG_SERVICE, Color } from "@veex/common";
 import { ChartDataService, ChartMatrixesService } from "@veex/chart";
 import { DialogService } from "./other/DialogService";
 import { GetSorDataParams } from "src/app/models/dtos/meas-params/getSorDataParams";
+import { OccupyRtuDto, RtuOccupation, RtuOccupationState } from "src/app/models/dtos/meas-params/occupyRtuDto";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 
 @Component({
   selector: "ft-sor-viewer",
@@ -83,7 +85,6 @@ export class SorViewerComponent implements OnInit {
       baseSorTrace.chart.name = params["filename"] + " base.sor";
       this.sorTraces.push(baseSorTrace);
 
-      // this.sorViewerService.setTracesOffset(0);
       this.sorViewerService.showTracesOffset = false;
       this.sorAreaService.settings.showEventTableComments = true;
     }
@@ -93,6 +94,17 @@ export class SorViewerComponent implements OnInit {
     document.title = params["filename"] + ".sor";
 
     this.loaded = true;
+
+    var freeDto = new OccupyRtuDto();
+    freeDto.rtuId = rtuGuid;
+    freeDto.state = new RtuOccupationState();
+    freeDto.state.rtuId = rtuGuid;
+    freeDto.state.rtuOccupation = RtuOccupation.None;
+
+    const res = (await this.oneApiService
+      .postRequest("rtu/set-rtu-occupation-state", freeDto)
+      .toPromise()) as RequestAnswer;
+    console.log(res);
   }
 
   async loadSorTraceFromServer(
