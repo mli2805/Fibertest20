@@ -129,14 +129,13 @@ namespace Iit.Fibertest.WpfCommonViews
             return result;
         }
 
-        public VeexMeasOtdrParameters GetVeexSelectedParameters()
+        public VeexMeasOtdrParameters GetVeexSelectedParameters(bool isGetLineParametersRequest)
         {
             SaveOtdrParameters();
             var result = new VeexMeasOtdrParameters()
             {
                 measurementType = @"manual",
                 // fastMeasurement = false,
-                // highFrequencyResolution = false,
                 lasers = new List<Laser>() { new Laser() { laserUnit = Model.SelectedUnit } },
                 opticalLineProperties = new OpticalLineProperties()
                 {
@@ -157,6 +156,9 @@ namespace Iit.Fibertest.WpfCommonViews
                 averagingTime = Model.SelectedMeasurementTime,
             };
 
+            // for GetLineParametersRequest it should remains NULL
+            if (!isGetLineParametersRequest)
+                result.highFrequencyResolution = false;
             return result;
         }
 

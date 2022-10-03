@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
 
         public VeexMeasOtdrParameters GetVeexSelectedParameters()
         {
-            return OtdrParametersViewModel.GetVeexSelectedParameters();
+            return OtdrParametersViewModel.GetVeexSelectedParameters(false);
         }
 
         public void Close()

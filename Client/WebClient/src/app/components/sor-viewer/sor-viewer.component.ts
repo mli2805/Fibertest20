@@ -134,9 +134,6 @@ export class SorViewerComponent implements OnInit {
       rtuGuid,
     )) as Blob;
 
-    // const blob = (await this.oneApiService
-      // .getSorAsBlobFromServer2(measGuid)) as Blob;
-
     const arrayBuffer = await new Response(blob).arrayBuffer();
 
     const uint8arr = new Uint8Array(arrayBuffer);
