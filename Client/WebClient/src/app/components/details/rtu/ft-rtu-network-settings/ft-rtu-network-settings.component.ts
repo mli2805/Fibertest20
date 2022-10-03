@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RtuNetworkSettingsDto } from "src/app/models/dtos/rtu/rtuNetworkSettingsDto";
 import { SignalrService } from "src/app/api/signalr.service";
-import { RtuInitializedWebDto } from "src/app/models/dtos/rtu/rtuInitializedWebDto";
+import { InitializeRtuDto, RtuInitializedWebDto } from "src/app/models/dtos/rtu/rtuInitializedWebDto";
 import { Subscription } from "rxjs";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
@@ -70,8 +70,13 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
   async initializeRtu() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.setRequestView();
+
+    const currentUser = JSON.parse(sessionStorage.currentUser);
+    const dto = new InitializeRtuDto();
+    dto.rtuId = id;
+    dto.connectionId = currentUser.connectionId;
     const res = (await this.oneApiService
-      .postRequest(`rtu/initialize/${id}`, null)
+      .postRequest(`rtu/initialize`, dto)
       .toPromise()) as RtuInitializedWebDto;
     this.processInitializationResult(res);
   }

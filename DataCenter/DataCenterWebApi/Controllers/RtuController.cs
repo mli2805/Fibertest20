@@ -297,15 +297,21 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpPost("Initialize/{id}")]
+        [HttpPost("Initialize")]
         public async Task<RtuInitializedWebDto> InitializeRtu(string id)
         {
+            _logFile.AppendLine($"RTU initialization request from {GetRemoteAddress()}");
+
             try
             {
-                await Task.Delay(1);
-                var rtuGuid = Guid.Parse(id);
-                _logFile.AppendLine($"Initialize RTU, ID = {rtuGuid}");
-                var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = GetRemoteAddress() };
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                _logFile.AppendLine($"{body}");
+
+                var dto = JsonConvert.DeserializeObject<InitializeRtuDto>(body);
                 var rtuInitializedDto = await _webC2DWcfManager
                     .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .InitializeRtuAsync(dto);

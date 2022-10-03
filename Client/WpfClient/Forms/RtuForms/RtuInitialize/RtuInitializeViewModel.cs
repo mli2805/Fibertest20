@@ -78,10 +78,6 @@ namespace Iit.Fibertest.Client
         {
             if (!FullModel.Validate()) return;
 
-            var rtuHolder = _globalScope.Resolve<IRtuHolder>();
-            if (!await rtuHolder.SetRtuOccupationState(FullModel.OriginalRtu.Id, FullModel.OriginalRtu.Title, RtuOccupation.Initialization))
-                return;
-
             try
             {
                 IsIdle = false;
@@ -229,7 +225,7 @@ namespace Iit.Fibertest.Client
                     vm = new MyMessageBoxViewModel(
                         MessageType.Error, new List<string>()
                         {
-                            ReturnCode.RtuIsBusy.GetLocalizedString(), "", dto.RtuOccupationState.GetLocalized(),
+                            string.Format(Resources.SID_RTU__0__is_busy_, FullModel.OriginalRtu.Title), "", dto.RtuOccupationState.GetLocalized(),
                         }, 1);
                     break;
                 case ReturnCode.RtuInitializationError:

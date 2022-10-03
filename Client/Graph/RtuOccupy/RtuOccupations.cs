@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Graph.RtuOccupy
     public class RtuOccupations
     {
         private readonly IMyLog _logFile;
+        private const int TimeoutSec = 100;
 
         public ConcurrentDictionary<Guid, RtuOccupationState> RtuStates =
             new ConcurrentDictionary<Guid, RtuOccupationState>();
@@ -20,14 +21,14 @@ namespace Iit.Fibertest.Graph.RtuOccupy
         public bool TrySetOccupation(Guid rtuId, RtuOccupation rtuOccupation, string userName, out RtuOccupationState state)
         {
             if (rtuOccupation == RtuOccupation.None)
-            {
+            {  /////////////  CLEAR  //////////////////////
                 state = new RtuOccupationState();
                 return RtuStates.TryRemove(rtuId, out RtuOccupationState _);
             }
             else
             {
                 var isBusy = RtuStates.TryGetValue(rtuId, out RtuOccupationState currentState);
-                if (!isBusy)
+                if (!isBusy) ////////// NEW /////////////////
                 {
                     state = new RtuOccupationState() { RtuOccupation = RtuOccupation.None };
                     return RtuStates.TryAdd(rtuId,
@@ -36,25 +37,25 @@ namespace Iit.Fibertest.Graph.RtuOccupy
                             RtuId = rtuId,
                             RtuOccupation = rtuOccupation,
                             UserName = userName,
-                            Expired = DateTime.Now.AddMinutes(3)
+                            Expired = DateTime.Now.AddSeconds(TimeoutSec),
                         });
                 }
                 else
                 {
                     state = currentState;
                     if (currentState.UserName == userName || currentState.Expired < DateTime.Now)
-                    {
+                    {  /////////  REFRESH   //////////////////
                         return RtuStates.TryUpdate(rtuId, new RtuOccupationState()
                         {
                             RtuId = rtuId,
                             RtuOccupation = rtuOccupation,
                             UserName = userName,
-                            Expired = DateTime.Now.AddMinutes(3)
+                            Expired = DateTime.Now.AddSeconds(TimeoutSec)
                         }, state);
                     }
                     else
-                    {
-                        var cs = $@"(current state is {currentState.RtuOccupation}, expiration {currentState.Expired})";
+                    {   ///////// DENY ///////////////
+                        var cs = $@"(current state is {currentState.RtuOccupation}, expires at{currentState.Expired})";
                         _logFile.AppendLine($@"RTU {rtuId.First6()} is occupied by {currentState.UserName} {cs}");
                         return false;
                     }

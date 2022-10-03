@@ -9,3 +9,10 @@ export class RtuInitializedWebDto {
 
   rtuNetworkSettings: RtuNetworkSettingsDto;
 }
+
+export class InitializeRtuDto {
+  connectionId: string;
+  rtuId: string;
+
+  // the rest will be filled in on server
+}
