@@ -24,6 +24,7 @@ import { ClientMeasurementVeexResultDto } from "src/app/models/dtos/meas-params/
 import { RtuMaker } from "src/app/models/enums/rtuMaker";
 import { Console } from "console";
 import { ClientMeasurementStartedDto } from "src/app/models/dtos/meas-params/clientMeasurementStartedDto";
+import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 
 @Component({
   selector: "ft-port-measurement-client",
@@ -56,7 +57,8 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     private router: Router,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
-    private ts: TranslateService
+    private ts: TranslateService,
+    private returnCodePipe: ReturnCodePipe
   ) {}
 
   ngOnDestroy(): void {
@@ -245,7 +247,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
       .postRequest("measurement/start-measurement-client", dto)
       .toPromise()) as ClientMeasurementStartedDto;
     if (res.returnCode !== ReturnCode.MeasurementClientStartedSuccessfully) {
-      this.message = res.errorMessage;
+      this.message = this.returnCodePipe.transform(res.returnCode);
       this.isSpinnerVisible = false;
       this.isButtonDisabled = false;
     } else {

@@ -28,8 +28,38 @@ export class ReturnCodePipe implements PipeTransform {
         return this.ts.instant("SID_RTU_does_not_support_BOP");
       case ReturnCode.RtuTooBigPortNumber:
         return this.ts.instant("SID_Too_big_port_number_for_BOP_attachment");
+
+      case ReturnCode.RtuIsBusy:
+        return this.ts.instant("SID_RTU_is_busy");
+      case ReturnCode.RtuInitializationInProgress:
+        return this.ts.instant("SID_RTU_initialization_in_progress");
+      case ReturnCode.RtuAutoBaseMeasurementInProgress:
+        return this.ts.instant("SID_Auto_base_measurement_in_progress");
+
       case ReturnCode.RtuAttachOtauError:
         return this.ts.instant("SID_Attach_OTAU_error_");
+      case ReturnCode.RtuDetachOtauError:
+        return this.ts.instant("SID_Failed_to_detach_additional_otau_");
+      case ReturnCode.RtuMonitoringSettingsApplyError:
+        return this.ts.instant("SID_Failed_to_apply_monitoring_settings_");
+
+      case ReturnCode.RtuToggleToPortError:
+      case ReturnCode.RtuToggleToBopPortError:
+          return this.ts.instant("SID_Failed_to_toggle_to_port");
+      case ReturnCode.InvalidValueOfLmax:
+          return this.ts.instant("SID_Failed_to_automatically_determine_the_correct_measurement_parameters");
+      case ReturnCode.SnrIs0:
+          return this.ts.instant("SID_No_fiber");
+      case ReturnCode.MeasurementError:
+          return this.ts.instant("SID_Measurement_error");
+      case ReturnCode.MeasurementEndedNormally:
+          return this.ts.instant("SID_Measurement_completed_successfully");
+      case ReturnCode.MeasurementPreparationError:
+          return this.ts.instant("SID_Measurement_preparation_error");
+      case ReturnCode.MeasurementInterrupted:
+          return this.ts.instant("SID_Measurement_interrupted");
+      case ReturnCode.MeasurementTimeoutExpired:
+          return this.ts.instant("SID_Measurement_timeout_expired");
 
       // 2000
       case ReturnCode.C2DWcfConnectionError:
