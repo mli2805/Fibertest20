@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Graph.RtuOccupy
                 else
                 {
                     state = currentState;
-                    if (currentState.UserName == userName)
+                    if (currentState.UserName == userName || currentState.Expired < DateTime.Now)
                     {
                         return RtuStates.TryUpdate(rtuId, new RtuOccupationState()
                         {
