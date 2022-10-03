@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
          */
         private async void DoMeasurementRftsReflect(Leaf parent, int portNumber)
         {
-            var prepareResult = await PrepareRtu(parent, portNumber);
+            var prepareResult = await PrepareRtuForMeasurementReflect(parent, portNumber);
             if (prepareResult == null) return;
 
             var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
@@ -131,11 +131,16 @@ namespace Iit.Fibertest.Client
                 $@"-fnw -n {prepareResult.Ip4Address} -p {prepareResult.Port}");
         }
 
-        public async Task<NetAddress> PrepareRtu(Leaf parent, int portNumber)
+        public async Task<NetAddress> PrepareRtuForMeasurementReflect(Leaf parent, int portNumber)
         {
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return null;
+
+            // Measurement Reflect must check if RTU is busy
+            // but should not block RTU, it has lowest priority, other operations can interrupt it
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtu.Id, rtu.Title, RtuOccupation.None))
+                return null;
 
             return rtu.RtuMaker == RtuMaker.IIT
                 ? await PrepareIitRtu(rtuLeaf, rtu, parent, portNumber)

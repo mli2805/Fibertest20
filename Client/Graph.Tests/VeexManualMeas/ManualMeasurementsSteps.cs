@@ -85,7 +85,7 @@ namespace Graph.Tests
         public void GivenПользовательЗапрашиваетИзмерениеReflectПоПортуОсновногоПереключателя()
         {
             var ca = _sut.ClientScope.Resolve<CommonActions>();
-            _preparationResult = ca.PrepareRtu(_rtuLeaf, 5).Result;
+            _preparationResult = ca.PrepareRtuForMeasurementReflect(_rtuLeaf, 5).Result;
         }
 
 
@@ -93,7 +93,7 @@ namespace Graph.Tests
         public void WhenПользовательЗапрашиваетИзмерениеReflectПоПортуДопПереключателя()
         {
             var ca = _sut.ClientScope.Resolve<CommonActions>();
-            _preparationResult = ca.PrepareRtu(_otauLeaf, 3).Result;
+            _preparationResult = ca.PrepareRtuForMeasurementReflect(_otauLeaf, 3).Result;
         }
 
         [Then(@"Отсылается команда подготовки RTU")]
