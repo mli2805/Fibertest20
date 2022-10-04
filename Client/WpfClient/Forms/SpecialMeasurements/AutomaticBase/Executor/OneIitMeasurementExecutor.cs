@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
                     Model.OtdrParametersTemplatesViewModel.GetSelectedParameters(),
                     Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 
-            var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
+            var startResult = await _c2DWcfCommonManager.StartClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
             {
                 _timer.Stop();

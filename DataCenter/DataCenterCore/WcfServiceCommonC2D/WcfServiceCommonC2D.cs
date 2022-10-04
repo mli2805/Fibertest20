@@ -24,10 +24,10 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly BaseRefsCheckerOnServer _baseRefsChecker;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
-        private readonly RtuInitializationToGraphApplier _rtuInitializationToGraphApplier;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly RtuOccupations _rtuOccupations;
+        private readonly WcfIntermediate _wcfIntermediate;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
@@ -35,8 +35,9 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefsCheckerOnServer baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
-            RtuInitializationToGraphApplier rtuInitializationToGraphApplier, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
+            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             IFtSignalRClient ftSignalRClient, RtuOccupations rtuOccupations,
+            WcfIntermediate wcfIntermediate,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {
@@ -48,10 +49,10 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _baseRefsChecker = baseRefsChecker;
             _baseRefLandmarksTool = baseRefLandmarksTool;
-            _rtuInitializationToGraphApplier = rtuInitializationToGraphApplier;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _ftSignalRClient = ftSignalRClient;
             _rtuOccupations = rtuOccupations;
+            _wcfIntermediate = wcfIntermediate;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
@@ -120,16 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var result = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.InitializeRtuAsync(dto)
-                : await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto);
-
-            await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
-
-            await SetRtuOccupationState(new OccupyRtuDto()
-                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.None } });
-
-            return await _rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, result);
+            return await _wcfIntermediate.InitializeRtuAsync(dto);
         }
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
@@ -474,14 +466,26 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementStartedDto> StartClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.NoSuchRtu };
 
+            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState currentState))
+            {
+                return new ClientMeasurementStartedDto()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                    RtuOccupationState = currentState,
+                };
+            }
+
             return rtu.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DoClientMeasurementAsync(dto)
                 : await _clientToRtuVeexTransmitter.DoClientMeasurementAsync(dto);
+
+            // Client must free RTU when result received
         }
 
         public async Task<ClientMeasurementVeexResultDto> GetClientMeasurementAsync(GetClientMeasurementDto dto)
@@ -519,9 +523,23 @@ namespace Iit.Fibertest.DataCenterCore
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
 
-            return rtu.RtuMaker == RtuMaker.IIT
+            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState currentState))
+            {
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                    RtuOccupationState = currentState,
+                };
+            }
+
+            var result =  rtu.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
                 : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
+
+            await _wcfIntermediate.ClearRtuOccupationState(dto.RtuId);
+
+            return result;
         }
 
         public async Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)

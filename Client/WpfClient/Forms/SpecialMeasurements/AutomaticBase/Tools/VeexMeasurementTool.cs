@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
                 .SetParams(true, true, null, veexMeasOtdrParameters);
 
             // with dto.VeexMeasOtdrParameters.measurementType == "auto_skip_measurement" - it is request of line quality
-            var startResult = await _c2DWcfCommonManager.DoClientMeasurementAsync(dto);
+            var startResult = await _c2DWcfCommonManager.StartClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
                 return new LineParametersDto(){ReturnCode = startResult.ReturnCode};
 

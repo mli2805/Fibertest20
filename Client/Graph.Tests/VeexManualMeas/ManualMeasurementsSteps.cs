@@ -39,7 +39,7 @@ namespace Graph.Tests
             var vm = _sut.ClientScope.Resolve<ClientMeasurementViewModel>();
 
             var fullDto = vm.ForUnitTests(_rtuLeaf, 5, null, new VeexMeasOtdrParameters());
-            _startedDto = _sut.WcfServiceCommonC2D.DoClientMeasurementAsync(fullDto).Result;
+            _startedDto = _sut.WcfServiceCommonC2D.StartClientMeasurementAsync(fullDto).Result;
         }
 
         [When(@"Клиент запрашивает результат измерния по Id")]
@@ -78,7 +78,7 @@ namespace Graph.Tests
             // var fullDto = vm.PrepareDto(_rtu, otauPortDto, _rtuLeaf.OtauNetAddress, null, new VeexMeasOtdrParameters());
 
             var fullDto = vm.ForUnitTests(_otauLeaf, 7, null, new VeexMeasOtdrParameters());
-            _startedDto = _sut.WcfServiceCommonC2D.DoClientMeasurementAsync(fullDto).Result;
+            _startedDto = _sut.WcfServiceCommonC2D.StartClientMeasurementAsync(fullDto).Result;
         }
 
         [Given(@"Пользователь запрашивает измерение Reflect по порту основного переключателя")]

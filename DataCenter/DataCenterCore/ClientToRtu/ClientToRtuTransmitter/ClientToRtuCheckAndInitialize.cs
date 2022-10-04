@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
@@ -45,20 +44,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent initialize RTU {dto.RtuId.First6()} request");
-            RtuInitializedDto rtuInitializedDto;
-            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, username, out RtuOccupationState currentState))
-            {
-                return new RtuInitializedDto()
-                {
-                    RtuId =  dto.RtuId, 
-                    IsInitialized = false,
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    RtuOccupationState = currentState,
-                };
-            }
-
             dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)
                 // if RTU has no reserve address it should not send to server's reserve address
@@ -66,6 +51,7 @@ namespace Iit.Fibertest.DataCenterCore
                 dto.ServerAddresses.HasReserveAddress = false;
 
             string message;
+            RtuInitializedDto rtuInitializedDto;
             try
             {
                 rtuInitializedDto = await _d2RWcfManager
@@ -94,11 +80,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
                 message = "RTU initialization failed: " + e.Message;
             }
-            finally
-            {
-                _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, "", out RtuOccupationState _);
-            }
-
+           
             _logFile.AppendLine(message);
             await _ftSignalRClient.NotifyAll("RtuInitialized", rtuInitializedDto.ToCamelCaseJson());
 

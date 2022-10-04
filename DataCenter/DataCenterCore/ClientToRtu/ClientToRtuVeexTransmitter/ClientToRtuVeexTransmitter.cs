@@ -13,16 +13,18 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
+        private readonly ClientsCollection _clientsCollection;
         private readonly VeexCompletedTestProcessor _veexCompletedTestProcessor;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
 
-        public ClientToRtuVeexTransmitter(IMyLog logFile, Model writeModel,
+        public ClientToRtuVeexTransmitter(IMyLog logFile, Model writeModel, ClientsCollection clientsCollection,
             VeexCompletedTestProcessor veexCompletedTestProcessor,
             RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
             _logFile = logFile;
             _writeModel = writeModel;
+            _clientsCollection = clientsCollection;
             _veexCompletedTestProcessor = veexCompletedTestProcessor;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
@@ -35,9 +37,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine(
-                $"Client from {dto.ClientIp} sent initialize VeEX RTU {dto.RtuId.First6()} request");
-
             var rtuInitializedDto = await _d2RtuVeexLayer3.InitializeRtuAsync(dto);
             if (rtuInitializedDto.IsInitialized)
             {
@@ -171,7 +170,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to do measurement on VeEX RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to do measurement on VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {

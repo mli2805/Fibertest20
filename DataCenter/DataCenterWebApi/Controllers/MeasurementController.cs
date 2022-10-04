@@ -84,7 +84,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
                 var clientMeasurementStartedDto = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .DoClientMeasurementAsync(dto);
+                    .StartClientMeasurementAsync(dto);
                 return clientMeasurementStartedDto;
             }
             catch (Exception e)

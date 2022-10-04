@@ -200,7 +200,7 @@ namespace Iit.Fibertest.WcfConnections
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("DoClientMeasurementAsync: " + e.Message);
+                _logFile.AppendLine("StartClientMeasurementAsync: " + e.Message);
                 return null;
             }
         }

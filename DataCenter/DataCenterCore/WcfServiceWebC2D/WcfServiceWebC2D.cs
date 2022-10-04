@@ -24,34 +24,30 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly ClientsCollection _clientsCollection;
         private readonly SorFileRepository _sorFileRepository;
-        private readonly RtuInitializationToGraphApplier _rtuInitializationToGraphApplier;
-        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly LandmarksBaseParser _landmarksBaseParser;
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
-        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly WcfIntermediate _wcfIntermediate;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
             ClientsCollection clientsCollection, SorFileRepository sorFileRepository,
-            RtuInitializationToGraphApplier rtuInitializationToGraphApplier, IFtSignalRClient ftSignalRClient,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
             AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
+            WcfIntermediate wcfIntermediate,
+            ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _currentDatacenterParameters = currentDatacenterParameters;
             _clientsCollection = clientsCollection;
             _sorFileRepository = sorFileRepository;
-            _rtuInitializationToGraphApplier = rtuInitializationToGraphApplier;
-            _ftSignalRClient = ftSignalRClient;
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _accidentLineModelFactory = accidentLineModelFactory;
             _measurementsForWebNotifier = measurementsForWebNotifier;
-            _clientToRtuTransmitter = clientToRtuTransmitter;
+            _wcfIntermediate = wcfIntermediate;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 

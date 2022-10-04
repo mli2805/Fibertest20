@@ -355,7 +355,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementStartedDto> StartClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
@@ -369,13 +369,13 @@ namespace Iit.Fibertest.WcfConnections
                     _logFile.AppendLine($@"Sending command to do client's measurement on RTU {dto.RtuId.First6()}");
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.DoClientMeasurementAsync(dto);
+                var result = await channel.StartClientMeasurementAsync(dto);
                 wcfConnection.Close();
                 return result;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("DoClientMeasurementAsync:" + e.Message);
+                _logFile.AppendLine("StartClientMeasurementAsync:" + e.Message);
                 return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }

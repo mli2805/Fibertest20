@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("DoClientMeasurementAsync:" + e.Message);
+                _logFile.AppendLine("StartClientMeasurementAsync:" + e.Message);
                 return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
             }
         }

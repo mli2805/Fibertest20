@@ -7,7 +7,6 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-
     public class OtdrParametersThroughServerSetterViewModel : Screen
     {
         public bool IsAnswerPositive { get; set; }
@@ -46,6 +45,5 @@ namespace Iit.Fibertest.Client
             IsAnswerPositive = false;
             TryClose();
         }
-
     }
 }

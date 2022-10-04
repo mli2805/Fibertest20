@@ -156,14 +156,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             if (!FillIn(dto)) return new RtuInitializedDto() { ReturnCode = ReturnCode.RtuInitializationError, };
-          
-            var result = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.InitializeRtuAsync(dto)
-                : await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto);
-
-            await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
-
-            return await _rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, result);
+            return await _wcfIntermediate.InitializeRtuAsync(dto);
         }
 
         private bool FillIn(InitializeRtuDto dto)

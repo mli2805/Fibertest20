@@ -18,11 +18,11 @@ namespace Iit.Fibertest.Graph.RtuOccupy
             _logFile = logFile;
         }
 
-        public bool TrySetOccupation(Guid rtuId, RtuOccupation rtuOccupation, string userName, out RtuOccupationState state)
+        public bool TrySetOccupation(Guid rtuId, RtuOccupation newRtuOccupation, string userName, out RtuOccupationState state)
         {
-            if (rtuOccupation == RtuOccupation.None)
+            if (newRtuOccupation == RtuOccupation.None)
             {  /////////////  CLEAR  //////////////////////
-                state = new RtuOccupationState();
+                state = new RtuOccupationState() { RtuOccupation = RtuOccupation.None };
                 return RtuStates.TryRemove(rtuId, out RtuOccupationState _);
             }
             else
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph.RtuOccupy
                         new RtuOccupationState()
                         {
                             RtuId = rtuId,
-                            RtuOccupation = rtuOccupation,
+                            RtuOccupation = newRtuOccupation,
                             UserName = userName,
                             Expired = DateTime.Now.AddSeconds(TimeoutSec),
                         });
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Graph.RtuOccupy
                         return RtuStates.TryUpdate(rtuId, new RtuOccupationState()
                         {
                             RtuId = rtuId,
-                            RtuOccupation = rtuOccupation,
+                            RtuOccupation = newRtuOccupation,
                             UserName = userName,
                             Expired = DateTime.Now.AddSeconds(TimeoutSec)
                         }, state);

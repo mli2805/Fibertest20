@@ -284,6 +284,7 @@
     <Compile Include="ClientStations\ClientsInCollectionFinder.cs" />
     <Compile Include="ClientStations\ClientsRegistrator.cs" />
     <Compile Include="ClientStations\ClientStationFactory.cs" />
+    <Compile Include="ClientToRtu\WcfIntermediate.cs" />
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="JsonUtil.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
@@ -316,11 +317,11 @@
     <Compile Include="RtuResultsProcessing\MsmqMessagesProcessor.cs" />
     <Compile Include="Notifications\SnmpNotifier.cs" />
     <Compile Include="WcfBootstrappers\WcfServiceForCommonC2DBootstrapper.cs" />
-    <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
-    <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
-    <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
-    <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuStartStop.cs" />
-    <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuBaseRefs.cs" />
+    <Compile Include="ClientToRtu\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
+    <Compile Include="ClientToRtu\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
+    <Compile Include="ClientToRtu\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
+    <Compile Include="ClientToRtu\ClientToRtuTransmitter\ClientToRtuStartStop.cs" />
+    <Compile Include="ClientToRtu\ClientToRtuTransmitter\ClientToRtuBaseRefs.cs" />
     <Compile Include="DiskSpaceProvider.cs" />
     <Compile Include="RtuResultsProcessing\MsmqHandler.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
@@ -332,8 +333,8 @@
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WcfServiceCommonC2D\IClientToRtuTransmitter.cs" />
-    <Compile Include="WcfServiceCommonC2D\ClientToRtuVeexTransmitter\ClientToRtuVeexTransmitter.cs" />
+    <Compile Include="ClientToRtu\IClientToRtuTransmitter.cs" />
+    <Compile Include="ClientToRtu\ClientToRtuVeexTransmitter\ClientToRtuVeexTransmitter.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceDesktopC2D.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceSettings.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForClientDbOptimization.cs" />

@@ -15,6 +15,7 @@ import { DialogService } from "./other/DialogService";
 import { GetSorDataParams } from "src/app/models/dtos/meas-params/getSorDataParams";
 import { OccupyRtuDto, RtuOccupation, RtuOccupationState } from "src/app/models/dtos/meas-params/occupyRtuDto";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 
 @Component({
   selector: "ft-sor-viewer",
@@ -40,7 +41,8 @@ export class SorViewerComponent implements OnInit {
   constructor(
     public sorAreaService: SorAreaViewerService,
     public sorViewerService: SorViewerService,
-    private oneApiService: OneApiService
+    private oneApiService: OneApiService,
+    private returnCodePipe: ReturnCodePipe
   ) {
     sorAreaService.showLandmarksDock = true;
     const sorSettings = SorAreaSettings.Default();
@@ -104,7 +106,7 @@ export class SorViewerComponent implements OnInit {
     const res = (await this.oneApiService
       .postRequest("rtu/set-rtu-occupation-state", freeDto)
       .toPromise()) as RequestAnswer;
-    console.log(res);
+    this.returnCodePipe.transform(res.returnCode);
   }
 
   async loadSorTraceFromServer(
