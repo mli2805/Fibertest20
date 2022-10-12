@@ -45,6 +45,7 @@ namespace Iit.Fibertest.RtuManagement
                     Accidents = port.LastMoniResult.Accidents,
                 };
 
+            LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp;
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
 
