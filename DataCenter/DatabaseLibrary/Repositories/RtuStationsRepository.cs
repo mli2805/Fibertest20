@@ -159,7 +159,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             catch (Exception e)
             {
                 _logFile.AppendLine("GetAllRtuStations: " + e.Message);
-                return null;
+                return new List<RtuStation>();
             }
         }
 

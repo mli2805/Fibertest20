@@ -135,7 +135,8 @@ namespace Iit.Fibertest.RtuManagement
             foreach (var portInOldQueue in oldQueue)
             {
                 if (portInOldQueue.CharonSerial == portWithTrace.OtauPort.Serial
-                     && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort)
+                     && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort
+                     && portInOldQueue.TraceId == portWithTrace.TraceId)
                 {
                     return portInOldQueue;
                 }

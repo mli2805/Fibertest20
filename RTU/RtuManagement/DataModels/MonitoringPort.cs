@@ -33,6 +33,7 @@ namespace Iit.Fibertest.RtuManagement
             IsPortOnMainCharon = port.IsPortOnMainCharon;
             LastTraceState = port.LastTraceState;
 
+            LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp;
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
 

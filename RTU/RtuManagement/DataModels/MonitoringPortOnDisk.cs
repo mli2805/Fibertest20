@@ -13,6 +13,7 @@ namespace Iit.Fibertest.RtuManagement
         public FiberState LastTraceState { get; set; }
         public MoniResult LastMoniResult { get; set; }
 
+        public DateTime? LastPreciseMadeTimestamp { get; set; }
         public DateTime LastPreciseSavedTimestamp { get; set; }
         public DateTime LastFastSavedTimestamp { get; set; }
 

@@ -72,9 +72,9 @@ namespace Iit.Fibertest.RtuManagement
 
             // FAST 
             if (
-                monitoringPort.IsMonitoringModeChanged ||
+                // monitoringPort.IsMonitoringModeChanged || // 740)
                 (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan) ||
-                monitoringPort.LastTraceState == FiberState.Ok)
+                (monitoringPort.LastTraceState == FiberState.Ok || monitoringPort.LastTraceState == FiberState.Unknown))
             {
                 monitoringPort.LastMoniResult = DoFastMeasurement(monitoringPort);
                 if (monitoringPort.LastMoniResult.MeasurementResult != MeasurementResult.Success)
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var isTraceBroken = monitoringPort.LastTraceState != FiberState.Ok;
             var isSecondMeasurementNeeded = isTraceBroken ||
-                                            monitoringPort.IsMonitoringModeChanged ||
+                                            //   monitoringPort.IsMonitoringModeChanged || // 740)
                                             monitoringPort.LastPreciseMadeTimestamp == null ||
                                             _preciseMakeTimespan != TimeSpan.Zero &&
                                             DateTime.Now - monitoringPort.LastPreciseMadeTimestamp > _preciseMakeTimespan;
@@ -127,6 +127,10 @@ namespace Iit.Fibertest.RtuManagement
                 // {
                 //     message = "Monitoring mode was changed";
                 // }
+                else if (monitoringPort.LastMoniResult == null) // 740)
+                {
+                    message = "First measurement on port";
+                }
                 else if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan)
                 {
                     _rtuLog.AppendLine($"last fast saved - {monitoringPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
