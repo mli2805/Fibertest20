@@ -183,8 +183,6 @@ namespace Iit.Fibertest.Client
 
             var rtuId = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id).RtuId;
             var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
-            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuId, rtu.Title, RtuOccupation.PreciseMeasurementOutOfTurn))
-                return;
 
             _outOfTurnPreciseMeasurementViewModel.Initialize(traceLeaf);
             _windowManager.ShowDialogWithAssignedOwner(_outOfTurnPreciseMeasurementViewModel);

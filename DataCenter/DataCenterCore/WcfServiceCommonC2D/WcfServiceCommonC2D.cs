@@ -537,8 +537,6 @@ namespace Iit.Fibertest.DataCenterCore
                 ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
                 : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
 
-            await _wcfIntermediate.ClearRtuOccupationState(dto.RtuId);
-
             return result;
         }
 

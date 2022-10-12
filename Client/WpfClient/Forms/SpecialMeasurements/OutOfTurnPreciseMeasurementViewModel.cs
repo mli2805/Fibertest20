@@ -95,7 +95,6 @@ namespace Iit.Fibertest.Client
         private async Task<RequestAnswer> StartRequestedMeasurement()
         {
             Message = Resources.SID_Sending_command__Wait_please___;
-
           
             var dto = new DoOutOfTurnPreciseMeasurementDto()
             {

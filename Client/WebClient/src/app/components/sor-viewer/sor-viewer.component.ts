@@ -106,7 +106,7 @@ export class SorViewerComponent implements OnInit {
     const res = (await this.oneApiService
       .postRequest("rtu/set-rtu-occupation-state", freeDto)
       .toPromise()) as RequestAnswer;
-    this.returnCodePipe.transform(res.returnCode);
+    console.log(`${this.returnCodePipe.transform(res.returnCode)}`);
   }
 
   async loadSorTraceFromServer(

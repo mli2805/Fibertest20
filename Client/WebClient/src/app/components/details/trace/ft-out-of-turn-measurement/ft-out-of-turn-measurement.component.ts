@@ -9,6 +9,8 @@ import { SignalrService } from "src/app/api/signalr.service";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { Router } from "@angular/router";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { OccupyRtuDto, RtuOccupation, RtuOccupationState } from "src/app/models/dtos/meas-params/occupyRtuDto";
+import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 
 @Component({
   selector: "ft-out-of-turn-measurement",
@@ -27,6 +29,7 @@ export class FtOutOfTurnMeasurementComponent implements OnInit, OnDestroy {
     private router: Router,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
+    private returnCodePipe: ReturnCodePipe,
     private ts: TranslateService
   ) {}
 
@@ -63,7 +66,18 @@ export class FtOutOfTurnMeasurementComponent implements OnInit, OnDestroy {
     this.sendCommand(this.params);
   }
 
-  ngOnDestroy(): void {
+  async ngOnDestroy() {
+    var freeDto = new OccupyRtuDto();
+    freeDto.rtuId = this.params.rtu.rtuId;
+    freeDto.state = new RtuOccupationState();
+    freeDto.state.rtuId = this.params.rtu.rtuId;
+    freeDto.state.rtuOccupation = RtuOccupation.None;
+
+    const res = (await this.oneApiService
+      .postRequest("rtu/set-rtu-occupation-state", freeDto)
+      .toPromise()) as RequestAnswer;
+    console.log(`${this.returnCodePipe.transform(res.returnCode)}`);
+
     this.measEmmitterSubscription.unsubscribe();
   }
 
