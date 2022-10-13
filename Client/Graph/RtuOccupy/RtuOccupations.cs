@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Graph.RtuOccupy
                     }
                     else
                     {   ///////// DENY ///////////////
-                        var cs = $@"(current state is {currentState.RtuOccupation}, expires at{currentState.Expired})";
+                        var cs = $@"(current state is {currentState.RtuOccupation}, expires at {currentState.Expired:HH:mm:ss})";
                         _logFile.AppendLine($@"RTU {rtuId.First6()} is occupied by {currentState.UserName} {cs}");
                         return false;
                     }

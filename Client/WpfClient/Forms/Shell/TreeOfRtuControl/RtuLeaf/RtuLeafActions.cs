@@ -207,9 +207,6 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
-                return;
-
             var dto = CollectMonitoringSettingsFromTree(rtuLeaf);
             if (dto.Ports.Count == 0)
             {
@@ -217,6 +214,8 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
+
+            dto.ConnectionId = _currentUser.ConnectionId;
             dto.IsMonitoringOn = true;
 
             MonitoringSettingsAppliedDto resultDto;

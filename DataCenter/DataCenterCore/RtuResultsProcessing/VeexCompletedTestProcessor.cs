@@ -133,7 +133,9 @@ namespace Iit.Fibertest.DataCenterCore
 
             var traceLastMeasOfThisBaseType = _writeModel.Measurements
                 .LastOrDefault(m => m.TraceId == trace.TraceId && m.BaseRefType == baseRefType);
-            if (traceLastMeasOfThisBaseType == null)
+
+            // only Fast first measurement should be saved
+            if (baseRefType == BaseRefType.Fast && traceLastMeasOfThisBaseType == null)
             {
                 _logFile.AppendLine($"Should be saved as first measurement of this base type on trace {trace.Title}");
                 return true; // first measurement on trace
