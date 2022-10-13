@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
@@ -30,7 +31,8 @@ namespace Iit.Fibertest.Client
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
-        public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
+        public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, 
+            CurrentUser currentUser, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
             RtuAutoBaseViewModel rtuAutoBaseViewModel,
@@ -38,6 +40,7 @@ namespace Iit.Fibertest.Client
         {
             _globalScope = globalScope;
             _logFile = logFile;
+            _currentUser = currentUser;
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
@@ -140,7 +143,8 @@ namespace Iit.Fibertest.Client
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 result =
-                    await _commonC2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker });
+                    await _commonC2DWcfManager.StopMonitoringAsync(
+                        new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker, ConnectionId = _currentUser.ConnectionId });
             }
 
             _logFile.AppendLine($@"Stop monitoring result - {result}");

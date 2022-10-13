@@ -59,7 +59,7 @@ namespace Iit.Fibertest.RtuManagement
             OpticalPort = port.OtauPort.OpticalPort;
             IsPortOnMainCharon = port.OtauPort.IsPortOnMainCharon;
             TraceId = port.TraceId;
-            LastTraceState = FiberState.Ok;
+            LastTraceState = port.LastTraceState;
 
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;

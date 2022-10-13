@@ -12,5 +12,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public Guid TraceId { get; set; }
+
+        [DataMember]
+        public FiberState LastTraceState { get; set; }
     }
 }

@@ -57,7 +57,6 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.Username = _username;
                 dto.State.UserName = _username;
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();

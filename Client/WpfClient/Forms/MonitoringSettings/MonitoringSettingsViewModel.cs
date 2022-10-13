@@ -74,9 +74,6 @@ namespace Iit.Fibertest.Client
 
         public async Task Apply()
         {
-            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(Model.RtuId, Model.RtuTitle, RtuOccupation.MonitoringSettings))
-                return;
-
             IsButtonsEnabled = false;
             using (_globalScope.Resolve<IWaitCursor>())
             {
@@ -84,6 +81,7 @@ namespace Iit.Fibertest.Client
                 var dto = Model
                     .CreateDto()
                     .AddPortList(Model);
+                dto.ConnectionId = _currentUser.ConnectionId;
                 if (dto.IsMonitoringOn && !dto.Ports.Any())
                 {
                     var mb = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_are_no_ports_for_monitoring_);

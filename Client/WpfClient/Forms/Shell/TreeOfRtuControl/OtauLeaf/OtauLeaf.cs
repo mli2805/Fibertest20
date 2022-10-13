@@ -79,6 +79,7 @@ namespace Iit.Fibertest.Client
 
             var dto = new DetachOtauDto()
             {
+                ConnectionId = _currentUser.ConnectionId,
                 OtauId = Id,
                 RtuId = rtu.Id,
                 RtuMaker = rtu.RtuMaker,

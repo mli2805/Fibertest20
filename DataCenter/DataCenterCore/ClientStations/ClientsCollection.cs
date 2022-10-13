@@ -130,7 +130,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             foreach (var deadStation in deadStations)
             {
-                LogFile.AppendLine($"Dead client {deadStation.UserName}/{deadStation.ClientIp} with connectionId {deadStation.ConnectionId} and last checkout time {deadStation.LastConnectionTimestamp:T} removed.");
+                LogFile.AppendLine($"Dead client {deadStation} with connectionId {deadStation.ConnectionId} and last checkout time {deadStation.LastConnectionTimestamp:T} removed.");
 
                 var command = new LostClientConnection();
                 await _eventStoreService.SendCommand(command, deadStation.UserName, deadStation.ClientIp);

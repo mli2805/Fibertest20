@@ -23,11 +23,5 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return collection.Clients.Any(s => s.IsWebClient);
         }
-
-        public static ClientStation GetClientByClientIp(this ClientsCollection collection, string clientIp)
-        {
-            return collection.Clients.FirstOrDefault(c => c.ClientIp == clientIp);
-        }
-
     }
 }

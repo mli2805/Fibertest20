@@ -9,7 +9,8 @@ namespace Iit.Fibertest.Dto
     {
         [DataMember]
         public string ClientIp { get; set; }
-
+        [DataMember]
+        public string ConnectionId { get; set; }
         [DataMember]
         public Guid RtuId { get; set; }
         [DataMember]

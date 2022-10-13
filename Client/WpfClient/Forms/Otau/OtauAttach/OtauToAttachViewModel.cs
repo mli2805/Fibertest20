@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private Rtu _rtu;
         private int _portNumberForAttachment;
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
@@ -84,10 +85,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(ILifetimeScope globalScope, Model readModel, 
+        public OtauToAttachViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, 
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
+            _currentUser = currentUser;
             _readModel = readModel;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
@@ -167,6 +169,7 @@ namespace Iit.Fibertest.Client
                 NetAddressInputViewModel.GetNetAddress().Port);
             var dto = new AttachOtauDto()
             {
+                ConnectionId = _currentUser.ConnectionId,
                 RtuId = _rtu.Id,
                 RtuMaker = _rtu.RtuMaker,
                 OtauId = Guid.NewGuid(), // Veex Rtu will replace this by its own id

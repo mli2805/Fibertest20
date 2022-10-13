@@ -103,7 +103,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
             else
-                _logFile.AppendLine($"RTU {station.MainAddress} returned {getPortionResult.ErrorMessage}");
+                _logFile.AppendLine($"Failed to connect RTU4100 {station.MainAddress} ({getPortionResult.ErrorMessage})");
         }
     }
 }

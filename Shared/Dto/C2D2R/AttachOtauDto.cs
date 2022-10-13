@@ -10,6 +10,9 @@ namespace Iit.Fibertest.Dto
         public string ClientIp { get; set; }
 
         [DataMember]
+        public string ConnectionId { get; set; }
+
+        [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]
@@ -24,5 +27,5 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int OpticalPort { get; set; }
     }
-  
+
 }

@@ -101,7 +101,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             catch (Exception e)
             {
                 result.ErrorMessage = e.Message;
-                _logFile.AppendLine(e.Message);
             }
 
             return result;

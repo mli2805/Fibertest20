@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (result.IsInitialized)
             {
-                var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;
+                var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
                 await _eventStoreService.SendCommands(DtoToCommandList(dto, result), username, dto.ClientIp);
             }
             return result;

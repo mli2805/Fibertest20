@@ -42,6 +42,7 @@ export class OneApiService {
     const myHeaders = new HttpHeaders({
       Authorization: "Bearer " + currentUser.jsonWebToken,
     });
+    body.ConnectionId = currentUser.connectionId;
     return this.httpClient.post(url, body, { headers: myHeaders });
   }
 
