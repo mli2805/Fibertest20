@@ -57,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             _logFile.AppendLine(
-                $"Client from {dto.ClientIp} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
+                $"Client {_clientsCollection.Get(dto.ConnectionId)} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return null;
 
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             _logFile.AppendLine(
-                $"Client from {dto.ClientIp} sent request to stop monitoring on VeEX RTU {dto.RtuId.First6()} ");
+                $"Client {_clientsCollection.Get(dto.ConnectionId)} sent request to stop monitoring on VeEX RTU {dto.RtuId.First6()} ");
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return false;
 

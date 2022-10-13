@@ -20,6 +20,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { RtuPartState } from "src/app/models/enums/rtuPartState";
 import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
 import { Role } from "src/app/models/enums/role";
+import { StopMonitoringDto } from "src/app/models/dtos/rtu/monitoringStoppedDto";
 
 @Component({
   selector: "ft-rtu-line",
@@ -81,10 +82,13 @@ export class FtRtuLineComponent implements OnInit {
 
   async manualMode(rtu: RtuDto) {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
-    const id = rtu.rtuId;
-    console.log("manual pressed id=", id);
+    const dto = new StopMonitoringDto();
+    dto.connectionId = this.user.connectionId;
+    dto.rtuId = rtu.rtuId;
+    dto.rtuMaker = rtu.rtuMaker;
+    console.log(dto);
     const res = (await this.oneApiService
-      .postRequest(`rtu/stop-monitoring/${id}`, rtu.rtuMaker)
+      .postRequest(`rtu/stop-monitoring`, dto)
       .toPromise()) as boolean;
   }
 
@@ -115,6 +119,7 @@ export class FtRtuLineComponent implements OnInit {
       return;
     }
 
+    dto.connectionId = this.user.connectionId;
     dto.monitoringMode = MonitoringMode.On;
     const res = (await this.oneApiService
       .postRequest(`rtu/monitoring-settings/${id}`, dto)

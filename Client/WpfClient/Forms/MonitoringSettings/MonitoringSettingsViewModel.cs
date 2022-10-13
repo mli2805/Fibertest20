@@ -113,6 +113,7 @@ namespace Iit.Fibertest.Client
             {
                 var resendBaseRefDto = new ReSendBaseRefsDto()
                 {
+                    ConnectionId = _currentUser.ConnectionId,
                     RtuId = Model.RtuId,
                     RtuMaker = Model.RtuMaker,
                     TraceId = port.TraceId,

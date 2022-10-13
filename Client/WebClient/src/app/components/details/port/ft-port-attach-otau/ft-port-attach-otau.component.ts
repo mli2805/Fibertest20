@@ -8,6 +8,8 @@ import { OtauAttachedDto } from "src/app/models/dtos/port/otauAttachedDto";
 import { OneApiService } from "src/app/api/one.service";
 import { TranslateService } from "@ngx-translate/core";
 import { RtuMaker } from "src/app/models/enums/rtuMaker";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
+
 
 @Component({
   selector: "ft-port-attach-otau",
@@ -27,6 +29,8 @@ export class FtPortAttachOtauComponent implements OnInit {
 
   ipAddress = "192.168.96.57";
 
+  user: RegistrationAnswerDto;
+
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
@@ -37,6 +41,7 @@ export class FtPortAttachOtauComponent implements OnInit {
     const params = JSON.parse(sessionStorage.getItem("attachOtauParams"));
     this.rtu = params.selectedRtu;
     this.mainPort = params.selectedPort.opticalPort;
+    this.user = JSON.parse(sessionStorage.getItem("currentUser"));
   }
 
   async attachOtau() {
@@ -44,6 +49,7 @@ export class FtPortAttachOtauComponent implements OnInit {
     this.isSpinnerVisible = true;
     this.resultMessage = this.ts.instant("SID_Please__wait_");
     const cmd = new AttachOtauDto();
+    cmd.ConnectionId = this.user.connectionId;
     cmd.RtuId = this.rtu.rtuId;
     cmd.RtuMaker = this.rtu.rtuMaker;
     cmd.OpticalPort = this.mainPort;

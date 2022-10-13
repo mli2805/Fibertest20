@@ -4,6 +4,7 @@ namespace Iit.Fibertest.Dto
 {
     public class RtuMonitoringSettingsDto
     {
+        public string ConnectionId;
         public string RtuTitle;
         public RtuMaker RtuMaker;
         public string OtdrId;

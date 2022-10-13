@@ -136,9 +136,6 @@ namespace Iit.Fibertest.Client
 
             if (!_readModel.TryGetRtu(rtuLeaf.Id, out Rtu rtu)) return;
 
-            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MonitoringSettings))
-                return;
-
             bool result;
             using (_globalScope.Resolve<IWaitCursor>())
             {

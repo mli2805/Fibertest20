@@ -8,7 +8,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            _logFile.AppendLine($"Client from {dto.ClientIp} sent attach OTAU {dto.OtauId.First6()} request");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent attach OTAU {dto.OtauId.First6()} request");
             OtauAttachedDto result;
             try
             {
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            _logFile.AppendLine($"Client from {dto.ClientIp} sent detach OTAU {dto.OtauId.First6()} request");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent detach OTAU {dto.OtauId.First6()} request");
             OtauDetachedDto result;
             try
             {

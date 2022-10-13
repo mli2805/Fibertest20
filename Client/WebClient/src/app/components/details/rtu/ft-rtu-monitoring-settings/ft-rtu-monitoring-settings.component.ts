@@ -104,6 +104,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
     this.whileRequestView();
     const dto = new RtuMonitoringSettingsDto();
+    dto.connectionId = this.user.connectionId;
     dto.rtuMaker = this.vm.rtuMaker;
     dto.otdrId = this.vm.otdrId;
     dto.otauId = this.vm.otauId;
@@ -125,6 +126,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
       }
     }
 
+    console.log(`Apply monitoring settings dto:`);
     console.log(dto);
 
     const id = this.activeRoute.snapshot.paramMap.get("id");

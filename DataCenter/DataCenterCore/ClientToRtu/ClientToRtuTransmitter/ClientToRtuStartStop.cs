@@ -8,7 +8,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            _logFile.AppendLine($"Client from {_clientsCollection.Get(dto.ConnectionId)} sent monitoring settings for RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent monitoring settings for RTU {dto.RtuId.First6()}");
             try
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);

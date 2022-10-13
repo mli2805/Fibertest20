@@ -5,6 +5,7 @@ import { RtuMaker } from "../../enums/rtuMaker";
 import { OtauPortDto } from "../../underlying/otauPortDto";
 
 export class RtuMonitoringSettingsDto {
+  connectionId: string;
   rtuTitle: string;
   rtuMaker: RtuMaker;
   otdrId: string;

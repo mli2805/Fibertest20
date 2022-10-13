@@ -114,7 +114,7 @@ namespace Iit.Fibertest.Client
                     Main = NetAddressInputViewModel.GetNetAddress().Clone()
                 };
                 ((DesktopC2DWcfManager)_c2DWcfManager).SetServerAddresses(addressForTesting, "", "");
-                return await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
+                return await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto() {ConnectionId = _currentUser.ConnectionId});
             }
         }
     }

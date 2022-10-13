@@ -192,6 +192,11 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
+            var answer = await SetRtuOccupationState(new OccupyRtuDto()
+                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.MonitoringSettings, UserName = username } });
+            if (answer.ReturnCode == ReturnCode.RtuIsBusy)
+                return false;
+
             var isStopped = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.StopMonitoringAsync(dto)
                 : await _clientToRtuVeexTransmitter.StopMonitoringAsync(dto);
@@ -441,7 +446,7 @@ namespace Iit.Fibertest.DataCenterCore
         // or user explicitly demands to resend base refs to RTU 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client from {dto.ClientIp} asked to re-send base ref for trace {dto.TraceId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to re-send base ref for trace {dto.TraceId.First6()}");
             var convertedDto = await ConvertToAssignBaseRefsDto(dto);
 
             if (convertedDto?.BaseRefs == null)

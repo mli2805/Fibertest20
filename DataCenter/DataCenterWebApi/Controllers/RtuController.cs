@@ -217,6 +217,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             var applyMonitoringSettingsDto = new ApplyMonitoringSettingsDto()
             {
+                ConnectionId = dto.ConnectionId,
                 RtuId = rtuId,
                 RtuMaker = dto.RtuMaker,
                 OtdrId = dto.OtdrId,
@@ -266,24 +267,18 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpPost("Stop-monitoring/{id}")]
-        public async Task<bool> StopMonitoring(string id)
+        [HttpPost("Stop-monitoring")]
+        public async Task<bool> StopMonitoring()
         {
             try
             {
-                _logFile.AppendLine($"rtu id = {id}");
-                var rtuGuid = Guid.Parse(id);
                 string body;
                 using (var reader = new StreamReader(Request.Body))
                 {
                     body = await reader.ReadToEndAsync();
                 }
-                _logFile.AppendLine("body: " + body); // RTU maker
-                var str = JsonConvert.DeserializeObject<string>(body);
-                if (str == null)
-                    return false;
-                var rtuMaker = (RtuMaker)Enum.Parse(typeof(RtuMaker), str);
-                var dto = new StopMonitoringDto() { RtuId = rtuGuid, RtuMaker = rtuMaker };
+                _logFile.AppendLine($"{body}");
+                var dto = JsonConvert.DeserializeObject<StopMonitoringDto>(body);
                 var isStopped = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .StopMonitoringAsync(dto);
@@ -298,7 +293,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpPost("Initialize")]
-        public async Task<RtuInitializedWebDto> InitializeRtu(string id)
+        public async Task<RtuInitializedWebDto> InitializeRtu()
         {
             _logFile.AppendLine($"RTU initialization request from {GetRemoteAddress()}");
 

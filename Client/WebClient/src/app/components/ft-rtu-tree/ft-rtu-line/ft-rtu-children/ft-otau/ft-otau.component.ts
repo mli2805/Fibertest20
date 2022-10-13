@@ -27,12 +27,16 @@ export class FtOtauComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
+  user: RegistrationAnswerDto;
+
   constructor(
     private oneApiService: OneApiService,
     private ftRtuTreeEventService: FtRtuTreeEventService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+  }
 
   expand() {
     this.otau.expanded = !this.otau.expanded;
@@ -51,6 +55,7 @@ export class FtOtauComponent implements OnInit {
   async removeOtau() {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     const detachOtauDto = new DetachOtauDto();
+    detachOtauDto.connectionId = this.user.connectionId;
     detachOtauDto.rtuId = this.otau.rtuId;
     detachOtauDto.rtuMaker = this.parentRtu.rtuMaker;
     detachOtauDto.otauId = this.otau.otauId;
