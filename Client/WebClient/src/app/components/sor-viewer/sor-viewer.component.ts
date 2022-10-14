@@ -97,16 +97,16 @@ export class SorViewerComponent implements OnInit {
 
     this.loaded = true;
 
-    var freeDto = new OccupyRtuDto();
-    freeDto.rtuId = rtuGuid;
-    freeDto.state = new RtuOccupationState();
-    freeDto.state.rtuId = rtuGuid;
-    freeDto.state.rtuOccupation = RtuOccupation.None;
+    // var freeDto = new OccupyRtuDto();
+    // freeDto.rtuId = rtuGuid;
+    // freeDto.state = new RtuOccupationState();
+    // freeDto.state.rtuId = rtuGuid;
+    // freeDto.state.rtuOccupation = RtuOccupation.None;
 
-    const res = (await this.oneApiService
-      .postRequest("rtu/set-rtu-occupation-state", freeDto)
-      .toPromise()) as RequestAnswer;
-    console.log(`${this.returnCodePipe.transform(res.returnCode)}`);
+    // const res = (await this.oneApiService
+    //   .postRequest("rtu/set-rtu-occupation-state", freeDto)
+    //   .toPromise()) as RequestAnswer;
+    // console.log(`${this.returnCodePipe.transform(res.returnCode)}`);
   }
 
   async loadSorTraceFromServer(

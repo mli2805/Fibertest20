@@ -25,6 +25,7 @@ import { RtuMaker } from "src/app/models/enums/rtuMaker";
 import { Console } from "console";
 import { ClientMeasurementStartedDto } from "src/app/models/dtos/meas-params/clientMeasurementStartedDto";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
+import { OccupyRtuDto, RtuOccupationState, RtuOccupation } from "src/app/models/dtos/meas-params/occupyRtuDto";
 
 @Component({
   selector: "ft-port-measurement-client",
@@ -94,10 +95,25 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
         } else {
           this.message = "Measurement (Client) failed!";
         }
+
+        this.deOccupyRtu(rtuId);
         this.isSpinnerVisible = false;
         this.isButtonDisabled = false;
       }
     );
+  }
+
+  async deOccupyRtu(rtuId: string){
+    var freeDto = new OccupyRtuDto();
+    freeDto.rtuId = rtuId;
+    freeDto.state = new RtuOccupationState();
+    freeDto.state.rtuId = rtuId;
+    freeDto.state.rtuOccupation = RtuOccupation.None;
+
+    const res = (await this.oneApiService
+      .postRequest("rtu/set-rtu-occupation-state", freeDto)
+      .toPromise()) as RequestAnswer;
+    console.log(`${this.returnCodePipe.transform(res.returnCode)}`);
   }
 
   initializeLists() {
