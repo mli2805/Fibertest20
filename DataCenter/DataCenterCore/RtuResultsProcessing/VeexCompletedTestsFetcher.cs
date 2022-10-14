@@ -89,9 +89,6 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 if (getPortionResult.ResponseObject is CompletedTestPortion portion)
                 {
-                    // if (portion.items.Count > 0)
-                    //     _logFile.AppendLine($"RTU {station.MainAddress} returned " +
-                    //           $"portion of {portion.items.Count} from {portion.total} completed tests", 0, 3);
                     foreach (var completedTest in portion.items)
                         await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
 

@@ -188,7 +188,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to get measurement from VeEX RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to get measurement from VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -206,7 +206,7 @@ namespace Iit.Fibertest.DataCenterCore
         
         public async Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to get measurement sor bytes from VeEX RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to get measurement sor bytes from VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {

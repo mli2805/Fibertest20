@@ -55,9 +55,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (message.Body is MonitoringResultDto dto)
             {
-                _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)
-                    }, RTU { dto.RtuId.First6()
-                    }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
+                _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, RTU {dto.RtuId.First6()}, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({dto.BaseRefType})");
 
                 await ProcessMonitoringResult(dto);
             }
@@ -113,14 +111,6 @@ namespace Iit.Fibertest.DataCenterCore
             _snmpNotifier.SendTraceEvent(addMeasurement);
         }
 
-        // private async void SendNotificationsAboutBop(AddBopNetworkEvent cmd)
-        // {
-        //     SetCulture();
-        //     await _smtp.SendBopState(cmd);
-        //     _smsManager.SendBopState(cmd);
-        //     _snmpNotifier.SendBopNetworkEvent(cmd);
-        // }
-
         private void SetCulture()
         {
             var cu = _iniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
@@ -136,8 +126,7 @@ namespace Iit.Fibertest.DataCenterCore
             );
             if (otau != null)
             {
-                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {otau.NetAddress.ToStringA()} state changed to {
-                    dto.IsOk} (because MSMQ message about BOP came)");
+                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {otau.NetAddress.ToStringA()} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
@@ -152,7 +141,6 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // BOP - because MSMQ message with monitoring result came
-
         private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
         {
             var otau = _writeModel.Otaus.FirstOrDefault(o =>
@@ -160,8 +148,7 @@ namespace Iit.Fibertest.DataCenterCore
             );
             if (otau != null && !otau.IsOk)
             {
-                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial
-                    } state changed to OK (because MSMQ message with monitoring result came)");
+                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
@@ -174,21 +161,5 @@ namespace Iit.Fibertest.DataCenterCore
                 await _commonBopProcessor.PersistBopEvent(cmd);
             }
         }
-
-        // private static readonly IMapper Mapper = new MapperConfiguration(
-        //     cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
-        //
-        // private async Task PersistBopEvent(AddBopNetworkEvent cmd)
-        // {
-        //     var result = await _eventStoreService.SendCommand(cmd, "system", "OnServer");
-        //     if (string.IsNullOrEmpty(result))
-        //     {
-        //         var bopEvent = _writeModel.BopNetworkEvents.LastOrDefault();
-        //         var signal = Mapper.Map<BopEventDto>(bopEvent);
-        //
-        //         await _ftSignalRClient.NotifyAll("AddBopEvent", signal.ToCamelCaseJson());
-        //         var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
-        //     }
-        // }
     }
 }
