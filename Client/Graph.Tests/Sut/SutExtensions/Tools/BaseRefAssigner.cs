@@ -8,18 +8,18 @@ namespace Graph.Tests
     public static class BaseRefAssigner
     {
         public static void AssignBaseRef(this SystemUnderTest sut, TraceLeaf traceLeaf,
-            string precisePath, string fastPath, string aditionalPath, Answer answer)
+            string precisePath, string fastPath, string additionalPath, Answer answer)
         {
             if (!String.IsNullOrEmpty(precisePath))
                 sut.FakeWindowManager.RegisterHandler(model => sut.ManyLinesMessageBoxAnswer(Answer.Yes, model)); // about length
             sut.FakeWindowManager.RegisterHandler(model => sut.ManyLinesMessageBoxAnswer(Answer.Yes, model)); // about wrong base
 
-            sut.FakeWindowManager.RegisterHandler(model => BasRefAssignHandler2(model, precisePath, fastPath, aditionalPath, answer));
+            sut.FakeWindowManager.RegisterHandler(model => BasRefAssignHandler2(model, precisePath, fastPath, additionalPath, answer));
             traceLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Base_refs_assignment).Command.Execute(traceLeaf);
             sut.Poller.EventSourcingTick().Wait();
         }
        
-        private static bool BasRefAssignHandler2(object model, string precisePath, string fastPath, string aditionalPath, Answer answer)
+        private static bool BasRefAssignHandler2(object model, string precisePath, string fastPath, string additionalPath, Answer answer)
         {
             if (!(model is BaseRefsAssignViewModel vm)) return false;
             if (answer == Answer.Yes)
@@ -34,10 +34,10 @@ namespace Graph.Tests
                 else if (fastPath != null)
                     vm.FastBaseFilename = fastPath;
 
-                if (aditionalPath == "")
+                if (additionalPath == "")
                     vm.ClearPathToAdditional();
-                else if (aditionalPath != null)
-                    vm.AdditionalBaseFilename = aditionalPath;
+                else if (additionalPath != null)
+                    vm.AdditionalBaseFilename = additionalPath;
 
                 vm.Save().Wait();
             }

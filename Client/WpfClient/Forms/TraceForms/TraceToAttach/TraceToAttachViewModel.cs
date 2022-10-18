@@ -105,7 +105,7 @@ namespace Iit.Fibertest.Client
                 RtuMaker = _rtu.RtuMaker,
                 TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,
-                ParentOtauPortDto = new OtauPortDto()
+                MainOtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
                     OtauId = _rtu.MainVeexOtau.id,

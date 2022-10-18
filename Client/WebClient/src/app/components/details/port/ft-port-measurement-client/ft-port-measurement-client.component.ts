@@ -69,8 +69,8 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     console.log("we are in ngOnInit of measurement client component");
     this.isSpinnerVisible = true;
-    const rtuId = JSON.parse(sessionStorage.getItem("measurementClientParams"))
-      .rtu.rtuId;
+    const params = JSON.parse(sessionStorage.getItem("measurementClientParams"));
+    const rtuId = params.selectedRtu.rtuId;
     this.tree = (await this.oneApiService
       .getRequest(`rtu/measurement-parameters/${rtuId}`)
       .toPromise()) as TreeOfAcceptableVeasParams;
@@ -241,9 +241,16 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     const dto = new DoClientMeasurementDto();
     const currentUser = JSON.parse(sessionStorage.currentUser);
     dto.connectionId = currentUser.connectionId;
-    dto.rtuId = params.rtu.rtuId;
-    dto.otdrId = params.rtu.otdrId;
-    dto.otauPortDto = [params.otauPortDto];
+    dto.rtuId = params.selectedRtu.rtuId;
+    dto.otdrId = params.selectedRtu.otdrId;
+    dto.otauPortDto = [params.selectedPort];
+    if (!params.selectedPort.isPortOnMainCharon){
+      const mainOtau = new OtauPortDto();
+      mainOtau.isPortOnMainCharon = true;
+      mainOtau.otauId = params.selectedRtu.mainVeexOtau.id;
+      mainOtau.opticalPort = params.selectedPort.mainCharonPort;
+      dto.otauPortDto.push(mainOtau);
+    }
 
     dto.selectedMeasParams = this.getSelectedParameters();
     dto.veexMeasOtdrParameters = this.getVeexSelectedParameters();
@@ -272,12 +279,12 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
         "SID_Measurement__Client__in_progress__Please_wait___"
       );
 
-      if (params.rtu.rtuMaker == RtuMaker.IIT)
+      if (params.selectedRtu.rtuMaker == RtuMaker.IIT)
         return;
 
       const getDto = new GetClientMeasurementDto();
-      getDto.rtuId = params.rtu.rtuId;
-      getDto.veexMeasurementId = res.clientMeasurementId; // sorry, if ReturnCode is MeasurementClientStartedSuccessfully, ErrorMessage contains Id
+      getDto.rtuId = params.selectedRtu.rtuId;
+      getDto.veexMeasurementId = res.clientMeasurementId;
       var measRes: ClientMeasurementVeexResultDto;
       while (true) {
         await new Promise(f => setTimeout(f, 5000));
@@ -299,7 +306,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
         if (measRes.returnCode == ReturnCode.Ok && measRes.veexMeasurementStatus == "finished") {
             SorFileManager.Show(this.router,  false,  0,  getDto.veexMeasurementId,
               false, "meas", new Date(), 
-              JSON.parse(sessionStorage.getItem("measurementClientParams")).rtu.rtuId)
+              JSON.parse(sessionStorage.getItem("measurementClientParams")).selectedRtu.rtuId)
 
             this.message = this.ts.instant("SID_Measurement_is_finished_");
             break;

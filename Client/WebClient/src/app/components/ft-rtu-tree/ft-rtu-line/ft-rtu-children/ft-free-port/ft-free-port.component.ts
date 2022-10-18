@@ -31,6 +31,7 @@ export class FtFreePortComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+    console.log(`I'm port ${this.port} on main otau ${this.isPortOnMainCharon} and otauId is ${this.otauId}`);
   }
 
   onContextMenu(event: MouseEvent) {
@@ -43,29 +44,21 @@ export class FtFreePortComponent implements OnInit {
   }
 
   attachTraceFromList() {
-    this.prepareDataForAttachment("attachTraceParams");
+    this.prepareCallerInfo("attachTraceParams");
     this.router.navigate(["/ft-main-nav/port-attach-trace"]);
   }
 
   attachOpticalSwitch() {
-    this.prepareDataForAttachment("attachOtauParams");
+    this.prepareCallerInfo("attachOtauParams");
     this.router.navigate(["/ft-main-nav/port-attach-otau"]);
   }
 
   measurementClient() {
-    this.prepareDataForMeasurement();
+    this.prepareCallerInfo("measurementClientParams");
     this.router.navigate(["/ft-main-nav/port-measurement-client"]);
   }
 
-  prepareDataForMeasurement() {
-    const dict = {
-      rtu: this.parentRtu,
-      otauPortDto: this.compileOtauPortDto(),
-    };
-    sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));
-  }
-
-  prepareDataForAttachment(paramName: string) {
+  prepareCallerInfo(paramName: string) {
     const dict = {
       selectedRtu: this.parentRtu,
       selectedPort: this.compileOtauPortDto(),
@@ -73,6 +66,10 @@ export class FtFreePortComponent implements OnInit {
     sessionStorage.setItem(paramName, JSON.stringify(dict));
   }
 
+  // selectedPort - порт к которому идет подключение или измерение
+  // и если он не на главном переключателе, то надо прислать
+  // mainOtauPort - порт в который надо переключить главный переключатель (к которому подключен этот боп)
+  // а если порт на главном переключателе, то данные в selectedPort а mainOtauPort не надо заполнять
   compileOtauPortDto(): OtauPortDto {
     const selectedPort = new OtauPortDto();
     selectedPort.opticalPort = this.port;

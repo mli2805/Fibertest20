@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Dto
         public OtauPortDto OtauPortDto { get; set; } // if trace attached to main otau use only this property
 
         [DataMember]
-        public OtauPortDto ParentOtauPortDto { get; set; } // veex cannot measure bop without this, use it if trace attached to bop
+        public OtauPortDto MainOtauPortDto { get; set; } // veex cannot measure bop without this, use it if trace attached to bop
 
     }
 }

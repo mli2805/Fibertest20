@@ -50,13 +50,16 @@ export class FtPortAttachTraceComponent implements OnInit {
     const cmd = new AttachTraceDto();
     cmd.TraceId = trace.traceId;
     cmd.RtuMaker = this.rtu.rtuMaker;
-    cmd.OtauPortDto = params.selectedPort;
-    cmd.MainOtauPortDto = new OtauPortDto();
-    cmd.MainOtauPortDto.isPortOnMainCharon = true;
-    cmd.MainOtauPortDto.otauId = this.rtu.mainVeexOtau.id;
-    cmd.MainOtauPortDto.opticalPort = cmd.OtauPortDto.mainCharonPort;
 
+    cmd.OtauPortDto = params.selectedPort;
+    if (!params.selectedPort.isPortOnMainCharon){
+      cmd.MainOtauPortDto = new OtauPortDto();
+      cmd.MainOtauPortDto.isPortOnMainCharon = true;
+      cmd.MainOtauPortDto.otauId = this.rtu.mainVeexOtau.id;
+      cmd.MainOtauPortDto.opticalPort = params.selectedPort.mainCharonPort;
+    }
     console.log(cmd);
+    
     const res = (await this.oneApiService
       .postRequest("port/attach-trace", cmd)
       .toPromise()) as RequestAnswer;

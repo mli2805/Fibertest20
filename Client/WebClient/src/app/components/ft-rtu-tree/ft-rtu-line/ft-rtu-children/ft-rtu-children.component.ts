@@ -18,6 +18,6 @@ export class FtRtuChildrenComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log("ft-rtu-children: ", this.otauId, this.serial, this.masterPort);
+    //console.log(`I'm rtu child ${this.masterPort}. OtauId is ${this.otauId}, Serial is ${this.serial}`);
   }
 }

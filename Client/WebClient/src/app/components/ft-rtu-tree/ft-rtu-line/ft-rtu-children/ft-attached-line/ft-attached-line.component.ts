@@ -37,6 +37,7 @@ export class FtAttachedLineComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+    console.log(`I'm trace on port ${this.trace.otauPort.opticalPort} of mainOtau ${this.trace.otauPort.isPortOnMainCharon} with otauId ${this.trace.otauPort.otauId}. Trace title is: ${this.trace.title}`)
   }
 
   onContextMenu(event: MouseEvent) {
@@ -102,8 +103,8 @@ export class FtAttachedLineComponent implements OnInit {
 
   measurementClient() {
     const dict = { 
-      rtu: this.parentRtu,
-      otauPortDto: this.trace.otauPort 
+      selectedRtu: this.parentRtu,
+      selectedPort: this.trace.otauPort 
     };
     sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));
     this.router.navigate(["/ft-main-nav/port-measurement-client"]);

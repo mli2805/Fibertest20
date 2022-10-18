@@ -36,6 +36,7 @@ export class FtOtauComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem("currentUser"));
+    console.log(`I'm otau on port ${this.otau.masterPort} ${this.otau.port} wiht otauId ${this.otau.otauId}`);
   }
 
   expand() {
