@@ -98,7 +98,7 @@ export class FtOutOfTurnMeasurementComponent implements OnInit, OnDestroy {
       .toPromise()) as RequestAnswer;
     console.log(res);
     if (res.returnCode !== ReturnCode.Ok) {
-      this.message = res.errorMessage;
+      this.message = this.returnCodePipe.transform(res.returnCode);
       this.isSpinnerVisible = false;
     } else {
       this.message = this.ts.instant("SID_Precise_monitoring_in_progress_");
