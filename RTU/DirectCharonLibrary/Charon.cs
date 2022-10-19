@@ -79,16 +79,26 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 if (extendedPorts == null)
                     return NetAddress;
 
-                foreach (var expendedPort in extendedPorts)
+                bool isBopRemoved = false;
+                foreach (var p in extendedPorts.Keys.ToList())
                 {
-                    var childCharon = new Charon(expendedPort.Value, false, _iniFile35, _rtuLogFile);
-                    Children.Add(expendedPort.Key, childCharon); // even if it broken it should be in list
+                    if (p >= OwnPortCount)
+                    {
+                        // боп подключен к порту которого нет (может поменялся рту)
+                        extendedPorts.Remove(p);
+                        isBopRemoved = true;
+                        continue;
+                    }
+
+                    var expendedPort = extendedPorts[p];
+                    var childCharon = new Charon(expendedPort, false, _iniFile35, _rtuLogFile);
+                    Children.Add(p, childCharon); // even if it broken it should be in list
 
                     var childSerial = childCharon.GetSerial();
                     if (!IsLastCommandSuccessful || childSerial == "")
                     {
                         LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectOtau);
-                        childCharon.LastErrorMessage = $"Get Serial for {expendedPort.Value.ToStringA()} error {LastErrorMessage}";
+                        childCharon.LastErrorMessage = $"Get Serial for {expendedPort.ToStringA()} error {LastErrorMessage}";
                         _rtuLogFile.AppendLine(childCharon.LastErrorMessage, 2);
                     }
                     else
@@ -98,14 +108,18 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         {
                             LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectBop);
                             IsLastCommandSuccessful = true; // child initialization shouldn't break full process
-                            childCharon.LastErrorMessage = LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
+                            childCharon.LastErrorMessage = LastErrorMessage = $"Child charon {expendedPort.ToStringA()} initialization failed";
                             _rtuLogFile.AppendLine(childCharon.LastErrorMessage, 2);
                             continue;
                         }
                         FullPortCount += childCharon.FullPortCount;
                     }
                 }
+
+                if (isBopRemoved)
+                    RewriteIni(extendedPorts);
             }
+
 
             _rtuLogFile.AppendLine($"Full port count  {FullPortCount}");
 

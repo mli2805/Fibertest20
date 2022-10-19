@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.Graph.RtuOccupy;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -18,10 +19,10 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public WcfIntermediate(ILifetimeScope globalScope, IMyLog logFile, 
+        public WcfIntermediate(ILifetimeScope globalScope, IMyLog logFile,
             ClientsCollection clientsCollection, RtuOccupations rtuOccupations,
-            IFtSignalRClient ftSignalRClient, 
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter    )
+            IFtSignalRClient ftSignalRClient,
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _globalScope = globalScope;
             _logFile = logFile;
@@ -36,48 +37,31 @@ namespace Iit.Fibertest.DataCenterCore
         // so separate WCF channels send adapted command to this Intermediate class
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent initialize RTU {dto.RtuId.First6()} request");
+            var clientStation = _clientsCollection.Get(dto.ConnectionId);
+            _logFile.AppendLine($"Client {clientStation} sent initialize RTU {dto.RtuId.First6()} request");
 
-            var username = _clientsCollection.Clients.FirstOrDefault(u=>u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            var username = clientStation?.UserName ?? "unknown user";
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, username, out RtuOccupationState currentState))
             {
                 return new RtuInitializedDto()
                 {
-                    RtuId =  dto.RtuId, 
+                    RtuId = dto.RtuId,
                     IsInitialized = false,
                     ReturnCode = ReturnCode.RtuIsBusy,
                     RtuOccupationState = currentState,
                 };
             }
-            
+
             var result = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InitializeRtuAsync(dto)
                 : await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto);
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
 
-            await ClearRtuOccupationState(dto.RtuId);
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState state);
 
             var rtuInitializationToGraphApplier = _globalScope.Resolve<RtuInitializationToGraphApplier>();
             return await rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, result);
         }
-
-        public async Task<RequestAnswer> ClearRtuOccupationState(Guid rtuId)
-        {
-            await Task.Delay(1);
-            _logFile.AppendLine($"Clear  RTU {rtuId.First6()} OccupationState");
-            if (!_rtuOccupations.TrySetOccupation(rtuId, RtuOccupation.None, "", out RtuOccupationState currentState))
-            {
-                return new RequestAnswer()
-                {
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    RtuOccupationState = currentState,
-                    ErrorMessage = "",
-                };
-            }
-
-            return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
-        }
-
     }
 }

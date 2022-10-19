@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Graph
                 return $@"RtuInitialized: RTU {e.Id.First6()} not found";
             }
 
-            if (!IsOtauStructureValid(rtu, e))
+            if (rtu.Serial == e.Serial && !IsOtauStructureValid(rtu, e))
             {
                 return $@"RtuInitialized: Otau structure does match";
             }
@@ -103,6 +103,24 @@ namespace Iit.Fibertest.Graph
             rtu.Omid = e.Omid;
             rtu.Omsn = e.Omsn;
 
+            if (rtu.Serial != e.Serial)
+            {
+                foreach (var trace in model.Traces.Where(t => t.OtauPort != null && t.OtauPort.Serial == rtu.Serial))
+                {
+                    trace.OtauPort.Serial = e.Serial;
+                }
+
+                // if in Client OTAU attached to not existent now port
+                // RTU removed it from charon ini, won't return it and Client should remove it
+                foreach (var otau in model.Otaus.Where(o=> o.RtuId == rtu.Id && !o.IsMainOtau && o.MasterPort >= rtu.OwnPortCount).ToList())
+                {
+                    rtu.Children.Remove(otau.MasterPort);
+                    model.Otaus.Remove(otau);
+                }
+
+                rtu.Serial = e.Serial;
+            }
+
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.OwnPortCount;
             foreach (var pair in rtu.Children)
@@ -110,16 +128,6 @@ namespace Iit.Fibertest.Graph
                 rtu.FullPortCount += pair.Value.IsOk 
                     ? pair.Value.OwnPortCount 
                     : rtu.Children[pair.Key].OwnPortCount;
-            }
-
-
-            if (rtu.Serial != e.Serial)
-            {
-                foreach (var trace in model.Traces.Where(t => t.OtauPort != null && t.OtauPort.Serial == rtu.Serial))
-                {
-                    trace.OtauPort.Serial = e.Serial;
-                }
-                rtu.Serial = e.Serial;
             }
 
             rtu.MainChannel = e.MainChannel ?? new NetAddress("", -1);
@@ -133,24 +141,7 @@ namespace Iit.Fibertest.Graph
             rtu.Version2 = e.Version2;
             rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams ?? new TreeOfAcceptableMeasParams();
-
-            // if (rtu.RtuMaker == RtuMaker.IIT)
-            // {
-            //     var mainIitOtau = model.Otaus.FirstOrDefault(o => o.RtuId == rtu.Id && o.Id == rtu.Id);
-            //     if (mainIitOtau == null)
-            //     {
-            //         mainIitOtau = new Otau()
-            //         {
-            //             Id = rtu.Id,
-            //             RtuId = rtu.Id,
-            //             IsMainOtau = true,
-            //             NetAddress = rtu.MainChannel,
-            //             PortCount = rtu.OwnPortCount,
-            //             IsOk = true,
-            //         };
-            //         model.Otaus.Add(mainIitOtau);
-            //     }
-            // }
+          
             if (rtu.RtuMaker == RtuMaker.VeEX)
             {
                 var mainVeexOtau = model.Otaus.FirstOrDefault(o => o.RtuId == rtu.Id && o.VeexRtuMainOtauId == rtu.MainVeexOtau.id);
@@ -176,6 +167,8 @@ namespace Iit.Fibertest.Graph
                     Client sends existing OTAU list -> 
                     RTU MUST detach any OTAU which are not in client's list
                     and attach all OTAU from this list
+
+             
             */
             foreach (var childPair in e.Children)
             {
