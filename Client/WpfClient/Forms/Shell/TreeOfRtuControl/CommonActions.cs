@@ -61,14 +61,12 @@ namespace Iit.Fibertest.Client
             var parent = GetParent(param);
             if (parent == null) return;
 
-            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.MeasurementClient))
-                return;
+            var prepareResult = await PrepareRtuForMeasurementReflect(parent, GetPortNumber(param));
+            if (prepareResult == null) return;
 
-            DoMeasurementRftsReflect(parent, GetPortNumber(param));
-
-            await _globalScope.Resolve<IRtuHolder>()
-                .SetRtuOccupationState(rtuLeaf.Id, rtuLeaf.Title, RtuOccupation.None);
+            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
+            System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe",
+                $@"-fnw -n {prepareResult.Ip4Address} -p {prepareResult.Port}");
         }
 
         private Leaf GetParent(object param)
@@ -121,16 +119,6 @@ namespace Iit.Fibertest.Client
          *  send we send command to the RTU to toggle main and additional otaus
          *
          */
-        private async void DoMeasurementRftsReflect(Leaf parent, int portNumber)
-        {
-            var prepareResult = await PrepareRtuForMeasurementReflect(parent, portNumber);
-            if (prepareResult == null) return;
-
-            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
-            System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe",
-                $@"-fnw -n {prepareResult.Ip4Address} -p {prepareResult.Port}");
-        }
-
         public async Task<NetAddress> PrepareRtuForMeasurementReflect(Leaf parent, int portNumber)
         {
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
