@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -85,16 +86,24 @@ namespace Iit.Fibertest.UtilsLib
 
         }
 
-
+        private static List<string> _models = new List<string>() { "673", "810" };
         public static bool CleanAntiGhost(string fullRtuManagerPath, bool isThereEtcDefaultFolder, BackgroundWorker worker)
         {
-            var filename = Path.Combine(fullRtuManagerPath, @"Etc\param673.ini");
-            if (!CleanAntiGhostInOneFile(filename, worker)) 
-                return false;
-            if (!isThereEtcDefaultFolder) 
-                return true;
-            var filename2 = Path.Combine(fullRtuManagerPath, @"Etc_default\param673.ini");
-            return CleanAntiGhostInOneFile(filename2, worker);
+            foreach (var model in _models)
+            {
+                var filename = Path.Combine(fullRtuManagerPath, $@"Etc\param{model}.ini");
+                if (!CleanAntiGhostInOneFile(filename, worker)) 
+                    return false;
+
+                if (!isThereEtcDefaultFolder) 
+                    continue;
+
+                var filename2 = Path.Combine(fullRtuManagerPath, $@"Etc_default\param{model}.ini");
+                if (!CleanAntiGhostInOneFile(filename2, worker)) 
+                    return false;
+            }
+
+            return true;
         }
 
         private static bool CleanAntiGhostInOneFile(string filename, BackgroundWorker worker)
