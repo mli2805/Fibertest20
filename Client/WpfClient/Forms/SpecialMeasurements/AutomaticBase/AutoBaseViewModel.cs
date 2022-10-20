@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly ReflectogramManager _reflectogramManager;
         private TraceLeaf _traceLeaf;
+        private Rtu _rtu;
 
         public bool IsOpen { get; set; }
         public IOneMeasurementExecutor OneMeasurementExecutor { get; set; }
@@ -50,12 +51,12 @@ namespace Iit.Fibertest.Client
             _traceLeaf = traceLeaf;
 
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            var rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
+            _rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
 
-            OneMeasurementExecutor = rtu.RtuMaker == RtuMaker.IIT 
+            OneMeasurementExecutor = _rtu.RtuMaker == RtuMaker.IIT 
                 ? (IOneMeasurementExecutor)_globalScope.Resolve<OneIitMeasurementExecutor>()
                 : _globalScope.Resolve<OneVeexMeasurementExecutor>();
-            if (!OneMeasurementExecutor.Initialize(rtu, false))
+            if (!OneMeasurementExecutor.Initialize(_rtu, false))
                 return false;
 
             IsShowRef = true;
@@ -108,10 +109,12 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        public override void CanClose(Action<bool> callback)
+        public override async void CanClose(Action<bool> callback)
         {
             IsOpen = false;
             OneMeasurementExecutor.MeasurementCompleted -= OneMeasurementExecutor_MeasurementCompleted;
+
+            await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(_rtu.Id, _rtu.Title, RtuOccupation.None);
             callback(true);
         }
     }

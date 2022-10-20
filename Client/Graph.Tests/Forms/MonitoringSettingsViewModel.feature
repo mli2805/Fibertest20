@@ -26,4 +26,4 @@ Scenario: Форма настроек мониторинга
 	When Пользователь включает авто режим и жмет применить
 
 	When Пользователь жмет секретную комбинацию Ctrl-B для пересылки базовых на RTU
-	Then Someting Happend
+	Then Something Happend

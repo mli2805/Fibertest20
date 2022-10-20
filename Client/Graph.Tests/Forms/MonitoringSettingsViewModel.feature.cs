@@ -128,7 +128,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 28
  testRunner.When("Пользователь жмет секретную комбинацию Ctrl-B для пересылки базовых на RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
- testRunner.Then("Someting Happend", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Something Happend", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -152,4 +152,3 @@ this.ScenarioInitialize(scenarioInfo);
 }
 #pragma warning restore
 #endregion
-

@@ -102,6 +102,7 @@ namespace Iit.Fibertest.Client
             IsButtonsEnabled = false;
             var dto = new AttachTraceDto()
             {
+                ConnectionId = _currentUser.ConnectionId,
                 RtuMaker = _rtu.RtuMaker,
                 TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,

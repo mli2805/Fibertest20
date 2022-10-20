@@ -41,6 +41,7 @@ namespace Graph.Tests
         {
             var dto = new AttachTraceDto()
             {
+                ConnectionId = _sut.ConnectionId,
                 RtuMaker = RtuMaker.VeEX,
                 TraceId = _trace.TraceId,
                 OtauPortDto = new OtauPortDto()

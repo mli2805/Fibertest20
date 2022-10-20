@@ -360,12 +360,7 @@ namespace Iit.Fibertest.Client
             WholeRtuMeasurementsExecutor.MeasurementCompleted -= MeasurementExecutor_MeasurementCompleted;
             WholeRtuMeasurementsExecutor.BaseRefAssigned -= MeasurementExecutor_BaseRefAssigned;
 
-            await _commonC2DWcfManager.SetRtuOccupationState(new OccupyRtuDto()
-            {
-                RtuId = _rtu.Id,
-                State = new RtuOccupationState() { RtuId = _rtu.Id, RtuOccupation = RtuOccupation.None }
-            });
-
+            await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(_rtu.Id, _rtu.Title, RtuOccupation.None);
             callback(true);
         }
     }

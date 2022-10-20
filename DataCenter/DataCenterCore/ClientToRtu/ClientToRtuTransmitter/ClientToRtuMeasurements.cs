@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -9,10 +8,10 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to do measurement on RTU {dto.RtuId.First6()}");
-            var username = _clientsCollection.Clients.FirstOrDefault(u => u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            var clientStation = _clientsCollection.Get(dto.ConnectionId);
+            _logFile.AppendLine($"Client {clientStation} asked to do measurement on RTU {dto.RtuId.First6()}");
             var occupation = dto.IsForAutoBase ? RtuOccupation.AutoBaseMeasurement : RtuOccupation.MeasurementClient;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, username, out RtuOccupationState currentState))
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, clientStation?.UserName, out RtuOccupationState currentState))
             {
                 return new ClientMeasurementStartedDto()
                 {

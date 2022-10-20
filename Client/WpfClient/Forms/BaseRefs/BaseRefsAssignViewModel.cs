@@ -28,7 +28,6 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly CurrentGis _currentGis;
         private readonly GraphGpsCalculator _graphGpsCalculator;
-        // private readonly BaseRefDtoFactory _baseRefDtoFactory;
         private readonly BaseRefMessages _baseRefMessages;
 
 
@@ -285,6 +284,7 @@ namespace Iit.Fibertest.Client
             if (rtu == null) return null;
             var dto = new AssignBaseRefsDto()
             {
+                ConnectionId = _currentUser.ConnectionId,
                 RtuId = trace.RtuId,
                 RtuMaker = rtu.RtuMaker,
                 OtdrId = rtu.OtdrId,

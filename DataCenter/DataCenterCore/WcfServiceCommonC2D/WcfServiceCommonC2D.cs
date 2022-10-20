@@ -125,6 +125,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
+            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AttachOrDetachOtau, username, out RtuOccupationState _))
+                return new OtauAttachedDto()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy, IsAttached = false,
+                };
+
             var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.AttachOtauAsync(dto)
                 : await _clientToRtuVeexTransmitter.AttachOtauAsync(dto);
@@ -133,6 +140,9 @@ namespace Iit.Fibertest.DataCenterCore
                 AttachOtauIntoGraph(dto, otauAttachedDto);
                 await _ftSignalRClient.NotifyAll("FetchTree", null);
             }
+       
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
+          
             return otauAttachedDto;
         }
 
@@ -154,6 +164,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
+            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AttachOrDetachOtau, username, out RtuOccupationState _))
+                return new OtauDetachedDto()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy, IsDetached = false,
+                };
+            
             var otauDetachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DetachOtauAsync(dto)
                 : await _clientToRtuVeexTransmitter.DetachOtauAsync(dto);
@@ -164,6 +181,9 @@ namespace Iit.Fibertest.DataCenterCore
                 if (string.IsNullOrEmpty(res))
                     await _ftSignalRClient.NotifyAll("FetchTree", null);
             }
+
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
+            
             return otauDetachedDto;
         }
 
@@ -190,9 +210,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            var answer = await SetRtuOccupationState(new OccupyRtuDto()
-                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.MonitoringSettings, UserName = username } });
-            if (answer.ReturnCode == ReturnCode.RtuIsBusy)
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState _))
                 return false;
 
             var isStopped = dto.RtuMaker == RtuMaker.IIT
@@ -206,18 +224,14 @@ namespace Iit.Fibertest.DataCenterCore
                 await _ftSignalRClient.NotifyAll("MonitoringStopped", cmd.ToCamelCaseJson());
             }
 
-            await SetRtuOccupationState(new OccupyRtuDto()
-                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.None, UserName = username } });
-
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
             return isStopped;
         }
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            var answer = await SetRtuOccupationState(new OccupyRtuDto()
-                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.MonitoringSettings, UserName = username } });
-            if (answer.ReturnCode == ReturnCode.RtuIsBusy)
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MonitoringSettings, username, out RtuOccupationState _))
                 return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuIsBusy };
 
             foreach (var portWithTraceDto in dto.Ports)
@@ -261,15 +275,19 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
-            await SetRtuOccupationState(new OccupyRtuDto()
-                { RtuId = dto.RtuId, State = new RtuOccupationState() { RtuOccupation = RtuOccupation.None, UserName = username} });
-
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
             return resultFromRtu;
         }
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent base ref for trace {dto.TraceId.First6()}");
+            var clientStation = _clientsCollection.Get(dto.ConnectionId);
+            _logFile.AppendLine($"Client {clientStation} sent base ref for trace {dto.TraceId.First6()}");
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AssignBaseRefs, clientStation?.UserName,
+                    out RtuOccupationState _))
+            {
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.RtuIsBusy };
+            }
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
             if (trace == null)
                 return new BaseRefAssignedDto
@@ -306,6 +324,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (string.IsNullOrEmpty(result))
                 await _ftSignalRClient.NotifyAll("FetchTree", null);
 
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, clientStation?.UserName, out RtuOccupationState _);
+           
             return !string.IsNullOrEmpty(result)
                 ? new BaseRefAssignedDto
                 {
@@ -386,7 +406,17 @@ namespace Iit.Fibertest.DataCenterCore
         // base refs should be extracted from Db and sent to the RTU
         public async Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto dto)
         {
-            _logFile.AppendLine("AttachTraceAndSendBaseRefs started");
+            var clientStation = _clientsCollection.Get(dto.ConnectionId);
+            var username = clientStation?.UserName;
+            _logFile.AppendLine($@"User {clientStation} asked attach trace and re-send base refs");
+
+            var trace = _writeModel.Traces.First(t => t.TraceId == dto.TraceId);
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
+            if (!_rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.AttachTrace, username, out RtuOccupationState _))
+                return new RequestAnswer() { ReturnCode = ReturnCode.RtuIsBusy };
+
             BaseRefAssignedDto transferResult = await SendBaseRefsIfAny(dto);
 
             if (transferResult != null && transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
@@ -404,7 +434,11 @@ namespace Iit.Fibertest.DataCenterCore
                 return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
 
             // Veex and there are base refs so veexTests table should be updated
-            return await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+            var result = await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+
+            _rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.None, username, out RtuOccupationState _);
+
+            return result;
         }
 
 
@@ -445,6 +479,15 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to re-send base ref for trace {dto.TraceId.First6()}");
+            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState _))
+            {
+                return new BaseRefAssignedDto()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                };
+            }
+            
             var convertedDto = await ConvertToAssignBaseRefsDto(dto);
 
             if (convertedDto?.BaseRefs == null)
@@ -452,9 +495,13 @@ namespace Iit.Fibertest.DataCenterCore
             if (!convertedDto.BaseRefs.Any())
                 return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
-            return dto.RtuMaker == RtuMaker.IIT
+            var result = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(convertedDto)
                 : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(convertedDto);
+
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
+
+            return result;
         }
 
         private async Task<AssignBaseRefsDto> ConvertToAssignBaseRefsDto(ReSendBaseRefsDto dto)
@@ -484,7 +531,7 @@ namespace Iit.Fibertest.DataCenterCore
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.NoSuchRtu };
 
-            var username = _clientsCollection.Clients.FirstOrDefault(u => u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
+            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState currentState))
             {
                 return new ClientMeasurementStartedDto()
@@ -536,8 +583,8 @@ namespace Iit.Fibertest.DataCenterCore
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
 
-            var username = _clientsCollection.Clients.FirstOrDefault(u => u.ConnectionId == dto.ConnectionId)?.UserName ?? "unknown user";
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState currentState))
+            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.PreciseMeasurementOutOfTurn, username, out RtuOccupationState currentState))
             {
                 return new RequestAnswer()
                 {

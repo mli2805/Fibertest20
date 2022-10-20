@@ -5,7 +5,8 @@ namespace Iit.Fibertest.Dto
     public enum RtuOccupation
     {
         None, 
-        AutoBaseMeasurement, MeasurementClient, PreciseMeasurementOutOfTurn, MeasurementReflect, 
+        RemoveRtu, CleanOrRemoveTrace, AttachOrDetachOtau, AttachTrace,
+        AutoBaseMeasurement, MeasurementClient, PreciseMeasurementOutOfTurn,  
         Initialization, MonitoringSettings, DetachTraces, AssignBaseRefs,
     }
 

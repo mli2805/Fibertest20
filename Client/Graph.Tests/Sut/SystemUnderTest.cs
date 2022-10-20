@@ -108,7 +108,8 @@ namespace Graph.Tests
             var vm = ClientScope.Resolve<LoginViewModel>();
             vm.UserName = username;
             vm.PasswordViewModel.Password = username;
-            vm.ConnectionId = @"connectionId" + username;
+            ConnectionId = @"connectionId" + username;
+            vm.ConnectionId = ConnectionId;
 
             // NoLicenseAppliedView - выберите демо или из файла
             FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, licenseFilename));
@@ -146,6 +147,7 @@ namespace Graph.Tests
             var vm = ClientScope.Resolve<LoginViewModel>();
             vm.UserName = username;
             vm.PasswordViewModel.Password = username;
+            ConnectionId = @"connectionId" + username;
             vm.ConnectionId = @"connectionId" + username;
 
             var writeModel = ServerScope.Resolve<Model>();

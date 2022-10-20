@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using System.Threading.Tasks;
 using Autofac;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.Graph.RtuOccupy;
-using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -40,8 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
             var clientStation = _clientsCollection.Get(dto.ConnectionId);
             _logFile.AppendLine($"Client {clientStation} sent initialize RTU {dto.RtuId.First6()} request");
 
-            var username = clientStation?.UserName ?? "unknown user";
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, username, out RtuOccupationState currentState))
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, clientStation?.UserName, out RtuOccupationState currentState))
             {
                 return new RtuInitializedDto()
                 {
@@ -58,7 +54,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
 
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState state);
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, clientStation?.UserName, out RtuOccupationState _);
 
             var rtuInitializationToGraphApplier = _globalScope.Resolve<RtuInitializationToGraphApplier>();
             return await rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, result);

@@ -84,17 +84,10 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var rtuId = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id).RtuId;
-            var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
-            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtuId, rtu.Title, RtuOccupation.AssignBaseRefs))
-                return;
-
+            await Task.Delay(0);
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _baseRefsAssignViewModel.Initialize(trace);
             _windowManager.ShowDialogWithAssignedOwner(_baseRefsAssignViewModel);
-
-            await _globalScope.Resolve<IRtuHolder>()
-                .SetRtuOccupationState(rtuId, rtu.Title, RtuOccupation.None);
         }
 
         public async Task ShowTraceState(object param)
@@ -128,7 +121,15 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
+            var rtuId = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id).RtuId;
+            var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtu.Id, rtu.Title, RtuOccupation.DetachTraces))
+                return;
+
             await _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
+
+            await _globalScope.Resolve<IRtuHolder>()
+                .SetRtuOccupationState(rtu.Id, rtu.Title, RtuOccupation.None);
         }
 
         public async Task CleanTrace(object param)
@@ -146,6 +147,10 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
             var traceId = traceLeaf.Id;
+            var rtuId = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id).RtuId;
+            var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
+            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtu.Id, rtu.Title, RtuOccupation.CleanOrRemoveTrace))
+                return;
 
             var question = AssembleTraceRemovalConfirmation(traceLeaf.Title);
             var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
@@ -158,6 +163,9 @@ namespace Iit.Fibertest.Client
                 var result = await _c2DWcfManager.SendCommandAsObj(cmd);
                 _commonStatusBarViewModel.StatusBarMessage2 = result ?? "";
             }
+
+            await _globalScope.Resolve<IRtuHolder>()
+                .SetRtuOccupationState(rtu.Id, rtu.Title, RtuOccupation.None);
         }
 
         private static List<MyMessageBoxLineModel> AssembleTraceRemovalConfirmation(string traceTitle)
