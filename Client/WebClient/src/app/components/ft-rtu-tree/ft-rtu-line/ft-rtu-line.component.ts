@@ -91,6 +91,7 @@ export class FtRtuLineComponent implements OnInit {
     const res = (await this.oneApiService
       .postRequest(`rtu/stop-monitoring`, dto)
       .toPromise()) as boolean;
+    console.log("result: ", res);
   }
 
   async automaticMode(rtu: RtuDto) {

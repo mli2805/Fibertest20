@@ -47,7 +47,9 @@ export class FtPortAttachTraceComponent implements OnInit {
       (t) => t.traceId === this.selectedTrace
     );
     const params = JSON.parse(sessionStorage.getItem("attachTraceParams"));
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
     const cmd = new AttachTraceDto();
+    cmd.ConnectionId = currentUser.connectionId;
     cmd.TraceId = trace.traceId;
     cmd.RtuMaker = this.rtu.rtuMaker;
 

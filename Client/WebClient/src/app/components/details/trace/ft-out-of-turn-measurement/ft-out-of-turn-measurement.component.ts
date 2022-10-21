@@ -67,7 +67,9 @@ export class FtOutOfTurnMeasurementComponent implements OnInit, OnDestroy {
   }
 
   async ngOnDestroy() {
+    const currentUser = JSON.parse(sessionStorage.currentUser);
     var freeDto = new OccupyRtuDto();
+    freeDto.connectionId = currentUser.connectionId;
     freeDto.rtuId = this.params.rtu.rtuId;
     freeDto.state = new RtuOccupationState();
     freeDto.state.rtuId = this.params.rtu.rtuId;
@@ -88,7 +90,9 @@ export class FtOutOfTurnMeasurementComponent implements OnInit, OnDestroy {
 
     this.message = this.ts.instant("SID_Sending_command__Wait_please___");
 
+    const currentUser = JSON.parse(sessionStorage.currentUser);
     const dto = new DoOutOfTurnMeasurementDto();
+    dto.connectionId = currentUser.connectionId;
     dto.rtuId = params.rtu.rtuId;
     dto.portWithTraceDto = new PortWithTraceDto();
     dto.portWithTraceDto.traceId = params.trace.traceId;

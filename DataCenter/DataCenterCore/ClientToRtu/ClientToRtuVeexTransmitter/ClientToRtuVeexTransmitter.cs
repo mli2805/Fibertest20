@@ -243,7 +243,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(
             DoOutOfTurnPreciseMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to start measurement out of turn on VeEX RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to start measurement out of turn on VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {

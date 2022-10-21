@@ -54,6 +54,9 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
 
   measEmmitterSubscription;
 
+  params;
+  currentUser;
+
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
@@ -69,8 +72,9 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     console.log("we are in ngOnInit of measurement client component");
     this.isSpinnerVisible = true;
-    const params = JSON.parse(sessionStorage.getItem("measurementClientParams"));
-    const rtuId = params.selectedRtu.rtuId;
+    this.params = JSON.parse(sessionStorage.getItem("measurementClientParams"));
+    this.currentUser = JSON.parse(sessionStorage.currentUser);
+    const rtuId = this.params.selectedRtu.rtuId;
     this.tree = (await this.oneApiService
       .getRequest(`rtu/measurement-parameters/${rtuId}`)
       .toPromise()) as TreeOfAcceptableVeasParams;
@@ -84,8 +88,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     this.measEmmitterSubscription = this.signalRService.clientMeasEmitter.subscribe(
       (signal: ClientMeasurementDoneDto) => {
         console.log(signal);
-        const currentUser = JSON.parse(sessionStorage.currentUser);
-        if (signal.connectionId !== currentUser.connectionId) {
+        if (signal.connectionId !== this.currentUser.connectionId) {
           console.log(`It is measurement for another web client`);
           return;
         }
@@ -96,18 +99,19 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
           this.message = "Measurement (Client) failed!";
         }
 
-        this.deOccupyRtu(rtuId);
+        this.deOccupyRtu(); // iit rtu
         this.isSpinnerVisible = false;
         this.isButtonDisabled = false;
       }
     );
   }
 
-  async deOccupyRtu(rtuId: string){
+  async deOccupyRtu(){
     var freeDto = new OccupyRtuDto();
-    freeDto.rtuId = rtuId;
+    freeDto.connectionId = this.currentUser.connectionId;
+    freeDto.rtuId = this.params.selectedRtu.rtuId;
     freeDto.state = new RtuOccupationState();
-    freeDto.state.rtuId = rtuId;
+    freeDto.state.rtuId = this.params.selectedRtu.rtuId;
     freeDto.state.rtuOccupation = RtuOccupation.None;
 
     const res = (await this.oneApiService
@@ -239,8 +243,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
       sessionStorage.getItem("measurementClientParams")
     );
     const dto = new DoClientMeasurementDto();
-    const currentUser = JSON.parse(sessionStorage.currentUser);
-    dto.connectionId = currentUser.connectionId;
+    dto.connectionId = this.currentUser.connectionId;
     dto.rtuId = params.selectedRtu.rtuId;
     dto.otdrId = params.selectedRtu.otdrId;
     dto.otauPortDto = [params.selectedPort];
@@ -283,6 +286,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
         return;
 
       const getDto = new GetClientMeasurementDto();
+      getDto.connectionId = this.currentUser.connectionId;
       getDto.rtuId = params.selectedRtu.rtuId;
       getDto.veexMeasurementId = res.clientMeasurementId;
       var measRes: ClientMeasurementVeexResultDto;
@@ -313,6 +317,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
         }
       }
 
+      this.deOccupyRtu(); // veex rtu
       this.isSpinnerVisible = false;
       this.isButtonDisabled = false;
     }

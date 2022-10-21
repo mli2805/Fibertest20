@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         public TraceLeaf TraceLeaf { get; set; }
         private IPortOwner _portOwner;
         private Rtu _rtu;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly MeasurementInterrupter _measurementInterrupter;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
@@ -47,9 +48,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OutOfTurnPreciseMeasurementViewModel(Model readModel, MeasurementInterrupter measurementInterrupter, 
+        public OutOfTurnPreciseMeasurementViewModel(CurrentUser currentUser, Model readModel, MeasurementInterrupter measurementInterrupter, 
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
+            _currentUser = currentUser;
             _readModel = readModel;
             _measurementInterrupter = measurementInterrupter;
             _c2RWcfManager = c2RWcfManager;
@@ -98,6 +100,7 @@ namespace Iit.Fibertest.Client
           
             var dto = new DoOutOfTurnPreciseMeasurementDto()
             {
+                ConnectionId = _currentUser.ConnectionId,
                 RtuId = _rtu.Id,
                 PortWithTraceDto = new PortWithTraceDto()
                 {

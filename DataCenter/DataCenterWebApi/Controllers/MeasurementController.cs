@@ -96,13 +96,14 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpGet("Get-measurement-client-result")]
-        public async Task<ClientMeasurementVeexResultDto> GetVeexMeasurementClientResult(string rtuId, string veexMeasurementId)
+        public async Task<ClientMeasurementVeexResultDto> GetVeexMeasurementClientResult(string connectionId, string rtuId, string veexMeasurementId)
         {
             _logFile.AppendLine($"Get Veex MeasurementClient result request from {GetRemoteAddress()}");
 
             try
             {
-                var getDto = new GetClientMeasurementDto() { RtuId = Guid.Parse(rtuId), VeexMeasurementId = veexMeasurementId };
+                var getDto = new GetClientMeasurementDto() 
+                    { ConnectionId = connectionId, RtuId = Guid.Parse(rtuId), VeexMeasurementId = veexMeasurementId };
 
                 var clientMeasurementStartedDto = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
