@@ -13,6 +13,8 @@ import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { FiberState } from "src/app/models/enums/fiberState";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RtuPartState } from "src/app/models/enums/rtuPartState";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { DetachTraceDto } from "src/app/models/dtos/port/detachTraceDto";
 
 @Component({
   selector: "ft-attached-line",
@@ -84,10 +86,13 @@ export class FtAttachedLineComponent implements OnInit {
 
   async detachTrace() {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
-    await this.oneApiService
-      .postRequest(`port/detach-trace/${this.trace.traceId}`, null)
-      .toPromise();
-    console.log(`detach trace: done`);
+    var dto = new DetachTraceDto();
+    dto.connectionId = this.user.connectionId;
+    dto.traceId = this.trace.traceId;
+    var res = await this.oneApiService
+      .postRequest(`port/detach-trace`, dto)
+      .toPromise() as RequestAnswer;
+    console.log("detach trace: ", res);
     // server will send fetch signal
     // this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
   }

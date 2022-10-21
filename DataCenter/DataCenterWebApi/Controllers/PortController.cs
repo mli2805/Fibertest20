@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Authorization;
@@ -15,18 +14,14 @@ namespace Iit.Fibertest.DataCenterWebApi
     public class PortController : ControllerBase
     {
         private readonly IMyLog _logFile;
-        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
-        private readonly DoubleAddress _doubleAddressForDesktopWcfManager;
         private readonly DoubleAddress _doubleAddressForCommonWcfManager;
         private readonly string _localIpAddress;
 
         public PortController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _desktopC2DWcfManager = new DesktopC2DWcfManager(iniFile, logFile);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
-            _doubleAddressForDesktopWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             _doubleAddressForCommonWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
         }
@@ -93,21 +88,26 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpPost("Detach-trace/{id}")]
-        public async Task<string> DetachTrace(string id)
+        [HttpPost("Detach-trace")]
+        public async Task<RequestAnswer> DetachTrace()
         {
             try
             {
-                var traceGuid = Guid.Parse(id);
-                var result = await _desktopC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .SendCommandAsObj(new DetachTrace() { TraceId = traceGuid });
-                return string.IsNullOrEmpty(result) ? null : result;
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                _logFile.AppendLine("body: " + body);
+                var detachTraceDto = JsonConvert.DeserializeObject<DetachTraceDto>(body);
+                return await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .DetachTraceAsync(detachTraceDto);
             }
             catch (Exception e)
             {
                 _logFile.AppendLine($"DetachTrace: {e.Message}");
-                return e.Message;
+                return new RequestAnswer(){ ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
 

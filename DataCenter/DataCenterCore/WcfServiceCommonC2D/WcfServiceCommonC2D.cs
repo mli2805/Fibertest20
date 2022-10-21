@@ -113,6 +113,28 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
+        public async Task<RequestAnswer> DetachTraceAsync(DetachTraceDto dto)
+        {
+            var rtuId = _writeModel.Traces.First(t => t.TraceId == dto.TraceId).RtuId;
+            var clientStation = _clientsCollection.Get(dto.ConnectionId);
+            var username = clientStation?.UserName;
+            if (!_rtuOccupations.TrySetOccupation(rtuId, RtuOccupation.DetachTraces, username, out RtuOccupationState _))
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.RtuIsBusy
+                };
+
+            var command = new DetachTrace() { TraceId = dto.TraceId };
+            var result = await _eventStoreService.SendCommand(command, username, clientStation?.ClientIp);
+            await _ftSignalRClient.NotifyAll("FetchTree", null);
+
+            _rtuOccupations.TrySetOccupation(rtuId, RtuOccupation.None, username, out RtuOccupationState _);
+
+            return !string.IsNullOrEmpty(result) 
+                ? new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = result } 
+                : new RequestAnswer() { ReturnCode = ReturnCode.Ok };
+        }
+
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             return await _clientToRtuTransmitter.CheckRtuConnection(dto);
@@ -129,7 +151,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AttachOrDetachOtau, username, out RtuOccupationState _))
                 return new OtauAttachedDto()
                 {
-                    ReturnCode = ReturnCode.RtuIsBusy, IsAttached = false,
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                    IsAttached = false,
                 };
 
             var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
@@ -140,9 +163,9 @@ namespace Iit.Fibertest.DataCenterCore
                 AttachOtauIntoGraph(dto, otauAttachedDto);
                 await _ftSignalRClient.NotifyAll("FetchTree", null);
             }
-       
+
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
-          
+
             return otauAttachedDto;
         }
 
@@ -168,9 +191,10 @@ namespace Iit.Fibertest.DataCenterCore
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AttachOrDetachOtau, username, out RtuOccupationState _))
                 return new OtauDetachedDto()
                 {
-                    ReturnCode = ReturnCode.RtuIsBusy, IsDetached = false,
+                    ReturnCode = ReturnCode.RtuIsBusy,
+                    IsDetached = false,
                 };
-            
+
             var otauDetachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DetachOtauAsync(dto)
                 : await _clientToRtuVeexTransmitter.DetachOtauAsync(dto);
@@ -183,7 +207,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
-            
+
             return otauDetachedDto;
         }
 
@@ -325,7 +349,7 @@ namespace Iit.Fibertest.DataCenterCore
                 await _ftSignalRClient.NotifyAll("FetchTree", null);
 
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, clientStation?.UserName, out RtuOccupationState _);
-           
+
             return !string.IsNullOrEmpty(result)
                 ? new BaseRefAssignedDto
                 {
@@ -417,28 +441,31 @@ namespace Iit.Fibertest.DataCenterCore
             if (!_rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.AttachTrace, username, out RtuOccupationState _))
                 return new RequestAnswer() { ReturnCode = ReturnCode.RtuIsBusy };
 
-            BaseRefAssignedDto transferResult = await SendBaseRefsIfAny(dto);
+            try
+            {
+                BaseRefAssignedDto transferResult = await SendBaseRefsIfAny(dto);
 
-            if (transferResult != null && transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = transferResult.ErrorMessage };
+                if (transferResult != null && transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = transferResult.ErrorMessage };
 
-            var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
-            var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
+                var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
+                var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
 
-            if (!string.IsNullOrEmpty(res))
-                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };
+                if (!string.IsNullOrEmpty(res))
+                    return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };
 
-            await NotifyWebClientTraceAttached(dto.TraceId);
+                await NotifyWebClientTraceAttached(dto.TraceId);
 
-            if (transferResult == null || dto.RtuMaker == RtuMaker.IIT)
-                return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
+                if (transferResult == null || dto.RtuMaker == RtuMaker.IIT)
+                    return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
 
-            // Veex and there are base refs so veexTests table should be updated
-            var result = await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
-
-            _rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.None, username, out RtuOccupationState _);
-
-            return result;
+                // Veex and there are base refs so veexTests table should be updated
+                return await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+            }
+            finally
+            {
+                _rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.None, username, out RtuOccupationState _);
+            }
         }
 
 
@@ -487,7 +514,7 @@ namespace Iit.Fibertest.DataCenterCore
                     ReturnCode = ReturnCode.RtuIsBusy,
                 };
             }
-            
+
             var convertedDto = await ConvertToAssignBaseRefsDto(dto);
 
             if (convertedDto?.BaseRefs == null)

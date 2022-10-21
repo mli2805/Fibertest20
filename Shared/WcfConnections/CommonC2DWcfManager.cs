@@ -114,6 +114,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<RequestAnswer> DetachTraceAsync(DetachTraceDto dto)
+        {
+            var wcfConnection = _wcfFactory?.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new RequestAnswer(){ ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.DetachTraceAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DetachTraceAsync: " + e.Message);
+                return new RequestAnswer(){ ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.GetAddress()}");
