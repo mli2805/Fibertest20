@@ -16,10 +16,12 @@ namespace Iit.Fibertest.Client
     public class TraceLeafActions
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2DCommonWcf;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
@@ -29,18 +31,22 @@ namespace Iit.Fibertest.Client
         private readonly AutoBaseViewModel _autoBaseViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
-        public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, TabulatorViewModel tabulatorViewModel,
+        public TraceLeafActions(ILifetimeScope globalScope, CurrentUser currentUser, 
+            Model readModel, GraphReadModel graphReadModel,
+            IWindowManager windowManager, TabulatorViewModel tabulatorViewModel,
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2DCommonWcf,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel, AutoBaseViewModel autoBaseViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
+            _currentUser = currentUser;
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _c2DCommonWcf = c2DCommonWcf;
             _tabulatorViewModel = tabulatorViewModel;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
@@ -121,15 +127,20 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var rtuId = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id).RtuId;
-            var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
-            if (!await _globalScope.Resolve<IRtuHolder>().SetRtuOccupationState(rtu.Id, rtu.Title, RtuOccupation.DetachTraces))
-                return;
+            var detachTraceDto = new DetachTraceDto
+            {
+                TraceId = traceLeaf.Id,
+                ConnectionId = _currentUser.ConnectionId,
+            };
 
-            await _c2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceLeaf.Id });
+            var result = await _c2DCommonWcf.DetachTraceAsync(detachTraceDto);
 
-            await _globalScope.Resolve<IRtuHolder>()
-                .SetRtuOccupationState(rtu.Id, rtu.Title, RtuOccupation.None);
+            if (result.ReturnCode != ReturnCode.Ok)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error,
+                    new List<string>() { result.ReturnCode.GetLocalizedString() });
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
         }
 
         public async Task CleanTrace(object param)
