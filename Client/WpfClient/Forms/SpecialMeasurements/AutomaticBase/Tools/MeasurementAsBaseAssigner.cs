@@ -44,6 +44,7 @@ namespace Iit.Fibertest.Client
         {
             var dto = new AssignBaseRefsDto()
             {
+                ConnectionId = _currentUser.ConnectionId,
                 RtuId = trace.RtuId,
                 RtuMaker = _rtu.RtuMaker,
                 OtdrId = _rtu.OtdrId,
