@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -57,7 +58,7 @@ namespace Iit.Fibertest.Client
                 { ReturnCode = ReturnCode.Ok, ConnectionQuality = lineCheckResult.ConnectionQuality[0] };
         }
         
-        public async Task<MeasurementEventArgs> Fetch(Guid rtuId, Trace trace, Guid clientMeasurementId)
+        public async Task<MeasurementEventArgs> Fetch(Guid rtuId, Trace trace, Guid clientMeasurementId, CancellationTokenSource cts)
         {
             var getDto = new GetClientMeasurementDto()
             {
@@ -65,7 +66,7 @@ namespace Iit.Fibertest.Client
                 ConnectionId = _currentUser.ConnectionId,
                 VeexMeasurementId = clientMeasurementId.ToString(),
             };
-            while (true)
+            while (!cts.IsCancellationRequested)
             {
                 var measResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
 
@@ -96,6 +97,9 @@ namespace Iit.Fibertest.Client
 
                 await Task.Delay(2000);
             }
+
+            _logFile.AppendLine(@"cancellation token received, stop fetching");
+            return new MeasurementEventArgs(ReturnCode.MeasurementInterrupted, trace, new List<string>());
         }
 
     }

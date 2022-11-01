@@ -26,11 +26,13 @@ namespace Iit.Fibertest.Client
                 case ReturnCode.D2RWcfOperationError:
                     DisplayD2RError(dto);
                     break;
-                case ReturnCode.BaseRefAssignmentFailed: DisplayCommonError(dto); break;
                 case ReturnCode.BaseRefAssignmentParamNotAcceptable: DisplayParamIsNotAcceptable(dto); break;
                 case ReturnCode.BaseRefAssignmentNoThresholds: DisplayThereIsNoThresholds(dto); break;
                 case ReturnCode.BaseRefAssignmentEdgeLandmarksWrong: DisplayEdgeLandmarksAreWrong(dto); break;
                 case ReturnCode.BaseRefAssignmentLandmarkCountWrong: DisplayLandmarkCountDoesnotMatch(dto, trace); break;
+                case ReturnCode.BaseRefAssignmentFailed:
+                default:
+                    DisplayCommonError(dto); break;
             }
         }
 

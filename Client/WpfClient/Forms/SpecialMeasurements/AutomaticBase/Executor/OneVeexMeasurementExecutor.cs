@@ -4,6 +4,7 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -51,6 +52,7 @@ namespace Iit.Fibertest.Client
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }
 
+        private CancellationTokenSource _cts;
         public async Task Start(TraceLeaf traceLeaf, bool keepOtdrConnection = false)
         {
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
@@ -108,8 +110,9 @@ namespace Iit.Fibertest.Client
 
             Model.MeasurementProgressViewModel.Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
 
+            _cts = new CancellationTokenSource();
             await Task.Delay(veexMeasOtdrParameters.averagingTime == @"00:05" ? 10000 : 20000);
-            var veexResult = await _veexMeasurementTool.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId);
+            var veexResult = await _veexMeasurementTool.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId, _cts);
             if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
             {
                 var res = new ClientMeasurementResultDto() { SorBytes = veexResult.SorBytes };
@@ -171,6 +174,7 @@ namespace Iit.Fibertest.Client
 
             _landmarksIntoBaseSetter.ApplyTraceToAutoBaseRef(sorData, _trace);
             _measurementAsBaseAssigner.Initialize(Model.Rtu);
+            await Task.Delay(1000);
             var result = await _measurementAsBaseAssigner.Assign(sorData, _trace);
 
             MeasurementCompleted?

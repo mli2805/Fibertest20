@@ -172,6 +172,11 @@ namespace Iit.Fibertest.Client
             {
                 ProcessBrokenBop(progressItem);
             }
+            else if (result.Code == ReturnCode.MeasurementInterrupted)
+            {
+                TryClose();
+                return;
+            }
             else
                 progressItem.MeasurementDone =
                     result.Code != ReturnCode.D2RWcfConnectionError &&
@@ -256,6 +261,7 @@ namespace Iit.Fibertest.Client
         {
             if (_finishInProgress) return;
             _finishInProgress = true;
+            _logFile.AppendLine(@"Terminating process...");
 
             _waitCursor.Dispose();
             if (_rtu.RtuMaker == RtuMaker.IIT)
@@ -348,9 +354,11 @@ namespace Iit.Fibertest.Client
             {
                 _interruptPressed = true;
                 WholeRtuMeasurementsExecutor.Model.InterruptedPressed = true;
+                WholeRtuMeasurementsExecutor.InterruptMeasurement(); 
                 IsInterruptEnabled = false;
                 ButtonName = Resources.SID_Wait___;
                 WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.DisplayFinishInProgress();
+                _logFile.AppendLine(@"Interrupt process pressed...");
             }
         }
 

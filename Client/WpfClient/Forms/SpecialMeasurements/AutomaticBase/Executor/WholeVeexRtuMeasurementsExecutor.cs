@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -53,6 +54,7 @@ namespace Iit.Fibertest.Client
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }
 
+        private CancellationTokenSource _cts;
         public async Task StartOneMeasurement(RtuAutoBaseProgress item, bool keepOtdrConnection = false)
         {
             _logFile.EmptyLine();
@@ -90,8 +92,7 @@ namespace Iit.Fibertest.Client
             var startResult = await _c2DWcfCommonManager.StartClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
             {
-                _timer.Stop();
-                _timer.Dispose();
+                DestroyTimer();
 
                 MeasurementCompleted?
                     .Invoke(this, new MeasurementEventArgs(startResult.ReturnCode, _trace, startResult.ErrorMessage));
@@ -106,8 +107,9 @@ namespace Iit.Fibertest.Client
                         Resources.SID_Measurement__Client__in_progress__Please_wait___;
                 });
 
+            _cts = new CancellationTokenSource();
             await Task.Delay(veexMeasOtdrParameters.averagingTime == @"00:05" ? 10000 : 20000);
-            var veexResult = await _veexMeasurementTool.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId);
+            var veexResult = await _veexMeasurementTool.Fetch(dto.RtuId, _trace, startResult.ClientMeasurementId, _cts);
             if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
             {
                 var res = new ClientMeasurementResultDto() { SorBytes = veexResult.SorBytes };
@@ -115,8 +117,7 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                _timer.Stop();
-                _timer.Dispose();
+                DestroyTimer();
                 MeasurementCompleted?.Invoke(this, veexResult);
             }
         }
@@ -130,6 +131,14 @@ namespace Iit.Fibertest.Client
             _timer.AutoReset = false;
             _timer.Start();
         }
+
+        private void DestroyTimer()
+        {
+            _timer.Stop();
+            _timer.Dispose();
+            _logFile.AppendLine(@"Timer destroyed");
+        }
+
         private void TimeIsOver(object sender, System.Timers.ElapsedEventArgs e)
         {
             _logFile.AppendLine(@"Measurement timeout expired");
@@ -141,8 +150,7 @@ namespace Iit.Fibertest.Client
 
         public void ProcessMeasurementResult(ClientMeasurementResultDto dto)
         {
-            _timer.Stop();
-            _timer.Dispose();
+            DestroyTimer();
 
             _logFile.AppendLine($@"Measurement (Client) result for trace {_trace.Title} received");
 
@@ -174,6 +182,11 @@ namespace Iit.Fibertest.Client
                 .Invoke(this, result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully
                     ? new MeasurementEventArgs(ReturnCode.BaseRefAssignedSuccessfully, trace, sorData.ToBytes())
                     : new MeasurementEventArgs(ReturnCode.BaseRefAssignmentFailed, trace, result.ErrorMessage));
+        }
+
+        public void InterruptMeasurement()
+        {
+            _cts.Cancel();
         }
 
         public delegate void MeasurementHandler(object sender, MeasurementEventArgs e);

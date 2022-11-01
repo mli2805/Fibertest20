@@ -11,17 +11,14 @@ namespace Iit.Fibertest.Client
     public class MeasurementAsBaseAssigner
     {
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
-        private readonly BaseRefMessages _baseRefMessages;
 
-        private CurrentUser _currentUser;
+        private readonly CurrentUser _currentUser;
         private Rtu _rtu;
 
-        public MeasurementAsBaseAssigner(CurrentUser currentUser, IWcfServiceCommonC2D c2DWcfCommonManager, 
-            BaseRefMessages baseRefMessages)
+        public MeasurementAsBaseAssigner(CurrentUser currentUser, IWcfServiceCommonC2D c2DWcfCommonManager)
         {
             _currentUser = currentUser;
             _c2DWcfCommonManager = c2DWcfCommonManager;
-            _baseRefMessages = baseRefMessages;
         }
 
         public void Initialize(Rtu rtu)
@@ -32,12 +29,7 @@ namespace Iit.Fibertest.Client
         public async Task<BaseRefAssignedDto> Assign(OtdrDataKnownBlocks sorData, Trace trace)
         {
             var dto = PrepareDto(sorData.ToBytes(), trace);
-            var result = await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
-
-            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                _baseRefMessages.Display(result, trace);
-
-            return result;
+            return await _c2DWcfCommonManager.AssignBaseRefAsync(dto); // send to Db and RTU
         }
 
         private AssignBaseRefsDto PrepareDto(byte[] sorBytes, Trace trace)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -101,6 +102,7 @@ namespace Iit.Fibertest.Client
                 .SetParams(false, false, iitMeasParams, veexMeasParams);
         }
 
+        private CancellationTokenSource _cts;
         protected override async void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Measurement__Client_;
@@ -122,7 +124,8 @@ namespace Iit.Fibertest.Client
 
             if (_rtu.RtuMaker == RtuMaker.VeEX)
             {
-                var veexResult = await _veexMeasurementTool.Fetch(_dto.RtuId, null, startResult.ClientMeasurementId);
+                _cts = new CancellationTokenSource();
+                var veexResult = await _veexMeasurementTool.Fetch(_dto.RtuId, null, startResult.ClientMeasurementId, _cts);
                 if (veexResult.Code == ReturnCode.MeasurementEndedNormally)
                     ShowReflectogram(veexResult.SorBytes);
                 TryClose(true);
@@ -153,6 +156,8 @@ namespace Iit.Fibertest.Client
         {
             Message = Resources.SID_Interrupting_Measurement__Client___Wait_please___;
             IsCancelButtonEnabled = false;
+            if (_rtu.RtuMaker == RtuMaker.VeEX)
+                _cts.Cancel();
             await _measurementInterrupter.Interrupt(_rtu, @"measurement (Client)");
             TryClose();
         }

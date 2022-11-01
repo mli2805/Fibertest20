@@ -141,6 +141,11 @@ namespace Iit.Fibertest.Client
                     : new MeasurementEventArgs(ReturnCode.BaseRefAssignmentFailed, trace, result.ErrorMessage));
         }
 
+        public void InterruptMeasurement()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public delegate void MeasurementHandler(object sender, MeasurementEventArgs e);
         public delegate void BaseRefHandler(object sender, MeasurementEventArgs e);
 
