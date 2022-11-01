@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -42,6 +43,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
             var res = await _d2RtuVeexLayer2.DetachOtau(rtuDoubleAddress, "S2_" + dto.OtauId);
+
+            if (!res.IsSuccessful && res.HttpStatusCode == HttpStatusCode.NotFound)
+                res.IsSuccessful = true;
 
             var result = new OtauDetachedDto()
             {
