@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
+        private readonly CurrentUser _currentUser;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
@@ -61,7 +62,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile,
+        public RtuAutoBaseViewModel(ILifetimeScope globalScope, IMyLog logFile, CurrentUser currentUser,
             IDispatcherProvider dispatcherProvider, Model readModel, IWindowManager windowManager,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             FailedAutoBasePdfProvider failedAutoBasePdfProvider,
@@ -69,6 +70,7 @@ namespace Iit.Fibertest.Client
         {
             _globalScope = globalScope;
             _logFile = logFile;
+            _currentUser = currentUser;
             _dispatcherProvider = dispatcherProvider;
             _readModel = readModel;
             _windowManager = windowManager;
@@ -266,7 +268,8 @@ namespace Iit.Fibertest.Client
             _waitCursor.Dispose();
             if (_rtu.RtuMaker == RtuMaker.IIT)
             {
-                var r = await _commonC2DWcfManager.FreeOtdrAsync(new FreeOtdrDto() { RtuId = _rtu.Id });
+                var r = await _commonC2DWcfManager.FreeOtdrAsync(
+                    new FreeOtdrDto() { ConnectionId = _currentUser.ConnectionId, RtuId = _rtu.Id });
                 _logFile.AppendLine($@"Free OTDR result is {r.ReturnCode}");
                 _logFile.EmptyLine();
             }
@@ -317,6 +320,7 @@ namespace Iit.Fibertest.Client
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var dto = monitoringSettingsModel.CreateDto();
+                dto.ConnectionId = _currentUser.ConnectionId;
                 dto.Ports = _goodTraces
                     .Select(trace => new PortWithTraceDto()
                     {
