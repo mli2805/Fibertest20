@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
+        public bool IsInitializationPermitted => _currentUser.Role <= Role.Operator && IsIdle;
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
             IWindowManager windowManager, IWcfServiceCommonC2D wcfServiceCommonC2D,
