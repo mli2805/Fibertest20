@@ -31,7 +31,11 @@ namespace Iit.Fibertest.Client
             var result = await _commonC2DWcfManager.SetRtuOccupationState(new OccupyRtuDto()
             {
                 RtuId = rtuId,
-                State = new RtuOccupationState() { RtuId = rtuId, RtuOccupation = rtuOccupation },
+                State = new RtuOccupationState()
+                {
+                    // RtuId = rtuId, 
+                    RtuOccupation = rtuOccupation
+                },
             });
 
             if (result == null) return false;

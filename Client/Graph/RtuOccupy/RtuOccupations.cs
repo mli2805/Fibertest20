@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Graph.RtuOccupy
                 if (RtuStates.TryAdd(rtuId,
                         new RtuOccupationState()
                         {
-                            RtuId = rtuId,
+                            // RtuId = rtuId,
                             RtuOccupation = newRtuOccupation,
                             UserName = userName,
                             Expired = DateTime.Now.AddSeconds(TimeoutSec),
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Graph.RtuOccupy
             {  /////////  REFRESH   //////////////////
                 if (RtuStates.TryUpdate(rtuId, new RtuOccupationState()
                     {
-                        RtuId = rtuId,
+                        // RtuId = rtuId,
                         RtuOccupation = newRtuOccupation,
                         UserName = userName,
                         Expired = DateTime.Now.AddSeconds(TimeoutSec)
