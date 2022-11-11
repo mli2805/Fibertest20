@@ -12,13 +12,15 @@ namespace Iit.Fibertest.Client
 {
     public class VeexMeasurementTool
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
 
-        public VeexMeasurementTool(IMyLog logFile, CurrentUser currentUser, Model readModel, IWcfServiceCommonC2D c2DWcfCommonManager)
+        public VeexMeasurementTool(IniFile iniFile, IMyLog logFile, CurrentUser currentUser, Model readModel, IWcfServiceCommonC2D c2DWcfCommonManager)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _currentUser = currentUser;
             _readModel = readModel;
@@ -38,7 +40,8 @@ namespace Iit.Fibertest.Client
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
                 return new LineParametersDto(){ReturnCode = startResult.ReturnCode};
 
-            await Task.Delay(10000);
+            var p = _iniFile.Read(IniSection.Miscellaneous, IniKey.VeexLineParamsTimeoutMs, 15000);
+            await Task.Delay(p);
             var getDto = new GetClientMeasurementDto()
             {
                 RtuId = dto.RtuId,

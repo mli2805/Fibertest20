@@ -150,6 +150,7 @@
         PathToRftsParamsTemplate,
         MeasurementTimeoutMs,
         DoNotSignalAboutSuspicion,
+        VeexLineParamsTimeoutMs,
 
         // LoadTesting
         Multiplier,
