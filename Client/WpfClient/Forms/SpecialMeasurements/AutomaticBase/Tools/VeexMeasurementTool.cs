@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
                 return new LineParametersDto(){ReturnCode = startResult.ReturnCode};
 
-            await Task.Delay(5000);
+            await Task.Delay(10000);
             var getDto = new GetClientMeasurementDto()
             {
                 RtuId = dto.RtuId,
@@ -46,6 +46,7 @@ namespace Iit.Fibertest.Client
                 VeexMeasurementId = startResult.ClientMeasurementId.ToString(),
             };  
             var lineCheckResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
+            _logFile.AppendLine($@"{lineCheckResult.ReturnCode.ToString()}");
             if (lineCheckResult.ReturnCode != ReturnCode.Ok)
             {
                 _logFile.AppendLine(@"Failed to get line parameters");
