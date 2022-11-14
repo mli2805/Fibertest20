@@ -273,7 +273,8 @@ namespace Iit.Fibertest.DataCenterCore
                 };
 
             var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
-            _logFile.AppendLine($"Start out of turn measurement result is {result.ReturnCode}");
+            var errorMessage = result.ReturnCode == ReturnCode.Error ? result.ErrorMessage : "";
+            _logFile.AppendLine($"Start out of turn measurement result is {result.ReturnCode} {errorMessage}");
             if (result.ReturnCode == ReturnCode.Ok)
                 _veexCompletedTestProcessor.RequestedTests.TryAdd(veexTest.TestId, dto.ConnectionId);
             return result;

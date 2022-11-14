@@ -32,6 +32,8 @@ namespace Iit.Fibertest.DataCenterCore
             _eventStoreService = eventStoreService;
             D2CWcfService = d2CWcfService;
             FtSignalRClient = ftSignalRClient;
+
+            Clients.Add(new ClientStation(){ConnectionId = "OLT-server-trap-out-thread-Id", UserName = "Trap on server", ClientIp = "localhost"});
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

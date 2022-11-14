@@ -55,6 +55,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                     _outOfTurnData.SetRtuIsBusy(rtu.Id);
 
+                    dto.ConnectionId = "OLT-server-trap-out-thread-Id";
                     var unused = rtu.RtuMaker == RtuMaker.IIT
                         ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
                         : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);

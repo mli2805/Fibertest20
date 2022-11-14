@@ -100,7 +100,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
             else
-                _logFile.AppendLine($"Failed to connect RTU4100 {station.MainAddress} ({getPortionResult.ErrorMessage})");
+                _logFile.AppendLine($"Failed to connect RTU4100 {station.MainAddress} ({getPortionResult.HttpStatusCode}; {getPortionResult.ErrorMessage})", 0, 3);
         }
     }
 }
