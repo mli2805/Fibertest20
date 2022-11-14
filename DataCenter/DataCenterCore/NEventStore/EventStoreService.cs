@@ -118,30 +118,10 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
-            // CheckFibersWithoutNodes();
-
             _logFile.AppendLine($"{_writeModel.Rtus.Count} RTU found");
 
             return eventMessages.Count;
         }
-
-        //private void CheckFibersWithoutNodes()
-        //{
-        //    _logFile.AppendLine($"{_writeModel.Fibers.Count} fibers found");
-
-        //    foreach (var fiber in _writeModel.Fibers)
-        //    {
-        //        if (_writeModel.Nodes.All(n => n.NodeId != fiber.NodeId1))
-        //        {
-        //            _logFile.AppendLine($@"fiber {fiber.FiberId.First6()} node {fiber.NodeId1.First6()} not found, neighbour is {fiber.NodeId2.First6()}");
-        //        }
-
-        //        if (_writeModel.Nodes.All(n => n.NodeId != fiber.NodeId2))
-        //        {
-        //            _logFile.AppendLine($@"fiber {fiber.FiberId.First6()} node {fiber.NodeId2.First6()} not found, neighbour is {fiber.NodeId1.First6()}");
-        //        }
-        //    }
-        //}
 
         // especially for Migrator.exe
         public Task<int> SendCommands(List<object> cmds, string username, string clientIp)

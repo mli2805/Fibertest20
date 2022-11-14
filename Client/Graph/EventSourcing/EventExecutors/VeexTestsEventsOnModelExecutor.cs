@@ -10,7 +10,15 @@ namespace Iit.Fibertest.Graph
 
         public static string AddVeexTest(this Model model, VeexTestAdded e)
         {
-            if (model.VeexTests.All(t => t.TestId != e.TestId))
+            var oldTestsForThisTrace = model.VeexTests.Where(t => t.TraceId == e.TraceId && t.BasRefType == e.BasRefType).ToList();
+            foreach (var veexTest in model.VeexTests)
+            {
+                if (model.Traces.All(t=>t.TraceId != veexTest.TraceId))
+                    oldTestsForThisTrace.Add(veexTest);
+            }
+            model.VeexTests.RemoveAll(t=>oldTestsForThisTrace.Contains(t));
+            
+         //   if (model.VeexTests.All(t => t.TestId != e.TestId))
                 model.VeexTests.Add(Mapper.Map<VeexTest>(e));
            
             return null;

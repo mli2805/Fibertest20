@@ -40,6 +40,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
         {
+            _logFile.AppendLine($"ProcessOneCompletedTest: id = {completedTest.id}  testId = {completedTest.testId.First6()}");
             var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId == completedTest.testId);
             if (veexTest == null)
             {
