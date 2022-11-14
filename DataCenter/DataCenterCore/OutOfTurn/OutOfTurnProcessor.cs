@@ -47,6 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
                     if (dto == null)
                     {
                         Thread.Sleep(3000);
+                        _logFile.AppendLine("Queue is empty.");
                         continue;
                     }
 
