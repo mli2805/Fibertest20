@@ -14,6 +14,8 @@ namespace Iit.Fibertest.DataCenterCore
 
     public class OutOfTurnData
     {
+        public Guid QueueId { get; set; } = Guid.NewGuid();
+
         // RTU Id - Time when request sent to RTU
         private readonly ConcurrentDictionary<Guid, DateTime> _busyRtus = new ConcurrentDictionary<Guid, DateTime>();
 
@@ -59,7 +61,10 @@ namespace Iit.Fibertest.DataCenterCore
             foreach (var oneRtuDict in requests)
             {
                 if (_busyRtus.ContainsKey(oneRtuDict.Key))
+                {
+                    logFile.AppendLine($"Queue {QueueId.First6()} ::   RTU {oneRtuDict.Key.First6()} is busy");
                     continue;
+                }
 
                 if (oneRtuDict.Value.IsEmpty)
                     continue;

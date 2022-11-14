@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
                     if (dto == null)
                     {
                         Thread.Sleep(3000);
-                        _logFile.AppendLine("Queue is empty.");
+                        _logFile.AppendLine($"Queue {_outOfTurnData.QueueId.First6()} is empty.");
                         continue;
                     }
 
