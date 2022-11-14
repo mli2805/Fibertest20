@@ -106,7 +106,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return new RequestAnswer()
             {
                 ReturnCode = ReturnCode.Error,
-                ErrorMessage = res.ErrorMessage + Environment.NewLine + res.ResponseJson
+                ErrorMessage = $"HttpStatusCode: {res.HttpStatusCode};   {res.ErrorMessage} (ResponseJson: {res.ResponseJson})",
             };
         }
 

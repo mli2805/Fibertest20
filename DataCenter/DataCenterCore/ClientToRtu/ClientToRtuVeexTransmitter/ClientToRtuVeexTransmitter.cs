@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
@@ -272,17 +273,22 @@ namespace Iit.Fibertest.DataCenterCore
                     ReturnCode = ReturnCode.NoSuchRtu
                 };
 
-            var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
-            var errorMessage = result.ReturnCode == ReturnCode.Error ? result.ErrorMessage : "";
-            _logFile.AppendLine($"Start out of turn measurement (testId = {veexTest.TestId.First6()}) result is {result.ReturnCode} {errorMessage}");
-
-            foreach (var wt in _writeModel.VeexTests)
+            var attempts = 3;
+            var timeout = 1000;
+            var result = new RequestAnswer(){ReturnCode = ReturnCode.Error};
+            while (attempts > 0)
             {
-                var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == wt.TraceId);
-                var ts = trace == null ? "trace not found" : $"{trace.TraceId} {trace.Title}";
-                _logFile.AppendLine($"testId = {wt.TestId.First6()} {wt.BasRefType} {ts}", 2);
+                result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
+                var errorMessage = result.ReturnCode == ReturnCode.Error ? result.ErrorMessage : "";
+                _logFile.AppendLine($"Start out of turn measurement (testId = {veexTest.TestId.First6()}) result is {result.ReturnCode} {errorMessage}");
+                if (result.ReturnCode == ReturnCode.Ok)
+                    break;
+
+                Thread.Sleep(timeout);
+                attempts--;
             }
 
+          
             if (result.ReturnCode == ReturnCode.Ok)
                 _veexCompletedTestProcessor.RequestedTests.TryAdd(veexTest.TestId, dto.ConnectionId);
             return result;
