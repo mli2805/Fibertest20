@@ -280,14 +280,15 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
                 var errorMessage = result.ReturnCode == ReturnCode.Error ? result.ErrorMessage : "";
-                _logFile.AppendLine($"Start out of turn measurement (testId = {veexTest.TestId.First6()}) result is {result.ReturnCode} {errorMessage}");
+                var astr = $"attempt {4 - attempts}";
+                var rs = $"result is {result.ReturnCode} {errorMessage} {astr}";
+                _logFile.AppendLine($"Start out of turn measurement (testId = {veexTest.TestId.First6()}) {rs}");
                 if (result.ReturnCode == ReturnCode.Ok)
                     break;
 
                 Thread.Sleep(timeout);
                 attempts--;
             }
-
           
             if (result.ReturnCode == ReturnCode.Ok)
                 _veexCompletedTestProcessor.RequestedTests.TryAdd(veexTest.TestId, dto.ConnectionId);

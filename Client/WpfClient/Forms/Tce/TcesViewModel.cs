@@ -97,6 +97,7 @@ namespace Iit.Fibertest.Client
                 TceTypeStruct = SelectedTce.TceTypeStruct,
                 Ip = SelectedTce.Ip,
                 Slots = SelectedTce.Slots,
+                ProcessSnmpTraps = SelectedTce.ProcessSnmpTraps,
                 Comment = SelectedTce.Comment,
                 AllRelationsOfTce = _readModel.GponPortRelations
                     .Where(r=>r.TceId == SelectedTce.Id 

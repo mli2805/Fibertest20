@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph
         {
             // ===== HUAWEI =================================
 
-          
+
             yield return new TceTypeStruct()
             {
                 Id = 101,
@@ -48,6 +48,19 @@ namespace Iit.Fibertest.Graph
 
             yield return new TceTypeStruct()
             {
+                Id = 103,
+                IsVisible = true,
+                Maker = TceMaker.Huawei,
+                Model = @"MA5800",
+                SoftwareVersion = @"MA5800V100R020C10",
+                Code = @"Huawei_MA5600T_R018", // investigated 2022-Nov-15
+                SlotPositions = new[] { 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16 },
+                GponInterfaceNumerationFrom = 0,
+                Comment = "",
+            };
+
+            yield return new TceTypeStruct()
+            {
                 Id = 100,
                 IsVisible = true,
                 Maker = TceMaker.Huawei,
@@ -61,7 +74,7 @@ namespace Iit.Fibertest.Graph
 
             // ===== ZTE ====================================
 
-           yield return new TceTypeStruct()
+            yield return new TceTypeStruct()
             {
                 Id = 201,
                 IsVisible = true,
@@ -76,12 +89,38 @@ namespace Iit.Fibertest.Graph
 
             yield return new TceTypeStruct()
             {
+                Id = 2011,
+                IsVisible = true,
+                Maker = TceMaker.ZTE,
+                Model = @"C300 (19″)",
+                SoftwareVersion = @"V2.1.0",
+                Code = @"ZTE_C300_v1", // investigated 2022-Nov-15
+                SlotPositions = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17 },
+                GponInterfaceNumerationFrom = 1,
+                Comment = "",
+            };
+
+            yield return new TceTypeStruct()
+            {
                 Id = 202,
                 IsVisible = true,
                 Maker = TceMaker.ZTE,
                 Model = @"C300M (19″)",
                 SoftwareVersion = @"V4.0.2P2",
                 Code = @"ZTE_C300M_v4", // investigated 2022-Apr-12
+                SlotPositions = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17 },
+                GponInterfaceNumerationFrom = 1,
+                Comment = "",
+            };
+
+            yield return new TceTypeStruct()
+            {
+                Id = 2021,
+                IsVisible = true,
+                Maker = TceMaker.ZTE,
+                Model = @"C300M (19″)",
+                SoftwareVersion = @"V4.3P7",
+                Code = @"ZTE_C300M_v43", // investigated 2022-Nov-15
                 SlotPositions = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17 },
                 GponInterfaceNumerationFrom = 1,
                 Comment = "",

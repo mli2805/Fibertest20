@@ -43,7 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
             return CreateResult(@"ZTE_C300_v1", ss[2], code, eventId);
         }
 
-        public static TrapParserResult ParseC300M(this SnmpV2Packet pkt)
+        public static TrapParserResult ParseC300M40(this SnmpV2Packet pkt)
         {
             var community = pkt.Community.ToString();
             var ss = community.Split('@');
@@ -60,6 +60,27 @@ namespace Iit.Fibertest.DataCenterCore
 
             var ee = ss[1].Split('=');
             var eventId = ss[2] == "eventLevel=critical" ? ee[1] : "";
+
+            return CreateResult(@"ZTE_C300M_v4", ss[2], code, eventId);
+        }
+
+        public static TrapParserResult ParseC300M43(this SnmpV2Packet pkt)
+        {
+            var community = pkt.Community.ToString();
+            var ss = community.Split('@');
+
+            if (ss.Length < 3 || (ss[2] != "eventLevel=critical" && ss[2] != "eventLevel=cleared" && ss[2] != "eventLevel=major")) return null;
+
+            var oid = pkt.Pdu[0].Oid.ToString();
+            var point = oid.LastIndexOf('.');
+            var oidMinus = oid.Substring(0, point);
+            if (oidMinus != "1.3.6.1.4.1.3902.1082.500.2.2.8.2.1.1") return null;
+
+            var codeStr = oid.Substring(point + 1);
+            if (!int.TryParse(codeStr, out int code)) return null;
+
+            var ee = ss[1].Split('=');
+            var eventId = (ss[2] == "eventLevel=critical" |ss[2] == "eventLevel=major") ? ee[1] : "";
 
             return CreateResult(@"ZTE_C300M_v4", ss[2], code, eventId);
         }
