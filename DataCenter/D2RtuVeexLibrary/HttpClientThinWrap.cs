@@ -9,7 +9,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         private static readonly HttpClient HttpClient = new HttpClient()
         {
             DefaultRequestHeaders = { ExpectContinue = false },
-            Timeout = TimeSpan.FromSeconds(4)
+            Timeout = TimeSpan.FromSeconds(400)
         };
 
         public async Task<byte[]> GetByteArrayAsync(string url)

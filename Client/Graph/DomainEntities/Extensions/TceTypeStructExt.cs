@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Graph
                 IsVisible = true,
                 Maker = TceMaker.Huawei,
                 Model = @"MA5800",
-                SoftwareVersion = @"MA5800V100R020C10",
+                SoftwareVersion = @"MA5800V100R020C10",  // the same as @"MA5600V800R018C10"
                 Code = @"Huawei_MA5600T_R018", // investigated 2022-Nov-15
                 SlotPositions = new[] { 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16 },
                 GponInterfaceNumerationFrom = 0,
@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Graph
                 IsVisible = true,
                 Maker = TceMaker.ZTE,
                 Model = @"C300 (19″)",
-                SoftwareVersion = @"V2.1.0",
+                SoftwareVersion = @"V2.1.0", // the same as @"V1.2.5P3"
                 Code = @"ZTE_C300_v1", // investigated 2022-Nov-15
                 SlotPositions = new[] { 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17 },
                 GponInterfaceNumerationFrom = 1,
