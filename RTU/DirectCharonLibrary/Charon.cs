@@ -82,7 +82,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 bool isBopRemoved = false;
                 foreach (var p in extendedPorts.Keys.ToList())
                 {
-                    if (p >= OwnPortCount)
+                    if (p > OwnPortCount)
                     {
                         // боп подключен к порту которого нет (может поменялся рту)
                         extendedPorts.Remove(p);
