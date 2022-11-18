@@ -315,7 +315,6 @@
     <Compile Include="Commands\Trace\RemoveTrace.cs" />
     <Compile Include="Commands\Trace\UpdateTrace.cs" />
     <Compile Include="DomainEntities\Enums\GpsInputMode.cs" />
-    <Compile Include="DomainEntities\Enums\LeafType.cs" />
     <Compile Include="DomainEntities\Enums\TraceMode.cs" />
     <Compile Include="DomainEntities\Graph\Otau.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
