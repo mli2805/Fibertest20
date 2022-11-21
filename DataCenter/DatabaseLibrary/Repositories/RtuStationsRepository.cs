@@ -163,6 +163,22 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
+        public async Task<RtuStation> GetRtuStation(Guid rtuId)
+        {
+            try
+            {
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
+                {
+                    return await dbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetRtuStation: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<int> SaveAvailabilityChanges(List<RtuStation> changedStations)
         {
             try

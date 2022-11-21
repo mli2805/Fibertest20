@@ -44,15 +44,17 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // ReSharper disable once FunctionNeverReturns
-        private void Init()
+        private async void Init()
         {
             _gap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.AskVeexRtuEvery, 8));
 
             while (true)
             {
                 if (!_globalState.IsDatacenterInDbOptimizationMode)
-                    Tick().Wait();
-                _logFile.AppendLine("Veex fetcher tick");
+                {
+                    var res = await Tick();
+                    _logFile.AppendLine(res == 0 ? "Veex fetch tick OK" : "Failed to fetch veex completed tests");
+                }
                 Thread.Sleep(_gap);
             }
         }
@@ -60,7 +62,15 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<int> Tick()
         {
             _veexRtus = _writeModel.Rtus.Where(r => r.RtuMaker == RtuMaker.VeEX && r.IsInitialized).ToList();
+            foreach (var veexRtu in _veexRtus)
+            {
+                _logFile.AppendLine($"VeEX RTU {veexRtu.Title} address {veexRtu.MainChannel.Ip4Address}");
+            }
             var stations = await _rtuStationsRepository.GetAllRtuStations();
+            foreach (var station in stations)
+            {
+                _logFile.AppendLine($"station {station.MainAddress} last measurement {station.LastMeasurementTimestamp}");
+            }
 
             var changedStations = new List<RtuStation>();
             foreach (var rtu in _veexRtus)
@@ -81,6 +91,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (changedStations.Any())
                 return await _rtuStationsRepository.SaveAvailabilityChanges(changedStations);
 
+            _logFile.AppendLine("leaving Tick...");
             return 0;
         }
 
