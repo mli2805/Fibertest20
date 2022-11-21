@@ -52,6 +52,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 if (!_globalState.IsDatacenterInDbOptimizationMode)
                     Tick().Wait();
+                _logFile.AppendLine("Veex fetcher tick");
                 Thread.Sleep(_gap);
             }
         }
@@ -89,6 +90,8 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 if (getPortionResult.ResponseObject is CompletedTestPortion portion)
                 {
+                    _logFile.AppendLine($"got portion of {portion.items.Count} measurements");
+
                     foreach (var completedTest in portion.items)
                         await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
 
