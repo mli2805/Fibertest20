@@ -100,8 +100,8 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<OutOfTurnData>().SingleInstance();
             builder.RegisterType<OutOfTurnProcessor>().SingleInstance();
-            builder.RegisterType<TrapExecutor>().SingleInstance();
-            builder.RegisterType<TrapListener>().SingleInstance();
+            builder.RegisterType<OutOfTurnRequestBuilder>().SingleInstance();
+            builder.RegisterType<SnmpTrapListener>().SingleInstance();
 
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();
 

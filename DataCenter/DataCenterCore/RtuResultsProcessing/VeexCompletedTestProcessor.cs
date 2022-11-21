@@ -6,6 +6,7 @@ using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -18,24 +19,25 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly CommonBopProcessor _commonBopProcessor;
         private readonly SorFileRepository _sorFileRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
+        private readonly RtuOccupations _rtuOccupations;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
         private readonly IWcfServiceForRtu _wcfServiceForRtu;
-        private readonly OutOfTurnData _outOfTurnData;
         public readonly ConcurrentDictionary<Guid, string> RequestedTests = new ConcurrentDictionary<Guid, string>();
+        private readonly string _trapSenderUser;
 
         public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel, CommonBopProcessor commonBopProcessor,
-            SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
-            MsmqMessagesProcessor msmqMessagesProcessor, IWcfServiceForRtu wcfServiceForRtu,
-            OutOfTurnData outOfTurnData)
+            SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3, RtuOccupations rtuOccupations, 
+            MsmqMessagesProcessor msmqMessagesProcessor, IWcfServiceForRtu wcfServiceForRtu)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _commonBopProcessor = commonBopProcessor;
             _sorFileRepository = sorFileRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
+            _rtuOccupations = rtuOccupations;
             _msmqMessagesProcessor = msmqMessagesProcessor;
             _wcfServiceForRtu = wcfServiceForRtu;
-            _outOfTurnData = outOfTurnData;
+            _trapSenderUser = rtuOccupations.ServerNameForTraps;
         }
 
         public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
@@ -62,7 +64,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
                 await AcceptMoniResult(rtuDoubleAddress, completedTest, veexTest, rtu, trace);
-            else
+            // else
             {
                 _wcfServiceForRtu.NotifyUserCurrentMonitoringStep(new CurrentMonitoringStepDto()
                 {
@@ -133,7 +135,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (RequestedTests.ContainsKey(completedTest.testId))
                 {
                     RequestedTests.TryRemove(completedTest.testId, out string _);
-                    _outOfTurnData.SetRtuIsFree(rtu.Id);
+                    _rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.None, _trapSenderUser, out RtuOccupationState _);
                     return true;
                 }
 

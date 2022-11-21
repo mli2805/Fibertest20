@@ -4,21 +4,27 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using SnmpSharpNet;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class TrapListener
+    public class SnmpTrapListener
     {
         private readonly IMyLog _logFile;
-        private readonly TrapExecutor _trapExecutor;
+        private readonly OutOfTurnRequestBuilder _outOfTurnRequestBuilder;
+        private readonly OutOfTurnData _outOfTurnData;
+        private readonly TrapParser _trapParser;
 
-        public TrapListener(IniFile iniFile, TrapExecutor trapExecutor)
+        public SnmpTrapListener(IniFile iniFile, Model writeModel, OutOfTurnData outOfTurnData, ClientsCollection clientsCollection)
         {
             _logFile = new LogFile(iniFile, 20000);
             _logFile.AssignFile("trap.log");
-            _trapExecutor = trapExecutor;
+            _outOfTurnData = outOfTurnData;
+
+            _trapParser = new TrapParser(_logFile, writeModel);
+            _outOfTurnRequestBuilder = new OutOfTurnRequestBuilder(_logFile, writeModel, clientsCollection.TrapConnectionId);
         }
 
         public void Start()
@@ -67,69 +73,34 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task ProcessData(byte[] inData, int inLen, EndPoint endPoint)
         {
+            await Task.Delay(1);
             if (inLen > 0)
             {
                 // Check protocol version int
                 int ver = SnmpPacket.GetProtocolVersion(inData, inLen);
                 if (ver == (int)SnmpVersion.Ver1)
                 {
-                    _logFile.EmptyLine();
-                    _logFile.AppendLine($"** SNMP Version 1 TRAP received from {endPoint}:");
                     SnmpV1TrapPacket pkt = new SnmpV1TrapPacket();
                     pkt.decode(inData, inLen);
-                    LogSnmpVersion1TrapPacket(pkt);
+                    // _logFile.LogSnmpVersion1TrapPacket(pkt, endPoint);
                 }
                 else
                 {
-                    _logFile.EmptyLine();
-                    _logFile.AppendLine($"** SNMP Version 2 TRAP received from {endPoint}:");
                     SnmpV2Packet pkt = new SnmpV2Packet();
                     pkt.decode(inData, inLen);
-                    LogSnmpVersion2TrapPacket(pkt); // Hide after debugging
-                    await _trapExecutor.Process(pkt, endPoint, _logFile);
+                    // _logFile.LogSnmpVersion2TrapPacket(pkt, endPoint); // Hide after debugging
+                    var parsedTrap = _trapParser.ParseTrap(pkt, endPoint);
+                    if (parsedTrap == null) return;
+                    var dto = _outOfTurnRequestBuilder.BuildDto(parsedTrap);
+                    if (dto == null) return;
+
+                    _outOfTurnData.AddNewRequest(dto, _logFile);
                 }
             }
             else
             {
                 if (inLen == 0)
                     _logFile.AppendLine("Zero length packet received.");
-            }
-        }
-
-        private void LogSnmpVersion1TrapPacket(SnmpV1TrapPacket pkt)
-        {
-            _logFile.AppendLine($"*** Trap generic: {pkt.Pdu.Generic}");
-            _logFile.AppendLine($"*** Trap specific: {pkt.Pdu.Specific}");
-            _logFile.AppendLine($"*** Agent address: {pkt.Pdu.AgentAddress}");
-            _logFile.AppendLine($"*** Timestamp: {pkt.Pdu.TimeStamp}");
-            _logFile.AppendLine($"*** VarBind count: {pkt.Pdu.VbList.Count}");
-            _logFile.AppendLine($"*** VarBind content:");
-            foreach (Vb v in pkt.Pdu.VbList)
-            {
-                _logFile.AppendLine($"**** {v.Oid} {SnmpConstants.GetTypeName(v.Value.Type)}: {v.Value}");
-            }
-
-            _logFile.AppendLine($"** End of SNMP Version 1 TRAP data.");
-        }
-
-        private void LogSnmpVersion2TrapPacket(SnmpV2Packet pkt)
-        {
-            if (pkt.Pdu.Type != PduType.V2Trap)
-            {
-                _logFile.AppendLine($"*** NOT an SNMPv2 trap ****");
-            }
-            else
-            {
-                _logFile.AppendLine($"*** Community: {pkt.Community}");
-                _logFile.AppendLine($"*** System Up Time: {new TimeSpan(pkt.Pdu.TrapSysUpTime * 100000)}");
-                _logFile.AppendLine($"*** VarBind count: {pkt.Pdu.VbList.Count}");
-                _logFile.AppendLine($"*** VarBind content:");
-                foreach (Vb v in pkt.Pdu.VbList)
-                {
-                    _logFile.AppendLine($"**** {v.Oid} {SnmpConstants.GetTypeName(v.Value.Type)}: {v.Value}");
-                }
-
-                _logFile.AppendLine($"** End of SNMP Version 2 TRAP data.");
             }
         }
     }

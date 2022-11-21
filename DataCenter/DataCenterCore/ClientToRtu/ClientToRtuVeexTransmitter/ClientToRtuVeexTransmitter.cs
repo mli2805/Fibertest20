@@ -202,8 +202,8 @@ namespace Iit.Fibertest.DataCenterCore
             var result = await _d2RtuVeexLayer3.GetMeasurementClientResultAsync(rtuAddresses, dto.VeexMeasurementId);
             _logFile.AppendLine($"Get measurement result: request is {result.ReturnCode}; measurement status is {result.VeexMeasurementStatus}");
             return result;
-        }  
-        
+        }
+
         public async Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to get measurement sor bytes from VeEX RTU {dto.RtuId.First6()}");
@@ -240,61 +240,28 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(
-            DoOutOfTurnPreciseMeasurementDto dto)
+        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to start measurement out of turn on VeEX RTU {dto.RtuId.First6()}");
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new RequestAnswer()
-                {
-                    ReturnCode = ReturnCode.NoSuchRtu
-                };
-            }
+            if (rtu == null || rtuAddresses == null)
+                return new RequestAnswer { ReturnCode = ReturnCode.NoSuchRtu };
 
             var veexTest = _writeModel.VeexTests.FirstOrDefault(v =>
                 v.BasRefType == BaseRefType.Precise && v.TraceId == dto.PortWithTraceDto.TraceId);
             if (veexTest == null)
             {
                 _logFile.AppendLine($"No precise veex test for RTU {dto.RtuId.First6()} and trace {dto.PortWithTraceDto.TraceId.First6()}");
-                return new RequestAnswer()
-                {
-                    ReturnCode = ReturnCode.NoSuchRtu
-                };
+                return new RequestAnswer { ReturnCode = ReturnCode.NoSuchVeexTest };
             }
-
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null)
-                return new RequestAnswer()
-                {
-                    ReturnCode = ReturnCode.NoSuchRtu
-                };
+            _logFile.AppendLine($"Out of turn measurement for Veex test {veexTest.TestId.First6()} {veexTest.OtauId}");
 
             var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
             var errorMessage = result.ReturnCode == ReturnCode.Error ? result.ErrorMessage : "";
             var rs = $"result is {result.ReturnCode} {errorMessage}";
             _logFile.AppendLine($"Start out of turn measurement (testId = {veexTest.TestId.First6()}) {rs}");
 
-
-            // var attempts = 3;
-            // var timeout = 1000;
-            // var result = new RequestAnswer(){ReturnCode = ReturnCode.Error};
-            // while (attempts > 0)
-            // {
-            //     result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
-            //     var errorMessage = result.ReturnCode == ReturnCode.Error ? result.ErrorMessage : "";
-            //     var astr = $"attempt {4 - attempts}";
-            //     var rs = $"result is {result.ReturnCode} {errorMessage} {astr}";
-            //     _logFile.AppendLine($"Start out of turn measurement (testId = {veexTest.TestId.First6()}) {rs}");
-            //     if (result.ReturnCode == ReturnCode.Ok)
-            //         break;
-            //
-            //     Thread.Sleep(timeout);
-            //     attempts--;
-            // }
-          
             if (result.ReturnCode == ReturnCode.Ok)
                 _veexCompletedTestProcessor.RequestedTests.TryAdd(veexTest.TestId, dto.ConnectionId);
             return result;

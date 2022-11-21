@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -17,38 +18,42 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly Model _writeModel;
         private readonly CommonBopProcessor _commonBopProcessor;
+        private readonly RtuOccupations _rtuOccupations;
         private readonly EventStoreService _eventStoreService;
         private readonly MeasurementFactory _measurementFactory;
         private readonly SorFileRepository _sorFileRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
-        private readonly OutOfTurnData _outOfTurnData;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
         private readonly SnmpNotifier _snmpNotifier;
 
+        private readonly string _trapSenderUser;
+
         public MsmqMessagesProcessor(IMyLog logFile, IniFile iniFile, Model writeModel,
-            CommonBopProcessor commonBopProcessor,
+            CommonBopProcessor commonBopProcessor, RtuOccupations rtuOccupations, 
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
             IFtSignalRClient ftSignalRClient, AccidentLineModelFactory accidentLineModelFactory,
-            OutOfTurnData outOfTurnData, Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
+            Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _logFile = logFile;
             _iniFile = iniFile;
             _writeModel = writeModel;
             _commonBopProcessor = commonBopProcessor;
+            _rtuOccupations = rtuOccupations;
             _eventStoreService = eventStoreService;
             _measurementFactory = measurementFactory;
             _sorFileRepository = sorFileRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _ftSignalRClient = ftSignalRClient;
             _accidentLineModelFactory = accidentLineModelFactory;
-            _outOfTurnData = outOfTurnData;
             _smtp = smtp;
             _smsManager = smsManager;
             _snmpNotifier = snmpNotifier;
+
+            _trapSenderUser = rtuOccupations.ServerNameForTraps;
         }
 
         public async Task ProcessMessage(Message message)
@@ -73,7 +78,8 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return;
 
-            _outOfTurnData.SetRtuIsFree(dto.RtuId);
+            // _outOfTurnData.SetRtuIsFree(dto.RtuId);
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, _trapSenderUser, out RtuOccupationState _);
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId != -1)

@@ -16,7 +16,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         public static ClientStation Get(this ClientsCollection collection, string connectionId)
         {
-            return connectionId == null ? null : collection.Clients.FirstOrDefault(c => c.ConnectionId == connectionId);
+            if (connectionId == null) return null;
+            if (connectionId == collection.TrapConnectionId) return new ClientStation() { UserName = collection.ServerNameForTraps };
+
+            return collection.Clients.FirstOrDefault(c => c.ConnectionId == connectionId);
         }
 
         public static bool HasAnyWebClients(this ClientsCollection collection)

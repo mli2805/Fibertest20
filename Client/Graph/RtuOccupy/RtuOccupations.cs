@@ -13,6 +13,8 @@ namespace Iit.Fibertest.Graph.RtuOccupy
         public ConcurrentDictionary<Guid, RtuOccupationState> RtuStates =
             new ConcurrentDictionary<Guid, RtuOccupationState>();
 
+        public string ServerNameForTraps = @"Server";
+
         public RtuOccupations(IMyLog logFile)
         {
             _logFile = logFile;
@@ -71,7 +73,9 @@ namespace Iit.Fibertest.Graph.RtuOccupy
             }
 
             state = currentState;
-            if (currentState.UserName == userName || currentState.Expired < DateTime.Now)
+               // сервер не имеет права "освежать" свои запросы
+            if ((userName != ServerNameForTraps && currentState.UserName == userName)
+                || currentState.Expired < DateTime.Now)
             {  /////////  REFRESH   //////////////////
                 if (RtuStates.TryUpdate(rtuId, new RtuOccupationState()
                     {

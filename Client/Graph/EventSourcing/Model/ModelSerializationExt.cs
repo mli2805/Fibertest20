@@ -53,9 +53,9 @@ namespace Iit.Fibertest.Graph
             }
         }
 
+        // if snapshot was made before v926
         private static void AdjustModelDeserializedFromSnapshotMadeByOldVersion(this Model model)
         {
-            // if snapshot was made before v926
             if (model.Licenses == null)
             {
                 model.Licenses = new List<License>()

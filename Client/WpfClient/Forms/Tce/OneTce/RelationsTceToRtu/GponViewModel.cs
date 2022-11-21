@@ -148,6 +148,7 @@ namespace Iit.Fibertest.Client
                 SlotPosition = GponInWork.SlotPosition,
                 GponInterface = GponInWork.GponInterface,
                 RtuId = GponInWork.Rtu.Id,
+                RtuMaker = GponInWork.Rtu.RtuMaker,
                 OtauPortDto = otauPortDto,
                 TraceId = GponInWork.Trace.TraceId,
             };

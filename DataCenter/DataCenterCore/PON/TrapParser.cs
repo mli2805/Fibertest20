@@ -1,32 +1,66 @@
 ﻿using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using SnmpSharpNet;
+using System.Linq;
+using System.Net;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public static class TrapParser
+    public class TrapParser
     {
-        public static TrapParserResult Parse(this SnmpV2Packet pkt, TceS tce, IMyLog logFile)
+        private readonly IMyLog _logFile;
+        private readonly Model _writeModel;
+
+        public TrapParser(IMyLog logFile, Model writeModel)
         {
-            var trapParserResult = ParsePaket(pkt, tce, logFile);
-            if (trapParserResult != null)
-            {
-                trapParserResult.TceId = tce.Id;
-
-                // extra logging - remove after experiments
-                {
-                    logFile.EmptyLine();
-                    logFile.AppendLine("Trap parsed successfully!");
-                    logFile.AppendLine($"TCE: {tce.Title}");
-                    logFile.AppendLine($"Slot: {trapParserResult.Slot}");
-                    logFile.AppendLine($"GponInterface: {trapParserResult.GponInterface}");
-                }
-
-            }
-            return trapParserResult;
+            _logFile = logFile;
+            _writeModel = writeModel;
         }
 
-        private static TrapParserResult ParsePaket(SnmpV2Packet pkt, TceS tce, IMyLog logFile)
+        public TrapParserResult ParseTrap(SnmpV2Packet pkt, EndPoint endPoint)
+        {
+            var ss = endPoint.ToString().Split(':');
+            var tce = _writeModel.TcesNew.FirstOrDefault(o => o.Ip == ss[0]);
+            if (tce == null)
+            {
+                _logFile.AppendLine($"Unknown trap source address: {ss[0]}");
+                return null;
+            }
+
+            if (!tce.ProcessSnmpTraps)
+            {
+                _logFile.AppendLine("Trap processing of this TCE is turned off");
+                return null;
+            }
+
+            var res = ParsePaket(pkt, tce);
+
+
+            if (res != null)
+                res.TceId = tce.Id;
+
+            LogParsedTrap(res, tce);
+            return res;
+        }
+
+        private void LogParsedTrap(TrapParserResult trapParserResult, TceS tce)
+        {
+            _logFile.EmptyLine();
+            if (trapParserResult != null)
+            {
+                var tcem = $"TCE: {tce.Title}";
+                var slot = $"Slot: {trapParserResult.Slot}";
+                var gpon = $"GponInterface: {trapParserResult.GponInterface}";
+                var state = $"Trace state: {trapParserResult.State}";
+                _logFile.AppendLine($"{tcem} {slot} {gpon} {state}");
+            }
+            else
+            {
+                _logFile.AppendLine("Failed to parse trap (maybe it is not a line event trap)");
+            }
+        }
+
+        private TrapParserResult ParsePaket(SnmpV2Packet pkt, TceS tce)
         {
             switch (tce.TceTypeStruct.Code)
             {
@@ -42,7 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
                 case @"ZTE_C300M_v43": return pkt.ParseC300M43();
                 case @"ZTE_C320_v1": return pkt.ParseC320();
                 default:
-                    logFile.AppendLine($"Parser for OLT model {tce.TceTypeStruct.Code} is not implemented");
+                    _logFile.AppendLine($"Parser for OLT model {tce.TceTypeStruct.Code} is not implemented");
                     return null;
             }
         }

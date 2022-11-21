@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -21,8 +22,12 @@ namespace Iit.Fibertest.DataCenterCore
         public readonly IFtSignalRClient FtSignalRClient;
         public readonly List<ClientStation> Clients = new List<ClientStation>();
 
+        public string TrapConnectionId = "TrapConnectionId"; 
+        public readonly string ServerNameForTraps;
+
         public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel,
             CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService,
+            RtuOccupations rtuOccupations,
             D2CWcfManager d2CWcfService, IFtSignalRClient ftSignalRClient)
         {
             IniFile = iniFile;
@@ -32,6 +37,8 @@ namespace Iit.Fibertest.DataCenterCore
             _eventStoreService = eventStoreService;
             D2CWcfService = d2CWcfService;
             FtSignalRClient = ftSignalRClient;
+
+            ServerNameForTraps = rtuOccupations.ServerNameForTraps;
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

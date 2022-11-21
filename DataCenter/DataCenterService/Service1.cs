@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly VeexCompletedTestsFetcher _veexCompletedTestsFetcher;
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
-        private readonly TrapListener _trapListener;
+        private readonly SnmpTrapListener _snmpTrapListener;
         private readonly OutOfTurnProcessor _outOfTurnProcessor;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.DataCenterService
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
             VeexCompletedTestsFetcher veexCompletedTestsFetcher, WebApiChecker webApiChecker,
-            SmsSender smsSender, TrapListener trapListener, OutOfTurnProcessor outOfTurnProcessor,
+            SmsSender smsSender, SnmpTrapListener snmpTrapListener, OutOfTurnProcessor outOfTurnProcessor,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DataCenterService
             _veexCompletedTestsFetcher = veexCompletedTestsFetcher;
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
-            _trapListener = trapListener;
+            _snmpTrapListener = snmpTrapListener;
             _outOfTurnProcessor = outOfTurnProcessor;
             _ftSignalRClient = ftSignalRClient;
             _measurementsForWebNotifier = measurementsForWebNotifier;
@@ -120,7 +120,7 @@ namespace Iit.Fibertest.DataCenterService
             _msmqHandler.Start();
             _veexCompletedTestsFetcher.Start();
             _smsSender.Start();
-            _trapListener.Start();
+            _snmpTrapListener.Start();
             _outOfTurnProcessor.Start();
         }
 

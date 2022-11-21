@@ -68,7 +68,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 TraceId = dto.TraceId,
                 IsOnBop = !dto.OtauPortDto.IsPortOnMainCharon,
                 OtauId = dto.OtauPortDto.OtauId,
-                // OtauId = dto.OtauPortDto.IsPortOnMainCharon ? dto.OtauPortDto.OtauId : dto.MainOtauPortDto.OtauId,
                 CreationTimestamp = DateTime.Now,
             };
         }
