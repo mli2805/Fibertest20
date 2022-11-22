@@ -23,6 +23,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly SignalRNudger _signalRNudger;
         private readonly VeexCompletedTestsFetcher _veexCompletedTestsFetcher;
+        private readonly VeexCompletedTestsProcessorThread _veexCompletedTestsProcessorThread;
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
         private readonly SnmpTrapListener _snmpTrapListener;
@@ -38,7 +39,8 @@ namespace Iit.Fibertest.DataCenterService
         public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
-            VeexCompletedTestsFetcher veexCompletedTestsFetcher, WebApiChecker webApiChecker,
+            VeexCompletedTestsFetcher veexCompletedTestsFetcher, VeexCompletedTestsProcessorThread veexCompletedTestsProcessorThread,
+            WebApiChecker webApiChecker,
             SmsSender smsSender, SnmpTrapListener snmpTrapListener, OutOfTurnProcessor outOfTurnProcessor,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
@@ -57,6 +59,7 @@ namespace Iit.Fibertest.DataCenterService
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _signalRNudger = signalRNudger;
             _veexCompletedTestsFetcher = veexCompletedTestsFetcher;
+            _veexCompletedTestsProcessorThread = veexCompletedTestsProcessorThread;
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
             _snmpTrapListener = snmpTrapListener;
@@ -119,6 +122,7 @@ namespace Iit.Fibertest.DataCenterService
             _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();
             _veexCompletedTestsFetcher.Start();
+            _veexCompletedTestsProcessorThread.Start();
             _smsSender.Start();
             _snmpTrapListener.Start();
             _outOfTurnProcessor.Start();

@@ -64,6 +64,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<MeasurementsForWebNotifier>().SingleInstance();
             builder.RegisterType<VeexCompletedTestsFetcher>().SingleInstance();
             builder.RegisterType<VeexCompletedTestProcessor>().SingleInstance();
+            builder.RegisterType<VeexCompletedTestsProcessorThread>().SingleInstance();
             builder.RegisterType<SmsSender>().SingleInstance();
 
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();

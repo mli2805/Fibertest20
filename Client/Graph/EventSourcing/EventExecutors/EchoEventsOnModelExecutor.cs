@@ -158,6 +158,12 @@ namespace Iit.Fibertest.Graph
                     };
                     model.Otaus.Add(mainVeexOtau);
                 }
+
+                foreach (var trace in model.Traces.Where(t=>t.RtuId == rtu.Id))
+                {
+                    if (trace.OtauPort != null && trace.OtauPort.IsPortOnMainCharon && trace.OtauPort.OtauId == null)
+                        trace.OtauPort.OtauId = mainVeexOtau.VeexRtuMainOtauId;
+                }
             }
 
             if (e.Children == null) return;

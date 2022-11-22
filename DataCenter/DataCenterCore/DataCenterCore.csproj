@@ -298,6 +298,7 @@
     <Compile Include="PON\TrapParserResult.cs" />
     <Compile Include="PON\ZteTrapParser.cs" />
     <Compile Include="RtuResultsProcessing\CommonBopProcessor.cs" />
+    <Compile Include="RtuResultsProcessing\VeexCompletedTestsProcessorThread.cs" />
     <Compile Include="SignalRNudger.cs" />
     <Compile Include="PON\SnmpTrapListener.cs" />
     <Compile Include="RtuResultsProcessing\VeexCompletedTestProcessor.cs" />

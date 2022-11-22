@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
@@ -88,6 +89,12 @@ namespace Graph.Tests
             _sut.FakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Precise);
             _sut.FakeVeexRtuModel.SetSorBytesToReturn(SystemUnderTest.Base1625);
             _sut.VeexCompletedTestsFetcher.Tick().Wait();
+            while (_sut.VeexCompletedTestsProcessorThread.CompletedTests.IsEmpty)
+                Task.Delay(1);
+            _sut.VeexCompletedTestsProcessorThread.Tick().Wait();
+            _sut.VeexCompletedTestsProcessorThread.Tick().Wait();
+            _sut.VeexCompletedTestsProcessorThread.Tick().Wait();
+            _sut.VeexCompletedTestsProcessorThread.Tick().Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -106,6 +113,10 @@ namespace Graph.Tests
             _sut.FakeVeexRtuModel.AddFailedBopTest(_sut.ReadModel, _traceOnBop.TraceId, _otauLeaf.Id, BaseRefType.Fast);
             _sut.FakeVeexRtuModel.AddFailedBopTest(_sut.ReadModel, _traceOnBop.TraceId, _otauLeaf.Id, BaseRefType.Precise);
             _sut.VeexCompletedTestsFetcher.Tick().Wait();
+            while (_sut.VeexCompletedTestsProcessorThread.CompletedTests.IsEmpty)
+                Task.Delay(1);
+            _sut.VeexCompletedTestsProcessorThread.Tick().Wait();
+            _sut.VeexCompletedTestsProcessorThread.Tick().Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -122,6 +133,9 @@ namespace Graph.Tests
             _sut.FakeVeexRtuModel.ClearTests();
             _sut.FakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Precise);
             _sut.VeexCompletedTestsFetcher.Tick().Wait();
+            while (_sut.VeexCompletedTestsProcessorThread.CompletedTests.IsEmpty)
+                Task.Delay(1);
+            _sut.VeexCompletedTestsProcessorThread.Tick().Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

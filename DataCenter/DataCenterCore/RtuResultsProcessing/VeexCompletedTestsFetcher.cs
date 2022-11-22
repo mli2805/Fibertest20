@@ -19,14 +19,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
-        private readonly VeexCompletedTestProcessor _veexCompletedTestProcessor;
+        private readonly VeexCompletedTestsProcessorThread _veexCompletedTestsProcessorThread;
 
         private List<Rtu> _veexRtus;
         private TimeSpan _gap;
 
         public VeexCompletedTestsFetcher(IniFile iniFile, IMyLog logFile, GlobalState globalState, Model writeModel,
             RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
-            VeexCompletedTestProcessor veexCompletedTestProcessor)
+            VeexCompletedTestsProcessorThread veexCompletedTestsProcessorThread)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
-            _veexCompletedTestProcessor = veexCompletedTestProcessor;
+            _veexCompletedTestsProcessorThread = veexCompletedTestsProcessorThread;
         }
 
         public void Start()
@@ -52,8 +52,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 if (!_globalState.IsDatacenterInDbOptimizationMode)
                 {
-                    var res = await Tick();
-                    _logFile.AppendLine(res == 0 ? "Veex fetch tick OK" : "Failed to fetch veex completed tests");
+                    await Tick();
                 }
                 Thread.Sleep(_gap);
             }
@@ -62,15 +61,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<int> Tick()
         {
             _veexRtus = _writeModel.Rtus.Where(r => r.RtuMaker == RtuMaker.VeEX && r.IsInitialized).ToList();
-            foreach (var veexRtu in _veexRtus)
-            {
-                _logFile.AppendLine($"VeEX RTU {veexRtu.Title} address {veexRtu.MainChannel.Ip4Address}");
-            }
             var stations = await _rtuStationsRepository.GetAllRtuStations();
-            foreach (var station in stations)
-            {
-                _logFile.AppendLine($"station {station.MainAddress} last measurement {station.LastMeasurementTimestamp}");
-            }
 
             var changedStations = new List<RtuStation>();
             foreach (var rtu in _veexRtus)
@@ -82,39 +73,46 @@ namespace Iit.Fibertest.DataCenterCore
                 var utc = station.LastMeasurementTimestamp.ToUniversalTime();
                 var startingFrom = utc.AddSeconds(1).ToString("O");
 
-                // rtu can't return more than 1024 completed tests at a time, but can less, parameter limit is optional
-                // limit = 1024 sometimes causes exception "A task was canceled"
-                var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestampAsync(rtuDoubleAddress, startingFrom, 512);
-                await ProcessRequestResult(getPortionResult, station, rtu, rtuDoubleAddress);
+                // var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestampAsync(rtuDoubleAddress, startingFrom, 512);
+                // await ProcessRequestResult(getPortionResult, station, rtu, rtuDoubleAddress);
+
+                await Task.Factory.StartNew(() => FetchOneRtu(rtu, station, rtuDoubleAddress, startingFrom));
             }
 
             if (changedStations.Any())
                 return await _rtuStationsRepository.SaveAvailabilityChanges(changedStations);
 
-            _logFile.AppendLine("leaving Tick...");
             return 0;
         }
 
-        private async Task ProcessRequestResult(HttpRequestResult getPortionResult, RtuStation station, Rtu rtu, DoubleAddress rtuDoubleAddress)
+        private async void FetchOneRtu(Rtu rtu, RtuStation station, DoubleAddress rtuDoubleAddress, string startingFrom)
         {
-            if (getPortionResult.IsSuccessful)
+            // rtu can't return more than 1024 completed tests at a time, but can less, parameter limit is optional
+            var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestampAsync(rtuDoubleAddress, startingFrom, 1024);
+            if (!getPortionResult.IsSuccessful)
             {
-                if (getPortionResult.ResponseObject is CompletedTestPortion portion)
-                {
-                    _logFile.AppendLine($"got portion of {portion.items.Count} measurements");
-
-                    foreach (var completedTest in portion.items)
-                        await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
-
-                    if (portion.items.Any())
-                        station.LastMeasurementTimestamp = portion.items.Last().started.ToLocalTime();
-                    station.LastConnectionByMainAddressTimestamp = DateTime.Now;
-
-                    await _rtuStationsRepository.SaveAvailabilityChanges(new List<RtuStation>() { station });
-                }
+                _logFile.AppendLine($"Failed to connect RTU4100 {rtuDoubleAddress.Main.ToStringA()} ({getPortionResult.HttpStatusCode}; {getPortionResult.ErrorMessage})", 0, 3);
+                return;
             }
-            else
-                _logFile.AppendLine($"Failed to connect RTU4100 {station.MainAddress} ({getPortionResult.HttpStatusCode}; {getPortionResult.ErrorMessage})", 0, 3);
+
+            if (!(getPortionResult.ResponseObject is CompletedTestPortion portion))
+            {
+                _logFile.AppendLine($"Invalid CompletedTestPortion");
+                return;
+            }
+
+            if (portion.total > 0)
+                _logFile.AppendLine($"got portion of {portion.total} measurements from RTU {rtu.Title}");
+            foreach (var completedTest in portion.items)
+            {
+                _veexCompletedTestsProcessorThread.CompletedTests.Enqueue(new Tuple<CompletedTest, Rtu>(completedTest, rtu));
+            }
+
+            if (portion.items.Any())
+                station.LastMeasurementTimestamp = portion.items.Last().started.ToLocalTime();
+            station.LastConnectionByMainAddressTimestamp = DateTime.Now;
+
+            await _rtuStationsRepository.SaveAvailabilityChanges(new List<RtuStation>() { station });
         }
     }
 }

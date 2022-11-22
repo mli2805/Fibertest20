@@ -26,7 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly string _trapSenderUser;
 
         public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel, CommonBopProcessor commonBopProcessor,
-            SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3, RtuOccupations rtuOccupations, 
+            SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3, RtuOccupations rtuOccupations,
             MsmqMessagesProcessor msmqMessagesProcessor, IWcfServiceForRtu wcfServiceForRtu)
         {
             _logFile = logFile;
@@ -40,9 +40,9 @@ namespace Iit.Fibertest.DataCenterCore
             _trapSenderUser = rtuOccupations.ServerNameForTraps;
         }
 
-        public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
+        public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu)
         {
-            _logFile.AppendLine($"ProcessOneCompletedTest: id = {completedTest.id}  testId = {completedTest.testId.First6()}");
+            _logFile.AppendLine($"ProcessOneCompletedTest: id = {completedTest.id}");
             var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId == completedTest.testId);
             if (veexTest == null)
             {
@@ -63,24 +63,22 @@ namespace Iit.Fibertest.DataCenterCore
             await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
 
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
-                await AcceptMoniResult(rtuDoubleAddress, completedTest, veexTest, rtu, trace);
-            // else
+                await AcceptMoniResult(completedTest, veexTest, rtu, trace);
+
+            _wcfServiceForRtu.NotifyUserCurrentMonitoringStep(new CurrentMonitoringStepDto()
             {
-                _wcfServiceForRtu.NotifyUserCurrentMonitoringStep(new CurrentMonitoringStepDto()
+                RtuId = rtu.Id,
+                Step = completedTest.GetMonitoringCurrentStep(),
+                PortWithTraceDto = new PortWithTraceDto()
                 {
-                    RtuId = rtu.Id,
-                    Step = completedTest.GetMonitoringCurrentStep(),
-                    PortWithTraceDto = new PortWithTraceDto()
+                    TraceId = veexTest.TraceId,
+                    OtauPort = new OtauPortDto()
                     {
-                        TraceId = veexTest.TraceId,
-                        OtauPort = new OtauPortDto()
-                        {
-                            OtauId = veexTest.OtauId,
-                        }
-                    },
-                    BaseRefType = veexTest.BasRefType,
-                });
-            }
+                        OtauId = veexTest.OtauId,
+                    }
+                },
+                BaseRefType = veexTest.BasRefType,
+            });
 
         }
 
@@ -186,11 +184,15 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
-        private async Task AcceptMoniResult(DoubleAddress rtuDoubleAddress,
+        private async Task AcceptMoniResult(
             CompletedTest completedTest, VeexTest veexTest, Rtu rtu, Trace trace)
         {
             try
             {
+                var rtuDoubleAddress = new DoubleAddress()
+                {
+                    Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel
+                };
                 var getSorResult = await _d2RtuVeexLayer3.GetCompletedTestSorBytesAsync(rtuDoubleAddress, completedTest.id.ToString());
                 if (!getSorResult.IsSuccessful)
                 {

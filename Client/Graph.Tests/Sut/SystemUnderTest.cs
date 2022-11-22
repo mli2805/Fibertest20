@@ -40,6 +40,7 @@ namespace Graph.Tests
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public VeexCompletedTestsFetcher VeexCompletedTestsFetcher { get; set; }
+        public VeexCompletedTestsProcessorThread VeexCompletedTestsProcessorThread { get; set; }
 
         public const string NewTitleForTest = "New name for old equipment";
         public const EquipmentType NewTypeForTest = EquipmentType.Cross;
@@ -67,6 +68,7 @@ namespace Graph.Tests
             var eventStoreService = ServerScope.Resolve<EventStoreService>();
             eventStoreService.Init().Wait();
             MsmqMessagesProcessor = ServerScope.Resolve<MsmqMessagesProcessor>();
+            VeexCompletedTestsProcessorThread = ServerScope.Resolve<VeexCompletedTestsProcessorThread>();
             VeexCompletedTestsFetcher = ServerScope.Resolve<VeexCompletedTestsFetcher>();
             FakeD2RWcfManager = (FakeD2RWcfManager)ServerScope.Resolve<ID2RWcfManager>();
             FakeD2RWcfManager.SetFakeInitializationAnswer();
@@ -250,6 +252,7 @@ namespace Graph.Tests
             builder.RegisterType<SnmpAgent>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqMessagesProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<OutOfTurnData>().InstancePerLifetimeScope();
+            builder.RegisterType<VeexCompletedTestsProcessorThread>().InstancePerLifetimeScope();
             builder.RegisterType<VeexCompletedTestProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<VeexCompletedTestsFetcher>().InstancePerLifetimeScope();
             builder.RegisterType<CommonBopProcessor>().InstancePerLifetimeScope();
