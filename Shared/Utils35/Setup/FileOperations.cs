@@ -86,7 +86,7 @@ namespace Iit.Fibertest.UtilsLib
 
         }
 
-        private static readonly List<string> Models = new List<string>() { "673", "810" };
+        private static readonly List<string> Models = new List<string>() { "673", "680", "810" };
         public static bool CleanAntiGhost(string fullRtuManagerPath, bool isThereEtcDefaultFolder, BackgroundWorker worker)
         {
             foreach (var model in Models)
