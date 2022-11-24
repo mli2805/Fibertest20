@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.EmptyLine();
             if (trapParserResult != null)
             {
-                var tcem = $"TCE: {tce.Title}";
+                var tcem = $"TCE: {tce.Title} {tce.Ip}";
                 var slot = $"Slot: {trapParserResult.Slot}";
                 var gpon = $"GponInterface: {trapParserResult.GponInterface}";
                 var state = $"Trace state: {trapParserResult.State}";
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             else
             {
-                _logFile.AppendLine("Failed to parse trap (maybe it is not a line event trap)");
+                _logFile.AppendLine($"Not a line event trap from {tce.Title} {tce.Ip}");
             }
         }
 

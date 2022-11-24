@@ -38,10 +38,11 @@ namespace Iit.Fibertest.DataCenterCore
             logFile.AppendLine($"Request added or updated, Queue of RTU {dto.RtuId.First6()} contains {Requests[dto.RtuId].Count} requests");
         }
 
-        public DoOutOfTurnPreciseMeasurementDto GetNextRequest(IMyLog logFile, RtuOccupations rtuOccupations, string trapSenderUser)
+        public DoOutOfTurnPreciseMeasurementDto GetNextRequest(IMyLog logFile, RtuOccupations rtuOccupations, string trapSenderUser, out int count)
         {
             // local copy
             var requests = Requests.ToArray();
+            count = requests.Length;
 
             foreach (var oneRtuDict in requests)
             {

@@ -45,11 +45,11 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 while (true)
                 {
-                    var dto = _outOfTurnData.GetNextRequest(_logFile, _rtuOccupations, _trapSenderUser);
+                    var dto = _outOfTurnData.GetNextRequest(_logFile, _rtuOccupations, _trapSenderUser, out int count);
                     if (dto == null)
                     {
                         Thread.Sleep(7000);
-                        _logFile.AppendLine($"Queue is empty.");
+                        _logFile.AppendLine(count == 0 ? "Queue is empty." : $"{count} request(s) but RTU(s) are busy");
                         continue;
                     }
 
