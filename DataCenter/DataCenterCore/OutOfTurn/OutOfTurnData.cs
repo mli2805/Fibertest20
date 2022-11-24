@@ -38,11 +38,10 @@ namespace Iit.Fibertest.DataCenterCore
             logFile.AppendLine($"Request added or updated, Queue of RTU {dto.RtuId.First6()} contains {Requests[dto.RtuId].Count} requests");
         }
 
-        public DoOutOfTurnPreciseMeasurementDto GetNextRequest(IMyLog logFile, RtuOccupations rtuOccupations, string trapSenderUser, out int count)
+        public DoOutOfTurnPreciseMeasurementDto GetNextRequest(IMyLog logFile, RtuOccupations rtuOccupations, string trapSenderUser)
         {
             // local copy
             var requests = Requests.ToArray();
-            count = requests.Length;
 
             foreach (var oneRtuDict in requests)
             {
@@ -52,17 +51,16 @@ namespace Iit.Fibertest.DataCenterCore
                 if (!rtuOccupations.TrySetOccupation(oneRtuDict.Key, RtuOccupation.PreciseMeasurementOutOfTurn,
                                       trapSenderUser, out RtuOccupationState _))
                 {
-                    logFile.AppendLine($"RTU {oneRtuDict.Key.First6()} is busy");
+                    logFile.AppendLine($"RTU {oneRtuDict.Key.First6()} is busy, {oneRtuDict.Value.Count} requests in queue");
                     continue;
                 }
-                logFile.AppendLine("RTU is OK");
 
                 var oneRtuRequests = oneRtuDict.Value.Values.OrderBy(r => r.Timestamp);
                 var dto = oneRtuRequests.First().Dto;
 
                 Requests[oneRtuDict.Key]
                     .TryRemove(dto.PortWithTraceDto.TraceId, out OutOfTurnRequest _);
-                logFile.AppendLine($"Request for RTU {dto.RtuId.First6()} / Trace {dto.PortWithTraceDto.TraceId.First6()} found.");
+                logFile.AppendLine($"Sending request for RTU {dto.RtuId.First6()} / Trace {dto.PortWithTraceDto.TraceId.First6()}.");
                 logFile.AppendLine($"  Now queue of RTU {dto.RtuId.First6()} contains {Requests[dto.RtuId].Count} requests");
 
                 return dto;

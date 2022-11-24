@@ -31,6 +31,7 @@
         RtuUpTimeForAdditionalPause,
         // General - DataCenter
         AskVeexRtuEvery,
+        CheckOutOfTurnRequests,
         CheckCompletedTestsEvery,
         CheckWebApiEvery,
         CheckHeartbeatEvery,

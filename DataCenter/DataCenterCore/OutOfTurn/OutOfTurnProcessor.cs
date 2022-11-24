@@ -9,16 +9,19 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class OutOfTurnProcessor
     {
+        private readonly IniFile _iniFile;
         private readonly OutOfTurnData _outOfTurnData;
         private readonly RtuOccupations _rtuOccupations;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
         private readonly IMyLog _logFile;
         private readonly string _trapSenderUser;
+        private TimeSpan _gap;
 
         public OutOfTurnProcessor(IniFile iniFile, OutOfTurnData outOfTurnData,  
             RtuOccupations rtuOccupations, ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
+            _iniFile = iniFile;
             _outOfTurnData = outOfTurnData;
             _rtuOccupations = rtuOccupations;
             _clientToRtuTransmitter = clientToRtuTransmitter;
@@ -40,16 +43,16 @@ namespace Iit.Fibertest.DataCenterCore
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Out of turn measurements processor thread. Process {pid}, thread {tid}");
+            _gap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.CheckOutOfTurnRequests, 3));
 
             try
             {
                 while (true)
                 {
-                    var dto = _outOfTurnData.GetNextRequest(_logFile, _rtuOccupations, _trapSenderUser, out int count);
+                    var dto = _outOfTurnData.GetNextRequest(_logFile, _rtuOccupations, _trapSenderUser);
                     if (dto == null)
                     {
-                        Thread.Sleep(7000);
-                        _logFile.AppendLine(count == 0 ? "Queue is empty." : $"{count} request(s) but RTU(s) are busy");
+                        Thread.Sleep(_gap);
                         continue;
                     }
 
