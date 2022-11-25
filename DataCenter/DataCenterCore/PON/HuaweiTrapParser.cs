@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
             // 043 + 355 - is a problem with ONT modem, not with line!
             if (pkt.Pdu[4].Value.ToString() != "416") return null;
 
-            return CreateResult(pkt.Pdu[6].Value.ToString(), pkt.Pdu[7].Value.ToString(), pkt.Pdu[11].Value.ToString());
+            return CreateResult(pkt.Pdu[6].Value.ToString(), pkt.Pdu[7].Value.ToString(), pkt.Pdu[10].Value.ToString());
         }
 
         private static TrapParserResult CreateResult(string slotStr, string gponStr, string stateStr)
