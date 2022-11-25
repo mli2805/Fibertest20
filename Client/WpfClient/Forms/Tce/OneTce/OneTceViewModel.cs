@@ -84,6 +84,8 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> Save()
         {
+            if (!Validate()) return false;
+
             var cmd = new AddOrUpdateTceWithRelations
             {
                 Id = _tceInWork.Id,
@@ -102,6 +104,23 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, result));
             }
             return string.IsNullOrEmpty(result);
+        }
+
+        private bool Validate()
+        {
+            if (_readModel.TcesNew.Any(t =>t.Title == TceInfoViewModel.Title && t.Id != _tceInWork.Id))
+            {
+                _windowManager.ShowWindowWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_a_TCE_with_the_same_name));
+                return false;
+            }
+
+
+            if (_readModel.TcesNew.Any(t => t.Ip == TceInfoViewModel.Ip4InputViewModel.GetString() && t.Id != _tceInWork.Id))
+            {
+                _windowManager.ShowWindowWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_a_TCE_with_the_same_IP_address));
+                return false;
+            }
+            return true;
         }
 
         public void Cancel()

@@ -3437,4 +3437,10 @@ Please try again later</value>
 	<data name="SID_Monitoring_settings_are_being_applied" xml:space="preserve">
 		<value>Monitoring settings are being applied</value>
 	</data>
+	<data name="SID_There_is_a_TCE_with_the_same_name" xml:space="preserve">
+		<value>There is a TCE with the same name</value>
+	</data>
+	<data name="SID_There_is_a_TCE_with_the_same_IP_address" xml:space="preserve">
+		<value>There is a TCE with the same IP address</value>
+	</data>
 </root>

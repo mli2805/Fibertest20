@@ -8730,6 +8730,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is a TCE with the same IP address.
+        /// </summary>
+        public static string SID_There_is_a_TCE_with_the_same_IP_address {
+            get {
+                return ResourceManager.GetString("SID_There_is_a_TCE_with_the_same_IP_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a TCE with the same name.
+        /// </summary>
+        public static string SID_There_is_a_TCE_with_the_same_name {
+            get {
+                return ResourceManager.GetString("SID_There_is_a_TCE_with_the_same_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is a trace with the same title.
         /// </summary>
         public static string SID_There_is_a_trace_with_the_same_title {
