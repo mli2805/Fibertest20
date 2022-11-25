@@ -164,6 +164,19 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return resultBytes;
         }
 
+        public byte[] Sf780(byte[] measBytes)
+        {
+            var measIntPtr = InterOpWrapper.SetSorData(measBytes);
+            if (!InterOpWrapper.Analyze(ref measIntPtr, 1))
+                return null;
+
+            var size = InterOpWrapper.GetSorDataSize(measIntPtr);
+            byte[] resultBytes = new byte[size];
+            InterOpWrapper.GetSordata(measIntPtr, resultBytes, size);
+            InterOpWrapper.FreeSorDataMemory(measIntPtr);
+            return resultBytes;
+        }
+
         public OtdrDataKnownBlocks ApplyFilter(byte[] sorBytes, bool isFilterOn)
         {
             var sorData = SorData.FromBytes(sorBytes);

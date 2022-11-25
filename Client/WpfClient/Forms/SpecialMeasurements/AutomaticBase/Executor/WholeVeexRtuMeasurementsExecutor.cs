@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
 
             var dto = item.TraceLeaf.Parent
                 .CreateDoClientMeasurementDto(item.TraceLeaf.PortNumber, false, _readModel, Model.CurrentUser)
-                .SetParams(true, false, null, veexMeasOtdrParameters);
+                .SetParams(true, Model.AutoAnalysisParamsViewModel.SearchNewEvents, false, null, veexMeasOtdrParameters);
 
             var startResult = await _c2DWcfCommonManager.StartClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
@@ -186,7 +186,7 @@ namespace Iit.Fibertest.Client
 
         public void InterruptMeasurement()
         {
-            _cts.Cancel();
+            _cts?.Cancel();
         }
 
         public delegate void MeasurementHandler(object sender, MeasurementEventArgs e);

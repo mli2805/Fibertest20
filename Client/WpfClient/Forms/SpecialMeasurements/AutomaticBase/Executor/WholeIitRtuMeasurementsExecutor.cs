@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
 
             var dto = item.TraceLeaf.Parent
                 .CreateDoClientMeasurementDto(item.TraceLeaf.PortNumber, keepOtdrConnection, _readModel, Model.CurrentUser)
-                .SetParams(true, Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
+                .SetParams(true, Model.AutoAnalysisParamsViewModel.SearchNewEvents, Model.OtdrParametersTemplatesViewModel.IsAutoLmaxSelected(),
                     Model.OtdrParametersTemplatesViewModel.GetSelectedParameters(),
                     Model.OtdrParametersTemplatesViewModel.GetVeexSelectedParameters());
 

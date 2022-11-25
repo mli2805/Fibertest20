@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
             var veexMeasOtdrParameters = templateModel.GetVeexMeasOtdrParametersBase(true);
             var dto = traceLeaf.Parent
                 .CreateDoClientMeasurementDto(traceLeaf.PortNumber, false, _readModel, model.CurrentUser)
-                .SetParams(true, true, null, veexMeasOtdrParameters);
+                .SetParams(true, model.AutoAnalysisParamsViewModel.SearchNewEvents,true, null, veexMeasOtdrParameters);
 
             // with dto.VeexMeasOtdrParameters.measurementType == "auto_skip_measurement" - it is request of line quality
             var startResult = await _c2DWcfCommonManager.StartClientMeasurementAsync(dto);

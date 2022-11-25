@@ -176,9 +176,11 @@ namespace Iit.Fibertest.RtuManagement
                 return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);
 
             return result.Set(currentOtauPortDto, ReturnCode.MeasurementEndedNormally,
-               dto.IsForAutoBase
-                    ? _otdrManager.Sf780_779(lastSorDataBuffer)
-                    : _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer));
+               !dto.IsForAutoBase
+                    ? _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer)
+                    : dto.IsInsertNewEvents 
+                        ? _otdrManager.Sf780_779(lastSorDataBuffer)
+                        : _otdrManager.Sf780(lastSorDataBuffer));
         }
     }
 

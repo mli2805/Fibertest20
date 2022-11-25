@@ -3443,4 +3443,10 @@ Please try again later</value>
 	<data name="SID_There_is_a_TCE_with_the_same_IP_address" xml:space="preserve">
 		<value>There is a TCE with the same IP address</value>
 	</data>
+	<data name="SID_ThresholdsAttention" xml:space="preserve">
+		<value>Attention! The specified thresholds must be greater than the maximum values ​​in the inclusions on the trace</value>
+	</data>
+	<data name="SID_Current_operation" xml:space="preserve">
+		<value>Current operation</value>
+	</data>
 </root>

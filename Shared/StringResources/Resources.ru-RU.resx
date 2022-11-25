@@ -3443,4 +3443,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_There_is_a_TCE_with_the_same_IP_address" xml:space="preserve">
 		<value>Существует TCE с таким же IP адресом</value>
 	</data>
+	<data name="SID_ThresholdsAttention" xml:space="preserve">
+		<value>Внимание! Заданные пороги должны быть больше максимальных значений в неоднородностях на трассе</value>
+	</data>
+	<data name="SID_Current_operation" xml:space="preserve">
+		<value>Текущая операция</value>
+	</data>
 </root>

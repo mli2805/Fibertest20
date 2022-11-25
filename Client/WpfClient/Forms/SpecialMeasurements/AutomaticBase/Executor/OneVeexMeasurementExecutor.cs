@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Client
 
             var dto = traceLeaf.Parent
                 .CreateDoClientMeasurementDto(traceLeaf.PortNumber, false, _readModel, Model.CurrentUser)
-                .SetParams(true, false, null, veexMeasOtdrParameters);
+                .SetParams(true, Model.AutoAnalysisParamsViewModel.SearchNewEvents, false, null, veexMeasOtdrParameters);
 
             var startResult = await _c2DWcfCommonManager.StartClientMeasurementAsync(dto);
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)

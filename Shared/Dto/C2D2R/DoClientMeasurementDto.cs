@@ -33,6 +33,10 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public bool IsForAutoBase { get; set; }
 
+        // only for AutoBase: if true - apply InsertIitEvents (установить воротики)
+        [DataMember]
+        public bool IsInsertNewEvents { get; set; }
+
         // false - AutoBase for one trace only
         // true - when AutoBase for whole RTU, DO NOT disconnect from OTDR between measurements
         [DataMember]

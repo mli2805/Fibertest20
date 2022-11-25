@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client
 
             _dto = parent
                 .CreateDoClientMeasurementDto(portNumber, false, _readModel, _currentUser)
-                .SetParams(false, false, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
+                .SetParams(false, false, false, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
 
             return true;
         }
@@ -99,7 +99,7 @@ namespace Iit.Fibertest.Client
         {
             return parent 
                 .CreateDoClientMeasurementDto(portNumber, false, _readModel, _currentUser)
-                .SetParams(false, false, iitMeasParams, veexMeasParams);
+                .SetParams(false, false, false, iitMeasParams, veexMeasParams);
         }
 
         private CancellationTokenSource _cts;

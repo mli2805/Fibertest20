@@ -53,6 +53,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _searchNewEvents = true;
+        public bool SearchNewEvents
+        {
+            get => _searchNewEvents;
+            set
+            {
+                if (value == _searchNewEvents) return;
+                _searchNewEvents = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public AutoAnalysisParamsViewModel(IMyLog logFile, IWindowManager windowManager)
         {
             _logFile = logFile;

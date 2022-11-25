@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public static DoClientMeasurementDto SetParams(this DoClientMeasurementDto dto, bool isForAutoBase,
+        public static DoClientMeasurementDto SetParams(this DoClientMeasurementDto dto, bool isForAutoBase, bool isInsertIitEvents,
             bool isAutoLmax, List<MeasParamByPosition> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
         {
             // IIT
@@ -49,11 +49,12 @@ namespace Iit.Fibertest.Client
             if (isForAutoBase)
             {
                 dto.AnalysisParameters.findOnlyFirstAndLastEvents = true;
-                dto.AnalysisParameters.setUpIitEvents = true;
+                dto.AnalysisParameters.setUpIitEvents = isInsertIitEvents;
             }
 
             // IIT
             dto.IsForAutoBase = isForAutoBase;
+            dto.IsInsertNewEvents = isInsertIitEvents;
             dto.IsAutoLmax = isAutoLmax;
             return dto;
         }

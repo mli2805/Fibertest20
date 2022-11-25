@@ -2206,6 +2206,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current operation.
+        /// </summary>
+        public static string SID_Current_operation {
+            get {
+                return ResourceManager.GetString("SID_Current_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current optical events.
         /// </summary>
         public static string SID_Current_optical_events {
@@ -8825,6 +8834,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Threshold__dB {
             get {
                 return ResourceManager.GetString("SID_Threshold__dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attention! The specified thresholds must be greater than the maximum values ​​in the inclusions on the trace.
+        /// </summary>
+        public static string SID_ThresholdsAttention {
+            get {
+                return ResourceManager.GetString("SID_ThresholdsAttention", resourceCulture);
             }
         }
         
