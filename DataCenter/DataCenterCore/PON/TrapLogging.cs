@@ -7,8 +7,10 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class TrapLogging
     {
-        public static void LogSnmpVersion1TrapPacket(this IMyLog logFile, SnmpV1TrapPacket pkt, EndPoint endPoint)
+        public static void LogSnmpVersion1TrapPacket(this IMyLog logFile, SnmpV1TrapPacket pkt, EndPoint endPoint, int messageLevel)
         {
+            if (logFile.LogLevel < messageLevel) return;
+
             logFile.EmptyLine();
             logFile.AppendLine($"** SNMP Version 1 TRAP received from {endPoint}:");
             logFile.AppendLine($"*** Trap generic: {pkt.Pdu.Generic}");
@@ -25,8 +27,10 @@ namespace Iit.Fibertest.DataCenterCore
             logFile.AppendLine($"** End of SNMP Version 1 TRAP data.");
         }
 
-        public static void LogSnmpVersion2TrapPacket(this IMyLog logFile, SnmpV2Packet pkt, EndPoint endPoint)
+        public static void LogSnmpVersion2TrapPacket(this IMyLog logFile, SnmpV2Packet pkt, EndPoint endPoint, int messageLevel)
         {
+            if (logFile.LogLevel < messageLevel) return;
+          
             if (pkt.Pdu.Type != PduType.V2Trap)
             {
                 logFile.AppendLine($"*** NOT an SNMPv2 trap ****");

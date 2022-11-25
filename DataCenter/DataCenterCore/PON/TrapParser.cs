@@ -23,13 +23,13 @@ namespace Iit.Fibertest.DataCenterCore
             var tce = _writeModel.TcesNew.FirstOrDefault(o => o.Ip == ss[0]);
             if (tce == null)
             {
-                _logFile.AppendLine($"Unknown trap source address: {ss[0]}");
+                _logFile.AppendLine($"Unknown trap source address: {ss[0]}", 3);
                 return null;
             }
 
             if (!tce.ProcessSnmpTraps)
             {
-                _logFile.AppendLine("Trap processing of this TCE is turned off");
+                _logFile.AppendLine($"Trap processing of {tce.Title} {tce.Ip} is turned off");
                 return null;
             }
 
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             else
             {
-                _logFile.AppendLine($"Not a line event trap from {tce.Title} {tce.Ip}");
+                _logFile.AppendLine($"Not a line event trap from {tce.Title} {tce.Ip}", 0, 3);
             }
         }
 

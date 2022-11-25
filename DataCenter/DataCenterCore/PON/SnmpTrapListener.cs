@@ -82,13 +82,13 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     SnmpV1TrapPacket pkt = new SnmpV1TrapPacket();
                     pkt.decode(inData, inLen);
-                    // _logFile.LogSnmpVersion1TrapPacket(pkt, endPoint);
+                    _logFile.LogSnmpVersion1TrapPacket(pkt, endPoint, 3);
                 }
                 else
                 {
                     SnmpV2Packet pkt = new SnmpV2Packet();
                     pkt.decode(inData, inLen);
-                    // _logFile.LogSnmpVersion2TrapPacket(pkt, endPoint); // Hide after debugging
+                    _logFile.LogSnmpVersion2TrapPacket(pkt, endPoint, 3);
                     var parsedTrap = _trapParser.ParseTrap(pkt, endPoint);
                     if (parsedTrap == null) return;
                     var dto = _outOfTurnRequestBuilder.BuildDto(parsedTrap);
