@@ -3449,4 +3449,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Current_operation" xml:space="preserve">
 		<value>Текущая операция</value>
 	</data>
+	<data name="SID_Operations_result" xml:space="preserve">
+		<value>Результаты операций</value>
+	</data>
 </root>

@@ -23,10 +23,8 @@
                                             DataContext="{Binding WholeRtuMeasurementsExecutor.Model.OtdrParametersTemplatesViewModel}" />
         <client:AutoAnalysisParamsView DockPanel.Dock="Top"  DataContext="{Binding WholeRtuMeasurementsExecutor.Model.AutoAnalysisParamsViewModel}"/>
         <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"
-                                        DataContext="{Binding WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel}" 
-                                        Visibility="{Binding ControlVisibility}"/>
-        <GroupBox Header="Operations result" DockPanel.Dock="Top" Height="150" Width="450" Margin="5" 
-                Visibility="{Binding WholeRtuMeasurementsExecutor.Model.TraceResultsVisibility}"
+                                        DataContext="{Binding WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel}"/>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Operations_result}" DockPanel.Dock="Top" Height="150" Width="450" Margin="5" 
                 BorderThickness="1" BorderBrush="Gray" >
             <DockPanel>
                 <TextBlock DockPanel.Dock="Top" Text="{Binding WholeRtuMeasurementsExecutor.Model.TotalTraces}" Margin="7, 10, 0, 0"/>

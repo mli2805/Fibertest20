@@ -9,7 +9,7 @@
         <StackPanel>
             <TextBlock Margin="20,20,10,10" Text="{Binding Message1}" FontWeight="Bold"/>
             <TextBlock Margin="20,0,10,20" Text="{Binding Message}" FontWeight="Bold"/>
-            <ProgressBar Margin="10, 10, 10, 20" Height="18" IsIndeterminate="True"/>
+            <ProgressBar Margin="10, 10, 10, 20" Height="18" IsIndeterminate="{Binding IsProgressBarRunning}"/>
         </StackPanel>
     </GroupBox>
  

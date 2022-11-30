@@ -6065,6 +6065,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operations result.
+        /// </summary>
+        public static string SID_Operations_result {
+            get {
+                return ResourceManager.GetString("SID_Operations_result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opt. length, m.
         /// </summary>
         public static string SID_Opt_length_m {

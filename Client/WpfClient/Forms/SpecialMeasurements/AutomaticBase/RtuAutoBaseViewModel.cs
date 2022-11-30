@@ -289,7 +289,7 @@ namespace Iit.Fibertest.Client
                 startMonitoringResult = await StartMonitoring();
             }
 
-            WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+            WholeRtuMeasurementsExecutor.Model.MeasurementProgressViewModel.DisplayStop();
 
             if (!_interruptPressed)
             {

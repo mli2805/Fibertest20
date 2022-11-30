@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -76,7 +75,7 @@ namespace Iit.Fibertest.Client
         private void Finish(MeasurementEventArgs result)
         {
             _waitCursor.Dispose();
-            OneMeasurementExecutor.Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Collapsed;
+            OneMeasurementExecutor.Model.MeasurementProgressViewModel.DisplayStop();
             OneMeasurementExecutor.Model.IsEnabled = true;
 
             if (result.Code == ReturnCode.BaseRefAssignedSuccessfully)

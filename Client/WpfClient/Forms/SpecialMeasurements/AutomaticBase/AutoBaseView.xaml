@@ -22,7 +22,7 @@
                   Content="{x:Static stringResources:Resources.SID_Show_reflectogram_on_completion}" />
         <client:MeasurementProgressView DockPanel.Dock="Top" Margin="5,5"
                                             DataContext="{Binding OneMeasurementExecutor.Model.MeasurementProgressViewModel}" 
-                                            Visibility="{Binding ControlVisibility}" />
+                                            />
         <StackPanel/>
     </DockPanel>
 </Window>

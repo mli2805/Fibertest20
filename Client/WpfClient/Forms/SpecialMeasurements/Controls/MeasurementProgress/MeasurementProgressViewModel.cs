@@ -1,22 +1,22 @@
-﻿using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class MeasurementProgressViewModel : PropertyChangedBase
     {
-        private Visibility _controlVisibility = Visibility.Collapsed;
-        public Visibility ControlVisibility
+        private bool _isProgressBarRunning;
+        public bool IsProgressBarRunning
         {
-            get => _controlVisibility;
+            get => _isProgressBarRunning;
             set
             {
-                if (value == _controlVisibility) return;
-                _controlVisibility = value;
+                if (value == _isProgressBarRunning) return;
+                _isProgressBarRunning = value;
                 NotifyOfPropertyChange();
             }
         }
+
 
         private string _message1;
         public string Message1
@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Client
         }
 
         private string _message = "";
+
         public string Message
         {
             get => _message;
@@ -45,8 +46,15 @@ namespace Iit.Fibertest.Client
         public void DisplayStartMeasurement(string traceTitle)
         {
             Message1 = traceTitle;
-            ControlVisibility = Visibility.Visible;
+            IsProgressBarRunning = true;
             Message = Resources.SID_Sending_command__Wait_please___;
+        }
+
+        public void DisplayStop()
+        {
+            Message = "";
+            Message1 = "";
+            IsProgressBarRunning = false;
         }
 
         public void DisplayFinishInProgress()

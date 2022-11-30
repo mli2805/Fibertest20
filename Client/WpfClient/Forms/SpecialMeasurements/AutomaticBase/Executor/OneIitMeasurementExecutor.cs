@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -67,7 +66,7 @@ namespace Iit.Fibertest.Client
             {
                 _timer.Stop();
                 _timer.Dispose();
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
+                Model.MeasurementProgressViewModel.DisplayStop();
                 Model.IsEnabled = true;
 
                 MeasurementCompleted?
@@ -98,7 +97,7 @@ namespace Iit.Fibertest.Client
 
             _dispatcherProvider.GetDispatcher().Invoke(() =>
             {
-                Model.MeasurementProgressViewModel.ControlVisibility = Visibility.Hidden;
+                Model.MeasurementProgressViewModel.DisplayStop();
 
                 MeasurementCompleted?
                     .Invoke(this, new MeasurementEventArgs(ReturnCode.MeasurementTimeoutExpired, _trace));
