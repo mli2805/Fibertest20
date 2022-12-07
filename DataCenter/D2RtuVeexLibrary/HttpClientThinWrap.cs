@@ -1,16 +1,27 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public class HttpClientThinWrap : IHttpClientThinWrap
     {
+        private int _nc = 1;
+        private readonly IMyLog _logFile;
+
         private static readonly HttpClient HttpClient = new HttpClient()
         {
             DefaultRequestHeaders = { ExpectContinue = false },
             Timeout = TimeSpan.FromSeconds(400)
         };
+
+        public HttpClientThinWrap(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
 
         public async Task<byte[]> GetByteArrayAsync(string url)
         {
@@ -34,7 +45,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            return await HttpClient.GetAsync(url);
+            var httpResponseMessage = await HttpClient.GetAsync(url);
+            if (httpResponseMessage.StatusCode != HttpStatusCode.Unauthorized) 
+                return httpResponseMessage;
+
+            _logFile.AppendLine($"Unauthorized: {httpResponseMessage.Headers.WwwAuthenticate}");
+
+            var authorization = DigestAuth.GetAuthorizationString(httpResponseMessage, url, "*10169~", _nc++);
+            _logFile.AppendLine($"Authorization header: {authorization}");
+
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Digest", authorization);
+            httpResponseMessage = await HttpClient.GetAsync(url);
+            return httpResponseMessage;
         }
 
         public async Task<HttpResponseMessage> DeleteAsync(string url)

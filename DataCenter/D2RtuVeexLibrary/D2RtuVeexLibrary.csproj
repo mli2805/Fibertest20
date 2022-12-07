@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DigestAuth.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1Otdr.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1CompletedTests.cs" />
