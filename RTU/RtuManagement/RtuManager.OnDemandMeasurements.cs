@@ -112,11 +112,12 @@ namespace Iit.Fibertest.RtuManagement
                 return ReturnCode.MeasurementPreparationError;
             }
 
-            if (cp.snr_almax == 0)
-            {
-                _rtuLog.AppendLine("SNR == 0, No fiber!");
-                return ReturnCode.SnrIs0;
-            }
+            // temporary commented for experiments with old RTU
+            // if (cp.snr_almax == 0)
+            // {
+            //     _rtuLog.AppendLine("SNR == 0, No fiber!");
+            //     return ReturnCode.SnrIs0;
+            // }
             var values = AutoBaseParams.GetPredefinedParamsForLmax(lmax, "IIT MAK-100");
             if (values == null)
             {
