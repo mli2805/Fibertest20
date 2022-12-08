@@ -15,7 +15,7 @@
         OtauInitializationError = 1005,
         CharonComPortError = 1006,
         OtdrInitializationFailed = 1007, // Veex
-
+        RtuUnauthorizedAccess = 1008,
 
         RtuDoesNotSupportBop = 1012,
         RtuTooBigPortNumber = 1013,

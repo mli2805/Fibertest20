@@ -180,6 +180,17 @@ namespace Iit.Fibertest.Client
 
         private void ReactRtuInitialized(RtuInitializedDto dto)
         {
+            if (dto.ReturnCode == ReturnCode.RtuUnauthorizedAccess)
+            {
+                var vm = new RtuAskSerialViewModel();
+                vm.Initialize(!FullModel.OriginalRtu.IsInitialized, 
+                    FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().ToStringA(), dto.Serial);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                if (!vm.IsSavePressed) return;
+                FullModel.OriginalRtu.Serial = vm.Serial;
+                return;
+            }
+
             var rtuName = dto.RtuAddresses != null ? $@"RTU {dto.RtuAddresses.Main.Ip4Address}" : @"RTU";
             var message = dto.IsInitialized
                 ? $@"{rtuName} initialized successfully."

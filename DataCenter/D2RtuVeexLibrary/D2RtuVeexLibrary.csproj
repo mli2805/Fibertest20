@@ -74,12 +74,15 @@
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3Otau.cs" />
     <Compile Include="D2RtuVeexL3\InitializedDtoFactory.cs" />
     <Compile Include="HttpClientThinWrap.cs" />
+    <Compile Include="HttpRequestMessageExt.cs" />
     <Compile Include="HttpWrapper.cs" />
     <Compile Include="HttpRequestResult.cs" />
     <Compile Include="IHttpClientThinWrap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3AssignBaseRefs.cs" />
     <Compile Include="SorDataThresholdExtractor.cs" />
+    <Compile Include="VeexRtuAuthorizationData.cs" />
+    <Compile Include="VeexRtuAuthorizationDict.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">

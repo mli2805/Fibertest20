@@ -242,6 +242,7 @@ namespace Graph.Tests
             builder.RegisterType<SorFileRepository>().InstancePerLifetimeScope();
             builder.RegisterType<SnapshotRepository>().InstancePerLifetimeScope();
             builder.RegisterType<D2CWcfManager>().InstancePerLifetimeScope();
+            builder.RegisterType<VeexRtuAuthorizationDict>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer1>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer2>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer3>().SingleInstance();

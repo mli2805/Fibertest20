@@ -220,6 +220,10 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml.cs">
+      <DependentUpon>RtuAskSerialView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuHolder.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
@@ -826,6 +830,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

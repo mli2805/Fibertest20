@@ -68,7 +68,9 @@ namespace DirectRtuClient
             _iniFile = iniFile;
 
             _rtuVeexDoubleAddress = iniFile.ReadDoubleAddress(80);
-            _httpWrapper = new HttpWrapper(logFile, new HttpClientThinWrap(logFile));
+
+            var veexRtu = new VeexRtuAuthorizationDict();
+            _httpWrapper = new HttpWrapper(logFile, new HttpClientThinWrap(logFile, veexRtu));
             RtuVeexAddress = _rtuVeexDoubleAddress.Main.Ip4Address;
         }
 
@@ -88,9 +90,10 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
+            var veexRtuDict = new VeexRtuAuthorizationDict();
             var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
             var d2Rl2 = new D2RtuVeexLayer2(d2Rl1);
-            var d2Rl3 = new D2RtuVeexLayer3(d2Rl2);
+            var d2Rl3 = new D2RtuVeexLayer3(d2Rl2, veexRtuDict);
             var result = await Task.Factory.StartNew(() =>
                 d2Rl3.InitializeRtuAsync(new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
 
@@ -218,9 +221,10 @@ namespace DirectRtuClient
                     oneBaseRef
                 }
             };
+            var veexRtuDict = new VeexRtuAuthorizationDict();
             var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
             var layer2 = new D2RtuVeexLayer2(d2Rl1);
-            var layer3 = new D2RtuVeexLayer3(layer2);
+            var layer3 = new D2RtuVeexLayer3(layer2, veexRtuDict);
             var result = await Task.Factory.StartNew(() =>
                 layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
 

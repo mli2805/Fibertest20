@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using FluentAssertions;
 using Iit.Fibertest.D2RtuVeexLibrary;
 using Xunit;
@@ -46,27 +47,32 @@ namespace Tests
             Timeout = TimeSpan.FromSeconds(400)
         };
 
-      //  [Fact]  real http request
+         // [Fact]  // real http request
         public async void GetInfo2()
         {
-            var url = "http://172.16.4.30/api/v1/info";
+            // var url = "http://172.16.4.30/api/v1/info";
+            var url = "http://172.16.4.30/api/v1/monitoring";
 
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            // var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
             var httpResponseMessage = await _httpClient.SendAsync(request);
 
             httpResponseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
-            var newRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
-            var nc = 1;
-            var authorization = DigestAuth.GetAuthorizationString(httpResponseMessage, url, "*10169~", nc);
+            var authorization = httpResponseMessage
+                .CreateAuthorizationString(request.Method.Method, request.RequestUri.ToString(), "*10169~", 1);
             Debug.WriteLine(authorization);
-            newRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Digest", authorization);
 
+
+            // var newRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            var newRequestMessage = new HttpRequestMessage(new HttpMethod("PATCH"), url);
+            newRequestMessage.Content = new StringContent("{\"state\":\"disabled\"}", Encoding.UTF8, "application/merge-patch+json");
+            newRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Digest", authorization);
 
             var authRes = await _httpClient.SendAsync(newRequestMessage);
             _httpClient.Dispose();
 
-            authRes.StatusCode.Should().Be(HttpStatusCode.OK);
+            authRes.StatusCode.Should().NotBe(HttpStatusCode.Unauthorized);
         }
     }
 }

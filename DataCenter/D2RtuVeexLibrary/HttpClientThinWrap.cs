@@ -9,8 +9,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public class HttpClientThinWrap : IHttpClientThinWrap
     {
-        private int _nc = 1;
         private readonly IMyLog _logFile;
+        private readonly VeexRtuAuthorizationDict _veexRtuAuthorizationDict;
 
         private static readonly HttpClient HttpClient = new HttpClient()
         {
@@ -18,50 +18,71 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             Timeout = TimeSpan.FromSeconds(400)
         };
 
-        public HttpClientThinWrap(IMyLog logFile)
+        public HttpClientThinWrap(IMyLog logFile, VeexRtuAuthorizationDict veexRtuAuthorizationDict)
         {
             _logFile = logFile;
+            _veexRtuAuthorizationDict = veexRtuAuthorizationDict;
         }
 
         public async Task<byte[]> GetByteArrayAsync(string url)
         {
-            return await HttpClient.GetByteArrayAsync(url);
-        }
+            byte[] result;
+            try
+            {
+                var rtuData = _veexRtuAuthorizationDict.Dict[new Uri(url).Host];
+                if (rtuData.IsAuthorizationOn)
+                {
+                    var authorization = rtuData.CreateAuthorizationString("GET", url);
+                    _logFile.AppendLine($"Authorization header: {authorization}");
+                    HttpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Digest", authorization);
+                }
 
-        public async Task<HttpResponseMessage> PostAsync(string url, StringContent stringContent)
-        {
-            return await HttpClient.PostAsync(url, stringContent);
-        }
-
-        public async Task<HttpResponseMessage> PostAsync(string url, MultipartFormDataContent dataContent)
-        {
-            return await HttpClient.PostAsync(url, dataContent);
+                result = await HttpClient.GetByteArrayAsync(url);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+            finally
+            {
+                HttpClient.DefaultRequestHeaders.Authorization = null;
+            }
+            return result;
         }
 
         public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
-            return await HttpClient.SendAsync(request);
-        }
+            var cloneBeforeSend = request.Clone();
+            var rtuData = _veexRtuAuthorizationDict.Dict[request.Headers.Host];
 
-        public async Task<HttpResponseMessage> GetAsync(string url)
-        {
-            var httpResponseMessage = await HttpClient.GetAsync(url);
-            if (httpResponseMessage.StatusCode != HttpStatusCode.Unauthorized) 
+            var httpResponseMessage = await HttpClient.SendAsync(request);
+            if (httpResponseMessage.StatusCode != HttpStatusCode.Unauthorized
+                || string.IsNullOrEmpty(rtuData.Serial)) // Unauthorized && Serial is not set yet
+            {
+                rtuData.IsAuthorizationOn = false;
                 return httpResponseMessage;
+            }
+            _logFile.AppendLine($"Unauthorized {request.Method.Method} to {request.RequestUri};  " +
+                                $"WwwAuthenticate {httpResponseMessage.Headers.WwwAuthenticate}", 0, 3);
 
-            _logFile.AppendLine($"Unauthorized: {httpResponseMessage.Headers.WwwAuthenticate}");
+            if (!rtuData.IsAuthorizationOn)
+            {
+                rtuData.IsAuthorizationOn = true;
+                rtuData.Nc = 1;
+            }
+            rtuData.AuthenticationHeaderParts =
+                DigestAuth.ParseAuthHeader(httpResponseMessage.Headers.WwwAuthenticate.ToString());
+            var authorization = rtuData.CreateAuthorizationString(request.Method.Method, request.RequestUri.ToString());
 
-            var authorization = DigestAuth.GetAuthorizationString(httpResponseMessage, url, "*10169~", _nc++);
-            _logFile.AppendLine($"Authorization header: {authorization}");
+            _logFile.AppendLine($"Authorization header: {authorization}", 0, 3);
 
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Digest", authorization);
-            httpResponseMessage = await HttpClient.GetAsync(url);
+            cloneBeforeSend.Headers.Authorization = new AuthenticationHeaderValue("Digest", authorization);
+
+            httpResponseMessage = await HttpClient.SendAsync(cloneBeforeSend);
+            _logFile.AppendLine($"Auth request result: {httpResponseMessage.StatusCode}", 0, 3);
             return httpResponseMessage;
-        }
-
-        public async Task<HttpResponseMessage> DeleteAsync(string url)
-        {
-            return await HttpClient.DeleteAsync(url);
         }
     }
 }

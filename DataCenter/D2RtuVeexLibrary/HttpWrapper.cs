@@ -9,7 +9,15 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-
+    public static class NetAddressExt
+    {
+        public static string GetHost(this NetAddress netAddress)
+        {
+            var url = $"http://{netAddress.ToStringA()}/api/v1/info";
+            var uri = new Uri(url);
+            return uri.Host;
+        }
+    }
     public class HttpWrapper
     {
         private readonly IMyLog _logFile;
@@ -67,7 +75,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     dataContent.Add(byteArrayContent2);
                 }
 
-                HttpResponseMessage responseMessage = await _httpClientThinWrap.PostAsync(url, dataContent);
+                var request = CreateRequestMessage(url, "POST");
+                request.Content = dataContent;
+                request.Headers.Host = rtuDoubleAddress.Main.GetHost();
+                HttpResponseMessage responseMessage = await _httpClientThinWrap.SendAsync(request);
+
                 if (responseMessage.StatusCode != HttpStatusCode.Created)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
                 result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be explanation
@@ -87,9 +99,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
+
             try
             {
-                var responseMessage = await MadeRequest(url, httpMethod, contentRepresentation, jsonData);
+                var request = CreateRequestMessage(url, httpMethod, contentRepresentation, jsonData);
+                request.Headers.Host = rtuDoubleAddress.Main.GetHost();
+                var responseMessage = await _httpClientThinWrap.SendAsync(request);
+
+
                 if (!responseMessage.IsSuccessStatusCode)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
                 if (responseMessage.StatusCode == HttpStatusCode.Created)
@@ -106,27 +123,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        private async Task<HttpResponseMessage> MadeRequest(
-            string url, string httpMethod, string contentRepresentation, string jsonData)
+        private HttpRequestMessage CreateRequestMessage(string url, string method, string contentRepresentationType = null, string jsonData = null)
         {
-            switch (httpMethod.ToLower())
-            {
-                case "get": return await _httpClientThinWrap.GetAsync(url);
-
-                case "post":
-                    var content = new StringContent(
-               jsonData, Encoding.UTF8, contentRepresentation);
-                    return await _httpClientThinWrap.PostAsync(url, content);
-
-                case "patch":
-                    var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
-                    request.Content = new StringContent(
-                        jsonData, Encoding.UTF8, contentRepresentation);
-                    return await _httpClientThinWrap.SendAsync(request);
-
-                case "delete": return await _httpClientThinWrap.DeleteAsync(url);
-            }
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            var request = new HttpRequestMessage(new HttpMethod(method.ToUpper()), url);
+            if (jsonData != null)
+                request.Content = new StringContent(jsonData, Encoding.UTF8, contentRepresentationType);
+            return request;
         }
     }
+
+   
 }

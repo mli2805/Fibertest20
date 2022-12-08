@@ -11,14 +11,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         private const string Username = "rtuadmin";
 
-        public static string GetAuthorizationString(HttpResponseMessage responseMessage, string uri, string password, int nc)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="responseMessage">response with Unauthorized status (for previous request)</param>
+        /// <param name="method"></param>
+        /// <param name="uri"></param>
+        /// <param name="password"></param>
+        /// <param name="nc"></param>
+        /// <returns></returns>
+        public static string CreateAuthorizationString(this HttpResponseMessage responseMessage, string method, string uri, string password, int nc)
         {
             var dict = ParseAuthHeader(responseMessage.Headers.WwwAuthenticate.ToString());
             var ha1 = GetHa1(Username, dict["realm"], password);
             var digestUrl = CutUrl(uri);
             var cnonce = GetRandomAsciiString(16);
             Debug.WriteLine($"cnonce is {cnonce}");
-            var ha2 = GetHa2("GET", digestUrl);
+            var ha2 = GetHa2(method, digestUrl);
             var ncStr = $"{nc:X8}";
             var response = GetHashResponse(ha1, dict["nonce"], ncStr, cnonce, "auth", ha2);
 
@@ -36,7 +45,32 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10;
         }
 
-        private static Dictionary<string, string> ParseAuthHeader(string authHeader)
+        public static string CreateAuthorizationString(this VeexRtuAuthorizationData rtuData, string method, string uri)
+        {
+            var realm = rtuData.AuthenticationHeaderParts["realm"];
+            var ha1 = GetHa1(Username, realm, rtuData.Password);
+            var digestUrl = CutUrl(uri);
+            var cnonce = GetRandomAsciiString(16);
+            var ha2 = GetHa2(method, digestUrl);
+            var ncStr = $"{rtuData.Nc:X8}";
+            var nonce = rtuData.AuthenticationHeaderParts["nonce"];
+            var response = GetHashResponse(ha1, nonce, ncStr, cnonce, "auth", ha2);
+
+            var a1 = $"username=\"{Username}\", ";
+            var a2 = $"realm=\"{realm}\", ";
+            var a3 = $"uri=\"{digestUrl}\", ";
+            var a4 = "algorithm=SHA-256, ";
+            var a5 = "qop=auth, ";
+            var a6 = $"nonce=\"{nonce}\", ";
+            var a7 = $"nc={ncStr}, ";
+            var a8 = $"cnonce=\"{cnonce}\", ";
+            var a9 = $"response=\"{response}\", ";
+            var a10 = "opaque=\"undefined\"";
+            return a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9 + a10;
+
+        }
+
+        public static Dictionary<string, string> ParseAuthHeader(string authHeader)
         {
             var dict = new Dictionary<string, string>();
             if (authHeader.StartsWith("Digest "))

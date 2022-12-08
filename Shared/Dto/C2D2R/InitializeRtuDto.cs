@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Dto
         // RTU properties after previous initialization
         [DataMember]
         public string Serial { get; set; }
+
         [DataMember]
         public int OwnPortCount { get; set; }
 

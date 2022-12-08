@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterService
@@ -18,6 +21,8 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMyLog _logFile;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IParameterizer _serverParameterizer;
+        private readonly Model _writeModel;
+        private readonly VeexRtuAuthorizationDict _veexRtuAuthorizationDict;
         private readonly EventStoreService _eventStoreService;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
@@ -37,7 +42,8 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
-            IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
+            IParameterizer serverParameterizer, Model writeModel, VeexRtuAuthorizationDict veexRtuAuthorizationDict,
+            EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
             VeexCompletedTestsFetcher veexCompletedTestsFetcher, VeexCompletedTestsProcessorThread veexCompletedTestsProcessorThread,
             WebApiChecker webApiChecker,
@@ -53,6 +59,8 @@ namespace Iit.Fibertest.DataCenterService
             _logFile = logFile;
             _currentDatacenterParameters = currentDatacenterParameters;
             _serverParameterizer = serverParameterizer;
+            _writeModel = writeModel;
+            _veexRtuAuthorizationDict = veexRtuAuthorizationDict;
             _eventStoreService = eventStoreService;
             _eventStoreInitializer = eventStoreInitializer;
             _logFile.AssignFile("DataCenter.log");
@@ -107,6 +115,15 @@ namespace Iit.Fibertest.DataCenterService
             _serverParameterizer.Init();
             _ftSignalRClient.Initialize();
             await InitializeEventStoreService();
+            foreach (var rtu in _writeModel.Rtus.Where(r=>r.IsInitialized && r.RtuMaker == RtuMaker.VeEX))
+            {
+                _veexRtuAuthorizationDict.Dict.Add(rtu.MainChannel.GetHost(), new VeexRtuAuthorizationData()
+                {
+                    RtuId = rtu.Id,
+                    Serial = rtu.Serial,
+                });
+            }
+
             _lastConnectionTimeChecker.Start();
 
             if (_currentDatacenterParameters.WebApiBindingProtocol != "none")

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -12,12 +13,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             try
             {
                 var rtuAddresses = (DoubleAddress)dto.RtuAddresses.Clone();
+                var host = rtuAddresses.Main.GetHost();
+                if (!_veexRtuAuthorizationDict.Dict.TryGetValue(host, out var rtuData))
+                    _veexRtuAuthorizationDict.Dict.Add(host, new VeexRtuAuthorizationData()
+                    {
+                        RtuId = dto.RtuId,
+                        Serial = dto.Serial,
+                    });
+                else rtuData.Serial = dto.Serial;
 
                 var platformRes = await _d2RtuVeexLayer2.GetPlatform(rtuAddresses);
                 if (!platformRes.IsSuccessful)
                     return new RtuInitializedDto
                     {
-                        ReturnCode = ReturnCode.RtuInitializationError,
+                        ReturnCode = platformRes.HttpStatusCode == HttpStatusCode.Unauthorized 
+                            ? ReturnCode.RtuUnauthorizedAccess 
+                            : ReturnCode.RtuInitializationError,
                         ErrorMessage = platformRes.ErrorMessage,
                     };
 

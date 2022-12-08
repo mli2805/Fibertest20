@@ -110,7 +110,7 @@ namespace Iit.Fibertest.Client
             RtuName = OriginalRtu.Title;
             if (OriginalRtu.MainChannel.Ip4Address == "")
                 OriginalRtu.MainChannel.Ip4Address =
-                    _iniFile.Read(IniSection.General, IniKey.Ip4Default, @"192.168.96.");
+                    _iniFile.Read(IniSection.General, IniKey.Ip4Default, @"172.16.4.");
             MainChannelTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
                 (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
             MainChannelTestViewModel.PropertyChanged += MainChannelTestViewModel_PropertyChanged;
