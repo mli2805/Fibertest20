@@ -89,9 +89,9 @@ TNUP
 Name
 EvtDetectDeltaCT
 Value
-1
+2
 Scale
-1
+10
 Name
 EvtSearchStep
 Value
