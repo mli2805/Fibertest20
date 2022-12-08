@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -86,18 +83,30 @@ namespace Iit.Fibertest.Client
 
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
-                    if (!await CheckConnectionBeforeInitialization()) 
+                    if (!await FullModel.CheckConnectionBeforeInitialization())
                         return;
                     var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == (int)TcpPorts.RtuListenTo
                         ? RtuMaker.IIT
                         : RtuMaker.VeEX;
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
 
-                    var initializeRtuDto = CreateDto(rtuMaker);
+                    var initializeRtuDto = FullModel.CreateDto(rtuMaker, _currentUser);
                     result = await _wcfServiceCommonC2D.InitializeRtuAsync(initializeRtuDto);
                 }
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
-                ReactRtuInitialized(result);
+
+                if (result.ReturnCode == ReturnCode.RtuUnauthorizedAccess)
+                {
+                    var vm = new RtuAskSerialViewModel();
+                    vm.Initialize(!FullModel.OriginalRtu.IsInitialized,
+                        FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().ToStringA(), result.Serial);
+                    _windowManager.ShowDialogWithAssignedOwner(vm);
+                    if (!vm.IsSavePressed) return;
+                    FullModel.OriginalRtu.Serial = vm.Serial.ToUpper();
+                    await InitializeRtu();
+                }
+                else
+                    ReactRtuInitialized(result);
             }
             catch (Exception e)
             {
@@ -112,142 +121,23 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private InitializeRtuDto CreateDto(RtuMaker rtuMaker)
-        {
-            if (FullModel.IsReserveChannelEnabled && FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Port == -1)
-                FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Port = rtuMaker == RtuMaker.IIT
-                    ? (int)TcpPorts.RtuListenTo
-                    : (int)TcpPorts.RtuVeexListenTo;
-
-            if (FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == -1)
-                FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port = rtuMaker == RtuMaker.IIT
-                    ? (int)TcpPorts.RtuListenTo
-                    : (int)TcpPorts.RtuVeexListenTo;
-            return new InitializeRtuDto()
-            {
-                ConnectionId = _currentUser.ConnectionId,
-                RtuMaker = rtuMaker, // it depends on which initialization button was pressed
-
-                RtuId = FullModel.OriginalRtu.Id,
-                Serial = FullModel.OriginalRtu.Serial, // properties after previous initialization (if it was)
-                OwnPortCount = FullModel.OriginalRtu.OwnPortCount,
-                MainVeexOtau = FullModel.OriginalRtu.MainVeexOtau,
-                Children = FullModel.OriginalRtu.Children,
-
-                RtuAddresses = new DoubleAddress()
-                {
-                    Main = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
-                    HasReserveAddress = FullModel.IsReserveChannelEnabled,
-                    Reserve = FullModel.IsReserveChannelEnabled
-                        ? FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress()
-                        : null,
-                },
-                IsFirstInitialization =
-                    FullModel.OriginalRtu.OwnPortCount ==
-                    0, // if it's first initialization for this RTU - monitoring should be stopped - in case it's running somehow
-            };
-        }
-
-        private async Task<bool> CheckConnectionBeforeInitialization()
-        {
-            if (!FullModel.MainChannelTestViewModel.NetAddressInputViewModel.IsValidIpAddress())
-            {
-                _windowManager.ShowDialogWithAssignedOwner(
-                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
-                return false;
-            }
-            if (!await FullModel.MainChannelTestViewModel.ExternalTest())
-            {
-                _windowManager.ShowDialogWithAssignedOwner(
-                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
-                return false;
-            }
-
-            if (!FullModel.IsReserveChannelEnabled) return true;
-
-            if (!FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.IsValidIpAddress())
-            {
-                _windowManager.ShowDialogWithAssignedOwner(
-                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
-                return false;
-            }
-            if (await FullModel.ReserveChannelTestViewModel.ExternalTest()) return true;
-
-            _windowManager.ShowDialogWithAssignedOwner(
-                new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
-            return false;
-        }
-
         private void ReactRtuInitialized(RtuInitializedDto dto)
         {
-            if (dto.ReturnCode == ReturnCode.RtuUnauthorizedAccess)
-            {
-                var vm = new RtuAskSerialViewModel();
-                vm.Initialize(!FullModel.OriginalRtu.IsInitialized, 
-                    FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().ToStringA(), dto.Serial);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                if (!vm.IsSavePressed) return;
-                FullModel.OriginalRtu.Serial = vm.Serial;
-                return;
-            }
+           
 
             var rtuName = dto.RtuAddresses != null ? $@"RTU {dto.RtuAddresses.Main.Ip4Address}" : @"RTU";
             var message = dto.IsInitialized
                 ? $@"{rtuName} initialized successfully."
                 : $@"{rtuName} initialization failed. " + Environment.NewLine + dto.ReturnCode.GetLocalizedString();
             if (!string.IsNullOrEmpty(dto.ErrorMessage))
-            {
                 message += Environment.NewLine + dto.ErrorMessage;
-            }
-
             _logFile.AppendLine(message);
 
             if (dto.IsInitialized)
-            {
                 FullModel.UpdateWithDto(dto);
-            }
 
-            ShowInitializationResultMessageBox(dto);
-        }
-
-        private void ShowInitializationResultMessageBox(RtuInitializedDto dto)
-        {
-            MyMessageBoxViewModel vm;
-            switch (dto.ReturnCode)
-            {
-                case ReturnCode.Ok:
-                case ReturnCode.RtuInitializedSuccessfully:
-                    var msg = dto.Children.Any(c => !c.Value.IsOk)
-                        ? Resources.SID_RTU_initialized2
-                        : Resources.SID_RTU_initialized_successfully_;
-                    vm = new MyMessageBoxViewModel(MessageType.Information, msg);
-                    break;
-                case ReturnCode.RtuDoesNotSupportBop:
-                case ReturnCode.RtuTooBigPortNumber:
-                    var strs = new List<string>()
-                    {
-                        dto.ReturnCode.GetLocalizedString(), "", Resources.SID_Detach_BOP_manually, Resources.SID_and_start_initialization_again_
-                    };
-                    vm = new MyMessageBoxViewModel(MessageType.Error, strs);
-                    break;
-                case ReturnCode.RtuIsBusy:
-                case ReturnCode.RtuInitializationInProgress:
-                case ReturnCode.RtuAutoBaseMeasurementInProgress:
-                    vm = new MyMessageBoxViewModel(
-                        MessageType.Error, new List<string>()
-                        {
-                            string.Format(Resources.SID_RTU__0__is_busy_, FullModel.OriginalRtu.Title), "", dto.RtuOccupationState.GetLocalized(),
-                        }, 1);
-                    break;
-                case ReturnCode.RtuInitializationError:
-                case ReturnCode.OtauInitializationError:
-                case ReturnCode.OtdrInitializationFailed:
-                default:
-                    vm = new MyMessageBoxViewModel
-                        (MessageType.Error, dto.ReturnCode.GetLocalizedWithOsInfo(dto.ErrorMessage).Split('\n'), 0);
-                    break;
-            }
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            var resultMessageBox = dto.ShowInitializationResultMessageBox(FullModel.OriginalRtu.Title);
+            _windowManager.ShowDialogWithAssignedOwner(resultMessageBox);
         }
 
         public void Close()

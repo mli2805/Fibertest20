@@ -2089,6 +2089,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        public static string SID_Continue {
+            get {
+                return ResourceManager.GetString("SID_Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {{Lat={0:#0.000000}, Lng={1:#0.000000}}}.
         /// </summary>
         public static string SID_coor_in_degrees {
@@ -6488,6 +6497,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter Platform serial number.
+        /// </summary>
+        public static string SID_Please_enter_Platform_serial_number {
+            get {
+                return ResourceManager.GetString("SID_Please_enter_Platform_serial_number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please leave application..
         /// </summary>
         public static string SID_Please_leave_application_ {
@@ -9356,6 +9374,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Type_of_install_ {
             get {
                 return ResourceManager.GetString("SID_Type_of_install_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unauthorized access to RTU {0}..
+        /// </summary>
+        public static string SID_Unauthorized_access_to_RTU__0__ {
+            get {
+                return ResourceManager.GetString("SID_Unauthorized_access_to_RTU__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unauthorized RTU access.
+        /// </summary>
+        public static string SID_Unauthorized_RTU_access {
+            get {
+                return ResourceManager.GetString("SID_Unauthorized_RTU_access", resourceCulture);
             }
         }
         

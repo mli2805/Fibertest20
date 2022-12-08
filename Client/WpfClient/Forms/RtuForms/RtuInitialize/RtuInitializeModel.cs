@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
-        private readonly IWindowManager _windowManager;
+        public readonly IWindowManager WindowManager;
         private readonly Model _readModel;
 
         public string RtuName
@@ -58,7 +58,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         public NetAddressTestViewModel MainChannelTestViewModel { get; set; }
         public bool IsReserveChannelEnabled { get; set; }
         public NetAddressTestViewModel ReserveChannelTestViewModel { get; set; }
@@ -99,7 +98,7 @@ namespace Iit.Fibertest.Client
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
-            _windowManager = windowManager;
+            WindowManager = windowManager;
             _readModel = readModel;
         }
 
@@ -165,10 +164,10 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == @"Result")
             {
                 if (ReserveChannelTestViewModel.Result == true)
-                    _windowManager.ShowDialogWithAssignedOwner(
+                    WindowManager.ShowDialogWithAssignedOwner(
                         new MyMessageBoxViewModel(MessageType.Information, Resources.SID_RTU_connection_established_successfully_));
                 if (ReserveChannelTestViewModel.Result == false)
-                    _windowManager.ShowDialogWithAssignedOwner(
+                    WindowManager.ShowDialogWithAssignedOwner(
                         new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
             }
         }
@@ -178,10 +177,10 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == @"Result")
             {
                 if (MainChannelTestViewModel.Result == true)
-                    _windowManager.ShowDialogWithAssignedOwner(
+                    WindowManager.ShowDialogWithAssignedOwner(
                         new MyMessageBoxViewModel(MessageType.Information, Resources.SID_RTU_connection_established_successfully_));
                 if (MainChannelTestViewModel.Result == false)
-                    _windowManager.ShowDialogWithAssignedOwner(
+                    WindowManager.ShowDialogWithAssignedOwner(
                         new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
             }
         }
@@ -196,14 +195,14 @@ namespace Iit.Fibertest.Client
             if (_readModel.GetRtuLicenseCount() <= initializedRtuCount)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
+                WindowManager.ShowDialogWithAssignedOwner(vm);
                 return false;
             }
 
             if (string.IsNullOrEmpty(OriginalRtu.Title))
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Title_should_be_set_);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
+                WindowManager.ShowDialogWithAssignedOwner(vm);
                 return false;
             }
 
@@ -229,7 +228,7 @@ namespace Iit.Fibertest.Client
                 return true;
 
             var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            WindowManager.ShowDialogWithAssignedOwner(vm);
             return false;
         }
         #endregion

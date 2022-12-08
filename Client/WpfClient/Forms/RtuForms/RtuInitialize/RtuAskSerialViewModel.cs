@@ -1,11 +1,12 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuAskSerialViewModel : Screen
     {
         public string Message1 { get; set; }
-        public string Message2 { get; set; }
+        //public string Message2 { get; set; }
         public string Message3 { get; set; }
 
         public string Serial { get; set; }
@@ -16,9 +17,9 @@ namespace Iit.Fibertest.Client
         {
             IsSavePressed = false;
 
-            Message1 = $"Unauthorized RTU {address} access.";
-            Message2 = isFirstInitialization ? "First initialization" : "Probably RTU was changed";
-            Message3 = "Please enter Platform serial number";
+            Message1 = string.Format(Resources.SID_Unauthorized_access_to_RTU__0__, address);
+            //Message2 = isFirstInitialization ? "First initialization" : "Probably RTU was changed";
+            Message3 = Resources.SID_Please_enter_Platform_serial_number;
 
             Serial = oldSerial;
         }
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.Client
             DisplayName = "";
         }
 
-        public void Save()
+        public void Apply()
         {
             IsSavePressed = true;
             TryClose();

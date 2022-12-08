@@ -3452,4 +3452,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Operations_result" xml:space="preserve">
 		<value>Результаты операций</value>
 	</data>
+	<data name="SID_Unauthorized_RTU_access" xml:space="preserve">
+		<value>Неавторизованный доступ к RTU</value>
+	</data>
+	<data name="SID_Unauthorized_access_to_RTU__0__" xml:space="preserve">
+		<value>Неавторизованный доступ к RTU {0}.</value>
+	</data>
+	<data name="SID_Please_enter_Platform_serial_number" xml:space="preserve">
+		<value>Пожалуйста, введите Серийный номер платформы</value>
+	</data>
+	<data name="SID_Continue" xml:space="preserve">
+		<value>Продолжить</value>
+	</data>
 </root>

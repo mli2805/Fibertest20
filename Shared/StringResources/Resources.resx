@@ -3452,4 +3452,16 @@ Please try again later</value>
 	<data name="SID_Operations_result" xml:space="preserve">
 		<value>Operations result</value>
 	</data>
+	<data name="SID_Unauthorized_RTU_access" xml:space="preserve">
+		<value>Unauthorized RTU access</value>
+	</data>
+	<data name="SID_Unauthorized_access_to_RTU__0__" xml:space="preserve">
+		<value>Unauthorized access to RTU {0}.</value>
+	</data>
+	<data name="SID_Please_enter_Platform_serial_number" xml:space="preserve">
+		<value>Please enter Platform serial number</value>
+	</data>
+	<data name="SID_Continue" xml:space="preserve">
+		<value>Continue</value>
+	</data>
 </root>

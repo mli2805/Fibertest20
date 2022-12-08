@@ -3,16 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Height="265" Width="500" WindowStartupLocation="CenterOwner">
+        Height="225" Width="500" WindowStartupLocation="CenterOwner">
     <StackPanel>
         <TextBlock Text="{Binding Message1}" HorizontalAlignment="Center" Margin="5,15,5,5" Height="30" FontWeight="Bold"/>
-        <TextBlock Text="{Binding Message2}" HorizontalAlignment="Center" Margin="5" Height="30"/>
-        <TextBlock Text="{Binding Message3}" HorizontalAlignment="Center" Margin="5" Height="30" FontWeight="Bold"/>
+        <!-- <TextBlock Text="{Binding Message2}" HorizontalAlignment="Center" Margin="5" Height="30"/> -->
+        <TextBlock Text="{Binding Message3}" HorizontalAlignment="Center" Margin="5" Height="30"/>
         <TextBox Text="{Binding Serial}" HorizontalAlignment="Center" Margin="5,5,5,25" Width="300"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="Save" Content="Save" Margin="5" Width="120"/>
-            <Button Name="Cancel" Content="Cancel" Margin="5" Width="120"/>
+            <Button Name="Continue" Content="{x:Static stringResources:Resources.SID_Continue}" Margin="5" Width="120"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="5" Width="120"/>
         </StackPanel>
     </StackPanel>
 </Window>

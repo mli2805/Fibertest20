@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.OtdrInitializationFailed:
                     return Resources.SID_Failed_to_initialize_OTDR;
                 case ReturnCode.RtuUnauthorizedAccess:
-                    return "Unauthorized RTU access";
+                    return Resources.SID_Unauthorized_RTU_access;
                 case ReturnCode.RtuDoesNotSupportBop:
                     return Resources.SID_RTU_does_not_support_BOP;
                 case ReturnCode.RtuTooBigPortNumber:

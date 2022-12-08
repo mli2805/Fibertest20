@@ -224,6 +224,8 @@
       <DependentUpon>RtuAskSerialView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialViewModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializedDtoExt.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeModelExt.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuHolder.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
