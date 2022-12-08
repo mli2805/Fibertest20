@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Dto
         public static readonly List<string> Rxt4100Tp = new List<string>() { "25", "25", "25", "100" };
         public static readonly List<string> Tp = new List<string>() { "25", "25", "25", "100" };
 
-        public static readonly List<string> Time = new List<string>() { "00:05", "00:15", "00:15", "00:15", };
+        public static readonly List<string> Time = new List<string>() { "00:15", "00:15", "00:15", "00:15", };
 
         // AFTER measurement
         // Client requests index of template of parameters by lmax from received sorData
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Dto
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var filename = basePath + "..\\ini\\temp_tps.txt";
             if (!File.Exists(filename))
-                File.WriteAllLines(filename, new List<string>(){"Pulse durations", "25", "25", "25", "100"});
+                File.WriteAllLines(filename, new List<string>(){"Pulse durations", "25", "100", "100", "300"});
             var content = File.ReadAllLines(filename);
             return content.Skip(1).ToList(); // first line is comment
         }

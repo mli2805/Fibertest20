@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var filename = basePath + "..\\ini\\temp_tps.txt";
             if (!File.Exists(filename))
-                File.WriteAllLines(filename, new List<string>(){"Допустимые значения: "+acceptableTps, "25", "25", "25", "100"});
+                File.WriteAllLines(filename, new List<string>(){"Допустимые значения: "+acceptableTps, "25", "100", "100", "300"});
             var content = File.ReadAllLines(filename);
             return content.Skip(1).ToList(); // first line is comment
         }
