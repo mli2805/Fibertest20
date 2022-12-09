@@ -26,8 +26,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!platformRes.IsSuccessful)
                     return new RtuInitializedDto
                     {
-                        ReturnCode = platformRes.HttpStatusCode == HttpStatusCode.Unauthorized 
-                            ? ReturnCode.RtuUnauthorizedAccess 
+                        ReturnCode = platformRes.HttpStatusCode == HttpStatusCode.Unauthorized
+                            ? ReturnCode.RtuUnauthorizedAccess
                             : ReturnCode.RtuInitializationError,
                         ErrorMessage = platformRes.ErrorMessage,
                     };
@@ -44,10 +44,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!otdrRes.IsSuccessful)
                     return new RtuInitializedDto()
                     {
-                        ReturnCode = ReturnCode.OtdrInitializationFailed, 
+                        ReturnCode = ReturnCode.OtdrInitializationFailed,
                         ErrorMessage = otdrRes.ErrorMessage
                     };
                 var otdr = (VeexOtdr)otdrRes.ResponseObject;
+                if (!otdr.isConnected)
+                {
+                    var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, otdr.id);
+                    if (!proxy.IsSuccessful)
+                        return new RtuInitializedDto
+                        {
+                            ReturnCode = ReturnCode.RtuInitializationError,
+                            ErrorMessage = "Failed to disable proxy mode!" + Environment.NewLine + proxy.ErrorMessage,
+                        };
+                }
 
                 var otauRes = await _d2RtuVeexLayer2.InitializeOtaus(rtuAddresses, dto);
                 if (!otauRes.IsSuccessful)
@@ -55,14 +65,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     {
                         ReturnCode = ReturnCode.OtauInitializationError,
                         ErrorMessage = otauRes.ErrorMessage,
-                    };
-
-                var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, otdr.id);
-                if (!proxy.IsSuccessful)
-                    return new RtuInitializedDto
-                    {
-                        ReturnCode = ReturnCode.RtuInitializationError,
-                        ErrorMessage = "Failed to disable proxy mode!" + Environment.NewLine + proxy.ErrorMessage,
                     };
 
                 var getMoniPropResult = await _d2RtuVeexLayer2.GetMonitoringProperties(rtuAddresses);
@@ -78,6 +80,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     .FillInPlatform((VeexPlatformInfo)platformRes.ResponseObject)
                     .FillInOtdr(otdr)
                     .FillInOtau((List<VeexOtau>)otauRes.ResponseObject, dto);
+                _veexRtuAuthorizationDict.Dict[host].Serial = result.Serial; // in case user input with misprinting
+
+                var authRes = await _d2RtuVeexLayer2.EnableAuthorization(rtuAddresses, true);
+                if (!authRes.IsSuccessful)
+                {
+                    result.ReturnCode = ReturnCode.RtuInitializationError;
+                    result.ErrorMessage = "Failed to set authorization mode";
+                    return result;
+                }
 
                 var monitoringProperties = (VeexMonitoringDto)getMoniPropResult.ResponseObject;
                 if (monitoringProperties.type != "fibertest" || dto.IsFirstInitialization)
@@ -106,6 +117,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 };
             }
         }
-      
+
     }
 }

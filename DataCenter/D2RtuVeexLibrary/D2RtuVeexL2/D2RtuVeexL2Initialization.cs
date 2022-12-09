@@ -62,6 +62,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return null;
         }
 
-     
+        public async Task<HttpRequestResult> EnableAuthorization(DoubleAddress rtuDoubleAddress, bool param)
+        {
+            return await _d2RtuVeexLayer1.EnableAuthorization(rtuDoubleAddress, param);
+        }
     }
 }

@@ -7,6 +7,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer1
     {
+        public async Task<HttpRequestResult> EnableAuthorization(DoubleAddress rtuDoubleAddress, bool param)
+        {
+            var json = $"{{\"apiAuthEnabled\":{param.ToString().ToLower()}}}"; 
+            var res = await _httpWrapper
+                .RequestByUrl(rtuDoubleAddress, "info", "patch", "application/merge-patch+json", json);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
+        }
+
         public async Task<HttpRequestResult> GetPlatform(DoubleAddress rtuDoubleAddress)
         {
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress, "info", "get");

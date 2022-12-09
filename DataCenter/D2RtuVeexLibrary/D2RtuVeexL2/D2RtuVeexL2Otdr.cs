@@ -12,10 +12,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var getResult = await _d2RtuVeexLayer1.GetOtdrs(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
                 return getResult;
-            
+
             var otdrs = (LinkList)getResult.ResponseObject;
             string otdrId = otdrs.items.Count == 0 ? "" : otdrs.items[0].self.Split('/')[1];
-            
+
             var resetResult = await ResetOtdrs(rtuDoubleAddress, otdrId);
             if (!resetResult.IsSuccessful)
                 return resetResult;
@@ -63,17 +63,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return res;
             }
 
-            var otdrRes = await _d2RtuVeexLayer1.GetOtdr(rtuDoubleAddress, otdrs.items[0].self);
-            if (!otdrRes.IsSuccessful)
-                return otdrRes;
-            var otdr = (VeexOtdr)otdrRes.ResponseObject;
-            if (!otdr.isConnected)
-            {
-                otdrRes.IsSuccessful = false;
-                otdrRes.ErrorMessage = "Failed to connect OTDR";
-            }
-
-            return otdrRes;
+            return await _d2RtuVeexLayer1.GetOtdr(rtuDoubleAddress, otdrs.items[0].self);
         }
     }
 }
