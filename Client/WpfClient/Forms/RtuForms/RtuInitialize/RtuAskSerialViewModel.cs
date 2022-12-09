@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
             DisplayName = "";
         }
 
-        public void Apply()
+        public void Continue()
         {
             IsSavePressed = true;
             TryClose();
