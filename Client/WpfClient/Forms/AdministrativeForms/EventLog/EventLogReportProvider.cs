@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
                 row.VerticalAlignment = VerticalAlignment.Center;
                 row.Cells[0].AddParagraph(line.Ordinal.ToString());
                 row.Cells[1].AddParagraph(line.Username);
-                row.Cells[2].AddParagraph(line.ClientIp);
+                row.Cells[2].AddParagraph(line.ClientIp ?? "");
                 row.Cells[3].AddParagraph($@"{line.Timestamp}");
                 row.Cells[4].AddParagraph(line.OperationName);
                 row.Cells[5].AddParagraph(line.RtuTitle ?? "");
