@@ -67,45 +67,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         ErrorMessage = otauRes.ErrorMessage,
                     };
 
-                var getMoniPropResult = await _d2RtuVeexLayer2.GetMonitoringProperties(rtuAddresses);
-                if (!getMoniPropResult.IsSuccessful)
-                    return new RtuInitializedDto()
-                    {
-                        ReturnCode = ReturnCode.RtuInitializationError,
-                        ErrorMessage = "Failed to get monitoring properties"
-                    };
-
                 var result = new RtuInitializedDto()
-                    .FillInRtuSettings(dto)
-                    .FillInPlatform((VeexPlatformInfo)platformRes.ResponseObject)
-                    .FillInOtdr(otdr)
-                    .FillInOtau((List<VeexOtau>)otauRes.ResponseObject, dto);
+                   .FillInRtuSettings(dto)
+                   .FillInPlatform((VeexPlatformInfo)platformRes.ResponseObject)
+                   .FillInOtdr(otdr)
+                   .FillInOtau((List<VeexOtau>)otauRes.ResponseObject, dto);
                 _veexRtuAuthorizationDict.Dict[host].Serial = result.Serial; // in case user input with misprinting
 
-                var authRes = await _d2RtuVeexLayer2.EnableAuthorization(rtuAddresses, true);
-                if (!authRes.IsSuccessful)
+                var res = await Configure(rtuAddresses, dto);
+                if (res != null)
                 {
                     result.ReturnCode = ReturnCode.RtuInitializationError;
-                    result.ErrorMessage = "Failed to set authorization mode";
+                    result.ErrorMessage = res;
                     return result;
                 }
 
-                var monitoringProperties = (VeexMonitoringDto)getMoniPropResult.ResponseObject;
-                if (monitoringProperties.type != "fibertest" || dto.IsFirstInitialization)
-                {
-                    var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses, monitoringProperties);
-                    if (initRes != null)
-                    {
-                        result.ErrorMessage = initRes.ErrorMessage;
-                        result.ReturnCode = initRes.ReturnCode;
-                        return result;
-                    }
-
-                    monitoringProperties.state = "disabled";
-                }
-
                 result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
-                result.IsMonitoringOn = monitoringProperties.state == "enabled";
+                result.IsMonitoringOn = false;
                 return result;
             }
             catch (Exception e)
@@ -118,5 +96,38 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
         }
 
+        private async Task<string> Configure(DoubleAddress rtuAddresses, InitializeRtuDto dto)
+        {
+            var authRes = await _d2RtuVeexLayer2.EnableAuthorization(rtuAddresses, true);
+            if (!authRes.IsSuccessful)
+                return "Failed to set authorization mode";
+
+            var getMoniPropResult = await _d2RtuVeexLayer2.GetMonitoringProperties(rtuAddresses);
+            if (!getMoniPropResult.IsSuccessful)
+                return "Failed to get monitoring properties";
+            var monitoringProperties = (VeexMonitoringDto)getMoniPropResult.ResponseObject;
+
+            if (monitoringProperties.state == "enabled")
+            {
+                var stateRes = await _d2RtuVeexLayer2.StopMonitoring(rtuAddresses);
+                if (!stateRes.IsSuccessful)
+                    return "Failed to stop monitoring";
+            }
+
+            if (dto.IsSynchronizationRequired || dto.IsFirstInitialization || monitoringProperties.type != "fibertest")
+            {
+                if (!await _d2RtuVeexLayer2.DeleteAllTests(rtuAddresses))
+                    return "Failed to delete existing tests";
+            }
+
+            if (monitoringProperties.type != "fibertest")
+            {
+                var ftRes = await _d2RtuVeexLayer2.SetTypeAsFibertest(rtuAddresses);
+                if (!ftRes.IsSuccessful)
+                    return "Failed to set Fibertest mode";
+            }
+
+            return null;
+        }
     }
 }

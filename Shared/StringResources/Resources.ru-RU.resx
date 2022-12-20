@@ -3464,4 +3464,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Continue" xml:space="preserve">
 		<value>Продолжить</value>
 	</data>
+	<data name="SID_Initialize_and_synch" xml:space="preserve">
+		<value>Инициализировать RTU и синхронизировать базовые</value>
+	</data>
 </root>

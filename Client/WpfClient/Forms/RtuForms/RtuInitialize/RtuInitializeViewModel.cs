@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -17,6 +19,7 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _wcfServiceCommonC2D;
         private readonly IMyLog _logFile;
@@ -49,12 +52,13 @@ namespace Iit.Fibertest.Client
 
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Operator && IsIdle;
 
-        public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
+        public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
             IWindowManager windowManager, IWcfServiceCommonC2D wcfServiceCommonC2D,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
+            _readModel = readModel;
             IsIdle = true;
             IsCloseEnabled = true;
             _windowManager = windowManager;
@@ -71,7 +75,17 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Network_settings;
         }
 
+        public async Task InitializeAndSynchronize()
+        {
+            await Do(true);
+        }
+
         public async Task InitializeRtu()
+        {
+            await Do(false);
+        }
+
+        private async Task Do(bool isSynchronizationRequired)
         {
             if (!FullModel.Validate()) return;
 
@@ -91,6 +105,7 @@ namespace Iit.Fibertest.Client
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
 
                     var initializeRtuDto = FullModel.CreateDto(rtuMaker, _currentUser);
+                    initializeRtuDto.IsSynchronizationRequired = isSynchronizationRequired;
                     result = await _wcfServiceCommonC2D.InitializeRtuAsync(initializeRtuDto);
                 }
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
@@ -106,7 +121,12 @@ namespace Iit.Fibertest.Client
                     await InitializeRtu();
                 }
                 else
+                {
                     ReactRtuInitialized(result);
+
+                    if (result.IsInitialized && isSynchronizationRequired)
+                        await SynchronizeBaseRefs();
+                }
             }
             catch (Exception e)
             {
@@ -118,31 +138,93 @@ namespace Iit.Fibertest.Client
             {
                 IsIdle = true;
                 IsCloseEnabled = true;
+                _commonStatusBarViewModel.StatusBarMessage2 = "";
             }
         }
 
-        private void ReactRtuInitialized(RtuInitializedDto dto)
+        private async Task SynchronizeBaseRefs()
         {
-           
+            var arr = _readModel.VeexTests.ToArray();
+            foreach (var veexTest in arr)
+            {
+                var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == veexTest.TraceId);
+                if (trace != null && trace.RtuId == FullModel.OriginalRtu.Id)
+                    _readModel.VeexTests.Remove(veexTest);
+            }
 
-            var rtuName = dto.RtuAddresses != null ? $@"RTU {dto.RtuAddresses.Main.Ip4Address}" : @"RTU";
-            var message = dto.IsInitialized
-                ? $@"{rtuName} initialized successfully."
-                : $@"{rtuName} initialization failed. " + Environment.NewLine + dto.ReturnCode.GetLocalizedString();
-            if (!string.IsNullOrEmpty(dto.ErrorMessage))
-                message += Environment.NewLine + dto.ErrorMessage;
-            _logFile.AppendLine(message);
+            // 
+            _logFile.AppendLine(@"Before synchronization in Model there are:");
+            foreach (var veexTest in _readModel.VeexTests)
+            {
+                var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == veexTest.TraceId);
+                if (trace != null && trace.RtuId == FullModel.OriginalRtu.Id)
+                    _logFile.AppendLine($@"{veexTest.BasRefType} test for port {trace.OtauPort.ToStringB()} created {veexTest.CreationTimestamp:G}", 3);
+            }
 
-            if (dto.IsInitialized)
-                FullModel.UpdateWithDto(dto);
 
-            var resultMessageBox = dto.ShowInitializationResultMessageBox(FullModel.OriginalRtu.Title);
-            _windowManager.ShowDialogWithAssignedOwner(resultMessageBox);
+
+
+
+
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                var list = _readModel.CreateReSendDtos(FullModel.OriginalRtu, _currentUser).ToList();
+                foreach (var reSendBaseRefsDto in list)
+                {
+                    _commonStatusBarViewModel.StatusBarMessage2 = $@"Sending base refs {reSendBaseRefsDto.OtauPortDto.ToStringB()}";
+                    var resultDto = await _wcfServiceCommonC2D.ReSendBaseRefAsync(reSendBaseRefsDto);
+                    _commonStatusBarViewModel.StatusBarMessage2 = $@"Sending base refs {reSendBaseRefsDto.OtauPortDto.ToStringB()} {resultDto.ReturnCode}";
+                }
+            }
+        }
+
+        private void ReactRtuInitialized(RtuInitializedDto result)
+        {
+            _logFile.AppendLine(result.CreateLogMessage());
+
+            if (result.IsInitialized)
+                FullModel.UpdateWithDto(result);
+
+            _windowManager.ShowDialogWithAssignedOwner(result.CreateMessageBox(FullModel.OriginalRtu.Title));
         }
 
         public void Close()
         {
             TryClose();
+        }
+    }
+
+    public static class ReSendDtoExt
+    {
+        public static IEnumerable<ReSendBaseRefsDto> CreateReSendDtos(this Model model, Rtu rtu, CurrentUser currentUser)
+        {
+            foreach (var trace in model.Traces
+                         .Where(t => t.RtuId == rtu.Id && t.IsAttached && t.HasAnyBaseRef))
+            {
+                var dto = new ReSendBaseRefsDto()
+                {
+                    ConnectionId = currentUser.ConnectionId,
+                    RtuId = rtu.Id,
+                    RtuMaker = rtu.RtuMaker,
+                    TraceId = trace.TraceId,
+                    OtauPortDto = trace.OtauPort,
+                    BaseRefDtos = new List<BaseRefDto>(),
+                };
+                foreach (var baseRef in model.BaseRefs.Where(b => b.TraceId == trace.TraceId))
+                {
+                    dto.BaseRefDtos.Add(new BaseRefDto()
+                    {
+                        SorFileId = baseRef.SorFileId,
+
+                        Id = baseRef.TraceId,
+                        BaseRefType = baseRef.BaseRefType,
+                        Duration = baseRef.Duration,
+                        SaveTimestamp = baseRef.SaveTimestamp,
+                        UserName = baseRef.UserName,
+                    });
+                }
+                yield return dto;
+            }
         }
     }
 }

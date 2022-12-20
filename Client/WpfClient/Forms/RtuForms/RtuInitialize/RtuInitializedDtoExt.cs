@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public static class RtuInitializedDtoExt
     {
-        public static MyMessageBoxViewModel ShowInitializationResultMessageBox(this RtuInitializedDto dto, string rtuTitle)
+        public static MyMessageBoxViewModel CreateMessageBox(this RtuInitializedDto dto, string rtuTitle)
         {
             switch (dto.ReturnCode)
             {
@@ -42,6 +43,17 @@ namespace Iit.Fibertest.Client
                     return new MyMessageBoxViewModel
                         (MessageType.Error, dto.ReturnCode.GetLocalizedWithOsInfo(dto.ErrorMessage).Split('\n'), 0);
             }
+        }
+
+        public static string CreateLogMessage(this RtuInitializedDto dto)
+        {
+            var rtuName = dto.RtuAddresses != null ? $@"RTU {dto.RtuAddresses.Main.Ip4Address}" : @"RTU";
+            var message = dto.IsInitialized
+                ? $@"{rtuName} initialized successfully."
+                : $@"{rtuName} initialization failed. " + Environment.NewLine + dto.ReturnCode.GetLocalizedString();
+            if (!string.IsNullOrEmpty(dto.ErrorMessage))
+                message += Environment.NewLine + dto.ErrorMessage;
+            return message;
         }
     }
 }

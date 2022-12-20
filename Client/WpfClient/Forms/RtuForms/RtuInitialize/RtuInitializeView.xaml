@@ -22,10 +22,10 @@
     <StackPanel Margin="0,0,1,0">
         <GroupBox Header="RTU" Margin="5">
             <StackPanel>
-                <TextBlock Text="{Binding FullModel.RtuName}" Margin="5"/>
+                <TextBlock Text="{Binding FullModel.OriginalRtu.Title}" Margin="5"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="ID" Margin="5"/>
-                    <TextBlock Text="{Binding FullModel.RtuId}" TextAlignment="Right" Foreground="DarkGray" Margin="5"/>
+                    <TextBlock Text="{Binding FullModel.OriginalRtu.Id}" TextAlignment="Right" Foreground="DarkGray" Margin="5"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -53,11 +53,16 @@
             </StackPanel>
         </GroupBox>
 
-        <StackPanel Orientation="Horizontal"  Margin="5,10">
-            <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" 
-                    Height="22" Width="140" IsEnabled="{Binding IsInitializationPermitted}"/>
-            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5"
-                    Height="22" Width="90" IsEnabled="{Binding IsCloseEnabled}"/>
-        </StackPanel>
+       <StackPanel Margin="5,10">
+           <Button Name="InitializeAndSynchronize" Content="{x:Static stringResources:Resources.SID_Initialize_and_synch}" 
+                   Margin="5" HorizontalAlignment="Left"
+                   Height="22" Width="320" IsEnabled="{Binding IsInitializationPermitted}" />
+           <StackPanel Orientation="Horizontal" >
+               <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5"
+                       Height="22" Width="220" IsEnabled="{Binding IsInitializationPermitted}" />
+              <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5"
+                       Height="22" Width="90" IsEnabled="{Binding IsCloseEnabled}" />
+           </StackPanel>
+       </StackPanel>
     </StackPanel>
 </Window>

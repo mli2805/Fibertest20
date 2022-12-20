@@ -25,6 +25,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _d2RtuVeexLayer1.GetMonitoringProperties(rtuDoubleAddress);
         }
 
+        public async Task<HttpRequestResult> StopMonitoring(DoubleAddress rtuDoubleAddress)
+        {
+            return await _d2RtuVeexLayer1.SetMonitoringProperty(rtuDoubleAddress, "state", "disabled");
+        }
+
+        /// <summary>
+        /// Monitoring should be stopped and all tests removed beforehand
+        /// </summary>
+        /// <param name="rtuDoubleAddress"></param>
+        /// <returns></returns>
+        public async Task<HttpRequestResult> SetTypeAsFibertest(DoubleAddress rtuDoubleAddress)
+        {
+            return await _d2RtuVeexLayer1.SetMonitoringProperty(rtuDoubleAddress, "type", "fibertest");
+        }
+
+
         public async Task<RtuInitializedDto> InitializeMonitoringProperties(
             DoubleAddress rtuDoubleAddress, VeexMonitoringDto monitoringProperties)
         {
@@ -38,15 +54,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         ReturnCode = ReturnCode.RtuInitializationError,
                         ErrorMessage = setStateRes.ErrorMessage,
                     };
-            }
-
-            if (!await DeleteAllTests(rtuDoubleAddress))
-            {
-                return new RtuInitializedDto()
-                {
-                    ReturnCode = ReturnCode.RtuInitializationError,
-                    ErrorMessage = "Failed to delete existing tests",
-                };
             }
 
             var setResult = await _d2RtuVeexLayer1.SetMonitoringProperty(rtuDoubleAddress, "type", "fibertest");

@@ -28,6 +28,9 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public bool IsFirstInitialization { get; set; }
 
+        [DataMember]
+        public bool IsSynchronizationRequired { get; set; }
+
         // RTU properties after previous initialization
         [DataMember]
         public string Serial { get; set; }

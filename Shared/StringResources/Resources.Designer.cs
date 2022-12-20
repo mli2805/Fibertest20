@@ -4192,6 +4192,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initialize RTU and Synchronize base refs.
+        /// </summary>
+        public static string SID_Initialize_and_synch {
+            get {
+                return ResourceManager.GetString("SID_Initialize_and_synch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initialize main otau.
         /// </summary>
         public static string SID_Initialize_main_otau {

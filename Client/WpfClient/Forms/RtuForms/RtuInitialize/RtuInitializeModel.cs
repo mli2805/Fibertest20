@@ -18,28 +18,6 @@ namespace Iit.Fibertest.Client
         public readonly IWindowManager WindowManager;
         private readonly Model _readModel;
 
-        public string RtuName
-        {
-            get => _rtuName;
-            set
-            {
-                if (value == _rtuName) return;
-                _rtuName = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string RtuId
-        {
-            get => _rtuId;
-            set
-            {
-                if (value == _rtuId) return;
-                _rtuId = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public OtdrAddressViewModel OtdrAddressViewModel { get; set; } = new OtdrAddressViewModel();
         public RtuIitInfoViewModel IitInfoModel { get; set; } = new RtuIitInfoViewModel();
         public RtuVeexInfoViewModel VeexInfoModel { get; set; } = new RtuVeexInfoViewModel();
@@ -79,9 +57,6 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _veexVisibility;
-        private string _rtuName;
-        private string _rtuId;
-
         public Visibility VeexVisibility
         {
             get => _veexVisibility;
@@ -105,8 +80,6 @@ namespace Iit.Fibertest.Client
         public void StartFromRtu(Guid rtuId)
         {
             OriginalRtu = _readModel.Rtus.First(r => r.Id == rtuId);
-            RtuId = OriginalRtu.Id.ToString();
-            RtuName = OriginalRtu.Title;
             if (OriginalRtu.MainChannel.Ip4Address == "")
                 OriginalRtu.MainChannel.Ip4Address =
                     _iniFile.Read(IniSection.General, IniKey.Ip4Default, @"172.16.4.");

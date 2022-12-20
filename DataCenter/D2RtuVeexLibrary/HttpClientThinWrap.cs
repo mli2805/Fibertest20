@@ -64,9 +64,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 rtuData.IsAuthorizationOn = false;
                 return httpResponseMessage;
             }
-            _logFile.AppendLine($"Unauthorized {request.Method.Method} to {request.RequestUri};  " +
-                                $"WwwAuthenticate {httpResponseMessage.Headers.WwwAuthenticate}", 0, 3);
-
+           
             if (!rtuData.IsAuthorizationOn)
             {
                 rtuData.IsAuthorizationOn = true;
@@ -75,14 +73,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             rtuData.AuthenticationHeaderParts =
                 DigestAuth.ParseAuthHeader(httpResponseMessage.Headers.WwwAuthenticate.ToString());
             var authorization = rtuData.CreateAuthorizationString(request.Method.Method, request.RequestUri.ToString());
-
-            _logFile.AppendLine($"Authorization header: {authorization}", 0, 3);
-
             cloneBeforeSend.Headers.Authorization = new AuthenticationHeaderValue("Digest", authorization);
 
-            httpResponseMessage = await HttpClient.SendAsync(cloneBeforeSend);
-            _logFile.AppendLine($"Auth request result: {httpResponseMessage.StatusCode}", 0, 3);
-            return httpResponseMessage;
+            var httpResponseMessage2 = await HttpClient.SendAsync(cloneBeforeSend);
+            if (!httpResponseMessage2.IsSuccessStatusCode)
+            {
+                _logFile.AppendLine($"Unauthorized {request.Method.Method} to {request.RequestUri};  " +
+                                    $"WwwAuthenticate {httpResponseMessage.Headers.WwwAuthenticate}");
+                _logFile.AppendLine($"Authorization header: {authorization}");
+                _logFile.AppendLine($"Auth request result: {httpResponseMessage2.StatusCode}");
+            }
+            return httpResponseMessage2;
         }
     }
 }
