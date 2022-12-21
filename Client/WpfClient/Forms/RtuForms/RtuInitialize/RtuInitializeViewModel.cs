@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -150,13 +151,15 @@ namespace Iit.Fibertest.Client
 
         private async Task SynchronizeBaseRefs()
         {
-            var arr = _readModel.VeexTests.ToArray();
-            foreach (var veexTest in arr)
+            var commands = new List<object>();
+            foreach (var veexTest in _readModel.VeexTests)
             {
                 var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == veexTest.TraceId);
                 if (trace != null && trace.RtuId == FullModel.OriginalRtu.Id)
-                    await _wcfServiceDesktopC2D.SendCommandAsObj(new RemoveVeexTest() { TestId = veexTest.TestId });
+                    commands.Add(new RemoveVeexTest() { TestId = veexTest.TestId });
             }
+            await _wcfServiceDesktopC2D.SendCommandsAsObjs(commands);
+
 
             using (_globalScope.Resolve<IWaitCursor>())
             {
