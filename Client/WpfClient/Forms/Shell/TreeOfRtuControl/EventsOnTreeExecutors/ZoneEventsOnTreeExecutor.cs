@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var otau in _readModel.Otaus.Where(o => o.RtuId == rtu.Id))
             {
-                if (rtu.RtuMaker == RtuMaker.VeEX && otau.VeexRtuMainOtauId != null)
+                if (rtu.RtuMaker == RtuMaker.VeEX && (otau.VeexRtuMainOtauId != null || otau.IsMainOtau))
                     continue;
 
                 var otauLeaf = _globalScope.Resolve<OtauLeaf>();

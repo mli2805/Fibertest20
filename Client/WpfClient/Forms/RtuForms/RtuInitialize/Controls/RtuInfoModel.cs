@@ -71,6 +71,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _mainOtauModel;
         public string MainOtauModel
         {
             get => _mainOtauModel;
@@ -78,6 +79,18 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _mainOtauModel) return;
                 _mainOtauModel = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _mainOtauSerial;
+        public string MainOtauSerial
+        {
+            get => _mainOtauSerial;
+            set
+            {
+                if (value == _mainOtauSerial) return;
+                _mainOtauSerial = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -93,7 +106,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _mainOtauModel;
 
         public string Version2
         {
@@ -129,7 +141,8 @@ namespace Iit.Fibertest.Client
             Version = rtu.Version;
             Version2 = rtu.Version2;
 
-            MainOtauModel = rtu.RtuMaker == RtuMaker.VeEX ? rtu.MainVeexOtau.model : "";
+            MainOtauModel = rtu.RtuMaker == RtuMaker.VeEX ? rtu.MainVeexOtau.model  ?? @"n/a" : "";
+            MainOtauSerial = rtu.RtuMaker == RtuMaker.VeEX ? rtu.MainVeexOtau.serialNumber  ?? @"n/a" : "";
         }
 
         public void FromDto(RtuInitializedDto dto)
@@ -142,7 +155,8 @@ namespace Iit.Fibertest.Client
             Version = dto.Version;
             Version2 = dto.Version2;
 
-            MainOtauModel = dto.Maker == RtuMaker.VeEX ? dto.MainVeexOtau.model : "";
+            MainOtauModel = dto.Maker == RtuMaker.VeEX ? dto.MainVeexOtau.model ?? @"n/a"  : "";
+            MainOtauSerial = dto.Maker == RtuMaker.VeEX ? dto.MainVeexOtau.serialNumber ?? @"n/a"  : "";
         }
     }
 }

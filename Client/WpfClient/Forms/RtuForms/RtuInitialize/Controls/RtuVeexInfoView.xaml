@@ -22,6 +22,7 @@
             <TextBlock Text="OTAU" Margin="5"/>
             <TextBlock Text="{Binding Model.MainOtauModel}" Margin="5" />
             <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="25,5,5,5"/>
+            <TextBlock Text="{Binding Model.MainOtauSerial}" Margin="5" />
         </StackPanel>
         <DockPanel>
             <TextBlock Text="{x:Static stringResources:Resources.SID_Software_version}" Margin="5"/>

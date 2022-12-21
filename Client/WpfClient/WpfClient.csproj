@@ -220,6 +220,7 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\ReSendDtoExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml.cs">
       <DependentUpon>RtuAskSerialView.xaml</DependentUpon>
     </Compile>
