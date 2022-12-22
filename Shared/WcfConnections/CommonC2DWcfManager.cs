@@ -361,6 +361,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Re-Sending base refs for port {dto.OtauPortDto.ToStringB()} to RTU {dto.RtuId.First6()}");
+                dto.Username = _username;
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.ReSendBaseRefAsync(dto);

@@ -8,6 +8,8 @@ namespace Iit.Fibertest.Dto
     public class ReSendBaseRefsDto
     {
         [DataMember]
+        public string Username { get; set; }
+        [DataMember]
         public string ClientIp { get; set; }
 
         [DataMember]
