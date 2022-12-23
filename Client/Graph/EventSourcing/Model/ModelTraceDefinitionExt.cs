@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Graph
             var res = new List<Tuple<Guid, List<Guid>>>();
 
             var node = model.Nodes.First(n => n.NodeId == nodeId);
-            var fibers = model.GetNodeFibers(node);
+            var fibers = model.GetNodeFibers(node).ToList();
             foreach (var fiber in fibers)
             {
                 var fiberIdsOfOneDestination = new List<Guid>();
@@ -58,14 +58,16 @@ namespace Iit.Fibertest.Graph
                 {
                     fiberIdsOfOneDestination.Add(currentFiber.FiberId);
                     neighbourId = currentFiber.NodeId1 == previousNodeId ? currentFiber.NodeId2 : currentFiber.NodeId1;
-                    neighbour = model.Nodes.First(n => n.NodeId == neighbourId);
+                    neighbour = model.Nodes.FirstOrDefault(n => n.NodeId == neighbourId);
+                    if (neighbour == null)
+                        break;
                     if (neighbour.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint)
                         break;
 
                     previousNodeId = neighbourId;
                     currentFiber = model.GetAnotherFiberOfAdjustmentPoint(neighbourId, currentFiber.FiberId);
                 }
-                if (neighbour.TypeOfLastAddedEquipment != EquipmentType.Rtu)
+                if (neighbour != null && neighbour.TypeOfLastAddedEquipment != EquipmentType.Rtu)
                     res.Add(new Tuple<Guid, List<Guid>>(neighbourId, fiberIdsOfOneDestination));
             }
             return res;
