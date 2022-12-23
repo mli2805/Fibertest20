@@ -7731,6 +7731,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sending base refs for port {0}.
+        /// </summary>
+        public static string SID_Sending_base_refs_for_port__0_ {
+            get {
+                return ResourceManager.GetString("SID_Sending_base_refs_for_port__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sending command. Wait please....
         /// </summary>
         public static string SID_Sending_command__Wait_please___ {
