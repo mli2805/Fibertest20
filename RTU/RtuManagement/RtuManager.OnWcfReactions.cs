@@ -25,6 +25,15 @@ namespace Iit.Fibertest.RtuManagement
                 StopMonitoring("Initialize");
             }
 
+            if (param != null)
+            {
+                IsMonitoringOn = false;
+                _wasMonitoringOn = false;
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+                _rtuLog.AppendLine("Initialization by the USER puts RTU into MANUAL mode.");
+            }
+
+          
             LogInitializationStart();
 
             IsRtuInitialized = false;
@@ -32,11 +41,11 @@ namespace Iit.Fibertest.RtuManagement
             if (param != null)
             {
                 SaveInitializationParameters(param);
-                if (param.IsFirstInitialization)
-                {
-                    _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-                    _rtuLog.AppendLine("First initialization! Turning monitoring off.");
-                }
+                // if (param.IsFirstInitialization)
+                // {
+                //     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+                //     _rtuLog.AppendLine("First initialization! Turning monitoring off.");
+                // }
 
                 IsAutoBaseMeasurementInProgress = false;
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, false);
@@ -48,11 +57,11 @@ namespace Iit.Fibertest.RtuManagement
                 while (RunMainCharonRecovery() != ReturnCode.Ok) { }
             }
 
-            if (param != null && param.Serial != _mainCharon.Serial)
-            {
-                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-                _rtuLog.AppendLine("Serials do not match! Turning monitoring off.");
-            }
+            // if (param != null && param.Serial != _mainCharon.Serial)
+            // {
+            //     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+            //     _rtuLog.AppendLine("Serials do not match! Turning monitoring off.");
+            // }
 
             _treeOfAcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
 
@@ -240,9 +249,9 @@ namespace Iit.Fibertest.RtuManagement
         private CharonOperationResult ToggleToPort2(OtauPortDto port)
         {
             var toggleResult = _mainCharon.SetExtendedActivePort(port.Serial, port.OpticalPort);
-            _rtuLog.AppendLine(toggleResult == CharonOperationResult.Ok 
-                ? "Toggled Ok." 
-                : toggleResult == CharonOperationResult.MainOtauError 
+            _rtuLog.AppendLine(toggleResult == CharonOperationResult.Ok
+                ? "Toggled Ok."
+                : toggleResult == CharonOperationResult.MainOtauError
                     ? "Failed to toggle to main otau port" : "Failed to toggle to additional otau port");
 
             if (toggleResult == CharonOperationResult.AdditionalOtauError)
@@ -259,7 +268,7 @@ namespace Iit.Fibertest.RtuManagement
                     _rtuLog.AppendLine($"Cannot connect Mikrotik {port.NetAddress.Ip4Address}" + e.Message);
                 }
             }
-           
+
             return toggleResult;
         }
     }
