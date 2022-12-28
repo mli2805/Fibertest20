@@ -135,7 +135,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto),
                         baseRefDto.BaseRefType.ToString().ToLower());
 
-                if (deleteRes.IsSuccessful)
+                if (deleteRes.IsSuccessful && deleteRes.ResponseObject != null)
                     testIds.Add((string)deleteRes.ResponseObject);
                 else
                     return new BaseRefAssignedDto()
