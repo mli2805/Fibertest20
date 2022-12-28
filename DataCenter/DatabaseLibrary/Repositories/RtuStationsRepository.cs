@@ -19,7 +19,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile = logFile;
         }
 
-        public async Task<int> RegisterRtuAsync(RtuStation rtuStation)
+        public async Task<int> RegisterRtuInitializationResultAsync(RtuStation rtuStation)
         {
             try
             {
@@ -27,7 +27,10 @@ namespace Iit.Fibertest.DatabaseLibrary
                 {
                     var previousRtuStationRow = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
                     if (previousRtuStationRow == null)
+                    {
                         dbContext.RtuStations.Add(rtuStation);
+                        _logFile.AppendLine($"RtuStation {rtuStation.RtuGuid.First6()} successfully registered with main address {rtuStation.MainAddress}.");
+                    }
                     else
                     {
                         previousRtuStationRow.Version = rtuStation.Version;
@@ -36,15 +39,15 @@ namespace Iit.Fibertest.DatabaseLibrary
                         previousRtuStationRow.IsReserveAddressSet = rtuStation.IsReserveAddressSet;
                         previousRtuStationRow.ReserveAddress = rtuStation.ReserveAddress;
                         previousRtuStationRow.ReserveAddressPort = rtuStation.ReserveAddressPort;
+                        _logFile.AppendLine($"RtuStation {rtuStation.RtuGuid.First6()} successfully updated.");
                     }
 
-                    _logFile.AppendLine($"RtuStation {rtuStation.RtuGuid.First6()} successfully registered with main address {rtuStation.MainAddress}.");
                     return await dbContext.SaveChangesAsync();
                 }
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("RegisterRtuAsync: " + e.Message);
+                _logFile.AppendLine("RegisterRtuInitializationResultAsync: " + e.Message);
                 return -1;
             }
         }
@@ -200,7 +203,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-         private void Cop(RtuStation source, RtuStation destination)
+        private void Cop(RtuStation source, RtuStation destination)
         {
             destination.IsMainAddressOkDuePreviousCheck = source.IsMainAddressOkDuePreviousCheck;
             destination.IsReserveAddressOkDuePreviousCheck = source.IsReserveAddressOkDuePreviousCheck;

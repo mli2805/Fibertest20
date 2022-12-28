@@ -37,21 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var rtuInitializedDto = await _d2RtuVeexLayer3.InitializeRtuAsync(dto);
-            if (rtuInitializedDto.IsInitialized)
-            {
-                rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
-                var rtuStation = RtuStationFactory.Create(rtuInitializedDto);
-                await _rtuStationsRepository.RegisterRtuAsync(rtuStation);
-            }
-
-            var message = rtuInitializedDto.IsInitialized
-                ? "RTU initialized successfully, monitoring mode is " +
-                  (rtuInitializedDto.IsMonitoringOn ? "AUTO" : "MANUAL")
-                : "RTU initialization failed";
-            _logFile.AppendLine(message);
-
-            return rtuInitializedDto;
+            return await _d2RtuVeexLayer3.InitializeRtuAsync(dto);
         }
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
