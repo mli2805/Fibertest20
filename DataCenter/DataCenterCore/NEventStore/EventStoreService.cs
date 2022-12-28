@@ -75,12 +75,6 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("Empty graph is seeded with default zone and users.");
             }
 
-            if (_writeModel.TceTypeStructs == null || !_writeModel.TceTypeStructs.Any())
-            {
-                var cmd = new ReSeedTceTypeStructList() { TceTypes = TceTypeStructExt.Generate().ToList() };
-                await SendCommand(cmd, "developer", "OnServer");
-            }
-
             var eventMessages = eventStream.CommittedEvents.ToList();
             _logFile.AppendLine($"{eventMessages.Count} events should be applied...");
             foreach (var eventMessage in eventMessages)
@@ -90,6 +84,12 @@ namespace Iit.Fibertest.DataCenterCore
             }
             _logFile.AppendLine("Events applied successfully.");
             _logFile.AppendLine($"Last event number is {LastEventNumberInSnapshot + eventMessages.Count}");
+
+            if (_writeModel.TceTypeStructs == null || !_writeModel.TceTypeStructs.Any())
+            {
+                var cmd = new ReSeedTceTypeStructList() { TceTypes = TceTypeStructExt.Generate().ToList() };
+                await SendCommand(cmd, "developer", "OnServer");
+            }
 
             var msg = eventStream.CommittedEvents.LastOrDefault();
             if (msg != null)

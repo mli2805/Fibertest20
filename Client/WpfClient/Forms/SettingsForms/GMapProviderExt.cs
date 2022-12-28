@@ -9,17 +9,25 @@ namespace Iit.Fibertest.Client
             switch (providerName)
             {
                 case "OpenStreetMap":
-                {
-                    return GMapProviders.OpenStreetMap;
-                }
+                    {
+                        return GMapProviders.OpenStreetMap;
+                    }
                 case "GoogleMap":
-                {
-                    return GMapProviders.GoogleMap;
-                }
-                case "YandexMap":
-                {
-                    return GMapProviders.YandexMap;
-                }
+                    {
+                        return GMapProviders.GoogleMap;
+                    }
+                case "GoogleSatelliteMap":
+                    {
+                        return GMapProviders.GoogleSatelliteMap;
+                    }
+                case "GoogleHybridMap":
+                    {
+                        return GMapProviders.GoogleHybridMap;
+                    }
+                // case "YandexMap":
+                //     {
+                //         return GMapProviders.YandexMap;
+                //     }
                 default:
                     return GMapProviders.EmptyProvider;
             }

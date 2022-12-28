@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<string> MapProviders { get; set; } = new List<string>() { @"OpenStreetMap", @"GoogleMap", @"YandexMap" };
+        public List<string> MapProviders { get; set; } = new List<string>() { @"OpenStreetMap", @"GoogleMap", @"GoogleSatelliteMap", @"GoogleHybridMap" };
         private string _selectedProvider;
         public string SelectedProvider
         {
