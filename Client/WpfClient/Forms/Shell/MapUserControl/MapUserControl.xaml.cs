@@ -75,10 +75,16 @@ namespace Iit.Fibertest.Client
                             GMapProvider.Language = LanguageType.English;
                             break;
                         }
-                    case "YandexMap":
+                    case "GoogleSatelliteMap":
                         {
-                            MainMap.MapProvider = GMapProviders.YandexMap;
-                            GMapProvider.Language = LanguageType.Russian;
+                            MainMap.MapProvider = GMapProviders.GoogleSatelliteMap;
+                            GMapProvider.Language = LanguageType.English;
+                            break;
+                        }
+                    case "GoogleHybridMap":
+                        {
+                            MainMap.MapProvider = GMapProviders.GoogleHybridMap;
+                            GMapProvider.Language = LanguageType.English;
                             break;
                         }
                     default:
