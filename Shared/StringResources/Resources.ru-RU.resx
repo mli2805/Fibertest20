@@ -3470,4 +3470,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Sending_base_refs_for_port__0_" xml:space="preserve">
 		<value>Пересылка базовых для порта {0}</value>
 	</data>
+	<data name="SID_Iit_address" xml:space="preserve">
+		<value>220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис 304а</value>
+	</data>
+	<data name="SID_Iit_Phone" xml:space="preserve">
+		<value>Телефон: +375 17 2359048</value>
+	</data>
+	<data name="SID_All_rights_reserved" xml:space="preserve">
+		<value>Все права защищены</value>
+	</data>
 </root>

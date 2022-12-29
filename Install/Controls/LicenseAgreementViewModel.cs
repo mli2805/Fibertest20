@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Xps.Packaging;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -28,29 +26,27 @@ namespace Iit.Fibertest.Install
         public string Text1 { get; set; }
         public FixedDocumentSequence FixedDocumentSequence { get; set; }
 
+        public List<string> License { get; set; } = new List<string>()
+        {
+            Resources.SID_Institute_of_Information_Technologies,
+            Resources.SID_Iit_address,
+            Resources.SID_Iit_Phone,
+            "Web:    www.beliit.com",
+            "E-Mail: info@beliit.com",
+            "",
+
+        };
+        public List<string> License2 { get; set; } = new List<string>()
+        {
+            "Copyright © 2003-2023, "+ Resources.SID_Institute_of_Information_Technologies,
+            Resources.SID_All_rights_reserved,
+        };
+
         public LicenseAgreementViewModel(CurrentInstallation currentInstallation)
         {
             HeaderViewModel.InBold = Resources.SID_License_Agreement;
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_review_the_license_terms_before_installing__0__, currentInstallation.MainName);
             Text1 = string.Format(Resources.SID_If_you_accept_0_, currentInstallation.MainName);
-            ReadLicense();
-        }
-
-        private void ReadLicense()
-        {
-            var filename = Resources.SID_license_en_xps;
-            try
-            {
-                var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
-                var xpsFile = Path.Combine(currentDomain, $@"..\LicenseDocs\{filename}");
-
-                XpsDocument document = new XpsDocument(xpsFile, FileAccess.Read);
-                FixedDocumentSequence = document.GetFixedDocumentSequence();
-            }
-            catch (Exception e )
-            {
-                MessageBox.Show(Resources.SID_License_file_not_found_ + e.Message, Resources.SID_Error_, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
     }
 }

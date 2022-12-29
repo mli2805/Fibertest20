@@ -756,6 +756,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All rights reserved.
+        /// </summary>
+        public static string SID_All_rights_reserved {
+            get {
+                return ResourceManager.GetString("SID_All_rights_reserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Analysis is finished.
         /// </summary>
         public static string SID_Analysis_is_finished {
@@ -4098,6 +4107,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_IIT {
             get {
                 return ResourceManager.GetString("SID_IIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 220099, the Republic of Belarus, Minsk, Kazintsa st., 11A, office 304a.
+        /// </summary>
+        public static string SID_Iit_address {
+            get {
+                return ResourceManager.GetString("SID_Iit_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone:  +375 17 2359048.
+        /// </summary>
+        public static string SID_Iit_Phone {
+            get {
+                return ResourceManager.GetString("SID_Iit_Phone", resourceCulture);
             }
         }
         

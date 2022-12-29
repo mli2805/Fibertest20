@@ -4,11 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:install="clr-namespace:Iit.Fibertest.Install"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance install:LicenseAgreementViewModel}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance install:LicenseAgreementViewModel}" Height="380">
     <DockPanel>
         <install:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
         <TextBlock DockPanel.Dock="Bottom" Margin="15,5" TextWrapping="Wrap" Text="{Binding Text1}"/>
-        <DocumentViewer Margin="5" Document="{Binding FixedDocumentSequence}"/>
+        <Grid>
+            <Border Margin="5" BorderBrush="Black" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Margin="5,5,5,10" Text="Fibertest 2.0" FontSize="16" FontWeight="Bold"/>
+                    <ListBox ItemsSource="{Binding License}" BorderThickness="0"/>
+                    <ListBox ItemsSource="{Binding License2}" BorderThickness="0" FontStyle="Italic"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </DockPanel>
 </UserControl>
 

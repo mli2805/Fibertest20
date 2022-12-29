@@ -10,7 +10,6 @@ del Ft*.zip
 rem General installer source
 
 xcopy ..\Install\bin\Debug\*.* Pack\bin\*.* /S/D/Y
-xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
 xcopy ..\Install\UserGuide\*.pdf Pack\UserGuide\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Debug\*.* Pack\DcFiles\*.* /S/D/Y
@@ -29,7 +28,6 @@ xcopy ..\Uninstall\bin\Debug\*.* Pack\UninstallFiles\*.* /S/D/Y
 rem RTU installer source
 
 xcopy ..\InstallRtu\bin\Debug\*.* PackRtu\bin\*.* /S/D/Y
-xcopy ..\InstallRtu\LicenseDocs\*.xps PackRtu\LicenseDocs\*.* /S/D/Y
      
 xcopy ..\RTU\RtuService\bin\Debug\*.* PackRtu\RtuFiles\*.* /S/D/Y
 xcopy ..\RTU\RtuWatchdog\bin\Debug\*.* PackRtu\RtuFiles\*.* /S/D/Y
