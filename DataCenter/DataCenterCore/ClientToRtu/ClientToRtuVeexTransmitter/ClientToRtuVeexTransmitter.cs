@@ -15,17 +15,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly ClientsCollection _clientsCollection;
         private readonly VeexCompletedTestProcessor _veexCompletedTestProcessor;
+        private readonly SorFileRepository _sorFileRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
 
         public ClientToRtuVeexTransmitter(IMyLog logFile, Model writeModel, ClientsCollection clientsCollection,
-            VeexCompletedTestProcessor veexCompletedTestProcessor,
+            VeexCompletedTestProcessor veexCompletedTestProcessor, SorFileRepository sorFileRepository,
             RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _clientsCollection = clientsCollection;
             _veexCompletedTestProcessor = veexCompletedTestProcessor;
+            _sorFileRepository = sorFileRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
         }
@@ -132,9 +134,33 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
                 return new BaseRefAssignedDto()
                 {
-                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ReturnCode = ReturnCode.NoSuchRtu,
                     ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
                 };
+            }
+
+            if (dto.BaseRefs.All(b => b.BaseRefType != BaseRefType.Fast))
+            {
+                var fastDto = await PrepareBaseRefDto(dto, BaseRefType.Fast);
+                if (fastDto == null)
+                    return new BaseRefAssignedDto()
+                    {
+                        ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                        ErrorMessage = $"fast base ref not found"
+                    };
+                dto.BaseRefs.Add(fastDto);
+            }
+
+            if (dto.BaseRefs.All(b => b.BaseRefType != BaseRefType.Precise))
+            {
+                var baseRefDto = await PrepareBaseRefDto(dto, BaseRefType.Precise);
+                if (baseRefDto == null)
+                    return new BaseRefAssignedDto()
+                    {
+                        ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                        ErrorMessage = $"precise base ref not found"
+                    };
+                dto.BaseRefs.Add(baseRefDto);
             }
 
             var result = await _d2RtuVeexLayer3.AssignBaseRefAsync(dto, rtuAddresses);
@@ -142,6 +168,23 @@ namespace Iit.Fibertest.DataCenterCore
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
             return result;
+        }
+
+        private async Task<BaseRefDto> PrepareBaseRefDto(AssignBaseRefsDto dto, BaseRefType baseRefType)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
+            if (trace == null)
+                return null;
+
+            var baseRef = _writeModel.BaseRefs.FirstOrDefault(b =>
+                b.TraceId == trace.TraceId && b.BaseRefType == baseRefType);
+            if (baseRef == null)
+                return null;
+
+            var sorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
+            if (sorBytes == null) return null;
+
+            return baseRef.CreateFromBaseRef(sorBytes);
         }
 
         public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)

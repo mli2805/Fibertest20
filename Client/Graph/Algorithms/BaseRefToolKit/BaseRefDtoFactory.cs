@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Graph
 
 
         // on server
-        public static BaseRefDto CreateFromBaseRef(BaseRef baseRef, byte[] sorBytes)
+        public static BaseRefDto CreateFromBaseRef(this BaseRef baseRef, byte[] sorBytes)
         {
             return new BaseRefDto()
             {

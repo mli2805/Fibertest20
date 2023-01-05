@@ -164,7 +164,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var sorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
                 if (sorBytes == null)
                     continue;
-                listOfBaseRef.Add(BaseRefDtoFactory.CreateFromBaseRef(baseRef, sorBytes));
+                listOfBaseRef.Add(baseRef.CreateFromBaseRef(sorBytes));
             }
 
             _logFile.AppendLine($"{listOfBaseRef.Count} base refs changed");
