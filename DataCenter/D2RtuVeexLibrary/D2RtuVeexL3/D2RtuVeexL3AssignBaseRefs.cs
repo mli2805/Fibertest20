@@ -128,7 +128,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         private async Task<BaseRefAssignedDto> RemovalPart(AssignBaseRefsDto dto, DoubleAddress rtuAddresses)
         {
             var testIds = new List<string>();
-            foreach (var baseRefDto in dto.BaseRefs.Where(b => b.Id == Guid.Empty))
+            foreach (var baseRefDto in dto.BaseRefs.Where(b => b.Id == Guid.Empty && b.BaseRefType != BaseRefType.Additional))
             {
                 var deleteRes = await _d2RtuVeexLayer2
                     .DeleteTestForPortAndBaseType(rtuAddresses,
