@@ -47,7 +47,8 @@ namespace Iit.Fibertest.MapLoader
             {
                 OpenStreetMapProvider.Instance,
                 GoogleMapProvider.Instance,
-                YandexMapProvider.Instance
+                GoogleSatelliteMapProvider.Instance,
+                GoogleHybridMapProvider.Instance,
             };
             ComboBoxMapType.ItemsSource = providers;
 
