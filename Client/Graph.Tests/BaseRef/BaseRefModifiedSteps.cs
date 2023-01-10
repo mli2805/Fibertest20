@@ -50,7 +50,7 @@ namespace Graph.Tests
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsCheckerOnServer>();
-            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(_baseRefs, _trace, false);
+            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(_baseRefs, _trace);
             checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));

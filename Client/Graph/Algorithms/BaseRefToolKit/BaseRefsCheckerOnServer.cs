@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph
             _baseRefLandmarksTool = baseRefLandmarksTool;
         }
 
-        public BaseRefAssignedDto AreBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace, bool isAutoBase)
+        public BaseRefAssignedDto AreBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace)
         {
             var assignmentFailed = new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
             try

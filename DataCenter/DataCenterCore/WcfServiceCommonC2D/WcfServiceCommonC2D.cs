@@ -320,7 +320,7 @@ namespace Iit.Fibertest.DataCenterCore
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed
                 };
 
-            var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto.BaseRefs, trace, dto.IsAutoBase);
+            var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto.BaseRefs, trace);
             if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return checkResult;
 
