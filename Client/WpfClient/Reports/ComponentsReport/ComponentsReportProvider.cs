@@ -42,7 +42,30 @@ namespace Iit.Fibertest.Client
 
             SetFooter(section);
 
-            LetsGetStarted(section);
+            string statistics;
+            if (_reportModel.SelectedZone.IsDefaultZone)
+            {
+                statistics = _tree.Statistics;
+            }
+            else
+            {
+                var rtus = _readModel.Rtus.Where(r => r.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId)).ToList();
+                var rtuCount = rtus.Count;
+
+                var portCount = rtus.Sum(r => r.OwnPortCount);
+
+                var traces = _readModel.Traces.Where(t => t.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId)).ToList();
+                var traceCount = traces.Count;
+
+                var bopIds = traces.Where(t=>t.OtauPort != null && !t.OtauPort.IsPortOnMainCharon).Select(t=>t.OtauPort.OtauId).ToList();
+                var bops = _readModel.Otaus.Where(o => bopIds.Contains(o.Id.ToString())).ToList();
+                portCount += bops.Sum(b => b.PortCount);
+
+                statistics = string.Format(Resources.SID_Tree_statistics,
+                    rtuCount, bops.Count(), portCount, traceCount, (double)traceCount / portCount * 100);
+            }
+
+            LetsGetStarted(section, statistics);
 
             foreach (var rtu in _readModel.Rtus)
             {
@@ -58,7 +81,7 @@ namespace Iit.Fibertest.Client
             return pdfDocumentRenderer.PdfDocument;
         }
 
-        private void LetsGetStarted(Section section)
+        private void LetsGetStarted(Section section, string statistics)
         {
             var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\Header.png");
             section.AddImage(headerFileName);
@@ -82,7 +105,7 @@ namespace Iit.Fibertest.Client
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
 
             var paragraph4 = section.AddParagraph();
-            paragraph4.AddFormattedText(_tree.Statistics, TextFormat.Bold);
+            paragraph4.AddFormattedText(statistics, TextFormat.Bold);
             paragraph4.Format.Font.Size = 12;
             paragraph4.Format.SpaceBefore = Unit.FromCentimeter(0.4);
             paragraph4.Format.SpaceAfter = Unit.FromCentimeter(1.4);
