@@ -130,8 +130,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             _rtuOccupations.TrySetOccupation(rtuId, RtuOccupation.None, username, out RtuOccupationState _);
 
-            return !string.IsNullOrEmpty(result) 
-                ? new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = result } 
+            return !string.IsNullOrEmpty(result)
+                ? new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = result }
                 : new RequestAnswer() { ReturnCode = ReturnCode.Ok };
         }
 
@@ -390,41 +390,6 @@ namespace Iit.Fibertest.DataCenterCore
             return await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
         }
 
-        private async Task<AssignBaseRefsDto> CreateAssignBaseRefsDto(AttachTraceDto cmd)
-        {
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == cmd.TraceId);
-            if (trace == null) return null;
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            if (rtu == null) return null;
-
-            var dto = new AssignBaseRefsDto()
-            {
-                RtuId = trace.RtuId,
-                RtuMaker = rtu.RtuMaker,
-                OtdrId = rtu.OtdrId,
-                TraceId = cmd.TraceId,
-                OtauPortDto = cmd.OtauPortDto,
-                MainOtauPortDto = cmd.MainOtauPortDto,
-                BaseRefs = new List<BaseRefDto>(),
-            };
-
-            foreach (var baseRef in _writeModel.BaseRefs.Where(b => b.TraceId == trace.TraceId))
-            {
-                dto.BaseRefs.Add(new BaseRefDto()
-                {
-                    SorFileId = baseRef.SorFileId,
-                    Id = baseRef.TraceId,
-                    BaseRefType = baseRef.BaseRefType,
-                    Duration = baseRef.Duration,
-                    SaveTimestamp = baseRef.SaveTimestamp,
-                    UserName = baseRef.UserName,
-
-                    SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId),
-                });
-            }
-
-            return dto;
-        }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
         // base refs should be extracted from Db and sent to the RTU
@@ -482,6 +447,42 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
+        private async Task<AssignBaseRefsDto> CreateAssignBaseRefsDto(AttachTraceDto cmd)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == cmd.TraceId);
+            if (trace == null) return null;
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu == null) return null;
+
+            var dto = new AssignBaseRefsDto()
+            {
+                RtuId = trace.RtuId,
+                RtuMaker = rtu.RtuMaker,
+                OtdrId = rtu.OtdrId,
+                TraceId = cmd.TraceId,
+                OtauPortDto = cmd.OtauPortDto,
+                MainOtauPortDto = cmd.MainOtauPortDto,
+                BaseRefs = new List<BaseRefDto>(),
+            };
+
+            foreach (var baseRef in _writeModel.BaseRefs.Where(b => b.TraceId == trace.TraceId))
+            {
+                dto.BaseRefs.Add(new BaseRefDto()
+                {
+                    SorFileId = baseRef.SorFileId,
+                    Id = baseRef.TraceId,
+                    BaseRefType = baseRef.BaseRefType,
+                    Duration = baseRef.Duration,
+                    SaveTimestamp = baseRef.SaveTimestamp,
+                    UserName = baseRef.UserName,
+
+                    SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId),
+                });
+            }
+
+            return dto;
+        }
+
         private async Task NotifyWebClientTraceAttached(Guid traceId)
         {
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
@@ -530,14 +531,14 @@ namespace Iit.Fibertest.DataCenterCore
                 return transferResult;
 
             if (dto.RtuMaker == RtuMaker.VeEX)
-                // Veex and there are base refs so veexTests table should be updated
+            // Veex and there are base refs so veexTests table should be updated
             {
                 var updateResult = await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
                 if (updateResult.ReturnCode != ReturnCode.Ok)
                     return new BaseRefAssignedDto()
-                        { ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage };
+                    { ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage };
             }
-            
+
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
 
             return transferResult;
