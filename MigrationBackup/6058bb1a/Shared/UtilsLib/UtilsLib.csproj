@@ -4,16 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E9122BBB-B015-4710-BDD3-03243EE8CBCD}</ProjectGuid>
+    <ProjectGuid>{716240FF-D1E8-4BD3-9E63-431382617398}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iit.Fibertest.IitOtdrLibrary</RootNamespace>
-    <AssemblyName>Iit.Fibertest.IitOtdrLibrary</AssemblyName>
+    <RootNamespace>Iit.Fibertest.UtilsLib</RootNamespace>
+    <AssemblyName>Iit.Fibertest.UtilsLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +40,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -49,6 +50,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForRtuXP|AnyCPU'">
     <OutputPath>bin\ForRtuXP\</OutputPath>
@@ -58,6 +60,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForRtuXP|x86'">
     <OutputPath>bin\x86\ForRtuXP\</OutputPath>
@@ -67,61 +70,102 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Optixsoft.OtdrDataFormat">
       <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionParams.cs" />
-    <Compile Include="InterOpWrapper.DataExchange.cs" />
-    <Compile Include="InterOpWrapper.Initialization.cs" />
-    <Compile Include="InterOpWrapper.Measure.cs" />
-    <Compile Include="InterOpWrapper.MeasureParameters.cs" />
-    <Compile Include="InterOpWrapper.ServiceFunction.cs" />
-    <Compile Include="Native.cs" />
-    <Compile Include="OtdrManager.Compare.cs" />
-    <Compile Include="OtdrManager.cs" />
-    <Compile Include="OtdrManager.Measure.cs" />
+    <Compile Include="AesExt.cs" />
+    <Compile Include="Arp.cs" />
+    <Compile Include="IniFile\IniFile.cs" />
+    <Compile Include="IniFile\IniKey.cs" />
+    <Compile Include="IniFile\IniSection.cs" />
+    <Compile Include="LedDisplay.cs" />
+    <Compile Include="LedDisplayCode.cs" />
+    <Compile Include="LocalAddressResearcher.cs" />
+    <Compile Include="LogFile\IMyLog.cs" />
+    <Compile Include="LogFile\LogFile.cs" />
+    <Compile Include="LogFile\NullLog.cs" />
+    <Compile Include="Mikrotik.cs" />
+    <Compile Include="MikrotikInBop.cs" />
+    <Compile Include="Pinger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestoreFunctions.cs" />
+    <Compile Include="ServiceManager\ScmAccessRights.cs" />
+    <Compile Include="ServiceManager\ServiceAccessRights.cs" />
+    <Compile Include="ServiceManager\ServiceBootFlag.cs" />
+    <Compile Include="ServiceManager\ServiceControl.cs" />
+    <Compile Include="ServiceManager\ServiceError.cs" />
+    <Compile Include="ServiceManager\ServiceInstaller.cs" />
+    <Compile Include="ServiceManager\ServiceState.cs" />
+    <Compile Include="Setup\BwReturnProgressCode.cs" />
+    <Compile Include="Setup\CurrentInstallation.cs" />
+    <Compile Include="Setup\FileOperations.cs" />
+    <Compile Include="Setup\FtService.cs" />
+    <Compile Include="Setup\FtServices.cs" />
+    <Compile Include="Setup\IniOperations.cs" />
+    <Compile Include="Setup\InstallationType.cs" />
+    <Compile Include="Setup\RegistryOperations.cs" />
+    <Compile Include="Setup\ServiceOperations.cs" />
+    <Compile Include="Setup\SetupUninstallOperations.cs" />
+    <Compile Include="Setup\ShortcutOperatios.cs" />
+    <Compile Include="Setup\SiteOperations.cs" />
+    <Compile Include="Setup\WebApiSettings.cs" />
+    <Compile Include="Setup\WebClientSettings.cs" />
+    <Compile Include="Snmp\SnmpAgent.cs" />
+    <Compile Include="Snmp\FtTrapProperty.cs" />
+    <Compile Include="Snmp\FtTrapType.cs" />
+    <Compile Include="Snmp\SnmpHuaweiAgent.cs" />
+    <Compile Include="Snmp\SnmpV2CDataType.cs" />
+    <Compile Include="Snmp\VbCollectionFactory.cs" />
+    <Compile Include="SorData\AccidentsExtractor.cs" />
+    <Compile Include="SorData\RftsEventExt.cs" />
+    <Compile Include="SorData\RftsEventsExt.cs" />
+    <Compile Include="SorData\RftsEventsFactory.cs" />
+    <Compile Include="SorData\RftsLevelTypeExt.cs" />
+    <Compile Include="SorData\SorData.cs" />
+    <Compile Include="SorData\SorDataExt.cs" />
+    <Compile Include="SorData\SorDataRftsExt.cs" />
+    <Compile Include="StringExt.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj">
-      <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
-      <Name>UtilsLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DirectCharonLibrary\DirectCharonLibrary.csproj">
-      <Project>{aed4a94a-a19e-4625-8037-4f5d9489e04c}</Project>
-      <Name>DirectCharonLibrary</Name>
+    <ProjectReference Include="..\StringResources\StringResources.csproj">
+      <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
+      <Name>StringResources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <Compile Include="InterOpWrapper.AcceptableParameters.cs" />
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bcl">
-      <Version>1.1.10</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Bcl.Async">
-      <Version>1.0.168</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Bcl.Build">
-      <Version>1.0.21</Version>
-    </PackageReference>
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
