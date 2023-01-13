@@ -1,0 +1,1100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{456F0424-B6BD-452C-A4B9-53DEB92E829C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Graph.Tests</RootNamespace>
+    <AssemblyName>Graph.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForRtuXP|AnyCPU'">
+    <OutputPath>bin\ForRtuXP\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForRtuXP|x86'">
+    <OutputPath>bin\x86\ForRtuXP\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Fiberizer.Common">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Fiberizer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="NEventStore, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NEventStore.5.2.0\lib\net40\NEventStore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow, Version=2.4.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SpecFlow.2.4.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.2.0\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.2.0\lib\netstandard1.1\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.2.0\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accidents\AccidentsExtractor.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccidentsExtractor.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\AccidentsExtractorSteps.cs">
+      <DependentUpon>AccidentsExtractor.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultAccidentBetweenNodes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoniResultAccidentBetweenNodes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultAccidentBetweenNodesSteps.cs">
+      <DependentUpon>MoniResultAccidentBetweenNodes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultComes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoniResultComes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultComesSteps.cs">
+      <DependentUpon>MoniResultComes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultLossCoef.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoniResultLossCoef.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultLossCoefSteps.cs">
+      <DependentUpon>MoniResultLossCoef.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenesSteps.cs">
+      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefChecked.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefChecked.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefCheckedSteps.cs">
+      <DependentUpon>BaseRefChecked.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefModified.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefModified.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefModifiedSteps.cs">
+      <DependentUpon>BaseRefModified.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefRtu4000.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefRtu400Steps.cs">
+      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAddedOnNodeUpdate.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentAddedOnNodeUpdate.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAddedOnNodeUpdateSteps.cs">
+      <DependentUpon>EquipmentAddedOnNodeUpdate.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAddedSimple.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentAddedSimple.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAddedSimpleSteps.cs">
+      <DependentUpon>EquipmentAddedSimple.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedLightSteps.cs">
+      <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedLight.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedWithLoop.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentRemovedWithLoop.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedWithLoopSteps.cs">
+      <DependentUpon>EquipmentRemovedWithLoop.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MonitoringSettingsViewModel.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MonitoringSettingsViewModel.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MonitoringSettingsViewModelSteps.cs">
+      <DependentUpon>MonitoringSettingsViewModel.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RftsEventsViewModel.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RftsEventsViewModel.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RftsEventsViewModelSteps.cs">
+      <DependentUpon>RftsEventsViewModel.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Landmarks\LandmarksFormGetData.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Landmarks\LandmarksFormGetDataSteps.cs">
+      <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BopNetworkEvent\BopEventAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BopEventAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BopNetworkEvent\BopEventAddedSteps.cs">
+      <DependentUpon>BopEventAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Login.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Login.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Login\LoginSteps.cs">
+      <DependentUpon>Login.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\AdjustmentPointIntoFiberAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdjustmentPointIntoFiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\AdjustmentPointIntoFiberAddedSteps.cs">
+      <DependentUpon>AdjustmentPointIntoFiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\AdjustmentPointRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdjustmentPointRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\AdjustmentPointRemovedSteps.cs">
+      <DependentUpon>AdjustmentPointRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeIntoLoopOfTrace.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeIntoLoopOfTrace.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeIntoLoopOfTraceSteps.cs">
+      <DependentUpon>NodeIntoLoopOfTrace.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeRemovedSteps.cs">
+      <DependentUpon>NodeRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeRemoveFromLoopOfTrace.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeRemoveFromLoopOfTrace.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeRemoveFromLoopOfTraceSteps.cs">
+      <DependentUpon>NodeRemoveFromLoopOfTrace.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Otau\OtauAttached.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OtauAttached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Otau\OtauAttachedSteps.cs">
+      <DependentUpon>OtauAttached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Otau\OtauDetach.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OtauDetach.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Otau\OtauDetachSteps.cs">
+      <DependentUpon>OtauDetach.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Otau\OtauOnRtu4000.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OtauOnRtu4000.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Otau\OtauOnRtu4000Steps.cs">
+      <DependentUpon>OtauOnRtu4000.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\BrokenRtuInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrokenRtuInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\BrokenRtuInitializationSteps.cs" />
+    <Compile Include="Rtu\RtuInitialized.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuInitializedSteps.cs">
+      <DependentUpon>RtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuReInitializationRefused.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuReInitializationRefused.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuReInitializationRefusedSteps.cs">
+      <DependentUpon>RtuReInitializationRefused.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuReInitialized.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuReInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuReInitializedSteps.cs">
+      <DependentUpon>RtuReInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuRemovedNoTraces.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuRemovedNoTraces.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuRemovedNoTracesSteps.cs">
+      <DependentUpon>RtuRemovedNoTraces.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuUpdated.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuUpdatedFromTree.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuUpdatedFromTree.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuUpdatedFromTreeSteps.cs">
+      <DependentUpon>RtuUpdatedFromTree.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuUpdateSteps.cs">
+      <DependentUpon>RtuUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuFirstInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuFirstInitializationSteps.cs">
+      <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuInitialized.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuInitializedSteps.cs">
+      <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuWithBopInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RtuVeex\VeexRtuWithBopInitializationSteps.cs">
+      <DependentUpon>VeexRtuWithBopInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Sut\Enums\Answer.cs" />
+    <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeHttpClientThinWrap.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuManager.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuModel.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuModelExt.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\VeexRtuCompletedTestsSceneSetter.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\RequestFromUri.cs" />
+    <Compile Include="Sut\Fakes\FakeLicenseFileReader.cs" />
+    <Compile Include="Sut\Fakes\FakeMachineKeyProvider.cs" />
+    <Compile Include="Sut\Fakes\FakeRtuHolder.cs" />
+    <Compile Include="Sut\SutExtensions\Handlers.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForHideTraces.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForResponsibilityZones.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\TraceRtuEmptyTerminal.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAccidentsExtractor.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForBaseRefAdjuster.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLandmarksForm.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\TraceWithLoop.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\MoniSettingsApplier.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
+    <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
+    <Compile Include="Equipment\EquipmentAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAddedSteps.cs">
+      <DependentUpon>EquipmentAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAtGpsLocationAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentAtGpsLocationAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentAtGpsLocationAddedSteps.cs">
+      <DependentUpon>EquipmentAtGpsLocationAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedSteps.cs">
+      <DependentUpon>EquipmentRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentUpdated.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentUpdatedSteps.cs">
+      <DependentUpon>EquipmentUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Sut\Fakes\FakeClientWcfServiceHost.cs" />
+    <Compile Include="Sut\Fakes\FakeD2RWcfManager.cs" />
+    <Compile Include="Sut\Fakes\FakeEventStoreInitializer.cs" />
+    <Compile Include="Sut\Fakes\FakeWindowManager.cs" />
+    <Compile Include="Fiber\FiberAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberAddingSteps.cs">
+      <DependentUpon>FiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiberRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberRemovedSteps.cs">
+      <DependentUpon>FiberRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberUpdated.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiberUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberUpdatedSteps.cs">
+      <DependentUpon>FiberUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberWithNodesAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Fiber\FiberWithNodesSteps.cs">
+      <DependentUpon>FiberWithNodesAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeIntoFiberAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeIntoFiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeIntoFiberAddedSteps.cs">
+      <DependentUpon>NodeIntoFiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeMoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeMoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeMovedSteps.cs">
+      <DependentUpon>NodeMoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeUpdated.feature.cs">
+      <DependentUpon>NodeUpdated.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Node\NodeAddedSteps.cs">
+      <DependentUpon>NodeAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeUpdatedSteps.cs">
+      <DependentUpon>NodeUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rtu\RtuAtGpsLocationAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuAtGpsLocationAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuAtGpsLocationAddedSteps.cs">
+      <DependentUpon>RtuAtGpsLocationAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuRemovedSteps.cs">
+      <DependentUpon>RtuRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Sut\SutExtensions\Tools\RtuInitializer.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\TraceDefiner.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAddNodeIntoFiber.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForEquipmentAdded.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForEquipmentUpdateRemove.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForRtuRemoved.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAdded.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAttach.cs" />
+    <Compile Include="Sut\SutExtensions\TraceExt.cs" />
+    <Compile Include="Sut\SystemUnderTest.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceCleanRemove.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\TraceAttacher.cs" />
+    <Compile Include="Gps\GpsInputModeChanged.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Gps\GpsInputModeChangedSteps.cs">
+      <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefAssigned.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefAssignedSteps.cs">
+      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedFirstStageSteps.cs">
+      <DependentUpon>TraceAddedFirstStage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedFirstStage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceAddedFirstStage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedIntegrational.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceAddedIntegrational.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedIntegrationalSteps.cs">
+      <DependentUpon>TraceAddedIntegrational.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedSecondStage.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceAddedSecondStage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAddedSecondStageSteps.cs">
+      <DependentUpon>TraceAddedSecondStage.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAttached.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceAttached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceAttachedSteps.cs">
+      <DependentUpon>TraceAttached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceCleanedOrRemoved.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceCleanedOrRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceCleanedOrRemovedSteps.cs">
+      <DependentUpon>TraceCleanedOrRemoved.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetached.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceDetached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetachedSteps.cs">
+      <DependentUpon>TraceDetached.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetalization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceDetalization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceDetalizationSteps.cs">
+      <DependentUpon>TraceDetalization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceLeaf.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceLeaf.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceLeafSteps.cs">
+      <DependentUpon>TraceLeaf.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceUpdated.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceUpdatedSteps.cs">
+      <DependentUpon>TraceUpdated.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceWithLoopCleanOrRemove.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceWithLoopCleanOrRemove.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceWithLoopCleanOrRemoveSteps.cs">
+      <DependentUpon>TraceWithLoopCleanOrRemove.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\UserHidesTraces.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserHidesTraces.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\UserHidesTracesSteps.cs">
+      <DependentUpon>UserHidesTraces.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\UsersPrivileges.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsersPrivileges.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\UsersPrivilegesSteps.cs">
+      <DependentUpon>UsersPrivileges.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\Zones.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Zones.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\ZonesSteps.cs">
+      <DependentUpon>Zones.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VeexManualMeas\ManualMeasurements.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManualMeasurements.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VeexManualMeas\ManualMeasurementsSteps.cs">
+      <DependentUpon>ManualMeasurements.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VeexRtuCompletedTestFetcher\TestFetched.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestFetched.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VeexRtuCompletedTestFetcher\TestFetchedSteps.cs">
+      <DependentUpon>TestFetched.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VersionComparison.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionComparison.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VersionComparisonSteps.cs">
+      <DependentUpon>VersionComparison.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accidents\AccidentsExtractor.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AccidentsExtractor.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Accidents\MoniResultAccidentBetweenNodes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MoniResultAccidentBetweenNodes.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Accidents\MoniResultComes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MoniResultComes.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Accidents\MoniResultLossCoef.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MoniResultLossCoef.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BaseRef\BaseRefChecked.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefChecked.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BaseRef\BaseRefModified.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefModified.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BaseRef\BaseRefRtu4000.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefRtu4000.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Equipment\EquipmentAddedOnNodeUpdate.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentAddedOnNodeUpdate.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentAddedSimple.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentAddedSimple.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentAtGpsLocationAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentAtGpsLocationAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentRemovedLight.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentRemovedLight.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentRemovedWithLoop.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentRemovedWithLoop.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fiber\FiberAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FiberAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fiber\FiberRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FiberRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fiber\FiberUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FiberUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Fiber\FiberWithNodesAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>FiberWithNodesAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Forms\MonitoringSettingsViewModel.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MonitoringSettingsViewModel.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Forms\RftsEventsViewModel.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RftsEventsViewModel.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Landmarks\LandmarksFormGetData.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>LandmarksFormGetData.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BopNetworkEvent\BopEventAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BopEventAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Login\Login.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Login.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\AdjustmentPointIntoFiberAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AdjustmentPointIntoFiberAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\AdjustmentPointRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AdjustmentPointRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeIntoFiberAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeIntoFiberAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeIntoLoopOfTrace.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeIntoLoopOfTrace.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeMoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeMoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeRemoveFromLoopOfTrace.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeRemoveFromLoopOfTrace.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Otau\OtauOnRtu4000.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>OtauOnRtu4000.feature.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Otau\OtauAttached.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>OtauAttached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Otau\OtauDetach.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>OtauDetach.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RtuVeex\BrokenRtuInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BrokenRtuInitialization.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuAtGpsLocationAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuAtGpsLocationAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuInitialized.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuInitialized.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuReInitializationRefused.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuReInitializationRefused.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuReInitialized.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuReInitialized.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuRemovedNoTraces.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuRemovedNoTraces.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuUpdatedFromTree.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuUpdatedFromTree.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Gps\GpsInputModeChanged.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>GpsInputModeChanged.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BaseRef\BaseRefAssigned.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RtuVeex\VeexRtuFirstInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VeexRtuFirstInitialization.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RtuVeex\VeexRtuInitialized.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VeexRtuInitialized.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RtuVeex\VeexRtuWithBopInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VeexRtuWithBopInitialization.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Sut\LicenseFiles\DevSecAdmin.lic" />
+    <None Include="Sut\LicenseFiles\Fibertest20dev.lic" />
+    <None Include="Trace\TraceAddedFirstStage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceAddedFirstStage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceAddedIntegrational.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceAddedIntegrational.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceAddedSecondStage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceAddedSecondStage.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceAttached.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceAttached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceCleanedOrRemoved.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceCleanedOrRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceDetached.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceDetached.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceDetalization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceDetalization.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceLeaf.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceLeaf.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceUpdated.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceWithLoopCleanOrRemove.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceWithLoopCleanOrRemove.feature.cs</LastGenOutput>
+    </None>
+    <None Include="UsersAndZones\UserHidesTraces.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UserHidesTraces.feature.cs</LastGenOutput>
+    </None>
+    <None Include="UsersAndZones\UsersPrivileges.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UsersPrivileges.feature.cs</LastGenOutput>
+    </None>
+    <None Include="UsersAndZones\Zones.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Zones.feature.cs</LastGenOutput>
+    </None>
+    <None Include="VeexManualMeas\ManualMeasurements.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ManualMeasurements.feature.cs</LastGenOutput>
+    </None>
+    <None Include="VeexRtuCompletedTestFetcher\TestFetched.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TestFetched.feature.cs</LastGenOutput>
+    </None>
+    <None Include="VersionComparison.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VersionComparison.feature.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataCenter\D2RtuVeexLibrary\D2RtuVeexLibrary.csproj">
+      <Project>{a1bf104b-0d36-4895-81d9-9ac054fc4fad}</Project>
+      <Name>D2RtuVeexLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
+      <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
+      <Name>Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Graph\Graph.csproj">
+      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
+      <Name>Graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfClient\WpfClient.csproj">
+      <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
+      <Name>WpfClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
+      <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
+      <Name>WpfCommonViews</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataCenter\DatabaseLibrary\DatabaseLibrary.csproj">
+      <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
+      <Name>DatabaseLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataCenter\DataCenterCore\DataCenterCore.csproj">
+      <Project>{6ba3ea08-6bdb-4b2d-8729-409e136d4d74}</Project>
+      <Name>DataCenterCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
+      <Project>{E9122BBB-B015-4710-BDD3-03243EE8CBCD}</Project>
+      <Name>IitOtdrLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\StringResources\StringResources.csproj">
+      <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
+      <Name>StringResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj">
+      <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
+      <Name>UtilsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\WcfConnections\WcfConnections.csproj">
+      <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
+      <Name>WcfConnections</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sut\BaseSorFiles\base-trace7.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-2lm-3-thresholds.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-2lm-no-thresholds.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-4lm-3-thresholds.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-4lm-realplace-rough.sor" />
+    <Content Include="Sut\BaseSorFiles\base1550-5lm-fake-rough.sor" />
+    <Content Include="Sut\BaseSorFiles\base1625-3lm.sor" />
+    <Content Include="Sut\BaseSorFiles\base1625.sor" />
+    <Content Include="Sut\BaseSorFiles\baseRtuCrossTerminal1550.sor" />
+    <Content Include="Sut\MoniResults\CriticalRnode5-MinorLnode3-MinorCnode3.sor" />
+    <Content Include="Sut\MoniResults\DoubleMinorNode3.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\4lm-Ok.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2-MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\BreakBnode2.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\CriticalLnode2.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\MajorLnode2-MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\MinorRnode1.sor" />
+    <Content Include="Sut\MoniResults\Trace4Lm\NoFiber.sor" />
+    <Content Include="Sut\MoniResults\Trace5Lm\BreakBbetween2and3.sor" />
+    <Content Include="Sut\MoniResults\Trace5Lm\CriticalLbetween2and3.sor" />
+    <Content Include="Sut\MoniResults\Trace5Lm\Ok.sor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SpecFlow.2.4.0\build\SpecFlow.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SpecFlow.2.4.0\build\SpecFlow.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\packages\SpecFlow.2.4.0\build\SpecFlow.targets" Condition="Exists('..\..\packages\SpecFlow.2.4.0\build\SpecFlow.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
