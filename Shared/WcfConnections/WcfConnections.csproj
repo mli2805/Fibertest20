@@ -65,7 +65,7 @@
     <ProjectReference Include="..\..\RTU\RtuWcfService\RtuWcfServiceInterface.csproj">
       <Project>{d7c82e5d-e536-4684-b18f-9e1a341324d6}</Project>
       <Name>RtuWcfServiceInterface</Name>
-	  <Properties>SkipValidatePackageReferences=true</Properties>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
     <ProjectReference Include="..\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
@@ -94,7 +94,7 @@
       <Version>1.0.21</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>8.0.3</Version>
+      <Version>13.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
