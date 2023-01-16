@@ -217,7 +217,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to get measurement from VeEX RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to get measurement {dto.VeexMeasurementId.Substring(0,6)} from VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {

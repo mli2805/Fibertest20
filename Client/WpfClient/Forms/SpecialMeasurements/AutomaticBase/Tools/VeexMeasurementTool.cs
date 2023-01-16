@@ -40,20 +40,27 @@ namespace Iit.Fibertest.Client
             if (startResult.ReturnCode != ReturnCode.MeasurementClientStartedSuccessfully)
                 return new LineParametersDto(){ReturnCode = startResult.ReturnCode};
 
-            var p = _iniFile.Read(IniSection.Miscellaneous, IniKey.VeexLineParamsTimeoutMs, 15000);
-            await Task.Delay(p);
-            var getDto = new GetClientMeasurementDto()
+            ClientMeasurementVeexResultDto lineCheckResult = null;
+            var p = _iniFile.Read(IniSection.Miscellaneous, IniKey.VeexLineParamsTimeoutMs, 2000);
+            bool flag = false;
+            while (!flag)
             {
-                RtuId = dto.RtuId,
-                ConnectionId = _currentUser.ConnectionId,
-                VeexMeasurementId = startResult.ClientMeasurementId.ToString(),
-            };  
-            var lineCheckResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
-            _logFile.AppendLine($@"{lineCheckResult.ReturnCode.ToString()}");
-            if (lineCheckResult.ReturnCode != ReturnCode.Ok)
-            {
-                _logFile.AppendLine(@"Failed to get line parameters");
-                return new LineParametersDto(){ReturnCode = lineCheckResult.ReturnCode};
+                await Task.Delay(p);
+                var getDto = new GetClientMeasurementDto()
+                {
+                    RtuId = dto.RtuId,
+                    ConnectionId = _currentUser.ConnectionId,
+                    VeexMeasurementId = startResult.ClientMeasurementId.ToString(),
+                };  
+                lineCheckResult = await _c2DWcfCommonManager.GetClientMeasurementAsync(getDto);
+                _logFile.AppendLine($@"lineCheckResult: {lineCheckResult.ReturnCode}");
+                if (lineCheckResult.ReturnCode != ReturnCode.Ok)
+                {
+                    _logFile.AppendLine(@"Failed to get line parameters");
+                    return new LineParametersDto(){ReturnCode = lineCheckResult.ReturnCode};
+                }
+
+                flag = lineCheckResult.VeexMeasurementStatus == @"finished";
             }
 
             var cq = lineCheckResult.ConnectionQuality[0];
