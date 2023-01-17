@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Licenser {
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
             yield return typeof(ShellView).Assembly; // this Assembly (.exe)
-            yield return typeof(WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
+            yield return typeof(WpfCommonViews.IWaitCursor).Assembly; // WpfCommonViews
         }
     }
 }

@@ -80,6 +80,7 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> ServerAsksClientToExit(ServerAsksClientToExitDto dto)
         {
+            _logFile.AppendLine(@"Data Center asks to exit.");
             if (dto.ToAll || dto.ConnectionId == _currentUser.ConnectionId)
                 await Task.Factory.StartNew(() => LeaveApp(dto.Reason));
             return 0;

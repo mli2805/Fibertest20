@@ -95,7 +95,14 @@ namespace Iit.Fibertest.DataCenterCore
                         IsNewUserWeb = dto.IsWebClient,
                         NewAddress = dto.ClientIp,
                     };
-                    await collection.D2CWcfService.ServerAsksClientToExit(serverAsksClientToExitDto);
+
+                    var addresses = collection.GetAllDesktopClientsAddresses();
+                    if (addresses != null)
+                    {
+                        collection.D2CWcfService.SetClientsAddresses(addresses);
+                        await collection.D2CWcfService.ServerAsksClientToExit(serverAsksClientToExitDto);
+                    }
+                   
                     await collection.FtSignalRClient.NotifyAll("ServerAsksClientToExit", serverAsksClientToExitDto.ToCamelCaseJson());
                     await Task.Delay(1000);
                     collection.Clients.Remove(stationWithTheSameUser);

@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
                 _wcfHost = new ServiceHost(_wcfServiceInClient);
                 _wcfHost.AddServiceEndpoint(typeof(IWcfServiceInClient), WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri );
                 _wcfHost.Open();
-                _logFile.AppendLine(@"DataCenter listener started successfully");
+                _logFile.AppendLine($@"DataCenter listener on port {clientTcpPort} started successfully");
             }
             catch (Exception e)
             {
