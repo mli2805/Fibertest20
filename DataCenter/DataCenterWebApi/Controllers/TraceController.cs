@@ -17,18 +17,14 @@ namespace Iit.Fibertest.DataCenterWebApi
     {
         private readonly IMyLog _logFile;
         private readonly WebC2DWcfManager _webC2DWcfManager;
-        private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly DoubleAddress _doubleAddressForWebWcfManager;
-        private readonly DoubleAddress _doubleAddressForCommonWcfManager;
         private readonly string _localIpAddress;
 
         public TraceController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
-            _doubleAddressForCommonWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
         }
 
@@ -181,9 +177,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                     }
                 }
 
-                var baseRefAssignedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .AssignBaseRefAsync(dto);
+                var baseRefAssignedDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .AssignBaseRefs(dto);
                 _logFile.AppendLine($"PostBaseRefs: {baseRefAssignedDto.ReturnCode}");
                 return baseRefAssignedDto;
             }

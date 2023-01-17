@@ -138,6 +138,28 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("Not authorized access");
             return false;
         }
+
+        public async Task<BaseRefAssignedDto> AssignBaseRefs(AssignBaseRefsDto dto)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
+            if (trace == null)
+                return new BaseRefAssignedDto()
+                    { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = "trace not found" };
+
+            var precise = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
+            if (precise != null && trace.PreciseId != Guid.Empty)
+                dto.DeleteOldSorFileIds.Add(_writeModel.BaseRefs.First(b => b.Id == trace.PreciseId).SorFileId);
+
+            var fast = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
+            if (fast != null && trace.FastId != Guid.Empty)
+                dto.DeleteOldSorFileIds.Add(_writeModel.BaseRefs.First(b=>b.Id == trace.FastId).SorFileId);
+
+            var additional = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
+            if (additional != null && trace.AdditionalId != Guid.Empty)
+                dto.DeleteOldSorFileIds.Add(_writeModel.BaseRefs.First(b=>b.Id == trace.AdditionalId).SorFileId);
+
+            return await _wcfIntermediate.AssignBaseRefAsync(dto);
+        }
     }
 
 }

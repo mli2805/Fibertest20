@@ -62,6 +62,9 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId);
 
+        [OperationContract]
+        Task<BaseRefAssignedDto> AssignBaseRefs(AssignBaseRefsDto dto);
+
         #endregion
 
         #region Tables

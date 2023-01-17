@@ -171,6 +171,7 @@ namespace Iit.Fibertest.DataCenterCore
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
             if (rtu == null) return result;
             result.RtuTitle = rtu.Title;
+            result.RtuMaker = rtu.RtuMaker;
             result.OtdrId = rtu.OtdrId;
             result.PreciseId = trace.PreciseId;
             result.FastId = trace.FastId;
@@ -178,5 +179,6 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+      
     }
 }

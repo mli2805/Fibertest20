@@ -342,7 +342,7 @@ namespace Iit.Fibertest.WcfConnections
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetTraceStatistics: " + e.Message);
+                _logFile.AppendLine("GetTraceState: " + e.Message);
                 return null;
             }
         }
@@ -362,12 +362,30 @@ namespace Iit.Fibertest.WcfConnections
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetTraceStatistics: " + e.Message);
+                _logFile.AppendLine("GetAssignBaseParams: " + e.Message);
                 return null;
             }
         }
 
-     
+        public async Task<BaseRefAssignedDto> AssignBaseRefs(AssignBaseRefsDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AssignBaseRefs(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("AssignBaseRefs: " + e.Message);
+                return null;
+            }
+        }
 
         #endregion
 
