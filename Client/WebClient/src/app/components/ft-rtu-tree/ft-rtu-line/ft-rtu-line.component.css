@@ -32,7 +32,3 @@ p {
 .children-container {
   margin-left: 90px;
 }
-
-.preserve-ws {
-  white-space: pre;
-}

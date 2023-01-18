@@ -8,4 +8,13 @@ body,
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  white-space: pre-wrap;
+}
+
+.mat-select-value-text {
+  white-space: pre-wrap !important;
+}
+
+.mat-option-text {
+  white-space: pre-wrap !important;
 }
