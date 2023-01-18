@@ -7,7 +7,7 @@
   <img src="{{ trace | traceMonitoringModeUri }}" alt="monitoring mode image" />
   <img src="{{ trace.state | fiberStateToUriPipe }}" alt="trace state image" />
   <div class="traceName">
-    <p>{{ trace.title }}</p>
+    <p class="preserve-ws">{{ trace.title }}</p>
   </div>
   <mat-menu #detachedLineContextMenu="matMenu">
     <button mat-menu-item (click)="displayInformation()">

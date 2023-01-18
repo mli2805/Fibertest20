@@ -6,7 +6,7 @@
 >
   <img src="{{ trace | traceMonitoringModeUri }}" alt="monitoring mode image" />
   <img src="{{ trace.state | fiberStateToUriPipe }}" alt="trace state image" />
-  <p>N{{ trace.port }}: {{ trace.title }}</p>
+  <p class="preserve-ws">N{{ trace.port }}: {{ trace.title }}</p>
   <mat-menu #attachedLineContextMenu="matMenu">
     <button mat-menu-item (click)="displayInformation()">
       {{ "SID_Information" | translate }}

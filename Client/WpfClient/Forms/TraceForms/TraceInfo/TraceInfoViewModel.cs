@@ -181,6 +181,7 @@ namespace Iit.Fibertest.Client
                 return null;
 
             var sorBytes = await _c2DWcfCommonManager.GetSorBytes(baseRef.SorFileId);
+            if (sorBytes == null) return null;
             return SorData.FromBytes(sorBytes);
         }
 
