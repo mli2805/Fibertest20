@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Licenser
             paragraph.Format.Font.Size = 16;
 
             var paragraph2 = section.AddParagraph();
-            paragraph2.AddFormattedText("220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис А304.");
+            paragraph2.AddFormattedText(Resources.SID_Iit_address);
             paragraph2.Format.Font.Size = 12;
             paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.1);
         }

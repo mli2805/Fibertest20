@@ -32,8 +32,10 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
                 _rtuLog.AppendLine("Initialization by the USER puts RTU into MANUAL mode.");
             }
+            IsAutoBaseMeasurementInProgress = false;
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, false);
 
-          
+
             LogInitializationStart();
 
             IsRtuInitialized = false;
@@ -47,8 +49,6 @@ namespace Iit.Fibertest.RtuManagement
                 //     _rtuLog.AppendLine("First initialization! Turning monitoring off.");
                 // }
 
-                IsAutoBaseMeasurementInProgress = false;
-                _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, false);
             }
 
             _rtuInitializationResult = InitializeRtuManager(param);
