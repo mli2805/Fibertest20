@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Graph
         private static byte GetSymbol(int allowedSymbolsNumber)
         {
             if (allowedSymbolsNumber <= 0)
-                throw new ArgumentOutOfRangeException("allowedSymbolsNumber");
+                throw new ArgumentOutOfRangeException(@"allowedSymbolsNumber");
 
             // Create a byte array to hold the random value.
             byte[] randomNumber = new byte[1];

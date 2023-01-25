@@ -124,12 +124,6 @@
     <Compile Include="Setup\SiteOperations.cs" />
     <Compile Include="Setup\WebApiSettings.cs" />
     <Compile Include="Setup\WebClientSettings.cs" />
-    <Compile Include="Snmp\SnmpAgent.cs" />
-    <Compile Include="Snmp\FtTrapProperty.cs" />
-    <Compile Include="Snmp\FtTrapType.cs" />
-    <Compile Include="Snmp\SnmpHuaweiAgent.cs" />
-    <Compile Include="Snmp\SnmpV2CDataType.cs" />
-    <Compile Include="Snmp\VbCollectionFactory.cs" />
     <Compile Include="SorData\AccidentsExtractor.cs" />
     <Compile Include="SorData\RftsEventExt.cs" />
     <Compile Include="SorData\RftsEventsExt.cs" />
@@ -168,9 +162,6 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="SnmpSharpNet">
-      <Version>0.9.5</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

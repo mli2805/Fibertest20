@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.UtilsLib
+﻿namespace Utils471
 {
     // should be the same as in MIB file
     public enum FtTrapProperty

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SnmpSharpNet;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Utils471
 {
     public class SnmpHuaweiAgent
     {

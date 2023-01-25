@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SnmpSharpNet;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Utils471
 {
     public static class VbCollectionFactory
     {

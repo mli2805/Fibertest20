@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.UtilsLib
+﻿namespace Utils471
 {
     public enum SnmpV2CDataType
     {

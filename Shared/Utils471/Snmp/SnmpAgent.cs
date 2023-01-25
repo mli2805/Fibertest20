@@ -4,9 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using SnmpSharpNet;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Utils471
 {
     public class SnmpAgent
     {

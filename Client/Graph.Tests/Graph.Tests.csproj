@@ -1008,6 +1008,10 @@
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Utils471\Utils471.csproj">
+      <Project>{02da26eb-6a9f-4126-92d3-d5a40234b0f9}</Project>
+      <Name>Utils471</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
