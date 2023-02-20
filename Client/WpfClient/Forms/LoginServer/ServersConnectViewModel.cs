@@ -210,7 +210,7 @@ namespace Iit.Fibertest.Client
                 {
                     Main = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone()
                 },
-                ClientIpAddress = _clientAddress,
+                // ClientIpAddress = _clientAddress,
                 IsLastSelected = true,
             };
 
