@@ -92,7 +92,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             IsEditEnabled = true;
-            HasPrivilegies = currentUser.Role <= Role.Operator;
+            HasPrivilegies = currentUser.Role <= Role.Root;
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
         }
 

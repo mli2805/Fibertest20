@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
     {
         public string Title { get; set; }
         public DoubleAddress ServerAddress { get; set; }
-        // public string ClientIpAddress { get; set; }
+        public string ClientIpAddress { get; set; }
         public bool IsLastSelected { get; set; }
 
         public override string ToString()

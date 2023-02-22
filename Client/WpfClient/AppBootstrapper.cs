@@ -12,7 +12,6 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -151,7 +150,7 @@ namespace Iit.Fibertest.Client
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
             yield return typeof(ShellView).Assembly; // this Assembly (.exe)
-            yield return typeof(RftsEventsView).Assembly; // WpfCommonViews
+            yield return typeof(WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
         }
     }
 }

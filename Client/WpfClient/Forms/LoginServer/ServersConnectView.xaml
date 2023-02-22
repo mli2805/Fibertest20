@@ -13,13 +13,10 @@
         <wpfCommonViews:IitOfficialHeader/>
         <StackPanel  Margin="30,0">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <Button Name="ButtonMinus" Width="25" Content="-" Margin="36,0,0,0" 
-                        IsEnabled="{Binding IsRemoveServerEnabled}"/>
+                <Button Name="ButtonMinus" Width="25" Content="-" Margin="36,0,0,0" IsEnabled="{Binding IsRemoveServerEnabled}"/>
                 <ComboBox Width="190" Margin="5,0,5,0" ItemsSource="{Binding Servers}" 
-                          SelectedItem="{Binding SelectedServer, Mode=TwoWay}" 
-                          Visibility="{Binding ServersComboboxVisibility}"/>
-                <TextBox Width="190" Margin="5,0,5,0" Text="{Binding NewServerTitle}" 
-                         Visibility="{Binding NewServerTitleVisibility}"/>
+                          SelectedItem="{Binding SelectedServer, Mode=TwoWay}" Visibility="{Binding ServersComboboxVisibility}"/>
+                <TextBox Width="190" Margin="5,0,5,0" Text="{Binding NewServerTitle}" Visibility="{Binding NewServerTitleVisibility}"/>
                 <Button Name="ButtonPlus" Width="25" Content="+" />
             </StackPanel>
             <client:NetAddressTestView DataContext="{Binding ServerConnectionTestViewModel}" Margin="15,0,15,0"/>

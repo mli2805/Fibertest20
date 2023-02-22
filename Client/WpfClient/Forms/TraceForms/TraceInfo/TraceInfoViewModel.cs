@@ -109,7 +109,7 @@ namespace Iit.Fibertest.Client
             {
                 _ = await GetOtherPropertiesOfExistingTrace();
             }
-            IsEditEnabled = _currentUser.Role <= Role.Operator;
+            IsEditEnabled = _currentUser.Role <= Role.Root;
             IsCreatedSuccessfully = false;
         }
 
