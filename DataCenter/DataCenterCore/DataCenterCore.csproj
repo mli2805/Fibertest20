@@ -75,7 +75,7 @@
     <Compile Include="NEventStore\DbSeeds.cs" />
     <Compile Include="OutOfTurn\OutOfTurnProcessor.cs" />
     <Compile Include="OutOfTurn\OutOfTurnData.cs" />
-    <Compile Include="PON\ClassBefore.cs" />
+    <Compile Include="PON\ClassAfter.cs" />
     <Compile Include="PON\HuaweiTrapParser.cs" />
     <Compile Include="PON\OutOfTurnRequestBuilder.cs" />
     <Compile Include="PON\TrapLogging.cs" />

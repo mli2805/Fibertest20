@@ -1,9 +1,9 @@
 ﻿namespace Iit.Fibertest.DataCenterCore
 {
-    public class ClassBefore
+    public class ClassAfter
     {
         public int  Prop { get; set; }
-        public ClassBefore()
+        public ClassAfter()
         {
             Prop = 0;
         }
