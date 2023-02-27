@@ -2,10 +2,15 @@
 {
     public class ClassBefore
     {
-        public int  Id { get; set; }
+        public int  Prop { get; set; }
         public ClassBefore()
         {
-            Id = 0;
+            Prop = 0;
+        }
+
+        public void Add(int p)
+        {
+            Prop += p;
         }
     }
 }
