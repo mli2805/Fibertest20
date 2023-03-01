@@ -12,7 +12,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.RtuId = dto.RtuId;
             result.Maker = RtuMaker.VeEX;
             result.RtuAddresses = dto.RtuAddresses;
-            result.OtdrAddress = dto.RtuAddresses.Main.Clone();
+            result.OtdrAddress = new NetAddress(dto.RtuAddresses.Main.GetAddress(), 1500);
             result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
             result.IsInitialized = true;
 
