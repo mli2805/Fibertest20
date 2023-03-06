@@ -17,39 +17,37 @@ namespace Graph.Tests.Trace
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TraceDetalizationFeature : Xunit.IClassFixture<TraceDetalizationFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("TraceDetalization")]
+    public partial class TraceDetalizationFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "TraceDetalization.feature"
 #line hidden
         
-        public TraceDetalizationFeature(TraceDetalizationFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceDetalization", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Trace
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -71,14 +69,8 @@ namespace Graph.Tests.Trace
             testRunner.CollectScenarioErrors();
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Запрошена детализация трассы")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceDetalization")]
-        [Xunit.TraitAttribute("Description", "Запрошена детализация трассы")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Запрошена детализация трассы")]
         public virtual void ЗапрошенаДетализацияТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрошена детализация трассы", null, ((string[])(null)));
@@ -110,24 +102,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                TraceDetalizationFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                TraceDetalizationFeature.FeatureTearDown();
-            }
-        }
     }
 }
 #pragma warning restore
 #endregion
-

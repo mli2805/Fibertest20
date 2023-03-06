@@ -17,39 +17,37 @@ namespace Graph.Tests.Node
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class NodeMovedFeature : Xunit.IClassFixture<NodeMovedFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("NodeMoved")]
+    public partial class NodeMovedFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "NodeMoved.feature"
 #line hidden
         
-        public NodeMovedFeature(NodeMovedFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeMoved", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Node
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -79,14 +77,8 @@ namespace Graph.Tests.Node
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Таскание узла на карте")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeMoved")]
-        [Xunit.TraitAttribute("Description", "Таскание узла на карте")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Таскание узла на карте")]
         public virtual void ТасканиеУзлаНаКарте()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Таскание узла на карте", null, ((string[])(null)));
@@ -101,22 +93,6 @@ this.FeatureBackground();
  testRunner.Then("Новые координаты должны быть сохранены", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                NodeMovedFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                NodeMovedFeature.FeatureTearDown();
-            }
         }
     }
 }

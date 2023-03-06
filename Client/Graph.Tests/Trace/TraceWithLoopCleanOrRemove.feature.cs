@@ -17,39 +17,37 @@ namespace Graph.Tests.Trace
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TraceWithLoopCleanOrRemoveFeature : Xunit.IClassFixture<TraceWithLoopCleanOrRemoveFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("TraceWithLoopCleanOrRemove")]
+    public partial class TraceWithLoopCleanOrRemoveFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "TraceWithLoopCleanOrRemove.feature"
 #line hidden
         
-        public TraceWithLoopCleanOrRemoveFeature(TraceWithLoopCleanOrRemoveFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceWithLoopCleanOrRemove", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Trace
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -79,14 +77,8 @@ namespace Graph.Tests.Trace
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Очистка трассы с петлей")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceWithLoopCleanOrRemove")]
-        [Xunit.TraitAttribute("Description", "Очистка трассы с петлей")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Очистка трассы с петлей")]
         public virtual void ОчисткаТрассыСПетлей()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Очистка трассы с петлей", null, ((string[])(null)));
@@ -103,9 +95,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Удаление трассы с петлей")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceWithLoopCleanOrRemove")]
-        [Xunit.TraitAttribute("Description", "Удаление трассы с петлей")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Удаление трассы с петлей")]
         public virtual void УдалениеТрассыСПетлей()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление трассы с петлей", null, ((string[])(null)));
@@ -120,22 +111,6 @@ this.FeatureBackground();
  testRunner.Then("Трасса удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                TraceWithLoopCleanOrRemoveFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                TraceWithLoopCleanOrRemoveFeature.FeatureTearDown();
-            }
         }
     }
 }

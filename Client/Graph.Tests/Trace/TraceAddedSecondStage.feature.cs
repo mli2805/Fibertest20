@@ -17,39 +17,37 @@ namespace Graph.Tests.Trace
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TraceAddedSecondStageFeature : Xunit.IClassFixture<TraceAddedSecondStageFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("TraceAddedSecondStage")]
+    public partial class TraceAddedSecondStageFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "TraceAddedSecondStage.feature"
 #line hidden
         
-        public TraceAddedSecondStageFeature(TraceAddedSecondStageFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceAddedSecondStage", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Trace
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -71,14 +69,8 @@ namespace Graph.Tests.Trace
             testRunner.CollectScenarioErrors();
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Пользователь отказывается от выбора оборудования в одном из узлов и выходит")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedSecondStage")]
-        [Xunit.TraitAttribute("Description", "Пользователь отказывается от выбора оборудования в одном из узлов и выходит")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Пользователь отказывается от выбора оборудования в одном из узлов и выходит")]
         public virtual void ПользовательОтказываетсяОтВыбораОборудованияВОдномИзУзловИВыходит()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь отказывается от выбора оборудования в одном из узлов и выходит", null, ((string[])(null)));
@@ -95,9 +87,8 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Пользователь выбирает оборудование")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedSecondStage")]
-        [Xunit.TraitAttribute("Description", "Пользователь выбирает оборудование")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Пользователь выбирает оборудование")]
         public virtual void ПользовательВыбираетОборудование()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь выбирает оборудование", null, ((string[])(null)));
@@ -112,22 +103,6 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("Список оборудования для трассы содержит выбранное пользователем оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                TraceAddedSecondStageFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                TraceAddedSecondStageFeature.FeatureTearDown();
-            }
         }
     }
 }

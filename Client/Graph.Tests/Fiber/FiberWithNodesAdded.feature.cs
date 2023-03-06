@@ -17,39 +17,37 @@ namespace Graph.Tests.Fiber
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class FiberWithNodesAddedFeature : Xunit.IClassFixture<FiberWithNodesAddedFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("FiberWithNodesAdded")]
+    public partial class FiberWithNodesAddedFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "FiberWithNodesAdded.feature"
 #line hidden
         
-        public FiberWithNodesAddedFeature(FiberWithNodesAddedFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FiberWithNodesAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Fiber
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -79,14 +77,8 @@ namespace Graph.Tests.Fiber
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Добавление отрезка с узлами там где он есть")]
-        [Xunit.TraitAttribute("FeatureTitle", "FiberWithNodesAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление отрезка с узлами там где он есть")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление отрезка с узлами там где он есть")]
         public virtual void ДобавлениеОтрезкаСУзламиТамГдеОнЕсть()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с узлами там где он есть", null, ((string[])(null)));
@@ -107,9 +99,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление отрезка с 0 узлов")]
-        [Xunit.TraitAttribute("FeatureTitle", "FiberWithNodesAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление отрезка с 0 узлов")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление отрезка с 0 узлов")]
         public virtual void ДобавлениеОтрезкаС0Узлов()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с 0 узлов", null, ((string[])(null)));
@@ -126,9 +117,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление отрезка с N пустых узлов")]
-        [Xunit.TraitAttribute("FeatureTitle", "FiberWithNodesAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление отрезка с N пустых узлов")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление отрезка с N пустых узлов")]
         public virtual void ДобавлениеОтрезкаСNПустыхУзлов()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с N пустых узлов", null, ((string[])(null)));
@@ -145,9 +135,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление отрезка с N точек привязки")]
-        [Xunit.TraitAttribute("FeatureTitle", "FiberWithNodesAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление отрезка с N точек привязки")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление отрезка с N точек привязки")]
         public virtual void ДобавлениеОтрезкаСNТочекПривязки()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с N точек привязки", null, ((string[])(null)));
@@ -164,9 +153,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление отрезка с N узлов c оборудованием")]
-        [Xunit.TraitAttribute("FeatureTitle", "FiberWithNodesAdded")]
-        [Xunit.TraitAttribute("Description", "Добавление отрезка с N узлов c оборудованием")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление отрезка с N узлов c оборудованием")]
         public virtual void ДобавлениеОтрезкаСNУзловCОборудованием()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка с N узлов c оборудованием", null, ((string[])(null)));
@@ -181,22 +169,6 @@ this.FeatureBackground();
  testRunner.Then("Создается 3 узла столько же оборудования и 4 отрезка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                FiberWithNodesAddedFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                FiberWithNodesAddedFeature.FeatureTearDown();
-            }
         }
     }
 }

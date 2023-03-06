@@ -17,39 +17,37 @@ namespace Graph.Tests.Rtu
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class RtuRemovedNoTracesFeature : Xunit.IClassFixture<RtuRemovedNoTracesFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("RtuRemovedNoTraces")]
+    public partial class RtuRemovedNoTracesFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "RtuRemovedNoTraces.feature"
 #line hidden
         
-        public RtuRemovedNoTracesFeature(RtuRemovedNoTracesFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "RtuRemovedNoTraces", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Rtu
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -81,14 +79,8 @@ namespace Graph.Tests.Rtu
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Удаление РТУ без трасс (кликом на карте)")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuRemovedNoTraces")]
-        [Xunit.TraitAttribute("Description", "Удаление РТУ без трасс (кликом на карте)")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Удаление РТУ без трасс (кликом на карте)")]
         public virtual void УдалениеРТУБезТрассКликомНаКарте()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление РТУ без трасс (кликом на карте)", null, ((string[])(null)));
@@ -107,9 +99,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Удаление РТУ без трасс (кликом в дереве)")]
-        [Xunit.TraitAttribute("FeatureTitle", "RtuRemovedNoTraces")]
-        [Xunit.TraitAttribute("Description", "Удаление РТУ без трасс (кликом в дереве)")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Удаление РТУ без трасс (кликом в дереве)")]
         public virtual void УдалениеРТУБезТрассКликомВДереве()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление РТУ без трасс (кликом в дереве)", null, ((string[])(null)));
@@ -126,22 +117,6 @@ this.FeatureBackground();
  testRunner.Then("Узел под РТУ и присоединенные к нему отрезки удаляются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                RtuRemovedNoTracesFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                RtuRemovedNoTracesFeature.FeatureTearDown();
-            }
         }
     }
 }

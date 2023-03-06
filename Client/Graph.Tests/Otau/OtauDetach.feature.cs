@@ -17,39 +17,37 @@ namespace Graph.Tests.Otau
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class OtauDetachFeature : Xunit.IClassFixture<OtauDetachFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("OtauDetach")]
+    public partial class OtauDetachFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "OtauDetach.feature"
 #line hidden
         
-        public OtauDetachFeature(OtauDetachFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "OtauDetach", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Otau
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -83,14 +81,8 @@ namespace Graph.Tests.Otau
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Удаление переключателя запрещено если RTU в мониторинге")]
-        [Xunit.TraitAttribute("FeatureTitle", "OtauDetach")]
-        [Xunit.TraitAttribute("Description", "Удаление переключателя запрещено если RTU в мониторинге")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Удаление переключателя запрещено если RTU в мониторинге")]
         public virtual void УдалениеПереключателяЗапрещеноЕслиRTUВМониторинге()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление переключателя запрещено если RTU в мониторинге", null, ((string[])(null)));
@@ -107,9 +99,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Удаление оптического переключателя")]
-        [Xunit.TraitAttribute("FeatureTitle", "OtauDetach")]
-        [Xunit.TraitAttribute("Description", "Удаление оптического переключателя")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Удаление оптического переключателя")]
         public virtual void УдалениеОптическогоПереключателя()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оптического переключателя", null, ((string[])(null)));
@@ -129,24 +120,7 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                OtauDetachFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                OtauDetachFeature.FeatureTearDown();
-            }
-        }
     }
 }
 #pragma warning restore
 #endregion
-

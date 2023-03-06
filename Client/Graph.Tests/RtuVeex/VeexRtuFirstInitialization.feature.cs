@@ -17,39 +17,37 @@ namespace Graph.Tests.RtuVeex
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class VeexRtuFirstInitializationFeature : Xunit.IClassFixture<VeexRtuFirstInitializationFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("VeexRtuFirstInitialization")]
+    public partial class VeexRtuFirstInitializationFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "VeexRtuFirstInitialization.feature"
 #line hidden
         
-        public VeexRtuFirstInitializationFeature(VeexRtuFirstInitializationFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "VeexRtuFirstInitialization", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.RtuVeex
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -79,14 +77,8 @@ namespace Graph.Tests.RtuVeex
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Начальная инициализация Veex RTU с поломанным Otau")]
-        [Xunit.TraitAttribute("FeatureTitle", "VeexRtuFirstInitialization")]
-        [Xunit.TraitAttribute("Description", "Начальная инициализация Veex RTU с поломанным Otau")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Начальная инициализация Veex RTU с поломанным Otau")]
         public virtual void НачальнаяИнициализацияVeexRTUСПоломаннымOtau()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Начальная инициализация Veex RTU с поломанным Otau", null, ((string[])(null)));
@@ -105,9 +97,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Начальная инициализация Veex RTU с 3 недоступными Otau")]
-        [Xunit.TraitAttribute("FeatureTitle", "VeexRtuFirstInitialization")]
-        [Xunit.TraitAttribute("Description", "Начальная инициализация Veex RTU с 3 недоступными Otau")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Начальная инициализация Veex RTU с 3 недоступными Otau")]
         public virtual void НачальнаяИнициализацияVeexRTUС3НедоступнымиOtau()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Начальная инициализация Veex RTU с 3 недоступными Otau", null, ((string[])(null)));
@@ -126,9 +117,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Начальная инициализация Veex RTU без Otau")]
-        [Xunit.TraitAttribute("FeatureTitle", "VeexRtuFirstInitialization")]
-        [Xunit.TraitAttribute("Description", "Начальная инициализация Veex RTU без Otau")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Начальная инициализация Veex RTU без Otau")]
         public virtual void НачальнаяИнициализацияVeexRTUБезOtau()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Начальная инициализация Veex RTU без Otau", null, ((string[])(null)));
@@ -147,9 +137,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Начальная инициализация Veex RTU с несколькими основными Otau")]
-        [Xunit.TraitAttribute("FeatureTitle", "VeexRtuFirstInitialization")]
-        [Xunit.TraitAttribute("Description", "Начальная инициализация Veex RTU с несколькими основными Otau")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Начальная инициализация Veex RTU с несколькими основными Otau")]
         public virtual void НачальнаяИнициализацияVeexRTUСНесколькимиОсновнымиOtau()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Начальная инициализация Veex RTU с несколькими основными Otau", null, ((string[])(null)));
@@ -168,9 +157,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Начальная инициализация Veex RTU с основным и доп Otau")]
-        [Xunit.TraitAttribute("FeatureTitle", "VeexRtuFirstInitialization")]
-        [Xunit.TraitAttribute("Description", "Начальная инициализация Veex RTU с основным и доп Otau")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Начальная инициализация Veex RTU с основным и доп Otau")]
         public virtual void НачальнаяИнициализацияVeexRTUСОсновнымИДопOtau()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Начальная инициализация Veex RTU с основным и доп Otau", null, ((string[])(null)));
@@ -187,22 +175,6 @@ this.FeatureBackground();
  testRunner.Then("В дереве у RTU портов - 32", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                VeexRtuFirstInitializationFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                VeexRtuFirstInitializationFeature.FeatureTearDown();
-            }
         }
     }
 }

@@ -17,39 +17,37 @@ namespace Graph.Tests.Trace
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TraceAddedFirstStageFeature : Xunit.IClassFixture<TraceAddedFirstStageFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("TraceAddedFirstStage")]
+    public partial class TraceAddedFirstStageFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "TraceAddedFirstStage.feature"
 #line hidden
         
-        public TraceAddedFirstStageFeature(TraceAddedFirstStageFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceAddedFirstStage", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Trace
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -79,14 +77,8 @@ namespace Graph.Tests.Trace
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="В последнем узле нет оборудования")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedFirstStage")]
-        [Xunit.TraitAttribute("Description", "В последнем узле нет оборудования")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("В последнем узле нет оборудования")]
         public virtual void ВПоследнемУзлеНетОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("В последнем узле нет оборудования", null, ((string[])(null)));
@@ -103,9 +95,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление трассы где нет пути")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedFirstStage")]
-        [Xunit.TraitAttribute("Description", "Добавление трассы где нет пути")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление трассы где нет пути")]
         public virtual void ДобавлениеТрассыГдеНетПути()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление трассы где нет пути", null, ((string[])(null)));
@@ -124,9 +115,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Пользователя не устроил предложенный маршрут")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceAddedFirstStage")]
-        [Xunit.TraitAttribute("Description", "Пользователя не устроил предложенный маршрут")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Пользователя не устроил предложенный маршрут")]
         public virtual void ПользователяНеУстроилПредложенныйМаршрут()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователя не устроил предложенный маршрут", null, ((string[])(null)));
@@ -144,22 +134,6 @@ this.FeatureBackground();
  testRunner.Then("Новая трасса не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                TraceAddedFirstStageFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                TraceAddedFirstStageFeature.FeatureTearDown();
-            }
         }
     }
 }

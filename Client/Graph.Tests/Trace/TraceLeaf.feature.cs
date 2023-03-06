@@ -17,39 +17,37 @@ namespace Graph.Tests.Trace
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TraceLeafFeature : Xunit.IClassFixture<TraceLeafFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("TraceLeaf")]
+    public partial class TraceLeafFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "TraceLeaf.feature"
 #line hidden
         
-        public TraceLeafFeature(TraceLeafFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "TraceLeaf", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Trace
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -71,14 +69,8 @@ namespace Graph.Tests.Trace
             testRunner.CollectScenarioErrors();
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Отображение трассы в дереве")]
-        [Xunit.TraitAttribute("FeatureTitle", "TraceLeaf")]
-        [Xunit.TraitAttribute("Description", "Отображение трассы в дереве")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Отображение трассы в дереве")]
         public virtual void ОтображениеТрассыВДереве()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отображение трассы в дереве", null, ((string[])(null)));
@@ -95,34 +87,17 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("Лист трассы получает их ИД и пиктограмму наличия рефлектограм", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
  testRunner.When("Присоединяем трассу к порту 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
+#line 10
  testRunner.Then("Новый лист трассы на месте листа порта получает имя N3 : Трасса1 и видимые пиктог" +
                     "раммы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 12
+#line 11
  testRunner.When("Удаляем точную и быструю базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
+#line 12
  testRunner.Then("Первая пиктограмма изменяется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                TraceLeafFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                TraceLeafFeature.FeatureTearDown();
-            }
         }
     }
 }
 #pragma warning restore
 #endregion
-

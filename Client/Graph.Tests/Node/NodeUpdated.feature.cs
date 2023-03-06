@@ -17,39 +17,37 @@ namespace Graph.Tests.Node
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class NodeUpdatedFeature : Xunit.IClassFixture<NodeUpdatedFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("NodeUpdated")]
+    public partial class NodeUpdatedFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "NodeUpdated.feature"
 #line hidden
         
-        public NodeUpdatedFeature(NodeUpdatedFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeUpdated", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Node
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -81,14 +79,8 @@ namespace Graph.Tests.Node
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Кнопка Сохранить не разрешена пока поле имя узла пустое")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
-        [Xunit.TraitAttribute("Description", "Кнопка Сохранить не разрешена пока поле имя узла пустое")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Кнопка Сохранить не разрешена пока поле имя узла пустое")]
         public virtual void КнопкаСохранитьНеРазрешенаПокаПолеИмяУзлаПустое()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Кнопка Сохранить не разрешена пока поле имя узла пустое", null, ((string[])(null)));
@@ -109,9 +101,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Сохранение без изменений")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
-        [Xunit.TraitAttribute("Description", "Сохранение без изменений")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Сохранение без изменений")]
         public virtual void СохранениеБезИзменений()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение без изменений", null, ((string[])(null)));
@@ -128,9 +119,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Сохранение изменений")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
-        [Xunit.TraitAttribute("Description", "Сохранение изменений")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Сохранение изменений")]
         public virtual void СохранениеИзменений()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение изменений", null, ((string[])(null)));
@@ -149,9 +139,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Сохранение изменений комментария")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
-        [Xunit.TraitAttribute("Description", "Сохранение изменений комментария")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Сохранение изменений комментария")]
         public virtual void СохранениеИзмененийКомментария()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение изменений комментария", null, ((string[])(null)));
@@ -170,9 +159,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Разрешено сохранение с существующим именем узла")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
-        [Xunit.TraitAttribute("Description", "Разрешено сохранение с существующим именем узла")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Разрешено сохранение с существующим именем узла")]
         public virtual void РазрешеноСохранениеССуществующимИменемУзла()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Разрешено сохранение с существующим именем узла", null, ((string[])(null)));
@@ -191,9 +179,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Отказ от изменения узла")]
-        [Xunit.TraitAttribute("FeatureTitle", "NodeUpdated")]
-        [Xunit.TraitAttribute("Description", "Отказ от изменения узла")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Отказ от изменения узла")]
         public virtual void ОтказОтИзмененияУзла()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от изменения узла", null, ((string[])(null)));
@@ -208,22 +195,6 @@ this.FeatureBackground();
  testRunner.Then("Никаких команд не подается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                NodeUpdatedFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                NodeUpdatedFeature.FeatureTearDown();
-            }
         }
     }
 }

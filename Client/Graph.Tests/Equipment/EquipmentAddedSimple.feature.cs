@@ -17,39 +17,37 @@ namespace Graph.Tests.Equipment
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class EquipmentAddedSimpleFeature : Xunit.IClassFixture<EquipmentAddedSimpleFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("EquipmentAddedSimple")]
+    public partial class EquipmentAddedSimpleFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "EquipmentAddedSimple.feature"
 #line hidden
         
-        public EquipmentAddedSimpleFeature(EquipmentAddedSimpleFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EquipmentAddedSimple", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Equipment
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -71,14 +69,8 @@ namespace Graph.Tests.Equipment
             testRunner.CollectScenarioErrors();
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Добавление в пустой узел")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAddedSimple")]
-        [Xunit.TraitAttribute("Description", "Добавление в пустой узел")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление в пустой узел")]
         public virtual void ДобавлениеВПустойУзел()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в пустой узел", null, ((string[])(null)));
@@ -97,9 +89,8 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Отказ от добавления")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAddedSimple")]
-        [Xunit.TraitAttribute("Description", "Отказ от добавления")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Отказ от добавления")]
         public virtual void ОтказОтДобавления()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от добавления", null, ((string[])(null)));
@@ -118,9 +109,8 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление в узел с оборудованием")]
-        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAddedSimple")]
-        [Xunit.TraitAttribute("Description", "Добавление в узел с оборудованием")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Добавление в узел с оборудованием")]
         public virtual void ДобавлениеВУзелСОборудованием()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в узел с оборудованием", null, ((string[])(null)));
@@ -137,22 +127,6 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("Создается еще одно оборудование в том же узле", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                EquipmentAddedSimpleFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                EquipmentAddedSimpleFeature.FeatureTearDown();
-            }
         }
     }
 }
