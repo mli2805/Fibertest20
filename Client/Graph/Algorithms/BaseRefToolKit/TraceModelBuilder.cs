@@ -26,10 +26,12 @@ namespace Iit.Fibertest.Graph
             {
                 var fiber = model.FiberArray[i];
                 if (!fiber.UserInputedLength.Equals(0))
-                    model.DistancesMm[i] = (int)fiber.UserInputedLength * 100;
+                    model.DistancesMm[i] = (int)fiber.UserInputedLength * 1000;
                 else
-                    model.DistancesMm[i] = _graphGpsCalculator.CalculateDistanceBetweenNodesMm(
-                        model.NodeArray[i], model.EquipArray[i], model.NodeArray[i + 1], model.EquipArray[i + 1]);
+                    model.DistancesMm[i] = _graphGpsCalculator
+                        .CalculateDistanceBetweenNodesMm(
+                        model.NodeArray[i], model.EquipArray[i],
+                        model.NodeArray[i + 1], model.EquipArray[i + 1]);
             }
 
             return model;

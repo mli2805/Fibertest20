@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string MouseCurrentCoorsString => 
+        public string MouseCurrentCoorsString =>
             CurrentGis.IsGisOn
                 ? CurrentGis.ThresholdZoom + " / " + Zoom + " ; " + CurrentGis.ScreenPartAsMargin + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
                 : "";
@@ -132,10 +132,11 @@ namespace Iit.Fibertest.Client
             IsInDistanceMeasurementMode = false;
             if (DistanceFiberUnderCreation != Guid.Empty)
                 Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
-            foreach (var marker in DistanceMarkers)
-            {
-                Markers.Remove(marker);
-            }
+            if (DistanceMarkers != null)
+                foreach (var marker in DistanceMarkers)
+                {
+                    Markers.Remove(marker);
+                }
 
             DistanceFiberUnderCreation = Guid.Empty;
             Distances = new List<int>();
