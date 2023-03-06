@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SnmpSharpNet;
 
-namespace Utils471
+namespace Utils472
 {
     public static class VbCollectionFactory
     {

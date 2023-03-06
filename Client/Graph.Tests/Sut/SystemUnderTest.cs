@@ -12,7 +12,7 @@ using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
-using Utils471;
+using Utils472;
 
 namespace Graph.Tests
 {

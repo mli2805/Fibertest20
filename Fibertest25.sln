@@ -86,7 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Licenser", "Client\Licenser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Broadcaster", "Client\Broadcaster\Broadcaster.csproj", "{7856BE65-A706-4B00-B686-2BE26B0E5D6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils471", "Shared\Utils471\Utils471.csproj", "{02DA26EB-6A9F-4126-92D3-D5A40234B0F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils472", "Shared\Utils471\Utils472.csproj", "{02DA26EB-6A9F-4126-92D3-D5A40234B0F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

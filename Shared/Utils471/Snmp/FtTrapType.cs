@@ -1,4 +1,4 @@
-﻿namespace Utils471
+﻿namespace Utils472
 {
     // should be the same as in MIB file
     public enum FtTrapType

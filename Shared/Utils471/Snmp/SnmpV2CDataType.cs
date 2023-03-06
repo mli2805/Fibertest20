@@ -1,4 +1,4 @@
-﻿namespace Utils471
+﻿namespace Utils472
 {
     public enum SnmpV2CDataType
     {
