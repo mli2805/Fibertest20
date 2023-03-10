@@ -276,6 +276,14 @@
     <Compile Include="BopNetworkEvent\BopEventAddedSteps.cs">
       <DependentUpon>BopEventAdded.feature</DependentUpon>
     </Compile>
+    <Compile Include="Landmarks\LandmarksPositionsOnBaseRef.cs">
+      <DependentUpon>LandmarksPositionsOnBaseRef.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Landmarks\LandmarksPositionsOnBaseRef.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LandmarksPositionsOnBaseRef.feature</DependentUpon>
+    </Compile>
     <Compile Include="Login\Login.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -824,6 +832,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BopEventAdded.feature.cs</LastGenOutput>
     </None>
+    <None Include="Landmarks\LandmarksPositionsOnBaseRef.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>LandmarksPositionsOnBaseRef.feature.cs</LastGenOutput>
+    </None>
     <None Include="Login\Login.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Login.feature.cs</LastGenOutput>
@@ -932,6 +944,7 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuWithBopInitialization.feature.cs</LastGenOutput>
     </None>
+    <Content Include="Sut\BaseSorFiles\base-3-landmarks.sor" />
     <None Include="Sut\LicenseFiles\DevSecAdmin.lic" />
     <None Include="Sut\LicenseFiles\Fibertest20dev.lic" />
     <None Include="Trace\TraceAddedFirstStage.feature">

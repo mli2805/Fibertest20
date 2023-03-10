@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -10,7 +11,7 @@ using TechTalk.SpecFlow;
 
 namespace Graph.Tests
 {
-   
+
     [Binding]
     public sealed class BaseRefModifiedSteps
     {
@@ -19,9 +20,9 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace;
         private List<BaseRefDto> _baseRefs;
 
-        private int _closureLocationOnOriginalBaseRef;
-        private int _emptyNodeToTheRightOfClosureLocation;
-      
+        private double _emptyNodeToTheRightOfClosureLocation;
+        private double _closureLocationOnOriginalBaseRef;
+
         [Given(@"Существует инициализированный RTU")]
         public void GivenСуществуетИнициализированныйRtu()
         {
@@ -46,7 +47,10 @@ namespace Graph.Tests
             SorData.TryGetFromBytes(_baseRefs[0].SorBytes, out var otdrKnownBlocks);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(4);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
+
             _closureLocationOnOriginalBaseRef = landmark.Location;  // 497035
+            _closureLocationOnOriginalBaseRef = Math.Round(otdrKnownBlocks.OwtToLenKm(landmark.Location), 3);
+            _closureLocationOnOriginalBaseRef.ShouldBeEquivalentTo(10.149);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsCheckerOnServer>();
@@ -66,8 +70,12 @@ namespace Graph.Tests
             landmark.Code.Should().Be(LandmarkCode.Manhole);
             landmark.Location.Should().Be(114839);
 
-            otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);
-            _emptyNodeToTheRightOfClosureLocation = otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location;
+            var newDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
+                otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location), 3);
+            newDistance.Should().Be(_closureLocationOnOriginalBaseRef);
+
+            _emptyNodeToTheRightOfClosureLocation = Math.Round(otdrKnownBlocks.OwtToLenKm(
+                otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location), 3);
         }
 
         [Then(@"Расстояние до ориентиров оборудования не изменяется Расстояние до ориентиров пустых узлов правее оборудования не изменяется")]
@@ -91,8 +99,13 @@ namespace Graph.Tests
             landmark.Code.Should().Be(LandmarkCode.Manhole);
             landmark.Location.Should().Be(115606);
 
-            otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);
-            otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location.Should().Be(_emptyNodeToTheRightOfClosureLocation);
+            var newDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
+                otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location), 3);
+            newDistance.Should().Be(_closureLocationOnOriginalBaseRef);
+
+            var newEmptyNodeDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
+                          otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location), 3);
+            newEmptyNodeDistance.Should().Be(_emptyNodeToTheRightOfClosureLocation);
         }
 
         [When(@"Пользователь добавляет кабельный резерв в пустой узел после проверяемого")]
@@ -110,8 +123,13 @@ namespace Graph.Tests
             landmark.Code.Should().Be(LandmarkCode.Manhole);
             landmark.Location.Should().Be(115606);
 
-            otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);
-            otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location.Should().Be(_emptyNodeToTheRightOfClosureLocation);
+            var newDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
+                otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location), 3);
+            newDistance.Should().Be(_closureLocationOnOriginalBaseRef);
+
+            var newEmptyNodeDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
+                otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location), 3);
+            newEmptyNodeDistance.Should().Be(_emptyNodeToTheRightOfClosureLocation);
         }
 
 
