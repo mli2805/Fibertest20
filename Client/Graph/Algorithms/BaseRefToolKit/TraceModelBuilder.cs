@@ -61,6 +61,7 @@ namespace Iit.Fibertest.Graph
             {
                 NodeArray = nodes.ToArray(),
                 EquipArray = equipments.ToArray(),
+                FiberArray = originalModel.FiberArray,
                 DistancesMm = distances.ToArray(),
             };
         }

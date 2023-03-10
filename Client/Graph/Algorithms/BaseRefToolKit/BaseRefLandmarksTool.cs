@@ -8,6 +8,8 @@ namespace Iit.Fibertest.Graph
 {
     public class BaseRefLandmarksTool
     {
+        private static readonly double LinK = 1.02;
+
         private readonly Model _readModel;
         private readonly TraceModelBuilder _traceModelBuilder;
 
@@ -34,21 +36,47 @@ namespace Iit.Fibertest.Graph
             if (needToInsertLandmarksForEmptyNodes)
                 InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
 
-            SetLandmarksLocation(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+            ReCalculateLandmarksLocations(otdrKnownBlocks, modelWithoutAdjustmentPoint);
 
             AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
         }
 
-        public void SetLandmarksLocation(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
+        public void ReCalculateLandmarksLocations(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
+            var distancesMm = new int[landmarks.Length - 1];
 
-            for (int i = 1; i < model.EquipArray.Length; i++)
+
+            var leftLandmarkIndex = 0;
+
+            while (leftLandmarkIndex < landmarks.Length - 1)
             {
-                if (landmarks[i].RelatedEventNumber != 0) continue; // landmark is associated with keyEvent and we can't move it
+                var rightLandmarkIndex = GetIndexOfLastLandmarkOfFixedSection(model, leftLandmarkIndex);
 
-                var ratio = GetRatioBaseRefToGraphAroundEmptyNode(sorData, model, i);
-                landmarks[i].Location = landmarks[i - 1].Location + sorData.GetOwtFromMm((int)(model.DistancesMm[i - 1] * ratio));
+                var ratio = GetRatioForFixedSection(sorData, model, leftLandmarkIndex, rightLandmarkIndex);
+
+                for (int i = leftLandmarkIndex; i < rightLandmarkIndex; i++)
+                {
+                    int pos;
+                    if (model.FiberArray[i].UserInputedLength > 0)
+                    {
+                        pos = (int)Math.Round(model.FiberArray[i].UserInputedLength * 1000 * LinK);
+                    }
+                    else
+                    {
+                        pos = (int)Math.Round(model.DistancesMm[i] * ratio);
+                    }
+                    pos += (int)Math.Round(model.EquipArray[i].CableReserveRight * LinK);
+                    pos += (int)Math.Round(model.EquipArray[i + 1].CableReserveLeft * LinK);
+                    distancesMm[i] = pos;
+                }
+
+                leftLandmarkIndex = rightLandmarkIndex;
+            }
+
+            for (int i = 0; i < distancesMm.Length; i++)
+            {
+                landmarks[i + 1].Location = landmarks[i].Location + sorData.GetOwtFromMm(distancesMm[i]);
             }
         }
 
@@ -88,26 +116,58 @@ namespace Iit.Fibertest.Graph
                 landmarks[i].GpsLongitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);
             }
         }
-        private double GetRatioBaseRefToGraphAroundEmptyNode(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model, int emptyNodeIndex)
-        {
-            var leftRealEquipmentIndex = emptyNodeIndex - 1;
-            while (model.EquipArray[leftRealEquipmentIndex].Type <= EquipmentType.CableReserve) leftRealEquipmentIndex--;
-            var rightRealEquipmentIndex = emptyNodeIndex + 1;
-            while (model.EquipArray[rightRealEquipmentIndex].Type <= EquipmentType.CableReserve) rightRealEquipmentIndex++;
 
-            var onGraph = GetDistanceBetweenRealEquipmentsOnGraphMm(model, leftRealEquipmentIndex, rightRealEquipmentIndex);
-            var onBaseRef =
-                sorData.GetDistanceBetweenLandmarksInMm(leftRealEquipmentIndex, rightRealEquipmentIndex);
-            return ((double)onBaseRef) / onGraph;
+        private int GetIndexOfLastLandmarkOfFixedSection(TraceModelForBaseRef model, int firstLandmarkIndex)
+        {
+            var endIndex = firstLandmarkIndex + 1;
+            while (model.EquipArray[endIndex].Type <= EquipmentType.CableReserve)
+                endIndex++;
+            return endIndex;
         }
 
-        private int GetDistanceBetweenRealEquipmentsOnGraphMm(TraceModelForBaseRef model, int leftEquipmentIndex, int rightEquipmentIndex)
+        private double GetRatioForFixedSection(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model,
+            int leftRealEquipmentIndex, int rightRealEquipmentIndex)
         {
-            if (rightEquipmentIndex - leftEquipmentIndex == 1)
-                return model.DistancesMm[leftEquipmentIndex];
+            var onGraph = GetNotUserInputDistancesFromGraph(model, leftRealEquipmentIndex, rightRealEquipmentIndex);
+            var onBaseRef =
+                GetNotUserInputDistancesFromRefMm(sorData, model, leftRealEquipmentIndex, rightRealEquipmentIndex);
+            return onBaseRef / onGraph;
+        }
 
-            return model.DistancesMm[leftEquipmentIndex] +
-                   GetDistanceBetweenRealEquipmentsOnGraphMm(model, leftEquipmentIndex + 1, rightEquipmentIndex);
+        private int GetNotUserInputDistancesFromGraph(TraceModelForBaseRef model,
+            int leftEquipmentIndex, int rightEquipmentIndex)
+        {
+            int result = 0;
+            for (int i = leftEquipmentIndex; i < rightEquipmentIndex; i++)
+                result += model.FiberArray[i].UserInputedLength > 0 ? 0 : model.DistancesMm[i];
+            return result;
+        }
+
+        private double GetNotUserInputDistancesFromRefMm(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model,
+            int leftEquipmentIndex, int rightEquipmentIndex)
+        {
+            var result =
+                sorData.GetDistanceBetweenLandmarksInMm(leftEquipmentIndex, rightEquipmentIndex);
+
+            for (int i = leftEquipmentIndex; i < rightEquipmentIndex; i++)
+            {
+                if (model.FiberArray[i].UserInputedLength > 0)
+                    result -= model.FiberArray[i].UserInputedLength * 1000 * LinK;
+            }
+
+            if (model.EquipArray[leftEquipmentIndex].CableReserveRight > 0)
+                result -= model.EquipArray[leftEquipmentIndex].CableReserveRight * 1000 * LinK;
+            for (int i = leftEquipmentIndex + 1; i < rightEquipmentIndex; i++)
+            {
+                if (model.EquipArray[i].CableReserveLeft > 0)
+                    result -= model.EquipArray[i].CableReserveLeft * 1000 * LinK;
+                if (model.EquipArray[i].CableReserveRight > 0)
+                    result -= model.EquipArray[i].CableReserveRight * 1000 * LinK;
+            }
+            if (model.EquipArray[rightEquipmentIndex].CableReserveLeft > 0)
+                result -= model.EquipArray[rightEquipmentIndex].CableReserveLeft * 1000 * LinK;
+
+            return result;
         }
     }
 }

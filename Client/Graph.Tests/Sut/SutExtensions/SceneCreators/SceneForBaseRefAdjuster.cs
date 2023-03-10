@@ -11,8 +11,10 @@ namespace Graph.Tests
     {
         public static Iit.Fibertest.Graph.Rtu SetInitializedRtu(this SystemUnderTest sut)
         {
-            sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"Some title of RTU", @"doesn't matter", Answer.Yes));
-            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
+            sut.FakeWindowManager.RegisterHandler(model =>
+                sut.RtuUpdateHandler(model, @"Some title of RTU", @"doesn't matter", Answer.Yes));
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(
+                new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
             sut.Poller.EventSourcingTick().Wait();
             var rtu = sut.ReadModel.Rtus.Last();
 
@@ -20,45 +22,66 @@ namespace Graph.Tests
             sut.SetNameAndAskInitializationRtu(rtu.Id);
             return rtu;
         }
+        public static Iit.Fibertest.Graph.Rtu SetInitializedRtu1625(this SystemUnderTest sut)
+        {
+            sut.FakeWindowManager.RegisterHandler(model =>
+                sut.RtuUpdateHandler(model, @"Some title of RTU", @"doesn't matter", Answer.Yes));
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(
+                new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
+            sut.Poller.EventSourcingTick().Wait();
+            var rtu = sut.ReadModel.Rtus.Last();
+
+            sut.FakeD2RWcfManager.SetFakeInitializationAnswer(waveLength: @"SM1625");
+            sut.SetNameAndAskInitializationRtu(rtu.Id);
+            return rtu;
+        }
 
         public static Iit.Fibertest.Graph.Trace SetTrace(this SystemUnderTest sut, Guid rtuNodeId, string title)
         {
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Cross, Latitude = 55.002, Longitude = 30.002 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() 
+                { Type = EquipmentType.Cross, Latitude = 55.002, Longitude = 30.002 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeIdA = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = rtuNodeId, NodeId2 = nodeIdA }).Wait();
 
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.02, Longitude = 30.02 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() 
+                { Type = EquipmentType.EmptyNode, Latitude = 55.02, Longitude = 30.02 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeIdB = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.04, Longitude = 30.04 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
+                { Type = EquipmentType.EmptyNode, Latitude = 55.04, Longitude = 30.04 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeIdA = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.06, Longitude = 30.06 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() 
+                { Type = EquipmentType.EmptyNode, Latitude = 55.06, Longitude = 30.06 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeIdB = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure, Latitude = 55.08, Longitude = 30.08 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
+                { Type = EquipmentType.Closure, Latitude = 55.08, Longitude = 30.08 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeIdA = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.082, Longitude = 30.082 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() 
+                { Type = EquipmentType.EmptyNode, Latitude = 55.082, Longitude = 30.082 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeIdB = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.084, Longitude = 30.084 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() 
+                { Type = EquipmentType.EmptyNode, Latitude = 55.084, Longitude = 30.084 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeIdA = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal, Latitude = 55.086, Longitude = 30.086 }).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
+                { Type = EquipmentType.Terminal, Latitude = 55.086, Longitude = 30.086 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeIdB = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();

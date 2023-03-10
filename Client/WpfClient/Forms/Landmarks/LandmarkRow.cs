@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
         public Guid EquipmentId { get; set; }
         public string EquipmentTitle { get; set; }
         public string EquipmentType { get; set; }
-        public string Distance { get; set; }
+        public string Distance { get; set; } // optical from sor
         public string EventNumber { get; set; }
 
         private string _gpsCoors;
