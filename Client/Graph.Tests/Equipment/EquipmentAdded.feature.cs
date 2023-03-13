@@ -17,37 +17,39 @@ namespace Graph.Tests.Equipment
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("EquipmentAdded")]
-    public partial class EquipmentAddedFeature
+    public partial class EquipmentAddedFeature : Xunit.IClassFixture<EquipmentAddedFeature.FixtureData>, System.IDisposable
     {
         
-        private TechTalk.SpecFlow.ITestRunner testRunner;
+        private static TechTalk.SpecFlow.ITestRunner testRunner;
+        
+        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "EquipmentAdded.feature"
 #line hidden
         
-        [NUnit.Framework.OneTimeSetUpAttribute()]
-        public virtual void FeatureSetup()
+        public EquipmentAddedFeature(EquipmentAddedFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        {
+            this._testOutputHelper = testOutputHelper;
+            this.TestInitialize();
+        }
+        
+        public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EquipmentAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.OneTimeTearDownAttribute()]
-        public virtual void FeatureTearDown()
+        public static void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
-        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
-        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -56,7 +58,7 @@ namespace Graph.Tests.Equipment
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
         public virtual void ScenarioStart()
@@ -85,8 +87,14 @@ namespace Graph.Tests.Equipment
 #line hidden
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Добавление в узел трассы но не в трассу")]
+        void System.IDisposable.Dispose()
+        {
+            this.ScenarioTearDown();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Добавление в узел трассы но не в трассу")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление в узел трассы но не в трассу")]
         public virtual void ДобавлениеВУзелТрассыНоНеВТрассу()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в узел трассы но не в трассу", null, ((string[])(null)));
@@ -109,8 +117,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Добавление в трассы")]
+        [Xunit.FactAttribute(DisplayName="Добавление в трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление в трассы")]
         public virtual void ДобавлениеВТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в трассы", null, ((string[])(null)));
@@ -133,8 +142,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Добавление в трассу с заданной базовой недоступно")]
+        [Xunit.FactAttribute(DisplayName="Добавление в трассу с заданной базовой недоступно")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление в трассу с заданной базовой недоступно")]
         public virtual void ДобавлениеВТрассуСЗаданнойБазовойНедоступно()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление в трассу с заданной базовой недоступно", null, ((string[])(null)));
@@ -151,8 +161,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Отказ от добавления оборудования")]
+        [Xunit.FactAttribute(DisplayName="Отказ от добавления оборудования")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentAdded")]
+        [Xunit.TraitAttribute("Description", "Отказ от добавления оборудования")]
         public virtual void ОтказОтДобавленияОборудования()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от добавления оборудования", null, ((string[])(null)));
@@ -171,6 +182,22 @@ this.FeatureBackground();
  testRunner.Then("В узле НЕ создается новое оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
+        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        public class FixtureData : System.IDisposable
+        {
+            
+            public FixtureData()
+            {
+                EquipmentAddedFeature.FeatureSetup();
+            }
+            
+            void System.IDisposable.Dispose()
+            {
+                EquipmentAddedFeature.FeatureTearDown();
+            }
         }
     }
 }

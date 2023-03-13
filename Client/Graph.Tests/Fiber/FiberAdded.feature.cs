@@ -17,37 +17,39 @@ namespace Graph.Tests.Fiber
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("FiberAdded")]
-    public partial class FiberAddedFeature
+    public partial class FiberAddedFeature : Xunit.IClassFixture<FiberAddedFeature.FixtureData>, System.IDisposable
     {
         
-        private TechTalk.SpecFlow.ITestRunner testRunner;
+        private static TechTalk.SpecFlow.ITestRunner testRunner;
+        
+        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "FiberAdded.feature"
 #line hidden
         
-        [NUnit.Framework.OneTimeSetUpAttribute()]
-        public virtual void FeatureSetup()
+        public FiberAddedFeature(FiberAddedFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        {
+            this._testOutputHelper = testOutputHelper;
+            this.TestInitialize();
+        }
+        
+        public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FiberAdded", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.OneTimeTearDownAttribute()]
-        public virtual void FeatureTearDown()
+        public static void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
-        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
-        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -56,7 +58,7 @@ namespace Graph.Tests.Fiber
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
         public virtual void ScenarioStart()
@@ -77,8 +79,14 @@ namespace Graph.Tests.Fiber
 #line hidden
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Добавление отрезка")]
+        void System.IDisposable.Dispose()
+        {
+            this.ScenarioTearDown();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Добавление отрезка")]
+        [Xunit.TraitAttribute("FeatureTitle", "FiberAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление отрезка")]
         public virtual void ДобавлениеОтрезка()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка", null, ((string[])(null)));
@@ -95,8 +103,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Добавление отрезка там где он есть")]
+        [Xunit.FactAttribute(DisplayName="Добавление отрезка там где он есть")]
+        [Xunit.TraitAttribute("FeatureTitle", "FiberAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление отрезка там где он есть")]
         public virtual void ДобавлениеОтрезкаТамГдеОнЕсть()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка там где он есть", null, ((string[])(null)));
@@ -117,8 +126,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Добавление отрезка там где есть связь через точки привязки")]
+        [Xunit.FactAttribute(DisplayName="Добавление отрезка там где есть связь через точки привязки")]
+        [Xunit.TraitAttribute("FeatureTitle", "FiberAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление отрезка там где есть связь через точки привязки")]
         public virtual void ДобавлениеОтрезкаТамГдеЕстьСвязьЧерезТочкиПривязки()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка там где есть связь через точки привязки", null, ((string[])(null)));
@@ -139,6 +149,22 @@ this.FeatureBackground();
  testRunner.Then("Новый отрезок не создается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
+        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        public class FixtureData : System.IDisposable
+        {
+            
+            public FixtureData()
+            {
+                FiberAddedFeature.FeatureSetup();
+            }
+            
+            void System.IDisposable.Dispose()
+            {
+                FiberAddedFeature.FeatureTearDown();
+            }
         }
     }
 }

@@ -17,37 +17,39 @@ namespace Graph.Tests.Node
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("NodeRemoved")]
-    public partial class NodeRemovedFeature
+    public partial class NodeRemovedFeature : Xunit.IClassFixture<NodeRemovedFeature.FixtureData>, System.IDisposable
     {
         
-        private TechTalk.SpecFlow.ITestRunner testRunner;
+        private static TechTalk.SpecFlow.ITestRunner testRunner;
+        
+        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "NodeRemoved.feature"
 #line hidden
         
-        [NUnit.Framework.OneTimeSetUpAttribute()]
-        public virtual void FeatureSetup()
+        public NodeRemovedFeature(NodeRemovedFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        {
+            this._testOutputHelper = testOutputHelper;
+            this.TestInitialize();
+        }
+        
+        public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "NodeRemoved", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.OneTimeTearDownAttribute()]
-        public virtual void FeatureTearDown()
+        public static void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
-        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
-        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -56,7 +58,7 @@ namespace Graph.Tests.Node
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
         public virtual void ScenarioStart()
@@ -77,8 +79,14 @@ namespace Graph.Tests.Node
 #line hidden
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Удаление одинокого узла")]
+        void System.IDisposable.Dispose()
+        {
+            this.ScenarioTearDown();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление одинокого узла")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление одинокого узла")]
         public virtual void УдалениеОдинокогоУзла()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление одинокого узла", null, ((string[])(null)));
@@ -95,8 +103,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Удаление узла с подключенным отрезком")]
+        [Xunit.FactAttribute(DisplayName="Удаление узла с подключенным отрезком")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление узла с подключенным отрезком")]
         public virtual void УдалениеУзлаСПодключеннымОтрезком()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла с подключенным отрезком", null, ((string[])(null)));
@@ -117,8 +126,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Удаление узла с точкой привязки на подключенном отрезке")]
+        [Xunit.FactAttribute(DisplayName="Удаление узла с точкой привязки на подключенном отрезке")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление узла с точкой привязки на подключенном отрезке")]
         public virtual void УдалениеУзлаСТочкойПривязкиНаПодключенномОтрезке()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла с точкой привязки на подключенном отрезке", null, ((string[])(null)));
@@ -143,8 +153,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Попытка удаления узла последнего для трассы")]
+        [Xunit.FactAttribute(DisplayName="Попытка удаления узла последнего для трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Попытка удаления узла последнего для трассы")]
         public virtual void ПопыткаУдаленияУзлаПоследнегоДляТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления узла последнего для трассы", null, ((string[])(null)));
@@ -165,8 +176,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Удаление узла НЕ последнего для трассы")]
+        [Xunit.FactAttribute(DisplayName="Удаление узла НЕ последнего для трассы")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление узла НЕ последнего для трассы")]
         public virtual void УдалениеУзлаНЕПоследнегоДляТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла НЕ последнего для трассы", null, ((string[])(null)));
@@ -193,8 +205,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Удаление НЕ последнего узла рядом с точкой привязки")]
+        [Xunit.FactAttribute(DisplayName="Удаление НЕ последнего узла рядом с точкой привязки")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление НЕ последнего узла рядом с точкой привязки")]
         public virtual void УдалениеНЕПоследнегоУзлаРядомСТочкойПривязки()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление НЕ последнего узла рядом с точкой привязки", null, ((string[])(null)));
@@ -223,8 +236,9 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Попытка удаления узла из трассы с базовой")]
+        [Xunit.FactAttribute(DisplayName="Попытка удаления узла из трассы с базовой")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Попытка удаления узла из трассы с базовой")]
         public virtual void ПопыткаУдаленияУзлаИзТрассыСБазовой()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления узла из трассы с базовой", null, ((string[])(null)));
@@ -245,6 +259,22 @@ this.FeatureBackground();
  testRunner.Then("Удаление не происходит", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
+        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        public class FixtureData : System.IDisposable
+        {
+            
+            public FixtureData()
+            {
+                NodeRemovedFeature.FeatureSetup();
+            }
+            
+            void System.IDisposable.Dispose()
+            {
+                NodeRemovedFeature.FeatureTearDown();
+            }
         }
     }
 }
