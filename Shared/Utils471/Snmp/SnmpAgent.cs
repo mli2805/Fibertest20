@@ -7,7 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using SnmpSharpNet;
 
-namespace Utils472
+namespace Utils471
 {
     public class SnmpAgent
     {
