@@ -1,4 +1,6 @@
 ﻿using System;
+// using System.Collections.Generic;
+// using System.IO;
 using System.Linq;
 using Iit.Fibertest.Dto;
 
@@ -13,25 +15,60 @@ namespace Iit.Fibertest.Graph
             _model = model;
         }
 
-        public double CalculateTraceGpsLengthKm(Trace trace)
-        {
-            double result = 0;
-            for (int i = 0; i < trace.NodeIds.Count - 1; i++)
-            {
-                var node1 = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i]);
-                if (node1 == null) return 0;
-                var node2 = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i + 1]);
-                if (node2 == null) return 0;
+        // public double CalculateTraceGpsLengthKm(Trace trace)
+        // {
+        //     double result = 0;
+        //     for (int i = 0; i < trace.NodeIds.Count - 1; i++)
+        //     {
+        //         var node1 = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i]);
+        //         if (node1 == null) return 0;
+        //         var node2 = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i + 1]);
+        //         if (node2 == null) return 0;
+        //
+        //         var equipment1 = i == 0
+        //             ? new Equipment() { Type = EquipmentType.Rtu, CableReserveLeft = 0, CableReserveRight = 0 }
+        //             : _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i]);
+        //         var equipment2 = _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i + 1]);
+        //
+        //         result = result +
+        //                  GisLabCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position) +
+        //                  GetReserveFromTheLeft(equipment1) + GetReserveFromTheRight(equipment2);
+        //     }
+        //
+        //     return result / 1000;
+        // }
 
-                var equipment1 = i == 0
+        public double CalculateTraceGpsLengthKm2(Trace trace)
+        {
+            // var content = new List<string>();
+            double result = 0;
+
+            for (int i = 0; i < trace.FiberIds.Count; i++)
+            {
+                var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == trace.FiberIds[i]);
+                if (fiber == null) return 0;
+
+                var nodeA = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i]);
+                if (nodeA == null) return 0;
+                var equipmentA = i == 0
                     ? new Equipment() { Type = EquipmentType.Rtu, CableReserveLeft = 0, CableReserveRight = 0 }
                     : _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i]);
-                var equipment2 = _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i + 1]);
+                if (equipmentA == null) return 0;
 
-                result = result +
-                         GisLabCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position) +
-                         GetReserveFromTheLeft(equipment1) + GetReserveFromTheRight(equipment2);
+                var nodeB = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i + 1]);
+                if (nodeB == null) return 0;
+                var equipmentB = _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i + 1]);
+                if (equipmentB == null) return 0;
+
+                // var reserveBefore = GetReserveFromTheLeft(equipmentA);
+                // var reserveAfter = GetReserveFromTheRight(equipmentB);
+                var distance = GisLabCalculator.GetDistanceBetweenPointLatLng(nodeA.Position, nodeB.Position);
+                result += distance;
+
+                // content.Add($@"{reserveBefore:F2}  {distance:F2} {reserveAfter:F2}  =   {result:F2}");
             }
+
+            // File.WriteAllLines(@"trace.log", content);
             return result / 1000;
         }
 

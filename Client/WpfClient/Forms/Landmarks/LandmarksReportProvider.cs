@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
                 row.Cells[1].AddParagraph(lm.NodeTitle ?? "");
                 row.Cells[2].AddParagraph(lm.EquipmentType.ToLocalizedString());
                 row.Cells[3].AddParagraph(lm.EquipmentTitle ?? "");
-                row.Cells[4].AddParagraph($@"{lm.Distance:0.000}" );
+                row.Cells[4].AddParagraph($@"{lm.OpticalDistance:0.000}" );
                 row.Cells[5].AddParagraph(lm.EventNumber == -1 ? Resources.SID_no : lm.EventNumber.ToString());
                 row.Cells[6].AddParagraph(lm.GpsCoors.ToDetailedString(mode));
             }

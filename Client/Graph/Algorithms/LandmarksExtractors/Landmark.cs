@@ -6,6 +6,7 @@ namespace Iit.Fibertest.Graph
 {
     public class Landmark : ICloneable
     {
+        public bool IsFromBase { get; set; }
         public int Number { get; set; }
         public int NumberIncludingAdjustmentPoints { get; set; }
         public Guid NodeId { get; set; }
@@ -14,7 +15,8 @@ namespace Iit.Fibertest.Graph
         public Guid EquipmentId { get; set; }
         public string EquipmentTitle { get; set; }
         public EquipmentType EquipmentType { get; set; }
-        public double Distance { get; set; }
+        public double GpsDistance { get; set; }
+        public double OpticalDistance { get; set; }
         public int EventNumber { get; set; }
         public PointLatLng GpsCoors { get; set; }
         
@@ -30,7 +32,8 @@ namespace Iit.Fibertest.Graph
                 EquipmentId = EquipmentId,
                 EquipmentTitle = EquipmentTitle,
                 EquipmentType = EquipmentType,
-                Distance = Distance,
+                GpsDistance = GpsDistance,
+                OpticalDistance = OpticalDistance,
                 EventNumber = EventNumber,
                 GpsCoors = new PointLatLng(GpsCoors.Lat, GpsCoors.Lng),
             };

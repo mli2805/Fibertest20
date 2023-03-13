@@ -43,7 +43,8 @@ namespace Graph.Tests
             _vm.Rows[4].GpsCoors.Should().StartWith(@"55.1220");
             _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
-            _vm.Rows[6].Distance.Should().Be(@" 17.431");
+            _vm.Rows[6].GpsDistance.Should().Be(@" 17.431");
+            _vm.Rows[6].OpticalDistance.Should().Be(@"");
         }
 
         [When(@"Задается базовая")]
@@ -58,28 +59,28 @@ namespace Graph.Tests
         {
             _vm.Rows.Count.Should().Be(7);
             _vm.Rows[0].EquipmentType.Should().Be(@"RTU");
-            _vm.Rows[0].Distance.Should().Be(@" 0.000");
+            _vm.Rows[0].OpticalDistance.Should().Be(@" 0.000");
 
             _vm.Rows[1].EquipmentType.Should().Be(Resources.SID_Closure);
-            _vm.Rows[1].Distance.Should().Be(@" 2.484");
+            _vm.Rows[1].OpticalDistance.Should().Be(@" 2.484");
 
             _vm.Rows[2].EquipmentType.Should().Be(Resources.SID_Other);
-            _vm.Rows[2].Distance.Should().Be(@" 5.238");
+            _vm.Rows[2].OpticalDistance.Should().Be(@" 5.238");
 
             // differs with sor (not related to key event)
             _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_CableReserve);
-            _vm.Rows[3].Distance.Should().Be(@" 7.694");
+            _vm.Rows[3].OpticalDistance.Should().Be(@" 7.694");
 
             _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross);
             _vm.Rows[4].NodeTitle.Should().Be("");
-            _vm.Rows[4].Distance.Should().Be(@" 10.150");
+            _vm.Rows[4].OpticalDistance.Should().Be(@" 10.150");
 
             // differs with sor (not related to key event)
             _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
-            _vm.Rows[5].Distance.Should().Be(@" 11.153");
+            _vm.Rows[5].OpticalDistance.Should().Be(@" 11.153");
 
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
-            _vm.Rows[6].Distance.Should().Be(@" 12.156");
+            _vm.Rows[6].OpticalDistance.Should().Be(@" 12.156");
         }
 
         [When(@"При открытой форме ориентиров на карте двигаем узел с проключением и на форме узла меняем ему название")]
@@ -110,14 +111,14 @@ namespace Graph.Tests
         [Then(@"Расстояние до ориентира не меняется т к он привязан к событию")]
         public void ThenРасстояниеДоОриентираНеМеняетсяТкОнПривязанКСобытию()
         {
-            _vm.Rows[4].Distance.Should().Be(@" 10.150");
+            _vm.Rows[4].OpticalDistance.Should().Be(@" 10.150");
         }
 
         [Then(@"Растояние до соседних ориентиров меняется т к они не привязаны")]
         public void ThenРастояниеДоСоседнихОриентировМеняетсяТкОниНеПривязаны()
         {
-            _vm.Rows[3].Distance.Should().NotBe(@" 9.454");
-            _vm.Rows[5].Distance.Should().NotBe(@" 11.153");
+            _vm.Rows[3].OpticalDistance.Should().NotBe(@" 9.454");
+            _vm.Rows[5].OpticalDistance.Should().NotBe(@" 11.153");
         }
 
         [When(@"Изменяет название первого узла")]

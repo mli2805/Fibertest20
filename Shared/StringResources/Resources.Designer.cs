@@ -3891,6 +3891,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GPS, km.
+        /// </summary>
+        public static string SID_Gps_km {
+            get {
+                return ResourceManager.GetString("SID_Gps_km", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gps Length, m.
         /// </summary>
         public static string SID_Gps_Length_m {
@@ -6187,6 +6196,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0 {
             get {
                 return ResourceManager.GetString("SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical, km.
+        /// </summary>
+        public static string SID_Optical_km {
+            get {
+                return ResourceManager.GetString("SID_Optical_km", resourceCulture);
             }
         }
         

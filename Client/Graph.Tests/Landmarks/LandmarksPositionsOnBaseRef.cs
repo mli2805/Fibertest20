@@ -41,7 +41,7 @@ namespace Graph.Tests
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
             var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
 
-            landmarks[1].Distance.ToString(CultureInfo.InvariantCulture)
+            landmarks[1].OpticalDistance.ToString(CultureInfo.InvariantCulture)
                 .Substring(0, 5).Should().Be("0.670");
         }
 
@@ -65,7 +65,7 @@ namespace Graph.Tests
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
             var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
 
-            ((int)Math.Round(landmarks[1].Distance * 1000)).ShouldBeEquivalentTo(102);
+            ((int)Math.Round(landmarks[1].OpticalDistance * 1000)).ShouldBeEquivalentTo(102);
         }
     }
 }

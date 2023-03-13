@@ -3479,4 +3479,10 @@ Please try again later</value>
 	<data name="SID_All_rights_reserved" xml:space="preserve">
 		<value>All rights reserved</value>
 	</data>
+	<data name="SID_Optical_km" xml:space="preserve">
+		<value>Optical, km</value>
+	</data>
+	<data name="SID_Gps_km" xml:space="preserve">
+		<value>GPS, km</value>
+	</data>
 </root>

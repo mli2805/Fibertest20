@@ -25,12 +25,13 @@ namespace Iit.Fibertest.Graph
             {
                 var nodeId = trace.NodeIds[i];
                 var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
-                distance = distance + GisLabCalculator.GetDistanceBetweenPointLatLng(previousNode.Position, node.Position) / 1000;
+                distance += GisLabCalculator.GetDistanceBetweenPointLatLng(previousNode.Position, node.Position) / 1000;
                 previousNode = node;
                 if (node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint) continue;
 
                 var lm = CreateLandmark(node, trace.EquipmentIds[i], j++, i);
-                lm.Distance = distance;
+                lm.GpsDistance = distance;
+                lm.OpticalDistance = 0.0;
                 result.Add(lm);
             }
 
@@ -45,6 +46,7 @@ namespace Iit.Fibertest.Graph
                 : node.Comment;
             return new Landmark()
             {
+                IsFromBase = false,
                 Number = number,
                 NumberIncludingAdjustmentPoints = numberIncludingAdjustmentPoints,
                 NodeId = node.NodeId,
@@ -68,7 +70,7 @@ namespace Iit.Fibertest.Graph
                 NodeTitle = rtu.Title,
                 NodeComment = rtu.Comment,
                 EquipmentType = EquipmentType.Rtu,
-                Distance = 0,
+                OpticalDistance = 0,
                 EventNumber = -1,
                 GpsCoors = node.Position,
             };

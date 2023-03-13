@@ -49,8 +49,9 @@
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" Binding="{Binding EquipmentType}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__title}" Binding="{Binding EquipmentTitle}" Width="120"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance__km}" Binding="{Binding Distance}" Width="100"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="80"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Gps_km}" Binding="{Binding GpsDistance}" Width="65"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Optical_km}" Binding="{Binding OpticalDistance}" Width="65"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="50"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}" Width="174" 
                                         Visibility="{Binding DataContext, Source={StaticResource ProxyElement}}"/>
                 </DataGrid.Columns>

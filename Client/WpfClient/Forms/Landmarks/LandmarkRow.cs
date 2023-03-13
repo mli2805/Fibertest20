@@ -36,7 +36,8 @@ namespace Iit.Fibertest.Client
         public Guid EquipmentId { get; set; }
         public string EquipmentTitle { get; set; }
         public string EquipmentType { get; set; }
-        public string Distance { get; set; } // optical from sor
+        public string GpsDistance { get; set; } // by GPS, ignore cable reserve
+        public string OpticalDistance { get; set; } // from sor
         public string EventNumber { get; set; }
 
         private string _gpsCoors;
@@ -64,7 +65,8 @@ namespace Iit.Fibertest.Client
             EquipmentId = landmark.EquipmentId;
             EquipmentTitle = landmark.EquipmentTitle;
             EquipmentType = landmark.EquipmentType.ToLocalizedString();
-            Distance = $@"{landmark.Distance: 0.000}";
+            GpsDistance = $@"{landmark.GpsDistance: 0.000}";
+            OpticalDistance = landmark.IsFromBase ? $@"{landmark.OpticalDistance: 0.000}" : "";
             EventNumber = landmark.EventNumber == -1 ? Resources.SID_no : $@"{landmark.EventNumber}";
             GpsCoors = landmark.GpsCoors.ToDetailedString(mode);
 

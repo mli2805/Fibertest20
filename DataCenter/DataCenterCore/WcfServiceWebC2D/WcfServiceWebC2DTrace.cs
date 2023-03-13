@@ -68,7 +68,7 @@ namespace Iit.Fibertest.DataCenterCore
                 NodeTitle = lm.NodeTitle,
                 EqType = lm.EquipmentType,
                 EquipmentTitle = lm.EquipmentTitle,
-                DistanceKm = lm.Distance,
+                DistanceKm = lm.OpticalDistance,
                 EventOrdinal = lm.EventNumber,
                 Coors = new GeoPoint()
                 {
