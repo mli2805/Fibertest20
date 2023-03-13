@@ -49,6 +49,7 @@ namespace Iit.Fibertest.Graph
                     GpsCoors = GetPointLatLng(sorLandmark),
                 };
                 result.Add(landmark);
+                prevLocation = landmark.GpsCoors;
             }
             return result;
         }
