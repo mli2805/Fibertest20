@@ -944,7 +944,7 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>VeexRtuWithBopInitialization.feature.cs</LastGenOutput>
     </None>
-    <Content Include="Sut\BaseSorFiles\base-3-landmarks.sor" />
+    <None Include="Sut\BaseSorFiles\autobase-trace7.sor" />
     <None Include="Sut\LicenseFiles\DevSecAdmin.lic" />
     <None Include="Sut\LicenseFiles\Fibertest20dev.lic" />
     <None Include="Trace\TraceAddedFirstStage.feature">

@@ -122,6 +122,7 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
 
             var sorData = SorData.FromBytes(dto.SorBytes);
+         //   sorData.Save(@"c:\temp\sor\automeasurement.sor");
             var rftsParams = Model.AutoAnalysisParamsViewModel
                 .GetRftsParams(sorData, Model.OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id, Model.Rtu);
             sorData.ApplyRftsParamsTemplate(rftsParams);

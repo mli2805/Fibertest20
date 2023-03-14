@@ -51,7 +51,8 @@ namespace Iit.Fibertest.Graph
 
             while (leftLandmarkIndex < landmarks.Length - 1)
             {
-                var rightLandmarkIndex = GetIndexOfLastLandmarkOfFixedSection(model, leftLandmarkIndex);
+                // var rightLandmarkIndex = GetIndexOfLastLandmarkOfFixedSection(model, leftLandmarkIndex);
+                var rightLandmarkIndex = GetIndexOfLastLandmarkOfFixedSection(sorData, leftLandmarkIndex);
 
                 var ratio = GetRatioForFixedSection(sorData, model, leftLandmarkIndex, rightLandmarkIndex);
 
@@ -117,11 +118,28 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private int GetIndexOfLastLandmarkOfFixedSection(TraceModelForBaseRef model, int firstLandmarkIndex)
+        /// <summary>
+        /// фиксированный участок, т.е. участок между 2 ориентирами, которые привязаны к событиям
+        ///
+        /// для автоматического задания базовой
+        ///     только начало и конец трассы привязаны, т.е. вся трасса - 1 участок
+        ///
+        /// для ручного задания базовой
+        ///     пользователь может при редактировании привязать сколько захочет ориентиров
+        ///     к событиям, но начало и конец обязательно
+        /// </summary>
+        /// <param name="sorData"></param>
+        /// <param name="firstLandmarkIndex">номер левого (начального) ориентира участка</param>
+        /// <returns>номер правого (конечного) ориентира участка</returns>
+        private int GetIndexOfLastLandmarkOfFixedSection(OtdrDataKnownBlocks sorData, int firstLandmarkIndex)
         {
             var endIndex = firstLandmarkIndex + 1;
-            while (model.EquipArray[endIndex].Type <= EquipmentType.CableReserve)
+            var landmarks = sorData.LinkParameters.LandmarkBlocks;
+
+            while (landmarks[endIndex].RelatedEventNumber == 0)
+            {
                 endIndex++;
+            }
             return endIndex;
         }
 

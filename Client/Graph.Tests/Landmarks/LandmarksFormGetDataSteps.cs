@@ -54,30 +54,32 @@ namespace Graph.Tests
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.BasTrace7, SystemUnderTest.BasTrace7, null, Answer.Yes);
         }
 
-        [Then(@"Проверяем ориентиры из базовой")]
-        public void ThenПроверяемОриентирыИзБазовой()
+        [Then(@"Оптические расстояния приивязанных ориентиры совпадают с расстояниями в сорке а у непривязанных нет")]
+        public void ThenОптическиеРасстоянияПриивязанныхОриентирыСовпадаютСРасстояниямиВСоркеАуНепривязанныхНет()
         {
             _vm.Rows.Count.Should().Be(7);
             _vm.Rows[0].EquipmentType.Should().Be(@"RTU");
             _vm.Rows[0].OpticalDistance.Should().Be(@" 0.000");
 
-            _vm.Rows[1].EquipmentType.Should().Be(Resources.SID_Closure);
-            _vm.Rows[1].OpticalDistance.Should().Be(@" 2.484");
+            // differs with sor (not related to key event)
+            _vm.Rows[1].EquipmentType.Should().Be(Resources.SID_Closure); 
+            _vm.Rows[1].OpticalDistance.Should().NotBe(@" 2.484");
 
+            // differs with sor (not related to key event)
             _vm.Rows[2].EquipmentType.Should().Be(Resources.SID_Other);
-            _vm.Rows[2].OpticalDistance.Should().Be(@" 5.238");
+            _vm.Rows[2].OpticalDistance.Should().NotBe(@" 5.238");
 
             // differs with sor (not related to key event)
             _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_CableReserve);
-            _vm.Rows[3].OpticalDistance.Should().Be(@" 7.694");
+            _vm.Rows[3].OpticalDistance.Should().NotBe(@" 7.129");
 
-            _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross);
+            _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross); 
             _vm.Rows[4].NodeTitle.Should().Be("");
             _vm.Rows[4].OpticalDistance.Should().Be(@" 10.150");
 
             // differs with sor (not related to key event)
             _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
-            _vm.Rows[5].OpticalDistance.Should().Be(@" 11.153");
+            _vm.Rows[5].OpticalDistance.Should().NotBe(@" 10.932");
 
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
             _vm.Rows[6].OpticalDistance.Should().Be(@" 12.156");

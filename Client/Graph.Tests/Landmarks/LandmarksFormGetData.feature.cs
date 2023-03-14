@@ -17,39 +17,37 @@ namespace Graph.Tests.Landmarks
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class LandmarksFormGetDataFeature : Xunit.IClassFixture<LandmarksFormGetDataFeature.FixtureData>, System.IDisposable
+    [NUnit.Framework.TestFixtureAttribute()]
+    [NUnit.Framework.DescriptionAttribute("LandmarksFormGetData")]
+    public partial class LandmarksFormGetDataFeature
     {
         
-        private static TechTalk.SpecFlow.ITestRunner testRunner;
-        
-        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
+        private TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "LandmarksFormGetData.feature"
 #line hidden
         
-        public LandmarksFormGetDataFeature(LandmarksFormGetDataFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
-        {
-            this._testOutputHelper = testOutputHelper;
-            this.TestInitialize();
-        }
-        
-        public static void FeatureSetup()
+        [NUnit.Framework.OneTimeSetUpAttribute()]
+        public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "LandmarksFormGetData", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        public static void FeatureTearDown()
+        [NUnit.Framework.OneTimeTearDownAttribute()]
+        public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
+        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
+        [NUnit.Framework.TearDownAttribute()]
         public virtual void ScenarioTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -58,7 +56,7 @@ namespace Graph.Tests.Landmarks
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
         public virtual void ScenarioStart()
@@ -79,14 +77,8 @@ namespace Graph.Tests.Landmarks
 #line hidden
         }
         
-        void System.IDisposable.Dispose()
-        {
-            this.ScenarioTearDown();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Извлечение ориентиров из графа")]
-        [Xunit.TraitAttribute("FeatureTitle", "LandmarksFormGetData")]
-        [Xunit.TraitAttribute("Description", "Извлечение ориентиров из графа")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Извлечение ориентиров из графа")]
         public virtual void ИзвлечениеОриентировИзГрафа()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Извлечение ориентиров из графа", null, ((string[])(null)));
@@ -103,9 +95,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Извлечение ориентиров из базовой")]
-        [Xunit.TraitAttribute("FeatureTitle", "LandmarksFormGetData")]
-        [Xunit.TraitAttribute("Description", "Извлечение ориентиров из базовой")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Извлечение ориентиров из базовой")]
         public virtual void ИзвлечениеОриентировИзБазовой()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Извлечение ориентиров из базовой", null, ((string[])(null)));
@@ -119,7 +110,8 @@ this.FeatureBackground();
 #line 12
  testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
- testRunner.Then("Проверяем ориентиры из базовой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Оптические расстояния приивязанных ориентиры совпадают с расстояниями в сорке а у" +
+                    " непривязанных нет", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 15
  testRunner.When("При открытой форме ориентиров на карте двигаем узел с проключением и на форме узл" +
                     "а меняем ему название", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -133,9 +125,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Смена выделенного ориентира без сохранения изменений")]
-        [Xunit.TraitAttribute("FeatureTitle", "LandmarksFormGetData")]
-        [Xunit.TraitAttribute("Description", "Смена выделенного ориентира без сохранения изменений")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Смена выделенного ориентира без сохранения изменений")]
         public virtual void СменаВыделенногоОриентираБезСохраненияИзменений()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Смена выделенного ориентира без сохранения изменений", null, ((string[])(null)));
@@ -156,9 +147,8 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Изменение узла и оборудования через форму ориентиров")]
-        [Xunit.TraitAttribute("FeatureTitle", "LandmarksFormGetData")]
-        [Xunit.TraitAttribute("Description", "Изменение узла и оборудования через форму ориентиров")]
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Изменение узла и оборудования через форму ориентиров")]
         public virtual void ИзменениеУзлаИОборудованияЧерезФормуОриентиров()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Изменение узла и оборудования через форму ориентиров", null, ((string[])(null)));
@@ -179,22 +169,6 @@ this.FeatureBackground();
  testRunner.And("Меняется положение узла на карте", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
-        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        public class FixtureData : System.IDisposable
-        {
-            
-            public FixtureData()
-            {
-                LandmarksFormGetDataFeature.FeatureSetup();
-            }
-            
-            void System.IDisposable.Dispose()
-            {
-                LandmarksFormGetDataFeature.FeatureTearDown();
-            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Graph.Tests
         public const int NewRightCableReserve = 7;
         public const string NewCommentForTest = "New comment for old equipment";
 
-        public const string Base3Landmarks = @"..\..\Sut\BaseSorFiles\base-3-landmarks.sor";
+        public const string AutoBaseTrace7 = @"..\..\Sut\BaseSorFiles\autobase-trace7.sor";
         public const string BasTrace7 = @"..\..\Sut\BaseSorFiles\base-trace7.sor";
         public const string Base1625 = @"..\..\Sut\BaseSorFiles\base1625.sor";
         public const string Base1625Lm3 = @"..\..\Sut\BaseSorFiles\base1625-3lm.sor";
