@@ -51,7 +51,6 @@ namespace Iit.Fibertest.Graph
 
             while (leftLandmarkIndex < landmarks.Length - 1)
             {
-                // var rightLandmarkIndex = GetIndexOfLastLandmarkOfFixedSection(model, leftLandmarkIndex);
                 var rightLandmarkIndex = GetIndexOfLastLandmarkOfFixedSection(sorData, leftLandmarkIndex);
 
                 var ratio = GetRatioForFixedSection(sorData, model, leftLandmarkIndex, rightLandmarkIndex);
@@ -67,8 +66,8 @@ namespace Iit.Fibertest.Graph
                     {
                         pos = (int)Math.Round(model.DistancesMm[i] * ratio);
                     }
-                    pos += (int)Math.Round(model.EquipArray[i].CableReserveRight * LinK);
-                    pos += (int)Math.Round(model.EquipArray[i + 1].CableReserveLeft * LinK);
+                    pos += (int)Math.Round(model.EquipArray[i].CableReserveRight * 1000 * LinK);
+                    pos += (int)Math.Round(model.EquipArray[i + 1].CableReserveLeft * 1000 * LinK);
                     distancesMm[i] = pos;
                 }
 

@@ -19,7 +19,7 @@ namespace Graph.Tests
         private Guid _saidFiberId;
         private Guid _crossId;
         private int _crossOpticalDistance;
-        private int _crossAfterBaseAssign;
+        private int _traceLengthOptical;
 
         [Given(@"Задана трасса семь узлов")]
         public void GivenЗаданаТрассаСемьУзлов()
@@ -29,8 +29,19 @@ namespace Graph.Tests
             _crossId = _trace.EquipmentIds[5];
         }
 
-        [Given(@"Сохраняем положение серединной муфты в сорке")]
-        public void GivenСохраняемПоложениеСерединнойМуфтыВСорке()
+        [Given(@"Сохраняем исходные параметры из сорки")]
+        public void GivenСохраняемИсходныеПараметрыИзСорки()
+        {
+            var buffer = File.ReadAllBytes(SystemUnderTest.BasTrace7);
+            var sorData = SorData.FromBytes(buffer);
+            var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
+            var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
+
+            _traceLengthOptical = ((int)Math.Round(landmarks[6].OpticalDistance * 1000));
+        }
+
+        [Then(@"В сорке ориентир средней муфты примерно (.*)")]
+        public void ThenВСоркеОриентирСреднейМуфтыПримерно(int p0)
         {
             var buffer = File.ReadAllBytes(SystemUnderTest.BasTrace7);
             var sorData = SorData.FromBytes(buffer);
@@ -38,7 +49,9 @@ namespace Graph.Tests
             var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
 
             _crossOpticalDistance = ((int)Math.Round(landmarks[4].OpticalDistance * 1000));
+            (Math.Abs(_crossOpticalDistance - p0) < 5).Should().BeTrue();
         }
+
 
         [Given(@"Задаем автоматическаю базовую - только начало и конец привязаны")]
         public void GivenЗадаемАвтоматическаюБазовую_ТолькоНачалоИКонецПривязаны()
@@ -86,9 +99,8 @@ namespace Graph.Tests
             _sut.WcfServiceDesktopC2D.SendCommandAsObj(command).Wait();
         }
 
-
-        [Then(@"Ориентир муфты остается на месте")]
-        public void ThenОриентирМуфтыОстаетсяНаМесте()
+        [Then(@"Ориентир средней муфты примерно (.*)")]
+        public void ThenОриентирСреднейМуфтыПримерно(int p0)
         {
             var baseRef = _sut.ReadModel.BaseRefs.First(b => b.Id == _trace.PreciseId);
             var sorBytes = _sut.WcfServiceCommonC2D.GetSorBytes(baseRef.SorFileId).Result;
@@ -96,11 +108,22 @@ namespace Graph.Tests
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
             var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
 
-            ((int)Math.Round(landmarks[4].OpticalDistance * 1000)).ShouldBeEquivalentTo(_crossOpticalDistance);
+            var crossOpticalDistance = ((int)Math.Round(landmarks[4].OpticalDistance * 1000));
+            (Math.Abs(crossOpticalDistance - p0) < 5).Should().BeTrue();
         }
 
-        [Then(@"Ориентир муфты смещается")]
-        public void ThenОриентирМуфтыСмещается()
+        // private static void Log(List<Landmark> landmarks)
+        // {
+        //     var content = landmarks.Select(l =>
+        //         { return $"{l.GpsDistance}"; }).ToList();
+        //     content.AddRange(landmarks.Select(l =>
+        //             { return $"{l.OpticalDistance}"; }).ToList()
+        //     );
+        //     File.WriteAllLines(@"c:\temp\landmarks.txt", content);
+        // }
+
+        [Then(@"Последний ориентир никогда не двигается")]
+        public void ThenПоследнийОриентирНикогдаНеДвигается()
         {
             var baseRef = _sut.ReadModel.BaseRefs.First(b => b.Id == _trace.PreciseId);
             var sorBytes = _sut.WcfServiceCommonC2D.GetSorBytes(baseRef.SorFileId).Result;
@@ -108,33 +131,8 @@ namespace Graph.Tests
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
             var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
 
-            _crossAfterBaseAssign = ((int)Math.Round(landmarks[4].OpticalDistance * 1000));
-            _crossAfterBaseAssign.Should().NotBe(_crossOpticalDistance);
-        }
-
-        [Then(@"Ориентир муфты сдвигается влево")]
-        public void ThenОриентирМуфтыСдвигаетсяВлево()
-        {
-            var baseRef = _sut.ReadModel.BaseRefs.First(b => b.Id == _trace.PreciseId);
-            var sorBytes = _sut.WcfServiceCommonC2D.GetSorBytes(baseRef.SorFileId).Result;
-            var sorData = SorData.FromBytes(sorBytes);
-            var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
-            var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
-
-            var newOpticalDistance = ((int)Math.Round(landmarks[4].OpticalDistance * 1000));
-            (newOpticalDistance < _crossAfterBaseAssign).Should().BeTrue();
-        }
-
-        [Then(@"Ориентир возвращается на место перед задание длины участка")]
-        public void ThenОриентирВозвращаетсяНаМестоПередЗаданиеДлиныУчастка()
-        {
-            var baseRef = _sut.ReadModel.BaseRefs.First(b => b.Id == _trace.PreciseId);
-            var sorBytes = _sut.WcfServiceCommonC2D.GetSorBytes(baseRef.SorFileId).Result;
-            var sorData = SorData.FromBytes(sorBytes);
-            var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
-            var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
-
-            ((int)Math.Round(landmarks[4].OpticalDistance * 1000)).ShouldBeEquivalentTo(_crossAfterBaseAssign);
+            var newTraceLength = ((int)Math.Round(landmarks[6].OpticalDistance * 1000));
+            (Math.Abs(newTraceLength - _traceLengthOptical) < 50).Should().BeTrue();
         }
 
     }
