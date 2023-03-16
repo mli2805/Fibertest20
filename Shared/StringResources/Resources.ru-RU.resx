@@ -1683,7 +1683,7 @@ RTU инициализируется в данный момент!</value>
     <value>Обновить</value>
   </data>
 	<data name="SID_Equipm__title" xml:space="preserve">
-    <value>Название оборуд.</value>
+    <value>Название оборудования</value>
   </data>
 	<data name="SID_Go_to_the_fork" xml:space="preserve">
     <value>Идти до развилки</value>
@@ -3484,5 +3484,20 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Gps_km" xml:space="preserve">
 		<value>GPS, км</value>
+	</data>
+	<data name="SID_Cable_reserve_m" xml:space="preserve">
+		<value>Запас кабеля, м</value>
+	</data>
+	<data name="SID_Gps_section_km" xml:space="preserve">
+		<value>Участок по GPS, км</value>
+	</data>
+	<data name="SID_Optical_section_km" xml:space="preserve">
+		<value>Оптический участок, км</value>
+	</data>
+	<data name="SID_Edit_node" xml:space="preserve">
+		<value>Редактировать узел</value>
+	</data>
+	<data name="SID_Edit_fiber" xml:space="preserve">
+		<value>Редактировать участок</value>
 	</data>
 </root>

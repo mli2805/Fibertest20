@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Graph
 {
     public class LandmarksBaseParser
     {
+        private static readonly double LinK = 1.02;
         private readonly Model _readModel;
 
         public LandmarksBaseParser(Model readModel)
@@ -21,7 +22,7 @@ namespace Iit.Fibertest.Graph
         {
             var nodesWithoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(trace.TraceId).ToList();
 
-            var distance = 0.0;
+            var gpsDistance = 0.0;
             var result = new List<Landmark>();
             var linkParameters = sorData.LinkParameters;
             var prevLocation = GetPointLatLng(linkParameters.LandmarkBlocks[0]);
@@ -29,7 +30,14 @@ namespace Iit.Fibertest.Graph
             {
                 var sorLandmark = linkParameters.LandmarkBlocks[i];
                 var titles = sorLandmark.Comment.Split('/');
-                distance += GisLabCalculator.GetDistanceBetweenPointLatLng(prevLocation, GetPointLatLng(sorLandmark)) / 1000;
+                var equipment = i > 0 ? _readModel.Equipments.First(e => e.EquipmentId == trace.EquipmentIds[i]) : null;
+                var fiber = i > 0 ? _readModel.Fibers.First(f => f.FiberId == trace.FiberIds[i - 1]) : null;
+                var section = fiber == null
+                    ? 0
+                    : fiber.UserInputedLength > 0
+                        ? fiber.UserInputedLength / 1000
+                        : GisLabCalculator.GetDistanceBetweenPointLatLng(prevLocation, GetPointLatLng(sorLandmark)) / 1000;
+                gpsDistance += section;
                 var comment = i == 0
                         ? _readModel.Rtus.First(r => r.NodeId == nodesWithoutPoints[i]).Comment
                         : _readModel.Nodes.First(n => n.NodeId == nodesWithoutPoints[i]).Comment;
@@ -39,13 +47,18 @@ namespace Iit.Fibertest.Graph
                     Number = i,
                     NodeId = nodesWithoutPoints[i],
                     NodeTitle = titles.Length > 0 ? titles[0].Trim() : "",
+                    FiberId = fiber?.FiberId ?? Guid.Empty,
                     NodeComment = comment,
                     EquipmentId = trace.EquipmentIds[trace.NodeIds.IndexOf(nodesWithoutPoints[i])],
                     EquipmentTitle = titles.Length > 1 ? titles[1].Trim() : "",
                     EquipmentType = ToEquipmentType(sorLandmark.Code),
                     EventNumber = sorLandmark.RelatedEventNumber - 1,
-                    GpsDistance = distance,
+                    LeftCableReserve = equipment?.CableReserveLeft ?? 0,
+                    RightCableReserve = equipment?.CableReserveRight ?? 0,
+                    GpsDistance = gpsDistance,
+                    GpsSection = section,
                     OpticalDistance = sorData.OwtToLenKm(sorLandmark.Location),
+                    OpticalSection = section * LinK,
                     GpsCoors = GetPointLatLng(sorLandmark),
                 };
                 result.Add(landmark);

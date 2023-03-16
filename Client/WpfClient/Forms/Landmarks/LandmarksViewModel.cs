@@ -63,11 +63,11 @@ namespace Iit.Fibertest.Client
 
         private ObservableCollection<LandmarkRow> LandmarksToRows()
         {
-            var temp = _isFilterOn 
-                ? _landmarks.Where(l => l.EquipmentType != EquipmentType.EmptyNode) 
+            var temp = _isFilterOn
+                ? _landmarks.Where(l => l.EquipmentType != EquipmentType.EmptyNode)
                 : _landmarks;
             return new ObservableCollection<LandmarkRow>(
-                temp.Select(l =>  new LandmarkRow().FromLandmark(l, _selectedGpsInputMode.Mode)));
+                temp.Select(l => new LandmarkRow().FromLandmark(l, _selectedGpsInputMode.Mode)));
         }
 
         private bool _isFilterOn;
@@ -165,7 +165,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGis.GpsInputMode);
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
-            DataGridWidth = currentGis.IsGisOn ? 770 : 570;
+            DataGridWidth = currentGis.IsGisOn ? 985 : 785;
         }
 
         private async Task<int> Initialize()
@@ -259,6 +259,26 @@ namespace Iit.Fibertest.Client
             base.CanClose(callback);
         }
 
+        public void EditNode()
+        {
+            if (SelectedRow.NodeId == Rows.First().NodeId)
+                return;
+
+            var vm = _globalScope.Resolve<NodeUpdateViewModel>();
+            var node = _readModel.Nodes.First(n => n.NodeId == SelectedRow.NodeId);
+            vm.Initialize(node.NodeId);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
+        public async void EditFiber()
+        {
+            if (SelectedRow.FiberId == Guid.Empty) return;
+            var vm = _globalScope.Resolve<FiberUpdateViewModel>();
+            var fiber = _readModel.Fibers.First(f => f.FiberId == SelectedRow.FiberId);
+            await vm.Initialize(fiber.FiberId);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public async void IncludeEquipment()
         {
             var node = _readModel.Nodes.First(n => n.NodeId == SelectedRow.NodeId);
@@ -266,15 +286,15 @@ namespace Iit.Fibertest.Client
             var traceContentChoiceViewModel = _globalScope.Resolve<TraceContentChoiceViewModel>();
             traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, false);
             _windowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
-            if (!traceContentChoiceViewModel.ShouldWeContinue || 
+            if (!traceContentChoiceViewModel.ShouldWeContinue ||
                 traceContentChoiceViewModel.GetSelectedEquipmentGuid() == SelectedRow.EquipmentId) return;
 
             var cmd = new IncludeEquipmentIntoTrace()
-                {
-                    TraceId = SelectedTrace.TraceId,
-                    IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
-                    EquipmentId = traceContentChoiceViewModel.GetSelectedEquipmentGuid()
-                };
+            {
+                TraceId = SelectedTrace.TraceId,
+                IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
+                EquipmentId = traceContentChoiceViewModel.GetSelectedEquipmentGuid()
+            };
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 

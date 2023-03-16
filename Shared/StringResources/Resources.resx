@@ -3485,4 +3485,19 @@ Please try again later</value>
 	<data name="SID_Gps_km" xml:space="preserve">
 		<value>GPS, km</value>
 	</data>
+	<data name="SID_Cable_reserve_m" xml:space="preserve">
+		<value>Cable reserve, m</value>
+	</data>
+	<data name="SID_Gps_section_km" xml:space="preserve">
+		<value>GPS section, km</value>
+	</data>
+	<data name="SID_Optical_section_km" xml:space="preserve">
+		<value>Optical section, km</value>
+	</data>
+	<data name="SID_Edit_node" xml:space="preserve">
+		<value>Edit node</value>
+	</data>
+	<data name="SID_Edit_fiber" xml:space="preserve">
+		<value>Edit fiber</value>
+	</data>
 </root>

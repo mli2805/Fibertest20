@@ -1314,6 +1314,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cable reserve, m.
+        /// </summary>
+        public static string SID_Cable_reserve_m {
+            get {
+                return ResourceManager.GetString("SID_Cable_reserve_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CableReserve.
         /// </summary>
         public static string SID_CableReserve {
@@ -2809,6 +2818,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit fiber.
+        /// </summary>
+        public static string SID_Edit_fiber {
+            get {
+                return ResourceManager.GetString("SID_Edit_fiber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit node.
+        /// </summary>
+        public static string SID_Edit_node {
+            get {
+                return ResourceManager.GetString("SID_Edit_node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change server&apos;s settings.
         /// </summary>
         public static string SID_Edit_settings {
@@ -3905,6 +3932,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Gps_Length_m {
             get {
                 return ResourceManager.GetString("SID_Gps_Length_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GPS section, km.
+        /// </summary>
+        public static string SID_Gps_section_km {
+            get {
+                return ResourceManager.GetString("SID_Gps_section_km", resourceCulture);
             }
         }
         
@@ -6232,6 +6268,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Optical_length_m {
             get {
                 return ResourceManager.GetString("SID_Optical_length_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical section, km.
+        /// </summary>
+        public static string SID_Optical_section_km {
+            get {
+                return ResourceManager.GetString("SID_Optical_section_km", resourceCulture);
             }
         }
         
