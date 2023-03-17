@@ -10,7 +10,6 @@ namespace Iit.Fibertest.Graph
 {
     public class LandmarksBaseParser
     {
-        private static readonly double LinK = 1.02;
         private readonly Model _readModel;
 
         public LandmarksBaseParser(Model readModel)
@@ -26,6 +25,7 @@ namespace Iit.Fibertest.Graph
             var result = new List<Landmark>();
             var linkParameters = sorData.LinkParameters;
             var prevLocation = GetPointLatLng(linkParameters.LandmarkBlocks[0]);
+            var prevOwt = linkParameters.LandmarkBlocks[0].Location;
             for (int i = 0; i < linkParameters.LandmarksCount; i++)
             {
                 var sorLandmark = linkParameters.LandmarkBlocks[i];
@@ -58,11 +58,12 @@ namespace Iit.Fibertest.Graph
                     GpsDistance = gpsDistance,
                     GpsSection = section,
                     OpticalDistance = sorData.OwtToLenKm(sorLandmark.Location),
-                    OpticalSection = section * LinK,
+                    OpticalSection = sorData.OwtToLenKm(sorLandmark.Location - prevOwt),
                     GpsCoors = GetPointLatLng(sorLandmark),
                 };
                 result.Add(landmark);
                 prevLocation = landmark.GpsCoors;
+                prevOwt = sorLandmark.Location;
             }
             return result;
         }

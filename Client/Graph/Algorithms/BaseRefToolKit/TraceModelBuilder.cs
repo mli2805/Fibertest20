@@ -11,7 +11,6 @@ namespace Iit.Fibertest.Graph
             var fullModel = GetTraceModel(traceModel);
             return ExcludeAdjustmentPoints(fullModel);
         }
-
         
         private TraceModelForBaseRef GetTraceModel(TraceModelForBaseRef model)
         {
