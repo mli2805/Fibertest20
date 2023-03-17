@@ -97,7 +97,7 @@ namespace Iit.Fibertest.Client
                 case EquipmentFromTraceExcluded _:
                 case NodeUpdatedAndMoved _:
                 case NodeUpdated _: 
-                case NodeMoved _: LaunchedViews.ForEach(v=>v.RefreshAsChangesReaction()); return;
+                case NodeMoved _: LaunchedViews.ForEach(v=>v.RefreshAsChangesReaction().Wait()); return;
             }
         }
 

@@ -243,7 +243,7 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
-        public async void RefreshAsChangesReaction()
+        public async Task RefreshAsChangesReaction()
         {
             var index = Rows.IndexOf(SelectedRow);
 
@@ -277,6 +277,12 @@ namespace Iit.Fibertest.Client
             var fiber = _readModel.Fibers.First(f => f.FiberId == SelectedRow.FiberId);
             await vm.Initialize(fiber.FiberId);
             _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (vm.Command != null)
+            {
+                var result = await _c2DWcfManager.SendCommandAsObj(vm.Command);
+                if (string.IsNullOrEmpty(result))
+                    await RefreshAsChangesReaction();
+            }
         }
 
         public async void IncludeEquipment()

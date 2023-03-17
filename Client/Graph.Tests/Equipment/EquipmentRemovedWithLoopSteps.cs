@@ -74,7 +74,7 @@ namespace Graph.Tests
             _lvm.SelectedRow = _lvm.Rows[1];
             _lvm.ExcludeEquipment();
             _sut.Poller.EventSourcingTick().Wait();
-            _lvm.RefreshAsChangesReaction(); // TODO start LandmarkViewModel through LandmarksViewsManager
+            _lvm.RefreshAsChangesReaction().Wait(); // TODO start LandmarkViewModel through LandmarksViewsManager
         }
 
         [Then(@"На первом проходе муфты нет на обратном есть")]

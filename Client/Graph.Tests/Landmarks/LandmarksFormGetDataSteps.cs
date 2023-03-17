@@ -166,7 +166,7 @@ namespace Graph.Tests
 
             _vm.OneLandmarkViewModel.Apply();
             _sut.Poller.EventSourcingTick().Wait();
-            _vm.RefreshAsChangesReaction(); //TODO refactor tests to use LandmarkViewsManager
+            _vm.RefreshAsChangesReaction().Wait(); //TODO refactor tests to use LandmarkViewsManager
         }
 
         [Then(@"Меняются поля в строке на форме ориентиров")]
