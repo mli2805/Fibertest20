@@ -35,9 +35,7 @@ namespace Iit.Fibertest.Graph
             var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
             if (needToInsertLandmarksForEmptyNodes)
                 InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
-
             ReCalculateLandmarksLocations(otdrKnownBlocks, modelWithoutAdjustmentPoint);
-
             AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
         }
 

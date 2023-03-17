@@ -68,7 +68,7 @@ namespace Graph.Tests
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
             landmark.Code.Should().Be(LandmarkCode.Manhole);
-            landmark.Location.Should().Be(114839);
+            landmark.Location.Should().Be(114849);
 
             var newDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
                 otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location), 3);
@@ -97,7 +97,7 @@ namespace Graph.Tests
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
             landmark.Code.Should().Be(LandmarkCode.Manhole);
-            landmark.Location.Should().Be(115606);
+            landmark.Location.Should().Be(115627);
 
             var newDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
                 otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location), 3);
@@ -121,7 +121,7 @@ namespace Graph.Tests
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
             landmark.Code.Should().Be(LandmarkCode.Manhole);
-            landmark.Location.Should().Be(115606);
+            landmark.Location.Should().Be(115627);
 
             var newDistance = Math.Round(otdrKnownBlocks.OwtToLenKm(
                 otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location), 3);

@@ -19,7 +19,6 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
         private readonly SorFileRepository _sorFileRepository;
-        private readonly TraceModelBuilder _traceModelBuilder;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
@@ -27,15 +26,13 @@ namespace Iit.Fibertest.DataCenterCore
         private string _culture;
 
         public BaseRefRepairmanIntermediary(Model writeModel, IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
-            SorFileRepository sorFileRepository, 
-            TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool,
+            SorFileRepository sorFileRepository, BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _writeModel = writeModel;
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _sorFileRepository = sorFileRepository;
-            _traceModelBuilder = traceModelBuilder;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
@@ -175,11 +172,10 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var traceModel = _writeModel.GetTraceComponentsByIds(trace);
-                var modelWithDistances = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
                 var sorData = SorData.FromBytes(baseRefDto.SorBytes);
-                _baseRefLandmarksTool.ReCalculateLandmarksLocations(sorData, modelWithDistances);
-                _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(sorData, modelWithDistances);
+                
+                _baseRefLandmarksTool.ApplyTraceToBaseRef(sorData, trace, false);
+
                 baseRefDto.SorBytes = sorData.ToBytes();
             }
             catch (Exception e)
