@@ -76,7 +76,8 @@ namespace Iit.Fibertest.Graph
                 leftLandmarkIndex = rightLandmarkIndex;
             }
 
-            for (int i = 0; i < distancesMm.Length; i++)
+            // first (0th) and last landmarks are related to events, their locations are constant
+            for (int i = 0; i < distancesMm.Length - 1; i++)
             {
                 landmarks[i + 1].Location = landmarks[i].Location + sorData.GetOwtFromMm(distancesMm[i]);
             }

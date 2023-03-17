@@ -82,7 +82,7 @@ namespace Graph.Tests
             _vm.Rows[5].OpticalDistance.Should().NotBe(@" 10.932");
 
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
-            _vm.Rows[6].OpticalDistance.Should().Be(@" 12.156");
+            _vm.Rows[6].OpticalDistance.Should().Be(@" 12.157");
         }
 
         [When(@"При открытой форме ориентиров на карте двигаем узел с проключением и на форме узла меняем ему название")]
