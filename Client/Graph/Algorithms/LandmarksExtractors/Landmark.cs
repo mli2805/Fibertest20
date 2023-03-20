@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Graph
         public int RightCableReserve { get; set; }
         public double GpsDistance { get; set; }
         public double GpsSection { get; set; }
+        public bool IsUserInput { get; set; }
         public double OpticalDistance { get; set; }
         public double OpticalSection { get; set; }
         public int EventNumber { get; set; }

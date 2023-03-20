@@ -66,19 +66,35 @@
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Cable_reserve_m}" TextWrapping="Wrap"/>
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
+
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Gps_km}" 
                                         Binding="{Binding GpsDistance}" Width="65"/>
-                    <DataGridTextColumn Binding="{Binding GpsSection}" Width="70">
-                        <DataGridTextColumn.Header>
+
+
+                    <DataGridTemplateColumn Width="70">
+                        <DataGridTemplateColumn.Header>
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Gps_section_km}" TextWrapping="Wrap"/>
-                        </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate >
+                            <DataTemplate DataType="{x:Type client:LandmarkRow}">
+                                <TextBlock Text="{Binding GpsSection}" 
+                                           Background="{Binding GpsSectionBrush}" 
+                                            />
+                            
+                                <!-- FontStyle="{Binding GpsSectionFontStyle}" -->
+
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Optical_km}" 
                                         Binding="{Binding OpticalDistance}" Width="65"/>
                     <DataGridTextColumn Binding="{Binding OpticalSection}" Width="85">
                         <DataGridTextColumn.Header>
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_section_km}" TextWrapping="Wrap"/>
                         </DataGridTextColumn.Header>
+
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" 
                                         Binding="{Binding EventNumber}" Width="50"/>

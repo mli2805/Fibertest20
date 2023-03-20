@@ -57,6 +57,7 @@ namespace Iit.Fibertest.Graph
                     RightCableReserve = equipment?.CableReserveRight ?? 0,
                     GpsDistance = gpsDistance,
                     GpsSection = section,
+                    IsUserInput = fiber == null ? false : fiber.UserInputedLength > 0,
                     OpticalDistance = sorData.OwtToLenKm(sorLandmark.Location),
                     OpticalSection = sorData.OwtToLenKm(sorLandmark.Location - prevOwt),
                     GpsCoors = GetPointLatLng(sorLandmark),

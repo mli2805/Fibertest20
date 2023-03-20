@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace Iit.Fibertest.Client
 {
@@ -42,6 +45,9 @@ namespace Iit.Fibertest.Client
         public string CableReserves { get; set; }
         public string GpsDistance { get; set; } // by GPS, ignore cable reserve
         public string GpsSection { get; set; }
+        public bool IsUserInput { get; set; }
+        public Brush GpsSectionBrush => IsUserInput ? Brushes.LightGray : Brushes.Transparent;
+        public FontStyle GpsSectionFontStyle => IsUserInput ? FontStyles.Italic : FontStyles.Normal;
         public string OpticalDistance { get; set; } // from sor
         public string OpticalSection { get; set; }
         public string EventNumber { get; set; }
@@ -72,6 +78,7 @@ namespace Iit.Fibertest.Client
             CableReserves = CableReserveToString(landmark);
             GpsDistance = $@"{landmark.GpsDistance: 0.000}";
             GpsSection = landmark.EquipmentType == Dto.EquipmentType.Rtu ? "" : $@"{landmark.GpsSection: 0.000}";
+            IsUserInput = landmark.IsUserInput;
             OpticalDistance = landmark.IsFromBase ? $@"{landmark.OpticalDistance: 0.000}" : "";
             OpticalSection = landmark.EquipmentType == Dto.EquipmentType.Rtu ? "" 
                 : landmark.IsFromBase ? $@"{landmark.OpticalSection: 0.000}" : "";
