@@ -3500,4 +3500,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Edit_fiber" xml:space="preserve">
 		<value>Редактировать участок</value>
 	</data>
+	<data name="SID_Opt_section_km" xml:space="preserve">
+		<value>Оптич. участок, км</value>
+	</data>
 </root>

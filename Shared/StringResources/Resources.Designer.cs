@@ -6173,6 +6173,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical section, km.
+        /// </summary>
+        public static string SID_Opt_section_km {
+            get {
+                return ResourceManager.GetString("SID_Opt_section_km", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical event.
         /// </summary>
         public static string SID_Optical_event {

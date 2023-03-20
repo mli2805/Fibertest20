@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
         {
             Document doc = new Document();
             doc.DefaultPageSetup.Orientation = Orientation.Landscape;
-            doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(2);
+            doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(1);
             doc.DefaultPageSetup.RightMargin = Unit.FromCentimeter(1);
             doc.DefaultPageSetup.TopMargin = Unit.FromCentimeter(0.5);
             doc.DefaultPageSetup.BottomMargin = Unit.FromCentimeter(1.5);
@@ -45,34 +45,44 @@ namespace Iit.Fibertest.Client
         {
             var table = section.AddTable();
             table.Borders.Width = 0.25;
-            DrawTableHeader(table);
+            SetColumns(table);
+            FillInTableHeader(table);
           
+            FillInTable(list, mode, table);
+        }
+
+        private static void FillInTable(List<Landmark> list, GpsInputMode mode, Table table)
+        {
             foreach (var lm in list)
             {
+                var lmRow = new LandmarkRow().FromLandmark(lm, mode);
+
                 var row = table.AddRow();
                 row.Height = Unit.FromCentimeter(0.6);
                 row.HeightRule = RowHeightRule.AtLeast;
                 row.VerticalAlignment = VerticalAlignment.Center;
-                row.Cells[0].AddParagraph(lm.Number.ToString());
-                row.Cells[1].AddParagraph(lm.NodeTitle ?? "");
-                row.Cells[2].AddParagraph(lm.EquipmentType.ToLocalizedString());
-                row.Cells[3].AddParagraph(lm.EquipmentTitle ?? "");
-                row.Cells[4].AddParagraph($@"{lm.OpticalDistance:0.000}" );
-                row.Cells[5].AddParagraph(lm.EventNumber == -1 ? Resources.SID_no : lm.EventNumber.ToString());
-                row.Cells[6].AddParagraph(lm.GpsCoors.ToDetailedString(mode));
+                row.Cells[0].AddParagraph(lmRow.Number.ToString());
+                row.Cells[1].AddParagraph(lmRow.NodeTitle ?? "");
+                row.Cells[2].AddParagraph(lmRow.EquipmentType);
+                row.Cells[3].AddParagraph(lmRow.EquipmentTitle ?? "");
+
+                row.Cells[4].AddParagraph($@"{lmRow.CableReserves}");
+                row.Cells[5].AddParagraph($@"{lmRow.GpsDistance}");
+                row.Cells[6].AddParagraph($@"{lmRow.GpsSection}");
+                row.Cells[6].Shading.Color = lmRow.IsUserInput 
+                    ? Color.FromArgb(0xff, 0xd3, 0xd3, 0xd3)
+                    : Color.Empty;
+
+                row.Cells[7].AddParagraph($@"{lmRow.OpticalDistance}");
+                row.Cells[8].AddParagraph($@"{lmRow.OpticalSection}");
+
+                row.Cells[9].AddParagraph(lmRow.EventNumber);
+                row.Cells[10].AddParagraph(lmRow.GpsCoors);
             }
         }
 
-        private static void DrawTableHeader(Table table)
+        private static void FillInTableHeader(Table table)
         {
-            table.AddColumn(@"1cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"5.5cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"3.5cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"5.5cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"2.5cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"2.0cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"5cm").Format.Alignment = ParagraphAlignment.Center;
-
             var rowHeader = table.AddRow();
             rowHeader.HeadingFormat = true;
             rowHeader.VerticalAlignment = VerticalAlignment.Center;
@@ -83,9 +93,34 @@ namespace Iit.Fibertest.Client
             rowHeader.Cells[1].AddParagraph(Resources.SID_Node);
             rowHeader.Cells[2].AddParagraph(Resources.SID_Type);
             rowHeader.Cells[3].AddParagraph(Resources.SID_Equipm__title);
-            rowHeader.Cells[4].AddParagraph(Resources.SID_Distance__km);
-            rowHeader.Cells[5].AddParagraph(Resources.SID_Event);
-            rowHeader.Cells[6].AddParagraph(Resources.SID_GPS_coordinates);
+
+            rowHeader.Cells[4].AddParagraph(Resources.SID_Cable_reserve_m);
+            rowHeader.Cells[5].AddParagraph(Resources.SID_Gps_km);
+            rowHeader.Cells[6].AddParagraph(Resources.SID_Gps_section_km);
+            rowHeader.Cells[7].AddParagraph(Resources.SID_Optical_km);
+            rowHeader.Cells[8].AddParagraph(Resources.SID_Opt_section_km);
+
+
+            rowHeader.Cells[9].AddParagraph(Resources.SID_Event);
+            rowHeader.Cells[10].AddParagraph(Resources.SID_GPS_coordinates);
+        }
+
+        private static void SetColumns(Table table)
+        {
+            table.AddColumn(@"1cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"4.5cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"3.5cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"4cm").Format.Alignment = ParagraphAlignment.Center;
+
+            table.AddColumn(@"1.5cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"1.5cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"1.5cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"1.5cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"1.5cm").Format.Alignment = ParagraphAlignment.Center;
+
+
+            table.AddColumn(@"2.0cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"5cm").Format.Alignment = ParagraphAlignment.Center;
         }
     }
 }
