@@ -20,9 +20,13 @@ export class FtTraceLandmarksComponent implements OnInit {
   displayedColumns = [
     "ordinal",
     "nodeTitle",
-    "eqType",
+    "equipmentType",
     "equipmentTitle",
-    "distanceKm",
+    "cableReserves",
+    "gpsDistance",
+    "gpsSection",
+    "opticalDistance",
+    "opticalSection",
     "eventOrdinal",
     "coors",
   ];

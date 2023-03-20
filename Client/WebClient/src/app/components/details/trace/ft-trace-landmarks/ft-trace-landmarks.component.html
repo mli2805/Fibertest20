@@ -49,12 +49,12 @@
           }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="eqType">
+        <ng-container matColumnDef="equipmentType">
           <mat-header-cell *matHeaderCellDef>{{
             "SID_Equipment_type" | translate
           }}</mat-header-cell>
           <mat-cell class="node-cell" *matCellDef="let element">{{
-            element.eqType | equipmentTypeToLocalizedStringPipe
+            element.equipmentType | equipmentTypeToLocalizedStringPipe
           }}</mat-cell>
         </ng-container>
 
@@ -67,16 +67,52 @@
           }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="distanceKm">
+        <ng-container matColumnDef="cableReserves">
           <mat-header-cell *matHeaderCellDef>{{
-            "SID_Distance__km" | translate
+            "SID_Cable_reserve_m" | translate
           }}</mat-header-cell>
           <mat-cell class="node-cell" *matCellDef="let element">{{
-            element.distanceKm | number: ".3-3"
+            element.cableReserves
           }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="eventOrdinal">
+        <ng-container matColumnDef="gpsDistance">
+          <mat-header-cell *matHeaderCellDef>{{
+            "SID_Gps_km" | translate
+          }}</mat-header-cell>
+          <mat-cell class="node-cell" *matCellDef="let element">{{
+            element.gpsDistance
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="gpsSection">
+          <mat-header-cell *matHeaderCellDef>{{
+            "SID_Gps_section_km" | translate
+          }}</mat-header-cell>
+          <mat-cell class="node-cell" *matCellDef="let element" [ngClass]="{'user-input-color': element.isUserInput}">{{
+            element.gpsSection
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="opticalDistance">
+          <mat-header-cell *matHeaderCellDef>{{
+            "SID_Optical_km" | translate
+          }}</mat-header-cell>
+          <mat-cell class="node-cell" *matCellDef="let element">{{
+            element.opticalDistance
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="opticalSection">
+          <mat-header-cell *matHeaderCellDef>{{
+            "SID_Optical_section_km" | translate
+          }}</mat-header-cell>
+          <mat-cell class="node-cell" *matCellDef="let element">{{
+            element.opticalSection
+          }}</mat-cell>
+        </ng-container>
+
+       <ng-container matColumnDef="eventOrdinal">
           <mat-header-cell *matHeaderCellDef>{{
             "SID_Event" | translate
           }}</mat-header-cell>

@@ -66,9 +66,17 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 Ordinal = lm.Number,
                 NodeTitle = lm.NodeTitle,
-                EqType = lm.EquipmentType,
+                EquipmentType = lm.EquipmentType,
                 EquipmentTitle = lm.EquipmentTitle,
-                DistanceKm = lm.OpticalDistance,
+
+                CableReserves = CableReserveToString(lm),
+                GpsDistance = $@"{lm.GpsDistance: 0.000}",
+                GpsSection = lm.EquipmentType == Dto.EquipmentType.Rtu ? "" : $@"{lm.GpsSection: 0.000}",
+                IsUserInput = lm.IsUserInput,
+                OpticalDistance = lm.IsFromBase ? $@"{lm.OpticalDistance: 0.000}" : "",
+                OpticalSection = lm.EquipmentType == Dto.EquipmentType.Rtu ? ""
+                : lm.IsFromBase ? $@"{lm.OpticalSection: 0.000}" : "",
+
                 EventOrdinal = lm.EventNumber,
                 Coors = new GeoPoint()
                 {
@@ -76,6 +84,22 @@ namespace Iit.Fibertest.DataCenterCore
                     Longitude = lm.GpsCoors.Lng,
                 }
             };
+        }
+
+        private string CableReserveToString(Landmark landmark)
+        {
+            if (landmark.EquipmentType == Dto.EquipmentType.CableReserve)
+            {
+                return $@"{landmark.LeftCableReserve}";
+            } 
+
+            if (landmark.EquipmentType > Dto.EquipmentType.CableReserve &&
+                landmark.EquipmentType < Dto.EquipmentType.RtuAndEot)
+            {
+                return $@"{landmark.LeftCableReserve} / {landmark.RightCableReserve}";
+            }
+
+            return "";
         }
 
         public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize)
