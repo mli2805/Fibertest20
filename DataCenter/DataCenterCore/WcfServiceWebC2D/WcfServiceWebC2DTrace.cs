@@ -71,10 +71,10 @@ namespace Iit.Fibertest.DataCenterCore
 
                 CableReserves = CableReserveToString(lm),
                 GpsDistance = $@"{lm.GpsDistance: 0.000}",
-                GpsSection = lm.EquipmentType == Dto.EquipmentType.Rtu ? "" : $@"{lm.GpsSection: 0.000}",
+                GpsSection = lm.EquipmentType == EquipmentType.Rtu ? "" : $@"{lm.GpsSection: 0.000}",
                 IsUserInput = lm.IsUserInput,
                 OpticalDistance = lm.IsFromBase ? $@"{lm.OpticalDistance: 0.000}" : "",
-                OpticalSection = lm.EquipmentType == Dto.EquipmentType.Rtu ? ""
+                OpticalSection = lm.EquipmentType == EquipmentType.Rtu ? ""
                 : lm.IsFromBase ? $@"{lm.OpticalSection: 0.000}" : "",
 
                 EventOrdinal = lm.EventNumber,
@@ -88,13 +88,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private string CableReserveToString(Landmark landmark)
         {
-            if (landmark.EquipmentType == Dto.EquipmentType.CableReserve)
+            if (landmark.EquipmentType == EquipmentType.CableReserve)
             {
                 return $@"{landmark.LeftCableReserve}";
             } 
 
-            if (landmark.EquipmentType > Dto.EquipmentType.CableReserve &&
-                landmark.EquipmentType < Dto.EquipmentType.RtuAndEot)
+            if (landmark.EquipmentType > EquipmentType.CableReserve &&
+                landmark.EquipmentType < EquipmentType.RtuAndEot)
             {
                 return $@"{landmark.LeftCableReserve} / {landmark.RightCableReserve}";
             }
