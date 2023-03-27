@@ -38,6 +38,7 @@ namespace Iit.Fibertest.Graph
                 lm.FiberId = fiber.FiberId;
                 lm.GpsDistance = distance;
                 lm.GpsSection = section;
+                lm.IsUserInput = fiber.UserInputedLength > 0;
                 lm.OpticalDistance = 0.0;
                 lm.OpticalSection = 0.0;
                 result.Add(lm);
