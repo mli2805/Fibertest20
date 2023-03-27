@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
                 var node = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[i]);
                 var fiber = _readModel.Fibers.First(f => f.FiberId == trace.FiberIds[i-1]);
                 var section = fiber.UserInputedLength > 0
-                    ? fiber.UserInputedLength
+                    ? fiber.UserInputedLength / 1000
                     : GisLabCalculator.GetDistanceBetweenPointLatLng(previousNode.Position, node.Position) / 1000;
                 distance += section;
                 previousNode = node;

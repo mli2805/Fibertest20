@@ -40,9 +40,6 @@ namespace Iit.Fibertest.Client
                 ? _readModel.Zones 
                 : new List<Zone>() {_readModel.Zones.First(z => z.ZoneId == _currentUser.ZoneId)};
             Model.SelectedZone = Model.Zones.First();
-
-            // Model.DateTo = DateTime.Now;
-            // Model.DateFrom = new DateTime(DateTime.Today.Year, 1, 1);
         }
 
         protected override void OnViewLoaded(object view)

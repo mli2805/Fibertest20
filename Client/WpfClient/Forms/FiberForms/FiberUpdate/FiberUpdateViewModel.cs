@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
         {
             GisVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
-             GpsLength = $@"{_graphGpsCalculator.GetFiberFullGpsDistance(fiberId, out Node node1, out Node node2):#,##0}";
+            GpsLength = $@"{Math.Round(_graphGpsCalculator.GetFiberFullGpsDistance(fiberId, out Node node1, out Node node2))}";
             NodeAtitle = node1.Title;
             NodeBtitle = node2.Title;
          
