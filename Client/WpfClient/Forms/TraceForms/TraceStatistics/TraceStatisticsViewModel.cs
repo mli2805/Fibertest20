@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -137,7 +138,7 @@ namespace Iit.Fibertest.Client
             _reflectogramManager.ShowRftsEvents(SelectedRow.Measurement.SorFileId, TraceTitle);
         }
 
-        public void ShowTraceState()
+        public  async Task ShowTraceState()
         {
             if (SelectedRow == null) return;
             var lastRow = Rows.Last(); // click on the Row , so Rows collection couldn't be empty
@@ -145,7 +146,9 @@ namespace Iit.Fibertest.Client
             var isLastAccident = lastEvent == null || 
                                  (SelectedRow.Measurement.SorFileId >= lastEvent.Measurement.SorFileId 
                                   && SelectedRow.Measurement.TraceState != FiberState.Ok);
-            _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.SorFileId == SelectedRow.Measurement.SorFileId, isLastAccident);
+            await _traceStateViewsManager.ShowTraceState(
+                SelectedRow.Measurement, 
+                lastRow.Measurement.SorFileId == SelectedRow.Measurement.SorFileId, isLastAccident);
         }
 
         public override void CanClose(Action<bool> callback)

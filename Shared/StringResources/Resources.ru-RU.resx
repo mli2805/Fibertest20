@@ -720,7 +720,7 @@
     <value>Диапазон расстояний - Lmax:</value>
   </data>
 	<data name="SID_Total_fiber_loss" xml:space="preserve">
-    <value>Затухание в линии</value>
+    <value>Полное затухание в линии</value>
   </data>
 	<data name="SID_Minor" xml:space="preserve">
     <value>Предупреждение</value>
@@ -2839,668 +2839,671 @@ RTU инициализируется в данный момент!</value>
 Пожалуйста, установите IIS до установки компонента Fibertest WebClient.</value>
   </data>
 	<data name="SID_License_file_not_found_" xml:space="preserve">
-	  <value>Файл с лицензионным соглашением не найден!</value>
+    <value>Файл с лицензионным соглашением не найден!</value>
   </data>
 	<data name="SID_SSL_certificate_password" xml:space="preserve">
-	  <value>Пароль SSL сертификата</value>
+    <value>Пароль SSL сертификата</value>
   </data>
 	<data name="SID_Choose_SSL_certificate_file" xml:space="preserve">
-	  <value>Укажите файл с SSL сертификатом</value>
+    <value>Укажите файл с SSL сертификатом</value>
   </data>
 	<data name="SID_Loading_data_after_DB_recovery__optimization_" xml:space="preserve">
-	  <value>Загрузка данных после восстановления (оптимизации) БД, пожалуйста подождите...</value>
+    <value>Загрузка данных после восстановления (оптимизации) БД, пожалуйста подождите...</value>
   </data>
 	<data name="SID_Error_during_Client_RTU_operation__" xml:space="preserve">
-	  <value>Ошибка во время операции Клиент-RTU</value>
+    <value>Ошибка во время операции Клиент-RTU</value>
   </data>
 	<data name="SID_Failed_to_apply_monitoring_settings_" xml:space="preserve">
-	  <value>Не удалось применить настройки мониторинга!</value>
+    <value>Не удалось применить настройки мониторинга!</value>
   </data>
 	<data name="SID_Physical_length" xml:space="preserve">
-	  <value>Физическая длина</value>
+    <value>Физическая длина</value>
   </data>
 	<data name="SID_Optical_length" xml:space="preserve">
-	  <value>Оптическая длина</value>
+    <value>Оптическая длина</value>
   </data>
 	<data name="SID_This_equipment_could_not_be_changed_" xml:space="preserve">
-	  <value>Оборудование не может быть изменено!</value>
+    <value>Оборудование не может быть изменено!</value>
   </data>
 	<data name="SID_There_are_traces_which_use_this_equipment_and_are_under_monitoring_now_" xml:space="preserve">
-	  <value>Существуют трассы, использующие данное оборудование и находящиеся в режиме мониторинга.</value>
+    <value>Существуют трассы, использующие данное оборудование и находящиеся в режиме мониторинга.</value>
   </data>
 	<data name="SID_Stop_monitoring_in_order_to_change_equipment" xml:space="preserve">
-	  <value>Для внесения изменений остановите мониторинг этих трасс.</value>
+    <value>Для внесения изменений остановите мониторинг этих трасс.</value>
   </data>
 	<data name="SID_Available_ports" xml:space="preserve">
-	  <value>Доступно портов</value>
+    <value>Доступно портов</value>
   </data>
 	<data name="SID_Failed_to_initialize_optical_switch" xml:space="preserve">
-	  <value>Не удалось инициализировать оптический переключатель!</value>
+    <value>Не удалось инициализировать оптический переключатель!</value>
   </data>
 	<data name="SID_Precise_base_ref_must_be_set_" xml:space="preserve">
-	  <value>Точная базовая должна быть задана!</value>
+    <value>Точная базовая должна быть задана!</value>
   </data>
 	<data name="SID_Fast_base_ref_must_be_set_" xml:space="preserve">
-	  <value>Быстрая базовая должна быть задана!</value>
+    <value>Быстрая базовая должна быть задана!</value>
   </data>
 	<data name="SID_License_Key" xml:space="preserve">
-	  <value>Лицензионный ключ</value>
+    <value>Лицензионный ключ</value>
   </data>
 	<data name="SID_Incremental" xml:space="preserve">
-	  <value>Дополнительный</value>
+    <value>Дополнительный</value>
   </data>
 	<data name="SID_Rtu_count" xml:space="preserve">
-		<value>Количество модулей</value>
-	</data>
+    <value>Количество модулей</value>
+  </data>
 	<data name="SID_Client_stations" xml:space="preserve">
-	  <value>Количество рабочих мест Client</value>
+    <value>Количество рабочих мест Client</value>
   </data>
 	<data name="SID_Web_clients" xml:space="preserve">
-	  <value>Количество рабочих мест WebClient</value>
+    <value>Количество рабочих мест WebClient</value>
   </data>
 	<data name="SID_SuperClients" xml:space="preserve">
-	  <value>Количество рабочих мест SuperClient</value>
+    <value>Количество рабочих мест SuperClient</value>
   </data>
 	<data name="SID_Creation_date" xml:space="preserve">
-	  <value>Дата создания</value>
+    <value>Дата создания</value>
   </data>
 	<data name="SID_Load_from_file" xml:space="preserve">
-	  <value>Загрузить из файла</value>
+    <value>Загрузить из файла</value>
   </data>
 	<data name="SID_Save_as_file" xml:space="preserve">
-	  <value>Сохранить в файле</value>
+    <value>Сохранить в файле</value>
   </data>
 	<data name="SID_Pdf_certificate" xml:space="preserve">
-	  <value>Pdf сертификат</value>
+    <value>Pdf сертификат</value>
   </data>
 	<data name="SID_with_no_limitation_by_time" xml:space="preserve">
-	  <value>без ограничений по сроку</value>
+    <value>без ограничений по сроку</value>
   </data>
 	<data name="SID_for__0___1_" xml:space="preserve">
-	  <value>на {0} {1}</value>
+    <value>на {0} {1}</value>
   </data>
 	<data name="SID_month_s_" xml:space="preserve">
-	  <value>мес.</value>
+    <value>мес.</value>
   </data>
 	<data name="SID_JS_Institute_of_Information_Technologies" xml:space="preserve">
-	  <value>ЗАО "Институт Информационных Технологий"</value>
+    <value>ЗАО "Институт Информационных Технологий"</value>
   </data>
 	<data name="SID_License_key_long" xml:space="preserve">
-		<value>Лицензионный ключ программного комплекса мониторинга оптических волокон Fibertest 2.0</value>
-	</data>
+    <value>Лицензионный ключ программного комплекса мониторинга оптических волокон Fibertest 2.0</value>
+  </data>
 	<data name="SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0" xml:space="preserve">
-		<value>Программный комплекс мониторинга оптических волокон FIBERTEST 2.0</value>
-	</data>
+    <value>Программный комплекс мониторинга оптических волокон FIBERTEST 2.0</value>
+  </data>
 	<data name="SID_License_number_" xml:space="preserve">
-		<value>Номер лицензии:</value>
-	</data>
+    <value>Номер лицензии:</value>
+  </data>
 	<data name="SID_Remote_testing_unit_count" xml:space="preserve">
-		<value>Количество модулей удаленного тестирования</value>
-	</data>
+    <value>Количество модулей удаленного тестирования</value>
+  </data>
 	<data name="SID_Create_new" xml:space="preserve">
-		<value>Создать новый</value>
-	</data>
+    <value>Создать новый</value>
+  </data>
 	<data name="SID_Failed_to_detach_additional_otau_" xml:space="preserve">
-		<value>Не удалось удалить дополнительный переключатель!</value>
-	</data>
+    <value>Не удалось удалить дополнительный переключатель!</value>
+  </data>
 	<data name="SID_Version" xml:space="preserve">
-		<value>Версия ПО</value>
-	</data>
+    <value>Версия ПО</value>
+  </data>
 	<data name="SID_Model" xml:space="preserve">
-		<value>Модель</value>
-	</data>
+    <value>Модель</value>
+  </data>
 	<data name="SID_Copy_coordinates_to_clipboard" xml:space="preserve">
-		<value>Копировать координаты в буфер обмена</value>
-	</data>
+    <value>Копировать координаты в буфер обмена</value>
+  </data>
 	<data name="SID_License_type" xml:space="preserve">
-		<value>Тип лицензии</value>
-	</data>
+    <value>Тип лицензии</value>
+  </data>
 	<data name="SID_User_workplace_linking" xml:space="preserve">
-		<value>Привязка рабочее место - пользователь</value>
-	</data>
+    <value>Привязка рабочее место - пользователь</value>
+  </data>
 	<data name="SID_Basic" xml:space="preserve">
-		<value>Основной</value>
-	</data>
+    <value>Основной</value>
+  </data>
 	<data name="SID_User_is_linked_to_another_workstation" xml:space="preserve">
-		<value>Пользователь привязан к другому рабочему месту</value>
-	</data>
+    <value>Пользователь привязан к другому рабочему месту</value>
+  </data>
 	<data name="SID_Wrong_security_admin_password" xml:space="preserve">
-		<value>Неверный пароль администратора безопасности</value>
-	</data>
+    <value>Неверный пароль администратора безопасности</value>
+  </data>
 	<data name="SID_User_has_no_linking_to_any_workstation" xml:space="preserve">
-		<value>Пользователь не привязан к рабочему месту</value>
-	</data>
+    <value>Пользователь не привязан к рабочему месту</value>
+  </data>
 	<data name="SID_No_license_has_been_applied_yet" xml:space="preserve">
-		<value>Еще не была применена лицензия!</value>
-	</data>
+    <value>Еще не была применена лицензия!</value>
+  </data>
 	<data name="SID_To_link_user_to_the_workstation_your_privileges" xml:space="preserve">
-		<value>Для привязки пользователя к рабочему месту Ваши полномочия</value>
-	</data>
+    <value>Для привязки пользователя к рабочему месту Ваши полномочия</value>
+  </data>
 	<data name="SID_have_to_be_confirmed_by_security_administrator_password_" xml:space="preserve">
-		<value>должны быть подтверждены паролем администратора безопасности.</value>
-	</data>
+    <value>должны быть подтверждены паролем администратора безопасности.</value>
+  </data>
 	<data name="SID_Apply_Demo_license" xml:space="preserve">
-		<value>Применить ДЕМО режим</value>
-	</data>
+    <value>Применить ДЕМО режим</value>
+  </data>
 	<data name="SID_Load_license_from_file" xml:space="preserve">
-		<value>Загрузить лицензию из файла</value>
-	</data>
+    <value>Загрузить лицензию из файла</value>
+  </data>
 	<data name="SID_You_can apply_DEMO_license_or" xml:space="preserve">
-		<value>Вы можете применить ДЕМО лицензию или загрузить Вашу лицензию из файла.</value>
-	</data>
+    <value>Вы можете применить ДЕМО лицензию или загрузить Вашу лицензию из файла.</value>
+  </data>
 	<data name="SID_License_will_not_be_applied_" xml:space="preserve">
-		<value>Лицензия не будет применена!</value>
-	</data>
+    <value>Лицензия не будет применена!</value>
+  </data>
 	<data name="SID_Password_is_not_entered_" xml:space="preserve">
-		<value>Пароль не введен.</value>
-	</data>
+    <value>Пароль не введен.</value>
+  </data>
 	<data name="SID_User_to_workstation_linking_set" xml:space="preserve">
-		<value>Выполнена привязка пользователя к раб месту</value>
-	</data>
+    <value>Выполнена привязка пользователя к раб месту</value>
+  </data>
 	<data name="SID_Measurement_on_port__0__trace__1__is_finished" xml:space="preserve">
-		<value>Завершено измерение порт {0}, трасса "{1}"</value>
-	</data>
+    <value>Завершено измерение порт {0}, трасса "{1}"</value>
+  </data>
 	<data name="SID_License_key_type" xml:space="preserve">
-		<value>Тип лицензионного ключа</value>
-	</data>
+    <value>Тип лицензионного ключа</value>
+  </data>
 	<data name="SID_With_workstation_linking" xml:space="preserve">
-		<value>С привязкой раб места</value>
-	</data>
+    <value>С привязкой раб места</value>
+  </data>
 	<data name="SID_Standart" xml:space="preserve">
-		<value>Стандартная</value>
-	</data>
+    <value>Стандартная</value>
+  </data>
 	<data name="SID_First_license_key_must_not_be_Incremental" xml:space="preserve">
-		<value>Первый лицензионный ключ не должен быть Дополнительный</value>
-	</data>
+    <value>Первый лицензионный ключ не должен быть Дополнительный</value>
+  </data>
 	<data name="SID_With_user_s_account_to_workstation_linking" xml:space="preserve">
-		<value>С привязкой учетной записи пользователя к рабочему месту</value>
-	</data>
+    <value>С привязкой учетной записи пользователя к рабочему месту</value>
+  </data>
 	<data name="SID_Reveal_trace" xml:space="preserve">
-		<value>Отобразить трассу</value>
-	</data>
+    <value>Отобразить трассу</value>
+  </data>
 	<data name="SID_Highlight_trace" xml:space="preserve">
-		<value>Подсветить трассу</value>
-	</data>
+    <value>Подсветить трассу</value>
+  </data>
 	<data name="SID_Trace_definition_mode__Minimum_zoom__0_" xml:space="preserve">
-		<value>Режим определения трассы: Минимальный зум {0}</value>
-	</data>
+    <value>Режим определения трассы: Минимальный зум {0}</value>
+  </data>
 	<data name="SID_License_could_not_be_applied_" xml:space="preserve">
-		<value>Лицензия не может быть применена!</value>
-	</data>
+    <value>Лицензия не может быть применена!</value>
+  </data>
 	<data name="SID_To_apply_the_license" xml:space="preserve">
-		<value>Для применения лицензии</value>
-	</data>
+    <value>Для применения лицензии</value>
+  </data>
 	<data name="SID_security_administrator_password_has_to_be_input" xml:space="preserve">
-		<value>требуется ввод пароля администратора безопасности</value>
-	</data>
+    <value>требуется ввод пароля администратора безопасности</value>
+  </data>
 	<data name="SID_Failed_to_initialize_OTDR" xml:space="preserve">
-		<value>Не удалось инициализировать рефлектометр!</value>
-	</data>
+    <value>Не удалось инициализировать рефлектометр!</value>
+  </data>
 	<data name="SID_Additional_OS_info_" xml:space="preserve">
-		<value>Дополнительные сведения ОС</value>
-	</data>
+    <value>Дополнительные сведения ОС</value>
+  </data>
 	<data name="SID_Measurement_on_port__0___trace___1___failed__OTAU_problem" xml:space="preserve">
-		<value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка переключателя</value>
-	</data>
+    <value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка переключателя</value>
+  </data>
 	<data name="SID_Measurement_on_port__0___trace___1___failed__OTDR_problem" xml:space="preserve">
-		<value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка рефлектометра</value>
-	</data>
+    <value>Измерение порт {0}, трасса "{1}" не удалось. Ошибка рефлектометра</value>
+  </data>
 	<data name="SID_Tools" xml:space="preserve">
-		<value>Инструменты</value>
-	</data>
+    <value>Инструменты</value>
+  </data>
 	<data name="SID_Graph_visibility_settings" xml:space="preserve">
-		<value>Настройки отображения графа</value>
-	</data>
+    <value>Настройки отображения графа</value>
+  </data>
 	<data name="SID_High_density_graph" xml:space="preserve">
-		<value>Граф большой плотности</value>
-	</data>
+    <value>Граф большой плотности</value>
+  </data>
 	<data name="SID_Graph_is_visible_from_zoom" xml:space="preserve">
-		<value>Граф отображается начиная с зума:</value>
-	</data>
+    <value>Граф отображается начиная с зума:</value>
+  </data>
 	<data name="SID_Out_of_screen_part" xml:space="preserve">
-		<value>Неотображаемая на экране часть выгруженного графа (%):</value>
-	</data>
+    <value>Неотображаемая на экране часть выгруженного графа (%):</value>
+  </data>
 	<data name="SID_High_density_graph_explanation" xml:space="preserve">
-		<value>Большое количество узлов, например: сети крупных городов с разветвленной кабельной канализацией, PON сети и т.п.</value>
-	</data>
+    <value>Большое количество узлов, например: сети крупных городов с разветвленной кабельной канализацией, PON сети и т.п.</value>
+  </data>
 	<data name="SID_Could_be_changed_after_installation" xml:space="preserve">
-		<value>Режим может быть изменен после инсталляции в настройках приложения</value>
-	</data>
+    <value>Режим может быть изменен после инсталляции в настройках приложения</value>
+  </data>
 	<data name="SID_Graph_of_traces_optimization" xml:space="preserve">
-		<value>Оптимизация графа трасс</value>
-	</data>
+    <value>Оптимизация графа трасс</value>
+  </data>
 	<data name="SID_DB_optimization__" xml:space="preserve">
-		<value>Оптимизация БД: </value>
-	</data>
+    <value>Оптимизация БД: </value>
+  </data>
 	<data name="SID__0__unused_nodes_found" xml:space="preserve">
-		<value>найденно неиспользуемых узлов {0}</value>
-	</data>
+    <value>найденно неиспользуемых узлов {0}</value>
+  </data>
 	<data name="SID__0__unused_fibers_found" xml:space="preserve">
-		<value>найденно неиспользуемых волокон {0}</value>
-	</data>
+    <value>найденно неиспользуемых волокон {0}</value>
+  </data>
 	<data name="SID_Remove_unused" xml:space="preserve">
-		<value>Удаление узлов и участков не входящих в состав трасс</value>
-	</data>
+    <value>Удаление узлов и участков не входящих в состав трасс</value>
+  </data>
 	<data name="SID_Db_restructuring" xml:space="preserve">
-		<value>Реструктуризация БД</value>
-	</data>
+    <value>Реструктуризация БД</value>
+  </data>
 	<data name="SID_Server_performance_improvement" xml:space="preserve">
-		<value>Повышение производительности сервера</value>
-	</data>
+    <value>Повышение производительности сервера</value>
+  </data>
 	<data name="SID_Remove_unused_explanation" xml:space="preserve">
-		<value>Будут удалены участки обозначенные голубым цветом, связанные с ними узлы, а также отдельно стоящие узлы.</value>
-	</data>
+    <value>Будут удалены участки обозначенные голубым цветом, связанные с ними узлы, а также отдельно стоящие узлы.</value>
+  </data>
 	<data name="SID_Graph_of_traces_optimization_failed___0_" xml:space="preserve">
-		<value>Ошибка оптимизации графа трасс: {0}</value>
-	</data>
+    <value>Ошибка оптимизации графа трасс: {0}</value>
+  </data>
 	<data name="SID_Successfully_optimized_graph_of_traces_" xml:space="preserve">
-		<value>Оптимизация графа трасс успешно завершена!</value>
-	</data>
+    <value>Оптимизация графа трасс успешно завершена!</value>
+  </data>
 	<data name="SID_Update_equipment" xml:space="preserve">
-		<value>Изменить оборудование</value>
-	</data>
+    <value>Изменить оборудование</value>
+  </data>
 	<data name="SID_Telecommunications_equipment" xml:space="preserve">
-		<value>Телекоммуникационное оборудование (TCE)</value>
-	</data>
+    <value>Телекоммуникационное оборудование (TCE)</value>
+  </data>
 	<data name="SID_Equipment__0__will_be_deleted" xml:space="preserve">
-		<value>Оборудование {0} будет удалено</value>
-	</data>
+    <value>Оборудование {0} будет удалено</value>
+  </data>
 	<data name="SID_RTU_port_links_to_this_equipment_will_be_deleted" xml:space="preserve">
-		<value>Связи оборудования с портами RTU будут удалены</value>
-	</data>
+    <value>Связи оборудования с портами RTU будут удалены</value>
+  </data>
 	<data name="SID_Slot" xml:space="preserve">
-		<value>Слот</value>
-	</data>
+    <value>Слот</value>
+  </data>
 	<data name="SID_Update_components" xml:space="preserve">
-		<value>Изменить компоненты</value>
-	</data>
+    <value>Изменить компоненты</value>
+  </data>
 	<data name="SID_Map_TCE_to_RTU" xml:space="preserve">
-		<value>Связать с RTU</value>
-	</data>
+    <value>Связать с RTU</value>
+  </data>
 	<data name="SID_Change_slot_count" xml:space="preserve">
-		<value>Изменить количество слотов</value>
-	</data>
+    <value>Изменить количество слотов</value>
+  </data>
 	<data name="SID_Interface_No" xml:space="preserve">
-		<value>Интерфейс №</value>
-	</data>
+    <value>Интерфейс №</value>
+  </data>
 	<data name="SID_Slot_count" xml:space="preserve">
-		<value>Количество слотов</value>
-	</data>
+    <value>Количество слотов</value>
+  </data>
 	<data name="SID_Interface_count" xml:space="preserve">
-		<value>Количество интерфейсов</value>
-	</data>
+    <value>Количество интерфейсов</value>
+  </data>
 	<data name="SID_Slot__0_" xml:space="preserve">
-		<value>Слот {0}</value>
-	</data>
+    <value>Слот {0}</value>
+  </data>
 	<data name="SID_Equipment_components" xml:space="preserve">
-		<value>Компоненты оборудования</value>
-	</data>
+    <value>Компоненты оборудования</value>
+  </data>
 	<data name="SID_Clear" xml:space="preserve">
-		<value>Очистить</value>
-	</data>
+    <value>Очистить</value>
+  </data>
 	<data name="SID_Software_version" xml:space="preserve">
-		<value>Версия ПК</value>
-	</data>
+    <value>Версия ПК</value>
+  </data>
 	<data name="SID_Failed_to_resend_base_to_rtu" xml:space="preserve">
-		<value>Базовые рефлектограммы изменены и сохранены в БД. 
+    <value>Базовые рефлектограммы изменены и сохранены в БД. 
 Не удалось переслать их на модуль, так как он сейчас недоступен. 
 Повторите попытку позже.</value>
-	</data>
+  </data>
 	<data name="SID_Assign_base_refs_automatically" xml:space="preserve">
-		<value>Задать базовые автоматически</value>
-	</data>
+    <value>Задать базовые автоматически</value>
+  </data>
 	<data name="SID_EvtDetectDeltaCT" xml:space="preserve">
-		<value>Порог километрического затухания (CT) на обнаружение события, дБ/км</value>
-	</data>
+    <value>Порог километрического затухания (CT) на обнаружение события, дБ/км</value>
+  </data>
 	<data name="SID_EvtSearchStep" xml:space="preserve">
-		<value>Шаг поиска новых событий, км</value>
-	</data>
+    <value>Шаг поиска новых событий, км</value>
+  </data>
 	<data name="SID_EvtDetectDeltaLen" xml:space="preserve">
-		<value>Порог на смещение события без отражения, км</value>
-	</data>
+    <value>Порог на смещение события без отражения, км</value>
+  </data>
 	<data name="SID_EvtRDetectDeltaLen" xml:space="preserve">
-		<value>Порог на смещение события с отражением, км</value>
-	</data>
+    <value>Порог на смещение события с отражением, км</value>
+  </data>
 	<data name="SID_AutoLT" xml:space="preserve">
-		<value>Порог автомата на затухание (LT), (1 - 4 дБ)</value>
-	</data>
+    <value>Порог автомата на затухание (LT), (1 - 4 дБ)</value>
+  </data>
 	<data name="SID_AutoRT" xml:space="preserve">
-		<value>Порог автомата на отражение (RT), (-40 - -25 дБ)</value>
-	</data>
+    <value>Порог автомата на отражение (RT), (-40 - -25 дБ)</value>
+  </data>
 	<data name="SID_AutoET" xml:space="preserve">
-		<value>Порог автомата на конец волокна (ET), дБ</value>
-	</data>
+    <value>Порог автомата на конец волокна (ET), дБ</value>
+  </data>
 	<data name="SID_NoLinkDistance" xml:space="preserve">
-		<value>Расстояние определения наличия волокна, км</value>
-	</data>
+    <value>Расстояние определения наличия волокна, км</value>
+  </data>
 	<data name="SID_NoLinkDeltaDB" xml:space="preserve">
-		<value>Порог определения наличия волокна, дБ</value>
-	</data>
+    <value>Порог определения наличия волокна, дБ</value>
+  </data>
 	<data name="SID_EventRT" xml:space="preserve">
-		<value>Порог мониторинга на отражение, дБ</value>
-	</data>
+    <value>Порог мониторинга на отражение, дБ</value>
+  </data>
 	<data name="SID_EOFLMN" xml:space="preserve">
-		<value>Номер ориентира конца мониторинга</value>
-	</data>
+    <value>Номер ориентира конца мониторинга</value>
+  </data>
 	<data name="SID_CorrectMarkers" xml:space="preserve">
-		<value>Корректировка маркеров соседних событий при нахождении нового</value>
-	</data>
+    <value>Корректировка маркеров соседних событий при нахождении нового</value>
+  </data>
 	<data name="SID_EvtChangeLT" xml:space="preserve">
-		<value>Порог для затухания в событии при поиске конца волокна по шаблону, дБ</value>
-	</data>
+    <value>Порог для затухания в событии при поиске конца волокна по шаблону, дБ</value>
+  </data>
 	<data name="SID_EvtChangeRT" xml:space="preserve">
-		<value>Порог для коэффициента отражения в событии при поиске конца волокна по шаблону, дБ/км</value>
-	</data>
+    <value>Порог для коэффициента отражения в событии при поиске конца волокна по шаблону, дБ/км</value>
+  </data>
 	<data name="SID_EvtChangeCT" xml:space="preserve">
-		<value>Порог для коэффициента затухания при поиске конца волокна по шаблону, дБ</value>
-	</data>
+    <value>Порог для коэффициента затухания при поиске конца волокна по шаблону, дБ</value>
+  </data>
 	<data name="SID_EvtChangeET" xml:space="preserve">
-		<value>Порог для конца волокна при поиске конца волокна по шаблону, дБ</value>
-	</data>
+    <value>Порог для конца волокна при поиске конца волокна по шаблону, дБ</value>
+  </data>
 	<data name="SID_Lt_threshold" xml:space="preserve">
-		<value>Затухание в соединении, дБ</value>
-	</data>
+    <value>Затухание в соединении, дБ</value>
+  </data>
 	<data name="SID_Rt_threshold" xml:space="preserve">
-		<value>Коэффициент отражения, дБ</value>
-	</data>
+    <value>Коэффициент отражения, дБ</value>
+  </data>
 	<data name="SID_Ct_threshold" xml:space="preserve">
-		<value>Коэффициент затухания, дБ/км</value>
-	</data>
+    <value>Коэффициент затухания, дБ/км</value>
+  </data>
 	<data name="SID_Eelt_threshold" xml:space="preserve">
-		<value>Полное затухание в линии, дБ</value>
-	</data>
+    <value>Полное затухание в линии, дБ</value>
+  </data>
 	<data name="SID_Threshold" xml:space="preserve">
-		<value>Порог</value>
-	</data>
+    <value>Порог</value>
+  </data>
 	<data name="SID_Level_included_in_monitoring" xml:space="preserve">
-		<value>Уровень включен в мониторинг</value>
-	</data>
+    <value>Уровень включен в мониторинг</value>
+  </data>
 	<data name="SID_Monitoring_thresholds" xml:space="preserve">
-		<value>Пороги мониторинга</value>
-	</data>
+    <value>Пороги мониторинга</value>
+  </data>
 	<data name="SID_Additional_parameters" xml:space="preserve">
-		<value>Дополнительные параметры</value>
-	</data>
+    <value>Дополнительные параметры</value>
+  </data>
 	<data name="SID_Event_detection_thresholds" xml:space="preserve">
-		<value>Пороги на нахождение новых событий (абсолютные значения)</value>
-	</data>
+    <value>Пороги на нахождение новых событий (абсолютные значения)</value>
+  </data>
 	<data name="SID_Load" xml:space="preserve">
-		<value>Загрузить</value>
-	</data>
+    <value>Загрузить</value>
+  </data>
 	<data name="SID_Applying_base_refs__Please_wait" xml:space="preserve">
-		<value>Применяем базовые рефлектограммы. Пожалуйста, подождите...</value>
-	</data>
+    <value>Применяем базовые рефлектограммы. Пожалуйста, подождите...</value>
+  </data>
 	<data name="SID_Show_reflectogram_on_completion" xml:space="preserve">
-		<value>Показать рефлектограмму по завершении</value>
-	</data>
+    <value>Показать рефлектограмму по завершении</value>
+  </data>
 	<data name="SID_Telecommunications_equipment_model" xml:space="preserve">
-		<value>Тип телекоммуникационного оборудования</value>
-	</data>
+    <value>Тип телекоммуникационного оборудования</value>
+  </data>
 	<data name="SID_Slots" xml:space="preserve">
-		<value>Слоты</value>
-	</data>
+    <value>Слоты</value>
+  </data>
 	<data name="SID_Save_and_close" xml:space="preserve">
-		<value>Сохранить и закрыть</value>
-	</data>
+    <value>Сохранить и закрыть</value>
+  </data>
 	<data name="SID_Change_interface_count" xml:space="preserve">
-		<value>Изменить количество интерфейсов</value>
-	</data>
+    <value>Изменить количество интерфейсов</value>
+  </data>
 	<data name="SID_Change_type" xml:space="preserve">
-		<value>Изменить тип</value>
-	</data>
+    <value>Изменить тип</value>
+  </data>
 	<data name="SID_Changing_the_type_of_equipment_can_lead_to_loss_of_links" xml:space="preserve">
-		<value>Изменение типа оборудования может привести к потере связей</value>
-	</data>
+    <value>Изменение типа оборудования может привести к потере связей</value>
+  </data>
 	<data name="SID_RTU_port___telecommunication_equipment_interface" xml:space="preserve">
-		<value>порт RTU - интерфейс телекоммуникационного оборудования</value>
-	</data>
+    <value>порт RTU - интерфейс телекоммуникационного оборудования</value>
+  </data>
 	<data name="SID_Changes_will_be_applied_after_saving_in_the_next_window_" xml:space="preserve">
-		<value>Изменения будут применены после сохранения в следующем окне.</value>
-	</data>
+    <value>Изменения будут применены после сохранения в следующем окне.</value>
+  </data>
 	<data name="SID_Proceed_" xml:space="preserve">
-		<value>Продолжить?</value>
-	</data>
+    <value>Продолжить?</value>
+  </data>
 	<data name="SID_Trace___0___has_already_linked_to_another_interface" xml:space="preserve">
-		<value>Трасса "{0}" уже связана с другим интерфейсом</value>
-	</data>
+    <value>Трасса "{0}" уже связана с другим интерфейсом</value>
+  </data>
 	<data name="SID__1__For_traces_0_05___0_5_km_long" xml:space="preserve">
-		<value>1. Для линий длиной  0.05 - 0.5 км</value>
-	</data>
+    <value>1. Для линий длиной  0.05 - 0.5 км</value>
+  </data>
 	<data name="SID__2__For_traces_0_5___5_km_long" xml:space="preserve">
-		<value>2. Для линий длиной  0.5 - 5 км</value>
-	</data>
+    <value>2. Для линий длиной  0.5 - 5 км</value>
+  </data>
 	<data name="SID__3__For_traces_5___10_km_long" xml:space="preserve">
-		<value>3. Для линий длиной  5 - 10 км</value>
-	</data>
+    <value>3. Для линий длиной  5 - 10 км</value>
+  </data>
 	<data name="SID__4__For_traces_10___20_km_long" xml:space="preserve">
-		<value>4. Для линий длиной  10 - 20 км</value>
-	</data>
+    <value>4. Для линий длиной  10 - 20 км</value>
+  </data>
 	<data name="SID_AutoBaseAttention" xml:space="preserve">
-		<value>Внимание! Не рекомендуется использовать режим автоматического задания базовых для трасс имеющих неоднородности с затуханием более 1 дБ</value>
-	</data>
+    <value>Внимание! Не рекомендуется использовать режим автоматического задания базовых для трасс имеющих неоднородности с затуханием более 1 дБ</value>
+  </data>
 	<data name="SID_Failed_to_do_Measurement_Client__" xml:space="preserve">
-		<value>Не удалось провести Измерение (Client)!</value>
-	</data>
+    <value>Не удалось провести Измерение (Client)!</value>
+  </data>
 	<data name="SID_Splice_loss_dB" xml:space="preserve">
-		<value>Затухание в событии (LT), (1 - 4 dB)</value>
-	</data>
+    <value>Затухание в событии (LT), (1 - 4 dB)</value>
+  </data>
 	<data name="SID_Reflectance_dB" xml:space="preserve">
-		<value>Коэффициет отражения (RT), (-40 - -25 дБ)</value>
-	</data>
+    <value>Коэффициет отражения (RT), (-40 - -25 дБ)</value>
+  </data>
 	<data name="SID_links_added" xml:space="preserve">
-		<value>связей добавлено</value>
-	</data>
+    <value>связей добавлено</value>
+  </data>
 	<data name="SID_links_exist" xml:space="preserve">
-		<value>связей существует</value>
-	</data>
+    <value>связей существует</value>
+  </data>
 	<data name="SID_links_removed" xml:space="preserve">
-		<value>связей удалено</value>
-	</data>
+    <value>связей удалено</value>
+  </data>
 	<data name="SID_TCE_added" xml:space="preserve">
-		<value>TCE добавлено</value>
-	</data>
+    <value>TCE добавлено</value>
+  </data>
 	<data name="SID_TCE_updated" xml:space="preserve">
-		<value>TCE изменено</value>
-	</data>
+    <value>TCE изменено</value>
+  </data>
 	<data name="SID_TCE_removed" xml:space="preserve">
-		<value>TCE удалено</value>
-	</data>
+    <value>TCE удалено</value>
+  </data>
 	<data name="SID_Equipment_type_changed_successfully_" xml:space="preserve">
-		<value>Тип оборудования успешно изменен!</value>
-	</data>
+    <value>Тип оборудования успешно изменен!</value>
+  </data>
 	<data name="SID_Process_snmp_traps" xml:space="preserve">
-		<value>Обрабатывать SNMP-трапы</value>
-	</data>
+    <value>Обрабатывать SNMP-трапы</value>
+  </data>
 	<data name="SID_For_traces_0_05___20_km_long" xml:space="preserve">
-		<value>Для линий длиной  0.05-20 км</value>
-	</data>
+    <value>Для линий длиной  0.05-20 км</value>
+  </data>
 	<data name="SID_Automatic_detection_of_measurement_parameters" xml:space="preserve">
-		<value>Автоматическое определение параметров измерения</value>
-	</data>
+    <value>Автоматическое определение параметров измерения</value>
+  </data>
 	<data name="SID_Failed_to_automatically_determine_the_correct_measurement_parameters" xml:space="preserve">
-		<value>Не удалось автоматически определить корректные параметры измерения</value>
-	</data>
+    <value>Не удалось автоматически определить корректные параметры измерения</value>
+  </data>
 	<data name="SID_Measurement_timeout_expired" xml:space="preserve">
-		<value>Таймаут на проведение измерения истек</value>
-	</data>
+    <value>Таймаут на проведение измерения истек</value>
+  </data>
 	<data name="SID_Measurement_completed_successfully" xml:space="preserve">
-		<value>Измерение завершено успешно</value>
-	</data>
+    <value>Измерение завершено успешно</value>
+  </data>
 	<data name="SID_Base_refs_assigned_successfully" xml:space="preserve">
-		<value>Базовые рефлектограммы заданы успешно</value>
-	</data>
+    <value>Базовые рефлектограммы заданы успешно</value>
+  </data>
 	<data name="SID_Failed_to_start" xml:space="preserve">
-		<value>Не удалось запустить измерение</value>
-	</data>
+    <value>Не удалось запустить измерение</value>
+  </data>
 	<data name="SID_Failed_to_fetch_measurement_from_Rtu4000" xml:space="preserve">
-		<value>Не удалось получить результат измерения от RTU4000</value>
-	</data>
+    <value>Не удалось получить результат измерения от RTU4000</value>
+  </data>
 	<data name="SID_Failed_to_assign_as_base" xml:space="preserve">
-		<value>Не удалось задать в качестве базовой</value>
-	</data>
+    <value>Не удалось задать в качестве базовой</value>
+  </data>
 	<data name="SID__0___1___Measurement_on_trace__2____3_" xml:space="preserve">
-		<value>{0}/{1}  Измерение по трассе {2}: {3}</value>
-	</data>
+    <value>{0}/{1}  Измерение по трассе {2}: {3}</value>
+  </data>
 	<data name="SID_Start_monitoring_when_completed" xml:space="preserve">
-		<value>Запустить мониторинг по завершении</value>
-	</data>
+    <value>Запустить мониторинг по завершении</value>
+  </data>
 	<data name="SID_Starting_monitoring" xml:space="preserve">
-		<value>Запускаем мониторинг</value>
-	</data>
+    <value>Запускаем мониторинг</value>
+  </data>
 	<data name="SID_There_are__0__trace_s__attached_to_ports_of_the_RTU" xml:space="preserve">
-		<value>{0} трасс(ы) подключено к портам данного RTU</value>
-	</data>
+    <value>{0} трасс(ы) подключено к портам данного RTU</value>
+  </data>
 	<data name="SID_Measurements_are_in_progress__Please_wait___" xml:space="preserve">
-		<value>Проводятся измерения. Пожалуйста, подождите...</value>
-	</data>
+    <value>Проводятся измерения. Пожалуйста, подождите...</value>
+  </data>
 	<data name="SID_Failed_to_toggle_to_port" xml:space="preserve">
-		<value>Не удалось переключиться в порт</value>
-	</data>
+    <value>Не удалось переключиться в порт</value>
+  </data>
 	<data name="SID_Measurement_error" xml:space="preserve">
-		<value>Ошибка измерения</value>
-	</data>
+    <value>Ошибка измерения</value>
+  </data>
 	<data name="SID_Measurement_preparation_error" xml:space="preserve">
-		<value>Ошибка подготовки измерения</value>
-	</data>
+    <value>Ошибка подготовки измерения</value>
+  </data>
 	<data name="SID_Measurement___successfully" xml:space="preserve">
-		<value>Измерение - успешно</value>
-	</data>
+    <value>Измерение - успешно</value>
+  </data>
 	<data name="SID_Assignment___successfully" xml:space="preserve">
-		<value>Применение - успешно</value>
-	</data>
+    <value>Применение - успешно</value>
+  </data>
 	<data name="SID_Measurement___failed" xml:space="preserve">
-		<value>Измерение - не удалось</value>
-	</data>
+    <value>Измерение - не удалось</value>
+  </data>
 	<data name="SID_Assignment___failed" xml:space="preserve">
-		<value>Применение - не удалось</value>
-	</data>
+    <value>Применение - не удалось</value>
+  </data>
 	<data name="SID_ON" xml:space="preserve">
-		<value>Включено</value>
-	</data>
+    <value>Включено</value>
+  </data>
 	<data name="SID_OFF" xml:space="preserve">
-		<value>Выключено</value>
-	</data>
+    <value>Выключено</value>
+  </data>
 	<data name="SID_TCE_type" xml:space="preserve">
-		<value>Тип TCE</value>
-	</data>
+    <value>Тип TCE</value>
+  </data>
 	<data name="SID_TCE_title" xml:space="preserve">
-		<value>Название TCE</value>
-	</data>
+    <value>Название TCE</value>
+  </data>
 	<data name="SID_interface__" xml:space="preserve">
-		<value>интерфейс №</value>
-	</data>
+    <value>интерфейс №</value>
+  </data>
 	<data name="SID_Setting_up_interaction_between_telecommunications_equipment_and_RTU" xml:space="preserve">
-		<value>Настройка взаимодействия между телекоммуникационным оборудованием и RTU</value>
-	</data>
+    <value>Настройка взаимодействия между телекоммуникационным оборудованием и RTU</value>
+  </data>
 	<data name="SID_not_configured" xml:space="preserve">
-		<value>не настроено</value>
-	</data>
+    <value>не настроено</value>
+  </data>
 	<data name="SID_Unsuccessful_attempts_to_set_base_refs_for_RTU" xml:space="preserve">
-		<value>Неудачные попытки задания базовых рефлектограмм для RTU</value>
-	</data>
+    <value>Неудачные попытки задания базовых рефлектограмм для RTU</value>
+  </data>
 	<data name="SID_The_process_completed_at_" xml:space="preserve">
-		<value>Процесс завершен в </value>
-	</data>
+    <value>Процесс завершен в </value>
+  </data>
 	<data name="SID_The_process_of_setting_base_ref_for_RTU" xml:space="preserve">
-		<value>Процесс задания базовых для RTU</value>
-	</data>
+    <value>Процесс задания базовых для RTU</value>
+  </data>
 	<data name="SID_is_completed_at_" xml:space="preserve">
-		<value>завершен в </value>
-	</data>
+    <value>завершен в </value>
+  </data>
 	<data name="SID_Interrupt" xml:space="preserve">
-		<value>Прервать</value>
-	</data>
+    <value>Прервать</value>
+  </data>
 	<data name="SID_The_process_is_finishing__Please_wait___" xml:space="preserve">
-		<value>Идет завершение процесса. Пожалуйста, подождите...</value>
-	</data>
+    <value>Идет завершение процесса. Пожалуйста, подождите...</value>
+  </data>
 	<data name="SID_Do_not_signal_about_Suspicion" xml:space="preserve">
-		<value>Не сигнализировать о `Подозрение`</value>
-	</data>
+    <value>Не сигнализировать о `Подозрение`</value>
+  </data>
 	<data name="SID_Suspicion_off" xml:space="preserve">
-		<value>Подозрение выкл</value>
-	</data>
+    <value>Подозрение выкл</value>
+  </data>
 	<data name="SID_Auto_base_measurement_in_progress" xml:space="preserve">
-		<value>Идет автоматическое задание базовых рефлектограм</value>
-	</data>
+    <value>Идет автоматическое задание базовых рефлектограм</value>
+  </data>
 	<data name="SID_RTU_initialization_in_progress" xml:space="preserve">
-		<value>Идет инициализация RTU</value>
-	</data>
+    <value>Идет инициализация RTU</value>
+  </data>
 	<data name="SID_RTU_is_busy" xml:space="preserve">
-		<value>RTU занят</value>
-	</data>
+    <value>RTU занят</value>
+  </data>
 	<data name="SID_RTU__0__is_busy_" xml:space="preserve">
-		<value>RTU {0} занят.</value>
-	</data>
+    <value>RTU {0} занят.</value>
+  </data>
 	<data name="SID_Measurement__Client__in_progress" xml:space="preserve">
-		<value>Идет Измерение (Client)</value>
-	</data>
+    <value>Идет Измерение (Client)</value>
+  </data>
 	<data name="SID_Monitoring_settings_are_being_applied" xml:space="preserve">
-		<value>Применяются настройки мониторинга</value>
-	</data>
+    <value>Применяются настройки мониторинга</value>
+  </data>
 	<data name="SID_There_is_a_TCE_with_the_same_name" xml:space="preserve">
-		<value>Существует TCE с таким же названием</value>
-	</data>
+    <value>Существует TCE с таким же названием</value>
+  </data>
 	<data name="SID_There_is_a_TCE_with_the_same_IP_address" xml:space="preserve">
-		<value>Существует TCE с таким же IP адресом</value>
-	</data>
+    <value>Существует TCE с таким же IP адресом</value>
+  </data>
 	<data name="SID_ThresholdsAttention" xml:space="preserve">
-		<value>Внимание! Заданные пороги должны быть больше максимальных значений в неоднородностях на трассе</value>
-	</data>
+    <value>Внимание! Заданные пороги должны быть больше максимальных значений в неоднородностях на трассе</value>
+  </data>
 	<data name="SID_Current_operation" xml:space="preserve">
-		<value>Текущая операция</value>
-	</data>
+    <value>Текущая операция</value>
+  </data>
 	<data name="SID_Operations_result" xml:space="preserve">
-		<value>Результаты операций</value>
-	</data>
+    <value>Результаты операций</value>
+  </data>
 	<data name="SID_Unauthorized_RTU_access" xml:space="preserve">
-		<value>Неавторизованный доступ к RTU</value>
-	</data>
+    <value>Неавторизованный доступ к RTU</value>
+  </data>
 	<data name="SID_Unauthorized_access_to_RTU__0__" xml:space="preserve">
-		<value>Неавторизованный доступ к RTU {0}.</value>
-	</data>
+    <value>Неавторизованный доступ к RTU {0}.</value>
+  </data>
 	<data name="SID_Please_enter_Platform_serial_number" xml:space="preserve">
-		<value>Пожалуйста, введите Серийный номер платформы</value>
-	</data>
+    <value>Пожалуйста, введите Серийный номер платформы</value>
+  </data>
 	<data name="SID_Continue" xml:space="preserve">
-		<value>Продолжить</value>
-	</data>
+    <value>Продолжить</value>
+  </data>
 	<data name="SID_Initialize_and_synch" xml:space="preserve">
-		<value>Инициализировать RTU и синхронизировать базовые</value>
-	</data>
+    <value>Инициализировать RTU и синхронизировать базовые</value>
+  </data>
 	<data name="SID_Sending_base_refs_for_port__0_" xml:space="preserve">
-		<value>Пересылка базовых для порта {0}</value>
-	</data>
+    <value>Пересылка базовых для порта {0}</value>
+  </data>
 	<data name="SID_Iit_address" xml:space="preserve">
-		<value>220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис 304а</value>
-	</data>
+    <value>220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис 304а</value>
+  </data>
 	<data name="SID_Iit_Phone" xml:space="preserve">
-		<value>Телефон: +375 17 2359048</value>
-	</data>
+    <value>Телефон: +375 17 2359048</value>
+  </data>
 	<data name="SID_All_rights_reserved" xml:space="preserve">
-		<value>Все права защищены</value>
-	</data>
+    <value>Все права защищены</value>
+  </data>
 	<data name="SID_Optical_km" xml:space="preserve">
-		<value>Оптич, км</value>
-	</data>
+    <value>Оптич, км</value>
+  </data>
 	<data name="SID_Gps_km" xml:space="preserve">
-		<value>GPS, км</value>
-	</data>
+    <value>GPS, км</value>
+  </data>
 	<data name="SID_Cable_reserve_m" xml:space="preserve">
-		<value>Запас кабеля, м</value>
-	</data>
+    <value>Запас кабеля, м</value>
+  </data>
 	<data name="SID_Gps_section_km" xml:space="preserve">
-		<value>Участок по GPS, км</value>
-	</data>
+    <value>Участок по GPS, км</value>
+  </data>
 	<data name="SID_Optical_section_km" xml:space="preserve">
-		<value>Оптический участок, км</value>
-	</data>
+    <value>Оптический участок, км</value>
+  </data>
 	<data name="SID_Edit_node" xml:space="preserve">
-		<value>Редактировать узел</value>
-	</data>
+    <value>Редактировать узел</value>
+  </data>
 	<data name="SID_Edit_fiber" xml:space="preserve">
-		<value>Редактировать участок</value>
-	</data>
+    <value>Редактировать участок</value>
+  </data>
 	<data name="SID_Opt_section_km" xml:space="preserve">
-		<value>Оптич. участок, км</value>
+    <value>Оптич. участок, км</value>
+  </data>
+	<data name="SID_Exceeded_total_fiber_loss" xml:space="preserve">
+		<value>Превышено полное затухание в линии</value>
 	</data>
 </root>

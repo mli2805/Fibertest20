@@ -108,6 +108,18 @@ namespace Iit.Fibertest.Graph
                         yield return accident;
                     }
             }
+
+            if ((rftsEventsBlock.EELD.Type & ShortDeviationTypes.IsExceeded) != 0)
+            {
+                yield return new AccidentOnTraceV2()
+                {
+                    AccidentSeriousness = rftsEventsBlock.LevelName.ConvertToFiberState(),
+                    OpticalTypeOfAccident = OpticalAccidentType.TotalLoss,
+                    IsAccidentInOldEvent = true,
+                    Left = new AccidentNeighbour() { Title = _nodesExcludingAdjustmentPoints.First().Title },
+                    Right = new AccidentNeighbour() { Title = _nodesExcludingAdjustmentPoints.Last().Title },
+                };
+            }
         }
 
         private AccidentOnTraceV2 BuildAccidentInOldEvent(RftsEvent rftsEvent, 

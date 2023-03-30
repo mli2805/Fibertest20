@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Dto
         NotInTrace = 0x0,
         NotJoined = 0x1,
         //
-        Unknown = 0x2, // there were no measurements for this trace yet
+        Unknown = 0x2, // there were no measurements for this trace yet OR measurement was interrupted
         NotInZone = 0x3,
         //
         Ok = 0x4,

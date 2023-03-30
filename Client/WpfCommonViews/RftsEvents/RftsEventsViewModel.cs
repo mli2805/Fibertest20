@@ -28,6 +28,9 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public void Initialize(OtdrDataKnownBlocks sorData, string traceTitle = "")
         {
+            var baseSorData = sorData.GetBase();
+            sorData.RftsParameters = baseSorData.RftsParameters;
+
             _traceTitle = traceTitle;
             _isNoFiber = sorData.RftsEvents.MonitoringResult == (int) ComparisonReturns.NoFiber;
             if (_isNoFiber) return;

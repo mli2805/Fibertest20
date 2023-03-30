@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
         private readonly TraceStateModelFactory _traceStateModelFactory;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly IWindowManager _windowManager;
-        private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly CurrentClientConfiguration _currentClientConfiguration;
@@ -27,8 +26,7 @@ namespace Iit.Fibertest.Client
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            CommonC2DWcfManager commonC2DWcfManager, Model readModel, 
-            CurrentUser currentUser, CurrentClientConfiguration currentClientConfiguration,
+            Model readModel, CurrentUser currentUser, CurrentClientConfiguration currentClientConfiguration,
             ChildrenViews childrenViews, TraceStateModelFactory traceStateModelFactory,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
@@ -36,7 +34,6 @@ namespace Iit.Fibertest.Client
             _traceStateModelFactory = traceStateModelFactory;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _windowManager = windowManager;
-            _commonC2DWcfManager = commonC2DWcfManager;
             _readModel = readModel;
             _currentUser = currentUser;
             _currentClientConfiguration = currentClientConfiguration;
@@ -60,11 +57,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Apply(object e)
+        public async Task Apply(object e)
         {
             switch (e)
             {
-                case MeasurementAdded evnt: AddMeasurement(evnt); return;
+                case MeasurementAdded evnt: await AddMeasurement(evnt); return;
                 case MeasurementUpdated evnt: UpdateMeasurement(evnt); return;
                 case TraceUpdated evnt: UpdateTrace(evnt); return;
                 case RtuUpdated evnt: UpdateRtu(evnt); return;
@@ -72,7 +69,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void AddMeasurement(MeasurementAdded evnt)
+        private async Task AddMeasurement(MeasurementAdded evnt)
         {
             if (evnt.BaseRefType == BaseRefType.Fast && _currentClientConfiguration.DoNotSignalAboutSuspicion)
                 return;
@@ -84,7 +81,7 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
+            var traceStateModel = await _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
             Show(traceStateModel, false, lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
         }
 
@@ -130,25 +127,25 @@ namespace Iit.Fibertest.Client
         }
 
         // User clicked on TraceLeaf - State
-        public void ShowTraceState(Guid traceId)
+        public  async Task ShowTraceState(Guid traceId)
         {
             var lastMeasurement = _readModel.Measurements.LastOrDefault(m => m.TraceId == traceId);
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
+            var traceStateModel = await _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
             Show(traceStateModel);
         }
 
 
         // User clicked on line in TraceStatistics (maybe not on the last line - see parameter)
-        public async void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace, bool isLastAccident)
+        public async Task ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace, bool isLastAccident)
         {
-            var sorBytes = await _commonC2DWcfManager.GetSorBytes(measurement.SorFileId);
-            if (sorBytes == null)
-                return;
+            // var sorBytes = await _commonC2DWcfManager.GetSorBytes(measurement.SorFileId);
+            // if (sorBytes == null)
+            //     return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurement, isLastMeasurementOnThisTrace, isLastAccident);
+            var traceStateModel = await _traceStateModelFactory.CreateModel(measurement, isLastMeasurementOnThisTrace, isLastAccident);
             Show(traceStateModel);
         }
 

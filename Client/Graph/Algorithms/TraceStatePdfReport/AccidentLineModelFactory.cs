@@ -17,6 +17,8 @@ namespace Iit.Fibertest.Graph
             _isGisOn = isGisOn;
             _gpsInputMode = gpsInputMode;
             _isDesktop = isDesktop;
+            if (accident.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss)
+                return CreateBadLine(accident, 1);
             if (accident.IsAccidentInOldEvent)
             {
                 return accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff
@@ -32,9 +34,7 @@ namespace Iit.Fibertest.Graph
             var model = new AccidentLineModel
             {
                 Caption =
-                    $@"{number}. {accidentInOldEvent.AccidentSeriousness.ToLocalizedString()} ({
-                            accidentInOldEvent.OpticalTypeOfAccident.ToLetter()
-                        }) {Resources.SID_in_the_node}:",
+                    $@"{number}. {accidentInOldEvent.AccidentSeriousness.ToLocalizedString()} ({accidentInOldEvent.OpticalTypeOfAccident.ToLetter()}) {Resources.SID_in_the_node}:",
 
                 Number = number,
                 AccidentSeriousness = accidentInOldEvent.AccidentSeriousness,
@@ -62,9 +62,7 @@ namespace Iit.Fibertest.Graph
             var model = new AccidentLineModel
             {
                 Caption =
-                             $@"{number}. {accidentAsNewEvent.AccidentSeriousness.ToLocalizedString()} ({
-                                     accidentAsNewEvent.OpticalTypeOfAccident.ToLetter()
-                                 }) {Resources.SID_between_nodes}:",
+                             $@"{number}. {accidentAsNewEvent.AccidentSeriousness.ToLocalizedString()} ({accidentAsNewEvent.OpticalTypeOfAccident.ToLetter()}) {Resources.SID_between_nodes}:",
 
                 Number = number,
                 AccidentSeriousness = accidentAsNewEvent.AccidentSeriousness,
@@ -93,9 +91,7 @@ namespace Iit.Fibertest.Graph
             var model = new AccidentLineModel
             {
                 Caption =
-                    $@"{number}. {accidentInOldEvent.AccidentSeriousness.ToLocalizedString()} (C) {
-                            Resources.SID_between_nodes
-                        }: ",
+                    $@"{number}. {accidentInOldEvent.AccidentSeriousness.ToLocalizedString()} (C) {Resources.SID_between_nodes}: ",
 
                 Number = number,
                 AccidentSeriousness = accidentInOldEvent.AccidentSeriousness,
@@ -112,6 +108,30 @@ namespace Iit.Fibertest.Graph
 
             return model;
         }
+
+        private AccidentLineModel CreateBadLine(AccidentOnTraceV2 accidentInOldEvent, int number)
+        {
+            var bad = Resources.SID_Exceeded_total_fiber_loss;
+            var model = new AccidentLineModel
+            {
+                Caption =
+                    $@"{number}. {accidentInOldEvent.AccidentSeriousness.ToLocalizedString()}. {bad}",
+
+                Number = number,
+                AccidentSeriousness = accidentInOldEvent.AccidentSeriousness,
+                AccidentTypeLetter = @"",
+                AccidentPlace = AccidentPlace.BadSegment,
+
+                TopLeft = accidentInOldEvent.Left.Title,
+                TopRight = accidentInOldEvent.Right.Title,
+                PngPath = BuildPath(@"BadSegment.png"),
+                Position = accidentInOldEvent.Left.Coors,
+            };
+
+            return model;
+        }
+
+
 
         private string BuildPath(string pngFile)
         {

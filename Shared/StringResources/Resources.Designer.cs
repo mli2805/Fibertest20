@@ -3331,6 +3331,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exceeded total fiber loss.
+        /// </summary>
+        public static string SID_Exceeded_total_fiber_loss {
+            get {
+                return ResourceManager.GetString("SID_Exceeded_total_fiber_loss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exclude equipment from trace.
         /// </summary>
         public static string SID_Exclude_equipment_from_trace {

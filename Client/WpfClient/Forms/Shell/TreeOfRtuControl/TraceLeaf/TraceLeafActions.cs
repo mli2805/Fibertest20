@@ -101,8 +101,7 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            await Task.Delay(0);
-            _traceStateViewsManager.ShowTraceState(traceLeaf.Id);
+            await _traceStateViewsManager.ShowTraceState(traceLeaf.Id);
         }
 
         public async Task ShowTraceStatistics(object param)

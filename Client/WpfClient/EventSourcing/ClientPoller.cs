@@ -188,7 +188,7 @@ namespace Iit.Fibertest.Client
                     _opticalEventsExecutor.Apply(evnt);
                     _networkEventsDoubleViewModel.Apply(evnt);
                     _rtuStateViewsManager.Apply(evnt);
-                    _traceStateViewsManager.Apply(evnt);
+                    await _traceStateViewsManager.Apply(evnt);
                     _traceStatisticsViewsManager.Apply(evnt);
                     await _landmarksViewsManager.Apply(evnt);
                     _rtuChannelViewsManager.Apply(evnt);
