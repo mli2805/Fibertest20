@@ -45,7 +45,6 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<RtuOccupations>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<GraphGpsCalculator>().SingleInstance();
-            builder.RegisterType<TraceModelBuilder>().SingleInstance();
             builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
             builder.RegisterType<LandmarksBaseParser>().SingleInstance();
             builder.RegisterType<LandmarksGraphParser>().SingleInstance();

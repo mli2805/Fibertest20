@@ -11,12 +11,10 @@ namespace Iit.Fibertest.Graph
         private static readonly double LinK = 1.02;
 
         private readonly Model _readModel;
-        private readonly TraceModelBuilder _traceModelBuilder;
 
-        public BaseRefLandmarksTool(Model readModel, TraceModelBuilder traceModelBuilder)
+        public BaseRefLandmarksTool(Model readModel)
         {
             _readModel = readModel;
-            _traceModelBuilder = traceModelBuilder;
         }
 
         public void AugmentFastBaseRefSentByMigrator(Guid traceId, BaseRefDto baseRefDto)
@@ -32,7 +30,7 @@ namespace Iit.Fibertest.Graph
             bool needToInsertLandmarksForEmptyNodes)
         {
             var traceModel = _readModel.GetTraceComponentsByIds(trace);
-            var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
+            var modelWithoutAdjustmentPoint = TraceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
             if (needToInsertLandmarksForEmptyNodes)
                 InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
             ReCalculateLandmarksLocations(otdrKnownBlocks, modelWithoutAdjustmentPoint);

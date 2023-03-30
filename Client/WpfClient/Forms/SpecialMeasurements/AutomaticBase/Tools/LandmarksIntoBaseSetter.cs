@@ -8,18 +8,16 @@ namespace Iit.Fibertest.Client
     public class LandmarksIntoBaseSetter
     {
         private readonly Model _readModel;
-        private readonly TraceModelBuilder _traceModelBuilder;
 
-        public LandmarksIntoBaseSetter(Model readModel, TraceModelBuilder traceModelBuilder)
+        public LandmarksIntoBaseSetter(Model readModel)
         {
             _readModel = readModel;
-            _traceModelBuilder = traceModelBuilder;
         }
 
         public void ApplyTraceToAutoBaseRef(OtdrDataKnownBlocks sorData, Trace trace)
         {
             var traceModel = _readModel.GetTraceComponentsByIds(trace);
-            var model = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
+            var model = TraceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
 
             var ratio = GetRatio(sorData, model);
             var newLandmarks = new Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark[model.EquipArray.Length];

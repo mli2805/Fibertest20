@@ -98,7 +98,7 @@ this.FeatureBackground();
 #line 11
  testRunner.When("Пользователь задает физич длину участка перед муфтой 200 метров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
- testRunner.Then("Ориентир средней муфты примерно 10846", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Ориентир средней муфты примерно 10880", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
  testRunner.Then("Последний ориентир никогда не двигается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 15

@@ -87,7 +87,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<LandmarksIntoBaseSetter>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefsCheckerOnServer>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefMessages>().InstancePerLifetimeScope();
-            builder.RegisterType<TraceModelBuilder>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefLandmarksTool>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefMeasParamsChecker>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefLandmarksChecker>().InstancePerLifetimeScope();
