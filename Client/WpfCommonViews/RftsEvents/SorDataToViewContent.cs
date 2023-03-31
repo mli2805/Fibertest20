@@ -12,7 +12,6 @@ namespace Iit.Fibertest.WpfCommonViews
     {
         private readonly OtdrDataKnownBlocks _sorData;
         private readonly RftsEventsBlock _rftsEvents;
-        private int _eventCount;
 
         private Dictionary<int, string> LineNameList => new Dictionary<int, string>
         {
@@ -47,7 +46,6 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public OneLevelTableContent Parse()
         {
-            _eventCount = _rftsEvents.EventsCount;
             var eventContent = PrepareEmptyDictionary();
 
             ParseCommonInformation(eventContent);
@@ -64,7 +62,7 @@ namespace Iit.Fibertest.WpfCommonViews
             var eventsContent = new OneLevelTableContent();
             foreach (var pair in LineNameList)
             {
-                var cells = new string[_eventCount + 1];
+                var cells = new string[_rftsEvents.EventsCount + 1];
                 cells[0] = pair.Value;
                 eventsContent.Table.Add(pair.Key, cells);
             }
@@ -73,7 +71,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         private void ParseCommonInformation(OneLevelTableContent oneLevelTableContent)
         {
-            for (int i = 0; i < _eventCount; i++)
+            for (int i = 0; i < _rftsEvents.EventsCount; i++)
             {
                 var landmark = _sorData.LinkParameters.LandmarkBlocks.FirstOrDefault(b => b.RelatedEventNumber == i + 1);
                 if (landmark != null)
@@ -82,7 +80,11 @@ namespace Iit.Fibertest.WpfCommonViews
                     oneLevelTableContent.Table[102][i + 1] = landmark.Code.ForTable();
                 }
 
-                oneLevelTableContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
+                if (i < _sorData.KeyEvents.KeyEventsCount)
+                    oneLevelTableContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
+
+
+
                 if ((_rftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                 {
                     oneLevelTableContent.IsFailed = true;
@@ -91,7 +93,11 @@ namespace Iit.Fibertest.WpfCommonViews
                     oneLevelTableContent.Table[105][i + 1] += Resources.SID___new_;
                 }
                 oneLevelTableContent.Table[106][i + 1] = _rftsEvents.Events[i].EventTypes.ForEnabledInTable();
-                oneLevelTableContent.Table[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
+
+
+
+                if (i < _sorData.KeyEvents.KeyEventsCount)
+                   oneLevelTableContent.Table[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
             }
         }
 
@@ -101,8 +107,12 @@ namespace Iit.Fibertest.WpfCommonViews
         }
         private void ParseCurrentMeasurement(Dictionary<int, string[]> eventTable)
         {
-            for (int i = 0; i < _eventCount; i++)
+            for (int i = 0; i < _rftsEvents.EventsCount; i++)
             {
+
+                if (i >= _sorData.KeyEvents.KeyEventsCount) break;
+
+
                 eventTable[201][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventReflectance.ToString(CultureInfo.CurrentCulture);
                 if (i == 0)
                     continue;
@@ -116,25 +126,35 @@ namespace Iit.Fibertest.WpfCommonViews
         private void ParseMonitoringThresholds(Dictionary<int, string[]> eventTable)
         {
             var level = _sorData.RftsParameters.Levels.First(l => l.LevelName == _rftsEvents.LevelName);
+            var sh = 0;
 
-            for (int i = 1; i < _eventCount; i++)
+            // для нулевого (RTU) не заполняем
+            // _eventCount - новое количество событий - м.б. больше колва наборов порогов
+            for (int i = 1; i < _rftsEvents.EventsCount; i++)
             {
+                // если возникло новое событие для него нет набора порогов
                 if ((_rftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                 {
                     eventTable[301][i + 1] = _sorData.RftsParameters.UniversalParameters[5].ForTable();
                     eventTable[302][i + 1] = _sorData.RftsParameters.UniversalParameters[4].ForTable();
+                    sh++;
 
                     continue;
                 }
-                eventTable[301][i + 1] = level.ThresholdSets[i].ReflectanceThreshold.ForTable();
-                eventTable[302][i + 1] = level.ThresholdSets[i].AttenuationThreshold.ForTable();
-                eventTable[303][i + 1] = level.ThresholdSets[i].AttenuationCoefThreshold.ForTable();
+
+                // сколько было событий в базовой столько набор порогов
+                if (level.ThresholdSets.Length > i)
+                {
+                    eventTable[301][i + 1] = level.ThresholdSets[i-sh].ReflectanceThreshold.ForTable();
+                    eventTable[302][i + 1] = level.ThresholdSets[i-sh].AttenuationThreshold.ForTable();
+                    eventTable[303][i + 1] = level.ThresholdSets[i-sh].AttenuationCoefThreshold.ForTable();
+                }
             }
         }
 
         private void ParseDeviationFromBase(OneLevelTableContent oneLevelTableContent, RftsEventsBlock rftsEvents)
         {
-            for (int i = 0; i < _eventCount; i++)
+            for (int i = 0; i < _rftsEvents.EventsCount; i++)
             {
                 if ((rftsEvents.Events[i].EventTypes & RftsEventTypes.IsFiberBreak) != 0)
                 {
@@ -151,7 +171,7 @@ namespace Iit.Fibertest.WpfCommonViews
                 else
                 {
                     oneLevelTableContent.Table[401][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
-                    if (i < _eventCount - 1)
+                    if (i < _rftsEvents.EventsCount - 1)
                         oneLevelTableContent.Table[402][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
                     oneLevelTableContent.Table[403][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
 

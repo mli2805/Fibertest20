@@ -32,7 +32,7 @@ namespace Iit.Fibertest.WpfCommonViews
             sorData.RftsParameters = baseSorData.RftsParameters;
 
             _traceTitle = traceTitle;
-            _isNoFiber = sorData.RftsEvents.MonitoringResult == (int) ComparisonReturns.NoFiber;
+            _isNoFiber = sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber;
             if (_isNoFiber) return;
 
             var rftsEventsBlocks = sorData.GetRftsEventsBlockForEveryLevel().ToList();
@@ -46,26 +46,26 @@ namespace Iit.Fibertest.WpfCommonViews
                     {
                         case RftsLevelType.Minor:
                             LevelsContent.IsMinorExists = true;
-                            LevelsContent.MinorLevelViewModel = 
-                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b=>b.LevelName == level.LevelName), level);
+                            LevelsContent.MinorLevelViewModel =
+                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b => b.LevelName == level.LevelName), level);
                             if (SelectedIndex == -1) SelectedIndex = 0;
                             break;
                         case RftsLevelType.Major:
                             LevelsContent.IsMajorExists = true;
-                            LevelsContent.MajorLevelViewModel = 
-                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b=>b.LevelName == level.LevelName), level);
+                            LevelsContent.MajorLevelViewModel =
+                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b => b.LevelName == level.LevelName), level);
                             if (SelectedIndex == -1) SelectedIndex = 1;
                             break;
                         case RftsLevelType.Critical:
                             LevelsContent.IsCriticalExists = true;
-                            LevelsContent.CriticalLevelViewModel = 
-                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b=>b.LevelName == level.LevelName), level);
+                            LevelsContent.CriticalLevelViewModel =
+                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b => b.LevelName == level.LevelName), level);
                             if (SelectedIndex == -1) SelectedIndex = 2;
                             break;
                         case RftsLevelType.None:
                             LevelsContent.IsUsersExists = true;
-                            LevelsContent.UsersLevelViewModel = 
-                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b=>b.LevelName == level.LevelName), level);
+                            LevelsContent.UsersLevelViewModel =
+                                new RftsEventsOneLevelViewModel(sorData, rftsEventsBlocks.FirstOrDefault(b => b.LevelName == level.LevelName), level);
                             if (SelectedIndex == -1) SelectedIndex = 3;
                             break;
                     }

@@ -262,7 +262,10 @@ namespace Iit.Fibertest.RtuManagement
                     monitoringPort.SaveSorData(baseRefType, buffer, SorType.Analysis, _rtuLog); // for investigations purpose
                 monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Analysis, _rtuLog); // 
                 _rtuLog.AppendLine($"Auto analysis applied. Now sor data has {measBytes.Length} bytes.");
-                moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
+
+                                                                 // base will be inserted into meas during comparison
+                moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
+
                 if (_saveSorData)
                     monitoringPort.SaveSorData(baseRefType, buffer, SorType.Meas, _rtuLog); // for investigations purpose
                 monitoringPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
