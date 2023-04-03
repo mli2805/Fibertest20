@@ -81,6 +81,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             var levelCount = baseSorData.RftsParameters.LevelsCount;
             _rtuLogger.AppendLine($"Comparison begin. Level count = {levelCount}");
 
+            OtdrDataKnownBlocks measSorData = null;
             for (int i = 0; i < levelCount; i++)
             {
                 var rftsLevel = baseSorData.RftsParameters.Levels[i];
@@ -89,15 +90,13 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     baseSorData.RftsParameters.ActiveLevelIndex = i;
 
                     var measBytes = cleanMeasSorData.ToBytes();
-                    var measSorData = SorData.FromBytes(measBytes);
+                    measSorData = SorData.FromBytes(measBytes);
 
                     CompareOneLevel(baseSorData, ref measSorData, GetMoniLevelType(rftsLevel.LevelName), moniResult);
                     rftsEventsList.Add(measSorData.RftsEventsToEmbeddedData());
-
-                    if (i == levelCount - 1)
-                        cleanMeasSorData = measSorData;
                 }
             }
+            cleanMeasSorData = measSorData;
 
             return moniResult;
         }
