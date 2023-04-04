@@ -105,7 +105,10 @@ namespace Iit.Fibertest.Graph
                 return IsBaseRefLandmarkCountMatched(trace, otdrDataKnownBlocks);
 
             var landmarks = otdrDataKnownBlocks.LinkParameters.LandmarkBlocks;
-            if (landmarks[0].RelatedEventNumber == 0 || landmarks[landmarks.Length - 1].RelatedEventNumber == 0)
+            // if (landmarks[0].RelatedEventNumber == 0 || landmarks[landmarks.Length - 1].RelatedEventNumber == 0)
+            //     return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentEdgeLandmarksWrong };
+            if (landmarks[0].RelatedEventNumber != 1 ||
+                    landmarks[landmarks.Length - 1].RelatedEventNumber != otdrDataKnownBlocks.KeyEvents.KeyEventsCount)
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentEdgeLandmarksWrong };
 
             return IsBaseRefLandmarkCountMatched(trace, otdrDataKnownBlocks);
