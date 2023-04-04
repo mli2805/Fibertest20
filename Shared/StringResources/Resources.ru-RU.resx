@@ -3506,4 +3506,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Exceeded_total_fiber_loss" xml:space="preserve">
 		<value>Превышено полное затухание в линии</value>
 	</data>
+	<data name="SID_Events_corresponding_to_the_beginning_and_end_of_the_trace_must_be_associated_with_landmarks" xml:space="preserve">
+		<value>События соответствующие началу и концу трассы должны быть связаны с ориентирами</value>
+	</data>
 </root>

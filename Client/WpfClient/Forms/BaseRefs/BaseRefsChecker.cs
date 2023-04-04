@@ -101,7 +101,8 @@ namespace Iit.Fibertest.Client
             var landmarks = otdrDataKnownBlocks.LinkParameters.LandmarkBlocks;
             if (landmarks[0].RelatedEventNumber == 0 || landmarks[landmarks.Length - 1].RelatedEventNumber == 0)
             {
-                var message = Resources.SID_First_and_last_landmarks_should_be_associated_with_key_events_;
+                // var message = Resources.SID_First_and_last_landmarks_should_be_associated_with_key_events_;
+                var message = Resources.SID_Events_corresponding_to_the_beginning_and_end_of_the_trace_must_be_associated_with_landmarks;
                 var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { errorHeader, "", message }, 2);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
 
