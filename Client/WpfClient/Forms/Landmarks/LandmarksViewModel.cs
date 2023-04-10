@@ -36,6 +36,9 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedTrace)) return;
                 _selectedTrace = value;
+#pragma warning disable CS4014
+                RefreshOrChangeTrace();
+#pragma warning restore CS4014
             }
         }
 
@@ -277,9 +280,13 @@ namespace Iit.Fibertest.Client
             var fiber = _readModel.Fibers.First(f => f.FiberId == SelectedRow.FiberId);
             await vm.Initialize(fiber.FiberId);
             _windowManager.ShowDialogWithAssignedOwner(vm);
-            if (vm.Command != null)
+
+            if (vm.Command == null) return;
+
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 var result = await _c2DWcfManager.SendCommandAsObj(vm.Command);
+                await Task.Delay(500);
                 if (string.IsNullOrEmpty(result))
                     await RefreshAsChangesReaction();
             }
