@@ -4,7 +4,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
-    public class Landmark : ICloneable
+    public class Landmark
     {
         public bool IsFromBase { get; set; }
         public int Number { get; set; }
@@ -25,29 +25,48 @@ namespace Iit.Fibertest.Graph
         public double OpticalSection { get; set; }
         public int EventNumber { get; set; }
         public PointLatLng GpsCoors { get; set; }
-        
-        public object Clone()
+
+        public double UserInputLength
         {
-            return new Landmark()
+            get => IsUserInput ? (GpsSection * 1000) : 0;
+            set
             {
-                Number = Number,
-                NumberIncludingAdjustmentPoints = NumberIncludingAdjustmentPoints,
-                NodeId = NodeId,
-                FiberId = FiberId,
-                NodeTitle = NodeTitle,
-                NodeComment = NodeComment,
-                EquipmentId = EquipmentId,
-                EquipmentTitle = EquipmentTitle,
-                EquipmentType = EquipmentType,
-                LeftCableReserve = LeftCableReserve,
-                RightCableReserve = RightCableReserve,
-                GpsDistance = GpsDistance,
-                GpsSection = GpsSection,
-                OpticalDistance = OpticalDistance,
-                OpticalSection = OpticalSection,
-                EventNumber = EventNumber,
-                GpsCoors = new PointLatLng(GpsCoors.Lat, GpsCoors.Lng),
-            };
+                if (value == 0)
+                {
+                    IsUserInput = false;
+                    GpsSection = -1; // should be recalculated from nodes' coordinates
+                }
+                else
+                {
+                    IsUserInput = true;
+                    GpsSection = value / 1000;
+                }
+            }
         }
+
+        // public object Clone()
+        // {
+        //     return new Landmark()
+        //     {
+        //         Number = Number,
+        //         NumberIncludingAdjustmentPoints = NumberIncludingAdjustmentPoints,
+        //         NodeId = NodeId,
+        //         FiberId = FiberId,
+        //         NodeTitle = NodeTitle,
+        //         NodeComment = NodeComment,
+        //         EquipmentId = EquipmentId,
+        //         EquipmentTitle = EquipmentTitle,
+        //         EquipmentType = EquipmentType,
+        //         LeftCableReserve = LeftCableReserve,
+        //         RightCableReserve = RightCableReserve,
+        //         GpsDistance = GpsDistance,
+        //         GpsSection = GpsSection,
+        //         IsUserInput = IsUserInput,
+        //         OpticalDistance = OpticalDistance,
+        //         OpticalSection = OpticalSection,
+        //         EventNumber = EventNumber,
+        //         GpsCoors = new PointLatLng(GpsCoors.Lat, GpsCoors.Lng),
+        //     };
+        // }
     }
 }

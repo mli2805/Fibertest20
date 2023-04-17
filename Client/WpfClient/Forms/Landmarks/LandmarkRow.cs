@@ -70,10 +70,10 @@ namespace Iit.Fibertest.Client
             NumberIncludingAdjustmentPoints = landmark.NumberIncludingAdjustmentPoints;
             NodeId = landmark.NodeId;
             FiberId = landmark.FiberId;
-            NodeTitle = landmark.NodeTitle;
+            NodeTitle = landmark.NodeTitle ?? "";
             NodeComment = landmark.NodeComment;
             EquipmentId = landmark.EquipmentId;
-            EquipmentTitle = landmark.EquipmentTitle;
+            EquipmentTitle = landmark.EquipmentTitle ?? "";
             EquipmentType = landmark.EquipmentType.ToLocalizedString();
             CableReserves = CableReserveToString(landmark);
             GpsDistance = $@"{landmark.GpsDistance: 0.000}";

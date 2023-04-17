@@ -309,6 +309,7 @@
     <Compile Include="DomainEntities\Graph\Equipment.cs" />
     <Compile Include="DomainEntities\Graph\Fiber.cs" />
     <Compile Include="DomainEntities\Graph\Node.cs" />
+    <Compile Include="MappingModelToClone.cs" />
     <Compile Include="MappingModelToCmdProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainEntities\Graph\Rtu.cs" />
