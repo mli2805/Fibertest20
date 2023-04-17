@@ -17,21 +17,28 @@ namespace Iit.Fibertest.Graph
             _readModel = readModel;
         }
 
+
         public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, Trace trace)
         {
             var traceModel = _readModel.GetTraceComponentsByIds(trace);
             var modelWithoutAdjustmentPoint = TraceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
+            return GetLandmarks(sorData, modelWithoutAdjustmentPoint);
+        }
 
+        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef modelWithoutAdjustmentPoint)
+        {
             var gpsDistance = 0.0;
             var result = new List<Landmark>();
+
+            var rtu = _readModel.Rtus.First(r => r.NodeId == modelWithoutAdjustmentPoint.NodeArray[0].NodeId);
+
             var linkParameters = sorData.LinkParameters;
             var prevOwt = linkParameters.LandmarkBlocks[0].Location;
             for (int i = 0; i < linkParameters.LandmarksCount; i++)
             {
                 var sorLandmark = linkParameters.LandmarkBlocks[i];
-                var titles = sorLandmark.Comment.Split('/');
                 var equipmentId = modelWithoutAdjustmentPoint.EquipArray[i].EquipmentId;
-                var equipment = i > 0 ? _readModel.Equipments.First(e => e.EquipmentId == equipmentId) : null;
+                var equipment = i > 0 ? modelWithoutAdjustmentPoint.EquipArray[i] : null;
                 var fiber = i > 0 ? modelWithoutAdjustmentPoint.FiberArray[i - 1] : null; 
                 var section = fiber == null
                     ? 0
@@ -47,11 +54,11 @@ namespace Iit.Fibertest.Graph
                     IsFromBase = true,
                     Number = i,
                     NodeId = modelWithoutAdjustmentPoint.NodeArray[i].NodeId,
-                    NodeTitle = titles.Length > 0 ? titles[0].Trim() : "",
+                    NodeTitle = i == 0 ? rtu.Title : modelWithoutAdjustmentPoint.NodeArray[i].Title,
                     FiberId = fiber?.FiberId ?? Guid.Empty,
                     NodeComment = comment,
                     EquipmentId = equipmentId,
-                    EquipmentTitle = titles.Length > 1 ? titles[1].Trim() : "",
+                    EquipmentTitle = i > 0 ? equipment?.Title : "",
                     EquipmentType = ToEquipmentType(sorLandmark.Code),
                     EventNumber = sorLandmark.RelatedEventNumber - 1,
                     LeftCableReserve = equipment?.CableReserveLeft ?? 0,
