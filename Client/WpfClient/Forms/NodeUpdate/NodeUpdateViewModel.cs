@@ -288,7 +288,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string Error { get; set; }
+        public string Error { get; set; } = string.Empty;
 
     }
 }
