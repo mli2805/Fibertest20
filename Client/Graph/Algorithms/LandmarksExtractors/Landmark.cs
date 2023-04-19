@@ -43,30 +43,5 @@ namespace Iit.Fibertest.Graph
                 }
             }
         }
-
-        // public object Clone()
-        // {
-        //     return new Landmark()
-        //     {
-        //         Number = Number,
-        //         NumberIncludingAdjustmentPoints = NumberIncludingAdjustmentPoints,
-        //         NodeId = NodeId,
-        //         FiberId = FiberId,
-        //         NodeTitle = NodeTitle,
-        //         NodeComment = NodeComment,
-        //         EquipmentId = EquipmentId,
-        //         EquipmentTitle = EquipmentTitle,
-        //         EquipmentType = EquipmentType,
-        //         LeftCableReserve = LeftCableReserve,
-        //         RightCableReserve = RightCableReserve,
-        //         GpsDistance = GpsDistance,
-        //         GpsSection = GpsSection,
-        //         IsUserInput = IsUserInput,
-        //         OpticalDistance = OpticalDistance,
-        //         OpticalSection = OpticalSection,
-        //         EventNumber = EventNumber,
-        //         GpsCoors = new PointLatLng(GpsCoors.Lat, GpsCoors.Lng),
-        //     };
-        // }
     }
 }

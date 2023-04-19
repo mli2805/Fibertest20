@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 
 namespace Iit.Fibertest.Graph
 {
@@ -26,6 +28,11 @@ namespace Iit.Fibertest.Graph
             return Cloner.Map<Node>(source);
         }
 
+        public static void CloneInto(this Node source, Node destination)
+        {
+            Cloner.Map(source, destination);
+        }
+
         public static Fiber Clone(this Fiber source)
         {
             return Cloner.Map<Fiber>(source);
@@ -36,14 +43,39 @@ namespace Iit.Fibertest.Graph
             return Cloner.Map<Equipment>(source);
         }
 
+        public static void CloneInto(this Equipment source, Equipment destination)
+        {
+            Cloner.Map(source, destination);
+        }
+
         public static Landmark Clone(this Landmark source)
         {
             return Cloner.Map<Landmark>(source);
         }
 
+        public static List<Landmark> Clone(this List<Landmark> source)
+        {
+            return source.Select(l=>Cloner.Map<Landmark>(l)).ToList();
+        }
+
         public static TraceModelForBaseRef Clone(this TraceModelForBaseRef source)
         {
             return Cloner.Map<TraceModelForBaseRef>(source);
+        }
+
+        public static void UpdateFrom(this Node destination, Landmark source)
+        {
+            destination.Title = source.NodeTitle;
+            destination.Comment = source.NodeComment;
+            destination.Position = source.GpsCoors;
+        }
+
+        public static void UpdateFrom(this Equipment destination, Landmark source)
+        {
+            destination.Title = source.EquipmentTitle;
+            destination.Type = source.EquipmentType;
+            destination.CableReserveLeft = source.LeftCableReserve;
+            destination.CableReserveRight = source.RightCableReserve;
         }
     }
 }

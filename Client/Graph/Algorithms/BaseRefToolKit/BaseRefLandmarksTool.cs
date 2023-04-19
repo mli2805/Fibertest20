@@ -37,6 +37,12 @@ namespace Iit.Fibertest.Graph
             AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
         }
 
+        public void ReCalculateAndApplyProperties(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
+        {
+            ReCalculateLandmarksLocations(sorData, model);
+            AddNamesAndTypesForLandmarks(sorData, model);
+        }
+
         public void ReCalculateLandmarksLocations(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;

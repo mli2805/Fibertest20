@@ -70,12 +70,6 @@ namespace Iit.Fibertest.Client
             var fullFilename = SaveInTempFolder(sorbytes);
             OpenSorInReflect(fullFilename);
         }
-        public async void ShowBaseReflectogramWithSelectedLandmark(int sorFileId, int lmNumber)
-        {
-            byte[] sorbytes = await GetSorBytes(sorFileId);
-            var fullFilename = SaveInTempFolder(sorbytes);
-            OpenSorInReflect(fullFilename, $@"-lm {lmNumber}");
-        }
 
         public async void SaveReflectogramAs(int sorFileId, bool shouldBaseRefBeExcluded)
         {
@@ -98,6 +92,17 @@ namespace Iit.Fibertest.Client
             File.WriteAllBytes(filename, sorBytes);
             var iitPath = FileOperations.GetParentFolder(clientPath);
             Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
+        }
+
+        public void ShowPreciseWithSelectedLandmark(byte[] sorBytes, string traceTitle, DateTime preciseTimestamp, int landmarkNumber)
+        {
+            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
+            if (!Directory.Exists(clientPath + @"\temp"))
+                Directory.CreateDirectory(clientPath + @"\temp");
+            var sorFile = $@"{traceTitle} - Precise - {preciseTimestamp:dd-MM-yyyy-HH-mm-ss}.sor";
+            var filename = clientPath + @"\temp\" + sorFile;
+            File.WriteAllBytes(filename, sorBytes);
+            OpenSorInReflect(filename, $@"-lm {landmarkNumber}");
         }
 
         public async void ShowRftsEvents(int sorFileId, string traceTitle)

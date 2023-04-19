@@ -45,46 +45,40 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async Task<int> InitializeFromRtu(Guid rtuId)
+        public async Task InitializeFromRtu(Guid rtuId)
         {
             var vm = _globalScope.Resolve<LandmarksViewModel>();
-            var res = await vm.InitializeFromRtu(rtuId);
+            await vm.InitializeFromRtu(rtuId);
             LaunchedViews.Add(vm);
             _childrenViews.ShouldBeClosed = false;
             _windowManager.ShowWindowWithAssignedOwner(vm);
-            return res;
         }
 
-        public async Task<int> InitializeFromTrace(Guid traceId, Guid selectedNodeId)
+        public async Task InitializeFromTrace(Guid traceId, Guid selectedNodeId)
         {
             var vm = _globalScope.Resolve<LandmarksViewModel>();
-            var res = await vm.InitializeFromTrace(traceId, selectedNodeId);
+            await vm.InitializeFromTrace(traceId, selectedNodeId);
             LaunchedViews.Add(vm);
             _childrenViews.ShouldBeClosed = false;
             _windowManager.ShowWindowWithAssignedOwner(vm);
-            return res;
         }
 
-        public async Task<int> InitializeFromNode(Guid nodeId)
+        public async Task InitializeFromNode(Guid nodeId)
         {
             var traces = _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
-            if (traces.Count == 0) return -1;
+            if (traces.Count == 0) return;
             if (traces.Count == 1)
-                return await InitializeFromTrace(traces.First().TraceId, nodeId);
+            {
+                await InitializeFromTrace(traces.First().TraceId, nodeId);
+                return;
+            }
 
             _traceChoiceViewModel.Initialize(traces);
             _windowManager.ShowDialogWithAssignedOwner(_traceChoiceViewModel);
             if (!_traceChoiceViewModel.IsAnswerPositive)
-                return -1;
+                return;
             var traceId = _traceChoiceViewModel.SelectedTrace.TraceId;
-            return await InitializeFromTrace(traceId, nodeId);
-
-//            var vm = _globalScope.Resolve<LandmarksViewModel>();
-//            var res = await vm.InitializeFromNode(nodeId);
-//            if (vm.SelectedTrace == null) return -1;
-//            LaunchedViews.Add(vm);
-//            _windowManager.ShowWindowWithAssignedOwner(vm);
-//            return res;
+            await InitializeFromTrace(traceId, nodeId);
         }
 
         public async Task Apply(object e)
@@ -99,7 +93,7 @@ namespace Iit.Fibertest.Client
                 case NodeUpdated _: 
                 case NodeMoved _: 
                     foreach (var v in LaunchedViews) 
-                        await v.RefreshAsChangesReaction(); 
+                        await v.RefreshOnChangedTrace(); 
                     return;
             }
 

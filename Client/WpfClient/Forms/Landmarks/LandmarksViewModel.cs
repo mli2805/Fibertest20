@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
+using GMap.NET;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
-using Optixsoft.SorExaminer.OtdrDataFormat;
 using Trace = Iit.Fibertest.Graph.Trace;
 
 namespace Iit.Fibertest.Client
 {
     public class LandmarksViewModel : Screen
     {
-        private string _rtuTitle;
+        private Rtu _rtu;
         public CurrentGis CurrentGis { get; }
-        private bool _isLandmarksFromBase;
         public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
             (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
              select new GpsInputModeComboItem(mode)).ToList();
@@ -37,7 +32,7 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _selectedTrace)) return;
                 _selectedTrace = value;
 #pragma warning disable CS4014
-                RefreshOrChangeTrace();
+                RefreshOnChangedTrace();
 #pragma warning restore CS4014
             }
         }
@@ -51,26 +46,8 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _selectedGpsInputMode)) return;
                 _selectedGpsInputMode = value;
                 CurrentGis.GpsInputMode = _selectedGpsInputMode.Mode;
-                RefreshCoorsInRows();
+                RowsLandmarkViewModel.ChangeGpsInputMode(_selectedGpsInputMode.Mode);
             }
-        }
-
-        private void RefreshCoorsInRows()
-        {
-            foreach (var row in Rows)
-            {
-                var landmark = _landmarks.First(l => l.NodeId == row.NodeId);
-                row.GpsCoors = landmark.GpsCoors.ToDetailedString(_selectedGpsInputMode.Mode);
-            }
-        }
-
-        private ObservableCollection<LandmarkRow> LandmarksToRows()
-        {
-            var temp = _isFilterOn
-                ? _landmarks.Where(l => l.EquipmentType != EquipmentType.EmptyNode)
-                : _landmarks;
-            return new ObservableCollection<LandmarkRow>(
-                temp.Select(l => new LandmarkRow().FromLandmark(l, _selectedGpsInputMode.Mode)));
         }
 
         private bool _isFilterOn;
@@ -81,63 +58,15 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isFilterOn) return;
                 _isFilterOn = value;
-                Rows = LandmarksToRows();
+                RowsLandmarkViewModel.ChangeFilterOn(_isFilterOn);
             }
         }
 
-        private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
-        private readonly LandmarksBaseParser _landmarksBaseParser;
-        private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
-        private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IWindowManager _windowManager;
-        private List<Landmark> _landmarks;
-
-        private ObservableCollection<LandmarkRow> _rows;
-        public ObservableCollection<LandmarkRow> Rows
-        {
-            get => _rows;
-            set
-            {
-                if (Equals(value, _rows)) return;
-                _rows = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        private LandmarkRow _selectedRow;
-        public LandmarkRow SelectedRow
-        {
-            get => _selectedRow;
-            set
-            {
-                if (value == null) return;
-                _selectedRow = value;
-                InitiateOneLandmarkControl();
-                NotifyOfPropertyChange();
-            }
-        }
-
-        private async void InitiateOneLandmarkControl()
-        {
-            await OneLandmarkViewModel.Cancel(OneLandmarkViewModel.BeforeNew);
-            var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
-            OneLandmarkViewModel.SelectedLandmark = (Landmark)landmark.Clone();
-
-            if (_isLandmarksFromBase || SelectedRow.Number == 0 || SelectedRow.Number == _landmarks.Last().Number)
-            {
-                OneLandmarkViewModel.IsIncludeEquipmentEnabled = false;
-                OneLandmarkViewModel.IsExcludeEquipmentEnabled = false;
-            }
-            else
-            {
-                OneLandmarkViewModel.IsIncludeEquipmentEnabled = landmark.EquipmentType == EquipmentType.EmptyNode;
-                OneLandmarkViewModel.IsExcludeEquipmentEnabled = !OneLandmarkViewModel.IsIncludeEquipmentEnabled;
-            }
-
-            OneLandmarkViewModel.IsFromBaseRef = _isLandmarksFromBase;
-        }
+        private readonly GraphReadModel _graphReadModel;
+        private readonly TabulatorViewModel _tabulatorViewModel;
 
         private OneLandmarkViewModel _oneLandmarkViewModel;
         public OneLandmarkViewModel OneLandmarkViewModel
@@ -151,181 +80,146 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Visibility GisVisibility { get; set; }
-        public int DataGridWidth { get; set; }
+        private RowsLandmarkViewModel _rowsLandmarkViewModel;
 
-        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGis currentGis,
-            LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2DWcfCommonManager, IWindowManager windowManager)
+        public RowsLandmarkViewModel RowsLandmarkViewModel
+        {
+            get => _rowsLandmarkViewModel;
+            set
+            {
+                if (Equals(value, _rowsLandmarkViewModel)) return;
+                _rowsLandmarkViewModel = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public Visibility GisVisibility { get; set; }
+
+        public LandmarksViewModel( Model readModel, CurrentGis currentGis,
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager,
+            RowsLandmarkViewModel rowsLandmarkViewModel, OneLandmarkViewModel oneLandmarkViewModel,
+            GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel)
         {
             CurrentGis = currentGis;
-            _globalScope = globalScope;
             _readModel = readModel;
-            _landmarksBaseParser = landmarksBaseParser;
-            _landmarksGraphParser = landmarksGraphParser;
             _c2DWcfManager = c2DWcfManager;
-            _c2DWcfCommonManager = c2DWcfCommonManager;
             _windowManager = windowManager;
+            _graphReadModel = graphReadModel;
+            _tabulatorViewModel = tabulatorViewModel;
             _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGis.GpsInputMode);
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
-            DataGridWidth = currentGis.IsGisOn ? 985 : 785;
+
+            RowsLandmarkViewModel = rowsLandmarkViewModel;
+            RowsLandmarkViewModel.PropertyChanged += RowsLandmarkViewModel_PropertyChanged;
+            OneLandmarkViewModel = oneLandmarkViewModel;
         }
 
-        private async Task<int> Initialize()
+        public async Task InitializeFromRtu(Guid rtuId)
         {
-            OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
-            OneLandmarkViewModel.RtuId = _selectedTrace.RtuId;
-            var res = await PrepareLandmarks();
-            SelectedRow = Rows.First();
-            return res;
-        }
-
-        public async Task<int> InitializeFromRtu(Guid rtuId)
-        {
-            _rtuTitle = _readModel.Rtus.First(r => r.Id == rtuId).Title;
+            _rtu = _readModel.Rtus.First(r => r.Id == rtuId);
             Traces = _readModel.Traces.Where(t => t.RtuId == rtuId).ToList();
-            if (Traces.Count == 0) return -1;
+            if (Traces.Count == 0) return;
             _selectedTrace = Traces.First();
 
-            return await Initialize();
+            await RowsLandmarkViewModel.Initialize(SelectedTrace, _rtu.NodeId);
         }
 
-        public async Task<int> InitializeFromTrace(Guid traceId, Guid selectedNodeId)
+        public async Task InitializeFromTrace(Guid traceId, Guid selectedNodeId)
         {
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
-            _rtuTitle = _readModel.Rtus.First(r => r.Id == trace.RtuId).Title;
+            _rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
             Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
             _selectedTrace = _readModel.Traces.First(t => t.TraceId == traceId);
 
-            var res = await Initialize();
-            SelectedRow = Rows.First(r => r.NodeId == selectedNodeId);
-            return res;
+            await RowsLandmarkViewModel.Initialize(SelectedTrace, selectedNodeId);
+            OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
         }
+
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Landmarks_of_traces_of_RTU_ + _rtuTitle;
+            DisplayName = Resources.SID_Landmarks_of_traces_of_RTU_ + _rtu.Title;
         }
 
-        private async Task<int> PrepareLandmarks()
+        public async Task RefreshOnChangedTrace()
         {
-            OneLandmarkViewModel.TraceTitle = SelectedTrace.Title;
-            _isLandmarksFromBase = SelectedTrace.PreciseId != Guid.Empty;
-            if (_isLandmarksFromBase)
+            await RowsLandmarkViewModel.Initialize(SelectedTrace, _rtu.NodeId);
+            OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
+        }
+
+        private void RowsLandmarkViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedRow")
             {
-                var sorData = await GetBase(SelectedTrace.PreciseId);
-                _landmarks = _landmarksBaseParser.GetLandmarks(sorData, SelectedTrace);
-            }
-            else
-            {
-                _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
-            }
-
-            Rows = LandmarksToRows();
-            return 0;
-        }
-
-        private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
-        {
-            if (baseId == Guid.Empty)
-                return null;
-
-            var baseRef = _readModel.BaseRefs.First(b => b.Id == baseId);
-            OneLandmarkViewModel.SorFileId = baseRef.SorFileId;
-            OneLandmarkViewModel.PreciseTimestamp = baseRef.SaveTimestamp;
-            var sorBytes = await _c2DWcfCommonManager.GetSorBytes(baseRef.SorFileId);
-            return SorData.FromBytes(sorBytes);
-        }
-
-        public async Task<int> RefreshOrChangeTrace() // button
-        {
-            OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
-            OneLandmarkViewModel.RtuId = _selectedTrace.RtuId;
-            await PrepareLandmarks();
-            SelectedRow = Rows.First();
-            return 0;
-        }
-
-        public async Task RefreshAsChangesReaction()
-        {
-            var index = Rows.IndexOf(SelectedRow);
-
-            await PrepareLandmarks();
-            OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
-            OneLandmarkViewModel.RtuId = _selectedTrace.RtuId;
-            SelectedRow = Rows[index];
-        }
-
-        public override async void CanClose(Action<bool> callback)
-        {
-            await OneLandmarkViewModel.Cancel(OneLandmarkViewModel.CanClose);
-            base.CanClose(callback);
-        }
-
-        public void EditNode()
-        {
-            if (SelectedRow.NodeId == Rows.First().NodeId)
-                return;
-
-            var vm = _globalScope.Resolve<NodeUpdateViewModel>();
-            var node = _readModel.Nodes.First(n => n.NodeId == SelectedRow.NodeId);
-            vm.Initialize(node.NodeId);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-        }
-
-        public async void EditFiber()
-        {
-            if (SelectedRow.FiberId == Guid.Empty) return;
-            var vm = _globalScope.Resolve<FiberUpdateViewModel>();
-            var fiber = _readModel.Fibers.First(f => f.FiberId == SelectedRow.FiberId);
-            await vm.Initialize(fiber.FiberId);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-
-            if (vm.Command == null) return;
-
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                var result = await _c2DWcfManager.SendCommandAsObj(vm.Command);
-                await Task.Delay(500);
-                if (string.IsNullOrEmpty(result))
-                    await RefreshAsChangesReaction();
+                OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
             }
         }
 
-        public async void IncludeEquipment()
+        #region Whole trace buttons
+        public void ApplyAllChangesForTrace()
         {
-            var node = _readModel.Nodes.First(n => n.NodeId == SelectedRow.NodeId);
-            var allEquipmentInNode = _readModel.Equipments.Where(e => e.NodeId == node.NodeId).ToList();
-            var traceContentChoiceViewModel = _globalScope.Resolve<TraceContentChoiceViewModel>();
-            traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, false);
-            _windowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
-            if (!traceContentChoiceViewModel.ShouldWeContinue ||
-                traceContentChoiceViewModel.GetSelectedEquipmentGuid() == SelectedRow.EquipmentId) return;
 
-            var cmd = new IncludeEquipmentIntoTrace()
-            {
-                TraceId = SelectedTrace.TraceId,
-                IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
-                EquipmentId = traceContentChoiceViewModel.GetSelectedEquipmentGuid()
-            };
-            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public async void ExcludeEquipment()
+        public void CancelAllChangesForTrace()
         {
-            var cmd = new ExcludeEquipmentFromTrace()
-            {
-                TraceId = SelectedTrace.TraceId,
-                IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
-                EquipmentId = SelectedRow.EquipmentId,
-            };
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+            RowsLandmarkViewModel.CancelAllChangesForTrace();
         }
-
+        
         public void ExportToPdf()
         {
-            var report = LandmarksReportProvider.Create(_landmarks, _selectedTrace.Title, _selectedGpsInputMode.Mode);
-            PdfExposer.Show(report, $@"Landmarks {_selectedTrace.Title}.pdf", _windowManager);
+            RowsLandmarkViewModel.ExportToPdf();
         }
+
+        public void ShowReflectogram()
+        {
+            RowsLandmarkViewModel.ShowReflectogram();
+        }
+        #endregion
+
+
+        #region One landmark buttons
+        public void UpdateTable() // Button, fill in changes in selected landmark and re-calculate all of them
+        {
+            OneLandmarkViewModel.IsEditEnabled = false;
+            _graphReadModel.ExtinguishAllNodes();
+            RowsLandmarkViewModel.UpdateTable(OneLandmarkViewModel.GetLandmark());
+            OneLandmarkViewModel.IsEditEnabled = true;
+        }
+
+        public void CancelChanges()
+        {
+            RowsLandmarkViewModel.CancelChanges();
+        }
+
+        public async void ShowLandmarkOnMap()
+        {
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
+
+            await Task.Delay(100);
+
+            if (CurrentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
+                _graphReadModel.MainMap.Zoom = CurrentGis.ThresholdZoom;
+            _graphReadModel.ExtinguishAllNodes();
+
+            var node = _readModel.Nodes.First(n => n.NodeId == RowsLandmarkViewModel.SelectedRow.NodeId);
+            var errorMessage = OneLandmarkViewModel.GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
+            if (errorMessage != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+            node.Position = position;
+            node.IsHighlighted = true;
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);
+            await _graphReadModel.RefreshVisiblePart();
+
+            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == RowsLandmarkViewModel.SelectedRow.NodeId);
+            nodeVm.Position = position;
+            nodeVm.IsHighlighted = true;
+        }
+        #endregion
     }
 }

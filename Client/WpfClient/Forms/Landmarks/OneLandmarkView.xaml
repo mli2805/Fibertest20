@@ -9,41 +9,51 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance client:OneLandmarkViewModel}"
              cal:Bind.ModelWithoutContext="{Binding .}" >
-    <GroupBox DockPanel.Dock="Bottom" Header="{x:Static stringResources:Resources.SID_Landmark}" Margin="5,0,5,15">
-        <DockPanel IsEnabled="{Binding }" >
-            <StackPanel DockPanel.Dock="Bottom" Margin="5,5,0,0" Orientation="Horizontal">
-                <Button Width="132" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" 
-                        IsEnabled="{Binding HasPrivileges}"/>
-                <Button Width="132" Height="25" Margin="5" Name="CancelChanges" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" 
-                        IsEnabled="{Binding HasPrivileges}"/>
-                <Button Width="132" Height="25" Margin="5" Name="ShowLandmarkOnMap" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
-                <Button Width="132" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}" 
-                        IsEnabled="{Binding IsFromBaseRef}"/>
-            </StackPanel>
-            <GroupBox DockPanel.Dock="Right" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
-                      Visibility="{Binding GisVisibility}" IsEnabled="{Binding HasPrivileges}">
-                <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
-            </GroupBox>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" 
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Right" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
+                  Visibility="{Binding GisVisibility}" 
+                      IsEnabled="{Binding HasPrivileges}">
+            <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
+        </GroupBox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" 
                           IsEnabled="{Binding HasPrivileges}">
+                <StackPanel>
+                    <TextBox Margin="5" Height="25" Text="{Binding LandmarkUnderWork.NodeTitle}"/>
+                    <TextBox Margin="5" Height="25" Text="{Binding LandmarkUnderWork.NodeComment}"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5,0">
+                <StackPanel>
+                    <TextBox Margin="5" Height="25" Text="{Binding LandmarkUnderWork.EquipmentTitle}"/>
+                    <ComboBox Margin="5" Height="25" ItemsSource="{Binding ComboItems}" 
+                                  SelectedItem="{Binding SelectedEquipmentTypeItem}" />
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Grid.Column="2">
+                <GroupBox Header="{x:Static stringResources:Resources.SID_CableReserve}" Margin="5,0">
                     <StackPanel>
-                        <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeTitle}"/>
-                        <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeComment}" />
+                        <DockPanel>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Left}" Margin="5,7"/>
+                            <TextBox Margin="5" Height="25" 
+                                     Text="{Binding LandmarkUnderWork.LeftCableReserve}"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Right}" Margin="5,7"/>
+                            <TextBox Margin="5" Height="25" 
+                                     Text="{Binding LandmarkUnderWork.RightCableReserve}"/>
+                        </DockPanel>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Grid.Column="1" Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5,0" IsEnabled ="{Binding IsEquipmentEnabled}">
-                    <StackPanel>
-                        <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.EquipmentTitle}"/>
-                        <ComboBox Margin="5" Height="25" ItemsSource="{Binding ComboItems}" SelectedItem="{Binding SelectedEquipmentTypeItem}" />
-                    </StackPanel>
+                <GroupBox Header="{x:Static stringResources:Resources.SID_User_Length_m}" Margin="5,0">
+                    <TextBox Margin="5" Height="25" Text="{Binding LandmarkUnderWork.UserInputLength}"/>
                 </GroupBox>
-            </Grid>
-        </DockPanel>
-    </GroupBox>
-
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </UserControl>

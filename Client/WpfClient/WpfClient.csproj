@@ -117,6 +117,11 @@
     </ApplicationDefinition>
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
+    <Compile Include="Forms\Landmarks\LandmarkCollectionsExt.cs" />
+    <Compile Include="Forms\Landmarks\RowsLandmarkView.xaml.cs">
+      <DependentUpon>RowsLandmarkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Landmarks\RowsLandmarkViewModel.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\ReSendDtoExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml.cs">
@@ -720,6 +725,10 @@
     <Page Include="Forms\AdministrativeForms\License\LicenseControlView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Landmarks\RowsLandmarkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\NoLicenseAppliedView.xaml">
       <SubType>Designer</SubType>

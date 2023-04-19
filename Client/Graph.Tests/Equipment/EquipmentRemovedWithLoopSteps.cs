@@ -58,30 +58,29 @@ namespace Graph.Tests
         {
             _lvm = _sut.ClientScope.Resolve<LandmarksViewModel>();
             _lvm.InitializeFromTrace(_trace.TraceId, _trace.NodeIds[0]).Wait();
-            _lvm.Rows.Count.Should().Be(7); // + one point 
+            _lvm.RowsLandmarkViewModel.Rows.Count.Should().Be(7); // + one point 
         }
 
         [Given(@"Две строки содержат муфту")]
         public void GivenДвеСтрокиСодержатМуфту()
         {
-            _lvm.Rows[1].EquipmentId.Should().Be(_equipmentA1Id);
-            _lvm.Rows[5].EquipmentId.Should().Be(_equipmentA1Id);
+            _lvm.RowsLandmarkViewModel.Rows[1].EquipmentId.Should().Be(_equipmentA1Id);
+            _lvm.RowsLandmarkViewModel.Rows[5].EquipmentId.Should().Be(_equipmentA1Id);
         }
 
         [When(@"Пользователь исключает муфту из трассы на первом проходе")]
         public void WhenПользовательИсключаетМуфтуИзТрассыНаПервомПроходе()
         {
-            _lvm.SelectedRow = _lvm.Rows[1];
-            _lvm.ExcludeEquipment();
+            _lvm.RowsLandmarkViewModel.SelectedRow = _lvm.RowsLandmarkViewModel.Rows[1];
+            _lvm.RowsLandmarkViewModel.ExcludeEquipment();
             _sut.Poller.EventSourcingTick().Wait();
-            _lvm.RefreshAsChangesReaction().Wait(); // TODO start LandmarkViewModel through LandmarksViewsManager
         }
 
         [Then(@"На первом проходе муфты нет на обратном есть")]
         public void ThenНаПервомПроходеМуфтыНетНаОбратномЕсть()
         {
-            _lvm.Rows[1].EquipmentId.Should().NotBe(_equipmentA1Id);
-            _lvm.Rows[5].EquipmentId.Should().Be(_equipmentA1Id);
+            _lvm.RowsLandmarkViewModel.Rows[1].EquipmentId.Should().NotBe(_equipmentA1Id);
+            _lvm.RowsLandmarkViewModel.Rows[5].EquipmentId.Should().Be(_equipmentA1Id);
         }
 
     }

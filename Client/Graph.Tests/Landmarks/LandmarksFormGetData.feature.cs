@@ -116,10 +116,12 @@ this.FeatureBackground();
  testRunner.When("При открытой форме ориентиров на карте двигаем узел с проключением и на форме узл" +
                     "а меняем ему название", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 16
- testRunner.Then("После обновления формы ориентиров имя узла и его координаты меняются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("На форме ориентиров меняем название узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 17
- testRunner.And("Расстояние до ориентира не меняется т к он привязан к событию", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("После обновления формы ориентиров имя узла и его координаты меняются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 18
+ testRunner.And("Расстояние до ориентира не меняется т к он привязан к событию", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
  testRunner.And("Растояние до соседних ориентиров меняется т к они не привязаны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -130,18 +132,18 @@ this.FeatureBackground();
         public virtual void СменаВыделенногоОриентираБезСохраненияИзменений()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Смена выделенного ориентира без сохранения изменений", null, ((string[])(null)));
-#line 20
+#line 21
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 21
- testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 22
- testRunner.When("Изменяет название первого узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 23
- testRunner.And("Щелкает на любой другой строчке а затем назад на первом узле", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("Изменяет название первого узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 24
+ testRunner.And("Щелкает на любой другой строчке а затем назад на первом узле", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 25
  testRunner.Then("Название первого узла должно быть первоначальным", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -152,20 +154,20 @@ this.FeatureBackground();
         public virtual void ИзменениеУзлаИОборудованияЧерезФормуОриентиров()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Изменение узла и оборудования через форму ориентиров", null, ((string[])(null)));
-#line 26
+#line 27
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 27
- testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 28
- testRunner.When("Изменяет название и тип оборудования в первом узле", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
- testRunner.And("Изменяет название и координаты первого узла и жмет Применить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("Изменяет название и тип оборудования в первом узле", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 30
- testRunner.Then("Меняются поля в строке на форме ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Изменяет название и координаты первого узла и жмет Применить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
+ testRunner.Then("Меняются поля в строке на форме ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 32
  testRunner.And("Меняется положение узла на карте", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -27,6 +26,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Brush NodeTitleBrush { get; set; } = Brushes.Transparent;
+
         private string _nodeComment;
         public string NodeComment
         {
@@ -39,15 +40,19 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Brush NodeCommentBrush { get; set; } = Brushes.Transparent;
+
         public Guid EquipmentId { get; set; }
         public string EquipmentTitle { get; set; }
+        public Brush EquipmentTitleBrush { get; set; } = Brushes.Transparent;
         public string EquipmentType { get; set; }
+        public Brush EquipmentTypeBrush { get; set; } = Brushes.Transparent;
         public string CableReserves { get; set; }
+        public Brush CableReservesBrush { get; set; } = Brushes.Transparent;
         public string GpsDistance { get; set; } // by GPS, ignore cable reserve
         public string GpsSection { get; set; }
         public bool IsUserInput { get; set; }
-        public Brush GpsSectionBrush => IsUserInput ? Brushes.LightGray : Brushes.Transparent;
-        public FontStyle GpsSectionFontStyle => IsUserInput ? FontStyles.Italic : FontStyles.Normal;
+        public Brush GpsSectionBrush { get; set; }
         public string OpticalDistance { get; set; } // from sor
         public string OpticalSection { get; set; }
         public string EventNumber { get; set; }
@@ -63,27 +68,43 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
+        public Brush GpsCoorsBrush { get; set; } = Brushes.Transparent;
 
-        public LandmarkRow FromLandmark(Landmark landmark, GpsInputMode mode)
+        public LandmarkRow FromLandmark(Landmark landmark, Landmark oldLandmark, GpsInputMode mode)
         {
             Number = landmark.Number;
             NumberIncludingAdjustmentPoints = landmark.NumberIncludingAdjustmentPoints;
             NodeId = landmark.NodeId;
             FiberId = landmark.FiberId;
             NodeTitle = landmark.NodeTitle ?? "";
+            NodeTitleBrush = landmark.NodeTitle == oldLandmark.NodeTitle ? Brushes.Transparent : Brushes.Cornsilk;
             NodeComment = landmark.NodeComment;
             EquipmentId = landmark.EquipmentId;
             EquipmentTitle = landmark.EquipmentTitle ?? "";
+            EquipmentTitleBrush = landmark.EquipmentTitle == oldLandmark.EquipmentTitle
+                ? Brushes.Transparent
+                : Brushes.Cornsilk;
             EquipmentType = landmark.EquipmentType.ToLocalizedString();
+            EquipmentTypeBrush = landmark.EquipmentType == oldLandmark.EquipmentType
+                ? Brushes.Transparent
+                : Brushes.Cornsilk;
             CableReserves = CableReserveToString(landmark);
+            CableReservesBrush = CableReserveToString(landmark) == CableReserveToString(oldLandmark)
+                ? Brushes.Transparent
+                : Brushes.Cornsilk;
             GpsDistance = $@"{landmark.GpsDistance: 0.000}";
             GpsSection = landmark.EquipmentType == Dto.EquipmentType.Rtu ? "" : $@"{landmark.GpsSection: 0.000}";
+            GpsSectionBrush = landmark.IsUserInput 
+                ? Math.Abs(landmark.GpsSection - oldLandmark.GpsSection) < 0.0005 
+                    ? Brushes.LightGray : Brushes.Cornsilk 
+                : Brushes.Transparent;
             IsUserInput = landmark.IsUserInput;
             OpticalDistance = landmark.IsFromBase ? $@"{landmark.OpticalDistance: 0.000}" : "";
             OpticalSection = landmark.EquipmentType == Dto.EquipmentType.Rtu ? "" 
                 : landmark.IsFromBase ? $@"{landmark.OpticalSection: 0.000}" : "";
             EventNumber = landmark.EventNumber == -1 ? Resources.SID_no : $@"{landmark.EventNumber}";
             GpsCoors = landmark.GpsCoors.ToDetailedString(mode);
+            GpsCoorsBrush = landmark.GpsCoors == oldLandmark.GpsCoors ? Brushes.Transparent : Brushes.Cornsilk;
 
             return this;
         }
