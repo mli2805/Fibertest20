@@ -349,6 +349,16 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        public async Task<CorrectionProgressDto> StartLandmarksCorrection(LandmarksCorrectionDto changesList)
+        {
+            return await _wcfIntermediate.StartLandmarksCorrection(changesList);
+        }
+
+        public async Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId)
+        {
+            return await _wcfIntermediate.GetLandmarksCorrectionProgress(batchId);
+        }
+
 
         private async Task<BaseRefAssignedDto> SendBaseRefsIfAny(AttachTraceDto dto)
         {

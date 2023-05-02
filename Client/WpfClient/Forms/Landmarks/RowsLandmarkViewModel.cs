@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
         private List<Landmark> _changedLandmarks;
         public Landmark GetSelectedLandmark()
         {
-            return _changedLandmarks.First(l => l.NodeId == SelectedRow.NodeId);
+            return _changedLandmarks.First(l => l.Number == SelectedRow.Number);
         }
 
         private OtdrDataKnownBlocks _sorData;
@@ -52,6 +52,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private List<LandmarkRow> _originalLandmarkRows;
+        private GpsInputMode _originalGpsInputMode;
+
         private LandmarkRow _selectedRow;
         public LandmarkRow SelectedRow
         {
@@ -68,14 +71,14 @@ namespace Iit.Fibertest.Client
         public void ChangeGpsInputMode(GpsInputMode gpsInputMode)
         {
             _gpsInputMode = gpsInputMode;
-            RefreshOnGpsInputModeChanged();
+            Rows = _changedLandmarks.LandmarksToRows(_originalLandmarkRows, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
         }
 
         private bool _isFilterOn;
         public void ChangeFilterOn(bool isFilterOn)
         {
             _isFilterOn = isFilterOn;
-            Rows = _changedLandmarks.LandmarksToRows(_changedLandmarks, _isFilterOn, _gpsInputMode);
+            Rows = _changedLandmarks.LandmarksToRows(_originalLandmarkRows, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
         }
 
         public Visibility GisVisibility { get; set; }
@@ -92,6 +95,8 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
+
+        public readonly UpdateFromLandmarksBatch Command = new UpdateFromLandmarksBatch();
 
         public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis,
             Model readModel, IWindowManager windowManager,
@@ -113,88 +118,118 @@ namespace Iit.Fibertest.Client
         }
 
         // View just open or Trace changed
-        public async Task Initialize(Trace selectedTrace, Guid selectedNodeId)
+        // When it was click on Map - selectedNodeId is sent
+        // in other variants number of row is sent
+        public async Task Initialize(Trace selectedTrace, Guid selectedNodeId, int number = -1)
         {
             _selectedTrace = selectedTrace;
             HasBaseRef = _selectedTrace.PreciseId != Guid.Empty;
             if (HasBaseRef)
                 _sorData = await GetBase(_selectedTrace.PreciseId);
 
-            var traceModel = _readModel.GetTraceComponentsByIds(_selectedTrace);
-            _originalModel = TraceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
-            _changedModel = _originalModel.Clone();
+            var traceModel = _readModel
+                .GetTraceComponentsByIds(_selectedTrace)
+                .ReCalculateGpsDistancesForTraceModel();
 
-            Rows = BuildLandmarkRows();
-            SelectedRow = Rows.First(r => r.NodeId == selectedNodeId);
+            // _originalModel is clone, so changes to ReadModel does not affects them
+            _originalModel = traceModel.Clone();
+
+            // contains references on Nodes/Fibers from ReadModel, so changes are "visible" on map
+            _changedModel = traceModel.ExcludeAdjustmentPoints();
+
+            _changedLandmarks = HasBaseRef
+                ? _landmarksBaseParser.GetLandmarksFromBaseRef(_sorData, _selectedTrace)
+                : _landmarksGraphParser.GetLandmarks(_selectedTrace);
+
+            _originalLandmarks = _changedLandmarks.Clone();
+
+            Rows = _changedLandmarks
+                .LandmarksToRows(null, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
+            SelectedRow = number == -1 
+                ? Rows.First(r => r.NodeId == selectedNodeId) 
+                : Rows.First(r => r.Number == number);
+            _originalLandmarkRows = Rows.ToList();
+            _originalGpsInputMode = _gpsInputMode;
         }
 
         // User changed one of landmarks and pressed Update table
         public void UpdateTable(Landmark changedLandmark)
         {
-            if (SelectedRow == Rows.First())
-                return; // It is disabled to edit RTU 
+            var originalLandmark = _originalLandmarks.First(l => l.Number == changedLandmark.Number);
 
             var currentNode = _changedModel.NodeArray.First(n => n.NodeId == SelectedRow.NodeId);
-            currentNode.UpdateFrom(changedLandmark);
-
             var indexOf = Array.IndexOf(_changedModel.NodeArray, currentNode);
-            var currentFiber = _changedModel.FiberArray[indexOf - 1];
-            currentFiber.UserInputedLength = changedLandmark.IsUserInput ? changedLandmark.UserInputLength : 0;
 
-            _changedModel.EquipArray[indexOf].UpdateFrom(changedLandmark);
-
-            Rows = ReCalculateLandmarks();
-            SelectedRow = Rows.First(r => r.NodeId == SelectedRow.NodeId);
-        }
-
-        public void CancelChanges()
-        {
-            if (SelectedRow == Rows.First())
-                return; // It is disabled to edit RTU 
-
-            var currentNode = _changedModel.NodeArray.First(n => n.NodeId == SelectedRow.NodeId);
-            var originalNode = _originalModel.NodeArray.First(n => n.NodeId == SelectedRow.NodeId);
-            originalNode.CloneInto(currentNode);
-
-            var indexOf = Array.IndexOf(_changedModel.NodeArray, currentNode);
-            var currentFiber = _changedModel.FiberArray[indexOf - 1];
-            currentFiber.UserInputedLength = _originalModel.FiberArray[indexOf - 1].UserInputedLength;
-
-            var currentEquipment = _changedModel.EquipArray[indexOf];
-            var originalEquipment = _originalModel.EquipArray[indexOf];
-            originalEquipment.CloneInto(currentEquipment);
-
-            Rows = ReCalculateLandmarks();
-            SelectedRow = Rows.First(r => r.NodeId == SelectedRow.NodeId);
-        }
-
-        private void RefreshOnGpsInputModeChanged()
-        {
-            foreach (var row in Rows)
+            if (originalLandmark.NodeTitle != changedLandmark.NodeTitle
+                    || originalLandmark.NodeComment != changedLandmark.NodeComment
+                    || !originalLandmark.GpsCoors.Equals(changedLandmark.GpsCoors))
             {
-                var landmark = _changedLandmarks.First(l => l.NodeId == row.NodeId);
-                row.GpsCoors = landmark.GpsCoors.ToDetailedString(_gpsInputMode);
+                currentNode.UpdateFrom(changedLandmark);
+                Command.Add(currentNode);
             }
+
+            if (!originalLandmark.UserInputLength.Equals(changedLandmark.UserInputLength))
+            {
+                var currentFiber = _changedModel.FiberArray[changedLandmark.Number - 1];
+                currentFiber.UserInputedLength = changedLandmark.IsUserInput ? changedLandmark.UserInputLength : 0;
+                Command.Add(currentFiber);
+            }
+
+            if (originalLandmark.EquipmentTitle != changedLandmark.EquipmentTitle
+                || originalLandmark.EquipmentType != changedLandmark.EquipmentType
+                || originalLandmark.LeftCableReserve != changedLandmark.LeftCableReserve
+                || originalLandmark.RightCableReserve != changedLandmark.RightCableReserve)
+            {
+                var currentEquipment = _changedModel.EquipArray[changedLandmark.Number];
+                currentEquipment.UpdateFrom(changedLandmark);
+                Command.Add(currentEquipment);
+            }
+
+            Rows = ReCalculateLandmarks();
+            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
 
-        private ObservableCollection<LandmarkRow> BuildLandmarkRows()
+        public void CancelChanges() // one landmarkRow
         {
-            _changedLandmarks = HasBaseRef
-                ? _landmarksBaseParser.GetLandmarks(_sorData, _changedModel)
-                : _landmarksGraphParser.GetLandmarks(_selectedTrace);
+            CancelChangesForRow(SelectedRow);
 
-            if (_originalLandmarks == null)
-                _originalLandmarks = _changedLandmarks.Clone();
-
-            return _changedLandmarks.LandmarksToRows(_originalLandmarks, _isFilterOn, _gpsInputMode);
+            Rows = ReCalculateLandmarks();
+            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
 
+        private void CancelChangesForRow(LandmarkRow landmarkRow)
+        {
+            var currentNode = _changedModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
+            var originalNode = _originalModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
+            originalNode.CloneInto(currentNode);
+            Command.ClearNodeCommands(SelectedRow.NodeId);
+
+            var currentFiber = _changedModel.FiberArray[landmarkRow.Number - 1];
+            currentFiber.UserInputedLength = _originalModel.FiberArray[landmarkRow.Number - 1].UserInputedLength;
+            Command.ClearFiberCommands(currentFiber.FiberId);
+
+            var currentEquipment = _changedModel.EquipArray[landmarkRow.Number];
+            // originalModel contains AdjustmentPoints, while changedModel does not
+            // do not use IndexOf
+            var originalEquipment = _originalModel.EquipArray
+                .First(e => e.EquipmentId == currentEquipment.EquipmentId);
+            originalEquipment.CloneInto(currentEquipment);
+            Command.ClearEquipmentCommands(currentEquipment.EquipmentId);
+        }
+
+        // Update row, Cancel row, Cancel all rows
         private ObservableCollection<LandmarkRow> ReCalculateLandmarks()
         {
+            // apply to SorData in order to recalculate Optical distances
             if (HasBaseRef)
-                _baseRefLandmarksTool.ReCalculateAndApplyProperties(_sorData, _changedModel);
+                _baseRefLandmarksTool.ApplyTraceToBaseRef(_sorData, _selectedTrace, false);
 
-            return BuildLandmarkRows();
+            _changedLandmarks = HasBaseRef
+                ? _landmarksBaseParser.GetLandmarksFromBaseRef(_sorData, _selectedTrace)
+                : _landmarksGraphParser.GetLandmarks(_selectedTrace);
+
+            return _changedLandmarks.LandmarksToRows(_originalLandmarkRows, _isFilterOn,
+                _gpsInputMode, _originalGpsInputMode);
         }
 
         private byte[] _sorBytes;
@@ -206,6 +241,7 @@ namespace Iit.Fibertest.Client
             return SorData.FromBytes(_sorBytes);
         }
 
+        #region View's actions
         public void ShowReflectogram()
         {
             _reflectogramManager
@@ -219,12 +255,26 @@ namespace Iit.Fibertest.Client
             PdfExposer.Show(report, $@"Landmarks {_selectedTrace.Title}.pdf", _windowManager);
         }
 
-        public void CancelAllChangesForTrace()
+        // public void SetChangedAsNewOriginal()
+        // {
+        //     _originalModel = _changedModel.Clone();
+        //     _originalLandmarks = _changedLandmarks.Clone();
+        //
+        //     Rows = ReCalculateLandmarks();
+        //     SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
+        //
+        //     _originalLandmarkRows = Rows.ToList();
+        // }
+        //
+        public void CancelAllChanges()
         {
-            _changedModel = _originalModel.Clone();
+            foreach (var landmarkRow in Rows.Skip(1))
+                CancelChangesForRow(landmarkRow);
+
             Rows = ReCalculateLandmarks();
-            SelectedRow = Rows.First(r => r.NodeId == SelectedRow.NodeId);
+            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
+        #endregion
 
         #region Rows context menu 
         public void ShowNode()

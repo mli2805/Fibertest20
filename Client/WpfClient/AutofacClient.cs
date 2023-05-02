@@ -174,6 +174,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GpsInputSmallViewModel>();
             builder.RegisterType<LandmarksGraphParser>();
             builder.RegisterType<LandmarksBaseParser>();
+            builder.RegisterType<LandmarksCorrectionProgressViewModel>();
             builder.RegisterType<OneLandmarkViewModel>();
             builder.RegisterType<RowsLandmarkViewModel>();
             builder.RegisterType<TraceChoiceViewModel>().InstancePerLifetimeScope();

@@ -8,6 +8,16 @@ namespace Iit.Fibertest.Graph
 {
     public static class EquipmentTypeExt
     {
+        public static bool LeftCableReserveEnabled(this EquipmentType type)
+        {
+            return type > EquipmentType.EmptyNode && type <= EquipmentType.Terminal && type != EquipmentType.Well;
+        } 
+        
+        public static bool RightCableReserveEnabled(this EquipmentType type)
+        {
+            return type > EquipmentType.CableReserve && type <= EquipmentType.Terminal && type != EquipmentType.Well;
+        }
+
         public static BitmapImage GetNodePictogram(EquipmentType type, FiberState state)
         {
             return type == EquipmentType.AccidentPlace ?

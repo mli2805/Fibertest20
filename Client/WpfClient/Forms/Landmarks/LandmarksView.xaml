@@ -33,9 +33,9 @@
         <GroupBox DockPanel.Dock="Bottom" Margin="5,0,5,5">
             <DockPanel Margin="5">
                 <Button DockPanel.Dock="Right" Width="172" Height="25" Margin="5" 
-                        Content="CancelTrace" Name="CancelAllChangesForTrace"/>
+                        Content="CancelTrace" Name="CancelAllChanges"/>
                 <Button DockPanel.Dock="Right" Width="172" Height="25" Margin="5"  
-                        Content="ApplyTrace" Name="ApplyAllChangesForTrace"/>
+                        Content="ApplyTrace" Name="ApplyAllChanges"/>
                 <Button DockPanel.Dock="Left" Width="172" Height="25" Margin="5"  
                         Content="PDF" Name="ExportToPdf"/>
                 <Button Width="172" Height="25" Margin="5" Name="ShowReflectogram" 

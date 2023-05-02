@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -53,6 +54,11 @@ namespace Iit.Fibertest.WcfConnections
 
         [OperationContract]
         Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto baseRefs);
+
+        [OperationContract]
+        Task<CorrectionProgressDto> StartLandmarksCorrection(LandmarksCorrectionDto changesList);
+        [OperationContract]
+        Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId);
 
         [OperationContract]
         Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto baseRefs);

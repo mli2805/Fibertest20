@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class OneLandmarkViewModel : PropertyChangedBase
     {
+        private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
 
         private GpsInputSmallViewModel _gpsInputSmallViewModel;
@@ -35,8 +36,13 @@ namespace Iit.Fibertest.Client
                 _selectedEquipmentTypeItem = value;
                 LandmarkUnderWork.EquipmentType = value.Type;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsLeftCableReserveEnabled));
+                NotifyOfPropertyChange(nameof(IsRightCableReserveEnabled));
             }
         }
+
+        public bool IsLeftCableReserveEnabled => _selectedEquipmentTypeItem.Type.LeftCableReserveEnabled();
+        public bool IsRightCableReserveEnabled => _selectedEquipmentTypeItem.Type.RightCableReserveEnabled();
 
         private Landmark _landmarkUnderWork;
         public Landmark LandmarkUnderWork
@@ -47,6 +53,7 @@ namespace Iit.Fibertest.Client
                 if (value == null) return;
                 _landmarkUnderWork = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(HasPrivileges));
             }
         }
 
@@ -79,7 +86,7 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public bool HasPrivileges { get; set; }
+        public bool HasPrivileges => _currentUser.Role <= Role.Root && LandmarkUnderWork.EquipmentType != EquipmentType.Rtu;
 
         public Visibility GisVisibility { get; set; }
 
@@ -98,9 +105,9 @@ namespace Iit.Fibertest.Client
         public OneLandmarkViewModel(CurrentUser currentUser, CurrentGis currentGis,
              GpsInputSmallViewModel gpsInputSmallViewModel, IWindowManager windowManager)
         {
-            HasPrivileges = currentUser.Role <= Role.Root;
             IsEditEnabled = true;
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
+            _currentUser = currentUser;
             _windowManager = windowManager;
             GpsInputSmallViewModel = gpsInputSmallViewModel;
         }

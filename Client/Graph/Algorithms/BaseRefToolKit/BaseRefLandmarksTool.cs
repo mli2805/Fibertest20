@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -22,26 +23,29 @@ namespace Iit.Fibertest.Graph
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
             if (message != "") return;
-            ApplyTraceToBaseRef(otdrKnownBlocks, trace, otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length < trace.NodeIds.Count);
+            ApplyTraceToBaseRef(otdrKnownBlocks, trace, 
+                otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length < trace.NodeIds.Count);
             baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
         }
 
         public void ApplyTraceToBaseRef(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace,
             bool needToInsertLandmarksForEmptyNodes)
         {
-            var traceModel = _readModel.GetTraceComponentsByIds(trace);
-            var modelWithoutAdjustmentPoint = TraceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
+            var modelWithoutAdjustmentPoint = _readModel
+                .GetTraceComponentsByIds(trace)
+                .ReCalculateGpsDistancesForTraceModel()
+                .ExcludeAdjustmentPoints();
             if (needToInsertLandmarksForEmptyNodes)
                 InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
             ReCalculateLandmarksLocations(otdrKnownBlocks, modelWithoutAdjustmentPoint);
             AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
         }
 
-        public void ReCalculateAndApplyProperties(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
-        {
-            ReCalculateLandmarksLocations(sorData, model);
-            AddNamesAndTypesForLandmarks(sorData, model);
-        }
+        // public void ReCalculateAndApplyProperties(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
+        // {
+        //     ReCalculateLandmarksLocations(sorData, model);
+        //     AddNamesAndTypesForLandmarks(sorData, model);
+        // }
 
         public void ReCalculateLandmarksLocations(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {

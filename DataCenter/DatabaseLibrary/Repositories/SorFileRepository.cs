@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<int> UpdateSorBytesAsync(int sorFileId, byte[] sorBytes)
+        public async Task<string> UpdateSorBytesAsync(int sorFileId, byte[] sorBytes)
         {
             try
             {
@@ -67,13 +67,14 @@ namespace Iit.Fibertest.DatabaseLibrary
                 {
                     var record = await dbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                     record.SorBytes = sorBytes;
-                    return await dbContext.SaveChangesAsync();
+                    await dbContext.SaveChangesAsync();
+                    return null;
                 }
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("UpdateSorBytesAsync: " + e.Message);
-                return -1;
+                return e.Message;
             }
         }
 

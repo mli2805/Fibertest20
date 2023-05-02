@@ -98,6 +98,32 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Base_ref_s__are_saved_successfully_;
                 case ReturnCode.MonitoringSettingsAppliedSuccessfully:
                     return Resources.SID_Monitoring_settings_applied_successfully_;
+
+                // 5000
+                case ReturnCode.LandmarkChangesAppliedSuccessfully:
+                    return "Landmark changes applied successfully";
+                case ReturnCode.FailedToApplyLandmarkChanges:
+                    return "Failed to apply landmark changes";
+                case ReturnCode.FailedToGetBaseRefs:
+                    return "Failed to get base refs";
+                case ReturnCode.BaseRefsForTraceModifiedSuccessfully:
+                    return "Base refs for trace modified successfully";
+                case ReturnCode.FailedToModifyBaseRef:
+                    return "Failed to modify base ref";
+                case ReturnCode.BaseRefsSavedSuccessfully:
+                    return "Base refs saved successfully";
+                case ReturnCode.FailedToSaveBaseRefs:
+                    return "Failed to save base refs";
+                case ReturnCode.BaseRefsForTraceSentSuccessfully:
+                    return "Base refs for trace sent successfully";
+                case ReturnCode.FailedToSendBaseToRtu:
+                    return "Failed to send base To RTU";
+                case ReturnCode.FailedToUpdateVeexTestList:
+                    return "Failed to update VEEX test list";
+                case ReturnCode.BaseRefsAmendmentProcessDone:
+                    return "Base refs amendment process is finished";
+
+
                 // 9000
                 case ReturnCode.ClientRegisteredSuccessfully:
                     return @"OK";

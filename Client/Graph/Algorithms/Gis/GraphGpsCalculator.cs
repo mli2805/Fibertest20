@@ -75,32 +75,10 @@ namespace Iit.Fibertest.Graph
         public int CalculateDistanceBetweenNodesMm(Node leftNode, Equipment leftEquipment, Node rightNode, Equipment rightEquipment)
         {
             var gpsDistance = (int)GisLabCalculator.GetDistanceBetweenPointLatLng(leftNode.Position, rightNode.Position);
-
-
             // cable reserve is not a GPS 
             // return (int)((gpsDistance + GetReserveFromTheLeft(leftEquipment) + GetReserveFromTheRight(rightEquipment)) * 1000);
             return gpsDistance * 1000;
         }
-
-        // private double GetReserveFromTheLeft(Equipment leftEquipment)
-        // {
-        //     var leftReserve = 0.0;
-        //     if (leftEquipment.Type == EquipmentType.CableReserve)
-        //         leftReserve = (double)leftEquipment.CableReserveLeft / 2;
-        //     else if (leftEquipment.Type > EquipmentType.CableReserve)
-        //         leftReserve = leftEquipment.CableReserveRight;
-        //     return leftReserve;
-        // }
-        //
-        // private double GetReserveFromTheRight(Equipment rightEquipment)
-        // {
-        //     var rightReserve = 0.0;
-        //     if (rightEquipment.Type == EquipmentType.CableReserve)
-        //         rightReserve = (double)rightEquipment.CableReserveLeft / 2;
-        //     else if (rightEquipment.Type > EquipmentType.CableReserve)
-        //         rightReserve = rightEquipment.CableReserveLeft;
-        //     return rightReserve;
-        // }
 
         public double GetFiberFullGpsDistance(Guid fiberId, out Node node1, out Node node2)
         {

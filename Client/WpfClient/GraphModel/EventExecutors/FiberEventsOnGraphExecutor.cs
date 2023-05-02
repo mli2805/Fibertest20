@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
         public void RemoveFiber(FiberRemoved evnt)
         {
             //            if (_currentUser.ZoneId != Guid.Empty
-            //                && _graphModel.Data.Fibers.All(f => f.Id != evnt.FiberId)) return;
+            //                && _graphModel.Data.Fibers.All(f => f.Id != evnt.Id)) return;
 
             var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == evnt.FiberId);
             if (fiberVm != null)

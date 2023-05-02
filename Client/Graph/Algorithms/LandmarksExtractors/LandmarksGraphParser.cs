@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Graph
             rtuLandmark.FiberId = Guid.Empty;
             var result = new List<Landmark> { rtuLandmark };
 
-            var distance = 0.0;
+            var distanceFromRtu = 0.0;
             var sectionAdj = 0.0;
             var j = 1;
             for (var i = 1; i < trace.NodeIds.Count; i++)
@@ -32,13 +32,22 @@ namespace Iit.Fibertest.Graph
                     ? fiber.UserInputedLength / 1000
                     : GisLabCalculator.GetDistanceBetweenPointLatLng(previousNode.Position, node.Position) / 1000;
                 sectionAdj += section;
-                distance += section;
                 previousNode = node;
+
+                // all parts of section contains the same userLength value - take one from the last
+                if (node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint
+                    && fiber.UserInputedLength > 0)
+                {
+                    sectionAdj = 0;
+                }
+
                 if (node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint) continue;
+
+                distanceFromRtu += section;
 
                 var lm = CreateLandmark(node, trace.EquipmentIds[i], j++, i);
                 lm.FiberId = fiber.FiberId;
-                lm.GpsDistance = distance;
+                lm.GpsDistance = distanceFromRtu;
                 lm.GpsSection = sectionAdj;
                 lm.IsUserInput = fiber.UserInputedLength > 0;
                 lm.OpticalDistance = 0.0;

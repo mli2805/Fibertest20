@@ -70,43 +70,52 @@ namespace Iit.Fibertest.Client
         }
         public Brush GpsCoorsBrush { get; set; } = Brushes.Transparent;
 
-        public LandmarkRow FromLandmark(Landmark landmark, Landmark oldLandmark, GpsInputMode mode)
+        public LandmarkRow FromLandmark(Landmark landmark, LandmarkRow oldLandmarkRow, 
+            GpsInputMode mode, GpsInputMode originalGpsInputMode)
         {
             Number = landmark.Number;
             NumberIncludingAdjustmentPoints = landmark.NumberIncludingAdjustmentPoints;
             NodeId = landmark.NodeId;
             FiberId = landmark.FiberId;
             NodeTitle = landmark.NodeTitle ?? "";
-            NodeTitleBrush = landmark.NodeTitle == oldLandmark.NodeTitle ? Brushes.Transparent : Brushes.Cornsilk;
+            NodeTitleBrush = oldLandmarkRow == null || landmark.NodeTitle == oldLandmarkRow.NodeTitle 
+                ? Brushes.Transparent : Brushes.Cornsilk;
             NodeComment = landmark.NodeComment;
             EquipmentId = landmark.EquipmentId;
-            EquipmentTitle = landmark.EquipmentTitle ?? "";
-            EquipmentTitleBrush = landmark.EquipmentTitle == oldLandmark.EquipmentTitle
+            EquipmentTitle = landmark.EquipmentTitle;
+            EquipmentTitleBrush = oldLandmarkRow == null || landmark.EquipmentTitle == oldLandmarkRow.EquipmentTitle
                 ? Brushes.Transparent
                 : Brushes.Cornsilk;
             EquipmentType = landmark.EquipmentType.ToLocalizedString();
-            EquipmentTypeBrush = landmark.EquipmentType == oldLandmark.EquipmentType
+            EquipmentTypeBrush = oldLandmarkRow == null || EquipmentType == oldLandmarkRow.EquipmentType
                 ? Brushes.Transparent
                 : Brushes.Cornsilk;
             CableReserves = CableReserveToString(landmark);
-            CableReservesBrush = CableReserveToString(landmark) == CableReserveToString(oldLandmark)
+            CableReservesBrush = oldLandmarkRow == null || CableReserves == oldLandmarkRow.CableReserves
                 ? Brushes.Transparent
                 : Brushes.Cornsilk;
             GpsDistance = $@"{landmark.GpsDistance: 0.000}";
             GpsSection = landmark.EquipmentType == Dto.EquipmentType.Rtu ? "" : $@"{landmark.GpsSection: 0.000}";
-            GpsSectionBrush = landmark.IsUserInput 
-                ? Math.Abs(landmark.GpsSection - oldLandmark.GpsSection) < 0.0005 
-                    ? Brushes.LightGray : Brushes.Cornsilk 
-                : Brushes.Transparent;
+            GpsSectionBrush = CalculateGpsSectionBrush(landmark, oldLandmarkRow);
             IsUserInput = landmark.IsUserInput;
             OpticalDistance = landmark.IsFromBase ? $@"{landmark.OpticalDistance: 0.000}" : "";
             OpticalSection = landmark.EquipmentType == Dto.EquipmentType.Rtu ? "" 
                 : landmark.IsFromBase ? $@"{landmark.OpticalSection: 0.000}" : "";
             EventNumber = landmark.EventNumber == -1 ? Resources.SID_no : $@"{landmark.EventNumber}";
             GpsCoors = landmark.GpsCoors.ToDetailedString(mode);
-            GpsCoorsBrush = landmark.GpsCoors == oldLandmark.GpsCoors ? Brushes.Transparent : Brushes.Cornsilk;
+            GpsCoorsBrush = oldLandmarkRow == null || 
+                            landmark.GpsCoors.ToDetailedString(originalGpsInputMode) == oldLandmarkRow.GpsCoors 
+                ? Brushes.Transparent : Brushes.Cornsilk;
 
             return this;
+        }
+
+        private Brush CalculateGpsSectionBrush(Landmark source, LandmarkRow oldLandmarkRow)
+        {
+            return oldLandmarkRow != null && GpsSection != oldLandmarkRow.GpsSection 
+                ? Brushes.Cornsilk
+                : source.IsUserInput 
+                    ? Brushes.LightGray : Brushes.Transparent;
         }
 
         private string CableReserveToString(Landmark landmark)

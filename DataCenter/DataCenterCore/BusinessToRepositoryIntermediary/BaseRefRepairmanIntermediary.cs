@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
@@ -23,9 +21,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        private string _culture;
-
-        public BaseRefRepairmanIntermediary(Model writeModel, IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
+        public BaseRefRepairmanIntermediary(Model writeModel, IMyLog logFile, EventStoreService eventStoreService,
             SorFileRepository sorFileRepository, BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
@@ -36,8 +32,6 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
-
-            _culture = iniFile.Read(IniSection.General, IniKey.Culture, "en-US");
         }
 
         private static readonly IMapper Mapper1 = new MapperConfiguration(
@@ -105,43 +99,78 @@ namespace Iit.Fibertest.DataCenterCore
             string returnStr = null;
             foreach (var trace in traces)
             {
-                var listOfBaseRef = await GetBaseRefDtos(trace);
-
-                if (!listOfBaseRef.Any())
-                    return string.Format(Resources.SID_Can_t_get_base_refs_for_trace__0_, trace.TraceId.First6());
-
-                foreach (var baseRefDto in listOfBaseRef.Where(b => b.SorFileId > 0))
-                {
-                    Modify(trace, baseRefDto);
-                    if (await _sorFileRepository.UpdateSorBytesAsync(baseRefDto.SorFileId, baseRefDto.SorBytes) == -1)
-                        return Resources.SID_Can_t_save_amended_reflectogram;
-                }
-
-                if (trace.OtauPort == null) // unattached trace
-                    continue;
-
-                var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-                if (rtu == null)
-                    return "RTU not found.";
-
-                if (rtu.IsAvailable)
-                {
-                    var result = await SendAmendedBaseRefsToRtu(rtu, trace, listOfBaseRef);
-                    if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                        returnStr = result.ErrorMessage;
-
-                    var updateResult = await UpdateVeexTestList(result, "system", "localhost");
-                    if (updateResult.ReturnCode != ReturnCode.Ok)
-                        returnStr = updateResult.ErrorMessage;
-                }
-                else
-                {
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(_culture);
-                    returnStr = Resources.SID_Failed_to_resend_base_to_rtu;
-                }
+                var res = await AmendBaseRefsForOneTrace(trace);
+                if (res.ReturnCode != ReturnCode.Ok)
+                    returnStr = res.ErrorMessage;
             }
 
             return returnStr;
+        }
+
+        public async Task<RequestAnswer> AmendBaseRefsForOneTrace(Trace trace)
+        {
+            var listOfBaseRef = await GetBaseRefDtos(trace);
+
+            if (!listOfBaseRef.Any())
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.FailedToGetBaseRefs,
+                    ErrorMessage = string.Format(Resources.SID_Can_t_get_base_refs_for_trace__0_,
+                        trace.TraceId.First6())
+                };
+
+            foreach (var baseRefDto in listOfBaseRef.Where(b => b.SorFileId > 0))
+            {
+                var requestAnswer = Modify(trace, baseRefDto);
+                if (requestAnswer.ReturnCode != ReturnCode.BaseRefsForTraceModifiedSuccessfully)
+                    return requestAnswer;
+                var saveResult = await _sorFileRepository
+                    .UpdateSorBytesAsync(baseRefDto.SorFileId, baseRefDto.SorBytes);
+                if (saveResult != null)
+                    return new RequestAnswer()
+                    {
+                        ReturnCode = ReturnCode.FailedToSaveBaseRefs,
+                        ErrorMessage = saveResult,
+                    };
+            }
+
+            if (trace.OtauPort == null) // unattached trace
+                return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
+
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
+
+            if (rtu.IsAvailable)
+            {
+                var result = await SendAmendedBaseRefsToRtu(rtu, trace, listOfBaseRef);
+                if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    return new RequestAnswer()
+                    {
+                        ReturnCode = ReturnCode.FailedToSendBaseToRtu,
+                        ErrorMessage = result.ErrorMessage,
+                    };
+
+                if (rtu.RtuMaker == RtuMaker.VeEX)
+                {
+                    var updateResult = await UpdateVeexTestList(result, "system", "localhost");
+                    if (updateResult.ReturnCode != ReturnCode.Ok)
+                        return new RequestAnswer()
+                        {
+                            ReturnCode = ReturnCode.FailedToUpdateVeexTestList,
+                            ErrorMessage = updateResult.ErrorMessage,
+                        };
+                }
+            }
+            else
+            {
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.FailedToSendBaseToRtu,
+                };
+            }
+
+            return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
         }
 
         private async Task<List<BaseRefDto>> GetBaseRefDtos(Trace trace)
@@ -168,19 +197,22 @@ namespace Iit.Fibertest.DataCenterCore
             return listOfBaseRef;
         }
 
-        private void Modify(Trace trace, BaseRefDto baseRefDto)
+        private RequestAnswer Modify(Trace trace, BaseRefDto baseRefDto)
         {
             try
             {
                 var sorData = SorData.FromBytes(baseRefDto.SorBytes);
-                
+
                 _baseRefLandmarksTool.ApplyTraceToBaseRef(sorData, trace, false);
 
                 baseRefDto.SorBytes = sorData.ToBytes();
+
+                return new RequestAnswer() { ReturnCode = ReturnCode.BaseRefsForTraceModifiedSuccessfully };
             }
             catch (Exception e)
             {
                 _logFile.AppendLine($"Amend base ref - Modify: {e.Message}");
+                return new RequestAnswer() { ReturnCode = ReturnCode.FailedToModifyBaseRef, ErrorMessage = e.Message };
             }
         }
 

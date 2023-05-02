@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 using Trace = Iit.Fibertest.Graph.Trace;
@@ -62,8 +65,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private readonly ILifetimeScope _globalScope;
+        private readonly IMyLog _logFile;
         private readonly Model _readModel;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly TabulatorViewModel _tabulatorViewModel;
@@ -95,14 +100,16 @@ namespace Iit.Fibertest.Client
 
         public Visibility GisVisibility { get; set; }
 
-        public LandmarksViewModel( Model readModel, CurrentGis currentGis,
-            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager,
+        public LandmarksViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, CurrentGis currentGis,
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager,
             RowsLandmarkViewModel rowsLandmarkViewModel, OneLandmarkViewModel oneLandmarkViewModel,
             GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel)
         {
             CurrentGis = currentGis;
+            _globalScope = globalScope;
+            _logFile = logFile;
             _readModel = readModel;
-            _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
             _graphReadModel = graphReadModel;
             _tabulatorViewModel = tabulatorViewModel;
@@ -121,7 +128,7 @@ namespace Iit.Fibertest.Client
             if (Traces.Count == 0) return;
             _selectedTrace = Traces.First();
 
-            await RowsLandmarkViewModel.Initialize(SelectedTrace, _rtu.NodeId);
+            await RowsLandmarkViewModel.Initialize(SelectedTrace, Guid.Empty, 0);
         }
 
         public async Task InitializeFromTrace(Guid traceId, Guid selectedNodeId)
@@ -130,8 +137,7 @@ namespace Iit.Fibertest.Client
             _rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
             Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
             _selectedTrace = _readModel.Traces.First(t => t.TraceId == traceId);
-
-            await RowsLandmarkViewModel.Initialize(SelectedTrace, selectedNodeId);
+            await RowsLandmarkViewModel.Initialize(SelectedTrace, selectedNodeId, -1);
             OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
         }
 
@@ -143,27 +149,53 @@ namespace Iit.Fibertest.Client
 
         public async Task RefreshOnChangedTrace()
         {
-            await RowsLandmarkViewModel.Initialize(SelectedTrace, _rtu.NodeId);
+            await RowsLandmarkViewModel.Initialize(SelectedTrace, Guid.Empty, 0);
             OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
         }
 
         private void RowsLandmarkViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedRow")
+            if (e.PropertyName == @"SelectedRow")
             {
                 OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
             }
         }
 
         #region Whole trace buttons
-        public void ApplyAllChangesForTrace()
+        public async Task ApplyAllChanges()
         {
+            var dto = RowsLandmarkViewModel.Command.BuildDto();
+            if (dto == null)
+            {
+                var im = new MyMessageBoxViewModel(MessageType.Information, "No changes found");
+                _windowManager.ShowDialogWithAssignedOwner(im);
+                return; 
+            }
 
+            CorrectionProgressDto result;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                result = await _c2RWcfManager.StartLandmarksCorrection(dto);
+                _logFile.AppendLine($@"{result.ReturnCode}");
+                if (result.ReturnCode != ReturnCode.LandmarkChangesAppliedSuccessfully)
+                {
+                    var em = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ErrorMessage}");
+                    _windowManager.ShowDialogWithAssignedOwner(em);
+                    return;
+                }
+            }
+            RowsLandmarkViewModel.Command.ClearAll();
+            var vm = _globalScope.Resolve<LandmarksCorrectionProgressViewModel>();
+            vm.SetProgress(result);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            await RowsLandmarkViewModel
+                .Initialize(_selectedTrace, Guid.Empty, RowsLandmarkViewModel.SelectedRow.Number);
         }
 
-        public void CancelAllChangesForTrace()
+        public void CancelAllChanges()
         {
-            RowsLandmarkViewModel.CancelAllChangesForTrace();
+            RowsLandmarkViewModel.CancelAllChanges();
         }
         
         public void ExportToPdf()
@@ -221,5 +253,17 @@ namespace Iit.Fibertest.Client
             nodeVm.IsHighlighted = true;
         }
         #endregion
+
+        public override void CanClose(Action<bool> callback)
+        {
+            if (RowsLandmarkViewModel.Command.Any())
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Confirmation, "All changes will be canceled. Are you sure?");
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                if (!vm.IsAnswerPositive) return;
+                RowsLandmarkViewModel.CancelAllChanges();
+            }
+            base.CanClose(callback);
+        }
     }
 }

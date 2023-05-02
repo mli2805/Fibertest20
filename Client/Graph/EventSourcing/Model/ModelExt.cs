@@ -39,7 +39,8 @@ namespace Iit.Fibertest.Graph
 
         public static Fiber GetAnotherFiberOfAdjustmentPoint(this Model model, Guid adjustmentPointId, Guid fiberId)
         {
-            return model.Fibers.First(f => (f.NodeId1 == adjustmentPointId || f.NodeId2 == adjustmentPointId) && f.FiberId != fiberId);
+            return model.Fibers.First(f => 
+                (f.NodeId1 == adjustmentPointId || f.NodeId2 == adjustmentPointId) && f.FiberId != fiberId);
         }
         
         public static bool IsAdjustmentPoint(this Model model, Guid nodeId)

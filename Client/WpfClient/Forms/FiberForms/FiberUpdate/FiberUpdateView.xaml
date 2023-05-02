@@ -23,6 +23,8 @@
                     <TextBlock Text=" - "></TextBlock>
                     <TextBlock Margin="25,5,5,5" Text="{Binding NodeBtitle}" Width="150" />
                 </StackPanel>
+                <TextBlock Margin="5" Visibility="{Binding FiberIdVisibility}"
+                           Text="{Binding FiberId}"/>
              </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Physical_length}" Margin="5">

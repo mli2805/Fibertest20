@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Graph
                 if (value == 0)
                 {
                     IsUserInput = false;
-                    GpsSection = -1; // should be recalculated from nodes' coordinates
+                    GpsSection = -1; // will be recalculated from nodes' coordinates
                 }
                 else
                 {

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
     public class EventToLogLineParser
     {
+        private readonly IMyLog _logFile;
         private readonly Model _readModel;
 
         // rtuId - Title
@@ -22,8 +24,9 @@ namespace Iit.Fibertest.Graph
         // SorfileId - Measurement
         private Dictionary<int, MeasurementAdded> _measurements;
 
-        public EventToLogLineParser(Model readModel)
+        public EventToLogLineParser(IMyLog logFile, Model readModel)
         {
+            _logFile = logFile;
             _readModel = readModel;
             _rtuTitles = new Dictionary<Guid, string>();
             _traces = new Dictionary<Guid, Tuple<string, Guid>>();
@@ -259,7 +262,10 @@ namespace Iit.Fibertest.Graph
 
         private LogLine Parse(MeasurementAdded e)
         {
-            _measurements.Add(e.SorFileId, e);
+            if (_measurements.ContainsKey(e.SorFileId))
+                _logFile.AppendLine($@"Event to log parse MeasurementAdded error. SorFileId = {e.SorFileId} already exists");
+            else 
+                _measurements.Add(e.SorFileId, e);
             return null;
         }
 

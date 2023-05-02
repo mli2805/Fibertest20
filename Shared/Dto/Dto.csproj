@@ -118,6 +118,8 @@
     <Compile Include="R2D2C\ClientMeasurementVeexResultDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementResultDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
+    <Compile Include="R2D2C\CorrectionProgressDto.cs" />
+    <Compile Include="C2D2R\LandmarksCorrectionDto.cs" />
     <Compile Include="R2D2C\LineParametersDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />

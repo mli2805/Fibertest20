@@ -6,13 +6,7 @@ namespace Iit.Fibertest.Graph
 {
     public static class TraceModelBuilder
     {
-        public static TraceModelForBaseRef GetTraceModelWithoutAdjustmentPoints(TraceModelForBaseRef traceModel)
-        {
-            var fullModel = FillInDistances(traceModel);
-            return ExcludeAdjustmentPoints(fullModel);
-        }
-        
-        private static TraceModelForBaseRef FillInDistances(TraceModelForBaseRef model)
+        public static TraceModelForBaseRef ReCalculateGpsDistancesForTraceModel(this TraceModelForBaseRef model)
         {
             model.DistancesMm = new int[model.FiberArray.Length];
             for (int i = 0; i < model.FiberArray.Length; i++)
@@ -29,10 +23,10 @@ namespace Iit.Fibertest.Graph
             return model;
         }
 
-        private static TraceModelForBaseRef ExcludeAdjustmentPoints(TraceModelForBaseRef originalModel)
+        public static TraceModelForBaseRef ExcludeAdjustmentPoints(this TraceModelForBaseRef originalModel)
         {
-            var nodes = new List<Node>(){originalModel.NodeArray[0]};
-            var equipments = new List<Equipment>(){originalModel.EquipArray[0]};
+            var nodes = new List<Node>() { originalModel.NodeArray[0] };
+            var equipments = new List<Equipment>() { originalModel.EquipArray[0] };
             var fibers = new List<Fiber>();
             var distances = new List<int>();
 
@@ -45,9 +39,16 @@ namespace Iit.Fibertest.Graph
                 {
                     nodes.Add(originalModel.NodeArray[i]);
                     equipments.Add(originalModel.EquipArray[i]);
-                    fibers.Add(originalModel.FiberArray[i-1]);
+                    fibers.Add(originalModel.FiberArray[i - 1]);
                     distances.Add(distance);
                     distance = 0;
+                }
+                else
+                {
+                    // AdjustmentPoint && UserInputLength
+                    // all parts of section contains the same userLength value - take one from the last
+                    if (!originalModel.FiberArray[i].UserInputedLength.Equals(0))
+                        distance = 0;
                 }
             }
 

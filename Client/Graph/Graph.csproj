@@ -126,6 +126,7 @@
     <Compile Include="Algorithms\TraceStateReport\EventReportModel.cs" />
     <Compile Include="Algorithms\VersionExt.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
+    <Compile Include="Commands\UpdateFromLandmarksBatch.cs" />
     <Compile Include="DomainEntities\Extensions\ChannelEventExt.cs" />
     <Compile Include="Commands\MakeSnapshot.cs" />
     <Compile Include="Commands\Client\LostClientConnection.cs" />

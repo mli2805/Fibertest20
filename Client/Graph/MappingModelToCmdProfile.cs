@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<User, UpdateUser>();
             CreateMap<User, AssignUsersMachineKey>();
             CreateMap<Equipment, UpdateEquipment>();
+            CreateMap<Node, UpdateAndMoveNode>();
         }
     }
 }

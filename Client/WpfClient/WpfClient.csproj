@@ -118,6 +118,10 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\Landmarks\LandmarkCollectionsExt.cs" />
+    <Compile Include="Forms\Landmarks\LandmarksCorrectionProgressView.xaml.cs">
+      <DependentUpon>LandmarksCorrectionProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Landmarks\LandmarksCorrectionProgressViewModel.cs" />
     <Compile Include="Forms\Landmarks\RowsLandmarkView.xaml.cs">
       <DependentUpon>RowsLandmarkView.xaml</DependentUpon>
     </Compile>
@@ -726,6 +730,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Forms\Landmarks\LandmarksCorrectionProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\Landmarks\RowsLandmarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1111,6 +1119,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Forms\Landmarks\LandmarksForm.md" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

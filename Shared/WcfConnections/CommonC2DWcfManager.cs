@@ -352,6 +352,49 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<CorrectionProgressDto> StartLandmarksCorrection(LandmarksCorrectionDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new CorrectionProgressDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine(@"Starting landmarks correction...");
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.StartLandmarksCorrection(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("StartLandmarksCorrection: " + e.Message);
+                return new CorrectionProgressDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new CorrectionProgressDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine(@"Get landmarks correction progress...");
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetLandmarksCorrectionProgress(batchId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetLandmarksCorrectionProgress: " + e.Message);
+                return new CorrectionProgressDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();

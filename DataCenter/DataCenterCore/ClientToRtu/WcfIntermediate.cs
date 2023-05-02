@@ -24,17 +24,18 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefsCheckerOnServer _baseRefsChecker;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly IFtSignalRClient _ftSignalRClient;
+        private readonly ManyChangesToBaseRefs _manyChangesToBaseRefs;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
         private readonly DoubleAddress _serverDoubleAddress;
 
-        public WcfIntermediate(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
+        public WcfIntermediate(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
             Model writeModel, EventStoreService eventStoreService,
             ClientsCollection clientsCollection, RtuOccupations rtuOccupations,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
             BaseRefsCheckerOnServer baseRefsChecker, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            IFtSignalRClient ftSignalRClient,
+            IFtSignalRClient ftSignalRClient, ManyChangesToBaseRefs manyChangesToBaseRefs,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _globalScope = globalScope;
@@ -48,6 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefsChecker = baseRefsChecker;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _ftSignalRClient = ftSignalRClient;
+            _manyChangesToBaseRefs = manyChangesToBaseRefs;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
 
@@ -197,6 +199,15 @@ namespace Iit.Fibertest.DataCenterCore
                 command.BaseRefs.Add(baseRef);
             }
             return await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
+        }
+
+        public async Task<CorrectionProgressDto> StartLandmarksCorrection(LandmarksCorrectionDto changesList)
+        {
+            return await _manyChangesToBaseRefs.StartLandmarksCorrection(changesList);
+        }
+        public async Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId)
+        {
+            return await _manyChangesToBaseRefs.GetLandmarksCorrectionProgress(batchId);
         }
     }
 }

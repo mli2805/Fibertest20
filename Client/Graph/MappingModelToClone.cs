@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -23,26 +24,11 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Cloner = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingModelToClone>()).CreateMapper();
 
-        public static Node Clone(this Node source)
-        {
-            return Cloner.Map<Node>(source);
-        }
-
         public static void CloneInto(this Node source, Node destination)
         {
             Cloner.Map(source, destination);
         }
-
-        public static Fiber Clone(this Fiber source)
-        {
-            return Cloner.Map<Fiber>(source);
-        }
-
-        public static Equipment Clone(this Equipment source)
-        {
-            return Cloner.Map<Equipment>(source);
-        }
-
+      
         public static void CloneInto(this Equipment source, Equipment destination)
         {
             Cloner.Map(source, destination);
@@ -74,6 +60,8 @@ namespace Iit.Fibertest.Graph
         {
             destination.Title = source.EquipmentTitle;
             destination.Type = source.EquipmentType;
+            if (source.EquipmentType == EquipmentType.CableReserve)
+                source.RightCableReserve = 0;
             destination.CableReserveLeft = source.LeftCableReserve;
             destination.CableReserveRight = source.RightCableReserve;
         }

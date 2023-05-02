@@ -39,6 +39,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Guid FiberId { get; set; }
+        public Visibility FiberIdVisibility { get; set; }
+
         public bool IsEditEnabled { get; set; }
         public bool IsButtonSaveEnabled { get; set; }
         public UpdateFiber Command { get; set; }
@@ -56,6 +59,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             _currentGis = currentGis;
             IsEditEnabled = currentUser.Role <= Role.Root;
+            FiberIdVisibility = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
             _graphGpsCalculator = graphGpsCalculator;
             _reflectogramManager = reflectogramManager;
         }
@@ -64,6 +68,7 @@ namespace Iit.Fibertest.Client
         {
             GisVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
+            FiberId = fiberId;
             GpsLength = $@"{Math.Round(_graphGpsCalculator.GetFiberFullGpsDistance(fiberId, out Node node1, out Node node2))}";
             NodeAtitle = node1.Title;
             NodeBtitle = node2.Title;

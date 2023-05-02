@@ -17,15 +17,28 @@ namespace Iit.Fibertest.Graph
             _readModel = readModel;
         }
 
-
-        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, Trace trace)
+        // web client requests landmarks for trace, calculated on DC
+        public List<Landmark> GetLandmarksFromBaseRef(OtdrDataKnownBlocks sorData, Trace trace)
         {
-            var traceModel = _readModel.GetTraceComponentsByIds(trace);
-            var modelWithoutAdjustmentPoint = TraceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
-            return GetLandmarks(sorData, modelWithoutAdjustmentPoint);
+            var modelWithoutAdjustmentPoint = _readModel
+                .GetTraceComponentsByIds(trace)
+                .ReCalculateGpsDistancesForTraceModel()
+                .ExcludeAdjustmentPoints();
+            return GetLandmarksInner(sorData, modelWithoutAdjustmentPoint);
         }
 
-        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef modelWithoutAdjustmentPoint)
+        // LandmarksView in desktop client
+        // already has traceModel - recalculate distances and returns landmarks
+        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData,
+            TraceModelForBaseRef modelIncludingAdjustmentPoints)
+        {
+            var modelWithoutAdjustmentPoint = modelIncludingAdjustmentPoints
+                .ReCalculateGpsDistancesForTraceModel()
+                .ExcludeAdjustmentPoints();
+            return GetLandmarksInner(sorData, modelWithoutAdjustmentPoint);
+        }
+
+        private List<Landmark> GetLandmarksInner(OtdrDataKnownBlocks sorData, TraceModelForBaseRef modelWithoutAdjustmentPoint)
         {
             var gpsDistance = 0.0;
             var result = new List<Landmark>();

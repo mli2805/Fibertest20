@@ -35,7 +35,7 @@ namespace Graph.Tests
             var buffer = File.ReadAllBytes(SystemUnderTest.BasTrace7);
             var sorData = SorData.FromBytes(buffer);
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
-            var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
+            var landmarks = landmarksBaseParser.GetLandmarksFromBaseRef(sorData, _trace);
 
             _traceLengthOptical = ((int)Math.Round(landmarks[6].OpticalDistance * 1000));
         }
@@ -46,7 +46,7 @@ namespace Graph.Tests
             var buffer = File.ReadAllBytes(SystemUnderTest.BasTrace7);
             var sorData = SorData.FromBytes(buffer);
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
-            var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
+            var landmarks = landmarksBaseParser.GetLandmarksFromBaseRef(sorData, _trace);
 
             _crossOpticalDistance = ((int)Math.Round(landmarks[4].OpticalDistance * 1000));
             (Math.Abs(_crossOpticalDistance - p0) < 5).Should().BeTrue();
@@ -106,7 +106,7 @@ namespace Graph.Tests
             var sorBytes = _sut.WcfServiceCommonC2D.GetSorBytes(baseRef.SorFileId).Result;
             var sorData = SorData.FromBytes(sorBytes);
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
-            var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
+            var landmarks = landmarksBaseParser.GetLandmarksFromBaseRef(sorData, _trace);
 
             var crossOpticalDistance = ((int)Math.Round(landmarks[4].OpticalDistance * 1000));
             (Math.Abs(crossOpticalDistance - p0) < 5).Should().BeTrue();
@@ -129,7 +129,7 @@ namespace Graph.Tests
             var sorBytes = _sut.WcfServiceCommonC2D.GetSorBytes(baseRef.SorFileId).Result;
             var sorData = SorData.FromBytes(sorBytes);
             var landmarksBaseParser = new LandmarksBaseParser(_sut.ReadModel);
-            var landmarks = landmarksBaseParser.GetLandmarks(sorData, _trace);
+            var landmarks = landmarksBaseParser.GetLandmarksFromBaseRef(sorData, _trace);
 
             var newTraceLength = ((int)Math.Round(landmarks[6].OpticalDistance * 1000));
             (Math.Abs(newTraceLength - _traceLengthOptical) < 50).Should().BeTrue();

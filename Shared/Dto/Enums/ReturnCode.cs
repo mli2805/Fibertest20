@@ -4,6 +4,7 @@
     {
         Error = 0x0,
         Ok = 1,
+        InProgress = 2,
 
         ClientCleanedAsDead = 10,
 
@@ -56,6 +57,18 @@
         MonitoringSettingsAppliedSuccessfully = 4002,
         OtauAttachedSuccessfully = 4003,
         OtauDetachedSuccessfully = 4004,
+
+        LandmarkChangesAppliedSuccessfully = 5000,
+        FailedToApplyLandmarkChanges = 5001,
+        FailedToGetBaseRefs = 5011,
+        BaseRefsForTraceModifiedSuccessfully = 5020,
+        FailedToModifyBaseRef = 5021,
+        BaseRefsSavedSuccessfully = 5030,
+        FailedToSaveBaseRefs = 5031,
+        BaseRefsForTraceSentSuccessfully = 5040,
+        FailedToSendBaseToRtu = 5041,
+        FailedToUpdateVeexTestList = 5042,
+        BaseRefsAmendmentProcessDone = 5050,
 
         ClientRegisteredSuccessfully = 9000,
         NoSuchUserOrWrongPassword = 9001,

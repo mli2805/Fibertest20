@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
         {
             foreach (var lm in list)
             {
-                var lmRow = new LandmarkRow().FromLandmark(lm, lm, mode);
+                var lmRow = new LandmarkRow().FromLandmark(lm, null, mode, mode);
 
                 var row = table.AddRow();
                 row.Height = Unit.FromCentimeter(0.6);
