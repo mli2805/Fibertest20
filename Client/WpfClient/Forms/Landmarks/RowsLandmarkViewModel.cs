@@ -29,6 +29,8 @@ namespace Iit.Fibertest.Client
         private Trace _selectedTrace;
         private DateTime _preciseTimestamp;
 
+        // нужны для определения что изменилось,
+        // использовать _originalLandmarkRows нельзя потому что там нет Node.Comment
         private List<Landmark> _originalLandmarks;
         private List<Landmark> _changedLandmarks;
         public Landmark GetSelectedLandmark()
@@ -37,6 +39,7 @@ namespace Iit.Fibertest.Client
         }
 
         private OtdrDataKnownBlocks _sorData;
+        // нужна для восстановления значений при нажатии Отменить
         private TraceModelForBaseRef _originalModel;
         private TraceModelForBaseRef _changedModel;
 
@@ -52,6 +55,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        // нужна только для отрисовки желтым изменившихся полей
         private List<LandmarkRow> _originalLandmarkRows;
         private GpsInputMode _originalGpsInputMode;
 
@@ -199,6 +203,8 @@ namespace Iit.Fibertest.Client
             SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
 
+        // originalModel contains AdjustmentPoints, while changedModel does not
+        // do not use IndexOf or Number
         private void CancelChangesForRow(LandmarkRow landmarkRow)
         {
             var currentNode = _changedModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
@@ -207,13 +213,12 @@ namespace Iit.Fibertest.Client
             Command.ClearNodeCommands(SelectedRow.NodeId);
 
             var currentFiber = _changedModel.FiberArray[landmarkRow.Number - 1];
-            currentFiber.UserInputedLength = _originalModel.FiberArray[landmarkRow.Number - 1].UserInputedLength;
+            currentFiber.UserInputedLength = 
+                _originalModel.FiberArray.First(f=>f.FiberId == currentFiber.FiberId).UserInputedLength;
             Command.ClearFiberCommands(currentFiber.FiberId);
 
             var currentEquipment = _changedModel.EquipArray[landmarkRow.Number];
-            // originalModel contains AdjustmentPoints, while changedModel does not
-            // do not use IndexOf
-            var originalEquipment = _originalModel.EquipArray
+             var originalEquipment = _originalModel.EquipArray
                 .First(e => e.EquipmentId == currentEquipment.EquipmentId);
             originalEquipment.CloneInto(currentEquipment);
             Command.ClearEquipmentCommands(currentEquipment.EquipmentId);
