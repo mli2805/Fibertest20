@@ -169,10 +169,12 @@ namespace Iit.Fibertest.Graph
                 if (result != null) return result;
             }
 
-            var fiber = model.Fibers.First(f => f.NodeId1 == e.NodeId || f.NodeId2 == e.NodeId);
-
+            // we can remove AdjustmentPoint or Node which has AdjustmentPoint as a neighbour
             if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
-                return model.ExcludeAdjustmentPoint(e.NodeId, e.FiberIdToDetourAdjustmentPoint, fiber.UserInputedLength);
+            {
+                //TODO clear UserInputLength 
+                return model.ExcludeAdjustmentPoint(e.NodeId, e.FiberIdToDetourAdjustmentPoint);
+            }
 
             return e.DetoursForGraph.Count == 0
                 ? model.RemoveNodeWithAllHisFibersUptoRealNode(e.NodeId)
@@ -259,7 +261,7 @@ namespace Iit.Fibertest.Graph
 
         }
 
-        private static string ExcludeAdjustmentPoint(this Model model, Guid nodeId, Guid detourFiberId, double userInputLength)
+        private static string ExcludeAdjustmentPoint(this Model model, Guid nodeId, Guid detourFiberId)
         {
             var leftFiber = model.Fibers.FirstOrDefault(f => f.NodeId2 == nodeId);
             if (leftFiber == null)
@@ -277,8 +279,8 @@ namespace Iit.Fibertest.Graph
 
             model.Fibers.Remove(leftFiber);
             model.Fibers.Remove(rightFiber);
-            model.Fibers.Add(new Fiber() 
-                { FiberId = detourFiberId, NodeId1 = leftNodeId, NodeId2 = rightNodeId, UserInputedLength = userInputLength });
+            model.Fibers.Add(new Fiber()
+            { FiberId = detourFiberId, NodeId1 = leftNodeId, NodeId2 = rightNodeId });
 
 
             var node = model.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
