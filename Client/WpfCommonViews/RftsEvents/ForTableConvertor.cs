@@ -6,6 +6,7 @@ namespace Iit.Fibertest.WpfCommonViews
 {
     public static class ForTableConvertor
     {
+        // line 103
         public static string ForStateInTable(this RftsEventTypes rftsEventType, bool isFailed)
         {
             if ((rftsEventType & RftsEventTypes.IsFiberBreak) != 0)
@@ -18,9 +19,11 @@ namespace Iit.Fibertest.WpfCommonViews
                 return isFailed ? Resources.SID_fail : Resources.SID_pass;
             if (rftsEventType == RftsEventTypes.None)
                 return "";
-            //   return Resources.SID_pass;
+                // return Resources.SID_pass;
             return Resources.SID_unexpected_input;
         }
+
+        // line 106
         public static string ForEnabledInTable(this RftsEventTypes rftsEventType)
         {
             if ((rftsEventType & RftsEventTypes.IsNew) != 0)
@@ -28,7 +31,8 @@ namespace Iit.Fibertest.WpfCommonViews
             if ((rftsEventType & RftsEventTypes.IsMonitored) != 0)
                 return Resources.SID_yes;
             if (rftsEventType == RftsEventTypes.None)
-                return Resources.SID_pass;
+                return "";
+                //return Resources.SID_pass;
             return Resources.SID_unexpected_input;
         }
 

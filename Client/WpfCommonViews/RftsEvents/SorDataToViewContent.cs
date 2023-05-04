@@ -73,7 +73,8 @@ namespace Iit.Fibertest.WpfCommonViews
         {
             for (int i = 0; i < _rftsEvents.EventsCount; i++)
             {
-                var landmark = _sorData.LinkParameters.LandmarkBlocks.FirstOrDefault(b => b.RelatedEventNumber == i + 1);
+                var landmark = _sorData.LinkParameters.LandmarkBlocks
+                    .FirstOrDefault(b => b.RelatedEventNumber == i + 1);
                 if (landmark != null)
                 {
                     oneLevelTableContent.Table[101][i + 1] = landmark.Comment;
@@ -81,9 +82,8 @@ namespace Iit.Fibertest.WpfCommonViews
                 }
 
                 if (i < _sorData.KeyEvents.KeyEventsCount)
-                    oneLevelTableContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
-
-
+                    oneLevelTableContent.Table[105][i + 1] = 
+                        $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
 
                 if ((_rftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                 {
@@ -94,10 +94,9 @@ namespace Iit.Fibertest.WpfCommonViews
                 }
                 oneLevelTableContent.Table[106][i + 1] = _rftsEvents.Events[i].EventTypes.ForEnabledInTable();
 
-
-
                 if (i < _sorData.KeyEvents.KeyEventsCount)
-                   oneLevelTableContent.Table[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
+                   oneLevelTableContent.Table[107][i + 1] = 
+                       _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
             }
         }
 
@@ -113,13 +112,17 @@ namespace Iit.Fibertest.WpfCommonViews
                 if (i >= _sorData.KeyEvents.KeyEventsCount) break;
 
 
-                eventTable[201][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventReflectance.ToString(CultureInfo.CurrentCulture);
+                eventTable[201][i + 1] = _sorData.KeyEvents.KeyEvents[i]
+                    .EventReflectance.ToString(CultureInfo.CurrentCulture);
                 if (i == 0)
                     continue;
                 var eventLoss = _sorData.KeyEvents.KeyEvents[i].EventLoss;
                 var endOfFiberThreshold = _sorData.FixedParameters.EndOfFiberThreshold;
-                eventTable[202][i + 1] = eventLoss > endOfFiberThreshold ? $@">{endOfFiberThreshold:0.000}" : $@"{eventLoss:0.000}";
-                eventTable[203][i + 1] = $@"{AttenuationCoeffToDbKm(_sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient): 0.000}";
+                eventTable[202][i + 1] = eventLoss > endOfFiberThreshold
+                    ? $@">{endOfFiberThreshold:0.000}" : $@"{eventLoss:0.000}";
+                eventTable[203][i + 1] = 
+                    $@"{AttenuationCoeffToDbKm(_sorData.KeyEvents.KeyEvents[i]
+                        .LeadInFiberAttenuationCoefficient): 0.000}";
             }
         }
 
@@ -170,18 +173,26 @@ namespace Iit.Fibertest.WpfCommonViews
                 }
                 else
                 {
-                    oneLevelTableContent.Table[401][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
+                    oneLevelTableContent.Table[401][i + 1] = 
+                        ForDeviationInTable(oneLevelTableContent, 
+                            rftsEvents.Events[i].ReflectanceThreshold, i + 1, @"R");
                     if (i < _rftsEvents.EventsCount - 1)
-                        oneLevelTableContent.Table[402][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
-                    oneLevelTableContent.Table[403][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
-
+                        oneLevelTableContent.Table[402][i + 1] = 
+                            ForDeviationInTable(oneLevelTableContent,
+                                rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
+                    oneLevelTableContent.Table[403][i + 1] = 
+                        ForDeviationInTable(oneLevelTableContent,
+                            rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
                 }
 
-                oneLevelTableContent.Table[103][i + 1] = _rftsEvents.Events[i].EventTypes.ForStateInTable(oneLevelTableContent.Table[104][i + 1] != null);
+                oneLevelTableContent.Table[103][i + 1] = 
+                    _rftsEvents.Events[i].EventTypes
+                        .ForStateInTable(oneLevelTableContent.Table[104][i + 1] != null);
             }
         }
 
-        private string ForDeviationInTable(OneLevelTableContent oneLevelTableContent, ShortDeviation deviation, int column, string letter)
+        private string ForDeviationInTable(OneLevelTableContent oneLevelTableContent, 
+            ShortDeviation deviation, int column, string letter)
         {
             var formattedValue = $@"{(short)deviation.Deviation / 1000.0: 0.000}";
             if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
