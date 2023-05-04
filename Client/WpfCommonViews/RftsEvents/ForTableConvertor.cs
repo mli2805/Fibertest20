@@ -31,7 +31,7 @@ namespace Iit.Fibertest.WpfCommonViews
             if ((rftsEventType & RftsEventTypes.IsMonitored) != 0)
                 return Resources.SID_yes;
             if (rftsEventType == RftsEventTypes.None)
-                return "";
+                return Resources.SID_no;
                 //return Resources.SID_pass;
             return Resources.SID_unexpected_input;
         }
