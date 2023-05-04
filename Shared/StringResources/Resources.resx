@@ -3509,4 +3509,64 @@ Please try again later</value>
 	<data name="SID_Events_corresponding_to_the_beginning_and_end_of_the_trace_must_be_associated_with_landmarks" xml:space="preserve">
 		<value>Events corresponding to the beginning and end of the trace must be associated with landmarks</value>
 	</data>
+	<data name="SID_Cancel_all_changes" xml:space="preserve">
+		<value>Cancel all changes</value>
+	</data>
+	<data name="SID_Save_changes" xml:space="preserve">
+		<value>Save changes</value>
+	</data>
+	<data name="SID_Update_table" xml:space="preserve">
+		<value>Update table</value>
+	</data>
+	<data name="SID_All_changes_will_be_canceled__Continue_" xml:space="preserve">
+		<value>All changes will be canceled. Continue?</value>
+	</data>
+	<data name="SID_Trace___0___" xml:space="preserve">
+		<value>Trace: {0}  </value>
+	</data>
+	<data name="SID_Processed__0_____1__traces" xml:space="preserve">
+		<value>Processed {0} / {1} traces</value>
+	</data>
+	<data name="SID_Landmark_changes_applied_successfully" xml:space="preserve">
+		<value>Landmark changes applied successfully</value>
+	</data>
+	<data name="SID_Failed_to_apply_landmark_changes" xml:space="preserve">
+		<value>Failed to apply landmark changes</value>
+	</data>
+	<data name="SID_Failed_to_get_base_refs" xml:space="preserve">
+		<value>Failed to get base refs</value>
+	</data>
+	<data name="SID_Base_refs_for_trace_modified_successfully" xml:space="preserve">
+		<value>Base refs for trace modified successfully</value>
+	</data>
+	<data name="SID_Failed_to_modify_base_ref" xml:space="preserve">
+		<value>Failed to modify base ref</value>
+	</data>
+	<data name="SID_Base_refs_saved_successfully" xml:space="preserve">
+		<value>Base refs saved successfully</value>
+	</data>
+	<data name="SID_Failed_to_save_base_refs" xml:space="preserve">
+		<value>Failed to save base refs</value>
+	</data>
+	<data name="SID_Base_refs_for_trace_sent_successfully" xml:space="preserve">
+		<value>Base refs for trace sent successfully</value>
+	</data>
+	<data name="SID_Failed_to_send_base_To_RTU" xml:space="preserve">
+		<value>Failed to send base To RTU</value>
+	</data>
+	<data name="SID_Failed_to_update_VEEX_test_list" xml:space="preserve">
+		<value>Failed to update VEEX test list</value>
+	</data>
+	<data name="SID_Base_refs_amendment_process_is_finished" xml:space="preserve">
+		<value>Base refs amendment process is finished</value>
+	</data>
+	<data name="SID_Saving_landmark_changes" xml:space="preserve">
+		<value>Saving landmark changes</value>
+	</data>
+	<data name="SID_Attention__There_are__0__problems_" xml:space="preserve">
+		<value>Attention! There are {0} problems.</value>
+	</data>
+	<data name="SID_User_input_length_should_be_a_number_or_an_empty_string" xml:space="preserve">
+		<value>User input length should be a number or an empty string</value>
+	</data>
 </root>

@@ -4,6 +4,31 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Graph
 {
+    public static class ReturnCodeBrushExt
+    {
+        public static string GetColor(this ReturnCode returnCode)
+        {
+            switch (returnCode)
+            {
+                case ReturnCode.Ok:
+                case ReturnCode.LandmarkChangesAppliedSuccessfully:
+                case ReturnCode.BaseRefsForTraceModifiedSuccessfully:
+                case ReturnCode.BaseRefsSavedSuccessfully:
+                case ReturnCode.BaseRefsForTraceSentSuccessfully:
+                case ReturnCode.BaseRefsAmendmentProcessDone:
+                    return @"black";
+                case ReturnCode.FailedToApplyLandmarkChanges:
+                case ReturnCode.FailedToGetBaseRefs:
+                case ReturnCode.FailedToModifyBaseRef:
+                case ReturnCode.FailedToSaveBaseRefs:
+                case ReturnCode.FailedToSendBaseToRtu:
+                case ReturnCode.FailedToUpdateVeexTestList:
+                    return @"red";
+
+                default: return @"black";
+            }
+        }
+    }
     public static class ReturnCodeExt
     {
         public static string GetLocalizedWithOsInfo(this ReturnCode returnCode, string exceptionMessage)
@@ -101,27 +126,27 @@ namespace Iit.Fibertest.Graph
 
                 // 5000
                 case ReturnCode.LandmarkChangesAppliedSuccessfully:
-                    return "Landmark changes applied successfully";
+                    return Resources.SID_Landmark_changes_applied_successfully;
                 case ReturnCode.FailedToApplyLandmarkChanges:
-                    return "Failed to apply landmark changes";
+                    return Resources.SID_Failed_to_apply_landmark_changes;
                 case ReturnCode.FailedToGetBaseRefs:
-                    return "Failed to get base refs";
+                    return Resources.SID_Failed_to_get_base_refs;
                 case ReturnCode.BaseRefsForTraceModifiedSuccessfully:
-                    return "Base refs for trace modified successfully";
+                    return Resources.SID_Base_refs_for_trace_modified_successfully;
                 case ReturnCode.FailedToModifyBaseRef:
-                    return "Failed to modify base ref";
+                    return Resources.SID_Failed_to_modify_base_ref;
                 case ReturnCode.BaseRefsSavedSuccessfully:
-                    return "Base refs saved successfully";
+                    return Resources.SID_Base_refs_saved_successfully;
                 case ReturnCode.FailedToSaveBaseRefs:
-                    return "Failed to save base refs";
+                    return Resources.SID_Failed_to_save_base_refs;
                 case ReturnCode.BaseRefsForTraceSentSuccessfully:
-                    return "Base refs for trace sent successfully";
+                    return Resources.SID_Base_refs_for_trace_sent_successfully;
                 case ReturnCode.FailedToSendBaseToRtu:
-                    return "Failed to send base To RTU";
+                    return Resources.SID_Failed_to_send_base_To_RTU;
                 case ReturnCode.FailedToUpdateVeexTestList:
-                    return "Failed to update VEEX test list";
+                    return Resources.SID_Failed_to_update_VEEX_test_list;
                 case ReturnCode.BaseRefsAmendmentProcessDone:
-                    return "Base refs amendment process is finished";
+                    return Resources.SID_Base_refs_amendment_process_is_finished;
 
 
                 // 9000

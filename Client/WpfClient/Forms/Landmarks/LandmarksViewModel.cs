@@ -137,7 +137,7 @@ namespace Iit.Fibertest.Client
             _rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
             Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
             _selectedTrace = _readModel.Traces.First(t => t.TraceId == traceId);
-            await RowsLandmarkViewModel.Initialize(SelectedTrace, selectedNodeId, -1);
+            await RowsLandmarkViewModel.Initialize(SelectedTrace, selectedNodeId);
             OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
         }
 
@@ -162,16 +162,21 @@ namespace Iit.Fibertest.Client
         }
 
         #region Whole trace buttons
-        public async Task ApplyAllChanges()
+        private bool _areThereAnyChanges;
+        public bool AreThereAnyChanges
+        {
+            get => _areThereAnyChanges;
+            set
+            {
+                if (value == _areThereAnyChanges) return;
+                _areThereAnyChanges = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public async Task SaveAllChanges()
         {
             var dto = RowsLandmarkViewModel.Command.BuildDto();
-            if (dto == null)
-            {
-                var im = new MyMessageBoxViewModel(MessageType.Information, "No changes found");
-                _windowManager.ShowDialogWithAssignedOwner(im);
-                return; 
-            }
-
             CorrectionProgressDto result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
@@ -191,13 +196,15 @@ namespace Iit.Fibertest.Client
 
             await RowsLandmarkViewModel
                 .Initialize(_selectedTrace, Guid.Empty, RowsLandmarkViewModel.SelectedRow.Number);
+            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
 
         public void CancelAllChanges()
         {
             RowsLandmarkViewModel.CancelAllChanges();
+            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
-        
+
         public void ExportToPdf()
         {
             RowsLandmarkViewModel.ExportToPdf();
@@ -217,11 +224,13 @@ namespace Iit.Fibertest.Client
             _graphReadModel.ExtinguishAllNodes();
             RowsLandmarkViewModel.UpdateTable(OneLandmarkViewModel.GetLandmark());
             OneLandmarkViewModel.IsEditEnabled = true;
+            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
 
         public void CancelChanges()
         {
             RowsLandmarkViewModel.CancelChanges();
+            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
 
         public async void ShowLandmarkOnMap()
@@ -258,7 +267,8 @@ namespace Iit.Fibertest.Client
         {
             if (RowsLandmarkViewModel.Command.Any())
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Confirmation, "All changes will be canceled. Are you sure?");
+                var vm = new MyMessageBoxViewModel(MessageType.Confirmation,
+                    Resources.SID_All_changes_will_be_canceled__Continue_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 if (!vm.IsAnswerPositive) return;
                 RowsLandmarkViewModel.CancelAllChanges();

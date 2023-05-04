@@ -3509,4 +3509,64 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Events_corresponding_to_the_beginning_and_end_of_the_trace_must_be_associated_with_landmarks" xml:space="preserve">
 		<value>События соответствующие началу и концу трассы должны быть связаны с ориентирами</value>
 	</data>
+	<data name="SID_Cancel_all_changes" xml:space="preserve">
+		<value>Отменить все изменения</value>
+	</data>
+	<data name="SID_Save_changes" xml:space="preserve">
+		<value>Сохранить изменения</value>
+	</data>
+	<data name="SID_Update_table" xml:space="preserve">
+		<value>Обновить таблицу</value>
+	</data>
+	<data name="SID_All_changes_will_be_canceled__Continue_" xml:space="preserve">
+		<value>Все изменения будут отменены. Продолжить?</value>
+	</data>
+	<data name="SID_Trace___0___" xml:space="preserve">
+		<value>Трасса: {0}  </value>
+	</data>
+	<data name="SID_Processed__0_____1__traces" xml:space="preserve">
+		<value>Обработано {0} / {1} трасс</value>
+	</data>
+	<data name="SID_Landmark_changes_applied_successfully" xml:space="preserve">
+		<value>Изменения ориентиров применены успешно</value>
+	</data>
+	<data name="SID_Failed_to_apply_landmark_changes" xml:space="preserve">
+		<value>Не удалось применить изменения ориентиров</value>
+	</data>
+	<data name="SID_Failed_to_get_base_refs" xml:space="preserve">
+		<value>Не удалось получить базовую рефлектограмму</value>
+	</data>
+	<data name="SID_Base_refs_for_trace_modified_successfully" xml:space="preserve">
+		<value>Базовые рефлектограммы трассы изменены успешно</value>
+	</data>
+	<data name="SID_Failed_to_modify_base_ref" xml:space="preserve">
+		<value>Не удалось изменить базовую рефлектограмму</value>
+	</data>
+	<data name="SID_Base_refs_saved_successfully" xml:space="preserve">
+		<value>Базовые рефлектограммы сохранены успешно</value>
+	</data>
+	<data name="SID_Failed_to_save_base_refs" xml:space="preserve">
+		<value>Не удалось сохранить базовые рефлектограммы</value>
+	</data>
+	<data name="SID_Base_refs_for_trace_sent_successfully" xml:space="preserve">
+		<value>Базовые рефлектограммы переданы успешно</value>
+	</data>
+	<data name="SID_Failed_to_send_base_To_RTU" xml:space="preserve">
+		<value>Не удалось переслать базовые рефлектограммы на RTU</value>
+	</data>
+	<data name="SID_Failed_to_update_VEEX_test_list" xml:space="preserve">
+		<value>Не удалось скорректировать список тестов (VeEX RTU)</value>
+	</data>
+	<data name="SID_Base_refs_amendment_process_is_finished" xml:space="preserve">
+		<value>Корректировка базовых рефлектограм завершена</value>
+	</data>
+	<data name="SID_Saving_landmark_changes" xml:space="preserve">
+		<value>Сохранение изменений ориентиров</value>
+	</data>
+	<data name="SID_Attention__There_are__0__problems_" xml:space="preserve">
+		<value>Внимание! Обнаружено {0} проблем.</value>
+	</data>
+	<data name="SID_User_input_length_should_be_a_number_or_an_empty_string" xml:space="preserve">
+		<value>Пользовательская длина должна быть числом и пустой строкой</value>
+	</data>
 </root>

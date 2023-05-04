@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-    public class OneLandmarkViewModel : PropertyChangedBase
+    public class OneLandmarkViewModel : PropertyChangedBase, IDataErrorInfo
     {
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
@@ -115,6 +118,8 @@ namespace Iit.Fibertest.Client
         public void Initialize(Landmark selectedLandmark)
         {
             LandmarkUnderWork = selectedLandmark;
+            UserInputLengthLocal = selectedLandmark.IsUserInput 
+                ? selectedLandmark.UserInputLength.ToString(CultureInfo.InvariantCulture) : "";
 
             GpsInputSmallViewModel.Initialize(selectedLandmark.GpsCoors);
             ComboItems = GetItems(selectedLandmark.EquipmentType);
@@ -135,8 +140,59 @@ namespace Iit.Fibertest.Client
                 return null;
             }
 
+            if (UserInputLengthLocal == "")
+            {
+                LandmarkUnderWork.IsUserInput = false;
+                LandmarkUnderWork.UserInputLength = 0;
+            }
+            else
+            {
+                if (!double.TryParse(UserInputLengthLocal, out double len))
+                {
+                    var vm = new MyMessageBoxViewModel(MessageType.Error,
+                        Resources.SID_User_input_length_should_be_a_number_or_an_empty_string);
+                    _windowManager.ShowDialogWithAssignedOwner(vm);
+                    return null;
+                }
+
+                LandmarkUnderWork.IsUserInput = true;
+                LandmarkUnderWork.UserInputLength = len;
+            }
+
             LandmarkUnderWork.GpsCoors = position;
             return LandmarkUnderWork.Clone();
         }
+
+        private string _userInputLengthLocal;
+        public string UserInputLengthLocal
+        {
+            get => _userInputLengthLocal;
+            set
+            {
+                if (value.Equals(_userInputLengthLocal)) return;
+                _userInputLengthLocal = value;
+                NotifyOfPropertyChange();
+            }
+        }
+        
+        public string this[string columnName]
+        {
+            get
+            {
+                var errorMessage = string.Empty;
+                switch (columnName)
+                {
+                    case "UserInputLengthLocal":
+                        if (_userInputLengthLocal != "" && !double.TryParse(_userInputLengthLocal, out _))
+                        {
+                            errorMessage = Resources.SID_Length_should_be_a_number;
+                        }
+                        break;
+                }
+                return errorMessage;
+            }
+        }
+
+        public string Error { get; } = null;
     }
 }

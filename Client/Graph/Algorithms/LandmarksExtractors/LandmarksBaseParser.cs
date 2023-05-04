@@ -29,14 +29,14 @@ namespace Iit.Fibertest.Graph
 
         // LandmarksView in desktop client
         // already has traceModel - recalculate distances and returns landmarks
-        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData,
-            TraceModelForBaseRef modelIncludingAdjustmentPoints)
-        {
-            var modelWithoutAdjustmentPoint = modelIncludingAdjustmentPoints
-                .ReCalculateGpsDistancesForTraceModel()
-                .ExcludeAdjustmentPoints();
-            return GetLandmarksInner(sorData, modelWithoutAdjustmentPoint);
-        }
+        // public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData,
+        //     TraceModelForBaseRef modelIncludingAdjustmentPoints)
+        // {
+        //     var modelWithoutAdjustmentPoint = modelIncludingAdjustmentPoints
+        //         .ReCalculateGpsDistancesForTraceModel()
+        //         .ExcludeAdjustmentPoints();
+        //     return GetLandmarksInner(sorData, modelWithoutAdjustmentPoint);
+        // }
 
         private List<Landmark> GetLandmarksInner(OtdrDataKnownBlocks sorData, TraceModelForBaseRef modelWithoutAdjustmentPoint)
         {

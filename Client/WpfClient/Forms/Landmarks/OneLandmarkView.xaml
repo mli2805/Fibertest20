@@ -12,21 +12,23 @@
     <DockPanel>
         <GroupBox DockPanel.Dock="Right" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
                   Visibility="{Binding GisVisibility}" 
-                      IsEnabled="{Binding HasPrivileges}">
+                  IsEnabled="{Binding HasPrivileges}">
             <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
         </GroupBox>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="230"/>
+                <ColumnDefinition Width="210"/>
             </Grid.ColumnDefinitions>
             <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0">
                 <StackPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Margin="5,0"/>
                     <TextBox Margin="5" Height="25" Text="{Binding LandmarkUnderWork.NodeTitle}"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="5,0"/>
-                    <TextBox Margin="5" Height="25" Text="{Binding LandmarkUnderWork.NodeComment}"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" Margin="5,0" />
+                    <TextBox Margin="5" Height="50"
+                                 Text="{Binding LandmarkUnderWork.NodeComment}"
+                                 TextWrapping="Wrap" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5,0">
@@ -54,7 +56,9 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="{x:Static stringResources:Resources.SID_User_Length_m}" Margin="5,0">
-                    <TextBox Margin="5" Height="25" Text="{Binding LandmarkUnderWork.UserInputLength}"/>
+                    <TextBox Margin="5" Height="25" 
+                             Text="{Binding UserInputLengthLocal, 
+                            ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </GroupBox>
             </StackPanel>
         </Grid>

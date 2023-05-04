@@ -28,28 +28,33 @@
                     </CheckBox>
                 </StackPanel>
             </GroupBox>
+            <GroupBox DockPanel.Dock="Right" Header="">
+                <StackPanel Orientation="Horizontal">
+                    <Button DockPanel.Dock="Left" Width="172" Height="25" Margin="5"  
+                            Content="PDF" Name="ExportToPdf"/>
+                    <Button Width="172" Height="25" Margin="5" Name="ShowReflectogram" 
+                            Content="{x:Static stringResources:Resources.SID_Reflectogram}" 
+                            IsEnabled="{Binding RowsLandmarkViewModel.HasBaseRef}"/>
+                </StackPanel>
+            </GroupBox>
             <StackPanel/>
         </DockPanel>
-        <GroupBox DockPanel.Dock="Bottom" Margin="5,0,5,5">
-            <DockPanel Margin="5">
-                <Button DockPanel.Dock="Right" Width="172" Height="25" Margin="5" 
-                        Content="CancelTrace" Name="CancelAllChanges"/>
-                <Button DockPanel.Dock="Right" Width="172" Height="25" Margin="5"  
-                        Content="ApplyTrace" Name="ApplyAllChanges"/>
-                <Button DockPanel.Dock="Left" Width="172" Height="25" Margin="5"  
-                        Content="PDF" Name="ExportToPdf"/>
-                <Button Width="172" Height="25" Margin="5" Name="ShowReflectogram" 
-                        Content="{x:Static stringResources:Resources.SID_Reflectogram}" 
-                        IsEnabled="{Binding RowsLandmarkViewModel.HasBaseRef}"/>
+            <DockPanel DockPanel.Dock="Bottom" Margin="15,0,15,5">
+                <Button DockPanel.Dock="Left" Name="CancelAllChanges" Width="172" Height="25" Margin="5" 
+                        Content="{x:Static stringResources:Resources.SID_Cancel_all_changes}"
+                        IsEnabled="{Binding AreThereAnyChanges}"/>
+                <Button DockPanel.Dock="Right" Name="SaveAllChanges" Width="172" Height="25" Margin="5"  
+                        Content="{x:Static stringResources:Resources.SID_Save_changes}" 
+                        IsEnabled="{Binding AreThereAnyChanges}"/>
                 <StackPanel/>
             </DockPanel>
-        </GroupBox>
 
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmark}" DockPanel.Dock="Bottom" 
                   Margin="5, 0,5,5" IsEnabled="{Binding OneLandmarkViewModel.HasPrivileges}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Bottom" Margin="5,5,0,0" Orientation="Horizontal">
-                    <Button Width="132" Height="25" Margin="5" Name="UpdateTable" Content="Update table"/>
+                    <Button Width="172" Height="25" Margin="5" Name="UpdateTable" 
+                            Content="{x:Static stringResources:Resources.SID_Update_table}"/>
                     <Button Width="132" Height="25" Margin="5" Name="CancelChanges" 
                             Content="{x:Static stringResources:Resources.SID_Cancel_changes}"/>
                     <Button Width="132" Height="25" Margin="5" Name="ShowLandmarkOnMap" 

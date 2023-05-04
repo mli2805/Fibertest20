@@ -21,13 +21,13 @@ namespace Iit.Fibertest.Client
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly ReflectogramManager _reflectogramManager;
         private Fiber _fiber;
-        private string _userInputedLength;
 
         public string GpsLength { get; set; }
 
         public string NodeAtitle { get; set; }
         public string NodeBtitle { get; set; }
 
+        private string _userInputedLength;
         public string UserInputedLength
         {
             get => _userInputedLength;

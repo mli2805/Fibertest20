@@ -131,11 +131,14 @@ namespace Iit.Fibertest.Client
                 .GetTraceComponentsByIds(_selectedTrace)
                 .ReCalculateGpsDistancesForTraceModel();
 
-            // _originalModel is clone, so changes to ReadModel does not affects them
+            // _originalModel is а clone, so changes to ReadModel does not affects them
             _originalModel = traceModel.Clone();
 
-            // contains references on Nodes/Fibers from ReadModel, so changes are "visible" on map
+            // ++++ contains references on Nodes/Fibers from ReadModel, so changes are "visible" on map
+            // ++++ and GetLandmarksFromBaseRef get gps distances from ReadModel
             _changedModel = traceModel.ExcludeAdjustmentPoints();
+            // ---- now it is a clone !!!
+            // _changedModel = traceModel.ExcludeAdjustmentPoints().Clone();
 
             _changedLandmarks = HasBaseRef
                 ? _landmarksBaseParser.GetLandmarksFromBaseRef(_sorData, _selectedTrace)
@@ -158,7 +161,6 @@ namespace Iit.Fibertest.Client
             var originalLandmark = _originalLandmarks.First(l => l.Number == changedLandmark.Number);
 
             var currentNode = _changedModel.NodeArray.First(n => n.NodeId == SelectedRow.NodeId);
-            var indexOf = Array.IndexOf(_changedModel.NodeArray, currentNode);
 
             if (originalLandmark.NodeTitle != changedLandmark.NodeTitle
                     || originalLandmark.NodeComment != changedLandmark.NodeComment
@@ -265,7 +267,7 @@ namespace Iit.Fibertest.Client
         //
         //     _originalLandmarkRows = Rows.ToList();
         // }
-        //
+        
         public void CancelAllChanges()
         {
             foreach (var landmarkRow in Rows.Skip(1))
