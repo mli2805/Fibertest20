@@ -239,20 +239,19 @@ namespace Iit.Fibertest.Client
                 _gpsInputMode, _originalGpsInputMode);
         }
 
-        private byte[] _sorBytes;
         private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
         {
             var baseRef = _readModel.BaseRefs.First(b => b.Id == baseId);
             _preciseTimestamp = baseRef.SaveTimestamp;
-            _sorBytes = await _c2DWcfCommonManager.GetSorBytes(baseRef.SorFileId);
-            return SorData.FromBytes(_sorBytes);
+            var sorBytes = await _c2DWcfCommonManager.GetSorBytes(baseRef.SorFileId);
+            return SorData.FromBytes(sorBytes);
         }
 
         #region View's actions
         public void ShowReflectogram()
         {
             _reflectogramManager
-                .ShowPreciseWithSelectedLandmark(_sorBytes, _selectedTrace.Title,
+                .ShowPreciseWithSelectedLandmark(_sorData.ToBytes(), _selectedTrace.Title,
                     _preciseTimestamp, SelectedRow.Number + 1);
         }
 
@@ -262,17 +261,6 @@ namespace Iit.Fibertest.Client
             PdfExposer.Show(report, $@"Landmarks {_selectedTrace.Title}.pdf", _windowManager);
         }
 
-        // public void SetChangedAsNewOriginal()
-        // {
-        //     _originalModel = _changedModel.Clone();
-        //     _originalLandmarks = _changedLandmarks.Clone();
-        //
-        //     Rows = ReCalculateLandmarks();
-        //     SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
-        //
-        //     _originalLandmarkRows = Rows.ToList();
-        // }
-        
         public void CancelAllChanges()
         {
             foreach (var landmarkRow in Rows.Skip(1))

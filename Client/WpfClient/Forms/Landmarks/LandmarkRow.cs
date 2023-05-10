@@ -77,7 +77,8 @@ namespace Iit.Fibertest.Client
             NumberIncludingAdjustmentPoints = landmark.NumberIncludingAdjustmentPoints;
             NodeId = landmark.NodeId;
             FiberId = landmark.FiberId;
-            NodeTitle = landmark.NodeTitle ?? "";
+          //  NodeTitle = landmark.NodeTitle ?? "";
+            NodeTitle = landmark.NodeTitle;
             NodeTitleBrush = oldLandmarkRow == null || landmark.NodeTitle == oldLandmarkRow.NodeTitle 
                 ? Brushes.Transparent : Brushes.Cornsilk;
             NodeComment = landmark.NodeComment;

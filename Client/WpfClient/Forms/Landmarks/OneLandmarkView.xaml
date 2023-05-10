@@ -7,17 +7,13 @@
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
+             Width = "1000" Height="152"
              d:DataContext="{d:DesignInstance client:OneLandmarkViewModel}"
              cal:Bind.ModelWithoutContext="{Binding .}" >
-    <DockPanel>
-        <GroupBox DockPanel.Dock="Right" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
-                  Visibility="{Binding GisVisibility}" 
-                  IsEnabled="{Binding HasPrivileges}">
-            <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
-        </GroupBox>
-        <Grid>
+    <StackPanel Orientation="Horizontal">
+         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="286"/>
                 <ColumnDefinition Width="230"/>
                 <ColumnDefinition Width="210"/>
             </Grid.ColumnDefinitions>
@@ -46,21 +42,29 @@
                         <DockPanel IsEnabled="{Binding IsLeftCableReserveEnabled}">
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Left}" Margin="5,7"/>
                             <TextBox Margin="5" Height="25" 
-                                     Text="{Binding LandmarkUnderWork.LeftCableReserve}"/>
+                                     Text="{Binding LeftCableReserveLocal,
+                                     ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                         <DockPanel IsEnabled="{Binding IsRightCableReserveEnabled}">
                             <TextBlock Text="{x:Static stringResources:Resources.SID_Right}" Margin="5,7"/>
                             <TextBox Margin="5" Height="25" 
-                                     Text="{Binding LandmarkUnderWork.RightCableReserve}"/>
+                                     Text="{Binding RightCableReserveLocal,
+                                     ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="{x:Static stringResources:Resources.SID_User_Length_m}" Margin="5,0">
                     <TextBox Margin="5" Height="25" 
                              Text="{Binding UserInputLengthLocal, 
-                            ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                             ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </GroupBox>
             </StackPanel>
-        </Grid>
-    </DockPanel>
+        </Grid> 
+        <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
+                  Visibility="{Binding GisVisibility}" 
+                  IsEnabled="{Binding HasPrivileges}">
+            <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}" />
+        </GroupBox>
+     
+    </StackPanel>
 </UserControl>

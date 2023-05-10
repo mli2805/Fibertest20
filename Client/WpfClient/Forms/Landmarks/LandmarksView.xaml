@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         SizeToContent="Width" Height="708" ResizeMode="CanResize"
         d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
-    <DockPanel Name="AllView">
+    <DockPanel Name="AllView" Width="1020">
         <DockPanel Name="SelectorsOnTop" DockPanel.Dock="Top" Margin="5" >
             <GroupBox  Header="{x:Static stringResources:Resources.SID_Traces}" DockPanel.Dock="Left">
                 <ComboBox ItemsSource="{Binding Traces}" 
@@ -39,31 +39,42 @@
             </GroupBox>
             <StackPanel/>
         </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Margin="15,0,15,5">
-                <Button DockPanel.Dock="Left" Name="CancelAllChanges" Width="172" Height="25" Margin="5" 
+        <DockPanel DockPanel.Dock="Bottom" Margin="15,0,15,5">
+            <Button DockPanel.Dock="Left" Name="CancelAllChanges" Width="172" Height="25" Margin="5" 
                         Content="{x:Static stringResources:Resources.SID_Cancel_all_changes}"
                         IsEnabled="{Binding AreThereAnyChanges}"/>
-                <Button DockPanel.Dock="Right" Name="SaveAllChanges" Width="172" Height="25" Margin="5"  
+            <Button DockPanel.Dock="Right" Name="SaveAllChanges" Width="172" Height="25" Margin="5"  
                         Content="{x:Static stringResources:Resources.SID_Save_changes}" 
                         IsEnabled="{Binding AreThereAnyChanges}"/>
-                <StackPanel/>
-            </DockPanel>
+            <StackPanel/>
+        </DockPanel>
 
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmark}" DockPanel.Dock="Bottom" 
                   Margin="5, 0,5,5" IsEnabled="{Binding OneLandmarkViewModel.HasPrivileges}">
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Bottom" Margin="5,5,0,0" Orientation="Horizontal">
-                    <Button Width="172" Height="25" Margin="5" Name="UpdateTable" 
-                            Content="{x:Static stringResources:Resources.SID_Update_table}"/>
-                    <Button Width="132" Height="25" Margin="5" Name="CancelChanges" 
-                            Content="{x:Static stringResources:Resources.SID_Cancel_changes}"/>
-                    <Button Width="132" Height="25" Margin="5" Name="ShowLandmarkOnMap" 
-                            Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
-
-                </StackPanel>
+            <StackPanel >
                 <client:OneLandmarkView  DataContext="{Binding OneLandmarkViewModel}" 
-                                         HorizontalAlignment="Stretch" />
-            </DockPanel>
+                                         HorizontalAlignment="Left" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="733"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="5,5,0,0" Orientation="Horizontal">
+                        <Button Width="172" Height="25" Margin="5" Name="UpdateTable" 
+                                Content="{x:Static stringResources:Resources.SID_Update_table}"/>
+                        <Button Width="172" Height="25" Margin="5" Name="CancelChanges" 
+                                Content="{x:Static stringResources:Resources.SID_Cancel_changes}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Width="250" 
+                                Margin="0,-65,0,0" Visibility="{Binding GisVisibility}">
+                        <Button Height="20" Margin="5" Name="ShowLandmarkOnMap" 
+                                Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
+                        <Button Height="20" Margin="5, 4, 5, 5" Name="RestoreCoordinates"
+                                Content="Restore" />
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
             <client:RowsLandmarkView DataContext="{Binding RowsLandmarkViewModel}"/>

@@ -116,11 +116,9 @@
         <DataGrid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Include_equipment_into_trace}"
-                                  cal:Message.Attach="IncludeEquipment" 
-                                  IsEnabled="{Binding HasBaseRef}"/>
+                                  cal:Message.Attach="IncludeEquipment" />
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Exclude_equipment_from_trace}" 
-                                  cal:Message.Attach="ExcludeEquipment" 
-                                  IsEnabled="{Binding HasBaseRef}"/>
+                                  cal:Message.Attach="ExcludeEquipment" />
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Node}" cal:Message.Attach="ShowNode" />
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Section}" cal:Message.Attach="ShowFiber" />
             </ContextMenu>

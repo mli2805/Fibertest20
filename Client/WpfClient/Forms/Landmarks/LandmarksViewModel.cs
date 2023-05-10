@@ -235,10 +235,16 @@ namespace Iit.Fibertest.Client
 
         public async void ShowLandmarkOnMap()
         {
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-                _tabulatorViewModel.SelectedTabIndex = 3;
+            await ShowLandmark();
+        }
 
-            await Task.Delay(100);
+        private async Task ShowLandmark()
+        {
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+            {
+                _tabulatorViewModel.SelectedTabIndex = 3;
+                await Task.Delay(100);
+            }
 
             if (CurrentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
                 _graphReadModel.MainMap.Zoom = CurrentGis.ThresholdZoom;
@@ -260,6 +266,14 @@ namespace Iit.Fibertest.Client
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == RowsLandmarkViewModel.SelectedRow.NodeId);
             nodeVm.Position = position;
             nodeVm.IsHighlighted = true;
+        }
+
+        public async void RestoreCoordinates()
+        {
+            // restore
+            OneLandmarkViewModel.RestoreCoordinates();
+            //
+            await ShowLandmark();
         }
         #endregion
 
