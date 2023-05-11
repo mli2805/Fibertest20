@@ -6,11 +6,8 @@ using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 using Trace = Iit.Fibertest.Graph.Trace;
 
@@ -66,9 +63,7 @@ namespace Iit.Fibertest.Client
         }
 
         private readonly ILifetimeScope _globalScope;
-        private readonly IMyLog _logFile;
         private readonly Model _readModel;
-        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly TabulatorViewModel _tabulatorViewModel;
@@ -100,16 +95,14 @@ namespace Iit.Fibertest.Client
 
         public Visibility GisVisibility { get; set; }
 
-        public LandmarksViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel, CurrentGis currentGis,
-            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager,
+        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, 
+            CurrentGis currentGis, IWindowManager windowManager,
             RowsLandmarkViewModel rowsLandmarkViewModel, OneLandmarkViewModel oneLandmarkViewModel,
             GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel)
         {
             CurrentGis = currentGis;
             _globalScope = globalScope;
-            _logFile = logFile;
             _readModel = readModel;
-            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
             _graphReadModel = graphReadModel;
             _tabulatorViewModel = tabulatorViewModel;
@@ -140,7 +133,6 @@ namespace Iit.Fibertest.Client
             await RowsLandmarkViewModel.Initialize(SelectedTrace, selectedNodeId);
             OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
         }
-
 
         protected override void OnViewLoaded(object view)
         {
@@ -177,22 +169,12 @@ namespace Iit.Fibertest.Client
         public async Task SaveAllChanges()
         {
             var dto = RowsLandmarkViewModel.Command.BuildDto();
-            CorrectionProgressDto result;
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                result = await _c2RWcfManager.StartLandmarksCorrection(dto);
-                _logFile.AppendLine($@"{result.ReturnCode}");
-                if (result.ReturnCode != ReturnCode.LandmarkChangesAppliedSuccessfully)
-                {
-                    var em = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ErrorMessage}");
-                    _windowManager.ShowDialogWithAssignedOwner(em);
-                    return;
-                }
-            }
-            RowsLandmarkViewModel.Command.ClearAll();
             var vm = _globalScope.Resolve<LandmarksCorrectionProgressViewModel>();
-            vm.SetProgress(result);
+            vm.Initialize(dto);
             _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (!vm.IsSentSuccessfully) return;
+
+            RowsLandmarkViewModel.Command.ClearAll();
 
             await RowsLandmarkViewModel
                 .Initialize(_selectedTrace, Guid.Empty, RowsLandmarkViewModel.SelectedRow.Number);

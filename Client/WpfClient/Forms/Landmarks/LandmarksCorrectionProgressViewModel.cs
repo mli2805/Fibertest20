@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -16,8 +17,10 @@ namespace Iit.Fibertest.Client
     public class LandmarksCorrectionProgressViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _wcfCommonManager;
+        private readonly IWindowManager _windowManager;
 
         #region visual properties
         private Visibility _progressBarVisibility = Visibility.Visible;
@@ -38,17 +41,53 @@ namespace Iit.Fibertest.Client
             new ObservableCollection<LandmarksCorrectionProgressLine>();
         #endregion
 
-        public LandmarksCorrectionProgressViewModel(ILifetimeScope globalScope, Model readModel,
-            IWcfServiceCommonC2D wcfCommonManager)
+        public LandmarksCorrectionProgressViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel,
+            IWcfServiceCommonC2D wcfCommonManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
+            _logFile = logFile;
             _readModel = readModel;
             _wcfCommonManager = wcfCommonManager;
+            _windowManager = windowManager;
+        }
+
+        private LandmarksCorrectionDto _dto;
+        public void Initialize(LandmarksCorrectionDto dto)
+        {
+            _dto = dto;
         }
 
         protected override async void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Saving_landmark_changes;
+            var result = await SendCommand(_dto);
+            if (result == null) return;
+            UpdateProgressView(result);
+            await GetUpdates();
+        }
+
+        public bool IsSentSuccessfully;
+        private async Task<CorrectionProgressDto> SendCommand(LandmarksCorrectionDto dto)
+        {
+            CorrectionProgressDto result;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                result = await _wcfCommonManager.StartLandmarksCorrection(dto);
+                _logFile.AppendLine($@"{result.ReturnCode}");
+                if (result.ReturnCode != ReturnCode.LandmarkChangesAppliedSuccessfully)
+                {
+                    var em = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ErrorMessage}");
+                    _windowManager.ShowDialogWithAssignedOwner(em);
+                    return null;
+                }
+            }
+
+            IsSentSuccessfully = true;
+            return result;
+        }
+
+        private async Task GetUpdates()
+        {
             while (true)
             {
                 await Task.Delay(1000);
@@ -56,7 +95,7 @@ namespace Iit.Fibertest.Client
                 {
                     var result = await _wcfCommonManager.GetLandmarksCorrectionProgress(_batchId);
                     if (result == null) continue;
-                    SetProgress(result);
+                    UpdateProgressView(result);
                     if (result.AllTracesInvolved == result.TracesCorrected)
                         break;
                 }
@@ -66,7 +105,7 @@ namespace Iit.Fibertest.Client
         private Guid _batchId;
         private int _problemCount;
 
-        public void SetProgress(CorrectionProgressDto dto)
+        private void UpdateProgressView(CorrectionProgressDto dto)
         {
             if (dto == null) return;
             _batchId = dto.BatchId;

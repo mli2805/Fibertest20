@@ -60,7 +60,7 @@
                 </GroupBox>
             </StackPanel>
         </Grid> 
-        <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
+        <GroupBox Width="280" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
                   Visibility="{Binding GisVisibility}" 
                   IsEnabled="{Binding HasPrivileges}">
             <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}" />
