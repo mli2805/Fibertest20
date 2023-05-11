@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Graph
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
             if (message != "") return;
-            ApplyTraceToBaseRef(otdrKnownBlocks, trace, 
+            ApplyTraceToBaseRef(otdrKnownBlocks, trace,
                 otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length < trace.NodeIds.Count);
             baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
         }
@@ -50,7 +50,6 @@ namespace Iit.Fibertest.Graph
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
             var distancesMm = new int[landmarks.Length - 1];
-
 
             var leftLandmarkIndex = 0;
 
@@ -80,14 +79,17 @@ namespace Iit.Fibertest.Graph
                     distancesMm[i] = pos;
                 }
 
+                // first and last landmarks of fixed section
+                // are related to events, their locations are constant
+                for (int i = leftLandmarkIndex + 1; i < rightLandmarkIndex; i++)
+                {
+                    landmarks[i].Location = landmarks[i - 1].Location + sorData.GetOwtFromMm(distancesMm[i - 1]);
+                }
+
                 leftLandmarkIndex = rightLandmarkIndex;
             }
 
-            // first (0th) and last landmarks are related to events, their locations are constant
-            for (int i = 0; i < distancesMm.Length - 1; i++)
-            {
-                landmarks[i + 1].Location = landmarks[i].Location + sorData.GetOwtFromMm(distancesMm[i]);
-            }
+
         }
 
         private void InsertLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
@@ -161,6 +163,7 @@ namespace Iit.Fibertest.Graph
             return onBaseRef / onGraph;
         }
 
+        // возвращает сумму GPS-длин участков где пользователь ничего не ввел
         private int GetNotUserInputDistancesFromGraph(TraceModelForBaseRef model,
             int leftEquipmentIndex, int rightEquipmentIndex)
         {
@@ -170,6 +173,8 @@ namespace Iit.Fibertest.Graph
             return result;
         }
 
+        // оптическое расстояние между 2 ориентирами
+        // если на этом отрезке есть такое, то отнимаем пользовательские длины и кабельные резервы
         private double GetNotUserInputDistancesFromRefMm(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model,
             int leftEquipmentIndex, int rightEquipmentIndex)
         {

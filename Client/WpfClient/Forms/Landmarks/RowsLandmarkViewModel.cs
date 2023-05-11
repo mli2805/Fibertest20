@@ -222,6 +222,9 @@ namespace Iit.Fibertest.Client
                 .First(e => e.EquipmentId == currentEquipment.EquipmentId);
             originalEquipment.CloneInto(currentEquipment);
             Command.ClearEquipmentCommands(currentEquipment.EquipmentId);
+
+            Rows = ReCalculateLandmarks();
+            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
 
         // Update row, Cancel row, Cancel all rows
