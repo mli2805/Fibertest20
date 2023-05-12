@@ -54,9 +54,15 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="{x:Static stringResources:Resources.SID_User_Length_m}" Margin="5,0">
-                    <TextBox Margin="5" Height="25" 
-                             Text="{Binding UserInputLengthLocal, 
-                             ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Height="21" Width="21" Margin="0,1,0,0" Name="ClearUserLength" Background="#FFF3F3F3">
+                            <Image Source="../../Resources/Buttons/CloseChildren.png" Width="16" Height="16"/>
+
+                        </Button>
+                        <TextBox Margin="5" Height="25"
+                                 Text="{Binding UserInputLengthLocal, 
+                             ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    </DockPanel>
                 </GroupBox>
             </StackPanel>
         </Grid> 

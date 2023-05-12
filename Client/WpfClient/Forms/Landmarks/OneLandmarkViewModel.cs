@@ -140,6 +140,11 @@ namespace Iit.Fibertest.Client
             GpsInputSmallViewModel.Initialize(_originalPosition);
         }
 
+        public void ClearUserLength()
+        {
+            UserInputLengthLocal = "";
+        }
+
         public Landmark GetLandmark()
         {
             var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
