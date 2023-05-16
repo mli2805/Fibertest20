@@ -43,5 +43,11 @@ namespace Iit.Fibertest.Graph
                 }
             }
         }
+
+        public bool AreCoordinatesTheSame(Landmark other)
+        {
+            return GpsCoors.ToDetailedString(GpsInputMode.DegreesMinutesAndSeconds) ==
+                   other.GpsCoors.ToDetailedString(GpsInputMode.DegreesMinutesAndSeconds);
+        }
     }
 }

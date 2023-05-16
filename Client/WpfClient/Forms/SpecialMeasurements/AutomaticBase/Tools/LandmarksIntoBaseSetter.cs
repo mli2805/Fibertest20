@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
         {
             var model = _readModel
                 .GetTraceComponentsByIds(trace)
-                .ReCalculateGpsDistancesForTraceModel()
                 .ExcludeAdjustmentPoints();
 
             var ratio = GetRatio(sorData, model);

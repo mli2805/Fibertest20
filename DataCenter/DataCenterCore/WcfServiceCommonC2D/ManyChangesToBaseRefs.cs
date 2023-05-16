@@ -104,6 +104,8 @@ namespace Iit.Fibertest.DataCenterCore
                     return _writeModel.Traces.Where(t => t.FiberIds.Contains(cmd.Id));
                 case UpdateEquipment cmd:
                     return _writeModel.Traces.Where(t => t.EquipmentIds.Contains(cmd.EquipmentId));
+                case IncludeEquipmentIntoTrace cmd:
+                    return _writeModel.Traces.Where(t => t.TraceId == cmd.TraceId);
             }
             return null;
         }

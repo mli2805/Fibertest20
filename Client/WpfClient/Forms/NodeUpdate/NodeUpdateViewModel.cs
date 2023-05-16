@@ -126,7 +126,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsEditEnabled { get; set; }
+        public bool HasPrivileges { get; set; }
+        public bool StartedFromLandmarksView { get; set; }
+        public bool IsEditEnabled => HasPrivileges && !StartedFromLandmarksView;
 
         public Visibility GisVisibility { get; set; }
 
@@ -143,12 +145,20 @@ namespace Iit.Fibertest.Client
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             _c2DWcfManager = c2DWcfManager;
             _currentGis = currentGis;
-            IsEditEnabled = currentUser.Role <= Role.Root;
+            HasPrivileges = currentUser.Role <= Role.Root;
             _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
         }
 
-        public void Initialize(Guid nodeId)
+        private TraceModelForBaseRef _traceModel;
+        public void InitializeFromLandmarksView(Guid nodeId, TraceModelForBaseRef traceModel)
         {
+            _traceModel = traceModel;
+            Initialize(nodeId, true);
+        }
+
+        public void Initialize(Guid nodeId, bool startedFromLandmarksView = false)
+        {
+            StartedFromLandmarksView = startedFromLandmarksView;
             _originalNode = _readModel.Nodes.First(n => n.NodeId == nodeId);
             _nodeCoors = _originalNode.Position;
             Title = _originalNode.Title;
@@ -181,7 +191,23 @@ namespace Iit.Fibertest.Client
                 .Aggregate("", (current, traceVm) => current + (traceVm.Title + @" ;  "));
 
             var isLastForSomeTrace = _readModel.Traces.Any(t => t.EquipmentIds.Last() == equipment.EquipmentId);
-            var isPartOfTraceWithBase = _readModel.Traces.Any(t => t.EquipmentIds.Contains(equipment.EquipmentId) && t.HasAnyBaseRef);
+
+            bool isPart;
+
+            if (StartedFromLandmarksView)
+            {
+                var isPartOfThisTrace = _traceModel.EquipArray
+                    .Select(e => e.EquipmentId).Contains(equipment.EquipmentId);
+                var isPartOfOtherTraces = _readModel.Traces
+                    .Any(t => t.EquipmentIds.Contains(equipment.EquipmentId));
+                isPart = isPartOfThisTrace || isPartOfOtherTraces;
+            }
+            else
+            {
+                // isPartOfTraceWithBase
+                isPart = _readModel.Traces
+                    .Any(t => t.EquipmentIds.Contains(equipment.EquipmentId) && t.HasAnyBaseRef);
+            }
 
             var eqItem = new ItemOfEquipmentTableModel()
             {
@@ -193,7 +219,7 @@ namespace Iit.Fibertest.Client
                 CableReserveRight = equipment.CableReserveRight.ToString(),
                 Comment = equipment.Comment,
                 Traces = tracesNames,
-                IsRemoveEnabled = !isLastForSomeTrace && !isPartOfTraceWithBase,
+                IsRemoveEnabled = !isLastForSomeTrace && !isPart,
             };
             eqItem.PropertyChanged += EqItem_PropertyChanged;
             return eqItem;

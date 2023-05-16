@@ -68,6 +68,7 @@ namespace Iit.Fibertest.Client
                 if (value == null) return;
                 _selectedRow = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
             }
         }
 
@@ -76,6 +77,7 @@ namespace Iit.Fibertest.Client
         {
             _gpsInputMode = gpsInputMode;
             Rows = _changedLandmarks.LandmarksToRows(_originalLandmarkRows, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
+            SelectedRow = Rows.First(r => r.Number == _selectedRow.Number);
         }
 
         private bool _isFilterOn;
@@ -83,6 +85,7 @@ namespace Iit.Fibertest.Client
         {
             _isFilterOn = isFilterOn;
             Rows = _changedLandmarks.LandmarksToRows(_originalLandmarkRows, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
+            SelectedRow = Rows.First(r => r.Number == _selectedRow.Number);
         }
 
         public Visibility GisVisibility { get; set; }
@@ -97,10 +100,14 @@ namespace Iit.Fibertest.Client
                 if (value == _hasBaseRef) return;
                 _hasBaseRef = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
             }
         }
 
+        public bool IsEquipmentOpEnabled => !HasBaseRef && SelectedRow.Number != 0;
+
         public readonly UpdateFromLandmarksBatch Command = new UpdateFromLandmarksBatch();
+        public bool AreThereAnyChanges => Command.Any();
 
         public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis,
             Model readModel, IWindowManager windowManager,
@@ -132,34 +139,31 @@ namespace Iit.Fibertest.Client
                 _sorData = await GetBase(_selectedTrace.PreciseId);
 
             var traceModel = _readModel
-                .GetTraceComponentsByIds(_selectedTrace)
-                .ReCalculateGpsDistancesForTraceModel();
+                .GetTraceComponentsByIds(_selectedTrace);
 
             // _originalModel is а clone, so changes to ReadModel does not affects them
             _originalModel = traceModel.Clone();
 
             // ++++ contains references on Nodes/Fibers from ReadModel, so changes are "visible" on map
-            // ++++ and GetLandmarksFromBaseRef get gps distances from ReadModel
-            _changedModel = traceModel.ExcludeAdjustmentPoints();
-            // ---- now it is a clone !!!
-            // _changedModel = traceModel.ExcludeAdjustmentPoints().Clone();
+            // ++++ and GetLandmarksFromBaseRef get GPS distances from traceModel, now traceModel contains Adjustment points
+            _changedModel = traceModel;
 
             _changedLandmarks = HasBaseRef
-                ? _landmarksBaseParser.GetLandmarksFromBaseRef(_sorData, _selectedTrace)
-                : _landmarksGraphParser.GetLandmarks(_selectedTrace);
+                ? _landmarksBaseParser.GetLandmarksFromBaseRef(_sorData, _changedModel)
+                : _landmarksGraphParser.GetLandmarksFromGraph(_selectedTrace);
 
             _originalLandmarks = _changedLandmarks.Clone();
 
             Rows = _changedLandmarks
                 .LandmarksToRows(null, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
-            SelectedRow = number == -1 
-                ? Rows.First(r => r.NodeId == selectedNodeId) 
+            SelectedRow = number == -1
+                ? Rows.First(r => r.NodeId == selectedNodeId)
                 : Rows.First(r => r.Number == number);
             _originalLandmarkRows = Rows.ToList();
             _originalGpsInputMode = _gpsInputMode;
         }
 
-        // User changed one of landmarks and pressed Update table
+        // Ландмарков меньше чем узлов в модели (из-за точек привязки)
         public void UpdateTable(Landmark changedLandmark)
         {
             var originalLandmark = _originalLandmarks.First(l => l.Number == changedLandmark.Number);
@@ -168,17 +172,24 @@ namespace Iit.Fibertest.Client
 
             if (originalLandmark.NodeTitle != changedLandmark.NodeTitle
                     || originalLandmark.NodeComment != changedLandmark.NodeComment
-                    || !originalLandmark.GpsCoors.Equals(changedLandmark.GpsCoors))
+                    || !originalLandmark.AreCoordinatesTheSame(changedLandmark))
             {
                 currentNode.UpdateFrom(changedLandmark);
                 Command.Add(currentNode);
+                NotifyOfPropertyChange(nameof(AreThereAnyChanges));
             }
 
             if (!originalLandmark.UserInputLength.Equals(changedLandmark.UserInputLength))
             {
-                var currentFiber = _changedModel.FiberArray[changedLandmark.Number - 1];
-                currentFiber.UserInputedLength = changedLandmark.IsUserInput ? changedLandmark.UserInputLength : 0;
+                var currentFiber = _changedModel.FiberArray[changedLandmark.NumberIncludingAdjustmentPoints - 1];
+                var allParts = _readModel.GetAllParts(currentFiber.FiberId);
+                foreach (var fiberPartId in allParts)
+                {
+                    var fiberPart = _readModel.Fibers.First(f => f.FiberId == fiberPartId);
+                    fiberPart.UserInputedLength = changedLandmark.IsUserInput ? changedLandmark.UserInputLength : 0;
+                }
                 Command.Add(currentFiber);
+                NotifyOfPropertyChange(nameof(AreThereAnyChanges));
             }
 
             if (originalLandmark.EquipmentTitle != changedLandmark.EquipmentTitle
@@ -186,9 +197,10 @@ namespace Iit.Fibertest.Client
                 || originalLandmark.LeftCableReserve != changedLandmark.LeftCableReserve
                 || originalLandmark.RightCableReserve != changedLandmark.RightCableReserve)
             {
-                var currentEquipment = _changedModel.EquipArray[changedLandmark.Number];
+                var currentEquipment = _changedModel.EquipArray[changedLandmark.NumberIncludingAdjustmentPoints];
                 currentEquipment.UpdateFrom(changedLandmark);
                 Command.Add(currentEquipment);
+                NotifyOfPropertyChange(nameof(AreThereAnyChanges));
             }
 
             Rows = ReCalculateLandmarks();
@@ -203,40 +215,56 @@ namespace Iit.Fibertest.Client
             SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
 
-        // originalModel contains AdjustmentPoints, while changedModel does not
-        // do not use IndexOf or Number
+        // traceModels contain AdjustmentPoints, while Rows does not
         private void CancelChangesForRow(LandmarkRow landmarkRow)
         {
             var currentNode = _changedModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
             var originalNode = _originalModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
             originalNode.CloneInto(currentNode);
-            Command.ClearNodeCommands(SelectedRow.NodeId);
+            Command.ClearNodeCommands(landmarkRow.NodeId);
+            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
 
-            var currentFiber = _changedModel.FiberArray[landmarkRow.Number - 1];
-            currentFiber.UserInputedLength = 
-                _originalModel.FiberArray.First(f=>f.FiberId == currentFiber.FiberId).UserInputedLength;
+            var currentFiber = _changedModel.FiberArray[landmarkRow.NumberIncludingAdjustmentPoints - 1];
+
+            var allParts = _readModel.GetAllParts(currentFiber.FiberId);
+            foreach (var fiberPartId in allParts)
+            {
+                var fiberPart = _readModel.Fibers.First(f => f.FiberId == fiberPartId);
+                fiberPart.UserInputedLength = _originalModel.FiberArray
+                    .First(f => f.FiberId == currentFiber.FiberId).UserInputedLength;
+            }
             Command.ClearFiberCommands(currentFiber.FiberId);
+            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
 
-            var currentEquipment = _changedModel.EquipArray[landmarkRow.Number];
-             var originalEquipment = _originalModel.EquipArray
-                .First(e => e.EquipmentId == currentEquipment.EquipmentId);
+            var currentEquipment = _changedModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints];
+            var originalEquipment = _originalModel.EquipArray
+               .First(e => e.EquipmentId == currentEquipment.EquipmentId);
             originalEquipment.CloneInto(currentEquipment);
             Command.ClearEquipmentCommands(currentEquipment.EquipmentId);
+            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
 
             Rows = ReCalculateLandmarks();
-            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
+            SelectedRow = Rows.First(r => r.Number == landmarkRow.Number);
         }
 
         // Update row, Cancel row, Cancel all rows
         private ObservableCollection<LandmarkRow> ReCalculateLandmarks()
         {
-            // apply to SorData in order to recalculate Optical distances
-            if (HasBaseRef)
-                _baseRefLandmarksTool.ApplyTraceToBaseRef(_sorData, _selectedTrace, false);
+            // из-за изменения координат и пользовательских длин меняется колонка длина по GPS,
+            // надо не собирать всю модель заново, а только расстояния пересчитать
+            _changedModel = _changedModel.FillInGpsDistancesForTraceModel();
 
+            // если есть сорка передвинуть ориентиры в сорке
+            if (HasBaseRef)
+            {
+                var withoutAdjustmentPoints = _changedModel.ExcludeAdjustmentPoints();
+                _baseRefLandmarksTool.ReCalculateLandmarksLocations(_sorData, withoutAdjustmentPoints);
+            }
+
+            // заново извлечь ориентиры из изменившейся модели
             _changedLandmarks = HasBaseRef
-                ? _landmarksBaseParser.GetLandmarksFromBaseRef(_sorData, _selectedTrace)
-                : _landmarksGraphParser.GetLandmarks(_selectedTrace);
+                ? _landmarksBaseParser.GetLandmarksFromBaseRef(_sorData, _changedModel)
+                : _landmarksGraphParser.GetLandmarksFromModel(_changedModel);
 
             return _changedLandmarks.LandmarksToRows(_originalLandmarkRows, _isFilterOn,
                 _gpsInputMode, _originalGpsInputMode);
@@ -279,7 +307,7 @@ namespace Iit.Fibertest.Client
         {
             var vm = _globalScope.Resolve<NodeUpdateViewModel>();
             var node = _readModel.Nodes.First(n => n.NodeId == SelectedRow.NodeId);
-            vm.Initialize(node.NodeId);
+            vm.InitializeFromLandmarksView(node.NodeId, _changedModel);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
@@ -288,18 +316,39 @@ namespace Iit.Fibertest.Client
             if (SelectedRow.FiberId == Guid.Empty) return;
             var vm = _globalScope.Resolve<FiberUpdateViewModel>();
             var fiber = _readModel.Fibers.First(f => f.FiberId == SelectedRow.FiberId);
-            await vm.Initialize(fiber.FiberId);
+            await vm.Initialize(fiber.FiberId, true);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void IncludeEquipment()
+        public void ChangeEquipment()
         {
-            // будет через изменение оборудования на OneLandmarkViewModel
-        }
+            var node = _readModel.Nodes.First(n => n.NodeId == SelectedRow.NodeId);
+            var allEquipmentInNode = _readModel.Equipments.Where(e => e.NodeId == node.NodeId).ToList();
+            var traceContentChoiceViewModel = _globalScope.Resolve<TraceContentChoiceViewModel>();
+            traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, false, false);
+            _windowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
+            var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
+            if (!traceContentChoiceViewModel.ShouldWeContinue ||
+                selectedEquipmentGuid == SelectedRow.EquipmentId) return;
 
-        public void ExcludeEquipment()
-        {
-            // будет через изменение оборудования на OneLandmarkViewModel
+            // включить в трассу выбранное оборудование
+            // или исключить - в этом случае selectedEquipmentGuid это id "пустого" оборудования в этом узле
+            // команда ExcludeEquipmentFromTrace существует только для обратной совместимости
+            var cmd = new IncludeEquipmentIntoTrace()
+            {
+                TraceId = _selectedTrace.TraceId,
+                IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
+                EquipmentId = selectedEquipmentGuid,
+            };
+
+            Command.Add(cmd);
+            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
+
+            var newEquipment = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == selectedEquipmentGuid);
+            _changedModel.EquipArray[SelectedRow.Number] = newEquipment;
+
+            Rows = ReCalculateLandmarks();
+            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
         #endregion
     }

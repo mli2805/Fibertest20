@@ -32,19 +32,12 @@ namespace Iit.Fibertest.Graph
         {
             var modelWithoutAdjustmentPoint = _readModel
                 .GetTraceComponentsByIds(trace)
-                .ReCalculateGpsDistancesForTraceModel()
                 .ExcludeAdjustmentPoints();
             if (needToInsertLandmarksForEmptyNodes)
                 InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
             ReCalculateLandmarksLocations(otdrKnownBlocks, modelWithoutAdjustmentPoint);
             AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
         }
-
-        // public void ReCalculateAndApplyProperties(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
-        // {
-        //     ReCalculateLandmarksLocations(sorData, model);
-        //     AddNamesAndTypesForLandmarks(sorData, model);
-        // }
 
         public void ReCalculateLandmarksLocations(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {

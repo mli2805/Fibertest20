@@ -12,7 +12,8 @@
         d:DataContext="{d:DesignInstance client:NodeUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
     <DockPanel>
-        <GroupBox DockPanel.Dock="Top" Margin="5" Header="{x:Static stringResources:Resources.SID_Node}"  IsEnabled="{Binding IsEditEnabled}">
+        <GroupBox DockPanel.Dock="Top" Margin="5" Header="{x:Static stringResources:Resources.SID_Node}" 
+                  IsEnabled="{Binding IsEditEnabled}">
             <StackPanel>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
@@ -52,7 +53,7 @@
             </ListBox>
         </GroupBox>
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_In_node_are_placed_}"  
-                  IsEnabled="{Binding IsEditEnabled}">
+                  IsEnabled="{Binding HasPrivileges}">
             <DockPanel Name="Header" Margin="0,5,0,0">
                 <Grid DockPanel.Dock="Top" Background="AliceBlue" Height="20">
                     <Grid.ColumnDefinitions>

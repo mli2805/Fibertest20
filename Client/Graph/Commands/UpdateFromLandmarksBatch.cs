@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.Graph
 {
    
-    public class UpdateFromLandmarksBatch
+    public class UpdateFromLandmarksBatch : PropertyChangedBase
     {
         public List<UpdateAndMoveNode> Nodes = new List<UpdateAndMoveNode>();
         public List<UpdateFiber> Fibers = new List<UpdateFiber>();
         public List<UpdateEquipment> Equipments = new List<UpdateEquipment>();
 
-        public bool Any() => Nodes.Any() || Fibers.Any() || Equipments.Any();
-      
+        public List<IncludeEquipmentIntoTrace> ReplaceEqs = new List<IncludeEquipmentIntoTrace>();
+
+        public bool Any() => Nodes.Any() || Fibers.Any() || Equipments.Any() || ReplaceEqs.Any();
     }
 
     public static class UpdateFromLandmarksViewExt
@@ -36,20 +38,22 @@ namespace Iit.Fibertest.Graph
                 .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
             dto.Corrections.AddRange(command.Equipments
                 .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
+            dto.Corrections.AddRange(command.ReplaceEqs
+                .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
             return dto;
         }
-
 
         public static void ClearAll(this UpdateFromLandmarksBatch command)
         {
             command.Nodes.Clear();
             command.Fibers.Clear();
             command.Equipments.Clear();
+            command.ReplaceEqs.Clear();
         }
 
         public static void ClearNodeCommands(this UpdateFromLandmarksBatch command, Guid nodeId)
         {
-            command.Nodes.RemoveAll(i => i.NodeId == nodeId); // could not be more than one
+            command.Nodes.RemoveAll(i => i.NodeId == nodeId);
         }
 
         public static void Add(this UpdateFromLandmarksBatch command, Node node)
@@ -61,7 +65,7 @@ namespace Iit.Fibertest.Graph
 
         public static void ClearFiberCommands(this UpdateFromLandmarksBatch command, Guid fiberId)
         {
-            command.Fibers.RemoveAll(i => i.Id == fiberId); // could not be more than one
+            command.Fibers.RemoveAll(i => i.Id == fiberId);
         }
 
         public static void Add(this UpdateFromLandmarksBatch command, Fiber fiber)
@@ -84,5 +88,14 @@ namespace Iit.Fibertest.Graph
             command.Equipments.Add(item);
         }
 
+        public static void ClearReplaceCommands(this UpdateFromLandmarksBatch command, int numberWithAdjustmentPoints)
+        {
+            command.ReplaceEqs.RemoveAll(i => i.IndexInTrace == numberWithAdjustmentPoints);
+        }
+
+        public static void Add(this UpdateFromLandmarksBatch command, IncludeEquipmentIntoTrace sub)
+        {
+            command.ReplaceEqs.Add(sub);
+        }
     }
 }

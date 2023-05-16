@@ -42,7 +42,10 @@ namespace Iit.Fibertest.Client
         public Guid FiberId { get; set; }
         public Visibility FiberIdVisibility { get; set; }
 
-        public bool IsEditEnabled { get; set; }
+        private readonly bool _hasPrivileges;
+        private bool _startedFromLandmarksView;
+        private bool _isMonitoringOn;
+        public bool IsEditEnabled => _hasPrivileges && !_startedFromLandmarksView && !_isMonitoringOn;
         public bool IsButtonSaveEnabled { get; set; }
         public UpdateFiber Command { get; set; }
 
@@ -58,14 +61,15 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _currentGis = currentGis;
-            IsEditEnabled = currentUser.Role <= Role.Root;
+            _hasPrivileges = currentUser.Role <= Role.Root;
             FiberIdVisibility = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
             _graphGpsCalculator = graphGpsCalculator;
             _reflectogramManager = reflectogramManager;
         }
 
-        public async Task Initialize(Guid fiberId)
+        public async Task Initialize(Guid fiberId, bool startedFromLandmarksView = false)
         {
+            _startedFromLandmarksView = startedFromLandmarksView;
             GisVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
             FiberId = fiberId;
@@ -85,7 +89,7 @@ namespace Iit.Fibertest.Client
                         var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
                         if (rtu == null) continue;
                         if (rtu.MonitoringState == MonitoringState.On)
-                            IsEditEnabled = false;
+                            _isMonitoringOn = true;
                     }
                 }
             }

@@ -151,6 +151,11 @@ namespace Iit.Fibertest.Client
             {
                 OneLandmarkViewModel.Initialize(RowsLandmarkViewModel.GetSelectedLandmark());
             }
+
+            if (e.PropertyName == @"AreThereAnyChanges")
+            {
+                AreThereAnyChanges = RowsLandmarkViewModel.AreThereAnyChanges;
+            }
         }
 
         #region Whole trace buttons
@@ -175,16 +180,15 @@ namespace Iit.Fibertest.Client
             if (!vm.IsSentSuccessfully) return;
 
             RowsLandmarkViewModel.Command.ClearAll();
+            AreThereAnyChanges = false;
 
             await RowsLandmarkViewModel
                 .Initialize(_selectedTrace, Guid.Empty, RowsLandmarkViewModel.SelectedRow.Number);
-            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
 
         public void CancelAllChanges()
         {
             RowsLandmarkViewModel.CancelAllChanges();
-            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
 
         public void ExportToPdf()
@@ -206,13 +210,11 @@ namespace Iit.Fibertest.Client
             _graphReadModel.ExtinguishAllNodes();
             RowsLandmarkViewModel.UpdateTable(OneLandmarkViewModel.GetLandmark());
             OneLandmarkViewModel.IsEditEnabled = true;
-            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
 
         public void CancelChanges()
         {
             RowsLandmarkViewModel.CancelChanges();
-            AreThereAnyChanges = RowsLandmarkViewModel.Command.Any();
         }
 
         public async void ShowLandmarkOnMap()

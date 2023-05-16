@@ -41,7 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("We are going to get landmarks...");
             var landmarks = trace.PreciseId != Guid.Empty
                 ? _landmarksBaseParser.GetLandmarksFromBaseRef(await GetBase(trace.PreciseId), trace)
-                : _landmarksGraphParser.GetLandmarks(trace);
+                : _landmarksGraphParser.GetLandmarksFromGraph(trace);
 
             return new TraceLandmarksDto()
             {

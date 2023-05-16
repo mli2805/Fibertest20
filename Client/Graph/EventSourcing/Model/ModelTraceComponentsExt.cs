@@ -19,12 +19,34 @@ namespace Iit.Fibertest.Graph
             equipList.AddRange(model.GetTraceEquipments(trace).ToList()); // without RTU
             var fibers = model.GetTraceFibers(trace).ToArray();
 
-            return new TraceModelForBaseRef
+            var traceModel = new TraceModelForBaseRef
             {
                 NodeArray = nodes,
                 EquipArray = equipList.ToArray(),
                 FiberArray = fibers,
             };
+
+            return traceModel.FillInGpsDistancesForTraceModel();
+        }
+
+        // модель должна быть с точками привязки
+        // если поменяли GPS координаты узлов и пользов длину участков, то эти параметры уже в модели
+        // и теперь надо пересчитать массив длин по GPS (distancesMm)
+        public static TraceModelForBaseRef FillInGpsDistancesForTraceModel(this TraceModelForBaseRef model)
+        {
+            model.DistancesMm = new int[model.FiberArray.Length];
+            for (int i = 0; i < model.FiberArray.Length; i++)
+            {
+                var fiber = model.FiberArray[i];
+                if (!fiber.UserInputedLength.Equals(0))
+                    model.DistancesMm[i] = (int)fiber.UserInputedLength * 1000;
+                else
+                    model.DistancesMm[i] = (int)Math.Round(
+                        GisLabCalculator.GetDistanceBetweenPointLatLng(
+                            model.NodeArray[i].Position, model.NodeArray[i + 1].Position) * 1000, 0);
+            }
+
+            return model;
         }
 
         private static IEnumerable<Node> GetTraceNodes(this Model model, Trace trace)

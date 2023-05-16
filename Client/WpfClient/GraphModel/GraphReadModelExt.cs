@@ -70,7 +70,8 @@ namespace Iit.Fibertest.Client
             var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
             dualName = traceContentChoiceViewModel.GetSelectedDualName();
             return selectedEquipmentGuid;
-
         }
+
+      
     }
 }

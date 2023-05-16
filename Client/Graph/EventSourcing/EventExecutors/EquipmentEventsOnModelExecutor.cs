@@ -120,6 +120,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        // could be used to replace one piece of equipment with another
         public static string IncludeEquipmentIntoTrace(this Model model, EquipmentIntoTraceIncluded e)
         {
             var trace = model.Traces.First(t => t.TraceId == e.TraceId);

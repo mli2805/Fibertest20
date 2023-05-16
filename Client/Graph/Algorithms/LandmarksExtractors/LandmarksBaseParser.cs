@@ -20,25 +20,26 @@ namespace Iit.Fibertest.Graph
         // web client requests landmarks for trace, calculated on DC
         public List<Landmark> GetLandmarksFromBaseRef(OtdrDataKnownBlocks sorData, Trace trace)
         {
-            var modelWithoutAdjustmentPoint = _readModel
-                .GetTraceComponentsByIds(trace)
-                .ReCalculateGpsDistancesForTraceModel()
+            var modelWith = _readModel
+                .GetTraceComponentsByIds(trace);
+            var modelWithoutAdjustmentPoint = modelWith
                 .ExcludeAdjustmentPoints();
-            return GetLandmarksInner(sorData, modelWithoutAdjustmentPoint);
+            return GetLandmarks(sorData, modelWithoutAdjustmentPoint, modelWith);
         }
 
         // LandmarksView in desktop client
         // already has traceModel - recalculate distances and returns landmarks
-        // public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData,
-        //     TraceModelForBaseRef modelIncludingAdjustmentPoints)
-        // {
-        //     var modelWithoutAdjustmentPoint = modelIncludingAdjustmentPoints
-        //         .ReCalculateGpsDistancesForTraceModel()
-        //         .ExcludeAdjustmentPoints();
-        //     return GetLandmarksInner(sorData, modelWithoutAdjustmentPoint);
-        // }
+        // смысл в том чтобы не брать полную ридмодель и трассу, а брать traceModel когда нужен пересчет
+        // но координаты могли измениться - нужен пересчет distances это можно из traceModel если там есть точки привязки
+        // могли подменить оборудование - нужно чтобы новое оборудование уже было в traceModel с точками привязки
+        public List<Landmark> GetLandmarksFromBaseRef(OtdrDataKnownBlocks sorData, TraceModelForBaseRef modelWith)
+        {
+            var modelWithoutAdjustmentPoint = modelWith.ExcludeAdjustmentPoints();
+            return GetLandmarks(sorData, modelWithoutAdjustmentPoint, modelWith);
+        }
 
-        private List<Landmark> GetLandmarksInner(OtdrDataKnownBlocks sorData, TraceModelForBaseRef modelWithoutAdjustmentPoint)
+        private List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData,
+            TraceModelForBaseRef modelWithoutAdjustmentPoint, TraceModelForBaseRef modelWith)
         {
             var gpsDistance = 0.0;
             var result = new List<Landmark>();
@@ -47,12 +48,13 @@ namespace Iit.Fibertest.Graph
 
             var linkParameters = sorData.LinkParameters;
             var prevOwt = linkParameters.LandmarkBlocks[0].Location;
+            var numberIncludingAdjustmentPoints = 0;
             for (int i = 0; i < linkParameters.LandmarksCount; i++)
             {
                 var sorLandmark = linkParameters.LandmarkBlocks[i];
                 var equipmentId = modelWithoutAdjustmentPoint.EquipArray[i].EquipmentId;
                 var equipment = i > 0 ? modelWithoutAdjustmentPoint.EquipArray[i] : null;
-                var fiber = i > 0 ? modelWithoutAdjustmentPoint.FiberArray[i - 1] : null; 
+                var fiber = i > 0 ? modelWithoutAdjustmentPoint.FiberArray[i - 1] : null;
                 var section = fiber == null
                     ? 0
                     : fiber.UserInputedLength > 0
@@ -62,10 +64,22 @@ namespace Iit.Fibertest.Graph
                 var comment = i == 0
                     ? _readModel.Rtus.First(r => r.NodeId == modelWithoutAdjustmentPoint.NodeArray[0].NodeId).Comment
                     : modelWithoutAdjustmentPoint.NodeArray[i].Comment;
+
+                if (i > 0)
+                {
+                    // в случае разворотов один и тот же инстанс оборудования несколько раз в массиве
+                    var equipmentWithAdj = modelWith.EquipArray
+                        .First(e => e.EquipmentId == equipmentId);
+                    // начинаем искать в массиве с позиции оборудования использованного на предыдущей итерации
+                    numberIncludingAdjustmentPoints = 
+                        Array.IndexOf(modelWith.EquipArray, equipmentWithAdj, numberIncludingAdjustmentPoints);
+                }
+
                 var landmark = new Landmark
                 {
                     IsFromBase = true,
                     Number = i,
+                    NumberIncludingAdjustmentPoints = numberIncludingAdjustmentPoints,
                     NodeId = modelWithoutAdjustmentPoint.NodeArray[i].NodeId,
                     NodeTitle = i == 0 ? rtu.Title : modelWithoutAdjustmentPoint.NodeArray[i].Title,
                     FiberId = fiber?.FiberId ?? Guid.Empty,

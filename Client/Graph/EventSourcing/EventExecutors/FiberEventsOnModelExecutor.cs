@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private static IEnumerable<Guid> GetAllParts(this Model model, Guid fiberPartId)
+        public static IEnumerable<Guid> GetAllParts(this Model model, Guid fiberPartId)
         {
             var selectedPart = model.Fibers.FirstOrDefault(f => f.FiberId == fiberPartId);
             if (selectedPart == null) yield break;

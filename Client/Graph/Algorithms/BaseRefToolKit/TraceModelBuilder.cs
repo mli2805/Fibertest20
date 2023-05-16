@@ -1,28 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
     public static class TraceModelBuilder
     {
-        public static TraceModelForBaseRef ReCalculateGpsDistancesForTraceModel(this TraceModelForBaseRef model)
-        {
-            model.DistancesMm = new int[model.FiberArray.Length];
-            for (int i = 0; i < model.FiberArray.Length; i++)
-            {
-                var fiber = model.FiberArray[i];
-                if (!fiber.UserInputedLength.Equals(0))
-                    model.DistancesMm[i] = (int)fiber.UserInputedLength * 1000;
-                else
-                    model.DistancesMm[i] = (int)Math.Round(
-                        GisLabCalculator.GetDistanceBetweenPointLatLng(
-                            model.NodeArray[i].Position, model.NodeArray[i + 1].Position) * 1000, 0);
-            }
-
-            return model;
-        }
-
         public static TraceModelForBaseRef ExcludeAdjustmentPoints(this TraceModelForBaseRef originalModel)
         {
             var nodes = new List<Node>() { originalModel.NodeArray[0] };

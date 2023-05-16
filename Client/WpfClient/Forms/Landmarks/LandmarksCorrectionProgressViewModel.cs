@@ -117,10 +117,13 @@ namespace Iit.Fibertest.Client
             var line = new LandmarksCorrectionProgressLine($@"{traceStr}{dto.ReturnCode.GetLocalizedString()}", 
                 dto.ReturnCode.GetColor());
             Messages.Add(line);
-            var line2 = new LandmarksCorrectionProgressLine(
-                string.Format(Resources.SID_Processed__0_____1__traces, dto.TracesCorrected, dto.AllTracesInvolved),
-                @"black");
-            Messages.Add(line2);
+            if (dto.TracesCorrected != 0)
+            {
+                var line2 = new LandmarksCorrectionProgressLine(
+                    string.Format(Resources.SID_Processed__0_____1__traces, dto.TracesCorrected, dto.AllTracesInvolved),
+                    @"black");
+                Messages.Add(line2);
+            }
 
             DoneMessage = string.Format(Resources.SID_Attention__There_are__0__problems_, _problemCount);
 

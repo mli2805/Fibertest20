@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
+        public bool IsEditEnabled { get; set; }
         public bool ShouldWeContinue { get; set; }
 
         public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile,
@@ -58,8 +58,9 @@ namespace Iit.Fibertest.Client
             _equipmentOfChoiceModelFactory = equipmentOfChoiceModelFactory;
         }
 
-        public void Initialize(List<Equipment> possibleEquipment, Node node, bool isLastNode)
+        public void Initialize(List<Equipment> possibleEquipment, Node node, bool isLastNode, bool isEditEnabled = true)
         {
+            IsEditEnabled = isEditEnabled;
             _node = node;
             NodeTitle = node.Title;
 

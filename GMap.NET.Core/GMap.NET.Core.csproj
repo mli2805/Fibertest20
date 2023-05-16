@@ -335,6 +335,9 @@
     <Compile Include="GMap.NET\AccessMode.cs" />
     <Compile Include="GMap.NET\Delegates.cs" />
     <Compile Include="GMap.NET\MapRoute.cs" />
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="GMap.NET\MapType.cs" />
     <Compile Include="GMap.NET.CacheProviders\MsSQLPureImageCache.cs" />
     <Compile Include="GMap.NET\GPoint.cs" />
