@@ -118,6 +118,7 @@
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="Forms\Landmarks\LandmarkCollectionsExt.cs" />
+    <Compile Include="Forms\Landmarks\LandmarkExt.cs" />
     <Compile Include="Forms\Landmarks\LandmarksCorrectionProgressLine.cs" />
     <Compile Include="Forms\Landmarks\LandmarksCorrectionProgressView.xaml.cs">
       <DependentUpon>LandmarksCorrectionProgressView.xaml</DependentUpon>

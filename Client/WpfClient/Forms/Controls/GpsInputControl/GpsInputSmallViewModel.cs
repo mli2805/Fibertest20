@@ -33,11 +33,11 @@ namespace Iit.Fibertest.Client
 
         public PointLatLng Coors { get; set; }
 
-        public void DropChanges()
-        {
-            OneCoorViewModelLatitude.ReassignValue(Coors.Lat);
-            OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
-        }
+        // public void DropChanges()
+        // {
+        //     OneCoorViewModelLatitude.ReassignValue(Coors.Lat);
+        //     OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
+        // }
 
         public GpsInputSmallViewModel(CurrentGis currentGis)
         {

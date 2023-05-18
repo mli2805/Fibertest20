@@ -170,9 +170,7 @@ namespace Iit.Fibertest.Client
 
             var currentNode = _changedModel.NodeArray.First(n => n.NodeId == SelectedRow.NodeId);
 
-            if (originalLandmark.NodeTitle != changedLandmark.NodeTitle
-                    || originalLandmark.NodeComment != changedLandmark.NodeComment
-                    || !originalLandmark.AreCoordinatesTheSame(changedLandmark))
+            if (originalLandmark.NodePropertiesChanged(changedLandmark))
             {
                 currentNode.UpdateFrom(changedLandmark);
                 Command.Add(currentNode);
@@ -192,10 +190,7 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange(nameof(AreThereAnyChanges));
             }
 
-            if (originalLandmark.EquipmentTitle != changedLandmark.EquipmentTitle
-                || originalLandmark.EquipmentType != changedLandmark.EquipmentType
-                || originalLandmark.LeftCableReserve != changedLandmark.LeftCableReserve
-                || originalLandmark.RightCableReserve != changedLandmark.RightCableReserve)
+            if (originalLandmark.EquipmentPropertiesChanged(changedLandmark))
             {
                 var currentEquipment = _changedModel.EquipArray[changedLandmark.NumberIncludingAdjustmentPoints];
                 currentEquipment.UpdateFrom(changedLandmark);
@@ -211,6 +206,7 @@ namespace Iit.Fibertest.Client
         {
             CancelChangesForRow(SelectedRow);
 
+            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
             Rows = ReCalculateLandmarks();
             SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
@@ -222,7 +218,6 @@ namespace Iit.Fibertest.Client
             var originalNode = _originalModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
             originalNode.CloneInto(currentNode);
             Command.ClearNodeCommands(landmarkRow.NodeId);
-            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
 
             var currentFiber = _changedModel.FiberArray[landmarkRow.NumberIncludingAdjustmentPoints - 1];
 
@@ -234,17 +229,20 @@ namespace Iit.Fibertest.Client
                     .First(f => f.FiberId == currentFiber.FiberId).UserInputedLength;
             }
             Command.ClearFiberCommands(currentFiber.FiberId);
-            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
 
             var currentEquipment = _changedModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints];
-            var originalEquipment = _originalModel.EquipArray
-               .First(e => e.EquipmentId == currentEquipment.EquipmentId);
+            var originalEquipment = _originalModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints];
+            if (currentEquipment.EquipmentId != originalEquipment.EquipmentId)
+            {
+                var eq = _readModel.Equipments.First(e => e.EquipmentId == originalEquipment.EquipmentId);
+                _changedModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints] = eq;
+                Command.ClearReplaceCommands(landmarkRow.NumberIncludingAdjustmentPoints);
+            }
+            // эти строки выполняются без условно -
+            // если перед заменой оборудования старое было как-то изменено - оно восстанавливается
+            currentEquipment = _changedModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints];
             originalEquipment.CloneInto(currentEquipment);
             Command.ClearEquipmentCommands(currentEquipment.EquipmentId);
-            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
-
-            Rows = ReCalculateLandmarks();
-            SelectedRow = Rows.First(r => r.Number == landmarkRow.Number);
         }
 
         // Update row, Cancel row, Cancel all rows
@@ -297,6 +295,7 @@ namespace Iit.Fibertest.Client
             foreach (var landmarkRow in Rows.Skip(1))
                 CancelChangesForRow(landmarkRow);
 
+            NotifyOfPropertyChange(nameof(AreThereAnyChanges));
             Rows = ReCalculateLandmarks();
             SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
         }
@@ -345,7 +344,7 @@ namespace Iit.Fibertest.Client
             NotifyOfPropertyChange(nameof(AreThereAnyChanges));
 
             var newEquipment = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == selectedEquipmentGuid);
-            _changedModel.EquipArray[SelectedRow.Number] = newEquipment;
+            _changedModel.EquipArray[SelectedRow.NumberIncludingAdjustmentPoints] = newEquipment;
 
             Rows = ReCalculateLandmarks();
             SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);

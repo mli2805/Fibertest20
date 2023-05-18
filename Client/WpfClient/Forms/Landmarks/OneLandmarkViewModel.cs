@@ -61,7 +61,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         private List<EquipmentTypeComboItem> _comboItems;
         public List<EquipmentTypeComboItem> ComboItems
         {
