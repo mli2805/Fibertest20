@@ -105,15 +105,15 @@ namespace Graph.Tests
         public void WhenНаФормеОриентировМеняемНазваниеУзла()
         {
             _vm.RowsLandmarkViewModel.SelectedRow = _vm.RowsLandmarkViewModel.Rows.Skip(4).First();
-            _vm.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle = @"Node 4";
-            _vm.UpdateTable();
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle = @"Node 4";
+            _vm.RowsLandmarkViewModel.UpdateTable();
         }
 
 
         [Then(@"После обновления формы ориентиров имя узла и его координаты меняются")]
         public void ThenПослеОбновленияФормыОриентировИмяУзлаИЕгоКоординатыМеняются()
         {
-            _vm.RowsLandmarkViewModel.UpdateTable(_vm.OneLandmarkViewModel.GetLandmark());
+            _vm.RowsLandmarkViewModel.UpdateTable();
 
             _vm.RowsLandmarkViewModel.Rows[4].NodeTitle.Should().Be(@"Node 4");
             _vm.RowsLandmarkViewModel.Rows[4].GpsCoors.Should().StartWith(@"55.2");
@@ -136,7 +136,7 @@ namespace Graph.Tests
         public void WhenИзменяетНазваниеПервогоУзла()
         {
             _vm.RowsLandmarkViewModel.SelectedRow = _vm.RowsLandmarkViewModel.Rows[1];
-            _vm.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle = @"some changes";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle = @"some changes";
         }
 
         [When(@"Щелкает на любой другой строчке а затем назад на первом узле")]
@@ -150,30 +150,30 @@ namespace Graph.Tests
         [Then(@"Название первого узла должно быть первоначальным")]
         public void ThenНазваниеПервогоУзлаДолжноБытьПервоначальным()
         {
-            _vm.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle.Should().Be(null);
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle.Should().Be(null);
         }
 
         [When(@"Изменяет название и тип оборудования в первом узле")]
         public void WhenИзменяетНазваниеИТипОборудованияВПервомУзле()
         {
             _vm.RowsLandmarkViewModel.SelectedRow = _vm.RowsLandmarkViewModel.Rows[1];
-            _vm.OneLandmarkViewModel.LandmarkUnderWork.EquipmentTitle = @"New title for equipment in node 1";
-            _vm.OneLandmarkViewModel.LandmarkUnderWork.EquipmentType = EquipmentType.Other;
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.LandmarkUnderWork.EquipmentTitle = @"New title for equipment in node 1";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.LandmarkUnderWork.EquipmentType = EquipmentType.Other;
 
         }
 
         [When(@"Изменяет название и координаты первого узла и жмет Применить")]
         public void WhenИзменяетНазваниеИКоординатыПервогоУзлаИЖметПрименить()
         {
-            _vm.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle = @"New title for node 1";
-            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Degrees = @"44";
-            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Minutes = @"0";
-            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Seconds = @"12";
-            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Degrees = @"12";
-            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Minutes = @"34";
-            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Seconds = @"56";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle = @"New title for node 1";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Degrees = @"44";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Minutes = @"0";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Seconds = @"12";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Degrees = @"12";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Minutes = @"34";
+            _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Seconds = @"56";
 
-            _vm.UpdateTable();
+            _vm.RowsLandmarkViewModel.UpdateTable();
             //_sut.Poller.EventSourcingTick().Wait();
         }
 

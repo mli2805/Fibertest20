@@ -36,12 +36,13 @@ namespace Iit.Fibertest.Graph
             if (needToInsertLandmarksForEmptyNodes)
                 InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
             ReCalculateLandmarksLocations(otdrKnownBlocks, modelWithoutAdjustmentPoint);
-            AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
         }
 
         public void ReCalculateLandmarksLocations(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
+            ApplyPropertiesToLandmarks(sorData, model);
+
             var distancesMm = new int[landmarks.Length - 1];
 
             var leftLandmarkIndex = 0;
@@ -81,8 +82,6 @@ namespace Iit.Fibertest.Graph
 
                 leftLandmarkIndex = rightLandmarkIndex;
             }
-
-
         }
 
         private void InsertLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
@@ -105,7 +104,7 @@ namespace Iit.Fibertest.Graph
             sorData.LinkParameters.LandmarksCount = (short)newLandmarks.Length;
         }
 
-        public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
+        private void ApplyPropertiesToLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
 

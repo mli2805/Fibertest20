@@ -33,10 +33,6 @@ namespace Iit.Fibertest.Client
         // использовать _originalLandmarkRows нельзя потому что там нет Node.Comment
         private List<Landmark> _originalLandmarks;
         private List<Landmark> _changedLandmarks;
-        public Landmark GetSelectedLandmark()
-        {
-            return _changedLandmarks.First(l => l.Number == SelectedRow.Number);
-        }
 
         private OtdrDataKnownBlocks _sorData;
         // нужна для восстановления значений при нажатии Отменить
@@ -63,12 +59,30 @@ namespace Iit.Fibertest.Client
         public LandmarkRow SelectedRow
         {
             get => _selectedRow;
+            set => ChangeSelectedRow(value);
+        }
+
+        private async void ChangeSelectedRow(LandmarkRow value)
+        {
+            if (value == null) return;
+            _selectedRow = value;
+            await OneLandmarkViewModel.GpsInputSmallViewModel.CancelChanges();
+            OneLandmarkViewModel.Initialize(
+                _changedLandmarks.First(l => l.Number == SelectedRow.Number));
+            await OneLandmarkViewModel.GpsInputSmallViewModel.ShowPoint();
+            NotifyOfPropertyChange();
+            NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
+        }
+
+        private OneLandmarkViewModel _oneLandmarkViewModel;
+        public OneLandmarkViewModel OneLandmarkViewModel
+        {
+            get => _oneLandmarkViewModel;
             set
             {
-                if (value == null) return;
-                _selectedRow = value;
+                if (Equals(value, _oneLandmarkViewModel)) return;
+                _oneLandmarkViewModel = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
             }
         }
 
@@ -113,7 +127,7 @@ namespace Iit.Fibertest.Client
             Model readModel, IWindowManager windowManager,
             IWcfServiceCommonC2D c2DWcfCommonManager, ReflectogramManager reflectogramManager,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-            BaseRefLandmarksTool baseRefLandmarksTool)
+            BaseRefLandmarksTool baseRefLandmarksTool, OneLandmarkViewModel oneLandmarkViewModel)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -123,6 +137,9 @@ namespace Iit.Fibertest.Client
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _baseRefLandmarksTool = baseRefLandmarksTool;
+
+            OneLandmarkViewModel = oneLandmarkViewModel;
+
             _gpsInputMode = currentGis.GpsInputMode;
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             DataGridWidth = currentGis.IsGisOn ? 985 : 785;
@@ -156,16 +173,19 @@ namespace Iit.Fibertest.Client
 
             Rows = _changedLandmarks
                 .LandmarksToRows(null, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
-            SelectedRow = number == -1
+            _selectedRow = number == -1
                 ? Rows.First(r => r.NodeId == selectedNodeId)
                 : Rows.First(r => r.Number == number);
             _originalLandmarkRows = Rows.ToList();
             _originalGpsInputMode = _gpsInputMode;
+
+            OneLandmarkViewModel.Initialize(_changedLandmarks.First(l=>l.Number == _selectedRow.Number));
         }
 
         // Ландмарков меньше чем узлов в модели (из-за точек привязки)
-        public void UpdateTable(Landmark changedLandmark)
+        public void UpdateTable()
         {
+            Landmark changedLandmark = OneLandmarkViewModel.GetLandmark();
             var originalLandmark = _originalLandmarks.First(l => l.Number == changedLandmark.Number);
 
             var currentNode = _changedModel.NodeArray.First(n => n.NodeId == SelectedRow.NodeId);

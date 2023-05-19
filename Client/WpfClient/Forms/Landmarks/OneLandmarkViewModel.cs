@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public bool HasPrivileges => _currentUser.Role <= Role.Root && LandmarkUnderWork.EquipmentType != EquipmentType.Rtu;
+        public bool HasPrivileges => _currentUser.Role <= Role.Root;
 
         public Visibility GisVisibility { get; set; }
 
@@ -105,7 +105,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private PointLatLng _originalPosition;
         private readonly int _maxCableReserve;
 
         public OneLandmarkViewModel(IniFile iniFile, CurrentUser currentUser, CurrentGis currentGis,
@@ -121,22 +120,16 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Landmark selectedLandmark)
         {
-            LandmarkUnderWork = selectedLandmark;
+            LandmarkUnderWork = selectedLandmark.Clone();
             LeftCableReserveLocal = selectedLandmark.LeftCableReserve.ToString(CultureInfo.InvariantCulture);
             RightCableReserveLocal = selectedLandmark.RightCableReserve.ToString(CultureInfo.InvariantCulture);
-            UserInputLengthLocal = selectedLandmark.IsUserInput 
+            UserInputLengthLocal = selectedLandmark.IsUserInput
                 ? selectedLandmark.UserInputLength.ToString(CultureInfo.InvariantCulture) : "";
 
-            GpsInputSmallViewModel.Initialize(selectedLandmark.GpsCoors);
-            _originalPosition = selectedLandmark.GpsCoors;
+            GpsInputSmallViewModel.Initialize(selectedLandmark.GpsCoors, selectedLandmark.NodeId);
 
             ComboItems = GetItems(selectedLandmark.EquipmentType);
             SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == selectedLandmark.EquipmentType);
-        }
-
-        public void RestoreCoordinates()
-        {
-            GpsInputSmallViewModel.Initialize(_originalPosition);
         }
 
         public void ClearUserLength()
@@ -175,7 +168,7 @@ namespace Iit.Fibertest.Client
 
             if (LeftCableReserveLocal == "" || !int.TryParse(LeftCableReserveLocal, out int left))
                 LandmarkUnderWork.LeftCableReserve = 0;
-            else 
+            else
                 LandmarkUnderWork.LeftCableReserve = left;
             if (RightCableReserveLocal == "" || !int.TryParse(RightCableReserveLocal, out int right))
                 LandmarkUnderWork.RightCableReserve = 0;
@@ -226,46 +219,33 @@ namespace Iit.Fibertest.Client
         {
             get
             {
-                var errorMessage = string.Empty;
                 switch (columnName)
                 {
-                    case "LeftCableReserveLocal" :
-                        int left = 0;
-                        if (_leftCableReserveLocal != "" && !int.TryParse(_leftCableReserveLocal, out left))
-                        {
-                            errorMessage = @"error";
-                        }
-                        else if (left < 0 || left > _maxCableReserve)
-                        {
-                            errorMessage = @"error";
-                        }
-                        break;
-                   case "RightCableReserveLocal" :
-                        int right = 0;
-                        if (_rightCableReserveLocal != "" && !int.TryParse(_rightCableReserveLocal, out right))
-                        {
-                            errorMessage = @"error";
-                        }
-                        else if (right < 0 || right > _maxCableReserve)
-                        {
-                            errorMessage = @"error";
-                        }
-                        break;
+                    case "LeftCableReserveLocal":
+                        return ValidateCableReserve(_leftCableReserveLocal);
+                    case "RightCableReserveLocal":
+                        return ValidateCableReserve(_rightCableReserveLocal);
                     case "UserInputLengthLocal":
-                        if (_userInputLengthLocal == "") return null;
-                        if (!double.TryParse(_userInputLengthLocal, out var length))
-                        {
-                            errorMessage = Resources.SID_Length_should_be_a_number;
-                        }
-                        else if (length < 1)
-                        {
-                            errorMessage = @"error";
-                        }
-                        break;
+                        return ValidateUserLength(_userInputLengthLocal);
+                    default: return string.Empty;
                 }
-                return errorMessage;
             }
         }
+
+        private string ValidateCableReserve(string str)
+        {
+            int value = 0;
+            if ((str != "" && !int.TryParse(str, out value))
+                || value < 0 || value > _maxCableReserve) return @"error";
+            return string.Empty;
+        }
+
+        private string ValidateUserLength(string str)
+        {
+            int value = 1;
+            if ((str != "" && !int.TryParse(str, out value))
+                || value < 1 ) return @"error";
+            return string.Empty; }
 
         public string Error { get; } = null;
     }

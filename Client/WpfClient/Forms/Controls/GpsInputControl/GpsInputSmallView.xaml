@@ -5,16 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             d:DesignHeight="180" d:DesignWidth="400" d:DataContext="{d:DesignInstance client:GpsInputSmallViewModel}">
+             d:DesignHeight="220" d:DesignWidth="400" d:DataContext="{d:DesignInstance client:GpsInputSmallViewModel}"
+             cal:Bind.ModelWithoutContext="{Binding .}"
+             >
     <StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Latitude}" VerticalAlignment="Center" Width="55" Margin="5" ToolTip="-90..90"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Latitude}" VerticalAlignment="Center" 
+                       Width="55" Margin="5" ToolTip="-90..90"/>
             <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLatitude}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Longitude}" VerticalAlignment="Center" Width="55" Margin="5" ToolTip="-180..180"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Longitude}" VerticalAlignment="Center"
+                       Width="55" Margin="5" ToolTip="-180..180"/>
             <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
         </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Margin="5,0, 10, 0">
+            <Button Name="ShowPoint" Content="{x:Static stringResources:Resources.SID_Preview}" 
+                    Margin="5" Height="20"/>
+            <Button Name="CancelChanges" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" 
+                    Margin="5" Height="20"/>
+        </StackPanel>  
     </StackPanel>
 </UserControl>
