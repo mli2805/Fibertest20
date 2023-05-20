@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Graph;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly CurrentGis _currentGis;
         private readonly GraphReadModel _graphReadModel;
+        private readonly Model _readModel;
         private readonly TabulatorViewModel _tabulatorViewModel;
 
         public OneCoorViewModel OneCoorViewModelLatitude { get; set; }
@@ -40,10 +42,12 @@ namespace Iit.Fibertest.Client
 
         public bool IsEditEnabled { get; set; }
         private Guid _originalNodeId;
-        public GpsInputViewModel(CurrentGis currentGis, GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel)
+        public GpsInputViewModel(CurrentGis currentGis, GraphReadModel graphReadModel, 
+            Model readModel, TabulatorViewModel tabulatorViewModel)
         {
             _currentGis = currentGis;
             _graphReadModel = graphReadModel;
+            _readModel = readModel;
             _tabulatorViewModel = tabulatorViewModel;
             _modeInIniFile = currentGis.GpsInputMode;
             _selectedGpsInputModeComboItem = _modeInIniFile == GpsInputMode.Degrees
@@ -72,17 +76,31 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public void PreView()
+        public async Task PreView()
         {
-            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _originalNodeId);
-            if (nodeVm == null) return;
+            var error = TryGetPoint(out PointLatLng position);
+            if (error != null) return;
 
-            nodeVm.Position = new PointLatLng(OneCoorViewModelLatitude.StringsToValue(),
-                OneCoorViewModelLongitude.StringsToValue());
-
-            _graphReadModel.PlacePointIntoScreenCenter(nodeVm.Position);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
+            {
                 _tabulatorViewModel.SelectedTabIndex = 3;
+                await Task.Delay(100);
+
+                if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
+                    _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
+            }
+
+            _graphReadModel.ExtinguishAllNodes();
+
+            var node = _readModel.Nodes.First(n => n.NodeId == _originalNodeId);
+            node.Position = position;
+            node.IsHighlighted = true;
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(position);
+            await _graphReadModel.RefreshVisiblePart();
+
+            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == _originalNodeId);
+            nodeVm.Position = position;
+            nodeVm.IsHighlighted = true;
         }
 
         public void DropChanges()
@@ -91,10 +109,10 @@ namespace Iit.Fibertest.Client
             OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
         }
 
-        public void ButtonDropChanges()
+        public async Task ButtonDropChanges()
         {
             DropChanges();
-            PreView();
+            await PreView();
         }
     }
 }

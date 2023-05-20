@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
             OneCoorViewModelLongitude = new OneCoorViewModel(_currentGis.GpsInputMode, Coors.Lng);
         }
 
-        public async Task ShowPoint()
+        public async Task OpenGisTab()
         {
             if (_tabulatorViewModel.SelectedTabIndex != 3)
             {
@@ -70,11 +70,24 @@ namespace Iit.Fibertest.Client
                 if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
                     _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
             }
+        }
+
+        public async Task PreviewButton()
+        {
+            await OpenGisTab();
+            await ShowPoint();
+        }
+
+        // кроме кнопки Preview вызывается неявно, чтобы вернуть узел на место - если карту не показывали то и выполнять не надо
+        public async Task ShowPoint()
+        {
+            // если карту не показывали то и выполнять не надо
+            if (_tabulatorViewModel.SelectedTabIndex != 3) return;
 
             _graphReadModel.ExtinguishAllNodes();
 
-            var get = TryGetPoint(out PointLatLng position);
-            if (get != null) return;
+            var error = TryGetPoint(out PointLatLng position);
+            if (error != null) return;
 
             var node = _readModel.Nodes.First(n => n.NodeId == _originalNodeId);
             node.Position = position;

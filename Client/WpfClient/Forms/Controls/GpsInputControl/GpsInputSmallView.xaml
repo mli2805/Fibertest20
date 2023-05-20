@@ -22,7 +22,7 @@
             <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Margin="5,0, 10, 0">
-            <Button Name="ShowPoint" Content="{x:Static stringResources:Resources.SID_Preview}" 
+            <Button Name="PreviewButton" Content="{x:Static stringResources:Resources.SID_Preview}" 
                     Margin="5" Height="20"/>
             <Button Name="CancelChanges" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" 
                     Margin="5" Height="20"/>
