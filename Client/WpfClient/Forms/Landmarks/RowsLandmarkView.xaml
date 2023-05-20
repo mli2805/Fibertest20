@@ -14,7 +14,7 @@
         <FrameworkElement x:Key="ProxyElement" DataContext="{Binding GisVisibility}"/>
     </UserControl.Resources>
     <DockPanel>
-   
+
         <StackPanel DockPanel.Dock="Bottom" Margin="5,5,0,0" Orientation="Horizontal">
             <Button Width="172" Height="25" Margin="5" Name="UpdateTable" 
                     Content="{x:Static stringResources:Resources.SID_Update_table}"/>
@@ -22,7 +22,7 @@
                     Content="{x:Static stringResources:Resources.SID_Cancel_changes}"/>
         </StackPanel>
         <client:OneLandmarkView DockPanel.Dock="Bottom" DataContext="{Binding OneLandmarkViewModel}"/>
-       <DataGrid Margin="5" ItemsSource="{Binding Rows}"
+        <DataGrid Margin="5" ItemsSource="{Binding Rows}"
                   SelectedItem="{Binding SelectedRow, Mode=TwoWay}" CanUserSortColumns="False"
                   AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
                   HorizontalAlignment="Left" Width="{Binding DataGridWidth}"
@@ -131,5 +131,6 @@
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Section}" cal:Message.Attach="ShowFiber" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </DataGrid>  </DockPanel>
+        </DataGrid>
+    </DockPanel>
 </UserControl>
