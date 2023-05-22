@@ -7,11 +7,10 @@
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
-             Width = "998" Height="182"
+             Width = "998" Height="152"
              d:DataContext="{d:DesignInstance client:OneLandmarkViewModel}"
              cal:Bind.ModelWithoutContext="{Binding .}" 
              IsEnabled="{Binding IsEditEnabled}">
-    <GroupBox Header="{x:Static stringResources:Resources.SID_Landmark}" Margin="5">
         <StackPanel Orientation="Horizontal">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -74,5 +73,4 @@
                 </GroupBox>
             </Grid>
         </StackPanel>
-    </GroupBox>
 </UserControl>

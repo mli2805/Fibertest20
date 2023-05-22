@@ -66,9 +66,6 @@ namespace Iit.Fibertest.Client
             {
                 _tabulatorViewModel.SelectedTabIndex = 3;
                 await Task.Delay(100);
-
-                if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
-                    _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
             }
         }
 
@@ -83,6 +80,9 @@ namespace Iit.Fibertest.Client
         {
             // если карту не показывали то и выполнять не надо
             if (_tabulatorViewModel.SelectedTabIndex != 3) return;
+
+            if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
+                _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
 
             _graphReadModel.ExtinguishAllNodes();
 
