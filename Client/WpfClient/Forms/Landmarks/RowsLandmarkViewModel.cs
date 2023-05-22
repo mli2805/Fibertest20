@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
     public class RowsLandmarkViewModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
@@ -56,23 +57,24 @@ namespace Iit.Fibertest.Client
         private GpsInputMode _originalGpsInputMode;
 
         private LandmarkRow _selectedRow;
+        
         public LandmarkRow SelectedRow
         {
             get => _selectedRow;
-            set => ChangeSelectedRow(value);
-        }
-
-        private async void ChangeSelectedRow(LandmarkRow value)
-        {
-            if (value == null) return;
-            _selectedRow = value;
-            await OneLandmarkViewModel.GpsInputSmallViewModel.CancelChanges();
-            OneLandmarkViewModel.Initialize(
-                _changedLandmarks.First(l => l.Number == SelectedRow.Number));
-            await OneLandmarkViewModel.GpsInputSmallViewModel.ShowPoint();
-            NotifyOfPropertyChange();
-            NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
-            NotifyOfPropertyChange(nameof(IsCancelRowEnabled));
+            set
+            {
+                if (value == null) return;
+                _selectedRow = value;
+                _dispatcherProvider.GetDispatcher().InvokeAsync(async () => 
+                    { await OneLandmarkViewModel.GpsInputSmallViewModel.CancelChanges(); });
+                OneLandmarkViewModel.Initialize(
+                    _changedLandmarks.First(l => l.Number == SelectedRow.Number));
+                _dispatcherProvider.GetDispatcher().InvokeAsync(async () => 
+                    { await OneLandmarkViewModel.GpsInputSmallViewModel.ShowPoint(); });
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
+                NotifyOfPropertyChange(nameof(IsCancelRowEnabled));
+            }
         }
 
         public bool IsCancelRowEnabled
@@ -135,13 +137,14 @@ namespace Iit.Fibertest.Client
         public readonly UpdateFromLandmarksBatch Command = new UpdateFromLandmarksBatch();
         public bool AreThereAnyChanges => Command.Any();
 
-        public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis,
+        public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis, IDispatcherProvider dispatcherProvider,
             Model readModel, IWindowManager windowManager,
             IWcfServiceCommonC2D c2DWcfCommonManager, ReflectogramManager reflectogramManager,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
             BaseRefLandmarksTool baseRefLandmarksTool, OneLandmarkViewModel oneLandmarkViewModel)
         {
             _globalScope = globalScope;
+            _dispatcherProvider = dispatcherProvider;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfCommonManager = c2DWcfCommonManager;
@@ -191,7 +194,7 @@ namespace Iit.Fibertest.Client
             _originalLandmarkRows = Rows.ToList();
             _originalGpsInputMode = _gpsInputMode;
 
-            OneLandmarkViewModel.Initialize(_changedLandmarks.First(l=>l.Number == _selectedRow.Number));
+            OneLandmarkViewModel.Initialize(_changedLandmarks.First(l => l.Number == _selectedRow.Number));
         }
 
         // Ландмарков меньше чем узлов в модели (из-за точек привязки)
@@ -231,16 +234,17 @@ namespace Iit.Fibertest.Client
             }
 
             Rows = ReCalculateLandmarks();
-            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
+            SelectedRow = Rows.First(r => r.Number == changedLandmark.Number);
         }
 
         public void CancelChanges() // one landmarkRow
         {
+            var selectedRowNumber = SelectedRow.Number;
             CancelChangesForRow(SelectedRow);
 
             NotifyOfPropertyChange(nameof(AreThereAnyChanges));
             Rows = ReCalculateLandmarks();
-            SelectedRow = Rows.First(r => r.Number == SelectedRow.Number);
+            SelectedRow = Rows.First(r => r.Number == selectedRowNumber);
         }
 
         // traceModels contain AdjustmentPoints, while Rows does not
