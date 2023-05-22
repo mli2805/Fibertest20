@@ -85,7 +85,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         private OneLandmarkViewModel _oneLandmarkViewModel;
         public OneLandmarkViewModel OneLandmarkViewModel
         {
@@ -134,7 +133,6 @@ namespace Iit.Fibertest.Client
         public bool IsEquipmentOpEnabled => !HasBaseRef && SelectedRow.Number != 0;
 
         public readonly UpdateFromLandmarksBatch Command = new UpdateFromLandmarksBatch();
-        private bool _isUpdateRowEnabled;
         public bool AreThereAnyChanges => Command.Any();
 
         public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis,
