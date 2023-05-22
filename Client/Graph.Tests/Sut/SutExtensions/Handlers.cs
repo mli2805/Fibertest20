@@ -37,6 +37,13 @@ namespace Graph.Tests
             return true;
         }
 
+        public static bool LandmarksCorrectionProgressHandler(this SystemUnderTest sut, object model)
+        {
+            if (!(model is LandmarksCorrectionProgressViewModel vm)) return false;
+            vm.IsSentSuccessfully = true;
+            return true;
+        }
+
         public static bool RtuUpdateHandler(this SystemUnderTest sut, object model, string title, string comment, Answer button)
         {
             if (!(model is RtuUpdateViewModel vm)) return false;

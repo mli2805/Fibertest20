@@ -72,6 +72,8 @@ namespace Graph.Tests
         public void WhenПользовательИсключаетМуфтуИзТрассыНаПервомПроходе()
         {
             _lvm.RowsLandmarkViewModel.SelectedRow = _lvm.RowsLandmarkViewModel.Rows[1];
+            _sut.FakeWindowManager.RegisterHandler(model =>
+                _sut.TraceContentChoiceHandler(model, Answer.Yes, 1));
             _lvm.RowsLandmarkViewModel.ChangeEquipment();
             _sut.Poller.EventSourcingTick().Wait();
         }

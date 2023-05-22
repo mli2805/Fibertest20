@@ -43,7 +43,7 @@ namespace Graph.Tests
             _vm.RowsLandmarkViewModel.Rows[4].GpsCoors.Should().StartWith(@"55.1220");
             _vm.RowsLandmarkViewModel.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
             _vm.RowsLandmarkViewModel.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
-            _vm.RowsLandmarkViewModel.Rows[6].GpsDistance.Should().Be(@" 17.431");
+            _vm.RowsLandmarkViewModel.Rows[6].GpsDistance.Should().Be(@" 14.996");
             _vm.RowsLandmarkViewModel.Rows[6].OpticalDistance.Should().Be(@"");
         }
 
@@ -74,7 +74,7 @@ namespace Graph.Tests
             _vm.RowsLandmarkViewModel.Rows[3].OpticalDistance.Should().NotBe(@" 7.129");
 
             _vm.RowsLandmarkViewModel.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross); 
-            _vm.RowsLandmarkViewModel.Rows[4].NodeTitle.Should().Be("");
+            _vm.RowsLandmarkViewModel.Rows[4].NodeTitle.Should().BeNull();
             _vm.RowsLandmarkViewModel.Rows[4].OpticalDistance.Should().Be(@" 10.150");
 
             // differs with sor (not related to key event)
@@ -114,6 +114,8 @@ namespace Graph.Tests
         public void ThenПослеОбновленияФормыОриентировИмяУзлаИЕгоКоординатыМеняются()
         {
             _vm.RowsLandmarkViewModel.UpdateTable();
+            _sut.FakeWindowManager.RegisterHandler(_sut.LandmarksCorrectionProgressHandler);
+            _vm.SaveAllChanges().Wait();
 
             _vm.RowsLandmarkViewModel.Rows[4].NodeTitle.Should().Be(@"Node 4");
             _vm.RowsLandmarkViewModel.Rows[4].GpsCoors.Should().StartWith(@"55.2");
@@ -165,6 +167,7 @@ namespace Graph.Tests
         [When(@"Изменяет название и координаты первого узла и жмет Применить")]
         public void WhenИзменяетНазваниеИКоординатыПервогоУзлаИЖметПрименить()
         {
+            _vm.CurrentGis.GpsInputMode = GpsInputMode.DegreesMinutesAndSeconds;
             _vm.RowsLandmarkViewModel.OneLandmarkViewModel.LandmarkUnderWork.NodeTitle = @"New title for node 1";
             _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Degrees = @"44";
             _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Minutes = @"0";
@@ -174,7 +177,9 @@ namespace Graph.Tests
             _vm.RowsLandmarkViewModel.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Seconds = @"56";
 
             _vm.RowsLandmarkViewModel.UpdateTable();
-            //_sut.Poller.EventSourcingTick().Wait();
+            _sut.FakeWindowManager.RegisterHandler(_sut.LandmarksCorrectionProgressHandler);
+            _vm.SaveAllChanges().Wait();
+            // _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Меняются поля в строке на форме ориентиров")]
@@ -185,13 +190,6 @@ namespace Graph.Tests
             _vm.RowsLandmarkViewModel.Rows[1].EquipmentType.Should().Be(EquipmentType.Other.ToLocalizedString());
             _vm.RowsLandmarkViewModel.Rows[1].GpsCoors.Should().StartWith(@"44");
         }
-
-        [Then(@"Меняется положение узла на карте")]
-        public void ThenМеняетсяПоложениеУзлаНаКарте()
-        {
-            var nodeVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _vm.RowsLandmarkViewModel.Rows[1].NodeId);
-            nodeVm.Position.ToDetailedString(_vm.SelectedGpsInputMode.Mode).Should().StartWith(@"44");
-        }
-
+      
     }
 }

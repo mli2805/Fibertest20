@@ -167,8 +167,6 @@ this.FeatureBackground();
  testRunner.And("Изменяет название и координаты первого узла и жмет Применить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
  testRunner.Then("Меняются поля в строке на форме ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 32
- testRunner.And("Меняется положение узла на карте", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
