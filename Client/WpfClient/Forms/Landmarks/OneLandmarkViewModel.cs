@@ -130,6 +130,7 @@ namespace Iit.Fibertest.Client
 
             ComboItems = GetItems(selectedLandmark.EquipmentType);
             SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == selectedLandmark.EquipmentType);
+            IsEditEnabled = HasPrivileges && selectedLandmark.EquipmentType != EquipmentType.Rtu;
         }
 
         public void ClearUserLength()

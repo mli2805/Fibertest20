@@ -72,7 +72,19 @@ namespace Iit.Fibertest.Client
             await OneLandmarkViewModel.GpsInputSmallViewModel.ShowPoint();
             NotifyOfPropertyChange();
             NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
+            NotifyOfPropertyChange(nameof(IsCancelRowEnabled));
         }
+
+        public bool IsCancelRowEnabled
+        {
+            get
+            {
+                var original = _originalLandmarks.First(l => l.Number == SelectedRow.Number);
+                var current = _changedLandmarks.First(c => c.Number == SelectedRow.Number);
+                return original.AnyPropertyChanged(current);
+            }
+        }
+
 
         private OneLandmarkViewModel _oneLandmarkViewModel;
         public OneLandmarkViewModel OneLandmarkViewModel
@@ -90,7 +102,8 @@ namespace Iit.Fibertest.Client
         public void ChangeGpsInputMode(GpsInputMode gpsInputMode)
         {
             _gpsInputMode = gpsInputMode;
-            Rows = _changedLandmarks.LandmarksToRows(_originalLandmarkRows, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
+            Rows = _changedLandmarks
+                .LandmarksToRows(_originalLandmarkRows, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
             SelectedRow = Rows.First(r => r.Number == _selectedRow.Number);
         }
 
@@ -121,6 +134,7 @@ namespace Iit.Fibertest.Client
         public bool IsEquipmentOpEnabled => !HasBaseRef && SelectedRow.Number != 0;
 
         public readonly UpdateFromLandmarksBatch Command = new UpdateFromLandmarksBatch();
+        private bool _isUpdateRowEnabled;
         public bool AreThereAnyChanges => Command.Any();
 
         public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis,

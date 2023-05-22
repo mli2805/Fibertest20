@@ -17,9 +17,11 @@
 
         <StackPanel DockPanel.Dock="Bottom" Margin="5,5,0,0" Orientation="Horizontal">
             <Button Width="172" Height="25" Margin="5" Name="UpdateTable" 
-                    Content="{x:Static stringResources:Resources.SID_Update_table}"/>
+                    Content="{x:Static stringResources:Resources.SID_Update_table}"
+                    />
             <Button Width="172" Height="25" Margin="5" Name="CancelChanges" 
-                    Content="{x:Static stringResources:Resources.SID_Cancel_changes}"/>
+                    Content="{x:Static stringResources:Resources.SID_Cancel_changes}"
+                    IsEnabled="{Binding IsCancelRowEnabled}"/>
         </StackPanel>
         <client:OneLandmarkView DockPanel.Dock="Bottom" DataContext="{Binding OneLandmarkViewModel}"/>
         <DataGrid Margin="5" ItemsSource="{Binding Rows}"

@@ -18,5 +18,12 @@ namespace Iit.Fibertest.Client
                    || landmark.LeftCableReserve != other.LeftCableReserve
                    || landmark.RightCableReserve != other.RightCableReserve;
         }
+
+        public static bool AnyPropertyChanged(this Landmark landmark, Landmark other)
+        {
+            return landmark.NodePropertiesChanged(other) 
+                   || landmark.EquipmentPropertiesChanged(other)
+                   || !landmark.UserInputLength.Equals(other.UserInputLength);
+        }
     }
 }

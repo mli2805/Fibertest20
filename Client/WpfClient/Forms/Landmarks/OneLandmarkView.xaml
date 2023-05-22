@@ -9,7 +9,8 @@
              mc:Ignorable="d" 
              Width = "998" Height="182"
              d:DataContext="{d:DesignInstance client:OneLandmarkViewModel}"
-             cal:Bind.ModelWithoutContext="{Binding .}" IsEnabled="{Binding HasPrivileges}">
+             cal:Bind.ModelWithoutContext="{Binding .}" 
+             IsEnabled="{Binding IsEditEnabled}">
     <GroupBox Header="{x:Static stringResources:Resources.SID_Landmark}" Margin="5">
         <StackPanel Orientation="Horizontal">
             <Grid>
@@ -72,5 +73,6 @@
                     <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}" />
                 </GroupBox>
             </Grid>
-        </StackPanel></GroupBox>
+        </StackPanel>
+    </GroupBox>
 </UserControl>
