@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -28,9 +30,13 @@ namespace Iit.Fibertest.SuperClient
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = @"Fibertest 2.0 SuperClient";
+            var assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            DisplayName = $@"Fibertest 2.0 SuperClient v{info.ProductVersion}";
             _logFile.AssignFile(@"sc.log");
             _logFile.AppendLine(@"Super-Client application started!");
+
             _superClientWcfServiceHost.StartWcfListener();
         }
 

@@ -54,8 +54,9 @@ namespace Iit.Fibertest.SuperClient
             {
                 StartInfo = {
                     FileName = _clientFilename,
-                    Arguments = $@"{ftServerEntity.Postfix} {Thread.CurrentThread.CurrentUICulture} {ftServerEntity.Username} {ftServerEntity.Password} {Guid.NewGuid()} {ftServerEntity.ServerIp} {ftServerEntity.ServerTcpPort}" 
-                                + "\""  + ftServerEntity.ServerTitle + "\"",
+                    Arguments = $@"{ftServerEntity.Postfix} {Thread.CurrentThread.CurrentUICulture} {
+                        ftServerEntity.Username} {ftServerEntity.Password} {Guid.NewGuid()} {ftServerEntity.ServerIp
+                        } {ftServerEntity.ServerTcpPort} " + "\""  + ftServerEntity.ServerTitle + "\"",
                 }
             };
             process.Start();
