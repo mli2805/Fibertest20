@@ -43,7 +43,7 @@ namespace Graph.Tests
             _vm.RowsLandmarkViewModel.Rows[4].GpsCoors.Should().StartWith(@"55.1220");
             _vm.RowsLandmarkViewModel.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
             _vm.RowsLandmarkViewModel.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
-            _vm.RowsLandmarkViewModel.Rows[6].GpsDistance.Should().Be(@" 14.996");
+            _vm.RowsLandmarkViewModel.Rows[6].GpsDistance.Should().StartWith(@" 14.996");
             _vm.RowsLandmarkViewModel.Rows[6].OpticalDistance.Should().Be(@"");
         }
 

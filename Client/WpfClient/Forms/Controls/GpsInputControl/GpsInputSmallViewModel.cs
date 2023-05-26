@@ -72,11 +72,11 @@ namespace Iit.Fibertest.Client
         public async Task PreviewButton()
         {
             await OpenGisTab();
-            await ShowPoint();
+            await ShowPoint(true);
         }
 
         // кроме кнопки Preview вызывается неявно, чтобы вернуть узел на место - если карту не показывали то и выполнять не надо
-        public async Task ShowPoint()
+        public async Task ShowPoint(bool forcePosition)
         {
             // если карту не показывали то и выполнять не надо
             if (_tabulatorViewModel.SelectedTabIndex != 3) return;
@@ -86,25 +86,39 @@ namespace Iit.Fibertest.Client
 
             _graphReadModel.ExtinguishAllNodes();
 
-            var error = TryGetPoint(out PointLatLng position);
-            if (error != null) return;
-
             var node = _readModel.Nodes.First(n => n.NodeId == _originalNodeId);
-            node.Position = position;
+
+            if (forcePosition)
+            {
+                var error = TryGetPoint(out PointLatLng position);
+                if (error != null) return;
+
+                if (!position.EqualInStrings(node.Position, _currentGis.GpsInputMode))
+                    node.Position = position;
+            }
+          
+
             node.IsHighlighted = true;
-            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(position);
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);
             await _graphReadModel.RefreshVisiblePart();
 
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == _originalNodeId);
-            nodeVm.Position = position;
+            nodeVm.Position = node.Position;
             nodeVm.IsHighlighted = true;
         }
 
         public async Task CancelChanges()
         {
-            OneCoorViewModelLatitude.ReassignValue(Coors.Lat);
-            OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
-            await ShowPoint();
+            var flag = false;
+            var error = TryGetPoint(out PointLatLng position);
+            if (error != null || !position.EqualInStrings(Coors, _currentGis.GpsInputMode))
+            {
+                OneCoorViewModelLatitude.ReassignValue(Coors.Lat);
+                OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
+                flag = true;
+            }
+            await ShowPoint(flag);
+
         }
 
         private void CurrentGpsInputMode_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -40,5 +40,13 @@ namespace Iit.Fibertest.Graph
             return "";
         }
 
+        public static bool EqualInStrings(this PointLatLng pointLatLng, PointLatLng other, GpsInputMode mode)
+        {
+            var p1Str = pointLatLng.ToDetailedString(mode);
+            var p2Str = other.ToDetailedString(mode);
+            return p1Str == p2Str;
+        }
+
+
     }
 }

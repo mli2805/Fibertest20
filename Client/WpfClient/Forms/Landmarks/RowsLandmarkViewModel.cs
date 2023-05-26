@@ -70,12 +70,29 @@ namespace Iit.Fibertest.Client
                 OneLandmarkViewModel.Initialize(
                     _changedLandmarks.First(l => l.Number == SelectedRow.Number));
                 _dispatcherProvider.GetDispatcher().InvokeAsync(async () => 
-                    { await OneLandmarkViewModel.GpsInputSmallViewModel.ShowPoint(); });
+                    { await OneLandmarkViewModel.GpsInputSmallViewModel.ShowPoint(false); });
+                // LogTrace();
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(IsEquipmentOpEnabled));
                 NotifyOfPropertyChange(nameof(IsCancelRowEnabled));
             }
         }
+
+        // private int logTraceCount = 0;
+        // private void LogTrace()
+        // {
+        //     logTraceCount++;
+        //     var content = new List<string>();
+        //     for (int i = 0; i < _selectedTrace.NodeIds.Count; i++)
+        //     {
+        //         var node = _readModel.Nodes.First(n => n.NodeId == _selectedTrace.NodeIds[i]);
+        //         var ttt = node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint ? @"*" : @" ";
+        //         content.Add($@"{i:D3} {ttt} {node.Position.Lat}  {node.Position.Lng}");
+        //     }
+        //     File.WriteAllLines($@"c:\temp\log-trace-{logTraceCount:D3}.txt", content);
+        // }
+
+
 
         public bool IsCancelRowEnabled
         {
@@ -200,6 +217,7 @@ namespace Iit.Fibertest.Client
         // Ландмарков меньше чем узлов в модели (из-за точек привязки)
         public void UpdateTable()
         {
+            var hasRowChanges = false;
             Landmark changedLandmark = OneLandmarkViewModel.GetLandmark();
             var originalLandmark = _originalLandmarks.First(l => l.Number == changedLandmark.Number);
 
@@ -210,6 +228,7 @@ namespace Iit.Fibertest.Client
                 currentNode.UpdateFrom(changedLandmark);
                 Command.Add(currentNode);
                 NotifyOfPropertyChange(nameof(AreThereAnyChanges));
+                hasRowChanges = true;
             }
 
             if (!originalLandmark.UserInputLength.Equals(changedLandmark.UserInputLength))
@@ -223,6 +242,7 @@ namespace Iit.Fibertest.Client
                 }
                 Command.Add(currentFiber);
                 NotifyOfPropertyChange(nameof(AreThereAnyChanges));
+                hasRowChanges = true;
             }
 
             if (originalLandmark.EquipmentPropertiesChanged(changedLandmark))
@@ -231,7 +251,10 @@ namespace Iit.Fibertest.Client
                 currentEquipment.UpdateFrom(changedLandmark);
                 Command.Add(currentEquipment);
                 NotifyOfPropertyChange(nameof(AreThereAnyChanges));
+                hasRowChanges = true;
             }
+
+            if (!hasRowChanges) return;
 
             Rows = ReCalculateLandmarks();
             SelectedRow = Rows.First(r => r.Number == changedLandmark.Number);
