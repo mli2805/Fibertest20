@@ -142,6 +142,7 @@
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IOneMeasurementExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IWholeRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\OneVeexMeasurementExecutor.cs" />
+    <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\SorDataAutoBaseExt.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeIitRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\WholeVeexRtuMeasurementsExecutor.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\RtuAutoBaseProgress.cs" />

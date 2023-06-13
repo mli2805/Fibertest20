@@ -167,6 +167,7 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
 
             var sorData = SorData.FromBytes(dto.SorBytes);
+            sorData = sorData.EnhanceLeftShoulderOfLastKeyEvent();
             var rftsParams = Model.AutoAnalysisParamsViewModel
                 .GetRftsParams(sorData, Model.OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id, Model.Rtu);
             sorData.ApplyRftsParamsTemplate(rftsParams);
@@ -181,6 +182,8 @@ namespace Iit.Fibertest.Client
                     ? new MeasurementEventArgs(ReturnCode.BaseRefAssignedSuccessfully, _trace, sorData.ToBytes())
                     : new MeasurementEventArgs(ReturnCode.BaseRefAssignmentFailed, _trace, result.ErrorMessage));
         }
+
+       
 
         public delegate void MeasurementHandler(object sender, MeasurementEventArgs e);
 

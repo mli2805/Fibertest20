@@ -170,6 +170,7 @@ namespace Iit.Fibertest.Client
             Model.MeasurementProgressViewModel.Message = Resources.SID_Applying_base_refs__Please_wait;
 
             var sorData = SorData.FromBytes(sorBytes);
+            sorData = sorData.EnhanceLeftShoulderOfLastKeyEvent();
             var rftsParams = Model.AutoAnalysisParamsViewModel
                 .GetRftsParams(sorData, Model.OtdrParametersTemplatesViewModel.Model.SelectedOtdrParametersTemplate.Id, Model.Rtu);
             sorData.ApplyRftsParamsTemplate(rftsParams);
