@@ -239,7 +239,8 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 if (completedTest.extendedResult == "trace_change")
                 {
-                    if (completedTest.traceChange.changeType == "exceeded_threshold")
+                    if (completedTest.traceChange.changeType == "exceeded_threshold" ||
+                            completedTest.traceChange.changeType == "new_event")
                     {
                         if (completedTest.traceChange.levels.Any(l => l.levelName == "critical"))
                             return FiberState.Critical;
