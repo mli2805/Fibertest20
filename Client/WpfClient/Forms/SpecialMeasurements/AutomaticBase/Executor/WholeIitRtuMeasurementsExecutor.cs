@@ -37,7 +37,6 @@ namespace Iit.Fibertest.Client
             Model.MeasurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
             Model.OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
             Model.AutoAnalysisParamsViewModel = autoAnalysisParamsViewModel;
-            Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
         }
 
         public bool Initialize(Rtu rtu)
@@ -46,6 +45,7 @@ namespace Iit.Fibertest.Client
             Model.TraceResults.Clear();
             Model.InterruptedPressed = false;
 
+            Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
             Model.OtdrParametersTemplatesViewModel.Initialize(rtu, true);
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }

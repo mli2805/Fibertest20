@@ -37,13 +37,13 @@ namespace Iit.Fibertest.Client
             Model.MeasurementTimeout = iniFile.Read(IniSection.Miscellaneous, IniKey.MeasurementTimeoutMs, 60000);
             Model.OtdrParametersTemplatesViewModel = new OtdrParametersTemplatesViewModel(iniFile);
             Model.AutoAnalysisParamsViewModel = autoAnalysisParamsViewModel;
-            Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
         }
 
         public bool Initialize(Rtu rtu, bool isForRtu)
         {
             Model.Rtu = rtu;
 
+            Model.MeasurementProgressViewModel = new MeasurementProgressViewModel();
             Model.OtdrParametersTemplatesViewModel.Initialize(rtu, isForRtu);
             return Model.AutoAnalysisParamsViewModel.Initialize();
         }
