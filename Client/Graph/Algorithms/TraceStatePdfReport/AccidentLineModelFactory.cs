@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Graph
             _gpsInputMode = gpsInputMode;
             _isDesktop = isDesktop;
             if (accident.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss)
-                return CreateBadLine(accident, 1);
+                return CreateBadLine(accident, number);
             if (accident.IsAccidentInOldEvent)
             {
                 return accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff
