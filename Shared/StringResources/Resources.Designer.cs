@@ -8866,6 +8866,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TCE - trace link.
+        /// </summary>
+        public static string SID_Tce_trace_link {
+            get {
+                return ResourceManager.GetString("SID_Tce_trace_link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TCE type.
         /// </summary>
         public static string SID_TCE_type {

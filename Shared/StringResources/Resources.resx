@@ -3569,4 +3569,7 @@ Please try again later</value>
 	<data name="SID_User_input_length_should_be_a_number_or_an_empty_string" xml:space="preserve">
 		<value>User input length should be a number or an empty string</value>
 	</data>
+	<data name="SID_Tce_trace_link" xml:space="preserve">
+		<value>TCE - trace link</value>
+	</data>
 </root>

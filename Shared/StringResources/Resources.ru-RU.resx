@@ -3569,4 +3569,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_User_input_length_should_be_a_number_or_an_empty_string" xml:space="preserve">
 		<value>Пользовательская длина должна быть числом и пустой строкой</value>
 	</data>
+	<data name="SID_Tce_trace_link" xml:space="preserve">
+		<value>связь TCE - трасса</value>
+	</data>
 </root>

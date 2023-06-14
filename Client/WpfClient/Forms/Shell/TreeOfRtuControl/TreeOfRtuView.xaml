@@ -144,7 +144,7 @@
                                ToolTip="{x:Static stringResources:Resources.SID_Monitoring_mode}"/>
                         <Image Source="{Binding TraceTceRelationPictogram}" Height="12" Width="12" Margin="0,0,4,0" 
                                Visibility="{Binding IconsVisibility}" 
-                               ToolTip="TCE - trace link"/>
+                               ToolTip="{x:Static stringResources:Resources.SID_Tce_trace_link}"/>
                         <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" 
                                Visibility="{Binding IconsVisibility}" 
                                ToolTip="{x:Static stringResources:Resources.SID_Trace_state}"/>
