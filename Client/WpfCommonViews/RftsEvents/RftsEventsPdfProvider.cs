@@ -61,7 +61,7 @@ namespace Iit.Fibertest.WpfCommonViews
         {
             var line = levelDataTable.Rows[0];
             var eventCount = line.ItemArray.Length - 1;
-            var pages = eventCount / EventOnPage + 1;
+            var pages = (eventCount - 1) / EventOnPage + 1;
             for (int i = 0; i < pages; i++)
             {
                 DrawOneTable(levelDataTable, section, i);

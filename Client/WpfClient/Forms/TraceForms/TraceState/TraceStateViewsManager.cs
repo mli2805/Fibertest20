@@ -133,7 +133,8 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = await _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
+            var traceStateModel = await _traceStateModelFactory
+                .CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
             Show(traceStateModel);
         }
 
@@ -145,14 +146,16 @@ namespace Iit.Fibertest.Client
             // if (sorBytes == null)
             //     return;
 
-            var traceStateModel = await _traceStateModelFactory.CreateModel(measurement, isLastMeasurementOnThisTrace, isLastAccident);
+            var traceStateModel = await _traceStateModelFactory
+                .CreateModel(measurement, isLastMeasurementOnThisTrace, isLastAccident);
             Show(traceStateModel);
         }
 
         // User clicked on line in OpticalEvents (maybe last or not last line, and last event could be not last measurement for this trace) 
         public void ShowTraceState(OpticalEventModel opticalEventModel, bool isLastMeasurementOnThisTrace, bool isLastAccident)
         {
-            var traceStateModel = _traceStateModelFactory.CreateModel(opticalEventModel, isLastMeasurementOnThisTrace, isLastAccident);
+            var traceStateModel = _traceStateModelFactory
+                .CreateModel(opticalEventModel, isLastMeasurementOnThisTrace, isLastAccident);
             if (traceStateModel != null)
                 Show(traceStateModel);
         }
