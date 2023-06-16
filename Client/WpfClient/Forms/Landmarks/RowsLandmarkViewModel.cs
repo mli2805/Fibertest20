@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -18,6 +19,7 @@ namespace Iit.Fibertest.Client
     public class RowsLandmarkViewModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
@@ -149,18 +151,21 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool HasPrivileges => _currentUser.Role <= Role.Root;
+
         public bool IsEquipmentOpEnabled => !HasBaseRef && SelectedRow.Number != 0;
 
         public readonly UpdateFromLandmarksBatch Command = new UpdateFromLandmarksBatch();
         public bool AreThereAnyChanges => Command.Any();
 
-        public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis, IDispatcherProvider dispatcherProvider,
-            Model readModel, IWindowManager windowManager,
+        public RowsLandmarkViewModel(ILifetimeScope globalScope, CurrentGis currentGis, CurrentUser currentUser,
+            IDispatcherProvider dispatcherProvider, Model readModel, IWindowManager windowManager,
             IWcfServiceCommonC2D c2DWcfCommonManager, ReflectogramManager reflectogramManager,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
             BaseRefLandmarksTool baseRefLandmarksTool, OneLandmarkViewModel oneLandmarkViewModel)
         {
             _globalScope = globalScope;
+            _currentUser = currentUser;
             _dispatcherProvider = dispatcherProvider;
             _readModel = readModel;
             _windowManager = windowManager;
