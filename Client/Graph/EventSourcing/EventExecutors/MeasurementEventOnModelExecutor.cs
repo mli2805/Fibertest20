@@ -48,6 +48,24 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public static string AddRtuAccident(this Model model, RtuAccidentAdded e)
+        {
+            // RTU must not send the same problem more than once
+            var entity = Mapper.Map<RtuAccident>(e);
+            model.RtuAccidents.Add(entity);
+
+            if (entity.IsMeasurementProblem)
+            {
+                var problem = model.ActiveRtuAccidents.FirstOrDefault(p => p.TraceId == entity.TraceId);
+                if (problem != null)
+                    model.ActiveRtuAccidents.Remove(problem);
+                if (e.ReturnCode != ReturnCode.MeasurementEndedNormally)
+                    model.ActiveRtuAccidents.Add(entity);
+            }
+
+            return null;
+        }
+
         public static string AddNetworkEvent(this Model model, NetworkEventAdded e)
         {
             var networkEvent = Mapper.Map<NetworkEvent>(e);

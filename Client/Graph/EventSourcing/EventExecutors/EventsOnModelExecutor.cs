@@ -72,6 +72,7 @@ namespace Iit.Fibertest.Graph
 
                     case MeasurementAdded evnt: return model.AddMeasurement(evnt);
                     case MeasurementUpdated evnt: return model.UpdateMeasurement(evnt);
+                    case RtuAccidentAdded evnt: return model.AddRtuAccident(evnt);
 
                     case NetworkEventAdded evnt: return model.AddNetworkEvent(evnt);
                     case BopNetworkEventAdded evnt: return model.AddBopNetworkEvent(evnt);

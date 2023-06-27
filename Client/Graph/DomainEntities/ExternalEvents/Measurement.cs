@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Graph
     [Serializable]
     public class Measurement
     {
+        public ReturnCode ReturnCode { get; set; }
         public DateTime MeasurementTimestamp { get; set; }
         public DateTime EventRegistrationTimestamp { get; set; }
         public Guid RtuId { get; set; }

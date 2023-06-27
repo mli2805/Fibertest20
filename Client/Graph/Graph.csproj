@@ -126,6 +126,7 @@
     <Compile Include="Algorithms\TraceStateReport\EventReportModel.cs" />
     <Compile Include="Algorithms\VersionExt.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
+    <Compile Include="Commands\ExternalEvents\AddRtuAccident.cs" />
     <Compile Include="Commands\UpdateFromLandmarksBatch.cs" />
     <Compile Include="DomainEntities\Extensions\ChannelEventExt.cs" />
     <Compile Include="Commands\MakeSnapshot.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="DomainEntities\Extensions\AccessModeExt.cs" />
     <Compile Include="DomainEntities\Extensions\MonitoringStateExt.cs" />
     <Compile Include="DomainEntities\Extensions\TceTypeStructExt.cs" />
+    <Compile Include="DomainEntities\ExternalEvents\RtuAccident.cs" />
     <Compile Include="DomainEntities\Graph\GponPortRelation.cs" />
     <Compile Include="DomainEntities\Graph\TceS.cs" />
     <Compile Include="DomainEntities\Graph\TceSlot.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
     <Compile Include="EventSourcing\EventsQueue.cs" />
+    <Compile Include="Events\ExternalEvents\RtuAccidentAdded.cs" />
     <Compile Include="Events\Tce\TceRemoved.cs" />
     <Compile Include="Events\SnapshotMade.cs" />
     <Compile Include="Events\LicenseApplied.cs" />
@@ -217,11 +220,11 @@
     <Compile Include="Commands\ExternalEvents\AddNetworkEvent.cs" />
     <Compile Include="Commands\ExternalEvents\AddBopNetworkEvent.cs" />
     <Compile Include="DomainEntities\BaseRef.cs" />
-    <Compile Include="DomainEntities\BopNetworkEvent.cs" />
+    <Compile Include="DomainEntities\ExternalEvents\BopNetworkEvent.cs" />
     <Compile Include="Events\ExternalEvents\BopNetworkEventAdded.cs" />
     <Compile Include="DomainEntities\Extensions\UserExt.cs" />
-    <Compile Include="DomainEntities\Measurement.cs" />
-    <Compile Include="DomainEntities\NetworkEvent.cs" />
+    <Compile Include="DomainEntities\ExternalEvents\Measurement.cs" />
+    <Compile Include="DomainEntities\ExternalEvents\NetworkEvent.cs" />
     <Compile Include="Events\ExternalEvents\NetworkEventAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationWithNodeTitleAdded.cs" />
     <Compile Include="Events\ExternalEvents\MeasurementAdded.cs" />
@@ -410,6 +413,7 @@
       <Version>1.50.5147</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

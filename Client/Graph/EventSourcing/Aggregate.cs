@@ -92,6 +92,7 @@ namespace Iit.Fibertest.Graph
                 case StopMonitoring command: return _eventsQueue.Add(Mapper.Map<MonitoringStopped>(command));
                 case AddMeasurement command: return Validate(command);
                 case UpdateMeasurement command: return _eventsQueue.Add(Mapper.Map<MeasurementUpdated>(command));
+                case AddRtuAccident command: return Validate(command);
                 case ApplyLicense command: return Validate(command);
                 case AddNetworkEvent command: return Validate(command);
                 case AddBopNetworkEvent command: return Validate(command);
@@ -292,10 +293,18 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(Mapper.Map<MeasurementAdded>(cmd));
         }
 
+        private string Validate(AddRtuAccident cmd)
+        {
+            var rtuProblemEventAdded = Mapper.Map<RtuAccidentAdded>(cmd);
+            var lastEventId = _writeModel.RtuAccidents.Any() ? _writeModel.RtuAccidents.Max(p => p.Id) : 0;
+            rtuProblemEventAdded.Id = ++lastEventId;
+            return _eventsQueue.Add(rtuProblemEventAdded);
+        }
+
         private string Validate(AddNetworkEvent cmd)
         {
             var networkEventAdded = Mapper.Map<NetworkEventAdded>(cmd);
-            var lastEventOrdial = _writeModel.NetworkEvents.Any() ? _writeModel.NetworkEvents.Max(n => n.Ordinal) : 1;
+            var lastEventOrdial = _writeModel.NetworkEvents.Any() ? _writeModel.NetworkEvents.Max(n => n.Ordinal) : 0;
             networkEventAdded.Ordinal = lastEventOrdial + 1;
             //  networkEventAdded.RtuPartStateChanges = _writeModel.IsStateWorseOrBetterThanBefore(networkEventAdded);
             return _eventsQueue.Add(networkEventAdded);

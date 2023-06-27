@@ -63,6 +63,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<AddMeasurement, MeasurementAdded>();
             CreateMap<UpdateMeasurement, MeasurementUpdated>();
+            CreateMap<AddRtuAccident, RtuAccidentAdded>();
             CreateMap<AddNetworkEvent, NetworkEventAdded>();
             CreateMap<AddBopNetworkEvent, BopNetworkEventAdded>();
             CreateMap<ChangeResponsibilities, ResponsibilitiesChanged>();

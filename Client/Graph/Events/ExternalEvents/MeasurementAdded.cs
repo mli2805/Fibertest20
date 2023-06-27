@@ -6,6 +6,7 @@ namespace Iit.Fibertest.Graph
 {
     public class MeasurementAdded
     {
+        public ReturnCode ReturnCode { get; set; }
         public int SorFileId { get; set; }
 
         public DateTime MeasurementTimestamp { get; set; }
