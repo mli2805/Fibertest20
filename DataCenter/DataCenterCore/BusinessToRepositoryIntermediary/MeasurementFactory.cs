@@ -69,7 +69,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public AddRtuAccident CreateRtuProblemCommand(MonitoringResultDto monitoringResultDto)
+        public AddRtuAccident CreateRtuAccidentCommand(MonitoringResultDto monitoringResultDto)
         {
             return new AddRtuAccident()
             {

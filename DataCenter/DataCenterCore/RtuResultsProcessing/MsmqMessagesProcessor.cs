@@ -105,7 +105,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task SaveRtuAccident(MonitoringResultDto dto)
         {
-            var addRtuAccident = _measurementFactory.CreateRtuProblemCommand(dto);
+            var addRtuAccident = _measurementFactory.CreateRtuAccidentCommand(dto);
             var result = await _eventStoreService.SendCommand(addRtuAccident, "system", "OnServer");
 
             if (result != null)
