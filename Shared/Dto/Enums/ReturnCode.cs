@@ -35,9 +35,15 @@
 
         MeasurementError = 1500,
         MeasurementEndedNormally = 1501,
-        MeasurementPreparationError = 1502,
-        MeasurementInterrupted = 1503,
-        MeasurementTimeoutExpired,
+        MeasurementPreparationError = 1510,
+        MeasurementToggleToPortFailed = 1511,
+        MeasurementBaseRefNotFound = 1512,
+        MeasurementFailedToSetParametersFromBase = 1513,
+        MeasurementHardwareProblem = 1520,
+        MeasurementAnalysisFailed = 1530,
+        MeasurementComparisonFailed = 1532,
+        MeasurementInterrupted = 1590,
+        MeasurementTimeoutExpired = 1595,
 
         TcpConnectionError = 2000,
         C2DWcfConnectionError = 2001,

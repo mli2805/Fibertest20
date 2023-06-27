@@ -70,18 +70,18 @@ namespace Iit.Fibertest.Dto
             return ToFileName(baseRefType, SorType.Meas);
         }
 
-        public static MeasurementResult ToMeasurementResultProblem(this BaseRefType baseRefType)
-        {
-            switch (baseRefType)
-            {
+        //public static MeasurementResult ToMeasurementResultProblem(this BaseRefType baseRefType)
+        //{
+        //    switch (baseRefType)
+        //    {
               
-                case BaseRefType.Fast:
-                    return MeasurementResult.FastBaseRefNotFound;
-                case BaseRefType.Additional:
-                    return MeasurementResult.AdditionalBaseRefNotFound;
-                // case BaseRefType.Precise:
-                default:
-                    return MeasurementResult.PreciseBaseRefNotFound;   }
-        }
+        //        case BaseRefType.Fast:
+        //            return MeasurementResult.FastBaseRefNotFound;
+        //        case BaseRefType.Additional:
+        //            return MeasurementResult.AdditionalBaseRefNotFound;
+        //        // case BaseRefType.Precise:
+        //        default:
+        //            return MeasurementResult.PreciseBaseRefNotFound;   }
+        //}
     }
 }

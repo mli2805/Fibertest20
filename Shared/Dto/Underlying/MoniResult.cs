@@ -5,11 +5,14 @@ namespace Iit.Fibertest.Dto
 {
     public class MoniResult
     {
-        public MeasurementResult MeasurementResult;
+        // Trace could be broken and ReturnCode could be OK - means measurement process ended normally
+        public ReturnCode ReturnCode;
+     
+        #region State of trace
         public bool IsNoFiber { get; set; }
         public bool IsFiberBreak { get; set; }
-
         public List<MoniLevel> Levels { get; set; } = new List<MoniLevel>();
+        #endregion
 
         public BaseRefType BaseRefType { get; set; }
         public double FirstBreakDistance { get; set; }
@@ -19,7 +22,7 @@ namespace Iit.Fibertest.Dto
 
         public FiberState GetAggregatedResult()
         {
-            if (MeasurementResult == MeasurementResult.Interrupted)
+            if (ReturnCode == ReturnCode.MeasurementInterrupted)
                 return FiberState.Unknown;
 
             if (IsNoFiber)

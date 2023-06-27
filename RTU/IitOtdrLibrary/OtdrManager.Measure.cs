@@ -11,7 +11,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
     {
         public ReturnCode MeasureWithBase(CancellationTokenSource cts, byte[] buffer, Charon bopCharonToShowPortOnDisplay)
         {
-            var result = ReturnCode.Error;
+            ReturnCode result;
 
             // allocate memory inside c++ library
             // put there base sor data
@@ -21,6 +21,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
             {
                 InterOpWrapper.ForceLmaxNs(InterOpWrapper.ConvertLmaxOwtToNs(buffer));
                 result = Measure(cts, bopCharonToShowPortOnDisplay);
+            }
+            else
+            {
+                result = ReturnCode.MeasurementFailedToSetParametersFromBase;
             }
 
             // free memory where was base sor data

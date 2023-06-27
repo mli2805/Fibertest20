@@ -161,7 +161,6 @@
     <Compile Include="Enums\ReturnCode.cs" />
     <Compile Include="Underlying\GuidExt.cs" />
     <Compile Include="Underlying\MeasParamsTree\MeasParamByPosition.cs" />
-    <Compile Include="Underlying\MeasurementResult.cs" />
     <Compile Include="Underlying\MoniLevel.cs" />
     <Compile Include="Underlying\MoniResult.cs" />
     <Compile Include="Underlying\MonitoringTimespansDto.cs" />

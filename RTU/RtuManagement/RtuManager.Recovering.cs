@@ -71,7 +71,7 @@ namespace Iit.Fibertest.RtuManagement
         }
 
 
-        private void RunAdditionalOtauRecovery(DamagedOtau damagedOtau)
+        private void RunBopRecovery(DamagedOtau damagedOtau)
         {
             damagedOtau.RebootStarted = DateTime.Now;
             damagedOtau.RebootAttempts++;
@@ -86,7 +86,6 @@ namespace Iit.Fibertest.RtuManagement
                     Serial = damagedOtau.Serial,
                     IsOk = false
                 });
-            // SendByMsmq(new BopStateChangedDto() { RtuId = _id, Serial = damagedOtau.Serial, IsOk = false });
 
             _serviceLog.AppendLine($"Mikrotik {damagedOtau.Ip} reboot N{damagedOtau.RebootAttempts}");
             _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
