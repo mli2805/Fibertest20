@@ -91,7 +91,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, _trapSenderUser, out RtuOccupationState _);
 
-            if (dto.ReturnCode == ReturnCode.MeasurementEndedNormally)
+            if (dto.ReturnCode == ReturnCode.MeasurementEndedNormally && dto.SorBytes != null)
             {
                 var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
                 if (sorId != -1)
@@ -99,6 +99,8 @@ namespace Iit.Fibertest.DataCenterCore
             }
             else
             {
+                // if dto.ReturnCode != ReturnCode.MeasurementEndedNormally - it is an accident
+                // if dto.ReturnCode == ReturnCode.MeasurementEndedNormally but сначала на стороне RTU
                 await SaveRtuAccident(dto);
             }
         }

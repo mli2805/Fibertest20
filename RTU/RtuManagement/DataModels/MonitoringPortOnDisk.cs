@@ -37,6 +37,7 @@ namespace Iit.Fibertest.RtuManagement
             if (port.LastMoniResult != null)
                 LastMoniResult = new MoniResult()
                 {
+                    ReturnCode = port.LastMoniResult.ReturnCode,
                     IsNoFiber = port.LastMoniResult.IsNoFiber,
                     IsFiberBreak = port.LastMoniResult.IsFiberBreak,
                     Levels = port.LastMoniResult.Levels,

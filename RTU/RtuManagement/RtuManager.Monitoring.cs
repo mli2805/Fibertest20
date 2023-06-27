@@ -138,6 +138,11 @@ namespace Iit.Fibertest.RtuManagement
                     _rtuLog.AppendLine($"last fast saved - {monitoringPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
                     message = "It's time to save fast reflectogram";
                 }
+                else if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
+                {
+                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
+                    message = "Problem with base ref solved";
+                }
                 monitoringPort.LastMoniResult = moniResult;
                 monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
 
@@ -152,17 +157,29 @@ namespace Iit.Fibertest.RtuManagement
             }
             else //problem during measurement process 
             {
-                if (moniResult.ReturnCode == ReturnCode.MeasurementBaseRefNotFound
-                    || moniResult.ReturnCode == ReturnCode.MeasurementFailedToSetParametersFromBase)
+                ReactOnFailedMeasurement(moniResult, monitoringPort);
+            }
+            return moniResult;
+        }
+
+        private void ReactOnFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
+        {
+            if (moniResult.ReturnCode == ReturnCode.MeasurementBaseRefNotFound
+                || moniResult.ReturnCode == ReturnCode.MeasurementFailedToSetParametersFromBase)
+
+                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
                 {
+                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
                     _rtuLog.AppendLine("Send by MSMQ: problem with base ref!");
                     SendByMsmq(CreateDto(moniResult, monitoringPort));
                 }
+                else
+                {
+                    _rtuLog.AppendLine("Problem with base ref. Already reported.");
+                }
 
-                // other problems provoke service restart
-                // and will be discovered by user only if there are many
-            }
-            return moniResult;
+            // other problems provoke service restart
+            // and will be discovered by user only if there are many
         }
 
         private MoniResult DoSecondMeasurement(MonitoringPort monitoringPort, bool hasFastPerformed,
@@ -202,6 +219,9 @@ namespace Iit.Fibertest.RtuManagement
 
                 _monitoringQueue.Save();
             }
+            else 
+                ReactOnFailedMeasurement(moniResult, monitoringPort);
+
             return moniResult;
         }
 
@@ -233,7 +253,8 @@ namespace Iit.Fibertest.RtuManagement
                     return new MoniResult() { ReturnCode = ReturnCode.MeasurementInterrupted };
 
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
-                    return new MoniResult() { ReturnCode = result, BaseRefType = baseRefType }; // сообщить пользователю, восстановление не нужно
+                    // сообщить пользователю, восстановление не нужно
+                    return new MoniResult() { ReturnCode = result, BaseRefType = baseRefType };
 
                 case ReturnCode.MeasurementError:
                     if (RunMainCharonRecovery() != ReturnCode.Ok)
@@ -267,6 +288,7 @@ namespace Iit.Fibertest.RtuManagement
             catch (Exception e)
             {
                 _rtuLog.AppendLine($"Exception during PrepareMeasurement: {e.Message}");
+                return new MoniResult() { ReturnCode = ReturnCode.MeasurementHardwareProblem };
             }
 
             return AnalyzeAndCompare(baseRefType, monitoringPort, buffer, baseBytes);

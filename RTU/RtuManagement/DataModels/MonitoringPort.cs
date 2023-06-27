@@ -43,6 +43,7 @@ namespace Iit.Fibertest.RtuManagement
             if (port.LastMoniResult != null)
                 LastMoniResult = new MoniResult()
                 {
+                    ReturnCode = port.LastMoniResult.ReturnCode != ReturnCode.Error ? port.LastMoniResult.ReturnCode : ReturnCode.MeasurementEndedNormally,
                     IsNoFiber = port.LastMoniResult.IsNoFiber,
                     IsFiberBreak = port.LastMoniResult.IsFiberBreak,
                     Levels = port.LastMoniResult.Levels,
@@ -64,6 +65,7 @@ namespace Iit.Fibertest.RtuManagement
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;
 
+            LastMoniResult = new MoniResult() { ReturnCode = ReturnCode.MeasurementEndedNormally, };
             IsMonitoringModeChanged = true;
         }
 
@@ -126,7 +128,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes, SorType sorType, IMyLog rtuLog)
         {
-            var measfile = AppDomain.CurrentDomain.BaseDirectory + 
+            var measfile = AppDomain.CurrentDomain.BaseDirectory +
                            $@"..\PortData\{GetPortFolderName()}\{baseRefType.ToFileName(sorType)}";
 
             try
