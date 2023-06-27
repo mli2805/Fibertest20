@@ -32,7 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly string _trapSenderUser;
 
         public MsmqMessagesProcessor(IMyLog logFile, IniFile iniFile, Model writeModel,
-            CommonBopProcessor commonBopProcessor, RtuOccupations rtuOccupations, 
+            CommonBopProcessor commonBopProcessor, RtuOccupations rtuOccupations,
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
             IFtSignalRClient ftSignalRClient, AccidentLineModelFactory accidentLineModelFactory,
@@ -60,7 +60,18 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (message.Body is MonitoringResultDto dto)
             {
-                _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, RTU {dto.RtuId.First6()}, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({dto.BaseRefType})");
+                var measResult = dto.ReturnCode == ReturnCode.MeasurementEndedNormally
+                    ? dto.TraceState.ToString()
+                    : dto.ReturnCode.ToString();
+
+                var rtuStr = $"{_writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId)?.Title ?? $"not found {dto.RtuId.First6()}"}";
+                var portStr = $"{dto.PortWithTrace.OtauPort.ToStringB()}";
+                var traceNotFound = $"not found {dto.PortWithTrace.TraceId.First6()}";
+                var traceStr = $" {_writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId)?.Title ?? traceNotFound}";
+
+                _logFile.AppendLine($@"MSMQ message, measure time: {
+                    dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, RTU {
+                        rtuStr}, Port {portStr}, Trace {traceStr} - {measResult} ({dto.BaseRefType})");
 
                 await ProcessMonitoringResult(dto);
             }
@@ -78,12 +89,29 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return;
 
-            // _outOfTurnData.SetRtuIsFree(dto.RtuId);
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, _trapSenderUser, out RtuOccupationState _);
 
-            var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
-            if (sorId != -1)
-                await SaveEventFromDto(dto, sorId);
+            if (dto.ReturnCode == ReturnCode.MeasurementEndedNormally)
+            {
+                var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
+                if (sorId != -1)
+                    await SaveEventFromDto(dto, sorId);
+            }
+            else
+            {
+                await SaveRtuAccident(dto);
+            }
+        }
+
+        private async Task SaveRtuAccident(MonitoringResultDto dto)
+        {
+            var addRtuAccident = _measurementFactory.CreateRtuProblemCommand(dto);
+            var result = await _eventStoreService.SendCommand(addRtuAccident, "system", "OnServer");
+
+            if (result != null)
+                _logFile.AppendLine($"SaveRtuAccident {result}");
+
+            // Notifications ?
         }
 
         private async Task SaveEventFromDto(MonitoringResultDto dto, int sorId)

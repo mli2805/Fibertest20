@@ -202,7 +202,6 @@ namespace Iit.Fibertest.DataCenterCore
 
                 var res = new MonitoringResultDto()
                 {
-                    MeasurementResult = MeasurementResult.Success,
                     BaseRefType = veexTest.BasRefType == BaseRefType.Fast
                         ? BaseRefType.Fast
                         : completedTest.indicesOfReferenceTraces[0] == 0

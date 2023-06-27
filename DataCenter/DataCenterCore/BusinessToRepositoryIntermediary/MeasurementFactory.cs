@@ -49,6 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var result = new AddMeasurement
             {
+                ReturnCode = monitoringResultDto.ReturnCode,
                 SorFileId = sorId,
 
                 MeasurementTimestamp = monitoringResultDto.TimeStamp,
@@ -66,6 +67,22 @@ namespace Iit.Fibertest.DataCenterCore
             };
             EvaluateStatus(result);
             return result;
+        }
+
+        public AddRtuAccident CreateRtuProblemCommand(MonitoringResultDto monitoringResultDto)
+        {
+            return new AddRtuAccident()
+            {
+                IsMeasurementProblem = true,
+                ReturnCode = monitoringResultDto.ReturnCode,
+
+                EventRegistrationTimestamp = DateTime.Now,
+                RtuId = monitoringResultDto.RtuId,
+                TraceId = monitoringResultDto.PortWithTrace.TraceId,
+                BaseRefType = monitoringResultDto.BaseRefType,
+
+                Comment = "",
+            };
         }
 
         private void EvaluateStatus(AddMeasurement cmd)
@@ -88,7 +105,6 @@ namespace Iit.Fibertest.DataCenterCore
                 return true;
             }
 
-//            if (previousMeasurementOnTrace.TraceState != cmd.TraceState)
             if (IsStateChanged(cmd, previousMeasurementOnTrace))
             {
                 _logFile.AppendLine($"State of trace {cmd.TraceId.First6()} changed - event.");
