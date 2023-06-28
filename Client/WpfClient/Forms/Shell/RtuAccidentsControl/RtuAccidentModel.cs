@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
                     StateBrush = Brushes.Transparent;
                     break;
                 case ReturnCode.MeasurementBaseRefNotFound:
-                    State = $@"{BaseRefType} {_returnCode.GetLocalizedString()}";
+                    State = $@"{BaseRefType.GetLocalizedFemaleString()} {_returnCode.GetLocalizedString()}";
                     StateBrush = FiberState.Major.GetBrush(false);
                     break;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:

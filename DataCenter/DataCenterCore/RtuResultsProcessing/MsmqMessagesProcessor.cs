@@ -69,9 +69,9 @@ namespace Iit.Fibertest.DataCenterCore
                 var traceNotFound = $"not found {dto.PortWithTrace.TraceId.First6()}";
                 var traceStr = $" {_writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId)?.Title ?? traceNotFound}";
 
-                _logFile.AppendLine($@"MSMQ message, measure time: {
-                    dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, RTU {
-                        rtuStr}, Port {portStr}, Trace {traceStr} - {measResult} ({dto.BaseRefType})");
+                _logFile.AppendLine($@"MSMQ, measured: {
+                    dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, {
+                        rtuStr}, Port {portStr}, {traceStr} - {measResult} ({dto.BaseRefType})");
 
                 await ProcessMonitoringResult(dto);
             }
@@ -91,16 +91,17 @@ namespace Iit.Fibertest.DataCenterCore
 
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, _trapSenderUser, out RtuOccupationState _);
 
-            if (dto.ReturnCode == ReturnCode.MeasurementEndedNormally && dto.SorBytes != null)
+            if ((dto.Reason ^ ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged) != 0)
             {
                 var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
                 if (sorId != -1)
                     await SaveEventFromDto(dto, sorId);
             }
-            else
+
+            if ((dto.Reason & ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged) != 0)
             {
                 // if dto.ReturnCode != ReturnCode.MeasurementEndedNormally - it is an accident
-                // if dto.ReturnCode == ReturnCode.MeasurementEndedNormally but сначала на стороне RTU
+                // if dto.ReturnCode == ReturnCode.MeasurementEndedNormally - restored after accident
                 await SaveRtuAccident(dto);
             }
         }

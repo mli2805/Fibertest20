@@ -112,44 +112,52 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine($"MEAS. {_measurementNumber}, Fast, port {monitoringPort.ToStringB(_mainCharon)}");
 
             var moniResult = DoMeasurement(BaseRefType.Fast, monitoringPort);
+            var reason = ReasonToSendMonitoringResult.None;
 
             if (moniResult.ReturnCode == ReturnCode.MeasurementEndedNormally)
             {
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
                     monitoringPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
-                var message = "";
-
                 if (monitoringPort.LastTraceState == FiberState.Unknown) // 740)
                 {
-                    message = "First measurement on port";
+                    _rtuLog.AppendLine("First measurement on port");
+                    reason |= ReasonToSendMonitoringResult.FirstMeasurementOnPort;
                 }
-                else if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
+
+                if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
                 {
-                    message = $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
+                    _rtuLog.AppendLine($"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})");
+                    reason |= ReasonToSendMonitoringResult.TraceStateChanged;
                     monitoringPort.IsConfirmationRequired = true;
                 }
-                // else if (monitoringPort.IsMonitoringModeChanged)
+
+                // if (monitoringPort.IsMonitoringModeChanged)
                 // {
-                //     message = "Monitoring mode was changed";
+                //    _rtuLog.AppendLine("Monitoring mode was changed");
+                //    reason |= ReasonToSendMonitoringResult.MonitoringModeChanged;
                 // }
-                else if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan)
+
+                if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan)
                 {
                     _rtuLog.AppendLine($"last fast saved - {monitoringPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
-                    message = "It's time to save fast reflectogram";
+                    _rtuLog.AppendLine("It's time to save fast reflectogram");
+                    reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
                 }
-                else if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
+
+                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
                 {
                     _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
-                    message = "Problem with base ref solved";
+                    _rtuLog.AppendLine("Problem with base ref solved");
+                    reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
                 }
+
                 monitoringPort.LastMoniResult = moniResult;
                 monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
 
-                if (message != "")
+                if (reason != ReasonToSendMonitoringResult.None)
                 {
-                    _rtuLog.AppendLine("Send by MSMQ:  " + message);
-                    SendByMsmq(CreateDto(moniResult, monitoringPort));
+                    SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
                     monitoringPort.LastFastSavedTimestamp = DateTime.Now;
                 }
 
@@ -170,8 +178,8 @@ namespace Iit.Fibertest.RtuManagement
                 if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
                 {
                     _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
-                    _rtuLog.AppendLine("Send by MSMQ: problem with base ref!");
-                    SendByMsmq(CreateDto(moniResult, monitoringPort));
+                    _rtuLog.AppendLine("Problem with base ref occurred!");
+                    SendByMsmq(CreateDto(moniResult, monitoringPort, ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
                 }
                 else
                 {
@@ -192,28 +200,52 @@ namespace Iit.Fibertest.RtuManagement
 
             if (moniResult.ReturnCode == ReturnCode.MeasurementEndedNormally)
             {
-                var message = "";
+                var reason = ReasonToSendMonitoringResult.None;
                 if (isOutOfTurnMeasurement)
-                    message = "It's out of turn precise measurement";
-                else if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
                 {
-                    message = $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
+                    _rtuLog.AppendLine("It's out of turn precise measurement");
+                    reason |= ReasonToSendMonitoringResult.OutOfTurnPreciseMeasurement;
                 }
-                // else if (monitoringPort.IsMonitoringModeChanged)
-                //     message = "Monitoring mode was changed";
-                else if (monitoringPort.IsConfirmationRequired)
-                    message = "Accident confirmation - should be saved";
-                else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
-                    message = "It's time to save precise reflectogram";
+
+                if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
+                {
+                    _rtuLog.AppendLine($"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})");
+                    reason |= ReasonToSendMonitoringResult.TraceStateChanged;
+                }
+
+                //if (monitoringPort.IsMonitoringModeChanged)
+                //{
+                //    _rtuLog.AppendLine("Monitoring mode was changed");
+                //    reason |= ReasonToSendMonitoringResult.MonitoringModeChanged;
+                //}
+
+                if (monitoringPort.IsConfirmationRequired)
+                {
+                    _rtuLog.AppendLine("Accident confirmation - should be saved");
+                    reason |= ReasonToSendMonitoringResult.OpticalAccidentConfirmation;
+                }
+
+                if (_preciseSaveTimespan != TimeSpan.Zero &&
+                         DateTime.Now - monitoringPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
+                {
+                    _rtuLog.AppendLine("It's time to save precise reflectogram");
+                    reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
+                }
+
+                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
+                {
+                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
+                    _rtuLog.AppendLine("Problem with base ref solved");
+                    reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
+                }
 
                 monitoringPort.LastPreciseMadeTimestamp = DateTime.Now;
                 monitoringPort.LastMoniResult = moniResult;
                 monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
 
-                if (message != "")
+                if (reason != ReasonToSendMonitoringResult.None)
                 {
-                    _rtuLog.AppendLine("Send by MSMQ:  " + message);
-                    SendByMsmq(CreateDto(moniResult, monitoringPort));
+                    SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
                     monitoringPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }
 
@@ -361,11 +393,13 @@ namespace Iit.Fibertest.RtuManagement
             _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
         }
 
-        private MonitoringResultDto CreateDto(MoniResult moniResult, MonitoringPort monitoringPort)
+        private MonitoringResultDto CreateDto(MoniResult moniResult, MonitoringPort monitoringPort,
+            ReasonToSendMonitoringResult reason)
         {
             var dto = new MonitoringResultDto()
             {
                 ReturnCode = moniResult.ReturnCode,
+                Reason = reason,
                 RtuId = _id,
                 TimeStamp = DateTime.Now,
                 PortWithTrace = new PortWithTraceDto()
@@ -394,16 +428,17 @@ namespace Iit.Fibertest.RtuManagement
             var queue = new MessageQueue(connectionString);
             Message message = new Message(dto, new BinaryMessageFormatter());
             queue.Send(message, MessageQueueTransactionType.Single);
+            _rtuLog.AppendLine("Monitoring result sent by MSMQ.");
         }
 
         private void SendByMsmq(BopStateChangedDto dto)
         {
-            _rtuLog.AppendLine("Sending OTAU state changes by MSMQ");
             var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
             var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
             Message message = new Message(dto, new BinaryMessageFormatter());
             queue.Send(message, MessageQueueTransactionType.Single);
+            _rtuLog.AppendLine("OTAU state changes sent by MSMQ");
         }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
