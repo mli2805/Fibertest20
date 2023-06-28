@@ -115,7 +115,7 @@ namespace Graph.Tests
         public void ThenНаКартеВиднаТолькоТрасса2()
         {
             _sut.GraphReadModel.CurrentGis.ThresholdZoom = 1;
-            _sut.ShellVm.TabulatorViewModel.SelectedTabIndex = 3;
+            _sut.ShellVm.TabulatorViewModel.OpenGisIfNotYet();
 
             var unused = _sut.GraphReadModel.RefreshVisiblePart().Result;
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(2);

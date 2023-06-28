@@ -10,9 +10,12 @@
              cal:Bind.ModelWithoutContext="{Binding .}" d:DesignWidth="900"
              d:DataContext="{d:DesignInstance client:OpticalEventsViewModel}">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Height="20" Margin="0,10,0,0" Text="{Binding TableTitle}" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
-        <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,5" Height="20" Background="AliceBlue" Text="{Binding SelectedRow.Comment}"/>
-        <DataGrid DockPanel.Dock="Top"  Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
+        <TextBlock DockPanel.Dock="Top" Height="20" Margin="0,10,0,0" Text="{Binding TableTitle}" 
+                   HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
+        <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,5" Height="20" Background="AliceBlue" 
+                   Text="{Binding SelectedRow.Comment}"/>
+        <DataGrid DockPanel.Dock="Top"  Margin="5" ItemsSource="{Binding Rows}" 
+                  SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                   AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="False"
                   SelectionChanged="OnSelectionChanged">
             <DataGrid.Columns>

@@ -3572,4 +3572,22 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Tce_trace_link" xml:space="preserve">
 		<value>связь TCE - трасса</value>
 	</data>
+	<data name="SID_RTU_status_events" xml:space="preserve">
+		<value>События состояния RTU</value>
+	</data>
+	<data name="SID_preciseG" xml:space="preserve">
+		<value>точной</value>
+	</data>
+	<data name="SID_fastG" xml:space="preserve">
+		<value>быстрой</value>
+	</data>
+	<data name="SID_secondG" xml:space="preserve">
+		<value>второй точной</value>
+	</data>
+	<data name="SID_Failed_to_set_parameters_from__0__base" xml:space="preserve">
+		<value>Не удалось применить параметры из {0} базовой</value>
+	</data>
+	<data name="SID_base_ref_not_found" xml:space="preserve">
+		<value>базовая не найдена</value>
+	</data>
 </root>

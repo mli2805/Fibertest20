@@ -88,17 +88,22 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Failed_to_automatically_determine_the_correct_measurement_parameters;
                 case ReturnCode.SnrIs0:
                     return Resources.SID_No_fiber;
+
+                // 1500
                 case ReturnCode.MeasurementError:
                     return Resources.SID_Measurement_error;
                 case ReturnCode.MeasurementEndedNormally:
                     return Resources.SID_Measurement_completed_successfully;
                 case ReturnCode.MeasurementPreparationError:
                     return Resources.SID_Measurement_preparation_error;
+                case ReturnCode.MeasurementBaseRefNotFound:
+                    return Resources.SID_base_ref_not_found;
+                case ReturnCode.MeasurementFailedToSetParametersFromBase:
+                    return Resources.SID_Failed_to_set_parameters_from__0__base;
                 case ReturnCode.MeasurementInterrupted:
                     return Resources.SID_Measurement_interrupted;
                 case ReturnCode.MeasurementTimeoutExpired:
                     return Resources.SID_Measurement_timeout_expired;
-
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:

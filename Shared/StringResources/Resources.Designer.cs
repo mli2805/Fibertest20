@@ -1143,6 +1143,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to base ref not found.
+        /// </summary>
+        public static string SID_base_ref_not_found {
+            get {
+                return ResourceManager.GetString("SID_base_ref_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base ref(s) are saved successfully..
         /// </summary>
         public static string SID_Base_ref_s__are_saved_successfully_ {
@@ -3712,6 +3721,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to set parameters from {0} base.
+        /// </summary>
+        public static string SID_Failed_to_set_parameters_from__0__base {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_set_parameters_from__0__base", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to start measurement.
         /// </summary>
         public static string SID_Failed_to_start {
@@ -3789,6 +3807,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_FastF {
             get {
                 return ResourceManager.GetString("SID_FastF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to fast.
+        /// </summary>
+        public static string SID_fastG {
+            get {
+                return ResourceManager.GetString("SID_fastG", resourceCulture);
             }
         }
         
@@ -6939,6 +6966,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to precise.
+        /// </summary>
+        public static string SID_preciseG {
+            get {
+                return ResourceManager.GetString("SID_preciseG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preview.
         /// </summary>
         public static string SID_Preview {
@@ -7668,6 +7704,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU status events.
+        /// </summary>
+        public static string SID_RTU_status_events {
+            get {
+                return ResourceManager.GetString("SID_RTU_status_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU Title.
         /// </summary>
         public static string SID_RTU_Title {
@@ -7853,6 +7898,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_SecondF {
             get {
                 return ResourceManager.GetString("SID_SecondF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to second.
+        /// </summary>
+        public static string SID_secondG {
+            get {
+                return ResourceManager.GetString("SID_secondG", resourceCulture);
             }
         }
         

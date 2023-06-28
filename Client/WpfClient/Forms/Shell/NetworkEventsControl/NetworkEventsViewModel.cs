@@ -11,21 +11,10 @@ namespace Iit.Fibertest.Client
 {
     public class NetworkEventsViewModel : PropertyChangedBase
     {
+        private readonly Model _readModel;
         public string TableTitle { get; set; }
 
-        private readonly Model _readModel;
-      
-        private ObservableCollection<NetworkEventModel> _rows = new ObservableCollection<NetworkEventModel>();
-        public ObservableCollection<NetworkEventModel> Rows
-        {
-            get { return _rows; }
-            set
-            {
-                if (Equals(value, _rows)) return;
-                _rows = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public ObservableCollection<NetworkEventModel> Rows { get; set; } = new ObservableCollection<NetworkEventModel>();
 
         public NetworkEventsViewModel(Model readModel)
         {
@@ -47,10 +36,10 @@ namespace Iit.Fibertest.Client
                 IsRtuAvailable = networkEvent.IsRtuAvailable,
                 OnMainChannel = networkEvent.OnMainChannel,
                 OnReserveChannel = networkEvent.OnReserveChannel,
-                MainChannel = networkEvent.OnMainChannel == ChannelEvent.Nothing 
+                MainChannel = networkEvent.OnMainChannel == ChannelEvent.Nothing
                     ? rtu.MainChannelState
-                    : networkEvent.OnMainChannel == ChannelEvent.Broken 
-                        ? RtuPartState.Broken 
+                    : networkEvent.OnMainChannel == ChannelEvent.Broken
+                        ? RtuPartState.Broken
                         : RtuPartState.Ok,
                 ReserveChannel = networkEvent.OnReserveChannel == ChannelEvent.Nothing
                     ? rtu.ReserveChannelState
@@ -92,10 +81,10 @@ namespace Iit.Fibertest.Client
 
             foreach (var networkEventModel in Rows.ToList())
             {
-                if (_readModel.NetworkEvents.All(n=>n.EventTimestamp != networkEventModel.EventTimestamp))
+                if (_readModel.NetworkEvents.All(n => n.EventTimestamp != networkEventModel.EventTimestamp))
                     Rows.Remove(networkEventModel);
             }
         }
-      
+
     }
 }

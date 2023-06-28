@@ -56,11 +56,7 @@ namespace Iit.Fibertest.Graph
 
             if (entity.IsMeasurementProblem)
             {
-                var problem = model.ActiveRtuAccidents.FirstOrDefault(p => p.TraceId == entity.TraceId);
-                if (problem != null)
-                    model.ActiveRtuAccidents.Remove(problem);
-                if (e.ReturnCode != ReturnCode.MeasurementEndedNormally)
-                    model.ActiveRtuAccidents.Add(entity);
+                //TODO show 1 accident form
             }
 
             return null;

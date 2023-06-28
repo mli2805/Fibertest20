@@ -33,6 +33,7 @@ namespace Iit.Fibertest.Dto
                 default: return "";
             }
         }
+
         public static string GetLocalizedFemaleString(this BaseRefType baseRefType)
         {
             switch (baseRefType)
@@ -40,6 +41,17 @@ namespace Iit.Fibertest.Dto
                 case BaseRefType.Precise: return Resources.SID_PreciseF;
                 case BaseRefType.Fast: return Resources.SID_FastF;
                 case BaseRefType.Additional: return Resources.SID_SecondF;
+                default: return "";
+            }
+        }
+
+        public static string GetLocalizedGenitiveString(this BaseRefType baseRefType)
+        {
+            switch (baseRefType)
+            {
+                case BaseRefType.Precise: return Resources.SID_preciseG;
+                case BaseRefType.Fast: return Resources.SID_fastG;
+                case BaseRefType.Additional: return Resources.SID_secondG;
                 default: return "";
             }
         }
@@ -65,10 +77,10 @@ namespace Iit.Fibertest.Dto
             return ToFileName(baseRefType, SorType.Base);
         }
 
-        public static string ToMeasFileName(this BaseRefType baseRefType)
-        {
-            return ToFileName(baseRefType, SorType.Meas);
-        }
+        // public static string ToMeasFileName(this BaseRefType baseRefType)
+        // {
+        //     return ToFileName(baseRefType, SorType.Meas);
+        // }
 
         //public static MeasurementResult ToMeasurementResultProblem(this BaseRefType baseRefType)
         //{

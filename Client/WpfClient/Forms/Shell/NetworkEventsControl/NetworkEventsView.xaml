@@ -8,14 +8,18 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance client:NetworkEventsViewModel}">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Height="20" Margin="0,10,0,0" Text="{Binding TableTitle}" HorizontalAlignment="Center" 
-                   FontSize="12" FontWeight="Bold"/>
-        <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+        <TextBlock DockPanel.Dock="Top" Height="20" Margin="0,10,0,0" Text="{Binding TableTitle}" 
+                   HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
+        <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" 
+                  AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_Id}" Binding="{Binding Ordinal}" Width="120"/>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_Id}" 
+                                    Binding="{Binding Ordinal}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_timestamp}" 
+                                    Binding="{Binding EventTimestamp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" Binding="{Binding RtuAvailabilityString}" Width="100">
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" 
+                                    Binding="{Binding RtuAvailabilityString}" Width="100">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Background" Value="{Binding (client:NetworkEventModel.RtuAvailabilityBrush)}" />

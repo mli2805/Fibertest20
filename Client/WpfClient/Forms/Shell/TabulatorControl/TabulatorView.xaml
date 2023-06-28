@@ -35,6 +35,16 @@
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="pack://application:,,,/Resources/LeftPanel/RedSquare.png" 
+                           Visibility ="{Binding IsThereActualRtuStatusEventsPictogram}"  
+                           Height="12" Width="12" Margin="0,0,4,0" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_RTU_status_events}" Margin="5,0,20,0"/>
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
         <TabItem >
             <TabItem.Header>
                 <DockPanel>

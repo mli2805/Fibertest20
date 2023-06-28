@@ -74,8 +74,8 @@ namespace Iit.Fibertest.Client
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-                _tabulatorViewModel.SelectedTabIndex = 3;
+            _tabulatorViewModel.OpenGisIfNotYet();
+
             await Task.Delay(100);
 
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);

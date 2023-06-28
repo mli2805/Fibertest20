@@ -137,6 +137,15 @@
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializedDtoExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeModelExt.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
+    <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentModel.cs" />
+    <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsDoubleView.xaml.cs">
+      <DependentUpon>RtuAccidentsDoubleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsDoubleViewModel.cs" />
+    <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsView.xaml.cs">
+      <DependentUpon>RtuAccidentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsViewModel.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuHolder.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeModelExt.cs" />
     <Compile Include="Forms\SpecialMeasurements\AutomaticBase\Executor\IOneMeasurementExecutor.cs" />
@@ -757,6 +766,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsDoubleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Forms\SpecialMeasurements\Controls\OtdrParamTemplates\OtdrParametersTemplatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1365,6 +1382,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

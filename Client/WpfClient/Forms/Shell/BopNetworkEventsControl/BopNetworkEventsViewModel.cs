@@ -10,21 +10,10 @@ namespace Iit.Fibertest.Client
 {
     public class BopNetworkEventsViewModel : PropertyChangedBase
     {
+        private readonly Model _readModel;
         public string TableTitle { get; set; }
 
-        private readonly Model _readModel;
-
-        private ObservableCollection<BopNetworkEventModel> _rows = new ObservableCollection<BopNetworkEventModel>();
-        public ObservableCollection<BopNetworkEventModel> Rows
-        {
-            get { return _rows; }
-            set
-            {
-                if (Equals(value, _rows)) return;
-                _rows = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public ObservableCollection<BopNetworkEventModel> Rows { get; set; } = new ObservableCollection<BopNetworkEventModel>();
 
         public BopNetworkEventsViewModel(Model readModel)
         {
@@ -60,7 +49,7 @@ namespace Iit.Fibertest.Client
 
         public void RemoveEvents(OtauDetached evnt)
         {
-            foreach (var bopNetworkEventModel in Rows.Where(r=>r.OtauIp == evnt.OtauIp && r.TcpPort == evnt.TcpPort).ToList())
+            foreach (var bopNetworkEventModel in Rows.Where(r => r.OtauIp == evnt.OtauIp && r.TcpPort == evnt.TcpPort).ToList())
             {
                 Rows.Remove(bopNetworkEventModel);
             }
@@ -72,7 +61,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var bopNetworkEventModel in Rows.ToList())
             {
-                if (_readModel.BopNetworkEvents.All(n=>n.EventTimestamp != bopNetworkEventModel.EventTimestamp))
+                if (_readModel.BopNetworkEvents.All(n => n.EventTimestamp != bopNetworkEventModel.EventTimestamp))
                     Rows.Remove(bopNetworkEventModel);
             }
         }

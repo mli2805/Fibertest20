@@ -62,11 +62,8 @@ namespace Iit.Fibertest.Client
 
         public async Task OpenGisTab()
         {
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-            {
-                _tabulatorViewModel.SelectedTabIndex = 3;
-                await Task.Delay(100);
-            }
+            _tabulatorViewModel.OpenGisIfNotYet();
+            await Task.Delay(100);
         }
 
         public async Task PreviewButton()
@@ -79,7 +76,7 @@ namespace Iit.Fibertest.Client
         public async Task ShowPoint(bool forcePosition)
         {
             // если карту не показывали то и выполнять не надо
-            if (_tabulatorViewModel.SelectedTabIndex != 3) return;
+            if (!_tabulatorViewModel.IsGisOpen) return;
 
             if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
                 _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
@@ -96,7 +93,7 @@ namespace Iit.Fibertest.Client
                 if (!position.EqualInStrings(node.Position, _currentGis.GpsInputMode))
                     node.Position = position;
             }
-          
+
 
             node.IsHighlighted = true;
             _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);

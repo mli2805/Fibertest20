@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
+        private readonly RtuAccidentsDoubleViewModel _rtuAccidentsDoubleViewModel;
 
         private int _selectedTabIndex;
 
@@ -23,18 +24,22 @@ namespace Iit.Fibertest.Client
                 //                if (value == _selectedTabIndex) return;
                 _selectedTabIndex = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(IsGisActive));
+                NotifyOfPropertyChange(nameof(IsGisOpen));
                 ChangeTabVisibility();
             }
         }
 
-        public bool IsGisActive => SelectedTabIndex == 3;
+        public bool IsGisOpen => SelectedTabIndex == 4;
+
+        public void OpenGis() { SelectedTabIndex = 4; }
+        public void OpenGisIfNotYet() { if (SelectedTabIndex != 4) SelectedTabIndex = 4; }
 
         #region Pictograms
 
         public Visibility IsThereActualOpticalEventsPictogram { get; set; } = Visibility.Hidden;
         public Visibility IsThereActualNetworkEventsPictogram { get; set; } = Visibility.Hidden;
         public Visibility IsThereActualBopEventsPictogram { get; set; } = Visibility.Hidden;
+        public Visibility IsThereActualRtuStatusEventsPictogram { get; set; } = Visibility.Hidden;
 
         #endregion
 
@@ -76,6 +81,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private Visibility _rtuStatusEventsVisibility;
+        public Visibility RtuStatusEventsVisibility
+        {
+            get => _rtuStatusEventsVisibility;
+            set
+            {
+                if (value == _rtuStatusEventsVisibility) return;
+                _rtuStatusEventsVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private Visibility _mapVisibility;
         public Visibility MapVisibility
         {
@@ -90,9 +107,9 @@ namespace Iit.Fibertest.Client
         }
 
         public Visibility ButtonVisibility => Visibility.Collapsed;
-            // MapVisibility == Visibility.Visible && !_currentGis.IsHighDensityGraph
-                // ? Visibility.Visible
-                // : Visibility.Collapsed;
+        // MapVisibility == Visibility.Visible && !_currentGis.IsHighDensityGraph
+        // ? Visibility.Visible
+        // : Visibility.Collapsed;
 
         private Visibility _messageVisibility;
         public Visibility MessageVisibility
@@ -111,6 +128,7 @@ namespace Iit.Fibertest.Client
         public TabulatorViewModel(ILifetimeScope globalScope, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+            RtuAccidentsDoubleViewModel rtuAccidentsDoubleViewModel,
             GraphReadModel graphReadModel)
         {
             GraphReadModel = graphReadModel;
@@ -118,6 +136,7 @@ namespace Iit.Fibertest.Client
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            _rtuAccidentsDoubleViewModel = rtuAccidentsDoubleViewModel;
             SubscribeActualEventsRowChanged();
             SelectedTabIndex = 0;
         }
@@ -157,6 +176,14 @@ namespace Iit.Fibertest.Client
                         : Visibility.Hidden;
                 NotifyOfPropertyChange(nameof(IsThereActualBopEventsPictogram));
             };
+            _rtuAccidentsDoubleViewModel.ActualRtuAccidentsViewModel.Rows.CollectionChanged += (s, e) =>
+            {
+                IsThereActualRtuStatusEventsPictogram =
+                    _rtuAccidentsDoubleViewModel.ActualRtuAccidentsViewModel.Rows.Any()
+                        ? Visibility.Visible
+                        : Visibility.Hidden;
+                NotifyOfPropertyChange(nameof(IsThereActualRtuStatusEventsPictogram));
+            };
         }
 
         private void ChangeTabVisibility()
@@ -167,6 +194,7 @@ namespace Iit.Fibertest.Client
                     OpticalEventsVisibility = Visibility.Visible;
                     NetworkEventsVisibility = Visibility.Collapsed;
                     BopNetworkEventsVisibility = Visibility.Collapsed;
+                    RtuStatusEventsVisibility = Visibility.Collapsed;
                     MapVisibility = Visibility.Collapsed;
                     MessageVisibility = Visibility.Collapsed;
                     break;
@@ -174,6 +202,7 @@ namespace Iit.Fibertest.Client
                     OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsVisibility = Visibility.Visible;
                     BopNetworkEventsVisibility = Visibility.Collapsed;
+                    RtuStatusEventsVisibility = Visibility.Collapsed;
                     MapVisibility = Visibility.Collapsed;
                     MessageVisibility = Visibility.Collapsed;
                     break;
@@ -181,6 +210,7 @@ namespace Iit.Fibertest.Client
                     OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsVisibility = Visibility.Collapsed;
                     BopNetworkEventsVisibility = Visibility.Visible;
+                    RtuStatusEventsVisibility = Visibility.Collapsed;
                     MapVisibility = Visibility.Collapsed;
                     MessageVisibility = Visibility.Collapsed;
                     break;
@@ -188,13 +218,23 @@ namespace Iit.Fibertest.Client
                     OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsVisibility = Visibility.Collapsed;
                     BopNetworkEventsVisibility = Visibility.Collapsed;
-                    MapVisibility = Visibility.Visible;
+                    RtuStatusEventsVisibility = Visibility.Visible;
+                    MapVisibility = Visibility.Collapsed;
                     MessageVisibility = Visibility.Collapsed;
                     break;
                 case 4:
                     OpticalEventsVisibility = Visibility.Collapsed;
                     NetworkEventsVisibility = Visibility.Collapsed;
                     BopNetworkEventsVisibility = Visibility.Collapsed;
+                    RtuStatusEventsVisibility = Visibility.Collapsed;
+                    MapVisibility = Visibility.Visible;
+                    MessageVisibility = Visibility.Collapsed;
+                    break;
+                case 5:
+                    OpticalEventsVisibility = Visibility.Collapsed;
+                    NetworkEventsVisibility = Visibility.Collapsed;
+                    BopNetworkEventsVisibility = Visibility.Collapsed;
+                    RtuStatusEventsVisibility = Visibility.Collapsed;
                     MapVisibility = Visibility.Collapsed;
                     MessageVisibility = Visibility.Visible;
                     break;
@@ -210,14 +250,6 @@ namespace Iit.Fibertest.Client
 
             await GraphReadModel.RefreshVisiblePart();
         }
-
-        // public async void ShowAllGraph()
-        // {
-        //     foreach (var trace in _readModel.Traces)
-        //         if (!GraphReadModel.ForcedTraces.Contains(trace))
-        //             GraphReadModel.ForcedTraces.Add(trace);
-        //     await GraphReadModel.RefreshVisiblePart();
-        // }
 
     }
 }

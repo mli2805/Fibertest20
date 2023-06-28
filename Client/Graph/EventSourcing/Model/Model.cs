@@ -19,8 +19,6 @@ namespace Iit.Fibertest.Graph
         public List<Measurement> ActiveMeasurements { get; set; } = new List<Measurement>(); // for all zones
 
         public List<RtuAccident> RtuAccidents { get; set; } = new List<RtuAccident>();
-        public List<RtuAccident> ActiveRtuAccidents { get; set; } = new List<RtuAccident>();
-
         public List<NetworkEvent> NetworkEvents { get; set; } = new List<NetworkEvent>();
         public List<BopNetworkEvent> BopNetworkEvents { get; set; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();
@@ -45,6 +43,7 @@ namespace Iit.Fibertest.Graph
             Measurements = source.Measurements;
             NetworkEvents = source.NetworkEvents;
             BopNetworkEvents = source.BopNetworkEvents;
+            RtuAccidents = source.RtuAccidents;
             BaseRefs = source.BaseRefs;
             TcesNew = source.TcesNew;
             GponPortRelations = source.GponPortRelations;

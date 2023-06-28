@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
         public OpticalEventsDoubleViewModel OpticalEventsDoubleViewModel { get; }
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
+        public RtuAccidentsDoubleViewModel RtuAccidentsDoubleViewModel { get; }
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
             CurrentClientConfiguration currentClientConfiguration, CurrentUser currentUser,
@@ -57,6 +58,7 @@ namespace Iit.Fibertest.Client
              OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
              NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
              BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+             RtuAccidentsDoubleViewModel rtuAccidentsDoubleViewModel,
             ModelLoader modelLoader
         )
         {
@@ -68,6 +70,7 @@ namespace Iit.Fibertest.Client
             OpticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            RtuAccidentsDoubleViewModel = rtuAccidentsDoubleViewModel;
             _globalScope = globalScope;
             _iniFile = iniFile;
             _c2DWcfManager = c2DWcfManager;
@@ -145,7 +148,7 @@ namespace Iit.Fibertest.Client
             if (_loginViewModel.IsRegistrationSuccessful)
             {
                 MainMenuViewModel.CurrentUser = _currentUser;
-                TabulatorViewModel.SelectedTabIndex = 4;
+                TabulatorViewModel.SelectedTabIndex = 5;
                 MainMenuViewModel.CurrentUser = _currentUser;
 
                 SetDisplayName();
@@ -211,7 +214,8 @@ namespace Iit.Fibertest.Client
             Thread.Sleep(TimeSpan.FromMilliseconds(1));
             var isStateOk = !OpticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any() &&
                             !NetworkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.Any() &&
-                            !BopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any();
+                            !BopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any() &&
+                            !RtuAccidentsDoubleViewModel.ActualRtuAccidentsViewModel.Rows.Any();
             await _c2SWcfManager.ClientLoadingResult(postfix, true, isStateOk);
         }
 

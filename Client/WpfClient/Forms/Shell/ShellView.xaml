@@ -33,6 +33,9 @@
                 <DockPanel Visibility="{Binding TabulatorViewModel.BopNetworkEventsVisibility}">
                     <client:BopNetworkEventsDoubleView  DataContext="{Binding BopNetworkEventsDoubleViewModel}"/>
                 </DockPanel>
+               <DockPanel Visibility="{Binding TabulatorViewModel.RtuStatusEventsVisibility}">
+                    <client:RtuAccidentsDoubleView  DataContext="{Binding RtuAccidentsDoubleViewModel}"/>
+                </DockPanel>
                 <DockPanel Visibility="{Binding TabulatorViewModel.MapVisibility}">
                     <client:MapUserControl DataContext="{Binding GraphReadModel}" Margin="3,0,3,3"/>
                 </DockPanel>

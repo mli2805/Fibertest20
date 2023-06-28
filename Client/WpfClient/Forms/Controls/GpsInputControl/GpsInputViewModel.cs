@@ -81,9 +81,9 @@ namespace Iit.Fibertest.Client
             var error = TryGetPoint(out PointLatLng position);
             if (error != null) return;
 
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
+            if (!_tabulatorViewModel.IsGisOpen)
             {
-                _tabulatorViewModel.SelectedTabIndex = 3;
+                _tabulatorViewModel.OpenGis();
                 await Task.Delay(100);
 
                 if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)

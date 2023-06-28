@@ -154,8 +154,8 @@ namespace Iit.Fibertest.Client
                 accidentPoint = Model.Header.RtuPosition;
             else accidentPoint = Model.SelectedAccident.Position;
 
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-                _tabulatorViewModel.SelectedTabIndex = 3;
+            _tabulatorViewModel.OpenGisIfNotYet();
+
 
             await Task.Delay(100);
 

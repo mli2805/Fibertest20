@@ -17,12 +17,14 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
+        private readonly RtuAccidentsDoubleViewModel _rtuAccidentsDoubleViewModel;
 
         public ModelLoader(IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager, GraphReadModel graphReadModel,
             ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
-            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel)
+            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+            RtuAccidentsDoubleViewModel rtuAccidentsDoubleViewModel)
         {
             _logFile = logFile;
             _readModel = readModel;
@@ -32,6 +34,7 @@ namespace Iit.Fibertest.Client
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            _rtuAccidentsDoubleViewModel = rtuAccidentsDoubleViewModel;
         }
 
         public async Task<int> DownloadAndApplyModel()
@@ -60,6 +63,7 @@ namespace Iit.Fibertest.Client
                 _opticalEventsDoubleViewModel.RenderMeasurementsFromSnapshot();
                 _networkEventsDoubleViewModel.RenderNetworkEvents();
                 _bopNetworkEventsDoubleViewModel.RenderBopNetworkEvents();
+                _rtuAccidentsDoubleViewModel.RenderRtuAccidentsFromSnapshotWhileLoading();
 
                 return dto.LastIncludedEvent;
             }

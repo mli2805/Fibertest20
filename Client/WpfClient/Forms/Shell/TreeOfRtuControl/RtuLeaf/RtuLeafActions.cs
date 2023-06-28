@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
-        public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, 
+        public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile,
             CurrentUser currentUser, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
@@ -69,8 +69,7 @@ namespace Iit.Fibertest.Client
         {
             if (param is RtuLeaf rtuLeaf)
             {
-                if (_tabulatorViewModel.SelectedTabIndex != 3)
-                    _tabulatorViewModel.SelectedTabIndex = 3;
+                _tabulatorViewModel.OpenGisIfNotYet();
 
                 await Task.Delay(100);
 
@@ -264,8 +263,7 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-                _tabulatorViewModel.SelectedTabIndex = 3;
+            _tabulatorViewModel.OpenGisIfNotYet();
 
             await Task.Delay(100);
 

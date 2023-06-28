@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Client
         private bool _hasActualOpticalProblems;
         private bool _hasActualNetworkProblems;
         private bool _hasActualBopNetworkProblems;
+        private bool _hasActualRtuAccidents;
         private bool _hasAnyActualProblem;
 
         public bool HasActualOpticalProblems
@@ -17,7 +18,7 @@ namespace Iit.Fibertest.Client
                 if (value == _hasActualOpticalProblems) return;
                 _hasActualOpticalProblems = value;
                 HasAnyActualProblem = _hasActualOpticalProblems || _hasActualNetworkProblems ||
-                                      _hasActualBopNetworkProblems;
+                                      _hasActualBopNetworkProblems || _hasActualRtuAccidents;
             }
         }
 
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.Client
                 if (value == _hasActualNetworkProblems) return;
                 _hasActualNetworkProblems = value;
                 HasAnyActualProblem = _hasActualOpticalProblems || _hasActualNetworkProblems ||
-                                      _hasActualBopNetworkProblems;
+                                      _hasActualBopNetworkProblems || _hasActualRtuAccidents;
             }
         }
 
@@ -41,7 +42,20 @@ namespace Iit.Fibertest.Client
                 if (value == _hasActualBopNetworkProblems) return;
                 _hasActualBopNetworkProblems = value;
                 HasAnyActualProblem = _hasActualOpticalProblems || _hasActualNetworkProblems ||
-                                      _hasActualBopNetworkProblems;
+                                      _hasActualBopNetworkProblems || _hasActualRtuAccidents;
+
+            }
+        }
+
+        public bool HasActualRtuAccidents
+        {
+            get => _hasActualRtuAccidents;
+            set
+            {
+                if (value == _hasActualRtuAccidents) return;
+                _hasActualRtuAccidents = value;
+                HasAnyActualProblem = _hasActualOpticalProblems || _hasActualNetworkProblems ||
+                                      _hasActualBopNetworkProblems || _hasActualRtuAccidents;
             }
         }
 
