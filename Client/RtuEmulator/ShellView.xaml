@@ -1,0 +1,43 @@
+<Window x:Class="RtuEmulator.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        Width="500" SizeToContent="Height"
+        Title="RTU Emulator">
+
+    <StackPanel Margin="5">
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Server IP" Margin="5"/>
+            <TextBox Text="{Binding ServerIp}" Width="120" Margin="5"/>
+        </StackPanel>
+
+        <GroupBox Header="MonitoringResultDto" Margin="5">
+            <StackPanel>
+                <StackPanel Margin="5">
+                    <ComboBox Margin="5" ItemsSource="{Binding ReturnCodes}" SelectedItem="{Binding SelectedReturnCode}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="RtuId" Margin="5" Width="100" TextAlignment="Right" />
+                    <TextBox Text="{Binding RtuId}" Width="320" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="TraceId" Margin="5" Width="100" TextAlignment="Right"/>
+                    <TextBox Text="{Binding TraceId}" Width="320" Margin="5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="MainCharonPort" Margin="5" Width="100" TextAlignment="Right"/>
+                    <TextBox Text="{Binding MainCharonPort}" Width="320" Margin="5"/>
+                </StackPanel>
+                
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Height="120"></StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Button Margin="5,10" Width="120" Height="25" Content="Save settings" Name="SaveSettings"/>
+            <Button Margin="5,10" Width="120" Height="25" Content="Send dto by MSMQ" Name="SendDtoByMsmq"/>
+        </StackPanel>
+    </StackPanel>
+
+</Window>

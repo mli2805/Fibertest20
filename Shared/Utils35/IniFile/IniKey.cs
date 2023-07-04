@@ -171,5 +171,11 @@
         OpResolution,
         OpPulseDuration,
         OpMeasurementTime,
+
+        // RtuEmulator
+        RtuId,
+        TraceId,
+        MainCharonPort,
+        BopCharonPort,
     }
 }
