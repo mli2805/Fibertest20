@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
             _systemState = systemState;
             AllRtuAccidentsViewModel = allRtuAccidentsViewModel;
+            AllRtuAccidentsViewModel.TableTitle = Resources.SID_All_RTU_state_events;
             ActualRtuAccidentsViewModel = actualRtuAccidentsViewModel;
             ActualRtuAccidentsViewModel.TableTitle = Resources.SID_Current_accidents;
         }

@@ -3471,7 +3471,7 @@ RTU инициализируется в данный момент!</value>
     <value>Пересылка базовых для порта {0}</value>
   </data>
 	<data name="SID_Iit_address" xml:space="preserve">
-    <value>220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис 304а</value>
+    <value>220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис a304</value>
   </data>
 	<data name="SID_Iit_Phone" xml:space="preserve">
     <value>Телефон: +375 17 2359048</value>
@@ -3589,5 +3589,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_base_ref_not_found" xml:space="preserve">
 		<value>базовая не найдена</value>
+	</data>
+	<data name="SID_RTU_status_event" xml:space="preserve">
+		<value>Событие состояния RTU</value>
+	</data>
+	<data name="SID_All_RTU_state_events" xml:space="preserve">
+		<value>Все события состояния RTU</value>
 	</data>
 </root>

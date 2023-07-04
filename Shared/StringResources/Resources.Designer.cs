@@ -774,6 +774,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All RTU state events.
+        /// </summary>
+        public static string SID_All_RTU_state_events {
+            get {
+                return ResourceManager.GetString("SID_All_RTU_state_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Analysis is finished.
         /// </summary>
         public static string SID_Analysis_is_finished {
@@ -7700,6 +7709,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_shoud_be_in_Reveal_Traces_Mode_ {
             get {
                 return ResourceManager.GetString("SID_RTU_shoud_be_in_Reveal_Traces_Mode_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU status event.
+        /// </summary>
+        public static string SID_RTU_status_event {
+            get {
+                return ResourceManager.GetString("SID_RTU_status_event", resourceCulture);
             }
         }
         

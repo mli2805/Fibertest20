@@ -3590,4 +3590,10 @@ Please try again later</value>
 	<data name="SID_base_ref_not_found" xml:space="preserve">
 		<value>base ref not found</value>
 	</data>
+	<data name="SID_RTU_status_event" xml:space="preserve">
+		<value>RTU status event</value>
+	</data>
+	<data name="SID_All_RTU_state_events" xml:space="preserve">
+		<value>All RTU state events</value>
+	</data>
 </root>

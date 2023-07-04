@@ -41,6 +41,7 @@ namespace Iit.Fibertest.Client
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly LandmarksViewsManager _landmarksViewsManager;
         private readonly RtuAccidentsDoubleViewModel _rtuAccidentsDoubleViewModel;
+        private readonly RtuAccidentViewsManager _rtuAccidentViewsManager;
         private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
         private int _exceptionCount;
@@ -75,7 +76,7 @@ namespace Iit.Fibertest.Client
             RtuStateViewsManager rtuStateViewsManager, RtuChannelViewsManager rtuChannelViewsManager,
             BopStateViewsManager bopStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, LandmarksViewsManager landmarksViewsManager,
-            RtuAccidentsDoubleViewModel rtuAccidentsDoubleViewModel,
+            RtuAccidentsDoubleViewModel rtuAccidentsDoubleViewModel, RtuAccidentViewsManager rtuAccidentViewsManager,
 
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier)
         {
@@ -101,6 +102,7 @@ namespace Iit.Fibertest.Client
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _landmarksViewsManager = landmarksViewsManager;
             _rtuAccidentsDoubleViewModel = rtuAccidentsDoubleViewModel;
+            _rtuAccidentViewsManager = rtuAccidentViewsManager;
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
             _eventArrivalNotifier = eventArrivalNotifier;
@@ -198,6 +200,7 @@ namespace Iit.Fibertest.Client
                     _bopStateViewsManager.Apply(evnt);
                     _bopNetworkEventsDoubleViewModel.Apply(evnt);
                     _rtuAccidentsDoubleViewModel.Apply(evnt);
+                    _rtuAccidentViewsManager.Apply(evnt);
 
                     _eventLogComposer.AddEventToLog(msg);
                 }

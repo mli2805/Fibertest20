@@ -44,8 +44,10 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<BopNetworkEventsViewModel>();
             builder.RegisterType<BopNetworkEventsDoubleViewModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<RtuAccidentsViewModel>();
             builder.RegisterType<RtuAccidentsDoubleViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuAccidentsViewModel>();
+            builder.RegisterType<RtuAccidentViewModel>();
+            builder.RegisterType<RtuAccidentViewsManager>().InstancePerLifetimeScope();
 
             builder.RegisterType<TabulatorViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<CommonStatusBarViewModel>().InstancePerLifetimeScope();

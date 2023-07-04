@@ -11,26 +11,26 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         public string TableTitle { get; set; }
-        public ObservableCollection<RtuAccidentModel> Rows { get; set; } = new ObservableCollection<RtuAccidentModel>();
+        public ObservableCollection<RtuAccidentLineModel> Rows { get; set; } = new ObservableCollection<RtuAccidentLineModel>();
 
         public RtuAccidentsViewModel(Model readModel)
         {
             _readModel = readModel;
             var view = CollectionViewSource.GetDefaultView(Rows);
-            view.SortDescriptions.Add(new SortDescription(@"Id", ListSortDirection.Descending));
+            view.SortDescriptions.Add(new SortDescription(@"Accident.Id", ListSortDirection.Descending));
         }
 
         public void AddAccident(RtuAccident accident)
         {
-            var row = new RtuAccidentModel().Build(accident, _readModel);
+            var row = new RtuAccidentLineModel(accident).Build(_readModel);
             Rows.Add(row);
         }
 
         public void RemoveOldAccidentIfExists(RtuAccident accident)
         {
             var row = accident.IsMeasurementProblem
-                ? Rows.FirstOrDefault(r => r.TraceId == accident.TraceId)
-                : Rows.FirstOrDefault(r => r.RtuId == accident.RtuId);
+                ? Rows.FirstOrDefault(r => r.Accident.TraceId == accident.TraceId)
+                : Rows.FirstOrDefault(r => r.Accident.RtuId == accident.RtuId);
             if (row != null)
                 Rows.Remove(row);
         }

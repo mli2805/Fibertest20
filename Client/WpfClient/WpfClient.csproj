@@ -129,6 +129,11 @@
     </Compile>
     <Compile Include="Forms\Landmarks\RowsLandmarkViewModel.cs" />
     <Compile Include="Forms\MonitoringSettings\MonitoringSettingsDtoFactory.cs" />
+    <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentView.xaml.cs">
+      <DependentUpon>RtuAccidentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentViewModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentViewsManager.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\ReSendDtoExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml.cs">
       <DependentUpon>RtuAskSerialView.xaml</DependentUpon>
@@ -137,7 +142,8 @@
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializedDtoExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeModelExt.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
-    <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentModel.cs" />
+    <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentLineModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentModel.cs" />
     <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsDoubleView.xaml.cs">
       <DependentUpon>RtuAccidentsDoubleView.xaml</DependentUpon>
     </Compile>
@@ -759,6 +765,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\RtuForms\RtuAccident\RtuAccidentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
