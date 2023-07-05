@@ -41,6 +41,7 @@ namespace Iit.Fibertest.RtuManagement
                 _measurementNumber++;
                 var monitoringPort = _monitoringQueue.Peek();
 
+                var previousReturnCode = monitoringPort.LastMoniResult.ReturnCode;
                 ProcessOnePort(monitoringPort);
 
                 if (monitoringPort.LastMoniResult.ReturnCode != ReturnCode.MeasurementInterrupted)
@@ -48,7 +49,11 @@ namespace Iit.Fibertest.RtuManagement
                     var unused = _monitoringQueue.Dequeue();
                     _monitoringQueue.Enqueue(monitoringPort);
                 }
-
+                else
+                {
+                    // monitoringPort in memory changed
+                    monitoringPort.LastMoniResult.ReturnCode = previousReturnCode;
+                }
 
                 if (!IsMonitoringOn)
                     break;
@@ -251,7 +256,7 @@ namespace Iit.Fibertest.RtuManagement
 
                 _monitoringQueue.Save();
             }
-            else 
+            else
                 ReactOnFailedMeasurement(moniResult, monitoringPort);
 
             return moniResult;

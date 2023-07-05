@@ -119,37 +119,18 @@ namespace Iit.Fibertest.RtuManagement
 
             foreach (var portWithTrace in ports)
             {
-                // MonitoringPort theSamePortInOldQueue = TryGetTheSameMonitoringPortInOldQueue(oldQueue, portWithTrace);
-                // if (theSamePortInOldQueue != null)
-                // {
-                //     theSamePortInOldQueue.TraceId = portWithTrace.TraceId;
-                //     Queue.Enqueue(theSamePortInOldQueue);
-                // }
-                // else
                 var monitoringPort = new MonitoringPort(portWithTrace);
                 var oldPort = oldQueue.FirstOrDefault(p => p.TraceId == monitoringPort.TraceId);
                 if (oldPort != null)
                 {
+                    monitoringPort.LastMoniResult.ReturnCode = oldPort.LastMoniResult.ReturnCode;
+                    monitoringPort.LastTraceState = oldPort.LastTraceState;
                     monitoringPort.LastFastSavedTimestamp = oldPort.LastFastSavedTimestamp;
                     monitoringPort.LastPreciseSavedTimestamp = oldPort.LastPreciseSavedTimestamp;
                 }
                 Queue.Enqueue(monitoringPort);
             }
         }
-
-        // private MonitoringPort TryGetTheSameMonitoringPortInOldQueue(List<MonitoringPort> oldQueue, PortWithTraceDto portWithTrace)
-        // {
-        //     foreach (var portInOldQueue in oldQueue)
-        //     {
-        //         if (portInOldQueue.CharonSerial == portWithTrace.OtauPort.Serial
-        //              && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort
-        //              && portInOldQueue.TraceId == portWithTrace.TraceId)
-        //         {
-        //             return portInOldQueue;
-        //         }
-        //     }
-        //     return null;
-        // }
 
         public void RaiseMonitoringModeChangedFlag()
         {
