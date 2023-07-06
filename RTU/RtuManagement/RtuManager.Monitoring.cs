@@ -48,6 +48,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     var unused = _monitoringQueue.Dequeue();
                     _monitoringQueue.Enqueue(monitoringPort);
+                    _monitoringQueue.Save();
                 }
                 else
                 {
@@ -170,19 +171,19 @@ namespace Iit.Fibertest.RtuManagement
             }
             else //problem during measurement process 
             {
-                ReactOnFailedMeasurement(moniResult, monitoringPort);
+                LogFailedMeasurement(moniResult, monitoringPort);
             }
             return moniResult;
         }
 
-        private void ReactOnFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
+        private void LogFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
         {
             if (moniResult.ReturnCode == ReturnCode.MeasurementBaseRefNotFound
                 || moniResult.ReturnCode == ReturnCode.MeasurementFailedToSetParametersFromBase)
 
                 if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
                 {
-                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
+                    _rtuLog.AppendLine($"{monitoringPort.LastMoniResult.ReturnCode} => {moniResult.ReturnCode}");
                     _rtuLog.AppendLine("Problem with base ref occurred!");
                     SendByMsmq(CreateDto(moniResult, monitoringPort, ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
                 }
@@ -257,7 +258,7 @@ namespace Iit.Fibertest.RtuManagement
                 _monitoringQueue.Save();
             }
             else
-                ReactOnFailedMeasurement(moniResult, monitoringPort);
+                LogFailedMeasurement(moniResult, monitoringPort);
 
             return moniResult;
         }

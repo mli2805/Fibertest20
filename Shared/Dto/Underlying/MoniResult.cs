@@ -7,7 +7,6 @@ namespace Iit.Fibertest.Dto
     {
         // Trace could be broken and ReturnCode could be MeasurementEndedNormally - means measurement process ended normally
         public ReturnCode ReturnCode;
-        public bool IsInterrupted;
      
         #region State of trace
         public bool IsNoFiber { get; set; }
