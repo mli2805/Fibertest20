@@ -22,16 +22,18 @@
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="150*"/>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="300*"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="250*"/>
 
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" 
-                                    Binding="{Binding State}" Width="400*">
+                                    Binding="{Binding State}" Width="100*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
+                            <Setter Property="Foreground" Value="{Binding (client:RtuAccidentModel.StateForeground)}" />
                             <Setter Property="Background" Value="{Binding (client:RtuAccidentModel.StateBackground)}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Additional_info}" Binding="{Binding Explanation}" Width="250*"/>
 
             </DataGrid.Columns>
 

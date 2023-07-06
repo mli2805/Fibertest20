@@ -3596,4 +3596,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_All_RTU_state_events" xml:space="preserve">
 		<value>Все события состояния RTU</value>
 	</data>
+	<data name="SID_Frequent_service_restarts" xml:space="preserve">
+		<value>Частые перезагрузки службы</value>
+	</data>
+	<data name="SID_Measurement__OK" xml:space="preserve">
+		<value>Измерение: ОК</value>
+	</data>
+	<data name="SID_Measurement__Failed_" xml:space="preserve">
+		<value>Измерение: Неудачно!</value>
+	</data>
+	<data name="SID_RTU__OK" xml:space="preserve">
+		<value>RTU: OK</value>
+	</data>
+	<data name="SID_RTU__Attention_required_" xml:space="preserve">
+		<value>RTU: Требуется внимание!</value>
+	</data>
 </root>

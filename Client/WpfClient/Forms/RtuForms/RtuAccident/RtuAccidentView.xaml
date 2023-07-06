@@ -13,7 +13,7 @@
     </Window.Resources>
     <DockPanel>
 
-        <GroupBox DockPanel.Dock="Bottom" Width="600" Margin="5"
+        <GroupBox DockPanel.Dock="Bottom" Width="500" Margin="5"
                   Header="{Binding AccidentModel.StateAt}">
             <StackPanel>
                 <TextBlock Text="{Binding AccidentModel.State}" Margin="25, 20, 25, 10" 
@@ -32,6 +32,8 @@
                         </EventTrigger>
                     </TextBlock.Triggers>
                 </TextBlock>
+                <TextBlock Text="{Binding AccidentModel.Explanation}" 
+                           Margin="5" FontSize="14" FontWeight="Bold" TextAlignment="Center"/>
                 <Button Name="TurnSoundOff" Content="{x:Static stringResources:Resources.SID_Turn_alarm_off}" 
                         Margin="25,10" Height="25" IsEnabled="{Binding AccidentModel.IsSoundButtonEnabled}"/>
             </StackPanel>

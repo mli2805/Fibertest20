@@ -87,10 +87,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     }
 
                     var result = InterOpWrapper.DoMeasurementStep(ref _sorData);
-                    if (((LogFile)_rtuLogger).LogLevel == 3)
+                    if (((LogFile)_rtuLogger).LogLevel >= 3)
                     {
                         var buffer = GetLastSorDataBuffer();
                         _rtuLogger.AppendLine($"MeasStep #{++step} returned {buffer.Length} bytes", 0, 3);
+                        //File.WriteAllBytes($@"c:\temp\sor_{step * 100 / 33.0:000}.sor", buffer);
                     }
 
                     if (result != 0 && result != 10001)

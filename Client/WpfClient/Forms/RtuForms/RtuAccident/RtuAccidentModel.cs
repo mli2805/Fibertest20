@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         public string TraceTitle { get; set; }
 
         public string State { get; set; }
+        public string Explanation { get; set; }
         public Brush StateBackground { get; set; }
 
         #region RtuAccidentViewModel
@@ -45,8 +46,8 @@ namespace Iit.Fibertest.Client
 
         public RtuAccidentModel Build(Model readModel)
         {
-            RtuTitle = readModel.Rtus.FirstOrDefault(r=>r.Id == Accident.RtuId)?.Title ?? string.Empty;
-            var trace = readModel.Traces.FirstOrDefault(t=>t.TraceId == Accident.TraceId);
+            RtuTitle = readModel.Rtus.FirstOrDefault(r => r.Id == Accident.RtuId)?.Title ?? string.Empty;
+            var trace = readModel.Traces.FirstOrDefault(t => t.TraceId == Accident.TraceId);
             TraceTitle = trace?.Title ?? string.Empty;
             Port = trace?.OtauPort.ToStringB() ?? string.Empty;
 
@@ -59,27 +60,45 @@ namespace Iit.Fibertest.Client
             switch (Accident.ReturnCode)
             {
                 case ReturnCode.MeasurementEndedNormally:
-                    State = Accident.ReturnCode.GetLocalizedString();
+                    State = Resources.SID_Measurement__OK;
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
-                    StateForeground = Brushes.White; 
+                    StateForeground = Brushes.White;
                     break;
                 case ReturnCode.MeasurementBaseRefNotFound:
-                    State = $@"{Accident.BaseRefType.GetLocalizedFemaleString()} {Accident.ReturnCode.GetLocalizedString()}";
+                    State = Resources.SID_Measurement__Failed_;
+                    Explanation = $@"{Accident.BaseRefType.GetLocalizedFemaleString()} {Accident.ReturnCode.GetLocalizedString()}";
                     StateBackground = FiberState.Minor.GetBrush(false);
-                    StateForeground = FiberState.Minor.GetBrush(true); 
+                    StateForeground = FiberState.Minor.GetBrush(true);
                     break;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
-                    State = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
+                    State = Resources.SID_Measurement__Failed_;
+                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
                     StateBackground = FiberState.Minor.GetBrush(false);
-                    StateForeground = FiberState.Minor.GetBrush(true); 
+                    StateForeground = FiberState.Minor.GetBrush(true);
                     break;
-                default: 
-                    State = @"Unknown type of accident"; 
+
+                case ReturnCode.RtuRestored:
+                    State = Resources.SID_RTU__OK;
+                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
+                    StateBackground = FiberState.Minor.GetBrush(false);
+                    StateForeground = FiberState.Minor.GetBrush(true);
+                    break;
+                case ReturnCode.RtuFrequentServiceRestarts:
+                    State = Resources.SID_RTU__Attention_required_;
+                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
+                    StateBackground = FiberState.Minor.GetBrush(false);
+                    StateForeground = FiberState.Minor.GetBrush(true);
+                    break;
+
+                default:
+                    State = @"Unknown type of accident";
+                    Explanation = @"Unknown type of accident";
                     StateBackground = Brushes.Red;
-                    StateForeground = Brushes.Black; 
+                    StateForeground = Brushes.Black;
                     break;
             }
-            
+
         }
     }
 }

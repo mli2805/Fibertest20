@@ -4018,6 +4018,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Frequent service restarts.
+        /// </summary>
+        public static string SID_Frequent_service_restarts {
+            get {
+                return ResourceManager.GetString("SID_Frequent_service_restarts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to from.
         /// </summary>
         public static string SID_from {
@@ -5359,6 +5368,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement__Client__in_progress__Please_wait___ {
             get {
                 return ResourceManager.GetString("SID_Measurement__Client__in_progress__Please_wait___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement: Failed!.
+        /// </summary>
+        public static string SID_Measurement__Failed_ {
+            get {
+                return ResourceManager.GetString("SID_Measurement__Failed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurement: OK.
+        /// </summary>
+        public static string SID_Measurement__OK {
+            get {
+                return ResourceManager.GetString("SID_Measurement__OK", resourceCulture);
             }
         }
         
@@ -7457,6 +7484,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU__0__is_busy_ {
             get {
                 return ResourceManager.GetString("SID_RTU__0__is_busy_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU: Attention required!.
+        /// </summary>
+        public static string SID_RTU__Attention_required_ {
+            get {
+                return ResourceManager.GetString("SID_RTU__Attention_required_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU: OK.
+        /// </summary>
+        public static string SID_RTU__OK {
+            get {
+                return ResourceManager.GetString("SID_RTU__OK", resourceCulture);
             }
         }
         
