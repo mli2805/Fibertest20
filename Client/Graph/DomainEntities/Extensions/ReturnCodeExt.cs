@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.RtuFrequentServiceRestarts:
                     return Resources.SID_Frequent_service_restarts;
                 case ReturnCode.RtuManagerServiceWorking:
-                    return "RtuManagerServiceWorking";
+                    return Resources.SID_Service_is_working___RTU_Manager_;
 
 
                 // 2000

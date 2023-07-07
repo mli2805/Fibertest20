@@ -3611,4 +3611,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_RTU__Attention_required_" xml:space="preserve">
 		<value>RTU: Требуется внимание!</value>
 	</data>
+	<data name="SID_Service_is_working___RTU_Manager_" xml:space="preserve">
+		<value>Служба в работе! (RTU Manager)</value>
+	</data>
 </root>

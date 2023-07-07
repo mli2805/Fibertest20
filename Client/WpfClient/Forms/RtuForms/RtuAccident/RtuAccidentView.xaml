@@ -13,18 +13,26 @@
     </Window.Resources>
     <DockPanel>
 
-        <GroupBox DockPanel.Dock="Bottom" Width="500" Margin="5"
+        <GroupBox DockPanel.Dock="Bottom" Width="580" Margin="5"
                   Header="{Binding AccidentModel.StateAt}">
-            
-
             <StackPanel>
-              
                 <TextBlock Text="{Binding AccidentModel.Explanation}" 
-                           Margin="5,10, 5,5" FontSize="14" FontWeight="Bold" TextAlignment="Center"
+                           Margin="5,10, 5,5" FontSize="18" FontWeight="Bold" TextAlignment="Center"
                            Foreground="{Binding AccidentModel.StateForeground}"
-                           />
+                           Background="{StaticResource TransparentBrush}" >
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="(TextBlock.Background).(SolidColorBrush.Color)" 
+                                                    From="Transparent" To="Gray" Duration="0:0:01" RepeatBehavior="Forever" AutoReverse="True"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
                 <Button Name="TurnSoundOff" Content="{x:Static stringResources:Resources.SID_Turn_alarm_off}" 
-                        Margin="25,10" Height="25" IsEnabled="{Binding AccidentModel.IsSoundButtonEnabled}"/>
+                        Margin="5,10" Height="25" IsEnabled="{Binding AccidentModel.IsSoundButtonEnabled}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Margin="5">
@@ -58,21 +66,9 @@
 
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding AccidentModel.State}" 
                            Margin="25, 20, 25, 10" Height="30"
-                           FontSize="18" FontWeight="Bold" TextAlignment="Center" 
+                           FontSize="18" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Top"
                            Foreground="{Binding AccidentModel.StateForeground}"
-                           Background="{StaticResource TransparentBrush}" 
-                >
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="TextBlock.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetProperty="(TextBlock.Background).(SolidColorBrush.Color)" 
-                                                    From="Transparent" To="Gray" Duration="0:0:01" RepeatBehavior="Forever" AutoReverse="True"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </TextBlock.Triggers>
-                </TextBlock>
+                           />
             </Grid>
   
         </GroupBox>

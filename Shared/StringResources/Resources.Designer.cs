@@ -8290,6 +8290,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service is working! (RTU Manager).
+        /// </summary>
+        public static string SID_Service_is_working___RTU_Manager_ {
+            get {
+                return ResourceManager.GetString("SID_Service_is_working___RTU_Manager_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set password.
         /// </summary>
         public static string SID_Set_password {
