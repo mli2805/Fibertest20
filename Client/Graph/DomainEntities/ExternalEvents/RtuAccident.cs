@@ -16,5 +16,8 @@ namespace Iit.Fibertest.Graph
         public BaseRefType BaseRefType { get; set; }
 
         public string Comment { get; set; }
+
+        public bool IsGoodAccident =>
+            ReturnCode == ReturnCode.MeasurementEndedNormally || ReturnCode == ReturnCode.RtuManagerServiceWorking;
     }
 }

@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
                     StateForeground = Brushes.White;
                     break;
 
-                case ReturnCode.RtuRestored:
+                case ReturnCode.RtuManagerServiceWorking:
                     State = Resources.SID_RTU__OK;
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
                     StateBackground = FiberState.Minor.GetBrush(false);

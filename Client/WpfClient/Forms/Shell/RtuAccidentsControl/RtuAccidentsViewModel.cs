@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
@@ -34,5 +35,43 @@ namespace Iit.Fibertest.Client
             if (row != null)
                 Rows.Remove(row);
         }
+
+        public void RefreshRowsWithUpdatedRtu(Guid rtuId)
+        {
+            foreach (var rtuAccidentLineModel in Rows.Where(m => m.Accident.RtuId == rtuId).ToList())
+            {
+                Rows.Remove(rtuAccidentLineModel);
+                rtuAccidentLineModel.RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuId)?.Title;
+                Rows.Add(rtuAccidentLineModel);
+            }
+        }
+
+        public void RefreshRowsWithUpdatedTrace(Guid traceId)
+        {
+            foreach (var rtuAccidentLineModel in Rows.Where(m => m.Accident.TraceId == traceId).ToList())
+            {
+                Rows.Remove(rtuAccidentLineModel);
+                rtuAccidentLineModel.TraceTitle = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceId)?.Title;
+                Rows.Add(rtuAccidentLineModel);
+            }
+        }
+
+        public void RemoveAllEventsForRtu(Guid rtuId)
+        {
+            for (var i = Rows.Count - 1; i >= 0; i--)
+            {
+                if (Rows[i].Accident.RtuId == rtuId)
+                    Rows.RemoveAt(i);
+            }
+        }
+        public void RemoveAllEventsForTrace(Guid traceId)
+        {
+            for (var i = Rows.Count - 1; i >= 0; i--)
+            {
+                if (Rows[i].Accident.TraceId == traceId)
+                    Rows.RemoveAt(i);
+            }
+        }
+
     }
 }

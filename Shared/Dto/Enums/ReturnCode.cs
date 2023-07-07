@@ -46,7 +46,7 @@
         MeasurementTimeoutExpired = 1595,
 
         RtuFrequentServiceRestarts = 1600,
-        RtuRestored = 1601,
+        RtuManagerServiceWorking = 1601,
 
         TcpConnectionError = 2000,
         C2DWcfConnectionError = 2001,
