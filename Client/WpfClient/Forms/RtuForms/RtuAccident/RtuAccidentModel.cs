@@ -68,21 +68,21 @@ namespace Iit.Fibertest.Client
                 case ReturnCode.MeasurementBaseRefNotFound:
                     State = Resources.SID_Measurement__Failed_;
                     Explanation = $@"{Accident.BaseRefType.GetLocalizedFemaleString()} {Accident.ReturnCode.GetLocalizedString()}";
-                    StateBackground = FiberState.Minor.GetBrush(false);
-                    StateForeground = FiberState.Minor.GetBrush(true);
+                    StateBackground = FiberState.Critical.GetBrush(false);
+                    StateForeground = FiberState.Critical.GetBrush(true);
                     break;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                     State = Resources.SID_Measurement__Failed_;
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
-                    StateBackground = FiberState.Minor.GetBrush(false);
-                    StateForeground = FiberState.Minor.GetBrush(true);
+                    StateBackground = FiberState.Critical.GetBrush(false);
+                    StateForeground = FiberState.Critical.GetBrush(true);
                     break;
 
                 case ReturnCode.RtuRestored:
                     State = Resources.SID_RTU__OK;
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
-                    StateBackground = FiberState.Minor.GetBrush(false);
-                    StateForeground = FiberState.Minor.GetBrush(true);
+                    StateBackground = Brushes.Transparent;
+                    StateForeground = Brushes.White;
                     break;
                 case ReturnCode.RtuFrequentServiceRestarts:
                     State = Resources.SID_RTU__Attention_required_;
