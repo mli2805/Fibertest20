@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Autofac;
@@ -15,15 +16,17 @@ namespace Iit.Fibertest.Client
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
 
         private List<RtuAccidentViewModel> LaunchedViews { get; } = new List<RtuAccidentViewModel>();
 
-        public RtuAccidentViewsManager(ILifetimeScope globalScope, Model readModel, 
+        public RtuAccidentViewsManager(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
             IWindowManager windowManager, ChildrenViews childrenViews)
         {
             _globalScope = globalScope;
+            _currentUser = currentUser;
             _readModel = readModel;
             _windowManager = windowManager;
             childrenViews.PropertyChanged += ChildrenViewsPropertyChanged;
@@ -49,6 +52,13 @@ namespace Iit.Fibertest.Client
             switch (e)
             {
                 case RtuAccidentAdded evnt: AddRtuAccident(evnt); break;
+
+                case RtuUpdated evnt: UpdateRtu(evnt); break; // Title
+                case RtuRemoved evnt: RemoveRtu(evnt.RtuId); break;
+                case TraceUpdated evnt: UpdateTrace(evnt); break; // Title
+                case TraceCleaned evnt: RemoveOrCleanTrace(evnt.TraceId); break;
+                case TraceRemoved evnt: RemoveOrCleanTrace(evnt.TraceId); break;
+                case ResponsibilitiesChanged evnt: ChangeResponsibilities(evnt); break;
             }
         }
 
@@ -77,6 +87,60 @@ namespace Iit.Fibertest.Client
             vm.Initialize(rtuAccidentModel);
             LaunchedViews.Add(vm);
             _windowManager.ShowWindowWithAssignedOwner(vm);
+        }
+
+        private void UpdateRtu(RtuUpdated e)
+        {
+            foreach (var rtuAccidentViewModel in LaunchedViews.Where(v => v.AccidentModel.Accident.RtuId == e.RtuId))
+            {
+                rtuAccidentViewModel.AccidentModel.RtuTitle = e.Title;
+            }
+        }
+
+        private void UpdateTrace(TraceUpdated e)
+        {
+            foreach (var rtuAccidentViewModel in LaunchedViews.Where(v => v.AccidentModel.Accident.TraceId == e.Id))
+            {
+                rtuAccidentViewModel.AccidentModel.TraceTitle = e.Title;
+            }
+        }
+
+        private void RemoveRtu(Guid rtuId)
+        {
+            foreach (var rtuAccidentViewModel in
+                     LaunchedViews.Where(v => v.AccidentModel.Accident.RtuId == rtuId).ToList())
+            {
+                rtuAccidentViewModel.Close();
+                LaunchedViews.Remove(rtuAccidentViewModel);
+            }
+        }
+
+        private void RemoveOrCleanTrace(Guid traceId)
+        {
+            foreach (var rtuAccidentViewModel in
+                     LaunchedViews.Where(v => v.AccidentModel.Accident.TraceId == traceId).ToList())
+            {
+                rtuAccidentViewModel.Close();
+                LaunchedViews.Remove(rtuAccidentViewModel);
+            }
+        }
+
+        private void ChangeResponsibilities(ResponsibilitiesChanged evnt)
+        {
+            foreach (var pair in evnt.ResponsibilitiesDictionary)
+            {
+                if (!pair.Value.Contains(_currentUser.ZoneId)) continue; // for current zone this trace doesn't change
+
+                var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == pair.Key);
+                if (rtu != null)
+                    RemoveRtu(rtu.Id);
+                else
+                {
+                    var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == pair.Key);
+                    if (trace != null) RemoveOrCleanTrace(trace.TraceId);
+
+                }
+            }
         }
     }
 }

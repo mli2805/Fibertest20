@@ -19,8 +19,6 @@ namespace Iit.Fibertest.Client
         public string Explanation { get; set; }
         public Brush StateBackground { get; set; }
 
-        #region RtuAccidentViewModel
-
         public string Port { get; set; }
         public string StateAt => string.Format(Resources.SID_State_at_,
             Accident.EventRegistrationTimestamp.ToString(CultureInfo.CurrentCulture), Accident.Id);
@@ -37,7 +35,6 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
-        #endregion
 
         public RtuAccidentModel(RtuAccident accident)
         {

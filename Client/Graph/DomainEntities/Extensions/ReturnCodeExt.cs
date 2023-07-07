@@ -106,9 +106,9 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Measurement_timeout_expired;
                 case ReturnCode.RtuFrequentServiceRestarts:
                     return Resources.SID_Frequent_service_restarts;
-                 case ReturnCode.RtuManagerServiceWorking:
+                case ReturnCode.RtuManagerServiceWorking:
                     return "RtuManagerServiceWorking";
-                
+
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:

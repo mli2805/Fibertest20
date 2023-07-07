@@ -81,7 +81,8 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = await _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
+            var traceStateModel = await _traceStateModelFactory
+                .CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
             Show(traceStateModel, false, lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
         }
 
