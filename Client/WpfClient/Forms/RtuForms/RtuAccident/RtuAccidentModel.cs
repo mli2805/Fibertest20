@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
                     State = Resources.SID_Measurement__OK;
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
-                    StateForeground = Brushes.White;
+                    StateForeground = Brushes.Black;
                     break;
                 case ReturnCode.MeasurementBaseRefNotFound:
                     State = Resources.SID_Measurement__Failed_;

@@ -28,7 +28,6 @@
                                     Binding="{Binding State}" Width="100*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Foreground" Value="{Binding (client:RtuAccidentModel.StateForeground)}" />
                             <Setter Property="Background" Value="{Binding (client:RtuAccidentModel.StateBackground)}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>

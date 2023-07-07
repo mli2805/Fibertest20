@@ -15,7 +15,6 @@ namespace Iit.Fibertest.Client
 
         public string State { get; set; }
         public Brush StateBackground { get; set; }
-        public Brush StateForeground { get; set; }
         public string Explanation { get; set; }
 
 
@@ -42,39 +41,33 @@ namespace Iit.Fibertest.Client
                     State = Resources.SID_Measurement__OK;
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
-                    StateForeground = Brushes.Black;
                     break;
                 case ReturnCode.MeasurementBaseRefNotFound:
                     State = Resources.SID_Measurement__Failed_;
                     Explanation = $@"{Accident.BaseRefType.GetLocalizedFemaleString()} {Accident.ReturnCode.GetLocalizedString()}";
                     StateBackground = FiberState.Critical.GetBrush(false);
-                    StateForeground = Brushes.White;
                     break;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                     State = Resources.SID_Measurement__Failed_;
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
                     StateBackground = FiberState.Critical.GetBrush(false);
-                    StateForeground = Brushes.White;
                     break;
 
                 case ReturnCode.RtuManagerServiceWorking:
                     State = Resources.SID_RTU__OK;
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
                     StateBackground = FiberState.Minor.GetBrush(false);
-                    StateForeground = Brushes.Black;
                     break;
                 case ReturnCode.RtuFrequentServiceRestarts:
                     State = Resources.SID_RTU__Attention_required_;
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
                     StateBackground = FiberState.Minor.GetBrush(false);
-                    StateForeground = Brushes.White;
                     break;
 
                 default:
                     State = @"Unknown type of accident";
                     Explanation = @"Unknown type of accident";
                     StateBackground = Brushes.Red;
-                    StateForeground = Brushes.White;
                     break;
             }
             
