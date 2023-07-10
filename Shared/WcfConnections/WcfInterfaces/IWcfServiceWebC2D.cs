@@ -9,8 +9,8 @@ namespace Iit.Fibertest.WcfConnections
     public interface IWcfServiceWebC2D
     {
         [OperationContract]
-        Task<string> CheckDataCenterConnection(); 
-        
+        Task<string> CheckDataCenterConnection();
+
         [OperationContract]
         Task<bool> ChangeGuidWithSignalrConnectionId(string oldGuid, string connId);
 
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize);
 
-         [OperationContract]
+        [OperationContract]
         Task<TraceLandmarksDto> GetTraceLandmarks(string username, Guid traceId);
 
         [OperationContract]
@@ -80,6 +80,10 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<BopEventsRequestedDto> GetBopEventPortion(string username, bool isCurrentEvents,
             string filterRtu, string sortOrder, int pageNumber, int pageSize);
+
+        [OperationContract]
+        Task<RtuAccidentsRequestedDto> GetStateAccidentPortion(string username, bool isCurrentEvents,
+             string sortOrder, int pageNumber, int pageSize);
 
         #endregion
 

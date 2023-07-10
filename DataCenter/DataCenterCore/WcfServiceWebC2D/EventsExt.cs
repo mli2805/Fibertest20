@@ -50,6 +50,19 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
+        public static bool Filter(this RtuAccident rtuAccident, Model writeModel, User user)
+        {
+            var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == rtuAccident.RtuId);
+            if (rtu == null
+                || !rtu.ZoneIds.Contains(user.ZoneId)
+                )
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public static IEnumerable<NetworkEvent> Sort(this IEnumerable<NetworkEvent> input, string param)
         {
             return param == "asc" ? input.OrderBy(o => o.Ordinal) : input.OrderByDescending(o => o.Ordinal);
@@ -57,6 +70,10 @@ namespace Iit.Fibertest.DataCenterCore
         public static IEnumerable<BopNetworkEvent> Sort(this IEnumerable<BopNetworkEvent> input, string param)
         {
             return param == "asc" ? input.OrderBy(o => o.Ordinal) : input.OrderByDescending(o => o.Ordinal);
+        }
+        public static IEnumerable<RtuAccident> Sort(this IEnumerable<RtuAccident> input, string param)
+        {
+            return param == "asc" ? input.OrderBy(o => o.Id) : input.OrderByDescending(o => o.Id);
         }
 
         public static bool Filter(this Measurement measurement, string filterRtu, string filterTrace, Model writeModel, User user)

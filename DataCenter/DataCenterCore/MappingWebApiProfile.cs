@@ -23,11 +23,20 @@ namespace Iit.Fibertest.DataCenterCore
                 .ForMember(dest => dest.EventRegistrationTimestamp, opt => opt.MapFrom(src => src.EventTimestamp));
 
             CreateMap<BopNetworkEvent, BopEventDto>()
-                .ForMember(dest => dest.EventId, opt => opt.MapFrom(src => src.Ordinal))
-                .ForMember(dest=> dest.BopAddress, opt=> opt.MapFrom(src => src.OtauIp + " : " + src.TcpPort))
-                .ForMember(dest => dest.EventRegistrationTimestamp, opt => opt.MapFrom(src => src.EventTimestamp))
-                .ForMember(dest => dest.BopState, opt => opt.MapFrom(src => src.IsOk));
+                .ForMember(dest => dest.EventId,
+                    opt => opt
+                        .MapFrom(src => src.Ordinal))
+                .ForMember(dest=> dest.BopAddress,
+                    opt=> opt
+                        .MapFrom(src => src.OtauIp + " : " + src.TcpPort))
+                .ForMember(dest => dest.EventRegistrationTimestamp,
+                    opt => opt
+                        .MapFrom(src => src.EventTimestamp))
+                .ForMember(dest => dest.BopState,
+                    opt => opt
+                        .MapFrom(src => src.IsOk));
 
+            CreateMap<RtuAccident, RtuAccidentDto>();
         }
     }
 }

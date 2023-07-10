@@ -93,6 +93,7 @@
     <Compile Include="ForWebApi\NetworkAlarm.cs" />
     <Compile Include="ForWebApi\NetworkEventDto.cs" />
     <Compile Include="ForWebApi\RftsEventsDto.cs" />
+    <Compile Include="ForWebApi\RtuAccidentDto.cs" />
     <Compile Include="ForWebApi\Rtu\PortMonitoringMode.cs" />
     <Compile Include="ForWebApi\Rtu\RtuInformationDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuInitializedWebDto.cs" />

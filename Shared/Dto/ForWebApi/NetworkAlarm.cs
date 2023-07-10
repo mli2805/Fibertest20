@@ -25,10 +25,17 @@ namespace Iit.Fibertest.Dto
         public bool HasBeenSeen;
     }
 
+    public class RtuStateAlarm
+    {
+        public int AccidentId;
+        public bool HasBeenSeen;
+    }
+
     public class AlarmsDto
     {
         public List<NetworkAlarm> NetworkAlarms;
         public List<OpticalAlarm> OpticalAlarms;
         public List<BopAlarm> BopAlarms;
+        public List<RtuStateAlarm> RtuStateAlarms;
     }
 }

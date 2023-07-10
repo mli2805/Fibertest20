@@ -204,6 +204,14 @@ namespace Iit.Fibertest.DataCenterCore
             return dto;
         }
 
+        public static RtuAccidentDto CreateAccidentDto(this RtuAccident n, Model writeModel)
+        {
+            var dto = Mapper.Map<RtuAccidentDto>(n);
+            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title;
+            dto.TraceTitle = writeModel.Traces.FirstOrDefault(t => t.TraceId == n.TraceId)?.Title;
+            return dto;
+        }
+
         public static BopEventDto CreateBopEventDto(this BopNetworkEvent n, Model writeModel)
         {
             var dto = Mapper.Map<BopEventDto>(n);
@@ -229,6 +237,11 @@ namespace Iit.Fibertest.DataCenterCore
         public static BopAlarm CreateBopAlarm(this BopNetworkEvent b)
         {
             return new BopAlarm() { EventId = b.Ordinal, Serial = b.Serial, HasBeenSeen = true };
+        }
+
+        public static RtuStateAlarm CreateRtuAccidentAlarm(this RtuAccident a)
+        {
+            return new RtuStateAlarm() { AccidentId = a.Id, HasBeenSeen = true };
         }
     }
 }

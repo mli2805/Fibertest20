@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -108,6 +109,55 @@ namespace Iit.Fibertest.DataCenterCore
                 .Select(rtu => _writeModel.BopNetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
                 .Where(lastBopNetworkEvent => lastBopNetworkEvent != null && !lastBopNetworkEvent.IsOk)
                 .Select(b => b.CreateBopAlarm())
+                .ToList();
+        } 
+        
+        public async Task<RtuAccidentsRequestedDto> GetStateAccidentPortion(string username, bool isCurrentEvents,
+            string sortOrder, int pageNumber, int pageSize)
+        {
+            if (!await Authorize(username, "GetStateAccidentPortion")) return null;
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+
+            var sift = isCurrentEvents
+                ? GetCurrentStateAccidents()
+                : _writeModel.RtuAccidents
+                    .Where(n => n.Filter(_writeModel, user)).ToList();
+            return new RtuAccidentsRequestedDto
+            {
+                FullCount = sift.Count,
+                AccidentPortion = sift
+                    .Sort(sortOrder)
+                    .Skip(pageNumber * pageSize)
+                    .Take(pageSize)
+                    .Select(m => m.CreateAccidentDto(_writeModel)).ToList()
+            };
+        }
+
+        private List<RtuAccident> GetCurrentStateAccidents()
+        {
+            var traces = _writeModel.Traces
+                .Select(trace => _writeModel.RtuAccidents
+                    .LastOrDefault(a => a.IsMeasurementProblem && a.TraceId == trace.TraceId))
+                .Where(lastAccident => lastAccident != null && !lastAccident.IsGoodAccident);
+
+            var rtus = _writeModel.Rtus
+                .Select(rtu => _writeModel.RtuAccidents
+                    .LastOrDefault(a => a.RtuId == rtu.Id && !a.IsMeasurementProblem))
+                .Where(lastAccident => lastAccident != null && !lastAccident.IsGoodAccident);
+
+            return traces.Union(rtus).ToList();
+        }
+
+        private async Task<List<RtuStateAlarm>> GetAlarmsFromCurrentStateAccidents(string username)
+        {
+            if (!await Authorize(username, "GetAlarmsFromCurrentStateAccidents")) return null;
+
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            return _writeModel.Rtus
+                .Where(r => r.FilterRtu(user, null))
+                .Select(rtu => _writeModel.RtuAccidents.LastOrDefault(n => n.RtuId == rtu.Id))
+                .Where(rtuAccident => rtuAccident != null && !rtuAccident.IsGoodAccident)
+                .Select(b => b.CreateRtuAccidentAlarm())
                 .ToList();
         }
     }

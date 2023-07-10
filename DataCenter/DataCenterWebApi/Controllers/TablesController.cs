@@ -76,5 +76,20 @@ namespace Iit.Fibertest.DataCenterWebApi
             return resultDto;
         }
 
+        [Authorize]
+        [HttpGet("GetStateAccidentPage")]
+        public async Task<RtuAccidentsRequestedDto> GetStateAccidentPage(bool isCurrentEvents,
+                                     string sortOrder, int pageNumber, int pageSize)
+        {
+            var resultDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetStateAccidentPortion(User.Identity.Name, isCurrentEvents, sortOrder, pageNumber, pageSize);
+            _logFile.AppendLine(resultDto == null
+                ? "Failed to RTU status accidents list"
+                : $"RTU status accidents list contains {resultDto.FullCount} items");
+
+            return resultDto;
+        }
+
     }
 }

@@ -106,6 +106,7 @@ namespace Iit.Fibertest.DataCenterCore
                     NetworkAlarms = await GetCurrentNetworkEvents(username),
                     OpticalAlarms = await GetCurrentOpticalEvents(username),
                     BopAlarms = await GetCurrentBopEvents(username),
+                    RtuStateAlarms = await GetAlarmsFromCurrentStateAccidents(username),
                 };
                 _logFile.AppendLine($"dto contains {result.NetworkAlarms.Count} network alarms, {result.OpticalAlarms.Count} optical alarms and {result.BopAlarms.Count} bop alarms");
                 var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
