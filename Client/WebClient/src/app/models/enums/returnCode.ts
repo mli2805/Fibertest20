@@ -1,6 +1,9 @@
 export enum ReturnCode {
   Error = 0x0,
   Ok = 1,
+  InProgress = 2,
+
+  ClientCleanedAsDead = 10,
 
   RtuInitializationError = 1000,
   RtuInitializedSuccessfully = 1001,
@@ -10,6 +13,7 @@ export enum ReturnCode {
   OtauInitializationError = 1005,
   CharonComPortError = 1006,
   OtdrInitializationFailed = 1007, // Veex
+  RtuUnauthorizedAccess = 1008,
 
   RtuDoesntSupportBop = 1012,
   RtuTooBigPortNumber = 1013,
@@ -28,9 +32,18 @@ export enum ReturnCode {
 
   MeasurementError = 1500,
   MeasurementEndedNormally = 1501,
-  MeasurementPreparationError = 1502,
-  MeasurementInterrupted = 1503,
-  MeasurementTimeoutExpired = 1504,
+  MeasurementPreparationError = 1510,
+  MeasurementToggleToPortFailed = 1511,
+  MeasurementBaseRefNotFound = 1512,
+  MeasurementFailedToSetParametersFromBase = 1513,
+  MeasurementHardwareProblem = 1520,
+  MeasurementAnalysisFailed = 1530,
+  MeasurementComparisonFailed = 1532,
+  MeasurementInterrupted = 1590,
+  MeasurementTimeoutExpired = 1595,
+
+  RtuFrequentServiceRestarts = 1600,
+  RtuManagerServiceWorking = 1601,
 
   TcpConnectionError = 2000,
   C2DWcfConnectionError = 2001,
@@ -50,6 +63,18 @@ export enum ReturnCode {
   MonitoringSettingsAppliedSuccessfully = 4002,
   OtauAttachedSuccesfully = 4003,
   OtauDetachedSuccesfully = 4004,
+
+  LandmarkChangesAppliedSuccessfully = 5000,
+  FailedToApplyLandmarkChanges = 5001,
+  FailedToGetBaseRefs = 5011,
+  BaseRefsForTraceModifiedSuccessfully = 5020,
+  FailedToModifyBaseRef = 5021,
+  BaseRefsSavedSuccessfully = 5030,
+  FailedToSaveBaseRefs = 5031,
+  BaseRefsForTraceSentSuccessfully = 5040,
+  FailedToSendBaseToRtu = 5041,
+  FailedToUpdateVeexTestList = 5042,
+  BaseRefsAmendmentProcessDone = 5050,
 
   ClientRegisteredSuccessfully = 9000,
   NoSuchUserOrWrongPassword = 9001,

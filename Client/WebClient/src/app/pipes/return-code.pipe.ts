@@ -50,16 +50,26 @@ export class ReturnCodePipe implements PipeTransform {
           return this.ts.instant("SID_Failed_to_automatically_determine_the_correct_measurement_parameters");
       case ReturnCode.SnrIs0:
           return this.ts.instant("SID_No_fiber");
+
+       // 1500
       case ReturnCode.MeasurementError:
           return this.ts.instant("SID_Measurement_error");
       case ReturnCode.MeasurementEndedNormally:
           return this.ts.instant("SID_Measurement_completed_successfully");
       case ReturnCode.MeasurementPreparationError:
           return this.ts.instant("SID_Measurement_preparation_error");
+      case ReturnCode.MeasurementBaseRefNotFound:
+          return this.ts.instant("SID_base_ref_not_found");
+      case ReturnCode.MeasurementFailedToSetParametersFromBase:
+          return this.ts.instant("SID_Failed_to_set_parameters_from__0__base");
       case ReturnCode.MeasurementInterrupted:
           return this.ts.instant("SID_Measurement_interrupted");
       case ReturnCode.MeasurementTimeoutExpired:
           return this.ts.instant("SID_Measurement_timeout_expired");
+      case ReturnCode.RtuFrequentServiceRestarts:
+          return this.ts.instant("SID_Frequent_service_restarts");
+      case ReturnCode.RtuManagerServiceWorking:
+          return this.ts.instant("SID_Service_is_working___RTU_Manager_");
 
       // 2000
       case ReturnCode.C2DWcfConnectionError:
@@ -84,6 +94,32 @@ export class ReturnCodePipe implements PipeTransform {
         return this.ts.instant(
           "SID_Monitoring_settings_are_applied_successfully_"
         );
+
+      // 5000
+      case ReturnCode.LandmarkChangesAppliedSuccessfully:
+        return this.ts.instant("SID_Landmark_changes_applied_successfully");
+      case ReturnCode.FailedToApplyLandmarkChanges:
+        return this.ts.instant("SID_Failed_to_apply_landmark_changes");
+      case ReturnCode.FailedToGetBaseRefs:
+        return this.ts.instant("SID_Failed_to_get_base_refs");
+      case ReturnCode.BaseRefsForTraceModifiedSuccessfully:
+        return this.ts.instant("SID_Base_refs_for_trace_modified_successfully");
+      case ReturnCode.FailedToModifyBaseRef:
+        return this.ts.instant("SID_Failed_to_modify_base_ref");
+      case ReturnCode.BaseRefsSavedSuccessfully:
+        return this.ts.instant("SID_Base_refs_saved_successfully");
+      case ReturnCode.FailedToSaveBaseRefs:
+        return this.ts.instant("SID_Failed_to_save_base_refs");
+      case ReturnCode.BaseRefsForTraceSentSuccessfully:
+        return this.ts.instant("SID_Base_refs_for_trace_sent_successfully");
+      case ReturnCode.FailedToSendBaseToRtu:
+        return this.ts.instant("SID_Failed_to_send_base_To_RTU");
+      case ReturnCode.FailedToUpdateVeexTestList:
+        return this.ts.instant("SID_Failed_to_update_VEEX_test_list");
+      case ReturnCode.BaseRefsAmendmentProcessDone:
+        return this.ts.instant("SID_Base_refs_amendment_process_is_finished");
+
+      
       // 9000
       case ReturnCode.ClientRegisteredSuccessfully:
         return "OK";
