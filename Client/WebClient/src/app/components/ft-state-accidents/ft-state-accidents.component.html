@@ -16,11 +16,11 @@
       class="state-accidents-table mat-elevation-z8"
       [dataSource]="dataSource"
       matSort
-      matSortActive="eventId"
+      matSortActive="id"
       matSortDirection="desc"
       matSortDisableClear
     >
-      <ng-container matColumnDef="eventId">
+      <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "SID_Event_Id" | translate }}
         </th>
@@ -49,9 +49,12 @@
         </td>
       </ng-container>
   
-    
-  
-   
+      <ng-container matColumnDef="traceTitle">
+        <th mat-header-cell *matHeaderCellDef>RTU</th>
+        <td mat-cell class="traceTitle-cell" *matCellDef="let element">
+          {{ element.traceTitle }}
+        </td>
+      </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr
