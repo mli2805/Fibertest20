@@ -33,6 +33,7 @@ export class AlarmIndicator {
       }
     }
     if (this.list.length === 0) {
+      console.log(`${this.inStorageName} has no accidents`)
       return "ok";
     }
     const hasNotSeenAlarms = this.list.filter((a) => a.hasBeenSeen === false);

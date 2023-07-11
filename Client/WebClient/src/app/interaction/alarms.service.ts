@@ -10,12 +10,14 @@ export class AlarmsService {
   private opticalEventConfirmedSource = new Subject<number>();
   private networkEventConfirmedSource = new Subject<number>();
   private bopEventConfirmedSource = new Subject<number>();
+  private rtuStateAccidentConfirmedSource = new Subject<number>();
 
   // Observable string stream
   initialAlarmsCame$ = this.initialAlarmsCameSource.asObservable();
   opticalEventConfirmed$ = this.opticalEventConfirmedSource.asObservable();
   networkEventConfirmed$ = this.networkEventConfirmedSource.asObservable();
   bopEventConfirmed$ = this.bopEventConfirmedSource.asObservable();
+  rtuStateAccidentConfirmed$ = this.rtuStateAccidentConfirmedSource.asObservable();
 
   constructor() {}
 
@@ -32,5 +34,8 @@ export class AlarmsService {
   }
   confirmBopEvent(ordinal: number) {
     this.bopEventConfirmedSource.next(ordinal);
+  }
+  confirmRtuStateAccident(ordinal: number) {
+    this.rtuStateAccidentConfirmedSource.next(ordinal);
   }
 }

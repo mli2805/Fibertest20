@@ -32,6 +32,7 @@ import { SorFileManager } from "src/app/utils/sorFileManager";
 import { Utils } from "src/app/utils/utils";
 import { HeartbeatSender } from "src/app/utils/heartbeatSender";
 import { TraceTachDto } from "src/app/models/dtos/trace/traceTachDto";
+import { RtuStateAlarmIndicator } from "src/app/models/dtos/alarms/rtuStateAlarm";
 
 @Component({
   selector: "ft-main-nav",
@@ -52,10 +53,12 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private opticalAlarmIndicator: OpticalAlarmIndicator;
   private networkAlarmIndicator: NetworkAlarmIndicator;
   private bopAlarmIndicator: BopAlarmIndicator;
+  private rtuStateAlarmIndicator: RtuStateAlarmIndicator;
 
   public isOpticalAlarm = "";
   public isNetworkAlarm = "";
   public isBopAlarm = "";
+  public isRtuStateAlarm = "";
   public version = "2.1.1.531";
 
   private language: string;
@@ -85,6 +88,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       "currentNetworkAlarms"
     );
     this.bopAlarmIndicator = new BopAlarmIndicator("currentBopAlarms");
+    this.rtuStateAlarmIndicator = new RtuStateAlarmIndicator("currentRtuStateAlarms");
 
     this.initializeIndicators();
     this.alarmsService.initialAlarmsCame$.subscribe(() =>
@@ -160,10 +164,12 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       this.isNetworkAlarm = this.networkAlarmIndicator.GetIndicator();
       this.isOpticalAlarm = this.opticalAlarmIndicator.GetIndicator();
       this.isBopAlarm = this.bopAlarmIndicator.GetIndicator();
+      this.isRtuStateAlarm = this.rtuStateAlarmIndicator.GetIndicator();
     } else {
       this.isOpticalAlarm = "";
       this.isNetworkAlarm = "";
       this.isBopAlarm = "";
+      this.isRtuStateAlarm = "";
     }
   }
 
@@ -182,6 +188,12 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     });
     this.alarmsService.bopEventConfirmed$.subscribe((eventId) => {
       this.isBopAlarm = this.bopAlarmIndicator.AlarmHasBeenSeen(eventId);
+    });
+    this.alarmsService.rtuStateAccidentConfirmed$.subscribe((accidentId) => {
+      console.log(`rtu state accident ${accidentId} has been seen`);
+      this.isRtuStateAlarm = this.rtuStateAlarmIndicator.AlarmHasBeenSeen(
+        accidentId
+      );
     });
   }
 
@@ -313,6 +325,8 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.networkAlarmIndicator.ClearList();
     sessionStorage.removeItem("currentBopAlarms");
     this.bopAlarmIndicator.ClearList();
+    sessionStorage.removeItem("currentRtuStateAlarms");
+    this.rtuStateAlarmIndicator.ClearList();
     console.log("session storage cleaned.");
   }
 

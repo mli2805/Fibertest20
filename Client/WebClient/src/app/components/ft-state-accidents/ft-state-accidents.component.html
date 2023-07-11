@@ -1,0 +1,74 @@
+<div class="container">
+  <mat-toolbar fxLayout.xs="column" class="tools">
+   
+    <div class="spacer"></div>
+    <mat-slide-toggle
+      [(ngModel)]="isCurrentEvents"
+      [labelPosition]="labelPosition"
+      [color]="sliderColor"
+      (change)="changedSlider()"
+      >{{ "SID_Current_accidents" | translate }}
+    </mat-slide-toggle>
+  </mat-toolbar>
+  
+    <table
+      mat-table
+      class="state-accidents-table mat-elevation-z8"
+      [dataSource]="dataSource"
+      matSort
+      matSortActive="eventId"
+      matSortDirection="desc"
+      matSortDisableClear
+    >
+      <ng-container matColumnDef="eventId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "SID_Event_Id" | translate }}
+        </th>
+        <td mat-cell class="eventId-cell" *matCellDef="let element">
+          {{ element.id }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="eventRegistrationTimestamp">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "SID_Event_registration_time" | translate }}
+        </th>
+        <td
+          mat-cell
+          class="eventRegistrationTimestamp-cell"
+          *matCellDef="let element"
+        >
+          {{ element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="rtuTitle">
+        <th mat-header-cell *matHeaderCellDef>RTU</th>
+        <td mat-cell class="rtuTitle-cell" *matCellDef="let element">
+          {{ element.rtuTitle }}
+        </td>
+      </ng-container>
+  
+    
+  
+   
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (contextmenu)="onContextMenu($event, row)"
+        (click)="onContextMenu($event, row)"
+      ></tr>
+    </table>
+  
+    <mat-paginator
+      [length]="dataSource.fullCount | async"
+      [pageSize]="8"
+      [pageSizeOptions]="[8, 13, 28, 100]"
+    ></mat-paginator>
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  

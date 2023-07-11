@@ -81,7 +81,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             var dto = (AlarmsDto)JsonConvert.DeserializeObject(currentAccidents, JsonSerializerSettings);
             _logFile.AppendLine(dto == null
                 ? "Failed to get dto"
-                : $"dto contains {dto.NetworkAlarms.Count} network alarms, {dto.OpticalAlarms.Count} optical alarms and {dto.BopAlarms.Count} bop alarms"
+                : $"dto contains {dto.NetworkAlarms.Count} network alarms, {dto.OpticalAlarms.Count} optical alarms and {dto.BopAlarms.Count} bop alarms and {dto.RtuStateAlarms.Count} RTU state accidents"
             );
             return dto;
         }

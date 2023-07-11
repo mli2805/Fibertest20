@@ -72,6 +72,7 @@ import { FtIitHeaderComponent } from "./components/ft-iit-header/ft-iit-header.c
 import { FtTraceLandmarksComponent } from "./components/details/trace/ft-trace-landmarks/ft-trace-landmarks.component";
 import { EquipmentTypePipe } from "./pipes/equipment-type.pipe";
 import { FtBaseRefsComponent } from "./components/details/trace/ft-trace-statistics/ft-base-refs/ft-base-refs/ft-base-refs.component";
+import { FtStateAccidentsComponent } from './components/ft-state-accidents/ft-state-accidents.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +130,7 @@ import { FtBaseRefsComponent } from "./components/details/trace/ft-trace-statist
     FtRftsEventsComponent,
     FtRftsEventsLevelComponent,
     SorViewerComponent,
+    FtStateAccidentsComponent,
   ],
   imports: [
     VxSorViewerModule,

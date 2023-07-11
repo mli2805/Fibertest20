@@ -25,6 +25,7 @@ import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-o
 import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events.component";
 import { FtMainNavComponent } from "./components/ft-main-nav/ft-main-nav.component";
 import { FtTraceLandmarksComponent } from "./components/details/trace/ft-trace-landmarks/ft-trace-landmarks.component";
+import { FtStateAccidentsComponent } from "./components/ft-state-accidents/ft-state-accidents.component";
 
 const routes: Routes = [
   {
@@ -51,6 +52,11 @@ const routes: Routes = [
       {
         path: "bop-events",
         component: FtBopEventsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "state-accidents",
+        component: FtStateAccidentsComponent,
         canActivate: [AuthGuard],
       },
 

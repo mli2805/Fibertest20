@@ -40,6 +40,13 @@
       >
       <a
         mat-list-item
+        routerLink="/ft-main-nav/state-accidents"
+        routerLinkActive="active"
+        (click)="drawer.toggle()"
+        >{{ "SID_RTU_status_events" | translate }}</a
+      >
+      <a
+        mat-list-item
         routerLink="/ft-main-nav/logout"
         routerLinkActive="active"
         (click)="drawer.toggle(); logout()"
@@ -128,14 +135,14 @@
               <img
                 class="alarmImage"
                 src="./assets/images/alarm/RedBallYellowExclamation32.png"
-                alt="new_alarm_network"
+                alt="new_alarm_bop"
               />
             </div>
             <div *ngIf="isBopAlarm === 'alarm'">
               <img
                 class="alarmImage"
                 src="./assets/images/alarm/RedBall32.png"
-                alt="old_alarm_network"
+                alt="old_alarm_bop"
               />
             </div>
             <div *ngIf="isBopAlarm === 'ok'">
@@ -147,6 +154,32 @@
             </div>
           </div>
           <span class="bop letters">BOP</span>
+        </div>
+        <div class="ra one-indicator" *ngIf="isRtuStateAlarm !== ''">
+          <div class="ra ball">
+            <div *ngIf="isRtuStateAlarm === 'alarmExclamation'">
+              <img
+                class="alarmImage"
+                src="./assets/images/alarm/RedBallYellowExclamation32.png"
+                alt="new_alarm_rtu_state"
+              />
+            </div>
+            <div *ngIf="isRtuStateAlarm === 'alarm'">
+              <img
+                class="alarmImage"
+                src="./assets/images/alarm/RedBall32.png"
+                alt="old_alarm_rtu_state"
+              />
+            </div>
+            <div *ngIf="isRtuStateAlarm === 'ok'">
+              <img
+                class="alarmImage"
+                src="./assets/images/alarm/Opacity132.png"
+                alt="ok_rtu_state"
+              />
+            </div>
+          </div>
+          <span class="ra letters">RA</span>
         </div>
       </div>
 
@@ -164,6 +197,9 @@
         }}</a>
         <a routerLink="/ft-main-nav/bop-events" routerLinkActive="active">{{
           "SID_Network_events_Bop" | translate
+        }}</a>
+        <a routerLink="/ft-main-nav/state-accidents" routerLinkActive="active">{{
+          "SID_RTU_status_events" | translate
         }}</a>
         <a
           routerLink="/ft-main-nav/logout"

@@ -140,6 +140,10 @@ export class FtLoginComponent implements OnInit {
       "currentBopAlarms",
       JSON.stringify(alarms.bopAlarms)
     );
+    sessionStorage.setItem(
+      "currentRtuStateAlarms",
+      JSON.stringify(alarms.rtuStateAlarms)
+    );
 
     this.unseenAlarmService.processInitialAlarms();
   }
