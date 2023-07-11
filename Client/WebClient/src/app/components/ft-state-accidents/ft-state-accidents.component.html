@@ -65,11 +65,8 @@
           mat-cell
           class="state-cell"
           *matCellDef="let element"
-          [ngStyle]="{
-            'background-color': getBackground(
-              element.returnCode,
-              element.baseRefType
-            )
+          [ngStyle]="{ 
+            'background-color': getBackground(element)
           }"
         >
           {{ getState(element) }}
