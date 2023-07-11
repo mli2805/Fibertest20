@@ -108,7 +108,7 @@
 
   <mat-paginator
     [length]="dataSource.fullCount | async"
-    [pageSize]="8"
+    [pageSize]="13"
     [pageSizeOptions]="[8, 13, 28, 100]"
   ></mat-paginator>
   <div class="spinner-container" *ngIf="dataSource.loading$ | async">

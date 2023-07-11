@@ -16,7 +16,6 @@
       class="state-accidents-table mat-elevation-z8"
       [dataSource]="dataSource"
       matSort
-      matSortActive="id"
       matSortDirection="desc"
       matSortDisableClear
     >
@@ -43,19 +42,49 @@
       </ng-container>
   
       <ng-container matColumnDef="rtuTitle">
-        <th mat-header-cell *matHeaderCellDef>RTU</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>RTU</th>
         <td mat-cell class="rtuTitle-cell" *matCellDef="let element">
           {{ element.rtuTitle }}
         </td>
       </ng-container>
   
       <ng-container matColumnDef="traceTitle">
-        <th mat-header-cell *matHeaderCellDef>RTU</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "SID_Trace" | translate }}
+        </th>
         <td mat-cell class="traceTitle-cell" *matCellDef="let element">
           {{ element.traceTitle }}
         </td>
       </ng-container>
-  
+
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "SID_State" | translate }}
+        </th>
+        <td
+          mat-cell
+          class="state-cell"
+          *matCellDef="let element"
+          [ngStyle]="{
+            'background-color': getBackground(
+              element.returnCode,
+              element.baseRefType
+            )
+          }"
+        >
+          {{ getState(element) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="explanation">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ "SID_Additional_info" | translate }}
+        </th>
+        <td mat-cell class="explanation-cell" *matCellDef="let element">
+          {{ getExplanation(element) }}
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr
         mat-row
@@ -67,7 +96,7 @@
   
     <mat-paginator
       [length]="dataSource.fullCount | async"
-      [pageSize]="8"
+      [pageSize]="13"
       [pageSizeOptions]="[8, 13, 28, 100]"
     ></mat-paginator>
     <div class="spinner-container" *ngIf="dataSource.loading$ | async">
