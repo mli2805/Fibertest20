@@ -179,7 +179,9 @@ namespace Iit.Fibertest.RtuManagement
         private void LogFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
         {
             if (moniResult.ReturnCode == ReturnCode.MeasurementBaseRefNotFound
-                || moniResult.ReturnCode == ReturnCode.MeasurementFailedToSetParametersFromBase)
+                || moniResult.ReturnCode == ReturnCode.MeasurementFailedToSetParametersFromBase
+                    || moniResult.ReturnCode == ReturnCode.MeasurementAnalysisFailed
+                        || moniResult.ReturnCode == ReturnCode.MeasurementComparisonFailed)
 
                 if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
                 {

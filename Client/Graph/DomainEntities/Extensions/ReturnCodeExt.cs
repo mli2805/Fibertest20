@@ -100,6 +100,10 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_base_ref_not_found;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                     return Resources.SID_Failed_to_set_parameters_from__0__base;
+                case ReturnCode.MeasurementAnalysisFailed:
+                    return Resources.SID_Failed_to_analyze_measured_reflectogram;
+                case ReturnCode.MeasurementComparisonFailed:
+                    return Resources.SID_Error_during_comparison_with_base_ref;
                 case ReturnCode.MeasurementInterrupted:
                     return Resources.SID_Measurement_interrupted;
                 case ReturnCode.MeasurementTimeoutExpired:

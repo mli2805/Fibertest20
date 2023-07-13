@@ -3097,6 +3097,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error during comparison with base ref.
+        /// </summary>
+        public static string SID_Error_during_comparison_with_base_ref {
+            get {
+                return ResourceManager.GetString("SID_Error_during_comparison_with_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error during Datacenter-Rtu connection.
         /// </summary>
         public static string SID_Error_during_Datacenter_Rtu_connection {
@@ -3508,6 +3517,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_ {
             get {
                 return ResourceManager.GetString("SID_Failed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to analyze measured reflectogram.
+        /// </summary>
+        public static string SID_Failed_to_analyze_measured_reflectogram {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_analyze_measured_reflectogram", resourceCulture);
             }
         }
         

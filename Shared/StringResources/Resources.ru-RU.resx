@@ -3614,4 +3614,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Service_is_working___RTU_Manager_" xml:space="preserve">
 		<value>Служба в работе! (RTU Manager)</value>
 	</data>
+	<data name="SID_Failed_to_analyze_measured_reflectogram" xml:space="preserve">
+		<value>Ошибка анализа измеренной рефлектограммы</value>
+	</data>
+	<data name="SID_Error_during_comparison_with_base_ref" xml:space="preserve">
+		<value>Ошибка сравнения с базовой рефлектограммой</value>
+	</data>
 </root>
