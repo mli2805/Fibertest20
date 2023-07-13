@@ -69,6 +69,8 @@ namespace Iit.Fibertest.Client
                     StateForeground = FiberState.Critical.GetBrush(true);
                     break;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
+                case ReturnCode.MeasurementAnalysisFailed:
+                case ReturnCode.MeasurementComparisonFailed:
                     State = Resources.SID_Measurement__Failed_;
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
                     StateBackground = FiberState.Critical.GetBrush(false);
