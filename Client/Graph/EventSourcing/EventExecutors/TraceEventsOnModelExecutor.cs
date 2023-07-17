@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Graph
             if (thisTraceActiveMeas != null)
                 model.ActiveMeasurements.Remove(thisTraceActiveMeas);
 
-            model.RemoveBaseRefsAndMeasurementsForTrace(trace);
+            model.RemoveBaseRefsAndMeasurementsAndRtuStateAccidentsForTrace(trace);
 
             foreach (var fiberId in trace.FiberIds)
             {
@@ -70,10 +70,12 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private static void RemoveBaseRefsAndMeasurementsForTrace(this Model model, Trace trace)
+        private static void RemoveBaseRefsAndMeasurementsAndRtuStateAccidentsForTrace(this Model model, Trace trace)
         {
             model.Measurements.RemoveAll(m => m.TraceId == trace.TraceId);
             model.BaseRefs.RemoveAll(b => b.TraceId == trace.TraceId);
+
+            model.RtuAccidents.RemoveAll(a => a.TraceId == trace.TraceId);
         }
 
         public static string RemoveTrace(this Model model, TraceRemoved e)
@@ -88,7 +90,7 @@ namespace Iit.Fibertest.Graph
             if (thisTraceActiveMeas != null)
                 model.ActiveMeasurements.Remove(thisTraceActiveMeas);
 
-            model.RemoveBaseRefsAndMeasurementsForTrace(trace);
+            model.RemoveBaseRefsAndMeasurementsAndRtuStateAccidentsForTrace(trace);
 
             foreach (var fiberId in trace.FiberIds)
             {
