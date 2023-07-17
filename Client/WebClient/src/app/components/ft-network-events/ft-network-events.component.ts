@@ -129,4 +129,5 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
       return "transparent";
     }
   }
+  
 }

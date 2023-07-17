@@ -16,6 +16,7 @@ import { UpdateMeasurementDto } from "../models/dtos/trace/updateMeasurementDto"
 import { ServerAsksClientToExitDto } from "../models/dtos/serverAsksClientToExitDto";
 import { AuthService } from "./auth.service";
 import { TraceTachDto } from "../models/dtos/trace/traceTachDto";
+import { StateAccidentDto } from "../models/dtos/stateAccidentDto";
 
 @Injectable({
   providedIn: "root",
@@ -30,6 +31,7 @@ export class SignalrService {
   public monitoringStoppedEmitter = new EventEmitter<MonitoringStoppedDto>();
   public monitoringStartedEmitter = new EventEmitter<MonitoringStartdedDto>();
   public measurementAddedEmitter = new EventEmitter<TraceStateDto>();
+  public stateAccidentEmitter = new EventEmitter<StateAccidentDto>();
   public networkEventAddedEmitter = new EventEmitter<NetworkEventDto>();
   public bopEventAddedEmitter = new EventEmitter<BopEventDto>();
   public measurementUpdatedEmitter = new EventEmitter<UpdateMeasurementDto>();
@@ -195,6 +197,11 @@ export class SignalrService {
       }
 
       this.measurementAddedEmitter.emit(dto);
+    });
+
+    this.hubConnection.on("AddAccident", (signal: string) => {
+      const dto = JSON.parse(signal) as StateAccidentDto;
+      this.stateAccidentEmitter.emit(dto);
     });
 
     this.hubConnection.on("AddNetworkEvent", (signal: string) => {

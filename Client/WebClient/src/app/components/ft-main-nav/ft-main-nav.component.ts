@@ -33,6 +33,7 @@ import { Utils } from "src/app/utils/utils";
 import { HeartbeatSender } from "src/app/utils/heartbeatSender";
 import { TraceTachDto } from "src/app/models/dtos/trace/traceTachDto";
 import { RtuStateAlarmIndicator } from "src/app/models/dtos/alarms/rtuStateAlarm";
+import { StateAccidentDto } from "src/app/models/dtos/stateAccidentDto";
 
 @Component({
   selector: "ft-main-nav",
@@ -44,6 +45,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   outletDiv: ElementRef<HTMLDivElement>;
   private heartbeatAskedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
+  private stateAccidentReceivedSubscription: Subscription;
   private traceTachedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
@@ -176,22 +178,22 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private subscribeUserSeenAlarms() {
     this.alarmsService.opticalEventConfirmed$.subscribe((sorFileId) => {
       console.log(`optical event ${sorFileId} has been seen`);
-      this.isOpticalAlarm = this.opticalAlarmIndicator.AlarmHasBeenSeen(
+      this.isOpticalAlarm = this.opticalAlarmIndicator.MarkAlarmHasBeenSeen(
         sorFileId
       );
     });
     this.alarmsService.networkEventConfirmed$.subscribe((eventId) => {
       console.log(`network event ${eventId} has been seen`);
-      this.isNetworkAlarm = this.networkAlarmIndicator.AlarmHasBeenSeen(
+      this.isNetworkAlarm = this.networkAlarmIndicator.MarkAlarmHasBeenSeen(
         eventId
       );
     });
     this.alarmsService.bopEventConfirmed$.subscribe((eventId) => {
-      this.isBopAlarm = this.bopAlarmIndicator.AlarmHasBeenSeen(eventId);
+      this.isBopAlarm = this.bopAlarmIndicator.MarkAlarmHasBeenSeen(eventId);
     });
     this.alarmsService.rtuStateAccidentConfirmed$.subscribe((accidentId) => {
       console.log(`rtu state accident ${accidentId} has been seen`);
-      this.isRtuStateAlarm = this.rtuStateAlarmIndicator.AlarmHasBeenSeen(
+      this.isRtuStateAlarm = this.rtuStateAlarmIndicator.MarkAlarmHasBeenSeen(
         accidentId
       );
     });
@@ -205,6 +207,9 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     );
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => this.onMeasurementAdded(signal)
+    );
+    this.stateAccidentReceivedSubscription = this.signalRService.stateAccidentEmitter.subscribe(
+      (signal: StateAccidentDto) => this.onStateAccidentReceived(signal)
     );
     this.traceTachedSubscription = this.signalRService.traceTachEmitter.subscribe(
       (signal: TraceTachDto) => this.onTraceTached(signal)
@@ -279,6 +284,11 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         signal
       );
     }
+  }
+
+  onStateAccidentReceived(signal: StateAccidentDto) {
+    this.isRtuStateAlarm =
+      this.rtuStateAlarmIndicator.RtuStateAccidentReceived(signal);
   }
 
   onTraceTached(signal: TraceTachDto) {

@@ -57,12 +57,12 @@ namespace Iit.Fibertest.Client
 
                 case ReturnCode.RtuManagerServiceWorking:
                     State = Resources.SID_RTU__OK;
-                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
-                    StateBackground = FiberState.Minor.GetBrush(false);
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
+                    StateBackground = Brushes.Transparent;
                     break;
                 case ReturnCode.RtuFrequentServiceRestarts:
                     State = Resources.SID_RTU__Attention_required_;
-                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = FiberState.Minor.GetBrush(false);
                     break;
 

@@ -5,11 +5,22 @@
     width: 100%;
   }
   
-  .mat-column-eventId {
-    max-width: 70px !important;
+  .mat-column-id {
+    max-width: 10px !important;
   }
-  
   .mat-column-eventRegistrationTimestamp {
+    max-width: 40px !important;
+  }
+  .mat-column-rtuTitle {
+    max-width: 150px !important;
+  }
+  .mat-column-traceTitle {
+    max-width: 150px !important;
+  }
+  .mat-column-state {
+    max-width: 40px !important;
+  }
+  .mat-column-explanation {
     max-width: 150px !important;
   }
   

@@ -61,3 +61,24 @@ export class BaseRefTypeFemalePipe implements PipeTransform {
     }
   }
 }
+
+
+@Pipe({
+  name: "BaseRefTypeToLocalizedGenitiveStringPipe"
+})
+export class BaseRefTypeGenitivePipe implements PipeTransform {
+  constructor(private ts: TranslateService) {}
+
+  transform(value: BaseRefType): string {
+    switch (value) {
+      case BaseRefType.Precise:
+        return this.ts.instant("SID_preciseG");
+      case BaseRefType.Fast:
+        return this.ts.instant("SID_fastG");
+      case BaseRefType.Additional:
+        return this.ts.instant("SID_secondG");
+      default:
+        return "";
+    }
+  }
+}

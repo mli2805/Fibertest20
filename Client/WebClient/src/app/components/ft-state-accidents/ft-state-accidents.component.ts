@@ -10,6 +10,9 @@ import { StateAccidentsDataSource } from './stateAccidentsDataSource';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { StateAccidentDto } from 'src/app/models/dtos/stateAccidentDto';
+import { ReturnCode } from 'src/app/models/enums/returnCode';
+import { ReturnCodePipe } from 'src/app/pipes/return-code.pipe';
+import { BaseRefTypeFemalePipe, BaseRefTypeGenitivePipe } from 'src/app/pipes/base-ref-type.pipe'
 
 @Component({
   selector: 'app-ft-state-accidents',
@@ -40,9 +43,11 @@ export class FtStateAccidentsComponent implements OnInit, AfterViewInit {
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private alarmsService: AlarmsService,
-    private ts: TranslateService
+    private ts: TranslateService,
+    private returnCodePipe: ReturnCodePipe,
+    private baseRefTypeFemalePipe: BaseRefTypeFemalePipe,
+    private baseRefTypeGenitivePipe: BaseRefTypeGenitivePipe,
   ) { 
-    console.log("RTU state accidents c-tor hit!");
     this.isCurrentEvents = true;
   }
 
@@ -54,7 +59,10 @@ export class FtStateAccidentsComponent implements OnInit, AfterViewInit {
       0,
       13
     );
+
+    this.signalRService.stateAccidentEmitter.subscribe(()=>this.loadPage());
   }
+
 
   ngAfterViewInit() {
     // server-side search
@@ -81,25 +89,43 @@ export class FtStateAccidentsComponent implements OnInit, AfterViewInit {
   }
   
   onContextMenu(event: MouseEvent, row: StateAccidentDto) {
-    this.alarmsService.confirmOpticalEvent(row.id);
+    this.alarmsService.confirmRtuStateAccident(row.id);
 
-    this.contextMenuPosition.x = event.clientX + "px";
-    this.contextMenuPosition.y = event.clientY + "px";
-    this.contextMenu.menuData = { row };
-    this.contextMenu.openMenu();
-    this.contextMenu.focus("mouse");
     event.preventDefault();
   }
 
   getState(dto: StateAccidentDto){
-    return "state";
+    if (dto.isMeasurementProblem){
+      return dto.returnCode === ReturnCode.MeasurementEndedNormally 
+        ? this.ts.instant("SID_Measurement__OK") : this.ts.instant("SID_Measurement__Failed_");
+    }
+    else {
+      return dto.returnCode === ReturnCode.RtuManagerServiceWorking 
+        ? this.ts.instant("SID_RTU__OK") : this.ts.instant("SID_RTU__Attention_required_");
+    }
   }
 
   getExplanation(dto: StateAccidentDto){
-    return "explanation"
+    let returnCodeString = this.returnCodePipe.transform(dto.returnCode);
+
+    if (dto.isMeasurementProblem){
+      if (dto.returnCode === ReturnCode.MeasurementEndedNormally)
+        return returnCodeString;
+      else if (dto.returnCode === ReturnCode.MeasurementBaseRefNotFound)
+        return `${this.baseRefTypeFemalePipe.transform(dto.baseRefType)} ${returnCodeString}`
+      else {
+        const genitive = this.baseRefTypeGenitivePipe.transform(dto.baseRefType);
+        return returnCodeString.replace('{{0}}', genitive);
+      }
+    }
+    else {
+      return returnCodeString;
+    }
   }
 
   getBackground(dto : StateAccidentDto){
+    if (dto.returnCode === ReturnCode.MeasurementEndedNormally || dto.returnCode === ReturnCode.RtuManagerServiceWorking)
+      return "transparent"
     return "red";
   }
 

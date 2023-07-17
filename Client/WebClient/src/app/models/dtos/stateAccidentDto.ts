@@ -7,7 +7,9 @@ export class StateAccidentDto {
     returnCode: ReturnCode;
 
     eventRegistrationTimestamp: Date;
+    rtuId: string;
     rtuTitle: string;
+    traceId: string;
     traceTitle: string;
     baseRefType: BaseRefType;
   

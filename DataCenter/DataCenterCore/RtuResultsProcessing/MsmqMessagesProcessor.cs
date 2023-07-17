@@ -110,11 +110,11 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var addRtuAccident = _measurementFactory.CreateRtuAccidentCommand(dto);
             var result = await _eventStoreService.SendCommand(addRtuAccident, "system", "OnServer");
-
             if (result != null)
                 _logFile.AppendLine($"SaveRtuAccident {result}");
 
-            // Notifications ?
+            var accident = _writeModel.RtuAccidents.Last();
+            await _ftSignalRClient.NotifyAll("AddAccident", accident.ToCamelCaseJson());
         }
 
         private async Task SaveEventFromDto(MonitoringResultDto dto, int sorId)

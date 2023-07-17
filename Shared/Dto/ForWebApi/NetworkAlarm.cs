@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Dto
 
     public class RtuStateAlarm
     {
-        public int AccidentId;
+        public int Id;
         public bool IsMeasurementProblem;
         public Guid RtuId;
         public Guid TraceId;

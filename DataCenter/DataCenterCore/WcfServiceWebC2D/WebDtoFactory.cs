@@ -241,7 +241,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         public static RtuStateAlarm CreateRtuAccidentAlarm(this RtuAccident a)
         {
-            return new RtuStateAlarm() { AccidentId = a.Id, HasBeenSeen = true };
+            return new RtuStateAlarm()
+            {
+                Id = a.Id,
+                IsMeasurementProblem = a.IsMeasurementProblem,
+                RtuId = a.RtuId,
+                TraceId = a.TraceId,
+                HasBeenSeen = true
+            };
         }
     }
 }

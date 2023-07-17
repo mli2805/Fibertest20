@@ -183,7 +183,6 @@ namespace Iit.Fibertest.Client
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 if (msg == null) continue;
                 var evnt = msg.Body;
-
                 try
                 {
                     _readModel.Apply(evnt);

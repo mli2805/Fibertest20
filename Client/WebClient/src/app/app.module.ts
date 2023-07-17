@@ -21,6 +21,7 @@ import {
   BaseRefPipe,
   BaseRefTypePipe,
   BaseRefTypeFemalePipe,
+  BaseRefTypeGenitivePipe,
 } from "./pipes/base-ref-type.pipe";
 
 import { TranslateService, TranslateModule } from "@ngx-translate/core";
@@ -100,6 +101,7 @@ import { FtStateAccidentsComponent } from './components/ft-state-accidents/ft-st
     BaseRefPipe,
     BaseRefTypePipe,
     BaseRefTypeFemalePipe,
+    BaseRefTypeGenitivePipe,
     TraceMonitoringModeUriPipe,
     BooleanUriPipe,
     ReturnCodePipe,
@@ -155,7 +157,10 @@ import { FtStateAccidentsComponent } from './components/ft-state-accidents/ft-st
     ReturnCodePipe,
     EventStatusPipe,
     FtRtuTreeEventService,
-  ],
+    BaseRefTypePipe,
+    BaseRefTypeFemalePipe,
+    BaseRefTypeGenitivePipe,
+   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

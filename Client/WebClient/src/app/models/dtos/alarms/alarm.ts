@@ -12,7 +12,7 @@ export class AlarmIndicator {
     this.list = undefined;
   }
 
-  public AlarmHasBeenSeen(id: number): string {
+  public MarkAlarmHasBeenSeen(id: number): string {
     const alarmsJson = sessionStorage.getItem(this.inStorageName);
     this.list = JSON.parse(alarmsJson) as IAlarm[];
     const alarm = this.list.find((a) => a.id === id);
@@ -26,6 +26,7 @@ export class AlarmIndicator {
   public GetIndicator(): string {
     if (this.list === undefined) {
       const alarmsJson = sessionStorage.getItem(this.inStorageName);
+      console.log(`${this.inStorageName} ${alarmsJson}`);
       if (alarmsJson === null) {
         return "";
       } else {
@@ -33,15 +34,10 @@ export class AlarmIndicator {
       }
     }
     if (this.list.length === 0) {
-      console.log(`${this.inStorageName} has no accidents`)
       return "ok";
     }
     const hasNotSeenAlarms = this.list.filter((a) => a.hasBeenSeen === false);
-    console.log(
-      `${this.inStorageName} that has not been seen yet: ${hasNotSeenAlarms.length}`
-    );
     if (hasNotSeenAlarms.length > 0) {
-      console.log(hasNotSeenAlarms);
       return "alarmExclamation";
     } else {
       return "alarm";
