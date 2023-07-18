@@ -62,6 +62,10 @@ export class ReturnCodePipe implements PipeTransform {
           return this.ts.instant("SID_base_ref_not_found");
       case ReturnCode.MeasurementFailedToSetParametersFromBase:
           return this.ts.instant("SID_Failed_to_set_parameters_from__0__base");
+      case ReturnCode.MeasurementAnalysisFailed:
+          return this.ts.instant("SID_Failed_to_analyze_measured_reflectogram");
+      case ReturnCode.MeasurementComparisonFailed:
+          return this.ts.instant("SID_Error_during_comparison_with_base_ref");
       case ReturnCode.MeasurementInterrupted:
           return this.ts.instant("SID_Measurement_interrupted");
       case ReturnCode.MeasurementTimeoutExpired:
