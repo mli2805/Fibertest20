@@ -3324,7 +3324,7 @@ Please try again later</value>
 		<value>Measurement timeout expired</value>
 	</data>
 	<data name="SID_Measurement_completed_successfully" xml:space="preserve">
-		<value>Measurement completed successfully</value>
+		<value>Measurement and analysis completed successfully</value>
 	</data>
 	<data name="SID_Base_refs_assigned_successfully" xml:space="preserve">
 		<value>Base refs assigned successfully</value>

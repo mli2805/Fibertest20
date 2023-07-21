@@ -3324,7 +3324,7 @@ RTU инициализируется в данный момент!</value>
     <value>Таймаут на проведение измерения истек</value>
   </data>
 	<data name="SID_Measurement_completed_successfully" xml:space="preserve">
-    <value>Измерение завершено успешно</value>
+    <value>Измерение и анализ завершены успешно</value>
   </data>
 	<data name="SID_Base_refs_assigned_successfully" xml:space="preserve">
     <value>Базовые рефлектограммы заданы успешно</value>
