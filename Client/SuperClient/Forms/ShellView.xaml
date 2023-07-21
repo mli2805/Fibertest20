@@ -6,7 +6,14 @@
         xmlns:sc="clr-namespace:Iit.Fibertest.SuperClient"
         WindowState="Maximized" d:DataContext="{d:DesignInstance sc:ShellViewModel}">
     <DockPanel >
-        <sc:ServersView DockPanel.Dock="Left" DataContext="{Binding ServersViewModel}"/>
+        <DockPanel DockPanel.Dock="Left">
+            <ToolBarTray DockPanel.Dock="Top">
+                <ToolBar>
+                    <Button Name="ShowClientVersions" Content="Show client version"></Button>
+                </ToolBar>
+            </ToolBarTray>
+            <sc:ServersView DataContext="{Binding ServersViewModel}"/>
+        </DockPanel>
         <sc:GasketView DataContext="{Binding GasketViewModel}"/>
     </DockPanel>
 

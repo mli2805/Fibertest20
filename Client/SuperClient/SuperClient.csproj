@@ -90,6 +90,10 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacSuperClient.cs" />
     <Compile Include="ChildStarter.cs" />
+    <Compile Include="Forms\ClientVersionsView.xaml.cs">
+      <DependentUpon>ClientVersionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ClientVersionsViewModel.cs" />
     <Compile Include="Forms\ServersView.xaml.cs">
       <DependentUpon>ServersView.xaml</DependentUpon>
     </Compile>
@@ -108,7 +112,12 @@
     </Compile>
     <Compile Include="SuperClientWcfService.cs" />
     <Compile Include="SuperClientWcfServiceHost.cs" />
+    <Compile Include="Utils\Utils.cs" />
     <Page Include="Forms\AddServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\ClientVersionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,5 +219,6 @@
       <Version>13.0.2</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

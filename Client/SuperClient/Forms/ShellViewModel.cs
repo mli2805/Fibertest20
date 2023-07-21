@@ -40,6 +40,14 @@ namespace Iit.Fibertest.SuperClient
             _superClientWcfServiceHost.StartWcfListener();
         }
 
+        public void ShowClientVersions()
+        {
+            var lines = Utils.GetClientVersions();
+            var vm = new ClientVersionsViewModel();
+            vm.Initialize(lines);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public override async void CanClose(Action<bool> callback)
         {
             var question = Resources.SID_Close_application_;
