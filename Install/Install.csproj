@@ -70,6 +70,10 @@
       <DependentUpon>InstallationFolderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\InstallationFolderViewModel.cs" />
+    <Compile Include="Controls\InstallationSettingsForSuperClientView.xaml.cs">
+      <DependentUpon>InstallationSettingsForSuperClientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InstallationSettingsForSuperClientViewModel.cs" />
     <Compile Include="Controls\InstSettingsForClientView.xaml.cs">
       <DependentUpon>InstSettingsForClientView.xaml</DependentUpon>
     </Compile>
@@ -114,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InstallationFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InstallationSettingsForSuperClientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

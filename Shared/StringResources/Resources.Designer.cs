@@ -4355,7 +4355,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 220099, the Republic of Belarus, Minsk, Kazintsa st., 11A, office 304a.
+        ///   Looks up a localized string similar to 220099, the Republic of Belarus, Minsk, Kazintsa st., 11A, office a304.
         /// </summary>
         public static string SID_Iit_address {
             get {
@@ -5417,7 +5417,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Measurement completed successfully.
+        ///   Looks up a localized string similar to Measurement and analysis completed successfully.
         /// </summary>
         public static string SID_Measurement_completed_successfully {
             get {

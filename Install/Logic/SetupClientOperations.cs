@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Install
     {
         private readonly IMyLog _logFile;
         private const string SourcePathClient = @"..\ClientFiles";
-        private const string ClientSubdir = @"Client\bin";
+        private const string ClientSubdir = @"{0}\bin";
         private const string SourcePathReflect = @"..\RftsReflect";
         private const string ReflectSubdir = @"RftsReflect";
         private const string SourcePathUserGuide = @"..\UserGuide";
@@ -27,7 +27,8 @@ namespace Iit.Fibertest.Install
             worker.ReportProgress((int)BwReturnProgressCode.ClientSetupStarted);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
 
-            var fullClientPath = Path.Combine(currentInstallation.InstallationFolder, ClientSubdir);
+            var clientFolder = string.Format(ClientSubdir, currentInstallation.ClientInstallationFolder);
+            var fullClientPath = Path.Combine(currentInstallation.InstallationFolder, clientFolder);
             _logFile.AppendLine($" full client path = {fullClientPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient,
                 fullClientPath, worker))

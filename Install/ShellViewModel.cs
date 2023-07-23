@@ -232,6 +232,7 @@ namespace Iit.Fibertest.Install
 
             _currentInstallation.IsHighDensityGraph =
                 InstTypeChoiceViewModel.InstSettingsForClientViewModel.IsHighDensityGraph;
+            _currentInstallation.SetClientInstallationFolder(InstTypeChoiceViewModel.InstallationSettingsForSuperClientViewModel.IsR1Checked);
 
             _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.InstSettingsForServerViewModel.MySqlTcpPort;
             _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.InstSettingsForServerViewModel.IsWebNeeded;
