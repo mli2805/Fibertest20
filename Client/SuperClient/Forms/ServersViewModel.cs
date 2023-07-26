@@ -29,7 +29,8 @@ namespace Iit.Fibertest.SuperClient
                 if (Equals(value, _selectedFtServer)) return;
                 _selectedFtServer = value;
                 NotifyOfPropertyChange();
-                _gasketViewModel.BringTabItemToFront(_selectedFtServer.Entity.Postfix);
+                if (_selectedFtServer != null)
+                    _gasketViewModel.BringTabItemToFront(_selectedFtServer.Entity.Postfix);
             }
         }
 
@@ -71,7 +72,7 @@ namespace Iit.Fibertest.SuperClient
                 var vm = new MyMessageBoxViewModel(MessageType.Error, strs, 2);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
-            } 
+            }
             server.ServerConnectionState = FtServerConnectionState.Connected;
             server.SystemState = isStateOk ? FtSystemState.AllIsOk : FtSystemState.ThereAreAnyProblem;
         }

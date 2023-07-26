@@ -8,5 +8,9 @@
         public int ServerTcpPort { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+
+        public string ServerVersion { get; set; }
+        public string PathToClient { get; set; }
+        public string ClientVersion { get; set; }
     }
 }

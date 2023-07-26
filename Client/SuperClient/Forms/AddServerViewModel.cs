@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
@@ -13,6 +15,7 @@ namespace Iit.Fibertest.SuperClient
         private readonly ILifetimeScope _globalScope;
         private readonly FtServerList _ftServerList;
         private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
+        private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         private bool _isAddMode;
@@ -22,18 +25,20 @@ namespace Iit.Fibertest.SuperClient
 
         public string ServerIp { get; set; }
 
-        public int ServerTcpPort { get; set; } = 11840;
+        public int ServerTcpPort { get; set; }
+        public string ServerVersion { get; set; }
 
         public string Username { get; set; } = @"superclient";
 
         public string Password { get; set; } = @"superclient";
 
         public AddServerViewModel(ILifetimeScope globalScope, FtServerList ftServerList,
-            DesktopC2DWcfManager desktopC2DWcfManager, IWindowManager windowManager)
+            DesktopC2DWcfManager desktopC2DWcfManager, CommonC2DWcfManager commonC2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _ftServerList = ftServerList;
             _desktopC2DWcfManager = desktopC2DWcfManager;
+            _commonC2DWcfManager = commonC2DWcfManager;
             _windowManager = windowManager;
         }
 
@@ -45,7 +50,7 @@ namespace Iit.Fibertest.SuperClient
                 _isAddMode = true;
                 ServerTitle = "";
                 ServerIp = "";
-                ServerTcpPort = 11840;
+                ServerTcpPort = (int)TcpPorts.ServerListenToDesktopClient;
                 Username = @"superclient";
                 Password = @"superclient";
             }
@@ -55,6 +60,7 @@ namespace Iit.Fibertest.SuperClient
                 ServerTitle = serverEntity.ServerTitle;
                 ServerIp = serverEntity.ServerIp;
                 ServerTcpPort = serverEntity.ServerTcpPort;
+                ServerVersion = serverEntity.ServerVersion;
                 Username = serverEntity.Username;
                 Password = serverEntity.Password;
             }
@@ -65,7 +71,7 @@ namespace Iit.Fibertest.SuperClient
             DisplayName = _isAddMode ? Resources.SID_Add_server : Resources.SID_Edit_settings;
         }
 
-        public async void CheckConnection()
+        public async void CheckAddress()
         {
             var addressForTesting = new DoubleAddress()
             {
@@ -87,9 +93,62 @@ namespace Iit.Fibertest.SuperClient
             _windowManager.ShowDialogWithAssignedOwner(messageBoxModel);
         }
 
+        public async void CheckConnection()
+        {
+            var desktopServiceAddress = new DoubleAddress()
+            {
+                HasReserveAddress = false,
+                Main = new NetAddress(ServerIp, ServerTcpPort),
+            };
+            var commonServiceAddress = (DoubleAddress)desktopServiceAddress.Clone();
+            commonServiceAddress.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
+            _commonC2DWcfManager.SetServerAddresses(commonServiceAddress, Username, "");
+
+            var connectionId = Guid.NewGuid().ToString();
+            var clientAddress = new DoubleAddress()
+            {   // client's address does not matter here
+                Main = new NetAddress(@"1.1.1.1", TcpPorts.ClientListenTo)
+            };
+            var dto = new RegisterClientDto()
+            {
+                UserName = Username,
+                Password = Password.GetHashString(),
+                ConnectionId = connectionId,
+                Addresses = clientAddress,
+                IsUnderSuperClient = true,
+            };
+            ClientRegisteredDto result;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                result = await _commonC2DWcfManager.RegisterClientAsync(dto);
+                if (result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
+                {
+                    ServerVersion = result.DatacenterVersion;
+                    NotifyOfPropertyChange(nameof(ServerVersion));
+                    var unDto = new UnRegisterClientDto()
+                    {
+                        ConnectionId = connectionId,
+                        Username = Username,
+                        ClientIp = clientAddress.Main.Ip4Address,
+                    };
+                    await _commonC2DWcfManager.UnregisterClientAsync(unDto);
+                }
+            }
+
+            var message = result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully
+                ? Resources.SID_Connection_established_successfully_
+                : result.ReturnCode.GetLocalizedString();
+
+            var vm = new MyMessageBoxViewModel(MessageType.Information, message);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public void Save()
         {
-            if (_isAddMode) SaveNew(); else UpdateExisted();
+            if (_isAddMode)
+                SaveNew();
+            else
+                UpdateExisted();
             TryClose();
         }
 
@@ -114,6 +173,7 @@ namespace Iit.Fibertest.SuperClient
             _entity.ServerTitle = ServerTitle;
             _entity.ServerIp = ServerIp;
             _entity.ServerTcpPort = ServerTcpPort;
+            _entity.ServerVersion = ServerVersion;
             _entity.Username = Username;
             _entity.Password = Password;
 

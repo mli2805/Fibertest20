@@ -22,10 +22,10 @@
         </StackPanel>
         <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
             <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_tcp_port}" TextAlignment="Right" />
-            <TextBox Margin="15,0" Width="120" Text="{Binding ServerTcpPort}" />
+            <TextBlock Margin="15,0" Width="120" Text="{Binding ServerTcpPort}" />
         </StackPanel>
-
-        <Button DockPanel.Dock="Top" Name="CheckConnection"
+      
+        <Button DockPanel.Dock="Top" Name="CheckAddress"
                 Content="{x:Static stringResources:Resources.SID_Test}" Margin="0,10,30,15" Width="120"
                 HorizontalAlignment="Right" />
 
@@ -39,6 +39,16 @@
                          wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="15,0" Width="120" />
         </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="Server version" TextAlignment="Right" />
+            <TextBlock Margin="15,0" Width="120" Text="{Binding ServerVersion}" />
+        </StackPanel>
+
+        
+        <Button DockPanel.Dock="Top" Name="CheckConnection"
+                Content="Test connection" Margin="0,10,30,15" Width="120"
+                HorizontalAlignment="Right" />
 
 
     </DockPanel>

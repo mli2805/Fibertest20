@@ -12,6 +12,7 @@ namespace Iit.Fibertest.SuperClient
         {
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<D2CWcfManager>().SingleInstance();
+            builder.RegisterType<CommonC2DWcfManager>().SingleInstance();
             builder.RegisterType<DesktopC2DWcfManager>().SingleInstance();
 
             builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
