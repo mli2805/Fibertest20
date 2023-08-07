@@ -42,7 +42,7 @@ namespace Iit.Fibertest.SuperClient
 
         public void ShowClientVersions()
         {
-            var lines = Utils.GetClientVersions();
+            var lines = Utils.GetClients().ListForView();
             var vm = new ClientVersionsViewModel();
             vm.Initialize(lines);
             _windowManager.ShowDialogWithAssignedOwner(vm);

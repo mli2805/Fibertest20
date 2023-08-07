@@ -90,6 +90,10 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacSuperClient.cs" />
     <Compile Include="ChildStarter.cs" />
+    <Compile Include="Forms\ClientSelectionView.xaml.cs">
+      <DependentUpon>ClientSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ClientSelectionViewModel.cs" />
     <Compile Include="Forms\ClientVersionsView.xaml.cs">
       <DependentUpon>ClientVersionsView.xaml</DependentUpon>
     </Compile>
@@ -114,6 +118,10 @@
     <Compile Include="SuperClientWcfServiceHost.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Page Include="Forms\AddServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\ClientSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

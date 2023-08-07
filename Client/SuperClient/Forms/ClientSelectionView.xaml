@@ -1,0 +1,24 @@
+﻿<Window x:Class="Iit.Fibertest.SuperClient.ClientSelectionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:superClient="clr-namespace:Iit.Fibertest.SuperClient"
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance superClient:ClientSelectionViewModel}"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <ListBox BorderThickness="0" ItemsSource="{Binding Header}" HorizontalContentAlignment="Center" Width="500"/>
+        <ItemsControl BorderThickness="0" Padding="10" ItemsSource="{Binding Clients}" HorizontalAlignment="Center">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton Margin="5" GroupName="1" IsChecked="{Binding IsChecked}" 
+                                 Content="{Binding RadioButtonContent}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <StackPanel Orientation="Horizontal" Margin="0, 20" HorizontalAlignment="Center">
+            <Button Name="Apply" Content="Apply" Width="120" Margin="5"/>
+            <Button Name="Cancel" Content="Cancel" Width="120" Margin="5"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

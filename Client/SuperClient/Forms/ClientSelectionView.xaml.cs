@@ -1,14 +1,13 @@
 ﻿namespace Iit.Fibertest.SuperClient
 {
     /// <summary>
-    /// Interaction logic for AddServerView.xaml
+    /// Interaction logic for ClientSelectionView.xaml
     /// </summary>
-    public partial class AddServerView
+    public partial class ClientSelectionView
     {
-        public AddServerView()
+        public ClientSelectionView()
         {
             InitializeComponent();
         }
-
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -28,6 +30,30 @@ namespace Iit.Fibertest.SuperClient
         public int ServerTcpPort { get; set; }
         public string ServerVersion { get; set; }
 
+        private string _clientVersion;
+        public string ClientVersion
+        {
+            get => _clientVersion;
+            set
+            {
+                if (value == _clientVersion) return;
+                _clientVersion = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _clientFolder;
+        public string ClientFolder
+        {
+            get => _clientFolder;
+            set
+            {
+                if (value == _clientFolder) return;
+                _clientFolder = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public string Username { get; set; } = @"superclient";
 
         public string Password { get; set; } = @"superclient";
@@ -53,6 +79,10 @@ namespace Iit.Fibertest.SuperClient
                 ServerTcpPort = (int)TcpPorts.ServerListenToDesktopClient;
                 Username = @"superclient";
                 Password = @"superclient";
+
+                ServerVersion = "";
+                ClientVersion = "";
+                ClientFolder = "";
             }
             else
             {
@@ -61,6 +91,8 @@ namespace Iit.Fibertest.SuperClient
                 ServerIp = serverEntity.ServerIp;
                 ServerTcpPort = serverEntity.ServerTcpPort;
                 ServerVersion = serverEntity.ServerVersion;
+                ClientVersion = serverEntity.ClientVersion;
+                ClientFolder = serverEntity.ClientFolder;
                 Username = serverEntity.Username;
                 Password = serverEntity.Password;
             }
@@ -93,7 +125,13 @@ namespace Iit.Fibertest.SuperClient
             _windowManager.ShowDialogWithAssignedOwner(messageBoxModel);
         }
 
-        public async void CheckConnection()
+        public async void CheckConnectionButton()
+        {
+            var result = await CheckConnection();
+            ProcessResult(result);
+        }
+
+        private async Task<ClientRegisteredDto> CheckConnection()
         {
             var desktopServiceAddress = new DoubleAddress()
             {
@@ -134,14 +172,84 @@ namespace Iit.Fibertest.SuperClient
                     await _commonC2DWcfManager.UnregisterClientAsync(unDto);
                 }
             }
-
-            var message = result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully
-                ? Resources.SID_Connection_established_successfully_
-                : result.ReturnCode.GetLocalizedString();
-
-            var vm = new MyMessageBoxViewModel(MessageType.Information, message);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            return result;
         }
+
+        private ClientList _clientList;
+     
+        private void ProcessResult(ClientRegisteredDto result)
+        {
+            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ReturnCode.GetLocalizedString());
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+
+            ServerVersion = result.DatacenterVersion;
+
+            _clientList = Utils.GetClients();
+            if (!_clientList.IsSuccess)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, _clientList.ErrorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+
+            var match = _clientList.Clients.FirstOrDefault(c => c.Version == result.DatacenterVersion);
+
+            if (match == null)
+            {
+                var vm = new ClientSelectionViewModel();
+                vm.Initialize(result.DatacenterVersion, _clientList);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            }
+            else
+            {
+                var list = new List<string>() { Resources.SID_Connection_established_successfully_ };
+
+                if (_entity == null || _entity.ServerVersion != ServerVersion)
+                {
+                    list.Add("");
+                    list.Add("Matching client found and will be used.");
+                    list.Add($@"({match.Path})");
+                    list.Add("");
+                }
+
+                ClientVersion = match.Version;
+                ClientFolder = match.Path;
+
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Information, list));
+
+            }
+        }
+
+        public void SelectClient()
+        {
+            var vm = new ClientSelectionViewModel();
+            if (_clientList == null)
+            {
+                _clientList = Utils.GetClients();
+                if (!_clientList.IsSuccess)
+                {
+                    var mb = new MyMessageBoxViewModel(MessageType.Error, _clientList.ErrorMessage);
+                    _windowManager.ShowDialogWithAssignedOwner(mb);
+                    return;
+                }
+            }
+
+            vm.Initialize(ServerVersion, _clientList);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (vm.IsApplyPressed)
+            {
+                var cl = vm.Clients.First(c => c.IsChecked);
+                ClientVersion = cl.Version;
+                ClientFolder = cl.Path;
+            }
+        }
+
 
         public void Save()
         {
@@ -162,6 +270,9 @@ namespace Iit.Fibertest.SuperClient
                 ServerTitle = ServerTitle,
                 ServerIp = ServerIp,
                 ServerTcpPort = ServerTcpPort,
+                ServerVersion = ServerVersion,
+                ClientVersion = ClientVersion,
+                ClientFolder = ClientFolder,
                 Username = Username,
                 Password = Password,
             };
@@ -174,6 +285,8 @@ namespace Iit.Fibertest.SuperClient
             _entity.ServerIp = ServerIp;
             _entity.ServerTcpPort = ServerTcpPort;
             _entity.ServerVersion = ServerVersion;
+            _entity.ClientVersion = ClientVersion;
+            _entity.ClientFolder = ClientFolder;
             _entity.Username = Username;
             _entity.Password = Password;
 

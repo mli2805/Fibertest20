@@ -24,10 +24,9 @@
             <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_tcp_port}" TextAlignment="Right" />
             <TextBlock Margin="15,0" Width="120" Text="{Binding ServerTcpPort}" />
         </StackPanel>
-      
-        <Button DockPanel.Dock="Top" Name="CheckAddress"
-                Content="{x:Static stringResources:Resources.SID_Test}" Margin="0,10,30,15" Width="120"
-                HorizontalAlignment="Right" />
+
+        <Button DockPanel.Dock="Top" Name="CheckAddress" HorizontalAlignment="Right"
+                Content="{x:Static stringResources:Resources.SID_Test}" Margin="0,10,30,15" Width="120"/>
 
         <StackPanel DockPanel.Dock="Top" Margin="45,15,5,5" Orientation="Horizontal">
             <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_User_name}" TextAlignment="Right" />
@@ -44,10 +43,22 @@
             <TextBlock Margin="5,0" Width="120" Text="Server version" TextAlignment="Right" />
             <TextBlock Margin="15,0" Width="120" Text="{Binding ServerVersion}" />
         </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="Client version" TextAlignment="Right" />
+            <TextBlock Margin="15,0" Width="120" Text="{Binding ClientVersion}" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="Client's folder" TextAlignment="Right" />
+            <TextBlock Margin="15,0" Width="120" Height="40" TextWrapping="Wrap" Text="{Binding ClientFolder}" />
+        </StackPanel>
 
-        
-        <Button DockPanel.Dock="Top" Name="CheckConnection"
+
+        <Button DockPanel.Dock="Top" Name="CheckConnectionButton"
                 Content="Test connection" Margin="0,10,30,15" Width="120"
+                HorizontalAlignment="Right" />
+
+    <Button DockPanel.Dock="Top" Name="SelectClient"
+                Content="Select client" Margin="0,10,30,15" Width="120"
                 HorizontalAlignment="Right" />
 
 

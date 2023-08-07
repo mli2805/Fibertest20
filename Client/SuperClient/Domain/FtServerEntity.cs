@@ -10,7 +10,7 @@
         public string Password { get; set; }
 
         public string ServerVersion { get; set; }
-        public string PathToClient { get; set; }
+        public string ClientFolder { get; set; }
         public string ClientVersion { get; set; }
     }
 }

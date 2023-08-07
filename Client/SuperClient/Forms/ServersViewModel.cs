@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
@@ -52,6 +53,22 @@ namespace Iit.Fibertest.SuperClient
 
         public void ConnectServer()
         {
+            if (string.IsNullOrEmpty(SelectedFtServer.Entity.ClientFolder))
+            {
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Error, new List<string>(){
+                        "The version of the Client software", "for connecting to this server is not specified.", "", "Check server settings, please."}));
+                return;
+            }
+
+            if (!Directory.Exists(SelectedFtServer.Entity.ClientFolder))
+            {
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Error, new List<string>(){
+                        "Specified folder of the Client software", "does not exist!", "", "Check server settings, please."}));
+                return;
+            }
+
             _logFile.AppendLine($@"User asks connection to {SelectedFtServer.Entity.ServerTitle}");
             _childStarter.StartFtClient(SelectedFtServer.Entity);
         }
