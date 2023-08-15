@@ -63,7 +63,8 @@ namespace Iit.Fibertest.Install
 
             IniOperations.SetParamIntoClientIniFile(currentInstallation.FullClientFolder, currentInstallation.IsHighDensityGraph);
 
-            ShortcutOperatios.CreateClientShortcut(fullClientPath);
+            if (currentInstallation.InstallationType == InstallationType.Client)
+                ShortcutOperatios.CreateClientShortcut(fullClientPath);
             ShortcutOperatios.CreateReflectShortcut(fullReflectPath);
             worker.ReportProgress((int)BwReturnProgressCode.ShortcutsAreCreatedSuccessfully);
 
