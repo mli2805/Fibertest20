@@ -198,14 +198,7 @@ namespace Iit.Fibertest.SuperClient
 
             var match = _clientList.Clients.FirstOrDefault(c => c.Version == result.DatacenterVersion);
 
-            if (match == null)
-            {
-                var vm = new ClientSelectionViewModel();
-                vm.Initialize(result.DatacenterVersion, _clientList);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-
-            }
-            else
+            if (match != null)
             {
                 var list = new List<string>() { Resources.SID_Connection_established_successfully_ };
 
@@ -222,7 +215,6 @@ namespace Iit.Fibertest.SuperClient
 
                 _windowManager.ShowDialogWithAssignedOwner(
                     new MyMessageBoxViewModel(MessageType.Information, list));
-
             }
         }
 

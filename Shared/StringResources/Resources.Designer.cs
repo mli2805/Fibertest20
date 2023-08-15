@@ -8046,6 +8046,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Client software version.
+        /// </summary>
+        public static string SID_Select_client_software_version {
+            get {
+                return ResourceManager.GetString("SID_Select_client_software_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select equipment.
         /// </summary>
         public static string SID_Select_equipment {
@@ -8218,6 +8227,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server info.
+        /// </summary>
+        public static string SID_Server_info {
+            get {
+                return ResourceManager.GetString("SID_Server_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server IP address.
         /// </summary>
         public static string SID_Server_ip_address {
@@ -8241,6 +8259,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Server_performance_improvement {
             get {
                 return ResourceManager.GetString("SID_Server_performance_improvement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server software version.
+        /// </summary>
+        public static string SID_Server_software_version {
+            get {
+                return ResourceManager.GetString("SID_Server_software_version", resourceCulture);
             }
         }
         
@@ -9078,6 +9105,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Test {
             get {
                 return ResourceManager.GetString("SID_Test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test connection.
+        /// </summary>
+        public static string SID_Test_connection {
+            get {
+                return ResourceManager.GetString("SID_Test_connection", resourceCulture);
             }
         }
         

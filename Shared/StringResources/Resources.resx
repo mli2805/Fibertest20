@@ -3620,4 +3620,16 @@ Please try again later</value>
 	<data name="SID_Error_during_comparison_with_base_ref" xml:space="preserve">
 		<value>Error during comparison with base ref</value>
 	</data>
+	<data name="SID_Select_client_software_version" xml:space="preserve">
+		<value>Select Client software version</value>
+	</data>
+	<data name="SID_Server_info" xml:space="preserve">
+		<value>Server info</value>
+	</data>
+	<data name="SID_Test_connection" xml:space="preserve">
+		<value>Test connection</value>
+	</data>
+	<data name="SID_Server_software_version" xml:space="preserve">
+		<value>Server software version</value>
+	</data>
 </root>

@@ -3620,4 +3620,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Error_during_comparison_with_base_ref" xml:space="preserve">
 		<value>Ошибка сравнения с базовой рефлектограммой</value>
 	</data>
+	<data name="SID_Select_client_software_version" xml:space="preserve">
+		<value>Выберите версию ПК Client</value>
+	</data>
+	<data name="SID_Server_info" xml:space="preserve">
+		<value>Данные сервера</value>
+	</data>
+	<data name="SID_Test_connection" xml:space="preserve">
+		<value>Проверка соединения</value>
+	</data>
+	<data name="SID_Server_software_version" xml:space="preserve">
+		<value>Версия ПК Server</value>
+	</data>
 </root>

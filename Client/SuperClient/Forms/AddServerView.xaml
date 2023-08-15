@@ -8,59 +8,66 @@
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" d:DataContext="{d:DesignData AddServerViewModel}">
     <DockPanel Margin="5">
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="15,5,25,15" HorizontalAlignment="Right">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="15,15,25,5" HorizontalAlignment="Right">
             <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Margin="5" Width="120" />
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Margin="5" Width="120" />
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="45,15,5,5" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_title}" TextAlignment="Right" />
-            <TextBox Margin="15,0" Width="120" Text="{Binding ServerTitle}" />
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_ip_address}" TextAlignment="Right" />
-            <TextBox Margin="15,0" Width="120" Text="{Binding ServerIp}" />
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_tcp_port}" TextAlignment="Right" />
-            <TextBlock Margin="15,0" Width="120" Text="{Binding ServerTcpPort}" />
-        </StackPanel>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Server_info}" DockPanel.Dock="Top" Margin="5">
+            <StackPanel>
+                <StackPanel  Margin="45,15,5,5" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_title}" TextAlignment="Right" />
+                    <TextBox Margin="15,0" Width="120" Text="{Binding ServerTitle}" />
+                </StackPanel>
+                <StackPanel Margin="45,5,5,5" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_ip_address}" TextAlignment="Right" />
+                    <TextBox Margin="15,0" Width="120" Text="{Binding ServerIp}" />
+                </StackPanel>
+                <StackPanel Margin="45,5,5,5" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_tcp_port}" TextAlignment="Right" />
+                    <TextBlock Margin="15,0" Width="120" Text="{Binding ServerTcpPort}" />
+                </StackPanel>
 
-        <Button DockPanel.Dock="Top" Name="CheckAddress" HorizontalAlignment="Right"
-                Content="{x:Static stringResources:Resources.SID_Test}" Margin="0,10,30,15" Width="120"/>
-
-        <StackPanel DockPanel.Dock="Top" Margin="45,15,5,5" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_User_name}" TextAlignment="Right" />
-            <TextBox Margin="15,0" Width="120" Text="{Binding Username}" />
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,15" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_User_password}" TextAlignment="Right" />
-            <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"
+                <Button  Name="CheckAddress" HorizontalAlignment="Right"
+                Content="{x:Static stringResources:Resources.SID_Test}" Margin="0,10,20,15" Width="200"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Test_connection}" DockPanel.Dock="Top" Margin="5">
+            <StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="45,15,5,5" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_User_name}" TextAlignment="Right" />
+                    <TextBox Margin="15,0" Width="120" Text="{Binding Username}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="45,5,5,15" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_User_password}" TextAlignment="Right" />
+                    <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"
                          wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="15,0" Width="120" />
-        </StackPanel>
+                </StackPanel>
 
-        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="Server version" TextAlignment="Right" />
-            <TextBlock Margin="15,0" Width="120" Text="{Binding ServerVersion}" />
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="Client version" TextAlignment="Right" />
-            <TextBlock Margin="15,0" Width="120" Text="{Binding ClientVersion}" />
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
-            <TextBlock Margin="5,0" Width="120" Text="Client's folder" TextAlignment="Right" />
-            <TextBlock Margin="15,0" Width="120" Height="40" TextWrapping="Wrap" Text="{Binding ClientFolder}" />
-        </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_software_version}" TextAlignment="Right" />
+                    <TextBlock Margin="15,0" Width="120" Text="{Binding ServerVersion}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Client_software_version}" TextAlignment="Right" />
+                    <TextBlock Margin="15,0" Width="120" Text="{Binding ClientVersion}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+                    <TextBlock Margin="5,0" Width="120" Text="Client's folder" TextAlignment="Right" />
+                    <TextBlock Margin="15,0" Width="120" Height="40" TextWrapping="Wrap" Text="{Binding ClientFolder}" />
+                </StackPanel>
 
 
-        <Button DockPanel.Dock="Top" Name="CheckConnectionButton"
-                Content="Test connection" Margin="0,10,30,15" Width="120"
+                <Button DockPanel.Dock="Top" Name="CheckConnectionButton"
+                Content="{x:Static stringResources:Resources.SID_Test}" Margin="0,10,20,15" Width="200"
                 HorizontalAlignment="Right" />
 
-    <Button DockPanel.Dock="Top" Name="SelectClient"
-                Content="Select client" Margin="0,10,30,15" Width="120"
+                <Button DockPanel.Dock="Top" Name="SelectClient"
+                Content="{x:Static stringResources:Resources.SID_Select_client_software_version}" Margin="0,10,20,15" Width="200"
                 HorizontalAlignment="Right" />
 
+            </StackPanel>
+        </GroupBox>
 
     </DockPanel>
 </Window>
