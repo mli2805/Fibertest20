@@ -11,6 +11,7 @@
         public InstallationType InstallationType;
 
         public string ClientInstallationFolder = "Client";
+        public string FullClientFolder => InstallationFolder + "/" + ClientInstallationFolder;
 
         public bool IsHighDensityGraph;
 
@@ -22,18 +23,16 @@
         public string SslCertificatePassword;
         public string SslCertificateDomain;
 
-        public void SetClientInstallationFolder(bool isReinstall)
+        // installation type could be Client, but if SuperClient folder is found set Client's folder as Client.XXXX
+        public void SetClientInstallationFolder(bool isUnderSuper)
         {
-            if (isReinstall)
-            {
-                ClientInstallationFolder = "Client";
-                return;
-            }
+            ClientInstallationFolder = isUnderSuper ? $"Client.{ProductRevision()}" : "Client";
+        }
 
+        private string ProductRevision()
+        {
             var last = ProductVersion.LastIndexOf('.');
-            var revision = ProductVersion.Substring(last + 1);
-
-            ClientInstallationFolder = $"Client.{revision}";
+            return ProductVersion.Substring(last + 1);
         }
     }
 }

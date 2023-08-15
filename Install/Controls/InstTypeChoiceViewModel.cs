@@ -24,7 +24,6 @@ namespace Iit.Fibertest.Install
 
         public InstSettingsForServerViewModel InstSettingsForServerViewModel { get; set; }
         public InstSettingsForClientViewModel InstSettingsForClientViewModel { get; set; }
-        public InstallationSettingsForSuperClientViewModel InstallationSettingsForSuperClientViewModel { get; set; }
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
         public string Text1 { get; set; }
@@ -41,9 +40,6 @@ namespace Iit.Fibertest.Install
                 _selectedType = value;
                 InstSettingsForServerViewModel.Visibility = _selectedType == "Data Center" ? Visibility.Visible : Visibility.Collapsed;
                 InstSettingsForClientViewModel.Visibility = _selectedType == "Client" ? Visibility.Visible : Visibility.Collapsed;
-                InstallationSettingsForSuperClientViewModel.Visibility =
-                    _selectedType == "Super Client" && InstallationSettingsForSuperClientViewModel.CheckCurrentClientVersion()
-                        ? Visibility.Visible : Visibility.Collapsed;
                 NotifyOfPropertyChange();
             }
         }
@@ -55,7 +51,6 @@ namespace Iit.Fibertest.Install
 
             InstSettingsForServerViewModel = new InstSettingsForServerViewModel(currentInstallation);
             InstSettingsForClientViewModel = new InstSettingsForClientViewModel();
-            InstallationSettingsForSuperClientViewModel = new InstallationSettingsForSuperClientViewModel(currentInstallation);
 
             Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
             InstTypes = new List<string>() { "Client", "Data Center", "Super Client" };

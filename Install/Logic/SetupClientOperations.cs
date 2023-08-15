@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Install
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             _logFile.AppendLine("Files are copied successfully");
 
-            IniOperations.SetParamIntoClientIniFile(currentInstallation.InstallationFolder, currentInstallation.IsHighDensityGraph);
+            IniOperations.SetParamIntoClientIniFile(currentInstallation.FullClientFolder, currentInstallation.IsHighDensityGraph);
 
             ShortcutOperatios.CreateClientShortcut(fullClientPath);
             ShortcutOperatios.CreateReflectShortcut(fullReflectPath);

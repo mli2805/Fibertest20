@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
@@ -195,7 +196,9 @@ namespace Iit.Fibertest.Install
                     var port = IniOperations.GetMysqlTcpPort(_currentInstallation.InstallationFolder);
                     InstTypeChoiceViewModel.InstSettingsForServerViewModel.MySqlTcpPort = port != "error" ? port : "3306";
 
-                    var isHigh = IniOperations.GetIsHighDensityGraph(_currentInstallation.InstallationFolder);
+                    var isSuperExists = Directory.Exists(_currentInstallation.InstallationFolder + "SuperClient");
+                    _currentInstallation.SetClientInstallationFolder(isSuperExists);
+                    var isHigh = IniOperations.GetIsHighDensityGraph(_currentInstallation);
                     InstTypeChoiceViewModel.InstSettingsForClientViewModel.IsHighDensityGraph = isHigh;
 
                     ButtonBackContent = Resources.SID_Back;
@@ -229,10 +232,16 @@ namespace Iit.Fibertest.Install
             IsButtonCancelEnabled = false;
 
             _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
+            if (_currentInstallation.InstallationType == InstallationType.SuperClient)
+                _currentInstallation.SetClientInstallationFolder(true);
+            else if (_currentInstallation.InstallationType == InstallationType.Client)
+            {
+                var isUnderSuper = Directory.Exists(_currentInstallation.InstallationFolder + "SuperClient");
+                _currentInstallation.SetClientInstallationFolder(isUnderSuper);
+            }
 
             _currentInstallation.IsHighDensityGraph =
                 InstTypeChoiceViewModel.InstSettingsForClientViewModel.IsHighDensityGraph;
-            _currentInstallation.SetClientInstallationFolder(InstTypeChoiceViewModel.InstallationSettingsForSuperClientViewModel.IsR1Checked);
 
             _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.InstSettingsForServerViewModel.MySqlTcpPort;
             _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.InstSettingsForServerViewModel.IsWebNeeded;

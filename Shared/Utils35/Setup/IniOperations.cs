@@ -5,7 +5,6 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class IniOperations
     {
-        private const string ClientIniSubdir = @"Client\ini";
         private const string DataCenterIniSubdir = @"DataCenter\ini";
         public static void SetParamsIntoServerIniFile(CurrentInstallation currentInstallation)
         {
@@ -34,6 +33,12 @@ namespace Iit.Fibertest.UtilsLib
             {
                 var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
 
+                // if DataCenter folder with ini does not exist it will be create only during installation (not before)
+                if (!File.Exists(iniDataCenterPath + @"\DataCenter.ini"))
+                {
+                    return "3306";
+                }
+
                 var iniFile = new IniFile();
                 var iniFileName = Utils.FileNameForSure(iniDataCenterPath, "DataCenter.ini",
                     false, true);
@@ -48,9 +53,9 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        public static void SetParamIntoClientIniFile(string installationFolder, bool isHighDensityGraph)
+        public static void SetParamIntoClientIniFile(string fullClientFolder, bool isHighDensityGraph)
         {
-            var iniClientPath = Path.Combine(installationFolder, ClientIniSubdir);
+            var iniClientPath = Path.Combine(fullClientFolder, @"ini");
             var iniFile = new IniFile();
             var iniFileName = Utils.FileNameForSure(iniClientPath, "Client.ini",
                 false, true);
@@ -70,11 +75,15 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        public static bool GetIsHighDensityGraph(string installationFolder)
+        public static bool GetIsHighDensityGraph(CurrentInstallation currentInstallation)
         {
             try
             {
-                var iniClientPath = Path.Combine(installationFolder, ClientIniSubdir);
+                var iniClientPath = Path.Combine(currentInstallation.FullClientFolder, "ini");
+                if (!File.Exists(iniClientPath + @"\Client.ini"))
+                {
+                    return false;
+                }
 
                 var iniFile = new IniFile();
                 var iniFileName = Utils.FileNameForSure(iniClientPath, "Client.ini",

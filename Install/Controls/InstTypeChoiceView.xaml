@@ -19,7 +19,5 @@
         <install:InstSettingsForClientView DockPanel.Dock="Top" DataContext="{Binding InstSettingsForClientViewModel}"
                                            Visibility="{Binding Visibility}"/>
 
-        <install:InstallationSettingsForSuperClientView DockPanel.Dock="Top" DataContext="{Binding InstallationSettingsForSuperClientViewModel}"
-                                                        Visibility="{Binding Visibility}"/>
     </DockPanel>
 </UserControl>
