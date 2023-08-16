@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:sc="clr-namespace:Iit.Fibertest.SuperClient"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         WindowState="Maximized" d:DataContext="{d:DesignInstance sc:ShellViewModel}">
     <DockPanel >
         <DockPanel DockPanel.Dock="Left">
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
-                    <Button Name="ShowClientVersions" Content="Show client version"></Button>
+                    <Button Name="ShowClientVersions" Content="{x:Static stringResources:Resources.SID_Client_software_versions}"></Button>
                 </ToolBar>
             </ToolBarTray>
             <sc:ServersView DataContext="{Binding ServersViewModel}"/>

@@ -3621,7 +3621,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Ошибка сравнения с базовой рефлектограммой</value>
 	</data>
 	<data name="SID_Select_client_software_version" xml:space="preserve">
-		<value>Выберите версию ПК Client</value>
+		<value>Выбрать версию ПК Client</value>
 	</data>
 	<data name="SID_Server_info" xml:space="preserve">
 		<value>Данные сервера</value>
@@ -3631,5 +3631,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Server_software_version" xml:space="preserve">
 		<value>Версия ПК Server</value>
+	</data>
+	<data name="SID_Client_software_versions" xml:space="preserve">
+		<value>Версии ПК Client</value>
 	</data>
 </root>

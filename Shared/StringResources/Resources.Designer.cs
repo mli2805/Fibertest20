@@ -1980,6 +1980,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client software versions.
+        /// </summary>
+        public static string SID_Client_software_versions {
+            get {
+                return ResourceManager.GetString("SID_Client_software_versions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client started.
         /// </summary>
         public static string SID_Client_started {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -9,7 +10,7 @@ namespace Iit.Fibertest.SuperClient
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Client software versions";
+            DisplayName = Resources.SID_Client_software_versions;
         }
 
         public void Initialize(List<string> lines)
