@@ -3635,4 +3635,34 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Client_software_versions" xml:space="preserve">
 		<value>Версии ПК Client</value>
 	</data>
+	<data name="SID_Remote_Server_software_version_is_" xml:space="preserve">
+		<value>На удаленном сервере версия ПК "Server" </value>
+	</data>
+	<data name="SID_Matching_version_of_Client_software" xml:space="preserve">
+		<value>Соответствующая версия ПК "Client"</value>
+	</data>
+	<data name="SID_found_" xml:space="preserve">
+		<value>найдена!</value>
+	</data>
+	<data name="SID_not_found_" xml:space="preserve">
+		<value>не найдена!</value>
+	</data>
+	<data name="SID_The_version_of_the_Client_software" xml:space="preserve">
+		<value>Версия ПК "Client"</value>
+	</data>
+	<data name="SID_Check_server_settings__please_" xml:space="preserve">
+		<value>Пожалуйста, проверьте настройки сервера.</value>
+	</data>
+	<data name="SID_to_connect_to_this_server_is" xml:space="preserve">
+		<value>для соединения с данным сервером</value>
+	</data>
+	<data name="SID_not_specified_" xml:space="preserve">
+		<value>не указана.</value>
+	</data>
+	<data name="SID_Specified_folder_of_the_Client_software" xml:space="preserve">
+		<value>Указанная папка с ПК "Client"</value>
+	</data>
+	<data name="SID_does_not_exist_" xml:space="preserve">
+		<value>не существует!</value>
+	</data>
 </root>

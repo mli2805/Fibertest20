@@ -3635,4 +3635,34 @@ Please try again later</value>
 	<data name="SID_Client_software_versions" xml:space="preserve">
 		<value>Client software versions</value>
 	</data>
+	<data name="SID_Remote_Server_software_version_is_" xml:space="preserve">
+		<value>Remote Server software version is </value>
+	</data>
+	<data name="SID_Matching_version_of_Client_software" xml:space="preserve">
+		<value>Matching version of Client software</value>
+	</data>
+	<data name="SID_found_" xml:space="preserve">
+		<value>found!</value>
+	</data>
+	<data name="SID_not_found_" xml:space="preserve">
+		<value>not found!</value>
+	</data>
+	<data name="SID_The_version_of_the_Client_software" xml:space="preserve">
+		<value>The version of the Client software</value>
+	</data>
+	<data name="SID_Check_server_settings__please_" xml:space="preserve">
+		<value>Check server settings, please.</value>
+	</data>
+	<data name="SID_to_connect_to_this_server_is" xml:space="preserve">
+		<value>to connect to this server is</value>
+	</data>
+	<data name="SID_not_specified_" xml:space="preserve">
+		<value>not specified.</value>
+	</data>
+	<data name="SID_Specified_folder_of_the_Client_software" xml:space="preserve">
+		<value>Specified folder of the Client software</value>
+	</data>
+	<data name="SID_does_not_exist_" xml:space="preserve">
+		<value>does not exist!</value>
+	</data>
 </root>

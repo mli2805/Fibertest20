@@ -1827,6 +1827,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check server settings, please..
+        /// </summary>
+        public static string SID_Check_server_settings__please_ {
+            get {
+                return ResourceManager.GetString("SID_Check_server_settings__please_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check SMS notification.
         /// </summary>
         public static string SID_Check_sms_notification {
@@ -2841,6 +2850,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Do_not_use {
             get {
                 return ResourceManager.GetString("SID_Do_not_use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to does not exist!.
+        /// </summary>
+        public static string SID_does_not_exist_ {
+            get {
+                return ResourceManager.GetString("SID_does_not_exist_", resourceCulture);
             }
         }
         
@@ -4023,6 +4041,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_For_traces_0_05___20_km_long {
             get {
                 return ResourceManager.GetString("SID_For_traces_0_05___20_km_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to found!.
+        /// </summary>
+        public static string SID_found_ {
+            get {
+                return ResourceManager.GetString("SID_found_", resourceCulture);
             }
         }
         
@@ -5336,6 +5363,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Matching version of Client software.
+        /// </summary>
+        public static string SID_Matching_version_of_Client_software {
+            get {
+                return ResourceManager.GetString("SID_Matching_version_of_Client_software", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  ( maximum 60 ) .
         /// </summary>
         public static string SID_Maximum_60 {
@@ -6245,6 +6281,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to not found!.
+        /// </summary>
+        public static string SID_not_found_ {
+            get {
+                return ResourceManager.GetString("SID_not_found_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not important.
         /// </summary>
         public static string SID_Not_important {
@@ -6268,6 +6313,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Not_joined {
             get {
                 return ResourceManager.GetString("SID_Not_joined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not specified..
+        /// </summary>
+        public static string SID_not_specified_ {
+            get {
+                return ResourceManager.GetString("SID_not_specified_", resourceCulture);
             }
         }
         
@@ -7196,6 +7250,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Registry_cleaned_ {
             get {
                 return ResourceManager.GetString("SID_Registry_cleaned_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remote Server software version is .
+        /// </summary>
+        public static string SID_Remote_Server_software_version_is_ {
+            get {
+                return ResourceManager.GetString("SID_Remote_Server_software_version_is_", resourceCulture);
             }
         }
         
@@ -8686,6 +8749,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specified folder of the Client software.
+        /// </summary>
+        public static string SID_Specified_folder_of_the_Client_software {
+            get {
+                return ResourceManager.GetString("SID_Specified_folder_of_the_Client_software", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Splice loss (LT), (1 - 4 dB).
         /// </summary>
         public static string SID_Splice_loss_dB {
@@ -9190,6 +9262,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The version of the Client software.
+        /// </summary>
+        public static string SID_The_version_of_the_Client_software {
+            get {
+                return ResourceManager.GetString("SID_The_version_of_the_Client_software", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are {0} trace(s) attached to ports of the RTU.
         /// </summary>
         public static string SID_There_are__0__trace_s__attached_to_ports_of_the_RTU {
@@ -9438,6 +9519,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_To_apply_the_license {
             get {
                 return ResourceManager.GetString("SID_To_apply_the_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to connect to this server is.
+        /// </summary>
+        public static string SID_to_connect_to_this_server_is {
+            get {
+                return ResourceManager.GetString("SID_to_connect_to_this_server_is", resourceCulture);
             }
         }
         

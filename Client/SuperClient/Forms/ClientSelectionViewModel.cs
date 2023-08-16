@@ -29,23 +29,21 @@ namespace Iit.Fibertest.SuperClient
 
         public void Initialize(string serverVersion, ClientList clientList)
         {
-            Clients = clientList.Clients.Select(c=>new ClientRadioButton(c)).ToList();
+            Clients = clientList.Clients.Where(l=>l.Version != null).Select(c=>new ClientRadioButton(c)).ToList();
             Clients.First().IsChecked = true;
 
             Header = new List<string>
             {
-                Resources.SID_Connection_established_successfully_,
+                Resources.SID_Remote_Server_software_version_is_ + serverVersion,
                 "",
-                $"Software Data Center version is {serverVersion}",
-                "Client software of this version was not found, ",
-                "but the following versions are installed on the computer:",
+                "Following versions are installed on the computer:",
                 ""
             };
         }
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Select Client software";
+            DisplayName = Resources.SID_Select_client_software_version;
         }
 
         public void Apply()

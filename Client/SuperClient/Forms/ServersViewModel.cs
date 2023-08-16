@@ -49,23 +49,34 @@ namespace Iit.Fibertest.SuperClient
             _childStarter = childStarter;
             _addServerViewModel = addServerViewModel;
             _d2CWcfManager = d2CWcfManager;
-        }
+        } 
 
         public void ConnectServer()
         {
             if (string.IsNullOrEmpty(SelectedFtServer.Entity.ClientFolder))
             {
                 _windowManager.ShowDialogWithAssignedOwner(
-                    new MyMessageBoxViewModel(MessageType.Error, new List<string>(){
-                        "The version of the Client software", "for connecting to this server is not specified.", "", "Check server settings, please."}));
+                    new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                    {
+                        Resources.SID_The_version_of_the_Client_software, 
+                        Resources.SID_to_connect_to_this_server_is, 
+                        Resources.SID_not_specified_, 
+                        "", 
+                        Resources.SID_Check_server_settings__please_
+                    },2));
                 return;
             }
 
             if (!Directory.Exists(SelectedFtServer.Entity.ClientFolder))
             {
                 _windowManager.ShowDialogWithAssignedOwner(
-                    new MyMessageBoxViewModel(MessageType.Error, new List<string>(){
-                        "Specified folder of the Client software", "does not exist!", "", "Check server settings, please."}));
+                    new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                    {
+                        Resources.SID_Specified_folder_of_the_Client_software, 
+                        Resources.SID_does_not_exist_, 
+                        "", 
+                        Resources.SID_Check_server_settings__please_
+                    },1));
                 return;
             }
 

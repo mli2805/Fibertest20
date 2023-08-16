@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:superClient="clr-namespace:Iit.Fibertest.SuperClient"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d" d:DataContext="{d:DesignInstance superClient:ClientSelectionViewModel}"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <StackPanel>
@@ -17,8 +18,8 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <StackPanel Orientation="Horizontal" Margin="0, 20" HorizontalAlignment="Center">
-            <Button Name="Apply" Content="Apply" Width="120" Margin="5"/>
-            <Button Name="Cancel" Content="Cancel" Width="120" Margin="5"/>
+            <Button Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" Width="120" Margin="5"/>
+            <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Width="120" Margin="5"/>
         </StackPanel>
     </StackPanel>
 </Window>

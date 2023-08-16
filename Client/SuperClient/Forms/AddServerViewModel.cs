@@ -28,7 +28,18 @@ namespace Iit.Fibertest.SuperClient
         public string ServerIp { get; set; }
 
         public int ServerTcpPort { get; set; }
-        public string ServerVersion { get; set; }
+
+        private string _serverVersion;
+        public string ServerVersion
+        {
+            get => _serverVersion;
+            set
+            {
+                if (value == _serverVersion) return;
+                _serverVersion = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private string _clientVersion;
         public string ClientVersion
@@ -161,8 +172,6 @@ namespace Iit.Fibertest.SuperClient
                 result = await _commonC2DWcfManager.RegisterClientAsync(dto);
                 if (result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
                 {
-                    ServerVersion = result.DatacenterVersion;
-                    NotifyOfPropertyChange(nameof(ServerVersion));
                     var unDto = new UnRegisterClientDto()
                     {
                         ConnectionId = connectionId,
@@ -175,8 +184,7 @@ namespace Iit.Fibertest.SuperClient
             return result;
         }
 
-        private ClientList _clientList;
-     
+
         private void ProcessResult(ClientRegisteredDto result)
         {
             if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
@@ -188,51 +196,60 @@ namespace Iit.Fibertest.SuperClient
 
             ServerVersion = result.DatacenterVersion;
 
-            _clientList = Utils.GetClients();
-            if (!_clientList.IsSuccess)
+            var clientList = Utils.GetClients();
+            if (!clientList.IsSuccess)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, _clientList.ErrorMessage);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, clientList.ErrorMessage);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
 
-            var match = _clientList.Clients.FirstOrDefault(c => c.Version == result.DatacenterVersion);
+            var list = new List<string>
+            {
+                Resources.SID_Connection_established_successfully_,
+                Resources.SID_Remote_Server_software_version_is_+ result.DatacenterVersion,
+                "",
+                Resources.SID_Matching_version_of_Client_software
+            };
+
+            var match = clientList.Clients.FirstOrDefault(c => c.Version == result.DatacenterVersion);
 
             if (match != null)
             {
-                var list = new List<string>() { Resources.SID_Connection_established_successfully_ };
-
-                if (_entity == null || _entity.ServerVersion != ServerVersion)
-                {
-                    list.Add("");
-                    list.Add("Matching client found and will be used.");
-                    list.Add($@"({match.Path})");
-                    list.Add("");
-                }
+                list.Add(Resources.SID_found_);
+                list.Add($@"({match.Path})");
+                list.Add("");
 
                 ClientVersion = match.Version;
                 ClientFolder = match.Path;
 
-                _windowManager.ShowDialogWithAssignedOwner(
-                    new MyMessageBoxViewModel(MessageType.Information, list));
             }
+            else
+            {
+                list.Add(Resources.SID_not_found_);
+                list.Add("");
+            }
+
+            _windowManager.ShowDialogWithAssignedOwner(
+                new MyMessageBoxViewModel(MessageType.Information, list, 4));
         }
 
         public void SelectClient()
         {
             var vm = new ClientSelectionViewModel();
-            if (_clientList == null)
+            var clientList = Utils.GetClients();
+            if (clientList == null)
             {
-                _clientList = Utils.GetClients();
-                if (!_clientList.IsSuccess)
+                clientList = Utils.GetClients();
+                if (!clientList.IsSuccess)
                 {
-                    var mb = new MyMessageBoxViewModel(MessageType.Error, _clientList.ErrorMessage);
+                    var mb = new MyMessageBoxViewModel(MessageType.Error, clientList.ErrorMessage);
                     _windowManager.ShowDialogWithAssignedOwner(mb);
                     return;
                 }
             }
 
-            vm.Initialize(ServerVersion, _clientList);
+            vm.Initialize(ServerVersion, clientList);
             _windowManager.ShowDialogWithAssignedOwner(vm);
             if (vm.IsApplyPressed)
             {
@@ -241,7 +258,6 @@ namespace Iit.Fibertest.SuperClient
                 ClientFolder = cl.Path;
             }
         }
-
 
         public void Save()
         {
