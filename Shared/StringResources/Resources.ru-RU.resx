@@ -3665,4 +3665,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_does_not_exist_" xml:space="preserve">
 		<value>не существует!</value>
 	</data>
+	<data name="SID_Client_software_folder" xml:space="preserve">
+		<value>Папка ПК Client</value>
+	</data>
 </root>

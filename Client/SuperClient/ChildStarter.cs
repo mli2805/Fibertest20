@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using Iit.Fibertest.UtilsLib;
-// ReSharper disable LocalizableElement
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -12,17 +10,9 @@ namespace Iit.Fibertest.SuperClient
         private readonly GasketViewModel _gasketViewModel;
         private readonly Dictionary<int, Process> _processes = new Dictionary<int, Process>();
 
-        private const string DebugClientFilename = @"c:\VsGitProjects\Fibertest20\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
-        private const string ReleaseClientFilename = @"c:\Iit-Fibertest\Client\bin\Iit.Fibertest.Client.exe";
-        private readonly string _clientFilename;
-
-        public ChildStarter(IniFile iniFile, GasketViewModel gasketViewModel)
+        public ChildStarter(GasketViewModel gasketViewModel)
         {
             _gasketViewModel = gasketViewModel;
-            _clientFilename = iniFile.Read(IniSection.Miscellaneous, IniKey.PathToClient, ReleaseClientFilename);
-#if DEBUG
-            _clientFilename = DebugClientFilename;
-#endif
         }
 
         public void StartFtClient(FtServerEntity ftServerEntity)
@@ -50,10 +40,12 @@ namespace Iit.Fibertest.SuperClient
 
         private Process StartChild(FtServerEntity ftServerEntity)
         {
+            var clientFilename = ftServerEntity.ClientFolder + @"\bin\Iit.Fibertest.Client.exe";
+
             var process = new Process
             {
                 StartInfo = {
-                    FileName = _clientFilename,
+                    FileName = clientFilename,
                     Arguments = $@"{ftServerEntity.Postfix} {Thread.CurrentThread.CurrentUICulture} {
                         ftServerEntity.Username} {ftServerEntity.Password} {Guid.NewGuid()} {ftServerEntity.ServerIp
                         } {ftServerEntity.ServerTcpPort} " + "\""  + ftServerEntity.ServerTitle + "\"",

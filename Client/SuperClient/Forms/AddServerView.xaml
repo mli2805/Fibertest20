@@ -53,7 +53,7 @@
                     <TextBlock Margin="15,0" Width="120" Text="{Binding ClientVersion}" />
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
-                    <TextBlock Margin="5,0" Width="120" Text="Client's folder" TextAlignment="Right" />
+                    <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Client_software_folder}" TextAlignment="Right" />
                     <TextBlock Margin="15,0" Width="120" Height="40" TextWrapping="Wrap" Text="{Binding ClientFolder}" />
                 </StackPanel>
 
