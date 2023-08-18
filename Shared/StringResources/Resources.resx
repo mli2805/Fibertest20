@@ -3668,4 +3668,22 @@ Please try again later</value>
 	<data name="SID_Client_software_folder" xml:space="preserve">
 		<value>Client software folder</value>
 	</data>
+	<data name="SID_Versions_of_Client_software_installed_at_the_workplace_" xml:space="preserve">
+		<value>Versions of Client software installed at the workplace:</value>
+	</data>
+	<data name="SID_Can_t_get_current_assembly_path" xml:space="preserve">
+		<value>Can't get current assembly path</value>
+	</data>
+	<data name="SID_Can_t_find_base_folder__0_" xml:space="preserve">
+		<value>Can't find base folder {0}</value>
+	</data>
+	<data name="SID_Can_t_find_any_Client_software_installation_in__0_" xml:space="preserve">
+		<value>Can't find any Client software installation in {0}</value>
+	</data>
+	<data name="SID_Invalid_installation_in_folder__0_" xml:space="preserve">
+		<value>Invalid installation in folder {0}</value>
+	</data>
+	<data name="SID_Version__0__in_folder__1_" xml:space="preserve">
+		<value>Version {0} in folder {1}</value>
+	</data>
 </root>

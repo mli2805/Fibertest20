@@ -42,7 +42,8 @@
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Add_server}" cal:Message.Attach="AddServer"/>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Edit_settings}" cal:Message.Attach="EditServer" 
                                   IsEnabled="{Binding SelectedFtServer.IsConnectEnabled}"/>
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveServer"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveServer"
+                                  IsEnabled="{Binding SelectedFtServer.IsConnectEnabled}"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
             </ListBox>

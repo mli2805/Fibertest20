@@ -1458,6 +1458,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find any Client software installation in {0}.
+        /// </summary>
+        public static string SID_Can_t_find_any_Client_software_installation_in__0_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_find_any_Client_software_installation_in__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find base folder {0}.
+        /// </summary>
+        public static string SID_Can_t_find_base_folder__0_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_find_base_folder__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t get active port.
         /// </summary>
         public static string SID_Can_t_get_active_port {
@@ -1472,6 +1490,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Can_t_get_base_refs_for_trace__0_ {
             get {
                 return ResourceManager.GetString("SID_Can_t_get_base_refs_for_trace__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t get current assembly path.
+        /// </summary>
+        public static string SID_Can_t_get_current_assembly_path {
+            get {
+                return ResourceManager.GetString("SID_Can_t_get_current_assembly_path", resourceCulture);
             }
         }
         
@@ -4657,6 +4684,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Invalid_input {
             get {
                 return ResourceManager.GetString("SID_Invalid_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid installation in folder {0}.
+        /// </summary>
+        public static string SID_Invalid_installation_in_folder__0_ {
+            get {
+                return ResourceManager.GetString("SID_Invalid_installation_in_folder__0_", resourceCulture);
             }
         }
         
@@ -10446,6 +10482,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Version {
             get {
                 return ResourceManager.GetString("SID_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0} in folder {1}.
+        /// </summary>
+        public static string SID_Version__0__in_folder__1_ {
+            get {
+                return ResourceManager.GetString("SID_Version__0__in_folder__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Versions of Client software installed at the workplace:.
+        /// </summary>
+        public static string SID_Versions_of_Client_software_installed_at_the_workplace_ {
+            get {
+                return ResourceManager.GetString("SID_Versions_of_Client_software_installed_at_the_workplace_", resourceCulture);
             }
         }
         

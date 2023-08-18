@@ -36,7 +36,7 @@ namespace Iit.Fibertest.SuperClient
             {
                 Resources.SID_Remote_Server_software_version_is_ + serverVersion,
                 "",
-                "Following versions are installed on the computer:",
+                Resources.SID_Versions_of_Client_software_installed_at_the_workplace_,
                 ""
             };
         }

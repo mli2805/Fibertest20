@@ -3636,7 +3636,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Версии ПК Client</value>
 	</data>
 	<data name="SID_Remote_Server_software_version_is_" xml:space="preserve">
-		<value>На удаленном сервере версия ПК "Server" </value>
+		<value>На удаленном сервере версия ПК Server</value>
 	</data>
 	<data name="SID_Matching_version_of_Client_software" xml:space="preserve">
 		<value>Соответствующая версия ПК "Client"</value>
@@ -3667,5 +3667,23 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Client_software_folder" xml:space="preserve">
 		<value>Папка ПК Client</value>
+	</data>
+	<data name="SID_Versions_of_Client_software_installed_at_the_workplace_" xml:space="preserve">
+		<value>Установленные на рабочем месте версии ПК Client: </value>
+	</data>
+	<data name="SID_Can_t_get_current_assembly_path" xml:space="preserve">
+		<value>Не удалось получить путь к файлам запущенной программы</value>
+	</data>
+	<data name="SID_Can_t_find_base_folder__0_" xml:space="preserve">
+		<value>Не найдена базовая папка {0}</value>
+	</data>
+	<data name="SID_Can_t_find_any_Client_software_installation_in__0_" xml:space="preserve">
+		<value>Не найдены установки ПК Client в {0}</value>
+	</data>
+	<data name="SID_Invalid_installation_in_folder__0_" xml:space="preserve">
+		<value>Не корректная установка в папке {0}</value>
+	</data>
+	<data name="SID_Version__0__in_folder__1_" xml:space="preserve">
+		<value>Версия {0} в папке {1}</value>
 	</data>
 </root>

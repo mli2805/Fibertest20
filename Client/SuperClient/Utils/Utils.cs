@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.SuperClient
@@ -47,7 +48,7 @@ namespace Iit.Fibertest.SuperClient
             {
                 var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 if (assemblyPath == null)
-                    return new ClientList("Can't get current assembly path");
+                    return new ClientList(Resources.SID_Can_t_get_current_assembly_path);
 
 #if DEBUG
                 assemblyPath = @"c:\Iit-Fibertest\SuperClient\bin\";
@@ -63,11 +64,11 @@ namespace Iit.Fibertest.SuperClient
                 string pattern = @"client.*";
 
                 if (!Directory.Exists(basePath))
-                    return new ClientList($"Can't find base folder {basePath}");
+                    return new ClientList(string.Format(Resources.SID_Can_t_find_base_folder__0_, basePath));
 
                 var list = Directory.GetDirectories(basePath, pattern);
                 if (list.Length == 0)
-                    return new ClientList($"Can't find any Client software installation in {basePath}");
+                    return new ClientList(string.Format(Resources.SID_Can_t_find_any_Client_software_installation_in__0_, basePath));
 
                 return new ClientList(list.Select(GetVersionFromFolder).ToList());
             }
