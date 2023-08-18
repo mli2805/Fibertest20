@@ -81,8 +81,8 @@ namespace Iit.Fibertest.SuperClient
         private static string Map(ClientForSuper cl)
         {
             return cl.Version == null
-                ? $"Invalid installation in folder {cl.Path}"
-                : $"Version {cl.Version} in folder {cl.Path}";
+                ? string.Format(Resources.SID_Invalid_installation_in_folder__0_, cl.Path)
+                : string.Format(Resources.SID_Version__0__in_folder__1_, cl.Version, cl.Path);
         }
 
         private static ClientForSuper GetVersionFromFolder(string folder)
