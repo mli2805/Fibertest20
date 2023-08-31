@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Height="450" Width="450" ResizeMode="NoResize"
+        Height="450" Width="550" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:ConfigurationViewModel}">
     <DockPanel>
         <Button DockPanel.Dock="Bottom" Width="100" Height="22" Margin="5,5,5,10" 
@@ -19,14 +19,17 @@
             </StackPanel>
             <Separator></Separator>
             <TextBlock Text="{x:Static stringResources:Resources.SID_The_changes_will_be_applied_after_application_restart}" Margin="5"/>
-            <GroupBox Margin="0,20,0,0">
-                <StackPanel>
-                    <CheckBox Content="{x:Static stringResources:Resources.SID_Do_not_signal_about_Suspicion}" 
-                              IsChecked="{Binding DoNotSignalAboutSuspicion}"  Margin="5,10,5,5"/>
-                    <Button Height="23" Width="300" Content="{Binding SoundButtonContent}" HorizontalAlignment="Left"
-                            Margin="5,10" Name="TestSound" />
-                    </StackPanel>
+            <GroupBox  Header="{x:Static stringResources:Resources.SID_Optical_events}" Margin="0,20,0,0">
+                    <CheckBox Content="{x:Static stringResources:Resources.SID_Turn_off_the_audible_and_visual_alarms_about_Suspicion}" 
+                              IsChecked="{Binding DoNotSignalAboutSuspicion}" Margin="5,10,5,5"/>
+                    
             </GroupBox>
+            <GroupBox Header="{x:Static stringResources:Resources.SID_RTU_status_events}"  Margin="0,20,0,0">
+                <CheckBox Content="{x:Static stringResources:Resources.SID_Turn_off_the_audible_and_visual_alarms_about_events}"
+                          IsChecked="{Binding DoNotSignalAboutRtuStatusEvents}" Margin="5,10,5,5"/>
+            </GroupBox>
+            <Button Height="23" Width="300" Content="{Binding SoundButtonContent}" HorizontalAlignment="Left"
+                    Margin="5,30" Name="TestSound" />
         </StackPanel>
 
     </DockPanel>

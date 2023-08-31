@@ -2449,15 +2449,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data-center software version.
-        /// </summary>
-        public static string SID_Data_center_software_version {
-            get {
-                return ResourceManager.GetString("SID_Data-center_software_version", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Data is loading, please wait....
         /// </summary>
         public static string SID_Data_is_loading {
@@ -2868,15 +2859,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Do_not_set_landmark_on_reflectogram {
             get {
                 return ResourceManager.GetString("SID_Do_not_set_landmark_on_reflectogram", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Do not signal about `Suspicion`.
-        /// </summary>
-        public static string SID_Do_not_signal_about_Suspicion {
-            get {
-                return ResourceManager.GetString("SID_Do_not_signal_about_Suspicion", resourceCulture);
             }
         }
         
@@ -7911,6 +7893,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU status events off.
+        /// </summary>
+        public static string SID_Rtu_status_events_off {
+            get {
+                return ResourceManager.GetString("SID_Rtu_status_events_off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU Title.
         /// </summary>
         public static string SID_RTU_Title {
@@ -7925,15 +7916,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_updated {
             get {
                 return ResourceManager.GetString("SID_RTU_updated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RTUs software version.
-        /// </summary>
-        public static string SID_RTUs_software_version {
-            get {
-                return ResourceManager.GetString("SID_RTUs_software_version", resourceCulture);
             }
         }
         
@@ -9978,6 +9960,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Turn_alarm_on {
             get {
                 return ResourceManager.GetString("SID_Turn_alarm_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn off the audible and visual alarms about events.
+        /// </summary>
+        public static string SID_Turn_off_the_audible_and_visual_alarms_about_events {
+            get {
+                return ResourceManager.GetString("SID_Turn_off_the_audible_and_visual_alarms_about_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn off the audible and visual alarms about Suspicion.
+        /// </summary>
+        public static string SID_Turn_off_the_audible_and_visual_alarms_about_Suspicion {
+            get {
+                return ResourceManager.GetString("SID_Turn_off_the_audible_and_visual_alarms_about_Suspicion", resourceCulture);
             }
         }
         

@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
         }
 
         public Visibility SuspicionVisibility { get; set; } = Visibility.Hidden;
+        public Visibility RtuEventsVisibility { get; set; } = Visibility.Hidden;
 
         private int _foundCounter;
         public string Found => _foundCounter == 0 ? "" : _foundCounter.ToString();
@@ -48,6 +49,8 @@ namespace Iit.Fibertest.Client
         {
             SuspicionVisibility = ((CurrentClientConfiguration)sender).DoNotSignalAboutSuspicion ? Visibility.Visible : Visibility.Hidden;
             NotifyOfPropertyChange(nameof(SuspicionVisibility));
+            RtuEventsVisibility = ((CurrentClientConfiguration)sender).DoNotSignalAboutRtuStatusEvents ? Visibility.Visible : Visibility.Hidden;
+            NotifyOfPropertyChange(nameof(RtuEventsVisibility));
         }
 
         public void ChangeFreePortsVisibility()

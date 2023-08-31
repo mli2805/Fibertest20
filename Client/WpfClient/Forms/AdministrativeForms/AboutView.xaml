@@ -13,7 +13,7 @@
         <wpfCommonViews:IitOfficialHeader/>
         <StackPanel Margin="25,5,25,5">
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Data_center_software_version}" Width="160"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Server_software_version}" Width="160"/>
                 <TextBlock Margin="10,0,0,0" Text="{Binding ServerVersion}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">

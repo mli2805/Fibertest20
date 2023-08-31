@@ -15,5 +15,18 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
+
+        private bool _doNotSignalAboutRtuStatusEvents;
+
+        public bool DoNotSignalAboutRtuStatusEvents
+        {
+            get => _doNotSignalAboutRtuStatusEvents;
+            set
+            {
+                if (value == _doNotSignalAboutRtuStatusEvents) return;
+                _doNotSignalAboutRtuStatusEvents = value;
+                NotifyOfPropertyChange();
+            }
+        }
     }
 }

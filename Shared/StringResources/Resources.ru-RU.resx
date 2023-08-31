@@ -3407,9 +3407,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_The_process_is_finishing__Please_wait___" xml:space="preserve">
     <value>Идет завершение процесса. Пожалуйста, подождите...</value>
   </data>
-	<data name="SID_Do_not_signal_about_Suspicion" xml:space="preserve">
-    <value>Не сигнализировать о `Подозрение`</value>
-  </data>
 	<data name="SID_Suspicion_off" xml:space="preserve">
     <value>Подозрение выкл</value>
   </data>
@@ -3679,5 +3676,14 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Version__0__in_folder__1_" xml:space="preserve">
 		<value>Версия {0} в папке {1}</value>
+	</data>
+	<data name="SID_Turn_off_the_audible_and_visual_alarms_about_Suspicion" xml:space="preserve">
+		<value>Отключить звуковую и визуальную сигнализацию о появлении "Подозрение"</value>
+	</data>
+	<data name="SID_Turn_off_the_audible_and_visual_alarms_about_events" xml:space="preserve">
+		<value>Отключить звуковую и визуальную сигнализацию о появлении событий</value>
+	</data>
+	<data name="SID_Rtu_status_events_off" xml:space="preserve">
+		<value>События состояния RTU выкл.</value>
 	</data>
 </root>

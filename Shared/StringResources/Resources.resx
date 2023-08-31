@@ -3407,9 +3407,6 @@ Please try again later</value>
 	<data name="SID_The_process_is_finishing__Please_wait___" xml:space="preserve">
 		<value>The process is finishing. Please wait...</value>
 	</data>
-	<data name="SID_Do_not_signal_about_Suspicion" xml:space="preserve">
-		<value>Do not signal about `Suspicion`</value>
-	</data>
 	<data name="SID_Suspicion_off" xml:space="preserve">
 		<value>Suspicion off</value>
 	</data>
@@ -3679,5 +3676,14 @@ Please try again later</value>
 	</data>
 	<data name="SID_Version__0__in_folder__1_" xml:space="preserve">
 		<value>Version {0} in folder {1}</value>
+	</data>
+	<data name="SID_Turn_off_the_audible_and_visual_alarms_about_Suspicion" xml:space="preserve">
+		<value>Turn off the audible and visual alarms about Suspicion</value>
+	</data>
+	<data name="SID_Turn_off_the_audible_and_visual_alarms_about_events" xml:space="preserve">
+		<value>Turn off the audible and visual alarms about events</value>
+	</data>
+	<data name="SID_Rtu_status_events_off" xml:space="preserve">
+		<value>RTU status events off</value>
 	</data>
 </root>

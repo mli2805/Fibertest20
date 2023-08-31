@@ -39,10 +39,6 @@
 
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" Background="AliceBlue">
-            <Border DockPanel.Dock="Right" Margin="1" Visibility="{Binding SuspicionVisibility}" 
-                    BorderBrush="Black" BorderThickness="1"  CornerRadius="1" >
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Suspicion_off}" Margin="10,2,10,0"/>
-            </Border>
             <ToolBarTray DockPanel.Dock="Left" Background="AliceBlue">
                 <ToolBar Name="ExpandBar"  Background="AliceBlue">
                     <Button Name="Expand" Background="Transparent" BorderThickness="0" Width="20" Height="20"
@@ -73,7 +69,7 @@
                 </ToolBar>
             </ToolBarTray>
         </DockPanel>
-        <StatusBar DockPanel.Dock="Bottom" Height="25">
+        <StatusBar DockPanel.Dock="Bottom" Height="28">
             <StatusBarItem Width="40" Background="White">
                 <Button Name="CloseChildren" Background="Transparent" BorderThickness="0" Width="20" Height="20" 
                         RenderOptions.BitmapScalingMode="NearestNeighbor">
@@ -81,7 +77,16 @@
                 </Button>
             </StatusBarItem>
             <StatusBarItem>
-                <TextBlock Text="{Binding TreeOfRtuModel.Statistics}" Margin="5,0,0,0"/>
+                <Border Visibility="{Binding SuspicionVisibility}" 
+                        BorderBrush="Black" BorderThickness="1"  CornerRadius="1" >
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Suspicion_off}" Margin="10,2"/>
+                </Border>  
+            </StatusBarItem>
+          <StatusBarItem>
+                <Border Visibility="{Binding RtuEventsVisibility}" 
+                        BorderBrush="Black" BorderThickness="1"  CornerRadius="1" >
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Rtu_status_events_off}" Margin="10,2"/>
+                </Border>  
             </StatusBarItem>
         </StatusBar>
         <TreeView ItemsSource="{Binding TreeOfRtuModel.Tree}" Name="MainTreeView" Padding="3,7,0,0"

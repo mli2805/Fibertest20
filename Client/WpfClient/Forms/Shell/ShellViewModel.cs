@@ -160,6 +160,8 @@ namespace Iit.Fibertest.Client
                 IsEnabled = true;
                 _currentClientConfiguration.DoNotSignalAboutSuspicion = 
                     _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, false);
+                _currentClientConfiguration.DoNotSignalAboutRtuStatusEvents = 
+                    _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutRtuStatusEvents, false);
                 TreeOfRtuViewModel.CollapseAll();
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
                 var unused = await CheckFreeSpaceThreshold();

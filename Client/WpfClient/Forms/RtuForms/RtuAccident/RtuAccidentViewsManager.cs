@@ -17,16 +17,19 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentClientConfiguration _currentClientConfiguration;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
 
         private List<RtuAccidentViewModel> LaunchedViews { get; } = new List<RtuAccidentViewModel>();
 
-        public RtuAccidentViewsManager(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
+        public RtuAccidentViewsManager(ILifetimeScope globalScope, CurrentUser currentUser, 
+            CurrentClientConfiguration currentClientConfiguration, Model readModel,
             IWindowManager windowManager, ChildrenViews childrenViews)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
+            _currentClientConfiguration = currentClientConfiguration;
             _readModel = readModel;
             _windowManager = windowManager;
             childrenViews.PropertyChanged += ChildrenViewsPropertyChanged;
@@ -64,6 +67,8 @@ namespace Iit.Fibertest.Client
 
         private void AddRtuAccident(RtuAccidentAdded evnt)
         {
+            if (_currentClientConfiguration.DoNotSignalAboutRtuStatusEvents) return;
+
             var accident = Mapper.Map<RtuAccident>(evnt);
             var accidentModel = new RtuAccidentModel(accident).Build(_readModel);
 

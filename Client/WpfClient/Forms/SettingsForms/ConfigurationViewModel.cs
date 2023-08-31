@@ -53,6 +53,19 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _doNotSignalAboutRtuStatusEvents;
+        public bool DoNotSignalAboutRtuStatusEvents
+        {
+            get => _doNotSignalAboutRtuStatusEvents;
+            set
+            {
+                if (value == _doNotSignalAboutRtuStatusEvents) return;
+                _doNotSignalAboutRtuStatusEvents = value;
+                NotifyOfPropertyChange();
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.DoNotSignalAboutRtuStatusEvents, _doNotSignalAboutRtuStatusEvents);
+                _currentClientConfiguration.DoNotSignalAboutRtuStatusEvents = _doNotSignalAboutRtuStatusEvents;  }
+        }
+
         public ConfigurationViewModel(IniFile iniFile, CurrentClientConfiguration currentClientConfiguration, SoundManager soundManager)
         {
             _iniFile = iniFile;
@@ -62,6 +75,8 @@ namespace Iit.Fibertest.Client
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
             DoNotSignalAboutSuspicion =
                 _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, false);
+            DoNotSignalAboutRtuStatusEvents =
+                _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutRtuStatusEvents, false);
             SoundButtonContent = Resources.SID_Turn_alarm_on;
             _isSoundOn = false;
         }
