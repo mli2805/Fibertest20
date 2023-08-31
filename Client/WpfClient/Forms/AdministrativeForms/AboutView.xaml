@@ -21,8 +21,6 @@
                 <TextBlock Margin="10,0,0,5" Text="{Binding ClientVersion}"/>
             </StackPanel>
             <Border BorderBrush="Gray" BorderThickness="0,1,0,0"/>
-            <!-- <TextBlock Text="{x:Static stringResources:Resources.SID_RTUs_software_version}"  -->
-                       <!-- Width="160" HorizontalAlignment="Left" Margin="5,10"/> -->
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Width="160" HorizontalAlignment="Left" Margin="5,10"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Model}" Width="100" HorizontalAlignment="Left" Margin="5,10"/>

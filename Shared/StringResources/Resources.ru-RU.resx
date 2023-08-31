@@ -2375,14 +2375,8 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Reserve_channel_is_Ok" xml:space="preserve">
     <value>Резервный канал - Ok</value>
   </data>
-	<data name="SID_Data-center_software_version" xml:space="preserve">
-    <value>Версия ПК Сервер</value>
-  </data>
 	<data name="SID_Client_software_version" xml:space="preserve">
-    <value>Версия ПК Клиент</value>
-  </data>
-	<data name="SID_RTUs_software_version" xml:space="preserve">
-    <value>Версии ПК RTU менеджер</value>
+    <value>Версия ПК Client</value>
   </data>
 	<data name="SID_Users_guide" xml:space="preserve">
     <value>Руководство пользователя</value>

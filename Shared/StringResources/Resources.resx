@@ -2375,14 +2375,8 @@ RTU is initializing right now!</value>
 	<data name="SID_Reserve_channel_is_Ok" xml:space="preserve">
     <value>Reserve channel is Ok</value>
   </data>
-	<data name="SID_Data-center_software_version" xml:space="preserve">
-    <value>Data-center software version</value>
-  </data>
 	<data name="SID_Client_software_version" xml:space="preserve">
     <value>Client software version</value>
-  </data>
-	<data name="SID_RTUs_software_version" xml:space="preserve">
-    <value>RTUs software version</value>
   </data>
 	<data name="SID_Users_guide" xml:space="preserve">
     <value>User's guide</value>
