@@ -5,7 +5,7 @@ namespace GMap.NET.MapProviders
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Net;    
+    using System.Net;
     using GMap.NET.Internals;
     using GMap.NET.Projections;
     using System.Text;
@@ -76,7 +76,7 @@ namespace GMap.NET.MapProviders
         public static readonly BingMapProvider BingMap = BingMapProvider.Instance;
         public static readonly BingSatelliteMapProvider BingSatelliteMap = BingSatelliteMapProvider.Instance;
         public static readonly BingHybridMapProvider BingHybridMap = BingHybridMapProvider.Instance;
-     //   public static readonly BingOSMapProvider BingOSMap = BingOSMapProvider.Instance;
+        //   public static readonly BingOSMapProvider BingOSMap = BingOSMapProvider.Instance;
 
         public static readonly YahooMapProvider YahooMap = YahooMapProvider.Instance;
         public static readonly YahooSatelliteMapProvider YahooSatelliteMap = YahooSatelliteMapProvider.Instance;
@@ -141,7 +141,7 @@ namespace GMap.NET.MapProviders
         public static readonly CzechTuristWinterMapProvider CzechTuristWinterMap = CzechTuristWinterMapProvider.Instance;
         public static readonly CzechHistoryMapProvider CzechHistoryMap = CzechHistoryMapProvider.Instance;
         public static readonly CzechGeographicMapProvider CzechGeographicMap = CzechGeographicMapProvider.Instance;
-        
+
         public static readonly ArcGIS_Imagery_World_2D_MapProvider ArcGIS_Imagery_World_2D_Map = ArcGIS_Imagery_World_2D_MapProvider.Instance;
         public static readonly ArcGIS_ShadedRelief_World_2D_MapProvider ArcGIS_ShadedRelief_World_2D_Map = ArcGIS_ShadedRelief_World_2D_MapProvider.Instance;
         public static readonly ArcGIS_StreetMap_World_2D_MapProvider ArcGIS_StreetMap_World_2D_Map = ArcGIS_StreetMap_World_2D_MapProvider.Instance;
@@ -333,7 +333,8 @@ namespace GMap.NET.MapProviders
         public static string UserAgent = string.Format("Mozilla/5.0 (Windows NT {1}.0; {2}rv:{0}.0) Gecko/20100101 Firefox/{0}.0",
             Stuff.random.Next(DateTime.Today.Year - 1969 - 5, DateTime.Today.Year - 1969),
             Stuff.random.Next(0, 10) % 2 == 0 ? 10 : 6,
-            Stuff.random.Next(0, 10) % 2 == 1 ? string.Empty : "WOW64; ");         
+            Stuff.random.Next(0, 10) % 2 == 1 ? string.Empty : "WOW64; "
+            );
 
         /// <summary>
         /// timeout for provider connections
@@ -391,17 +392,19 @@ namespace GMap.NET.MapProviders
         /// </summary>
         internal static PureImageProxy TileImageProxy;
 
-        static readonly string requestAccept = "*/*";
+        //static readonly string requestAccept = "*/*";
+        private static readonly string requestAccept =
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8";
         static readonly string responseContentType = "image";
 
         protected virtual bool CheckTileImageHttpResponse(WebResponse response)
         {
-            //Debug.WriteLine(response.StatusCode + "/" + response.StatusDescription + "/" + response.ContentType + " -> " + response.ResponseUri);
+            //Debug.WriteLine(response);
             return response.ContentType.Contains(responseContentType);
         }
-        
+
         string Authorization = string.Empty;
-        
+
         /// <summary>
         /// http://blog.kowalczyk.info/article/at3/Forcing-basic-http-authentication-for-HttpWebReq.html
         /// </summary>
@@ -431,18 +434,21 @@ namespace GMap.NET.MapProviders
                 request.PreAuthenticate = true;
                 request.Credentials = Credential;
             }
-            
-            if(!string.IsNullOrEmpty(Authorization))
+
+            if (!string.IsNullOrEmpty(Authorization))
             {
                 request.Headers.Set("Authorization", Authorization);
             }
-            
+
             if (request is HttpWebRequest)
             {
                 var r = request as HttpWebRequest;
                 r.UserAgent = UserAgent;
+                r.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+                r.Headers.Add("Accept-Language", "en-US,en;q=0.5");
                 r.ReadWriteTimeout = TimeoutMs * 6;
                 r.Accept = requestAccept;
+                r.KeepAlive = true;
                 r.Referer = RefererUrl;
                 r.Timeout = TimeoutMs;
             }
@@ -464,7 +470,7 @@ namespace GMap.NET.MapProviders
                 if (!string.IsNullOrEmpty(RefererUrl))
                 {
                     r.Headers.Add("Referer", RefererUrl);
-                }              
+                }
             }
 #endif       
             using (var response = request.GetResponse())
@@ -526,8 +532,8 @@ namespace GMap.NET.MapProviders
                 request.PreAuthenticate = true;
                 request.Credentials = Credential;
             }
-            
-            if(!string.IsNullOrEmpty(Authorization))
+
+            if (!string.IsNullOrEmpty(Authorization))
             {
                 request.Headers.Set("Authorization", Authorization);
             }
@@ -591,11 +597,11 @@ namespace GMap.NET.MapProviders
             return GetTileImageFromArray(File.ReadAllBytes(fileName));
         }
 #endif
-        protected virtual PureImage GetTileImageFromArray(byte [] data)
+        protected virtual PureImage GetTileImageFromArray(byte[] data)
         {
             return TileImageProxy.FromArray(data);
         }
-        
+
         protected static int GetServerNum(GPoint pos, int max)
         {
             return (int)(pos.X + 2 * pos.Y) % max;
@@ -613,12 +619,12 @@ namespace GMap.NET.MapProviders
                 return Id.Equals((obj as GMapProvider).Id);
             }
             return false;
-        }        
+        }
 
         public override string ToString()
         {
             return Name;
-        }        
+        }
     }
 
     /// <summary>
