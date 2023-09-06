@@ -79,7 +79,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
             MoniResult moniResult = new MoniResult();
 
             var levelCount = baseSorData.RftsParameters.LevelsCount;
-            _rtuLogger.AppendLine($"Comparison begin. Level count = {levelCount}");
+            var levelCountOn = baseSorData.RftsParameters.Levels.Count(l => l.IsEnabled);
+            _rtuLogger.AppendLine($"Comparison begin. Level count = {levelCountOn}");
 
             OtdrDataKnownBlocks measSorData = null;
             var flag = true;

@@ -151,7 +151,8 @@ namespace Iit.Fibertest.RtuManagement
                     reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
                 }
 
-                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
+                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode
+                    && monitoringPort.LastMoniResult.ReturnCode.IsRtuStatusEvent())
                 {
                     _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
                     _rtuLog.AppendLine("Problem with base ref solved");
@@ -178,10 +179,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private void LogFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
         {
-            if (moniResult.ReturnCode == ReturnCode.MeasurementBaseRefNotFound
-                || moniResult.ReturnCode == ReturnCode.MeasurementFailedToSetParametersFromBase
-                    || moniResult.ReturnCode == ReturnCode.MeasurementAnalysisFailed
-                        || moniResult.ReturnCode == ReturnCode.MeasurementComparisonFailed)
+            if (moniResult.ReturnCode.IsRtuStatusEvent())
 
                 if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
                 {
@@ -240,7 +238,8 @@ namespace Iit.Fibertest.RtuManagement
                     reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
                 }
 
-                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
+                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode
+                    && monitoringPort.LastMoniResult.ReturnCode.IsRtuStatusEvent())
                 {
                     _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
                     _rtuLog.AppendLine("Problem with base ref solved");
