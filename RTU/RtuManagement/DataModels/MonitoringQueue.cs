@@ -157,6 +157,7 @@ namespace Iit.Fibertest.RtuManagement
                     monitoringPort.LastMoniResult.ReturnCode = oldPort.LastMoniResult.ReturnCode;
                     monitoringPort.LastTraceState = oldPort.LastTraceState;
                     monitoringPort.LastFastSavedTimestamp = oldPort.LastFastSavedTimestamp;
+                    monitoringPort.LastPreciseMadeTimestamp = oldPort.LastPreciseMadeTimestamp;
                     monitoringPort.LastPreciseSavedTimestamp = oldPort.LastPreciseSavedTimestamp;
                 }
                 Queue.Enqueue(monitoringPort);
@@ -167,10 +168,10 @@ namespace Iit.Fibertest.RtuManagement
         {
             var temp = Queue.ToList();
             Queue.Clear();
-            foreach (var monitorigPort in temp)
+            foreach (var monitoringPort in temp)
             {
-                monitorigPort.IsMonitoringModeChanged = true;
-                Queue.Enqueue(monitorigPort);
+                monitoringPort.IsMonitoringModeChanged = true;
+                Queue.Enqueue(monitoringPort);
             }
         }
 
