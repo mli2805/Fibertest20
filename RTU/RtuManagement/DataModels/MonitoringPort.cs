@@ -14,7 +14,7 @@ namespace Iit.Fibertest.RtuManagement
         public int OpticalPort { get; set; }
         public Guid TraceId { get; set; }
 
-        public DateTime? LastPreciseMadeTimestamp { get; set; }
+        public DateTime LastPreciseMadeTimestamp { get; set; }
         public DateTime LastPreciseSavedTimestamp { get; set; }
         public DateTime LastFastSavedTimestamp { get; set; }
 
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.RtuManagement
             IsPortOnMainCharon = port.IsPortOnMainCharon;
             LastTraceState = port.LastTraceState;
 
-            LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp;
+            LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp ?? DateTime.Now;
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
 
@@ -62,6 +62,7 @@ namespace Iit.Fibertest.RtuManagement
             TraceId = port.TraceId;
             LastTraceState = port.LastTraceState;
 
+            LastPreciseMadeTimestamp = DateTime.Now;
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;
 

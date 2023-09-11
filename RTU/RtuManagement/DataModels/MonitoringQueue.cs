@@ -9,6 +9,32 @@ using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuManagement
 {
+    public class MonitoringQueueOnDisk
+    {
+        public Queue<MonitoringPortOnDisk> Queue { get; set; } = new Queue<MonitoringPortOnDisk>();
+
+        public MonitoringQueueOnDisk(Queue<MonitoringPort> queue)
+        {
+            foreach (var p in queue)
+            {
+                Queue.Enqueue(new MonitoringPortOnDisk(p));
+            }
+        }
+
+        public void Save(string monitoringSettingsFile)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(Queue);
+                File.WriteAllText(monitoringSettingsFile, json);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+    }
+
     public class MonitoringQueue
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
@@ -90,6 +116,11 @@ namespace Iit.Fibertest.RtuManagement
             {
                 var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings)).ToList();
                 File.WriteAllLines(_monitoringSettingsFile, list);
+
+                // save json with the one and only root (just for viewers)
+                var queueOnDisk = new MonitoringQueueOnDisk(Queue);
+                queueOnDisk.Save(_monitoringSettingsFile + ".json");
+
                 var md5 = CalculateMd5(_monitoringSettingsFile);
                 File.WriteAllText(_monitoringSettingsMd5File, md5);
             }
