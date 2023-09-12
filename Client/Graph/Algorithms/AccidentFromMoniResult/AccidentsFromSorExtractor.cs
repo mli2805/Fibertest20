@@ -89,6 +89,10 @@ namespace Iit.Fibertest.Graph
                                 (a.OpticalTypeOfAccident == OpticalAccidentType.Reflectance || a.OpticalTypeOfAccident == OpticalAccidentType.Loss)))
                 return true;
 
+            if (accident.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss &&
+                alreadyFound.Any(a=> a.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss))
+                return true;
+
             return false;
         }
 
