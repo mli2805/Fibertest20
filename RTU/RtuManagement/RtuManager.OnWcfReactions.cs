@@ -14,7 +14,6 @@ namespace Iit.Fibertest.RtuManagement
         // could contain only one element at any time
         // used as thread safe way to exchange between WCF thread and Measurement thread
         // public ConcurrentQueue<object> WcfCommandsQueue = new ConcurrentQueue<object>();
-
         public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
         public void Initialize(InitializeRtuDto param, Action callback)
@@ -43,12 +42,6 @@ namespace Iit.Fibertest.RtuManagement
             if (param != null)
             {
                 SaveInitializationParameters(param);
-                // if (param.IsFirstInitialization)
-                // {
-                //     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-                //     _rtuLog.AppendLine("First initialization! Turning monitoring off.");
-                // }
-
             }
 
             _rtuInitializationResult = InitializeRtuManager(param);
@@ -56,12 +49,6 @@ namespace Iit.Fibertest.RtuManagement
             {
                 while (RunMainCharonRecovery() != ReturnCode.Ok) { }
             }
-
-            // if (param != null && param.Serial != _mainCharon.Serial)
-            // {
-            //     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-            //     _rtuLog.AppendLine("Serials do not match! Turning monitoring off.");
-            // }
 
             _treeOfAcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
 

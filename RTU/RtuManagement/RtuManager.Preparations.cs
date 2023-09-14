@@ -49,6 +49,9 @@ namespace Iit.Fibertest.RtuManagement
             GetMonitoringParams();
 
             _rtuLog.AppendLine("RTU Manager initialized successfully.");
+
+            // use before heartbeats permission
+            SendByMsmqIfAnyOnDisk();
             // permit to send heartbeats
             ShouldSendHeartbeat.Enqueue(new object());
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Messaging;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -161,14 +160,14 @@ namespace Iit.Fibertest.RtuManagement
 
                 monitoringPort.LastMoniResult = moniResult;
                 monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
+                _monitoringQueue.Save();
 
                 if (reason != ReasonToSendMonitoringResult.None)
                 {
                     SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
                     monitoringPort.LastFastSavedTimestamp = DateTime.Now;
+                    _monitoringQueue.Save();
                 }
-
-                _monitoringQueue.Save();
             }
             else //problem during measurement process 
             {
@@ -189,7 +188,7 @@ namespace Iit.Fibertest.RtuManagement
                 }
                 else
                 {
-                    _rtuLog.AppendLine("Problem with base ref. Already reported.");
+                    _rtuLog.AppendLine("Problem already reported.");
                 }
 
             // other problems provoke service restart
@@ -249,14 +248,15 @@ namespace Iit.Fibertest.RtuManagement
                 monitoringPort.LastPreciseMadeTimestamp = DateTime.Now;
                 monitoringPort.LastMoniResult = moniResult;
                 monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
+                _monitoringQueue.Save();
 
                 if (reason != ReasonToSendMonitoringResult.None)
                 {
                     SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
                     monitoringPort.LastPreciseSavedTimestamp = DateTime.Now;
+                    _monitoringQueue.Save();
                 }
 
-                _monitoringQueue.Save();
             }
             else
                 LogFailedMeasurement(moniResult, monitoringPort);
@@ -428,32 +428,6 @@ namespace Iit.Fibertest.RtuManagement
             return dto;
         }
 
-        private void SendByMsmq(MonitoringResultDto dto)
-        {
-            try
-            {
-                var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
-                var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
-                var queue = new MessageQueue(connectionString);
-                Message message = new Message(dto, new BinaryMessageFormatter());
-                queue.Send(message, MessageQueueTransactionType.Single);
-                _rtuLog.AppendLine("Monitoring result sent by MSMQ.");
-            }
-            catch (Exception e)
-            {
-                _rtuLog.AppendLine("SendByMsmq: " + e.Message);
-            }
-        }
-
-        private void SendByMsmq(BopStateChangedDto dto)
-        {
-            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
-            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
-            var queue = new MessageQueue(connectionString);
-            Message message = new Message(dto, new BinaryMessageFormatter());
-            queue.Send(message, MessageQueueTransactionType.Single);
-            _rtuLog.AppendLine("OTAU state changes sent by MSMQ");
-        }
 
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(MonitoringPort monitoringPort)
