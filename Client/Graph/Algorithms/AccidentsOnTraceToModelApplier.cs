@@ -74,6 +74,8 @@ namespace Iit.Fibertest.Graph
 
         private static void ShowBadSegment(this Model model, AccidentOnTraceV2 accidentInOldEvent, Guid traceId)
         {
+            if (accidentInOldEvent.Left == null || accidentInOldEvent.Right == null) return;
+
             var fibers = model.GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.Left.LandmarkIndex,
                 accidentInOldEvent.Right.LandmarkIndex);
 
