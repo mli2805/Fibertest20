@@ -103,7 +103,7 @@
     <Compile Include="Pinger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestoreFunctions.cs" />
-    <Compile Include="ServiceManager\RecoveryAction.cs" />
+    <Compile Include="ServiceManager\FailureAction.cs" />
     <Compile Include="ServiceManager\ScmAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceBootFlag.cs" />

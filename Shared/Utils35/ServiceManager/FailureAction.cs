@@ -1,6 +1,6 @@
 ﻿namespace Iit.Fibertest.UtilsLib
 {
-    public enum RecoveryAction
+    public enum FailureAction
     {
         None,
         Restart,

@@ -25,8 +25,6 @@ namespace Iit.Fibertest.UtilsLib
             public int dwWaitHint = 0;
         }
 
-
-
         #region OpenSCManager
         [DllImport("advapi32.dll", EntryPoint = "OpenSCManagerW", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)]
         static extern IntPtr OpenSCManager(string machineName, string databaseName, ScmAccessRights dwDesiredAccess);
@@ -79,73 +77,6 @@ namespace Iit.Fibertest.UtilsLib
             public string lpDescription;
         }
 
-        // Win32 function to change the service config for the failure actions.
-        [DllImport("advapi32.dll", EntryPoint = "ChangeServiceConfig2")]
-        public static extern bool ChangeServiceFailureActions(IntPtr hService, int dwInfoLevel, [MarshalAs(UnmanagedType.Struct)] ref ServiceFailureActions lpInfo);
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct ServiceFailureActions
-        {
-            public int dwResetPeriod;
-            [MarshalAs(UnmanagedType.LPWStr)]
-
-            public string lpRebootMsg;
-            [MarshalAs(UnmanagedType.LPWStr)]
-
-            public string lpCommand;
-            public int cActions;
-            public IntPtr lpsaActions;
-        }
-
-        // [StructLayout(LayoutKind.Sequential)]
-        // public class ScAction
-        // {
-        //     public int type;
-        //     public uint dwDelay;
-        // }
-
-        private const int ServiceConfigFailureActions = 0x2;
-
-        private static void SetRebootAsRecoveryBehaviour(IntPtr service)
-        {
-            var myActions = new int[3 * 2];
-            var currInd = 0;
-
-            for (int i = 0; i < 3; i++)
-            {
-                myActions[currInd] = (int)RecoveryAction.Reboot; // action
-                myActions[++currInd] = 0; // delay
-                currInd++;
-            }
-
-            // Need to pack 8 bytes per struct
-            var tmpBuf = Marshal.AllocHGlobal(3 * 8);
-            Marshal.Copy(myActions, 0, tmpBuf, 3 * 2);
-
-            var config = new ServiceFailureActions
-            {
-                cActions = 3,
-                dwResetPeriod = 0,
-                lpCommand = null,
-                lpRebootMsg = null,
-                lpsaActions = new IntPtr(tmpBuf.ToInt32())
-            };
-
-            try
-            {
-                // Call the ChangeServiceFailureActions() abstraction of ChangeServiceConfig2()
-                var result = ChangeServiceFailureActions(service, ServiceConfigFailureActions, ref config);
-            }
-            finally
-            {
-                // Free the memory
-                Marshal.FreeHGlobal(tmpBuf);
-            }
-
-            // Free the memory
-            Marshal.FreeHGlobal(tmpBuf);
-        }
-
         public static void Install(string serviceName, string displayName, string description, string fileName)
         {
             IntPtr scm = OpenScManager(ScmAccessRights.AllAccess);
@@ -165,8 +96,6 @@ namespace Iit.Fibertest.UtilsLib
                 int SERVICE_CONFIG_DESCRIPTION = 0x01;
                 var pinfo = new SERVICE_DESCRIPTION() { lpDescription = description };
                 ChangeServiceConfig2(service, SERVICE_CONFIG_DESCRIPTION, ref pinfo);
-
-                SetRebootAsRecoveryBehaviour(service);
             }
             finally
             {

@@ -16,6 +16,7 @@ namespace Iit.Fibertest.UtilsLib
 
         ServiceIsBeingInstalled,
         CannotInstallService,
+        CannotChangeServiceFailureAction,
         ServiceInstalledSuccessfully,
         ServiceIsBeingUninstalled,
         CannotUninstallService,
@@ -83,6 +84,8 @@ namespace Iit.Fibertest.UtilsLib
                     return string.Format(Resources.SID__0__service_is_being_installed___, addition);
                 case BwReturnProgressCode.CannotInstallService:
                     return string.Format(Resources.SID_Cannot_install_service__0_, addition);
+                case BwReturnProgressCode.CannotChangeServiceFailureAction:
+                    return "Cannot change service failure action";
                 case BwReturnProgressCode.ServiceInstalledSuccessfully:
                     return string.Format(Resources.SID__0__service_installed_successfully, addition);
                 case BwReturnProgressCode.ServiceIsBeingUninstalled:

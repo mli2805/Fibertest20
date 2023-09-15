@@ -20,6 +20,8 @@ namespace Iit.Fibertest.UtilsLib
             try
             {
                 ServiceInstaller.Install(ftService.Name, ftService.DisplayName, ftService.Description, ftService.GetFullFilename(installationFolder));
+                if (ftService.Name == "FibertestRtuService")
+                    RegistryOperations.SetRestartAsServiceFailureActions(ftService.Name);
             }
             catch (Exception)
             {
