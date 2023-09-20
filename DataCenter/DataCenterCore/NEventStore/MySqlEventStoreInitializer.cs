@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 using MySql.Data.MySqlClient;
@@ -104,9 +105,64 @@ namespace Iit.Fibertest.DataCenterCore
 
         public long GetDataSize()
         {
-            var l1 = GetSchemaSize("\"ft20efcore\"");
-            var l2 = GetSchemaSize("\"ft20graph\"");
-            return l1 + l2;
+            // var l1 = GetSchemaSize("\"ft20efcore\"");
+            // var l2 = GetSchemaSize("\"ft20graph\"");
+            // return l1 + l2;
+
+            // return GetAllFt20SchemeSize();
+
+            return GetMysqlDataFolderSize();
+        }
+
+        private long GetMysqlDataFolderSize()
+        {
+            try
+            {
+                return DirSize(new DirectoryInfo(DataDir));
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetMysqlDataFolderSize: " + e.Message);
+                return -1;
+            }
+        }
+
+        public static long DirSize(DirectoryInfo d) 
+        {    
+            long size = 0;    
+            // Add file sizes.
+            FileInfo[] fis = d.GetFiles();
+            foreach (FileInfo fi in fis) 
+            {      
+                size += fi.Length;    
+            }
+            // Add subdirectory sizes.
+            DirectoryInfo[] dis = d.GetDirectories();
+            foreach (DirectoryInfo di in dis) 
+            {
+                size += DirSize(di);   
+            }
+            return size;  
+        }
+
+        private long GetAllFt20SchemeSize()
+        {
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
+                MySqlCommand command = new MySqlCommand(
+                    "SELECT SUM(FILE_SIZE) FROM INFORMATION_SCHEMA.INNODB_SYS_TABLESPACES where name like 'ft20%'", connection);
+                connection.Open();
+                var result = (decimal)command.ExecuteScalar();
+                connection.Close();
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                return (long)result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetAllFt20SchemeSize: " + e.Message);
+                return -1;
+            }
         }
 
         private long GetSchemaSize(string schema)
