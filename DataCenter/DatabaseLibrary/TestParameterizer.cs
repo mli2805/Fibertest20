@@ -19,6 +19,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _currentDatacenterParameters.Smtp = new SmtpSettingsDto();
         }
         public void LogSettings() { }
+        public string MySqlConnectionString => "";
 
         public DbContextOptions<FtDbContext> Options => new DbContextOptionsBuilder<FtDbContext>()
             .UseInMemoryDatabase(databaseName: "Test_database")

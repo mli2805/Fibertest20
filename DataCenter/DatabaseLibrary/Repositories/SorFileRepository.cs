@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using Z.EntityFramework.Plus;
 
 
@@ -115,23 +117,28 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public int RemoveBatchSor(int[] sorIds)
+        public async Task<int> RemoveByMySqlCommand(int[] sorIds)
         {
+            await Task.Delay(0);
+            StringBuilder sb = new StringBuilder();
+            foreach (var id in sorIds)
+                sb.Append($"DELETE FROM `sorfiles` WHERE `Id`='{id}';");
+
             try
             {
-                using (var dbContext = new FtDbContext(_parameterizer.Options))
+                using (MySqlConnection conn = new MySqlConnection(_parameterizer.MySqlConnectionString))
                 {
-                    // System.Data.Entity.Core.Objects.ObjectQuery<SorFile> objectQuery =
-                    //     (System.Data.Entity.Core.Objects.ObjectQuery<SorFile>)dbContext.SorFiles.Where(s => sorIds.Contains(s.Id));
-                    var objectQuery = dbContext.SorFiles.Where(s => sorIds.Contains(s.Id));
-                    var recordsAffected = objectQuery.Delete();
-                    _logFile.AppendLine($"{recordsAffected} sor files removed");
-                    return recordsAffected;
+                    conn.Open();
+                    using (MySqlCommand command = new MySqlCommand(sb.ToString(), conn){CommandTimeout = 0})
+                    {
+                        return command.ExecuteNonQuery();
+                    }
+
                 }
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("RemoveBatchSor: " + e.Message);
+                _logFile.AppendLine("RemoveByMySqlCommand: " + e.Message);
                 return -1;
             }
         }

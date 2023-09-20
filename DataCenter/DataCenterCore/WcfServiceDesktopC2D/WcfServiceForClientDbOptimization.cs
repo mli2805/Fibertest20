@@ -69,8 +69,8 @@ namespace Iit.Fibertest.DataCenterCore
                 Stage = DbOptimizationStage.SorsRemoving, MeasurementsChosenForDeletion = ids.Length,
             });
             // var count = await _sorFileRepository.RemoveManySorAsync(ids);
-            // var count = _sorFileRepository.RemoveBatchSor(ids);
-            var count = await _sorFileRepository.RemoveSorsByPortionsAsync(ids);
+            // var count = await _sorFileRepository.RemoveSorsByPortionsAsync(ids);
+            var count = await _sorFileRepository.RemoveByMySqlCommand(ids);
 
             if (count < 0) return count; // error
 

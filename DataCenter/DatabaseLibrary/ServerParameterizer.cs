@@ -73,7 +73,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile.AppendLine($"Measurements: MYSQL=localhost:{_mysqlTcpPort}   Database={_measurementsScheme}");
         }
 
-        private string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database={_measurementsScheme}";
+        public string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database={_measurementsScheme}";
 
         public DbContextOptions<FtDbContext> Options =>
             new DbContextOptionsBuilder<FtDbContext>().UseMySql(MySqlConnectionString).Options;

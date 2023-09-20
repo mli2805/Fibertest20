@@ -6,6 +6,7 @@ namespace Iit.Fibertest.DatabaseLibrary
     {
         void Init();
         void LogSettings();
+        string MySqlConnectionString { get; }
         DbContextOptions<FtDbContext> Options { get; }
 
     }
