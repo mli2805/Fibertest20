@@ -72,6 +72,9 @@ namespace Iit.Fibertest.WpfCommonViews
                 case DbOptimizationStage.ModelCreating:
                     return string.Format(Resources.SID_Model_creating_____0__events, dto.EventsReplayed);
 
+                case DbOptimizationStage.SorsRemovingFailed:
+                    return "Failed to remove sor files";
+
                 case DbOptimizationStage.OptimizationDone:
                     ProgressBarVisibility = Visibility.Collapsed;
                     return string.Format(Resources.SID_Before__0___After__1___Released__2_,

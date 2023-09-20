@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
+using Z.EntityFramework.Plus;
+
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
@@ -113,15 +115,71 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
+        public int RemoveBatchSor(int[] sorIds)
+        {
+            try
+            {
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
+                {
+                    // System.Data.Entity.Core.Objects.ObjectQuery<SorFile> objectQuery =
+                    //     (System.Data.Entity.Core.Objects.ObjectQuery<SorFile>)dbContext.SorFiles.Where(s => sorIds.Contains(s.Id));
+                    var objectQuery = dbContext.SorFiles.Where(s => sorIds.Contains(s.Id));
+                    var recordsAffected = objectQuery.Delete();
+                    _logFile.AppendLine($"{recordsAffected} sor files removed");
+                    return recordsAffected;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RemoveBatchSor: " + e.Message);
+                return -1;
+            }
+        }
+
+        public async Task<int> RemoveSorsByPortionsAsync(int[] sorIds)
+        {
+            var portionSize = 2000;
+            var index = 0;
+            var recordsAffected = 0;
+
+            try
+            {
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
+                {
+                    while (index * portionSize < sorIds.Length)
+                    {
+                        var currentPortionSize = (index + 1) * portionSize < sorIds.Length ? portionSize : sorIds.Length - index * portionSize;
+                        var portion = new int[currentPortionSize];
+                        Array.ConstrainedCopy(sorIds, index * portionSize, portion, 0, currentPortionSize);
+
+                        var sors = dbContext.SorFiles.Where(s => portion.Contains(s.Id));
+                        dbContext.SorFiles.RemoveRange(sors);
+                        recordsAffected += await dbContext.SaveChangesAsync();
+                        index++;
+                        _logFile.AppendLine($"{recordsAffected} sor files removed");
+                    }
+
+                    return recordsAffected;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RemoveBatchSorByPortions: " + e.Message);
+                return -1;
+            }
+
+        }
+
         public async Task<int> RemoveManySorAsync(int[] sorIds)
         {
             try
             {
                 using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
-                    var sors = dbContext.SorFiles.Where(s => sorIds.Contains(s.Id)).ToList();
-                    dbContext.SorFiles.RemoveRange(sors);
+                    var sors = dbContext.SorFiles.Where(s => sorIds.Contains(s.Id)); // does not occupy memory
+                    dbContext.SorFiles.RemoveRange(sors); // Occupies memory !!!!!!!!!!!!!!!!!!
                     var recordsAffected = await dbContext.SaveChangesAsync();
+                    _logFile.AppendLine($"{recordsAffected} sor files removed");
                     return recordsAffected;
                 }
             }

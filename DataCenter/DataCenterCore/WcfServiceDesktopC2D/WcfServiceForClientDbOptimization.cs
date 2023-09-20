@@ -24,20 +24,29 @@ namespace Iit.Fibertest.DataCenterCore
 
             _logFile.AppendLine("block is ON");
             var oldSize = _eventStoreInitializer.GetDataSize() / 1e9;
-            var unused = await ClearSor(removeEventsAndSors);
+            var sorRemovedCount = await ClearSor(removeEventsAndSors);
 
-            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto(){Stage = DbOptimizationStage.ModelAdjusting});
-            _logFile.AppendLine("Removing from writeModel");
-            await _eventStoreService.SendCommand(removeEventsAndSors, username, clientIp);
-
-            _logFile.AppendLine("Unblocking connections");
-            _globalState.IsDatacenterInDbOptimizationMode = false;
-            var newSize = _eventStoreInitializer.GetDataSize() / 1e9;
-            await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
+            if (sorRemovedCount < 0)
             {
-                Stage = DbOptimizationStage.OptimizationDone,
-                OldSizeGb = oldSize, NewSizeGb = newSize,
-            });
+                await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto(){Stage = DbOptimizationStage.SorsRemovingFailed});
+                _logFile.AppendLine("Failed to remove sors and events");
+            }
+            else
+            {
+                await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto(){Stage = DbOptimizationStage.ModelAdjusting});
+                _logFile.AppendLine("Removing from writeModel");
+                await _eventStoreService.SendCommand(removeEventsAndSors, username, clientIp);
+
+                _logFile.AppendLine("Unblocking connections");
+                _globalState.IsDatacenterInDbOptimizationMode = false;
+                var newSize = _eventStoreInitializer.GetDataSize() / 1e9;
+                await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
+                {
+                    Stage = DbOptimizationStage.OptimizationDone,
+                    OldSizeGb = oldSize, NewSizeGb = newSize,
+                });
+            }
+
             await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto()
             {
                 ConnectionId = client.ConnectionId,
@@ -59,8 +68,11 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 Stage = DbOptimizationStage.SorsRemoving, MeasurementsChosenForDeletion = ids.Length,
             });
-            var count = await _sorFileRepository.RemoveManySorAsync(ids);
-            _logFile.AppendLine($"{count} measurements removed");
+            // var count = await _sorFileRepository.RemoveManySorAsync(ids);
+            // var count = _sorFileRepository.RemoveBatchSor(ids);
+            var count = await _sorFileRepository.RemoveSorsByPortionsAsync(ids);
+
+            if (count < 0) return count; // error
 
             await MySqlTableOptimization();
             return count;

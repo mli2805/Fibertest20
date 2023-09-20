@@ -9,6 +9,8 @@
 
         ModelCreating,
 
+        SorsRemovingFailed,
+
         OptimizationDone,
         SnapshotDone,
     }
