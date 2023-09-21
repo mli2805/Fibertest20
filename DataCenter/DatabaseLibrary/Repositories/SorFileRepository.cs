@@ -7,7 +7,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
-using Z.EntityFramework.Plus;
 
 
 namespace Iit.Fibertest.DatabaseLibrary

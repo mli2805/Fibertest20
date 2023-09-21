@@ -3686,4 +3686,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Rtu_status_events_off" xml:space="preserve">
 		<value>События состояния RTU выкл.</value>
 	</data>
+	<data name="SID_RTU_status_events_in_Db" xml:space="preserve">
+		<value>событий состояния RTU:</value>
+	</data>
 </root>

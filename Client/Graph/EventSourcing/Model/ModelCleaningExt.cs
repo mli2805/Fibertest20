@@ -62,5 +62,25 @@ namespace Iit.Fibertest.Graph
 
             return result;
         }
+
+        public static List<RtuAccident> GetRtuStatusEventsForDeletion(this Model model, DateTime upTo)
+        {
+            var result = model.RtuAccidents.Where(a=>a.EventRegistrationTimestamp <= upTo).ToList();
+
+            foreach (var rtu in model.Rtus)
+            {
+                var lastEvent = model.RtuAccidents.LastOrDefault(a=>a.RtuId == rtu.Id && !a.IsMeasurementProblem);
+                if (lastEvent != null && lastEvent.EventRegistrationTimestamp <= upTo)
+                    result.Remove(lastEvent);
+            }
+
+            foreach (var trace in model.Traces)
+            {
+                var lastEvent = model.RtuAccidents.LastOrDefault(a=>a.TraceId == trace.TraceId && a.IsMeasurementProblem);
+                if (lastEvent != null && lastEvent.EventRegistrationTimestamp <= upTo)
+                    result.Remove(lastEvent); }
+
+            return result;
+        }
     }
 }

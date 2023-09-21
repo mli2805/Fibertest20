@@ -145,6 +145,7 @@ namespace Iit.Fibertest.DataCenterCore
             return size;  
         }
 
+        // ReSharper disable once UnusedMember.Local
         private long GetAllFt20SchemeSize()
         {
             try
@@ -165,6 +166,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        // ReSharper disable once UnusedMember.Local
         private long GetSchemaSize(string schema)
         {
             try

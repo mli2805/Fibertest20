@@ -8,5 +8,7 @@ namespace Iit.Fibertest.Graph
         public bool IsMeasurementsNotEvents { get; set; }
         public bool IsOpticalEvents { get; set; }
         public bool IsNetworkEvents { get; set; }
+        public bool IsRtuStatusEvents { get; set; }
+
     }
 }

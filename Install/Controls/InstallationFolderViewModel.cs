@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Install
             HeaderViewModel.Explanation = string.Format(Resources.SID_Choose_folder_in_which_to_install__0_, currentInstallation.MainName);
             Text1 = string.Format(Resources.SID_Setup_will_install__0__in_, currentInstallation.MainName);
             InstallationFolder = RegistryOperations.GetFibertestValue("InstallationFolder", @"C:\IIT-Fibertest\");
-            SpaceAvailable = string.Format(Resources.SID_Space_available___0_, SpaceToString(GetAvailableFreeSpace(@"C:\")));
+            SpaceAvailable = string.Format(Resources.SID_Space_available___0_, GetAvailableFreeSpace(@"C:\").ToDiskSpaceSize());
         }
 
         private long GetAvailableFreeSpace(string driveName)
@@ -69,19 +69,7 @@ namespace Iit.Fibertest.Install
             return -1;
         }
 
-        private string SpaceToString(double number)
-        {
-            return number < 1024
-                ? $"{number} B"
-                : number / 1024 < 1024
-                    ? $"{number / 1024:##,###.#} KB"
-                    : number / 1024 / 1024 < 1024
-                        ? $"{number / 1024 / 1024:##,###.#} MB"
-                        : number / 1024 / 1024 / 1024 < 1024
-                            ? $"{number / 1024 / 1024 / 1024:##,###.#} GB"
-                            : $"{number / 1024 / 1024 / 1024 / 1024:##,###.#} TB";
-        }
-
+      
         public void Browse()
         {
             using (var dialog = new FolderBrowserDialog(){SelectedPath = InstallationFolder, ShowNewFolderButton = true})

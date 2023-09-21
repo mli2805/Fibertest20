@@ -27,12 +27,14 @@
                         <TextBlock Text="{x:Static stringResources:Resources.SID_which_a_not_events}" Margin="0,-3,0,5" TextAlignment="Right"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_events_in_Db}" Margin="5" TextAlignment="Right"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events_in_Db}" Margin="5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_RTU_status_events_in_Db}" Margin="5" TextAlignment="Right"/>
                     </StackPanel>
                     <StackPanel Width="70">
                         <TextBlock Text="{Binding Model.MeasurementsNotEvents}"  Margin="5"/>
                         <TextBlock Text="" Margin="0,-3,0,5" TextAlignment="Right"/>
                         <TextBlock Text="{Binding Model.OpticalEvents}" Margin="5"/>
                         <TextBlock Text="{Binding Model.NetworkEvents}" Margin="5"/>
+                        <TextBlock Text="{Binding Model.RtuStatusEvents}" Margin="5"/>
                     </StackPanel>
                 </DockPanel>
             </GroupBox>
@@ -44,11 +46,11 @@
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_free_space}" Margin="5" TextAlignment="Right"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Free_space_threshold}" Margin="5" TextAlignment="Right"/>
                     </StackPanel>
-                    <StackPanel Width="70">
-                        <TextBlock Text="{Binding Model.DriveSize}" Margin="5"/>
-                        <TextBlock Text="{Binding Model.DataSize}" Margin="5"/>
-                        <TextBlock Text="{Binding Model.AvailableFreeSpace}" Margin="5"/>
-                        <TextBlock Text="{Binding Model.FreeSpaceThreshold}" Margin="5"/>
+                    <StackPanel Width="70" >
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding Model.DriveSize}" Margin="5"/>
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding Model.DataSize}"  Margin="5"/>
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding Model.AvailableFreeSpace}" Margin="5"/>
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding Model.FreeSpaceThreshold}" Margin="5"/>
                     </StackPanel>
                 </DockPanel>
             </GroupBox>
@@ -71,6 +73,8 @@
                                   IsChecked="{Binding Model.IsOpticalEvents}" Margin="0,5"/>
                         <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events_0}" 
                                   IsChecked="{Binding Model.IsNetworkEvents}" Margin="0,5"/>
+                       <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_status_events}" 
+                                  IsChecked="{Binding Model.IsRtuStatusEvents}" Margin="0,5"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Up_to_and_including}" Margin="10,5"/>
                         <DatePicker Width="120" Margin="5" SelectedDate="{Binding Model.SelectedDate}"
                                         DisplayDateEnd="{Binding Model.UpToLimit}"/>

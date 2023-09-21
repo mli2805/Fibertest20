@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<DiskSpaceDto>  GetDiskSpaceGb()
         {
-            const double gb = 1024.0 * 1024 * 1024;
+            const double gb = 1e9;
             var result = new DiskSpaceDto();
             var driveInfo = new DriveInfo(_mySqlEventStoreInitializer.DataDir.Substring(0,1));
             result.TotalSize = driveInfo.TotalSize / gb;

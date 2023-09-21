@@ -7893,6 +7893,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU status events in Db:.
+        /// </summary>
+        public static string SID_RTU_status_events_in_Db {
+            get {
+                return ResourceManager.GetString("SID_RTU_status_events_in_Db", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU status events off.
         /// </summary>
         public static string SID_Rtu_status_events_off {

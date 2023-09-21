@@ -78,7 +78,7 @@ namespace Iit.Fibertest.WpfCommonViews
                 case DbOptimizationStage.OptimizationDone:
                     ProgressBarVisibility = Visibility.Collapsed;
                     return string.Format(Resources.SID_Before__0___After__1___Released__2_,
-                        dto.OldSizeGb.ToString("0.000"), dto.NewSizeGb.ToString("0.000"), (dto.OldSizeGb - dto.NewSizeGb).ToString("0.000"));
+                        dto.OldSizeGb.ToString("0.0"), dto.NewSizeGb.ToString("0.0"), (dto.OldSizeGb - dto.NewSizeGb).ToString("0.0"));
                 case DbOptimizationStage.SnapshotDone:
                     ProgressBarVisibility = Visibility.Collapsed;
                     return Resources.SID_Snapshot_created_;

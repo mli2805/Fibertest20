@@ -42,6 +42,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private int _rtuStatusEvents;
+        public int RtuStatusEvents
+        {
+            get => _rtuStatusEvents;
+            set
+            {
+                if (value == _rtuStatusEvents) return;
+                _rtuStatusEvents = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private string _driveSize;
         public string DriveSize
         {
@@ -98,6 +110,7 @@ namespace Iit.Fibertest.Client
         public bool IsMeasurements { get; set; }
         public bool IsOpticalEvents { get; set; }
         public bool IsNetworkEvents { get; set; }
+        public bool IsRtuStatusEvents { get; set; }
 
 
         #region remove sor

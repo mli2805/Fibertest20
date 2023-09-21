@@ -102,6 +102,12 @@ namespace Iit.Fibertest.Graph
                 model.BopNetworkEvents.RemoveAll(n => bopNetworkEventsForDeletion.Contains(n));
             }
 
+            if (e.IsRtuStatusEvents)
+            {
+                var rtuStatusEventsForDeletion = model.GetRtuStatusEventsForDeletion(e.UpTo);
+                model.RtuAccidents.RemoveAll(n => rtuStatusEventsForDeletion.Contains(n));
+            }
+
             return null;
         }
     }

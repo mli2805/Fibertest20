@@ -46,13 +46,14 @@ namespace Iit.Fibertest.Client
                 return;
             }
             Model.DriveSize = $@"{drive.TotalSize:0.0} Gb";
-            Model.DataSize = $@"{drive.DataSize:0.000} Gb";
+            Model.DataSize = $@"{drive.DataSize:0.0} Gb";
             Model.AvailableFreeSpace = $@"{drive.AvailableFreeSpace:0.0} Gb";
             Model.FreeSpaceThreshold = $@"{drive.FreeSpaceThreshold:0.0} Gb";
 
             Model.OpticalEvents = _readModel.Measurements.Count(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
             Model.MeasurementsNotEvents = _readModel.Measurements.Count(m => m.EventStatus == EventStatus.JustMeasurementNotAnEvent);
             Model.NetworkEvents = _readModel.NetworkEvents.Count + _readModel.BopNetworkEvents.Count;
+            Model.RtuStatusEvents = _readModel.RtuAccidents.Count;
 
             var flag = _iniFile.Read(IniSection.MySql, IniKey.IsOptimizationCouldBeDoneUpToToday, false);
             Model.UpToLimit = flag ? DateTime.Today.AddDays(-1) : new DateTime(DateTime.Today.Year - 2, 12, 31);
@@ -78,6 +79,7 @@ namespace Iit.Fibertest.Client
                     IsMeasurementsNotEvents = Model.IsMeasurements,
                     IsOpticalEvents = Model.IsOpticalEvents,
                     IsNetworkEvents = Model.IsNetworkEvents,
+                    IsRtuStatusEvents = Model.IsRtuStatusEvents,
                     UpTo = Model.SelectedDate,
                 }
                 : new MakeSnapshot()

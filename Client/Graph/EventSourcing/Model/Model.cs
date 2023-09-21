@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Graph
         public List<Measurement> Measurements { get; set; } = new List<Measurement>();
         public List<Measurement> ActiveMeasurements { get; set; } = new List<Measurement>(); // for all zones
 
-        public List<RtuAccident> RtuAccidents { get; set; } = new List<RtuAccident>();
+        public List<RtuAccident> RtuAccidents { get; set; } = new List<RtuAccident>(); // RTU status events
         public List<NetworkEvent> NetworkEvents { get; set; } = new List<NetworkEvent>();
         public List<BopNetworkEvent> BopNetworkEvents { get; set; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();

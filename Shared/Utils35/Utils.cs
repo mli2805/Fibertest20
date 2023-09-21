@@ -53,5 +53,18 @@ namespace Iit.Fibertest.UtilsLib
 
         // [DllImport("kernel32")]
         // static extern UInt64 GetTickCount64();
+
+        public static string ToDiskSpaceSize(this long number)
+        {
+            return number < 1000
+                ? $"{number} B"
+                : number / 1000 < 1000
+                    ? $"{number / 1000:##,###.#} KB"
+                    : number / 1000 / 1000 < 1000
+                        ? $"{number / 1000 / 1000:##,###.#} MB"
+                        : number / 1000 / 1000 / 1000 < 1000
+                            ? $"{number / 1000 / 1000 / 1000:##,###.#} GB"
+                            : $"{number / 1000 / 1000 / 1000 / 1000:##,###.#} TB";
+        }
     }
 }
