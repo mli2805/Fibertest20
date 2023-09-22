@@ -98,7 +98,7 @@ namespace Iit.Fibertest.Client
 
         private bool Validate()
         {
-            if (Model.IsRemoveMode && !Model.IsMeasurements && !Model.IsOpticalEvents && !Model.IsNetworkEvents)
+            if (Model.IsRemoveMode && !Model.IsMeasurements && !Model.IsOpticalEvents && !Model.IsNetworkEvents && !Model.IsRtuStatusEvents)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Nothing_selected_to_remove_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
