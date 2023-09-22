@@ -70,14 +70,14 @@ namespace Iit.Fibertest.Graph
             foreach (var rtu in model.Rtus)
             {
                 var lastEvent = model.RtuAccidents.LastOrDefault(a=>a.RtuId == rtu.Id && !a.IsMeasurementProblem);
-                if (lastEvent != null && lastEvent.EventRegistrationTimestamp <= upTo)
+                if (lastEvent != null && !lastEvent.IsGoodAccident && lastEvent.EventRegistrationTimestamp <= upTo)
                     result.Remove(lastEvent);
             }
 
             foreach (var trace in model.Traces)
             {
                 var lastEvent = model.RtuAccidents.LastOrDefault(a=>a.TraceId == trace.TraceId && a.IsMeasurementProblem);
-                if (lastEvent != null && lastEvent.EventRegistrationTimestamp <= upTo)
+                if (lastEvent != null && !lastEvent.IsGoodAccident && lastEvent.EventRegistrationTimestamp <= upTo)
                     result.Remove(lastEvent); }
 
             return result;
