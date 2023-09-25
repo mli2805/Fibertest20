@@ -2568,7 +2568,7 @@ RTU инициализируется в данный момент!</value>
     <value>Оптических событий:</value>
   </data>
 	<data name="SID_Network_events_in_Db" xml:space="preserve">
-    <value>Сетевых событий:</value>
+    <value>Сетевых событий RTU и БОП:</value>
   </data>
 	<data name="SID_Db_drive_total_size" xml:space="preserve">
     <value>Размер диска с БД:</value>
@@ -2583,7 +2583,7 @@ RTU инициализируется в данный момент!</value>
     <value>Выполнить</value>
   </data>
 	<data name="SID_Network_events_0" xml:space="preserve">
-    <value>Сетевые события</value>
+    <value>Сетевые события RTU и БОП</value>
   </data>
 	<data name="SID_Up_to_and_including" xml:space="preserve">
     <value>Оптимизация БД по дату включительно</value>
@@ -3687,6 +3687,9 @@ RTU инициализируется в данный момент!</value>
 		<value>События состояния RTU выкл.</value>
 	</data>
 	<data name="SID_RTU_status_events_in_Db" xml:space="preserve">
-		<value>событий состояния RTU:</value>
+		<value>Cобытий состояния RTU:</value>
+	</data>
+	<data name="SID_Database_compression" xml:space="preserve">
+		<value>Сжатие базы данных</value>
 	</data>
 </root>

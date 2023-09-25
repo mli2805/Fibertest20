@@ -2568,7 +2568,7 @@ RTU is initializing right now!</value>
     <value>Optical events:</value>
   </data>
 	<data name="SID_Network_events_in_Db" xml:space="preserve">
-    <value>Network events:</value>
+    <value>Network events RTU and BOP:</value>
   </data>
 	<data name="SID_Db_drive_total_size" xml:space="preserve">
     <value>Database drive's size:</value>
@@ -2583,7 +2583,7 @@ RTU is initializing right now!</value>
     <value>Execute</value>
   </data>
 	<data name="SID_Network_events_0" xml:space="preserve">
-    <value>Network events</value>
+    <value>Network events RTU and BOP</value>
   </data>
 	<data name="SID_Up_to_and_including" xml:space="preserve">
     <value>DB optimization up to and including</value>
@@ -3688,5 +3688,8 @@ Please try again later</value>
 	</data>
 	<data name="SID_RTU_status_events_in_Db" xml:space="preserve">
 		<value>RTU status events:</value>
+	</data>
+	<data name="SID_Database_compression" xml:space="preserve">
+		<value>Database compression</value>
 	</data>
 </root>

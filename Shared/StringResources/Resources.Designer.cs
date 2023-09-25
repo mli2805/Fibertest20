@@ -2458,6 +2458,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database compression.
+        /// </summary>
+        public static string SID_Database_compression {
+            get {
+                return ResourceManager.GetString("SID_Database_compression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database error!.
         /// </summary>
         public static string SID_Database_error_ {
@@ -7893,7 +7902,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RTU status events in Db:.
+        ///   Looks up a localized string similar to RTU status events:.
         /// </summary>
         public static string SID_RTU_status_events_in_Db {
             get {
