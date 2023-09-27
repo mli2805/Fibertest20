@@ -277,7 +277,6 @@ namespace Iit.Fibertest.RtuManagement
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Measure, monitoringPort, baseRefType);
 
-            _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
 
             if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
                 return new MoniResult() { ReturnCode = ReturnCode.MeasurementInterrupted };
@@ -330,7 +329,9 @@ namespace Iit.Fibertest.RtuManagement
                 return new MoniResult() { ReturnCode = ReturnCode.MeasurementHardwareProblem };
             }
 
-            return AnalyzeAndCompare(baseRefType, monitoringPort, buffer, baseBytes);
+            var moniResult = AnalyzeAndCompare(baseRefType, monitoringPort, buffer, baseBytes);
+            _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
+            return moniResult;
         }
 
         private MoniResult AnalyzeAndCompare(BaseRefType baseRefType, MonitoringPort monitoringPort,
