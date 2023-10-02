@@ -267,7 +267,11 @@ namespace Iit.Fibertest.RtuManagement
             _cancellationTokenSource = new CancellationTokenSource();
 
             if (shouldChangePort && !ToggleToPort(monitoringPort))
-                return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementToggleToPortFailed };
+                return new MoniResult()
+                {
+                    UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, 
+                    HardwareReturnCode = ReturnCode.MeasurementToggleToPortFailed
+                };
 
             var baseBytes = monitoringPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)
@@ -277,7 +281,7 @@ namespace Iit.Fibertest.RtuManagement
 
 
             if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
-                return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementInterrupted };
+                return new MoniResult() { UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, HardwareReturnCode = ReturnCode.MeasurementInterrupted };
 
             var result = _otdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, _mainCharon.GetActiveChildCharon());
 
@@ -286,7 +290,7 @@ namespace Iit.Fibertest.RtuManagement
                 case ReturnCode.MeasurementInterrupted:
                     IsMonitoringOn = false;
                     SendCurrentMonitoringStep(MonitoringCurrentStep.Interrupted);
-                    return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementInterrupted };
+                    return new MoniResult() { UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, HardwareReturnCode = ReturnCode.MeasurementInterrupted };
 
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                     // сообщить пользователю, восстановление не нужно
@@ -295,7 +299,7 @@ namespace Iit.Fibertest.RtuManagement
                 case ReturnCode.MeasurementError:
                     if (RunMainCharonRecovery() != ReturnCode.Ok)
                         RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                    return new MoniResult() { HardwareReturnCode = result }; // восстановление, без сообщения
+                    return new MoniResult() { UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, HardwareReturnCode = result }; // восстановление, без сообщения
             }
 
 
@@ -318,13 +322,13 @@ namespace Iit.Fibertest.RtuManagement
                     _rtuLog.AppendLine("Additional check after measurement failed!");
                     monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
                     ReInitializeDlls();
-                    return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementHardwareProblem };
+                    return new MoniResult() { UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, HardwareReturnCode = ReturnCode.MeasurementHardwareProblem };
                 }
             }
             catch (Exception e)
             {
                 _rtuLog.AppendLine($"Exception during PrepareMeasurement: {e.Message}");
-                return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementHardwareProblem };
+                return new MoniResult() { UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, HardwareReturnCode = ReturnCode.MeasurementHardwareProblem };
             }
 
             var moniResult = AnalyzeAndCompare(baseRefType, monitoringPort, buffer, baseBytes);

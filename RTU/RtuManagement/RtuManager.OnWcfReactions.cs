@@ -68,7 +68,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
-            _rtuLog.AppendLine($"RTU {_id.First6()} initialization started. Process {pid}, thread {tid}");
+            _rtuLog.AppendLine($"RTU {_id.First6()} initialization started");
         }
 
         private void SaveInitializationParameters(InitializeRtuDto rtu)

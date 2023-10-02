@@ -14,8 +14,7 @@ namespace Iit.Fibertest.UtilsLib
             serviceLog.AppendLine(res, 0, 3);
             Arp.ClearCache();
             rtuLog.AppendLine("Recovery procedure: Clear ARP table.");
-            rtuLog.AppendLine("Recovery procedure: Reset Charon");
-            serviceLog.AppendLine("Recovery procedure: Clear ARP table and Reset Charon.");
+            serviceLog.AppendLine("Recovery procedure: Clear ARP table.");
             res = Arp.GetTable();
             serviceLog.AppendLine(res, 0, 3);
         }
