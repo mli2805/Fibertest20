@@ -101,7 +101,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             }
             cleanMeasSorData = measSorData;
 
-            moniResult.ReturnCode = flag ? ReturnCode.MeasurementEndedNormally : ReturnCode.MeasurementComparisonFailed;
+            moniResult.UserReturnCode = flag ? ReturnCode.MeasurementEndedNormally : ReturnCode.MeasurementComparisonFailed;
             return moniResult;
         }
 
@@ -141,7 +141,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             catch (Exception e)
             {
                 _rtuLogger.AppendLine($"Compare one level error: {e.Message}");
-                moniResult.ReturnCode = ReturnCode.MeasurementComparisonFailed;
+                moniResult.UserReturnCode = ReturnCode.MeasurementComparisonFailed;
                 return false;
             }
         }

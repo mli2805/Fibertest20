@@ -5,8 +5,19 @@ namespace Iit.Fibertest.Dto
 {
     public class MoniResult
     {
+        #region Measurement Return Code
         // Trace could be broken and ReturnCode could be MeasurementEndedNormally - means measurement process ended normally
-        public ReturnCode ReturnCode;
+
+        // user acknowledged errors (no base ref, invalid base ref)
+        public ReturnCode UserReturnCode { get; set; } = ReturnCode.MeasurementEndedNormally;
+        // errors that should be handled by service itself (hardware errors - port, otdr, etc) or Interrupted
+        public ReturnCode HardwareReturnCode { get; set; } = ReturnCode.MeasurementEndedNormally;
+
+        public bool IsMeasurementEndedNormally =>
+            UserReturnCode == ReturnCode.MeasurementEndedNormally && HardwareReturnCode == ReturnCode.MeasurementEndedNormally;
+
+        #endregion
+       
      
         #region State of trace
         public bool IsNoFiber { get; set; }
@@ -22,7 +33,8 @@ namespace Iit.Fibertest.Dto
 
         public FiberState GetAggregatedResult()
         {
-            if (ReturnCode == ReturnCode.MeasurementInterrupted)
+            if (!IsMeasurementEndedNormally)
+            //if (ReturnCode == ReturnCode.MeasurementInterrupted)
                 return FiberState.Unknown;
 
             if (IsNoFiber)

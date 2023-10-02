@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Dto
         MonitoringModeChanged = 8,
         TimeToRegularSave = 16,
         OutOfTurnPreciseMeasurement = 32,
-        MeasurementAccidentStatusChanged = 64,
+        MeasurementAccidentStatusChanged = 64, // base not found, invalid base
     }
 
     [Serializable]

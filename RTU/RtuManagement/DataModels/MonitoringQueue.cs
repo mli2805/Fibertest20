@@ -154,7 +154,8 @@ namespace Iit.Fibertest.RtuManagement
                 var oldPort = oldQueue.FirstOrDefault(p => p.TraceId == monitoringPort.TraceId);
                 if (oldPort != null)
                 {
-                    monitoringPort.LastMoniResult.ReturnCode = oldPort.LastMoniResult.ReturnCode;
+                    monitoringPort.LastMoniResult.UserReturnCode = oldPort.LastMoniResult.UserReturnCode;
+                    monitoringPort.LastMoniResult.HardwareReturnCode = oldPort.LastMoniResult.HardwareReturnCode;
                     monitoringPort.LastTraceState = oldPort.LastTraceState;
                     monitoringPort.LastFastSavedTimestamp = oldPort.LastFastSavedTimestamp;
                     monitoringPort.LastPreciseMadeTimestamp = oldPort.LastPreciseMadeTimestamp;

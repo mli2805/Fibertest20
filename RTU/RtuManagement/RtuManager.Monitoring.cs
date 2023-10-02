@@ -40,10 +40,11 @@ namespace Iit.Fibertest.RtuManagement
                 _measurementNumber++;
                 var monitoringPort = _monitoringQueue.Peek();
 
-                var previousReturnCode = monitoringPort.LastMoniResult.ReturnCode;
+                var previousUserReturnCode = monitoringPort.LastMoniResult.UserReturnCode;
+                var previousHardwareReturnCode = monitoringPort.LastMoniResult.HardwareReturnCode;
                 ProcessOnePort(monitoringPort);
 
-                if (monitoringPort.LastMoniResult.ReturnCode != ReturnCode.MeasurementInterrupted)
+                if (monitoringPort.LastMoniResult.HardwareReturnCode != ReturnCode.MeasurementInterrupted)
                 {
                     var unused = _monitoringQueue.Dequeue();
                     _monitoringQueue.Enqueue(monitoringPort);
@@ -52,7 +53,8 @@ namespace Iit.Fibertest.RtuManagement
                 else
                 {
                     // monitoringPort in memory changed
-                    monitoringPort.LastMoniResult.ReturnCode = previousReturnCode;
+                    monitoringPort.LastMoniResult.UserReturnCode = previousUserReturnCode;
+                    monitoringPort.LastMoniResult.HardwareReturnCode = previousHardwareReturnCode;
                 }
 
                 if (!IsMonitoringOn)
@@ -83,7 +85,7 @@ namespace Iit.Fibertest.RtuManagement
                 (monitoringPort.LastTraceState == FiberState.Ok || isNewTrace))
             {
                 monitoringPort.LastMoniResult = DoFastMeasurement(monitoringPort);
-                if (monitoringPort.LastMoniResult.ReturnCode != ReturnCode.MeasurementEndedNormally)
+                if (!monitoringPort.LastMoniResult.IsMeasurementEndedNormally)
                     return;
                 hasFastPerformed = true;
             }
@@ -119,7 +121,7 @@ namespace Iit.Fibertest.RtuManagement
             var moniResult = DoMeasurement(BaseRefType.Fast, monitoringPort);
             var reason = ReasonToSendMonitoringResult.None;
 
-            if (moniResult.ReturnCode == ReturnCode.MeasurementEndedNormally)
+            if (moniResult.IsMeasurementEndedNormally)
             {
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
                     monitoringPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
@@ -150,10 +152,9 @@ namespace Iit.Fibertest.RtuManagement
                     reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
                 }
 
-                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode
-                    && monitoringPort.LastMoniResult.ReturnCode.IsRtuStatusEvent())
+                if (moniResult.UserReturnCode != monitoringPort.LastMoniResult.UserReturnCode)
                 {
-                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
+                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.UserReturnCode}, now - {moniResult.UserReturnCode}");
                     _rtuLog.AppendLine("Problem with base ref solved");
                     reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
                 }
@@ -178,18 +179,16 @@ namespace Iit.Fibertest.RtuManagement
 
         private void LogFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
         {
-            if (moniResult.ReturnCode.IsRtuStatusEvent())
-
-                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode)
-                {
-                    _rtuLog.AppendLine($"{monitoringPort.LastMoniResult.ReturnCode} => {moniResult.ReturnCode}");
-                    _rtuLog.AppendLine("Problem with base ref occurred!");
-                    SendByMsmq(CreateDto(moniResult, monitoringPort, ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
-                }
-                else
-                {
-                    _rtuLog.AppendLine("Problem already reported.");
-                }
+            if (moniResult.UserReturnCode != monitoringPort.LastMoniResult.UserReturnCode)
+            {
+                _rtuLog.AppendLine($"{monitoringPort.LastMoniResult.UserReturnCode} => {moniResult.UserReturnCode}");
+                _rtuLog.AppendLine("Problem with base ref occurred!");
+                SendByMsmq(CreateDto(moniResult, monitoringPort, ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
+            }
+            else
+            {
+                _rtuLog.AppendLine("Problem already reported.");
+            }
 
             // other problems provoke service restart
             // and will be discovered by user only if there are many
@@ -203,7 +202,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var moniResult = DoMeasurement(baseType, monitoringPort, !hasFastPerformed);
 
-            if (moniResult.ReturnCode == ReturnCode.MeasurementEndedNormally)
+            if (moniResult.IsMeasurementEndedNormally)
             {
                 var reason = ReasonToSendMonitoringResult.None;
                 if (isOutOfTurnMeasurement)
@@ -237,10 +236,9 @@ namespace Iit.Fibertest.RtuManagement
                     reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
                 }
 
-                if (moniResult.ReturnCode != monitoringPort.LastMoniResult.ReturnCode
-                    && monitoringPort.LastMoniResult.ReturnCode.IsRtuStatusEvent())
+                if (moniResult.UserReturnCode != monitoringPort.LastMoniResult.UserReturnCode)
                 {
-                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.ReturnCode}, now - {moniResult.ReturnCode}");
+                    _rtuLog.AppendLine($"previous measurement code - {monitoringPort.LastMoniResult.UserReturnCode}, now - {moniResult.UserReturnCode}");
                     _rtuLog.AppendLine("Problem with base ref solved");
                     reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
                 }
@@ -269,17 +267,17 @@ namespace Iit.Fibertest.RtuManagement
             _cancellationTokenSource = new CancellationTokenSource();
 
             if (shouldChangePort && !ToggleToPort(monitoringPort))
-                return new MoniResult() { ReturnCode = ReturnCode.MeasurementToggleToPortFailed };
+                return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementToggleToPortFailed };
 
             var baseBytes = monitoringPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)
-                return new MoniResult() { ReturnCode = ReturnCode.MeasurementBaseRefNotFound, BaseRefType = baseRefType };
+                return new MoniResult() { UserReturnCode = ReturnCode.MeasurementBaseRefNotFound, BaseRefType = baseRefType };
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Measure, monitoringPort, baseRefType);
 
 
             if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
-                return new MoniResult() { ReturnCode = ReturnCode.MeasurementInterrupted };
+                return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementInterrupted };
 
             var result = _otdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, _mainCharon.GetActiveChildCharon());
 
@@ -288,16 +286,16 @@ namespace Iit.Fibertest.RtuManagement
                 case ReturnCode.MeasurementInterrupted:
                     IsMonitoringOn = false;
                     SendCurrentMonitoringStep(MonitoringCurrentStep.Interrupted);
-                    return new MoniResult() { ReturnCode = ReturnCode.MeasurementInterrupted };
+                    return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementInterrupted };
 
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                     // сообщить пользователю, восстановление не нужно
-                    return new MoniResult() { ReturnCode = result, BaseRefType = baseRefType };
+                    return new MoniResult() { UserReturnCode = result, BaseRefType = baseRefType };
 
                 case ReturnCode.MeasurementError:
                     if (RunMainCharonRecovery() != ReturnCode.Ok)
                         RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                    return new MoniResult() { ReturnCode = result }; // восстановление, без сообщения
+                    return new MoniResult() { HardwareReturnCode = result }; // восстановление, без сообщения
             }
 
 
@@ -320,13 +318,13 @@ namespace Iit.Fibertest.RtuManagement
                     _rtuLog.AppendLine("Additional check after measurement failed!");
                     monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
                     ReInitializeDlls();
-                    return new MoniResult() { ReturnCode = ReturnCode.MeasurementHardwareProblem };
+                    return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementHardwareProblem };
                 }
             }
             catch (Exception e)
             {
                 _rtuLog.AppendLine($"Exception during PrepareMeasurement: {e.Message}");
-                return new MoniResult() { ReturnCode = ReturnCode.MeasurementHardwareProblem };
+                return new MoniResult() { HardwareReturnCode = ReturnCode.MeasurementHardwareProblem };
             }
 
             var moniResult = AnalyzeAndCompare(baseRefType, monitoringPort, buffer, baseBytes);
@@ -338,10 +336,10 @@ namespace Iit.Fibertest.RtuManagement
             byte[] buffer, byte[] baseBytes)
         {
             var moniResult = AnalyzeMeasurement(baseRefType, monitoringPort, buffer);
-            if (moniResult.ReturnCode == ReturnCode.MeasurementAnalysisFailed) return moniResult;
+            if (moniResult.UserReturnCode == ReturnCode.MeasurementAnalysisFailed) return moniResult;
 
             moniResult = CompareWithBase(baseRefType, monitoringPort, moniResult.SorBytes, baseBytes);
-            if (moniResult.ReturnCode == ReturnCode.MeasurementComparisonFailed) return moniResult;
+            if (moniResult.UserReturnCode == ReturnCode.MeasurementComparisonFailed) return moniResult;
 
             LastSuccessfulMeasTimestamp = DateTime.Now;
 
@@ -367,7 +365,7 @@ namespace Iit.Fibertest.RtuManagement
             catch (Exception e)
             {
                 _rtuLog.AppendLine($"Exception during measurement analysis: {e.Message}");
-                return new MoniResult() { ReturnCode = ReturnCode.MeasurementAnalysisFailed };
+                return new MoniResult() { UserReturnCode = ReturnCode.MeasurementAnalysisFailed };
             }
         }
 
@@ -387,7 +385,7 @@ namespace Iit.Fibertest.RtuManagement
             catch (Exception e)
             {
                 _rtuLog.AppendLine($"Exception during comparison: {e.Message}");
-                return new MoniResult() { ReturnCode = ReturnCode.MeasurementComparisonFailed };
+                return new MoniResult() { UserReturnCode = ReturnCode.MeasurementComparisonFailed };
             }
         }
 
@@ -406,7 +404,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             var dto = new MonitoringResultDto()
             {
-                ReturnCode = moniResult.ReturnCode,
+                ReturnCode = moniResult.UserReturnCode,
                 Reason = reason,
                 RtuId = _id,
                 TimeStamp = DateTime.Now,

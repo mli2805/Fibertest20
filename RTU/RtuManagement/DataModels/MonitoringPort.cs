@@ -43,7 +43,8 @@ namespace Iit.Fibertest.RtuManagement
             if (port.LastMoniResult != null)
                 LastMoniResult = new MoniResult()
                 {
-                    ReturnCode = port.LastMoniResult.ReturnCode != ReturnCode.Error ? port.LastMoniResult.ReturnCode : ReturnCode.MeasurementEndedNormally,
+                    HardwareReturnCode = port.LastMoniResult.HardwareReturnCode,
+                    UserReturnCode = port.LastMoniResult.UserReturnCode,
                     IsNoFiber = port.LastMoniResult.IsNoFiber,
                     IsFiberBreak = port.LastMoniResult.IsFiberBreak,
                     Levels = port.LastMoniResult.Levels,
@@ -66,7 +67,7 @@ namespace Iit.Fibertest.RtuManagement
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;
 
-            LastMoniResult = new MoniResult() { ReturnCode = ReturnCode.MeasurementEndedNormally, };
+            LastMoniResult = new MoniResult() { UserReturnCode = ReturnCode.MeasurementEndedNormally, HardwareReturnCode = ReturnCode.MeasurementEndedNormally};
             IsMonitoringModeChanged = true;
         }
 
