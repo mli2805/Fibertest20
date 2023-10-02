@@ -106,6 +106,11 @@ namespace Iit.Fibertest.RtuManagement
 
         public void OnServiceStart()
         {
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
+            _rtuLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
+
             _serviceLog.AppendLine($"RTU Manager version {_versionRtuManager}");
             _serviceLog.AppendLine($"iit_otdr.dll version {_versionIitOtdr}");
             var upTime = Utils.GetUpTime();

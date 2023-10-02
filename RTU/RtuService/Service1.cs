@@ -10,17 +10,15 @@ namespace Iit.Fibertest.RtuService
     public partial class Service1 : ServiceBase
     {
         private readonly IMyLog _serviceLog;
-        private readonly IMyLog _rtuLog;
         private readonly RtuManager _rtuManager;
         private readonly RtuWcfServiceBootstrapper _rtuWcfServiceBootstrapper;
         private readonly Heartbeat _heartbeat;
         private Thread _rtuManagerThread;
 
-        public Service1(IMyLog serviceLog, IMyLog rtuLog,  RtuManager rtuManager,
+        public Service1(IMyLog serviceLog, RtuManager rtuManager,
             RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper, Heartbeat heartbeat)
         {
             _serviceLog = serviceLog;
-            _rtuLog = rtuLog;
             _rtuManager = rtuManager;
             _rtuWcfServiceBootstrapper = rtuWcfServiceBootstrapper;
             _heartbeat = heartbeat;
@@ -30,11 +28,6 @@ namespace Iit.Fibertest.RtuService
 
         protected override void OnStart(string[] args)
         {
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
-            _rtuLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
-
             _rtuManagerThread = new Thread(_rtuManager.OnServiceStart) { IsBackground = true };
             _rtuManagerThread.Start();
 
