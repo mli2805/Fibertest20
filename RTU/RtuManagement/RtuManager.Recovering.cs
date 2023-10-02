@@ -24,6 +24,7 @@ namespace Iit.Fibertest.RtuManagement
                 case RecoveryStep.Ok:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                     RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
+                    // reset charon is inside Initialization
                     var recoveryResult = InitializeRtuManager(null);
                     if (recoveryResult == ReturnCode.Ok)
                         _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
