@@ -85,6 +85,12 @@ namespace Iit.Fibertest.RtuManagement
             return new string[0];
         }
 
+        public void Clear()
+        {
+            Queue.Clear();
+            Save();
+        }
+
         public void Load()
         {
             _logFile.EmptyLine();

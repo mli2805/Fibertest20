@@ -40,6 +40,20 @@ namespace Iit.Fibertest.DataCenterCore
             var commandList = new List<object>();
             var originalRtu = _writeModel.Rtus.First(r => r.Id == result.RtuId);
 
+            // main serial changed - active RTU state events should be turned off by mock OK events
+            if (dto.Serial != result.Serial)
+            {
+                foreach (var trace in _writeModel.Traces.Where(t => t.RtuId == dto.RtuId))
+                {
+                    var lastAccident = _writeModel.RtuAccidents.LastOrDefault(a => a.TraceId == trace.TraceId && a.IsMeasurementProblem);
+                    if (lastAccident != null && !lastAccident.IsGoodAccident)
+                    {
+                        commandList.Add(CreateClearingAccidentCommand(dto, lastAccident));
+                    }
+                }
+            }
+
+
             // Own port count changed
             if (originalRtu.OwnPortCount > result.OwnPortCount)
             {
@@ -53,7 +67,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             // main veex otau state changed
-            if (!dto.IsFirstInitialization && 
+            if (!dto.IsFirstInitialization &&
                 originalRtu.MainVeexOtau.connected != result.MainVeexOtau.connected)
             {
                 commandList.Add(new AddBopNetworkEvent()
@@ -94,6 +108,22 @@ namespace Iit.Fibertest.DataCenterCore
 
             commandList.Add(GetInitializeRtuCommand(dto, result));
             return commandList;
+        }
+
+        private AddRtuAccident CreateClearingAccidentCommand(InitializeRtuDto dto, RtuAccident accident)
+        {
+            return new AddRtuAccident()
+            {
+                IsMeasurementProblem = true,
+                ReturnCode = ReturnCode.MeasurementErrorCleared,
+
+                EventRegistrationTimestamp = DateTime.Now,
+                RtuId = dto.RtuId,
+                TraceId = accident.TraceId,
+                BaseRefType = accident.BaseRefType,
+
+                Comment = "",
+            };
         }
 
         private InitializeRtu GetInitializeRtuCommand(InitializeRtuDto dto, RtuInitializedDto result)

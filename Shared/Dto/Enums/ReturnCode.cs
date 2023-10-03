@@ -35,6 +35,7 @@
 
         MeasurementError = 1500,
         MeasurementEndedNormally = 1501,
+        MeasurementErrorCleared = 1502,
         MeasurementPreparationError = 1510,
         MeasurementToggleToPortFailed = 1511,
         MeasurementBaseRefNotFound = 1512,

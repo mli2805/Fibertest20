@@ -94,6 +94,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Measurement_error;
                 case ReturnCode.MeasurementEndedNormally:
                     return Resources.SID_Measurement_completed_successfully;
+                case ReturnCode.MeasurementErrorCleared:
+                    return Resources.SID_Status_changed__RTU_substitution_detected;
                 case ReturnCode.MeasurementPreparationError:
                     return Resources.SID_Measurement_preparation_error;
                 case ReturnCode.MeasurementBaseRefNotFound:

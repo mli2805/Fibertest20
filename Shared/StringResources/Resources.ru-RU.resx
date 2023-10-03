@@ -3692,4 +3692,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Database_compression" xml:space="preserve">
 		<value>Сжатие базы данных</value>
 	</data>
+	<data name="SID_Status_changed__RTU_substitution_detected" xml:space="preserve">
+		<value>Состояние изменено, обнаружена замена RTU</value>
+	</data>
 </root>

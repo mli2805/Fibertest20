@@ -5966,7 +5966,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Network events.
+        ///   Looks up a localized string similar to Network events RTU and BOP.
         /// </summary>
         public static string SID_Network_events_0 {
             get {
@@ -5984,7 +5984,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Network events:.
+        ///   Looks up a localized string similar to Network events RTU and BOP:.
         /// </summary>
         public static string SID_Network_events_in_Db {
             get {
@@ -8916,6 +8916,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Status_assignment_time {
             get {
                 return ResourceManager.GetString("SID_Status_assignment_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status changed, RTU substitution detected.
+        /// </summary>
+        public static string SID_Status_changed__RTU_substitution_detected {
+            get {
+                return ResourceManager.GetString("SID_Status_changed__RTU_substitution_detected", resourceCulture);
             }
         }
         
