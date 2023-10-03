@@ -42,6 +42,11 @@ namespace Iit.Fibertest.Client
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     break;
+                case ReturnCode.MeasurementErrorCleared:
+                    State = Resources.SID_Measurement__Cleared;
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
+                    StateBackground = Brushes.Transparent;
+                    break;
                 case ReturnCode.MeasurementBaseRefNotFound:
                     State = Resources.SID_Measurement__Failed_;
                     Explanation = $@"{Accident.BaseRefType.GetLocalizedFemaleString()} {Accident.ReturnCode.GetLocalizedString()}";

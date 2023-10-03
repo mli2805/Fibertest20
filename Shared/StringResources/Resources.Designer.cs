@@ -5444,6 +5444,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement: Cleared.
+        /// </summary>
+        public static string SID_Measurement__Cleared {
+            get {
+                return ResourceManager.GetString("SID_Measurement__Cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement (Client).
         /// </summary>
         public static string SID_Measurement__Client_ {
