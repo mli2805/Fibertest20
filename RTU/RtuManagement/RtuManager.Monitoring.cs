@@ -321,7 +321,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _rtuLog.AppendLine("Additional check after measurement failed!");
                     monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
-                    ReInitializeDlls();
+                    RunMainCharonRecovery();
                     return new MoniResult() { UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, HardwareReturnCode = ReturnCode.MeasurementHardwareProblem };
                 }
             }
@@ -393,15 +393,15 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        private void ReInitializeDlls()
-        {
-            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
-            _otdrManager.DisconnectOtdr(otdrAddress);
-            var otdrInitializationResult = InitializeOtdr();
-            _rtuLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
-            _serviceLog.EmptyLine();
-            _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
-        }
+        //private void ReInitializeDlls()
+        //{
+        //    var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
+        //    _otdrManager.DisconnectOtdr(otdrAddress);
+        //    var otdrInitializationResult = InitializeOtdr();
+        //    _rtuLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
+        //    _serviceLog.EmptyLine();
+        //    _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
+        //}
 
         private MonitoringResultDto CreateDto(MoniResult moniResult, MonitoringPort monitoringPort,
             ReasonToSendMonitoringResult reason)
