@@ -67,7 +67,8 @@ namespace Iit.Fibertest.Client
 
             ActualRtuAccidentsViewModel.RemoveOldAccidentIfExists(accident);
             if (accident.ReturnCode == ReturnCode.MeasurementEndedNormally
-                || accident.ReturnCode == ReturnCode.Ok) // special code for RTU recovered ?
+                || accident.ReturnCode == ReturnCode.Ok
+                || accident.ReturnCode == ReturnCode.MeasurementErrorCleared) // special code for RTU recovered ?
                 return;
 
             ActualRtuAccidentsViewModel.AddAccident(accident);
