@@ -58,11 +58,20 @@ namespace Iit.Fibertest.DataCenterCore
         public void SendNetworkEvent(Guid rtuId, bool isMainChannel, bool isOk)
         {
             var phoneNumbers = _writeModel.GetPhonesToSendNetworkEvent(rtuId);
-
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
             if (phoneNumbers.Count == 0) return;
 
             var message = _writeModel.GetShortMessageForNetworkEvent(rtuId, isMainChannel, isOk);
+            PushSms(message, phoneNumbers);
+        }
+
+        public void SendRtuStatusEvent(RtuAccident accident)
+        {
+            var phoneNumbers = _writeModel.GetPhonesToSendNetworkEvent(accident.RtuId);
+            _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
+            if (phoneNumbers.Count == 0) return;
+
+            var message = _writeModel.GetShortMessageForRtuStatusEvent(accident);
             PushSms(message, phoneNumbers);
         }
 

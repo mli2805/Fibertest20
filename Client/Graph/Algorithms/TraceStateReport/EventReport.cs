@@ -24,7 +24,8 @@ namespace Iit.Fibertest.Graph
 
         public static string GetShortMessageForNetworkEvent(this Model model, Guid rtuId, bool isMainChannel, bool isOk)
         {
-            var rtu = model.Rtus.First(r => r.Id == rtuId);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == rtuId);
+            if (rtu == null) return null;
             var channel = isMainChannel ? Resources.SID_Main_channel : Resources.SID_Reserve_channel;
             var what = isOk ? Resources.SID_Recovered : Resources.SID_Broken;
             return $@"RTU ""{rtu.Title}"" {channel} - {what}";
@@ -39,11 +40,29 @@ namespace Iit.Fibertest.Graph
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
             if (trace == null) return null;
 
-            return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title, 
+            return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title,
                 dto.TraceState.ToLocalizedString(), dto.TimeStamp.ForReport());
         }
 
-        public static EventReportModel CreateReportModelFromMoniresult(this Model model, MonitoringResultDto dto)
+        public static string GetShortMessageForRtuStatusEvent(this Model model, RtuAccident accident)
+        {
+            if (accident.IsMeasurementProblem)
+            {
+                var trace = model.Traces.FirstOrDefault(t => t.TraceId == accident.TraceId);
+                if (trace == null) return null;
+
+                return string.Format("Trace {0}. {1} at {2}", trace.Title, accident.ReturnCode.GetLocalizedString(), accident.EventRegistrationTimestamp.ForReport());
+            }
+            else
+            {
+                var rtu = model.Rtus.FirstOrDefault(r => r.Id == accident.RtuId);
+                if (rtu == null) return null;
+
+                return string.Format("RTU {0}. {1} at {2}", rtu.Title, accident.ReturnCode.GetLocalizedString(), accident.EventRegistrationTimestamp.ForReport());
+            }
+        }
+
+        public static EventReportModel CreateReportModelFromMoniResult(this Model model, MonitoringResultDto dto)
         {
             if (!model.TryGetRtu(dto.RtuId, out Rtu rtu)) return null;
             if (!model.TryGetTrace(dto.PortWithTrace.TraceId, out Trace trace)) return null;

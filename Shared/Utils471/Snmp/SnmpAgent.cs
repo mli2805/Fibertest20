@@ -117,7 +117,7 @@ namespace Utils471
             }
         }
 
-        public bool SentRealTrap(List<KeyValuePair<FtTrapProperty, string>> data, FtTrapType trapType)
+        public bool SendRealTrap(List<KeyValuePair<FtTrapProperty, string>> data, FtTrapType trapType)
         {
             var trapData = new VbCollection();
             foreach (KeyValuePair<FtTrapProperty, string> pair in data)

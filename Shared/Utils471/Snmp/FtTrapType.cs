@@ -6,6 +6,7 @@
         MeasurementAsSnmp = 100,
         RtuNetworkEventAsSnmp = 200,
         BopNetworkEventAsSnmp = 300,
+        RtuStatusEventAsSnmp = 400,
         TestTrap = 777,
     }
 }

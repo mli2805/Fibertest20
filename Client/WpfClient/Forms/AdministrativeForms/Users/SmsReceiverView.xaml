@@ -17,14 +17,23 @@
         <DockPanel >
             <TextBox DockPanel.Dock="Top" Text="{Binding PhoneNumber}" Margin="5,15,5,5" Width="180"/>
             <Button DockPanel.Dock="Top"  Margin="55,5,5,15" Width="100" Content="{x:Static stringResources:Resources.SID_Test}" Name="SendTestSms"/>
-            <CheckBox Content="{x:Static stringResources:Resources.SID_FiberBreak_NoFiber}" IsChecked="{Binding IsFiberBreakOn}" Margin="5" DockPanel.Dock="Top"/>
-            <CheckBox Content="{x:Static stringResources:Resources.SID_Critical}" Margin="5" IsChecked="{Binding IsCriticalOn}" DockPanel.Dock="Top"/>
-            <CheckBox Content="{x:Static stringResources:Resources.SID_Major}" Margin="5" IsChecked="{Binding IsMajorOn}" DockPanel.Dock="Top"/>
-            <CheckBox Content="{x:Static stringResources:Resources.SID_Minor}" Margin="5" IsChecked="{Binding IsMinorOn}" DockPanel.Dock="Top"/>
-            <CheckBox Content="{x:Static stringResources:Resources.SID_Ok}" Margin="5" IsChecked="{Binding IsOkOn}" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_FiberBreak_NoFiber}" 
+                      IsChecked="{Binding IsFiberBreakOn}" Margin="5,2,5,5" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_Critical}" Margin="5,2,5,5" 
+                      IsChecked="{Binding IsCriticalOn}" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_Major}" Margin="5,2,5,5" 
+                      IsChecked="{Binding IsMajorOn}" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_Minor}" Margin="5,2,5,5" 
+                      IsChecked="{Binding IsMinorOn}" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_Ok}" Margin="5,2,5,5" 
+                      IsChecked="{Binding IsOkOn}" DockPanel.Dock="Top"/>
             <Separator DockPanel.Dock="Top"/>
-            <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events}" Margin="5" IsChecked="{Binding IsNetworkEventsOn}" DockPanel.Dock="Top"/>
-            <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events_Bop}" Margin="5" IsChecked="{Binding IsBopEventsOn}" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events}" Margin="5,5,5,5" 
+                      IsChecked="{Binding IsNetworkEventsOn}" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events_Bop}" Margin="5,2,5,5" 
+                      IsChecked="{Binding IsBopEventsOn}" DockPanel.Dock="Top"/>
+            <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_status_events}" Margin="5,2,5,5" 
+                      IsChecked="{Binding IsRtuStatusEventsOn}" DockPanel.Dock="Top"/>
         </DockPanel>
     </GroupBox>
 </UserControl>

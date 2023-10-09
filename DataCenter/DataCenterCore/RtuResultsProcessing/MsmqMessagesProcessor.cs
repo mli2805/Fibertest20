@@ -69,9 +69,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var traceNotFound = $"not found {dto.PortWithTrace.TraceId.First6()}";
                 var traceStr = $" {_writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId)?.Title ?? traceNotFound}";
 
-                _logFile.AppendLine($@"MSMQ, measured: {
-                    dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, {
-                        rtuStr}, Port {portStr}, {traceStr} - {measResult} ({dto.BaseRefType})");
+                _logFile.AppendLine($@"MSMQ, measured: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, {rtuStr}, Port {portStr}, {traceStr} - {measResult} ({dto.BaseRefType})");
 
                 await ProcessMonitoringResult(dto);
             }
@@ -102,11 +100,13 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 // if dto.ReturnCode != ReturnCode.MeasurementEndedNormally - it is an accident
                 // if dto.ReturnCode == ReturnCode.MeasurementEndedNormally - restored after accident
-                await SaveRtuAccident(dto);
+                var accident = await SaveRtuAccident(dto);
+                var unused = Task.Factory.StartNew(() => SendNotificationsAboutRtuStatusEvents(accident));
             }
+
         }
 
-        private async Task SaveRtuAccident(MonitoringResultDto dto)
+        private async Task<RtuAccident> SaveRtuAccident(MonitoringResultDto dto)
         {
             var addRtuAccident = _measurementFactory.CreateRtuAccidentCommand(dto);
             var result = await _eventStoreService.SendCommand(addRtuAccident, "system", "OnServer");
@@ -115,6 +115,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             var accident = _writeModel.RtuAccidents.Last();
             await _ftSignalRClient.NotifyAll("AddAccident", accident.ToCamelCaseJson());
+            return accident;
         }
 
         private async Task SaveEventFromDto(MonitoringResultDto dto, int sorId)
@@ -139,13 +140,19 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
+        private async Task SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             SetCulture();
 
             await _smtp.SendOpticalEvent(dto, addMeasurement);
             _smsManager.SendMonitoringResult(dto);
             _snmpNotifier.SendTraceEvent(addMeasurement);
+        }
+
+        private async Task SendNotificationsAboutRtuStatusEvents(RtuAccident accident)
+        {
+            await Task.Delay(0);
+            _snmpNotifier.SendRtuStatusEvent(accident);
         }
 
         private void SetCulture()

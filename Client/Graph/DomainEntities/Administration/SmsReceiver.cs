@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Graph
         public bool IsOkOn { get; set; }
         public bool IsNetworkEventsOn { get; set; }
         public bool IsBopEventsOn { get; set; }
+        public bool IsRtuStatusEventsOn { get; set; }
         public bool IsActivated { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
         private bool _isOkOn;
         private bool _isNetworkEventsOn;
         private bool _isBopEventsOn;
+        private bool _isRtuStatusEventsOn;
 
         public string PhoneNumber
         {
@@ -104,6 +105,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsRtuStatusEventsOn
+        {
+            get => _isRtuStatusEventsOn;
+            set
+            {
+                if (value == _isRtuStatusEventsOn) return;
+                _isRtuStatusEventsOn = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public bool IsActivated
         {
             get => _isActivated;
@@ -134,6 +146,7 @@ namespace Iit.Fibertest.Client
                 IsOkOn = IsOkOn,
                 IsNetworkEventsOn = IsNetworkEventsOn,
                 IsBopEventsOn = IsBopEventsOn,
+                IsRtuStatusEventsOn = IsRtuStatusEventsOn,
             };
         }
     }

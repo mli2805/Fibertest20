@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (!isSnmpOn) return;
             var data = MeasToSnmp(meas);
 
-            _snmpAgent.SentRealTrap(data, FtTrapType.MeasurementAsSnmp);
+            _snmpAgent.SendRealTrap(data, FtTrapType.MeasurementAsSnmp);
             _logFile.AppendLine("SNMP trap sent");
         }
 
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (!isSnmpOn) return;
             var data = RtuEventToSnmp(rtuEvent);
 
-            _snmpAgent.SentRealTrap(data, FtTrapType.RtuNetworkEventAsSnmp);
+            _snmpAgent.SendRealTrap(data, FtTrapType.RtuNetworkEventAsSnmp);
         }
 
         public void SendBopNetworkEvent(AddBopNetworkEvent bopEvent)
@@ -48,8 +48,16 @@ namespace Iit.Fibertest.DataCenterCore
             if (!isSnmpOn) return;
             var data = BopEventToSnmp(bopEvent);
 
-            _snmpAgent.SentRealTrap(data, FtTrapType.BopNetworkEventAsSnmp);
+            _snmpAgent.SendRealTrap(data, FtTrapType.BopNetworkEventAsSnmp);
+        }
 
+        public void SendRtuStatusEvent(RtuAccident rtuAccident)
+        {
+            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
+            if (!isSnmpOn) return;
+            var data = RtuStatusEventToSnmp(rtuAccident);
+
+            _snmpAgent.SendRealTrap(data, FtTrapType.RtuStatusEventAsSnmp);
         }
 
         private List<KeyValuePair<FtTrapProperty, string>> MeasToSnmp(AddMeasurement meas)
@@ -144,6 +152,29 @@ namespace Iit.Fibertest.DataCenterCore
                 new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.BopState, bopEvent.IsOk
                     ? Resources.SID_Recovered : Resources.SID_Broken),
             };
+
+            return data;
+        }
+
+        private List<KeyValuePair<FtTrapProperty, string>> RtuStatusEventToSnmp(RtuAccident rtuStatusEvent)
+        {
+            var rtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuStatusEvent.RtuId)?.Title ?? "RTU not found";
+
+            var data = new List<KeyValuePair<FtTrapProperty, string>>
+            {
+                new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.EventRegistrationTime, 
+                    rtuStatusEvent.EventRegistrationTimestamp.ToString("G")),
+                new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.RtuTitle, rtuTitle),
+            };
+
+            if (rtuStatusEvent.IsMeasurementProblem)
+            {
+                var traceTitle = _writeModel.Traces.FirstOrDefault(t => t.TraceId == rtuStatusEvent.TraceId)?.Title ??
+                                 "Trace not found";
+                data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.TraceTitle, traceTitle));
+                data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.BaseRefType, rtuStatusEvent.BaseRefType.ToString()));
+                data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.RtuStatusEventCode, rtuStatusEvent.ReturnCode.ToString()));
+            }
 
             return data;
         }
