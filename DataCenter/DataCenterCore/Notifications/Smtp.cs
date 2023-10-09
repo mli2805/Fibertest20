@@ -120,6 +120,7 @@ namespace Iit.Fibertest.DataCenterCore
             var subj = _writeModel.GetShortMessageForNetworkEvent(rtuId, isMainChannel, isOk);
             return await SendEmail(subj, subj, null, mailTo);
         }
+
         public async Task<bool> SendBopState(AddBopNetworkEvent cmd)
         {
             var mailTo = _writeModel.GetEmailsToSendBopNetworkEvent(cmd);
@@ -127,6 +128,16 @@ namespace Iit.Fibertest.DataCenterCore
             if (mailTo.Count == 0) return true;
 
             var subj = EventReport.GetShortMessageForBopState(cmd);
+            return await SendEmail(subj, subj, null, mailTo);
+        }
+
+        public async Task<bool> SendRtuStatusEvent(RtuAccident accident)
+        {
+            var mailTo = _writeModel.GetEmailsToSendRtuStatusEvent(accident);
+            _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
+            if (mailTo.Count == 0) return true;
+
+            var subj = _writeModel.GetShortMessageForRtuStatusEvent(accident);
             return await SendEmail(subj, subj, null, mailTo);
         }
 

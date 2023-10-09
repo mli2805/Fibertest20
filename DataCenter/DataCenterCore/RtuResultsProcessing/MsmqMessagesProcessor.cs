@@ -151,7 +151,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task SendNotificationsAboutRtuStatusEvents(RtuAccident accident)
         {
-            await Task.Delay(0);
+            SetCulture();
+
+            await _smtp.SendRtuStatusEvent(accident);
+            _smsManager.SendRtuStatusEvent(accident);
             _snmpNotifier.SendRtuStatusEvent(accident);
         }
 
