@@ -51,7 +51,10 @@ namespace Iit.Fibertest.Graph
                 var trace = model.Traces.FirstOrDefault(t => t.TraceId == accident.TraceId);
                 if (trace == null) return null;
 
-                return string.Format("Trace {0}. {1} at {2}", trace.Title, accident.ReturnCode.GetLocalizedString(), accident.EventRegistrationTimestamp.ForReport());
+                var codeString = string.Format(accident.ReturnCode.GetLocalizedString(), accident.BaseRefType.GetLocalizedGenitiveString());
+                var sms = string.Format("Trace {0}. {1} at {2}", trace.Title, codeString, accident.EventRegistrationTimestamp.ForReport());
+                Console.WriteLine(sms);
+                return sms;
             }
             else
             {

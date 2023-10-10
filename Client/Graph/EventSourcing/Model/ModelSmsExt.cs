@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Graph
                 .Select(u => u.Sms.PhoneNumber).ToList();
 
         }
-        public static List<string> GetPhonesToSendNetworkEvent(this Model writeModel, Guid rtuId)
+        public static List<string> GetPhonesForRtu(this Model writeModel, Guid rtuId)
         {
             var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
             if (rtu == null) return new List<string>();
