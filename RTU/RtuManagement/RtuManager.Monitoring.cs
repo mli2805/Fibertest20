@@ -107,10 +107,11 @@ namespace Iit.Fibertest.RtuManagement
                     : BaseRefType.Precise;
 
                 monitoringPort.LastMoniResult = DoSecondMeasurement(monitoringPort, hasFastPerformed, baseType);
+                if (monitoringPort.LastMoniResult.UserReturnCode == ReturnCode.MeasurementEndedNormally)
+                    monitoringPort.IsConfirmationRequired = false;
             }
 
             monitoringPort.IsMonitoringModeChanged = false;
-            monitoringPort.IsConfirmationRequired = false;
         }
 
         private MoniResult DoFastMeasurement(MonitoringPort monitoringPort)
