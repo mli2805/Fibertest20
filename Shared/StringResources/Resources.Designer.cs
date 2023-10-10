@@ -205,6 +205,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} base ref not found.
+        /// </summary>
+        public static string SID__0__base_ref_not_found {
+            get {
+                return ResourceManager.GetString("SID__0__base_ref_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} channels applied.
         /// </summary>
         public static string SID__0__channels_applied {
@@ -7614,6 +7623,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU &apos;{0}&apos;. {1} at {2}.
+        /// </summary>
+        public static string SID_RTU___0_____1__at__2_ {
+            get {
+                return ResourceManager.GetString("SID_RTU___0_____1__at__2_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU {0} is busy..
         /// </summary>
         public static string SID_RTU__0__is_busy_ {
@@ -9690,6 +9708,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace___0___ {
             get {
                 return ResourceManager.GetString("SID_Trace___0___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace &apos;{0}&apos;. {1} at {2}.
+        /// </summary>
+        public static string SID_Trace___0_____1__at__2_ {
+            get {
+                return ResourceManager.GetString("SID_Trace___0_____1__at__2_", resourceCulture);
             }
         }
         

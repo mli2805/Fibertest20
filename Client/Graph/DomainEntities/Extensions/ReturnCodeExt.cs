@@ -99,7 +99,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.MeasurementPreparationError:
                     return Resources.SID_Measurement_preparation_error;
                 case ReturnCode.MeasurementBaseRefNotFound:
-                    return Resources.SID_base_ref_not_found;
+                    return Resources.SID__0__base_ref_not_found;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                     return Resources.SID_Failed_to_set_parameters_from__0__base;
                 case ReturnCode.MeasurementAnalysisFailed:

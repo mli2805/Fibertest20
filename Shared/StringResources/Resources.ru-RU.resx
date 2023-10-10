@@ -3698,4 +3698,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurement__Cleared" xml:space="preserve">
 		<value>Измерение: Очищено</value>
 	</data>
+	<data name="SID__0__base_ref_not_found" xml:space="preserve">
+		<value>{0} базовая не найдена</value>
+	</data>
+	<data name="SID_Trace___0_____1__at__2_" xml:space="preserve">
+		<value>Трасса '{0}'. {1} в {2}</value>
+	</data>
+	<data name="SID_RTU___0_____1__at__2_" xml:space="preserve">
+		<value>RTU '{0}'. {1} в {2}</value>
+	</data>
 </root>

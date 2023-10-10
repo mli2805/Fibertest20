@@ -51,8 +51,11 @@ namespace Iit.Fibertest.Graph
                 var trace = model.Traces.FirstOrDefault(t => t.TraceId == accident.TraceId);
                 if (trace == null) return null;
 
-                var codeString = string.Format(accident.ReturnCode.GetLocalizedString(), accident.BaseRefType.GetLocalizedGenitiveString());
-                var sms = string.Format("Trace {0}. {1} at {2}", trace.Title, codeString, accident.EventRegistrationTimestamp.ForReport());
+                var codeString = accident.ReturnCode == ReturnCode.MeasurementBaseRefNotFound
+                    ? string.Format(accident.ReturnCode.GetLocalizedString(), accident.BaseRefType.GetLocalizedFemaleString())
+                    : string.Format(accident.ReturnCode.GetLocalizedString(), accident.BaseRefType.GetLocalizedGenitiveString());
+                var sms = string.Format(Resources.SID_Trace___0_____1__at__2_, 
+                    trace.Title, codeString, accident.EventRegistrationTimestamp.ForReport());
                 Console.WriteLine(sms);
                 return sms;
             }
@@ -61,7 +64,8 @@ namespace Iit.Fibertest.Graph
                 var rtu = model.Rtus.FirstOrDefault(r => r.Id == accident.RtuId);
                 if (rtu == null) return null;
 
-                return string.Format("RTU {0}. {1} at {2}", rtu.Title, accident.ReturnCode.GetLocalizedString(), accident.EventRegistrationTimestamp.ForReport());
+                return string.Format(Resources.SID_RTU___0_____1__at__2_, 
+                    rtu.Title, accident.ReturnCode.GetLocalizedString(), accident.EventRegistrationTimestamp.ForReport());
             }
         }
 
