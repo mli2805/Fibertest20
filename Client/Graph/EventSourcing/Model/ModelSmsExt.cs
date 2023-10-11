@@ -17,13 +17,24 @@ namespace Iit.Fibertest.Graph
                 .Select(u => u.Sms.PhoneNumber).ToList();
 
         }
-        public static List<string> GetPhonesForRtu(this Model writeModel, Guid rtuId)
+
+        public static List<string> GetPhonesToSendNetworkEvent(this Model writeModel, Guid rtuId)
         {
             var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
             if (rtu == null) return new List<string>();
 
             return writeModel.Users
                 .Where(u => u.ShouldReceiveNetworkEventSms() && rtu.ZoneIds.Contains(u.ZoneId))
+                .Select(u => u.Sms.PhoneNumber).ToList();
+        }
+
+        public static List<string> GetPhonesToSendRtuStatusEvent(this Model writeModel, Guid rtuId)
+        {
+            var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
+            if (rtu == null) return new List<string>();
+
+            return writeModel.Users
+                .Where(u => u.ShouldReceiveRtuStatusEventsSms() && rtu.ZoneIds.Contains(u.ZoneId))
                 .Select(u => u.Sms.PhoneNumber).ToList();
         }
 

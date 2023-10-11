@@ -32,6 +32,13 @@ namespace Iit.Fibertest.Graph
             return true;
         }
 
+        public static bool ShouldReceiveRtuStatusEventsSms(this User user)
+        {
+            if (!user.Sms.IsActivated) return false;
+            if (!user.Sms.IsRtuStatusEventsOn) return false;
+            return true;
+        }
+
         private static bool ShouldReceiveThisTypeOfEvent(this SmsReceiver smsReceiver, FiberState traceState)
         {
             switch (traceState)
