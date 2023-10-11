@@ -173,7 +173,8 @@ namespace Iit.Fibertest.DataCenterCore
                                  "Trace not found";
                 data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.TraceTitle, traceTitle));
                 data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.BaseRefType, rtuStatusEvent.BaseRefType.ToString()));
-                data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.RtuStatusEventCode, rtuStatusEvent.ReturnCode.ToString()));
+                data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.RtuStatusEventType, "Measurement"));
+                data.Add(new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.RtuStatusEventName, rtuStatusEvent.ReturnCode.ToString()));
             }
 
             return data;

@@ -29,7 +29,8 @@
         RightNodeToRtuDistanceKm,
 
         BaseRefType = 60,
-        RtuStatusEventCode = 61,
+        RtuStatusEventType = 61,
+        RtuStatusEventName = 62,
 
         TestString = 700,
         TestInt,
