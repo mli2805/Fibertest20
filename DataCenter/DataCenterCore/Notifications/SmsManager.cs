@@ -44,7 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
             PushSms(message, phoneNumbers);
         }
 
-        public void SendBopState(AddBopNetworkEvent cmd)
+        public void SendBopState(BopNetworkEvent cmd)
         {
             var phoneNumbers = _writeModel.GetPhonesToSendBopNetworkEvent(cmd);
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");

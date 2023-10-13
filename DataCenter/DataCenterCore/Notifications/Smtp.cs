@@ -121,7 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await SendEmail(subj, subj, null, mailTo);
         }
 
-        public async Task<bool> SendBopState(AddBopNetworkEvent cmd)
+        public async Task<bool> SendBopState(BopNetworkEvent cmd)
         {
             var mailTo = _writeModel.GetEmailsToSendBopNetworkEvent(cmd);
             _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");

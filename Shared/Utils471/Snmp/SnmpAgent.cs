@@ -130,22 +130,35 @@ namespace Utils471
 
         private VbCollection CreateTestTrapData()
         {
-            var trapData = new VbCollection();
+            var trapData = new VbCollection
+            {
+                // with encoding
+                {
+                    new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestString),
+                    new OctetString(EncodeString("Test string with Русский язык.", _snmpEncoding))
+                },
+                // {
+                //     new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestString),
+                //     new OctetString(EncodeString("Test string with", _snmpEncoding))
+                // },
+                //
+                // // NO encoding, just string into constructor of OctetString
+                // { new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestString), new OctetString("Test string with Русский язык.") },
+                // { new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestString), new OctetString("Test string with") },
+                
+                { new Oid(_enterpriseOid + "." + (int)FtTrapProperty.EventRegistrationTime), new OctetString(DateTime.Now.ToString("G")) },
+                { new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestInt), new Integer32(412) },
+                { new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestDouble), new OctetString(43.0319.ToString(CultureInfo.CurrentUICulture)) }
+            };
 
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestString),
-                new OctetString(EncodeString("Test string with Русский язык.", _snmpEncoding)));
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.EventRegistrationTime),
-                new OctetString(DateTime.Now.ToString("G")));
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestInt), new Integer32(412));
-            var doubleValue = 43.0319;
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestDouble),
-                new OctetString(doubleValue.ToString(CultureInfo.CurrentUICulture)));
             return trapData;
         }
 
-        private byte[] EncodeString(string str, string encondingName)
+        // можно строку не кодировать
+        // если строку передать в конструктор OctetString это тоже самое что закодировать в utf8 и передать массив байт
+        private byte[] EncodeString(string str, string encodingName)
         {
-            switch (encondingName.ToLower())
+            switch (encodingName.ToLower())
             {
                 case "unicode":
                     var unicodeEncoding = new UnicodeEncoding();

@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Graph
                 .Select(u => u.Sms.PhoneNumber).ToList();
         }
 
-        public static List<string> GetPhonesToSendBopNetworkEvent(this Model writeModel, AddBopNetworkEvent cmd)
+        public static List<string> GetPhonesToSendBopNetworkEvent(this Model writeModel, BopNetworkEvent cmd)
         {
             var otau = writeModel.Otaus.FirstOrDefault(o => o.Serial == cmd.Serial);
 //            var otau = writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == cmd.OtauIp

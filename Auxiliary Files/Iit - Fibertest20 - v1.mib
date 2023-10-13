@@ -206,13 +206,18 @@ optical_event TRAP-TYPE
 
 rtu_network_event TRAP-TYPE
 	ENTERPRISE iit
-	VARIABLES { event_registration_time, rtu_title, rtu_main_channel, rtu_reserve_channel }
+	VARIABLES { event_id, event_registration_time, rtu_title, rtu_main_channel, rtu_reserve_channel }
 	::= 200
 
 bop_network_event TRAP-TYPE
 	ENTERPRISE iit
-	VARIABLES { event_registration_time, rtu_title, bop_title, bop_state }
+	VARIABLES { event_id, event_registration_time, rtu_title, bop_title, bop_state }
 	::= 300
+
+rtu_status_event TRAP-TYPE
+	ENTERPRISE iit
+	VARIABLES { event_id, event_registration_time, rtu_title, trace_title, base_ref_type, rtu_status_event_type, rtu_status_event_name }
+	::= 400
 
 test_trap TRAP-TYPE
 	ENTERPRISE iit
