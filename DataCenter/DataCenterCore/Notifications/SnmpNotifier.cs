@@ -164,6 +164,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             var data = new List<KeyValuePair<FtTrapProperty, string>>
             {
+                new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.EventId, rtuStatusEvent.Id.ToString()),
                 new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.EventRegistrationTime, 
                     rtuStatusEvent.EventRegistrationTimestamp.ToString("G")),
                 new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.RtuTitle, rtuTitle),
