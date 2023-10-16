@@ -2,7 +2,6 @@
 using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -38,11 +37,8 @@ namespace Iit.Fibertest.Client
             switch (Accident.ReturnCode)
             {
                 case ReturnCode.MeasurementEndedNormally:
-                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
-                    Explanation = Accident.ReturnCode.GetLocalizedString();
-                    StateBackground = Brushes.Transparent;
-                    break;
                 case ReturnCode.MeasurementErrorCleared:
+                case ReturnCode.MeasurementErrorClearedByInit:
                     State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
@@ -66,14 +62,14 @@ namespace Iit.Fibertest.Client
                     StateBackground = Brushes.Transparent;
                     break;
                 case ReturnCode.RtuFrequentServiceRestarts:
-                    State = Resources.SID_RTU__Attention_required_;
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = FiberState.Minor.GetBrush(false);
                     break;
 
                 default:
-                    State = @"Unknown type of accident";
-                    Explanation = @"Unknown type of accident";
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Red;
                     break;
             }

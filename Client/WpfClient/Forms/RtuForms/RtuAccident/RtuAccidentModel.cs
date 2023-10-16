@@ -58,6 +58,7 @@ namespace Iit.Fibertest.Client
             {
                 case ReturnCode.MeasurementEndedNormally:
                 case ReturnCode.MeasurementErrorCleared:
+                case ReturnCode.MeasurementErrorClearedByInit:
                     State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
@@ -79,21 +80,21 @@ namespace Iit.Fibertest.Client
                     break;
 
                 case ReturnCode.RtuManagerServiceWorking:
-                    State = Resources.SID_RTU__OK;
-                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString());
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     StateForeground = Brushes.White;
                     break;
                 case ReturnCode.RtuFrequentServiceRestarts:
-                    State = Resources.SID_RTU__Attention_required_;
-                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString());
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = FiberState.Minor.GetBrush(false);
                     StateForeground = FiberState.Minor.GetBrush(true);
                     break;
 
                 default:
-                    State = @"Unknown type of accident";
-                    Explanation = @"Unknown type of accident";
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Red;
                     StateForeground = Brushes.Black;
                     break;

@@ -35,7 +35,8 @@
 
         MeasurementError = 1500,
         MeasurementEndedNormally = 1501,
-        MeasurementErrorCleared = 1502,
+        MeasurementErrorCleared = 1502, // by Initialization + RTU serial changed
+        MeasurementErrorClearedByInit = 1503, // RTU the same
         MeasurementPreparationError = 1510,
         MeasurementToggleToPortFailed = 1511,
         MeasurementBaseRefNotFound = 1512,

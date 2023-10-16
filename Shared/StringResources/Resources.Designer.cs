@@ -7893,6 +7893,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU re-initialization.
+        /// </summary>
+        public static string SID_RTU_re_initialization {
+            get {
+                return ResourceManager.GetString("SID_RTU_re_initialization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU removed.
         /// </summary>
         public static string SID_RTU_removed {

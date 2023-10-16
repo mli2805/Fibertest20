@@ -40,15 +40,16 @@ namespace Iit.Fibertest.DataCenterCore
             var commandList = new List<object>();
             var originalRtu = _writeModel.Rtus.First(r => r.Id == result.RtuId);
 
-            // main serial changed - active RTU state events should be turned off by mock OK events
-            if (dto.Serial != result.Serial)
+            // after RTU initialization  active RTU state events should be turned off by mock OK events
+            // different explanation whether RTU serial changed or not
+            // if (dto.Serial != result.Serial)
             {
                 foreach (var trace in _writeModel.Traces.Where(t => t.RtuId == dto.RtuId))
                 {
                     var lastAccident = _writeModel.RtuAccidents.LastOrDefault(a => a.TraceId == trace.TraceId && a.IsMeasurementProblem);
                     if (lastAccident != null && !lastAccident.IsGoodAccident)
                     {
-                        commandList.Add(CreateClearingAccidentCommand(dto, lastAccident));
+                        commandList.Add(CreateClearingAccidentCommand(dto, lastAccident, dto.Serial != result.Serial));
                     }
                 }
             }
@@ -110,12 +111,12 @@ namespace Iit.Fibertest.DataCenterCore
             return commandList;
         }
 
-        private AddRtuAccident CreateClearingAccidentCommand(InitializeRtuDto dto, RtuAccident accident)
+        private AddRtuAccident CreateClearingAccidentCommand(InitializeRtuDto dto, RtuAccident accident, bool serialChanged)
         {
             return new AddRtuAccident()
             {
                 IsMeasurementProblem = true,
-                ReturnCode = ReturnCode.MeasurementErrorCleared,
+                ReturnCode = serialChanged ? ReturnCode.MeasurementErrorCleared : ReturnCode.MeasurementErrorClearedByInit,
 
                 EventRegistrationTimestamp = DateTime.Now,
                 RtuId = dto.RtuId,

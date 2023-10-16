@@ -96,6 +96,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Measurement_completed_successfully;
                 case ReturnCode.MeasurementErrorCleared:
                     return Resources.SID_Status_changed__RTU_substitution_detected;
+                case ReturnCode.MeasurementErrorClearedByInit:
+                    return Resources.SID_RTU_re_initialization;
                 case ReturnCode.MeasurementPreparationError:
                     return Resources.SID_Measurement_preparation_error;
                 case ReturnCode.MeasurementBaseRefNotFound:
@@ -262,6 +264,7 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.MeasurementEndedNormally:
                     return Resources.SID_Measurement__OK;
                 case ReturnCode.MeasurementErrorCleared:
+                case ReturnCode.MeasurementErrorClearedByInit:
                     return Resources.SID_Measurement__Cleared;
 
                 case ReturnCode.MeasurementBaseRefNotFound:
@@ -272,10 +275,10 @@ namespace Iit.Fibertest.Graph
 
                 case ReturnCode.RtuManagerServiceWorking:
                     return Resources.SID_RTU__OK;
-                   
+
                 case ReturnCode.RtuFrequentServiceRestarts:
                     return Resources.SID_RTU__Attention_required_;
-                   
+
                 default:
                     return @"Unknown type of accident";
             }
