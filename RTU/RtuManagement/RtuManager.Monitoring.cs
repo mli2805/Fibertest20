@@ -166,9 +166,11 @@ namespace Iit.Fibertest.RtuManagement
 
                 if (reason != ReasonToSendMonitoringResult.None)
                 {
-                    SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
+                    var sent = SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
                     monitoringPort.LastFastSavedTimestamp = DateTime.Now;
                     _monitoringQueue.Save();
+                    if (!sent)
+                        FastRestart();
                 }
             }
             else //problem during measurement process 
@@ -184,7 +186,10 @@ namespace Iit.Fibertest.RtuManagement
             {
                 _rtuLog.AppendLine($"{monitoringPort.LastMoniResult.UserReturnCode} => {moniResult.UserReturnCode}");
                 _rtuLog.AppendLine("Problem with base ref occurred!");
-                SendByMsmq(CreateDto(moniResult, monitoringPort, ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
+                var sent = SendByMsmq(CreateDto(moniResult, monitoringPort, ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
+                _monitoringQueue.Save();
+                if (!sent)
+                    FastRestart();
             }
             else
             {
@@ -251,9 +256,11 @@ namespace Iit.Fibertest.RtuManagement
 
                 if (reason != ReasonToSendMonitoringResult.None)
                 {
-                    SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
+                    var sent = SendByMsmq(CreateDto(moniResult, monitoringPort, reason));
                     monitoringPort.LastPreciseSavedTimestamp = DateTime.Now;
                     _monitoringQueue.Save();
+                    if (!sent)
+                        FastRestart();
                 }
 
             }
@@ -270,7 +277,7 @@ namespace Iit.Fibertest.RtuManagement
             if (shouldChangePort && !ToggleToPort(monitoringPort))
                 return new MoniResult()
                 {
-                    UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode, 
+                    UserReturnCode = monitoringPort.LastMoniResult.UserReturnCode,
                     HardwareReturnCode = ReturnCode.MeasurementToggleToPortFailed
                 };
 

@@ -19,15 +19,16 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuLog.AppendLine("msmq.json found!");
                 var json = File.ReadAllText(msmqFileName);
                 var dto = JsonConvert.DeserializeObject(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
-                SendByMsmq(dto);
+                if (!SendByMsmq(dto)) 
+                    FastRestart();
             }
         }
 
-        private void SendByMsmq(object dto)
+        private bool SendByMsmq(object dto)
         {
             if (!TrySendByMsmq(dto))
             {
-                return ;
+                return false;
             }
 
             switch (dto)
@@ -37,6 +38,8 @@ namespace Iit.Fibertest.RtuManagement
                 case BopStateChangedDto _:
                     _rtuLog.AppendLine("OTAU state changes sent by MSMQ"); break;
             }
+
+            return true;
 
         }
 
@@ -74,10 +77,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 _rtuLog.AppendLine("TrySendByMsmq: " + e.Message);
 
-                _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
-                _rtuLog.AppendLine("Restart RTU service.");
-                _serviceLog.AppendLine("Restart RTU service.");
-                Environment.Exit(1);
+                FastRestart();
                 return false;
             }
 

@@ -263,11 +263,13 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Measurement__OK;
                 case ReturnCode.MeasurementErrorCleared:
                     return Resources.SID_Measurement__Cleared;
+
                 case ReturnCode.MeasurementBaseRefNotFound:
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                 case ReturnCode.MeasurementAnalysisFailed:
                 case ReturnCode.MeasurementComparisonFailed:
                     return Resources.SID_Measurement__Failed_;
+
                 case ReturnCode.RtuManagerServiceWorking:
                     return Resources.SID_RTU__OK;
                    
