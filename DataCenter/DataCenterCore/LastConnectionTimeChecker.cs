@@ -32,8 +32,8 @@ namespace Iit.Fibertest.DataCenterCore
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
-        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, GlobalState globalState, 
-            EventStoreService eventStoreService, ClientsCollection clientsCollection, 
+        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, GlobalState globalState,
+            EventStoreService eventStoreService, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, Model writeModel,
             IFtSignalRClient ftSignalRClient,
             Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
@@ -101,6 +101,8 @@ namespace Iit.Fibertest.DataCenterCore
                 var lastEvent = _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == networkEvent.RtuId);
                 if (lastEvent == null) continue;
                 var dto = Mapper.Map<NetworkEventDto>(lastEvent);
+
+                _snmpNotifier.SendRtuNetworkEvent(lastEvent);
                 await _ftSignalRClient.NotifyAll("AddNetworkEvent", dto.ToCamelCaseJson());
             }
 
@@ -122,7 +124,6 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     changedStations.Add(rtuStation);
                     networkEvents.Add(networkEvent);
-                    _snmpNotifier.SendRtuNetworkEvent(networkEvent);
                 }
             }
             if (changedStations.Count > 0)

@@ -25,8 +25,8 @@ namespace Iit.Fibertest.Client
 
         public RtuAccidentLineModel Build(Model readModel)
         {
-            RtuTitle = readModel.Rtus.FirstOrDefault(r=>r.Id == Accident.RtuId)?.Title ?? string.Empty;
-            var trace = readModel.Traces.FirstOrDefault(t=>t.TraceId == Accident.TraceId);
+            RtuTitle = readModel.Rtus.FirstOrDefault(r => r.Id == Accident.RtuId)?.Title ?? string.Empty;
+            var trace = readModel.Traces.FirstOrDefault(t => t.TraceId == Accident.TraceId);
             TraceTitle = trace?.Title ?? string.Empty;
 
             SetStateAndBrush();
@@ -38,30 +38,30 @@ namespace Iit.Fibertest.Client
             switch (Accident.ReturnCode)
             {
                 case ReturnCode.MeasurementEndedNormally:
-                    State = Resources.SID_Measurement__OK;
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     break;
                 case ReturnCode.MeasurementErrorCleared:
-                    State = Resources.SID_Measurement__Cleared;
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     break;
                 case ReturnCode.MeasurementBaseRefNotFound:
-                    State = Resources.SID_Measurement__Failed_;
-                    Explanation = $@"{Accident.BaseRefType.GetLocalizedFemaleString()} {Accident.ReturnCode.GetLocalizedString()}";
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
+                    Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedFemaleString());
                     StateBackground = FiberState.Critical.GetBrush(false);
                     break;
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:
                 case ReturnCode.MeasurementAnalysisFailed:
                 case ReturnCode.MeasurementComparisonFailed:
-                    State = Resources.SID_Measurement__Failed_;
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = string.Format(Accident.ReturnCode.GetLocalizedString(), Accident.BaseRefType.GetLocalizedGenitiveString());
                     StateBackground = FiberState.Critical.GetBrush(false);
                     break;
 
                 case ReturnCode.RtuManagerServiceWorking:
-                    State = Resources.SID_RTU__OK;
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     break;
@@ -77,7 +77,7 @@ namespace Iit.Fibertest.Client
                     StateBackground = Brushes.Red;
                     break;
             }
-            
+
         }
 
     }

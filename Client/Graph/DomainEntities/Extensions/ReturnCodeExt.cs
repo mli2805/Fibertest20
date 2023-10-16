@@ -254,5 +254,29 @@ namespace Iit.Fibertest.Graph
             }
             return Resources.SID_Unknown_code;
         }
+
+        public static string RtuStatusEventToLocalizedString(this ReturnCode code)
+        {
+            switch (code)
+            {
+                case ReturnCode.MeasurementEndedNormally:
+                    return Resources.SID_Measurement__OK;
+                case ReturnCode.MeasurementErrorCleared:
+                    return Resources.SID_Measurement__Cleared;
+                case ReturnCode.MeasurementBaseRefNotFound:
+                case ReturnCode.MeasurementFailedToSetParametersFromBase:
+                case ReturnCode.MeasurementAnalysisFailed:
+                case ReturnCode.MeasurementComparisonFailed:
+                    return Resources.SID_Measurement__Failed_;
+                case ReturnCode.RtuManagerServiceWorking:
+                    return Resources.SID_RTU__OK;
+                   
+                case ReturnCode.RtuFrequentServiceRestarts:
+                    return Resources.SID_RTU__Attention_required_;
+                   
+                default:
+                    return @"Unknown type of accident";
+            }
+        }
     }
 }

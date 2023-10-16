@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             {
                 case ReturnCode.MeasurementEndedNormally:
                 case ReturnCode.MeasurementErrorCleared:
-                    State = Resources.SID_Measurement__Cleared;
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     StateForeground = Brushes.Black;
