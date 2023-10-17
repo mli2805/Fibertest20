@@ -91,6 +91,20 @@ namespace Iit.Fibertest.RtuManagement
             Save();
         }
 
+        public void ClearRtuStatusEvents()
+        {
+            var list = Queue.ToList();
+            Queue.Clear();
+
+            foreach (var monitoringPort in list)
+            {
+                monitoringPort.LastMoniResult.UserReturnCode = ReturnCode.MeasurementEndedNormally;
+                Queue.Enqueue(monitoringPort);
+            }
+
+            Save();
+        }
+
         public void Load()
         {
             _logFile.EmptyLine();

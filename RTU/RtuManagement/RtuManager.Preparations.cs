@@ -32,10 +32,18 @@ namespace Iit.Fibertest.RtuManagement
                 return otdrInitializationResult;
             }
 
-            if (dto != null && dto.Serial != _omsn)
+            if (dto != null)
             {
-                _rtuLog.AppendLine("RTU Serial changed!");
-                _monitoringQueue.Clear();
+                if (dto.Serial != _omsn)
+                {
+                    _rtuLog.AppendLine("RTU Serial changed!");
+                    _monitoringQueue.Clear();
+                }
+                else
+                {
+                    _monitoringQueue.ClearRtuStatusEvents();
+                }
+              
             }
 
             var otauInitializationResult = dto != null
