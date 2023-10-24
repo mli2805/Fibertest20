@@ -27,7 +27,9 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_RTU_status_event;
             IsOpen = true;
 
-            if (AccidentModel.Accident.ReturnCode == ReturnCode.MeasurementEndedNormally)
+            if (AccidentModel.Accident.ReturnCode == ReturnCode.MeasurementEndedNormally
+                || AccidentModel.Accident.ReturnCode == ReturnCode.MeasurementErrorCleared
+                || AccidentModel.Accident.ReturnCode == ReturnCode.MeasurementErrorClearedByInit)
             {
                 _soundManager.PlayOk();
             }

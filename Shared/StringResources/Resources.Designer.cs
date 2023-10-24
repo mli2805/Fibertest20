@@ -1962,6 +1962,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cleared: ID  {0}.
+        /// </summary>
+        public static string SID_Cleared__ID___0_ {
+            get {
+                return ResourceManager.GetString("SID_Cleared__ID___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client exited.
         /// </summary>
         public static string SID_Client_exited {

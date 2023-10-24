@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Graph
         public Guid RtuId { get; set; }
         public Guid TraceId { get; set; }
         public BaseRefType BaseRefType { get; set; }
+        public int ClearedAccidentWithId { get; set; } 
 
         public string Comment { get; set; }
     }

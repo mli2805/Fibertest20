@@ -15,9 +15,15 @@ namespace Iit.Fibertest.Graph
         public Guid TraceId { get; set; }
         public BaseRefType BaseRefType { get; set; }
 
+        public int ClearedAccidentWithId { get; set; } 
+
+
         public string Comment { get; set; }
 
         public bool IsGoodAccident =>
-            ReturnCode == ReturnCode.MeasurementEndedNormally || ReturnCode == ReturnCode.RtuManagerServiceWorking;
+            ReturnCode == ReturnCode.MeasurementEndedNormally 
+            || ReturnCode == ReturnCode.MeasurementErrorCleared
+            || ReturnCode == ReturnCode.MeasurementErrorClearedByInit
+            || ReturnCode == ReturnCode.RtuManagerServiceWorking;
     }
 }

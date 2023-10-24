@@ -123,6 +123,8 @@ namespace Iit.Fibertest.DataCenterCore
                 TraceId = accident.TraceId,
                 BaseRefType = accident.BaseRefType,
 
+                ClearedAccidentWithId = accident.Id,
+
                 Comment = "",
             };
         }

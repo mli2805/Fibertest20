@@ -57,12 +57,14 @@ namespace Iit.Fibertest.Client
             switch (Accident.ReturnCode)
             {
                 case ReturnCode.MeasurementEndedNormally:
-                case ReturnCode.MeasurementErrorCleared:
-                case ReturnCode.MeasurementErrorClearedByInit:
                     State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     StateForeground = Brushes.Black;
+                    break;
+                case ReturnCode.MeasurementErrorCleared:
+                case ReturnCode.MeasurementErrorClearedByInit:
+                    // we do not show RtuAccidentView for these ReturnCodes
                     break;
                 case ReturnCode.MeasurementBaseRefNotFound:
                     State = Resources.SID_Measurement__Failed_;

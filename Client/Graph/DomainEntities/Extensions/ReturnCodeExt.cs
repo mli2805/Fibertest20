@@ -263,9 +263,10 @@ namespace Iit.Fibertest.Graph
             {
                 case ReturnCode.MeasurementEndedNormally:
                     return Resources.SID_Measurement__OK;
-                case ReturnCode.MeasurementErrorCleared:
-                case ReturnCode.MeasurementErrorClearedByInit:
-                    return Resources.SID_Measurement__Cleared;
+
+                // case ReturnCode.MeasurementErrorCleared:
+                // case ReturnCode.MeasurementErrorClearedByInit:
+                //     return Resources.SID_Measurement__Cleared;
 
                 case ReturnCode.MeasurementBaseRefNotFound:
                 case ReturnCode.MeasurementFailedToSetParametersFromBase:

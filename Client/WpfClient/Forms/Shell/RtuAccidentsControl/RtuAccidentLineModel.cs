@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -37,9 +38,13 @@ namespace Iit.Fibertest.Client
             switch (Accident.ReturnCode)
             {
                 case ReturnCode.MeasurementEndedNormally:
+                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
+                    Explanation = Accident.ReturnCode.GetLocalizedString();
+                    StateBackground = Brushes.Transparent;
+                    break;
                 case ReturnCode.MeasurementErrorCleared:
                 case ReturnCode.MeasurementErrorClearedByInit:
-                    State = Accident.ReturnCode.RtuStatusEventToLocalizedString();
+                    State = string.Format(Resources.SID_Cleared__ID___0_, Accident.ClearedAccidentWithId == 0 ? @"-" : Accident.ClearedAccidentWithId.ToString());
                     Explanation = Accident.ReturnCode.GetLocalizedString();
                     StateBackground = Brushes.Transparent;
                     break;

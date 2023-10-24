@@ -3710,4 +3710,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_RTU_re_initialization" xml:space="preserve">
 		<value>Переинициализация RTU</value>
 	</data>
+	<data name="SID_Cleared__ID___0_" xml:space="preserve">
+		<value>Очищено: ID {0}</value>
+	</data>
 </root>

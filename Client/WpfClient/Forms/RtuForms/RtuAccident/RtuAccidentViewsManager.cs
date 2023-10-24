@@ -5,6 +5,7 @@ using System.Linq;
 using Autofac;
 using AutoMapper;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -87,6 +88,10 @@ namespace Iit.Fibertest.Client
                 vm.TryClose();
                 LaunchedViews.Remove(vm);
             }
+
+            if (rtuAccidentModel.Accident.ReturnCode == ReturnCode.MeasurementErrorCleared
+                || rtuAccidentModel.Accident.ReturnCode == ReturnCode.MeasurementErrorClearedByInit)
+                return;
 
             vm = _globalScope.Resolve<RtuAccidentViewModel>();
             vm.Initialize(rtuAccidentModel);
