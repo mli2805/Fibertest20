@@ -3713,4 +3713,10 @@ Please try again later</value>
 	<data name="SID_Cleared__ID___0_" xml:space="preserve">
 		<value>Cleared: ID  {0}</value>
 	</data>
+	<data name="SID_RTU_initialized_and_base_refs_transferred_successfully" xml:space="preserve">
+		<value>RTU initialized and base refs transferred successfully</value>
+	</data>
+	<data name="SID_RTU_initialized_but_failed_to_send_base_refs" xml:space="preserve">
+		<value>RTU initialized but failed to send base refs</value>
+	</data>
 </root>

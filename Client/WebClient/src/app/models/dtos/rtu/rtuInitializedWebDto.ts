@@ -13,6 +13,6 @@ export class RtuInitializedWebDto {
 export class InitializeRtuDto {
   connectionId: string;
   rtuId: string;
-
+  isSynchronizationRequired: boolean;
   // the rest will be filled in on server
 }

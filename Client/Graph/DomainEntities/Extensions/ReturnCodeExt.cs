@@ -165,6 +165,10 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Failed_to_update_VEEX_test_list;
                 case ReturnCode.BaseRefsAmendmentProcessDone:
                     return Resources.SID_Base_refs_amendment_process_is_finished;
+                case ReturnCode.RtuInitializedAndBaseRefsResentSuccessfully:
+                    return Resources.SID_RTU_initialized_and_base_refs_transferred_successfully;
+                case ReturnCode.RtuInitializedFailedToReSendBaseRefs:
+                    return Resources.SID_RTU_initialized_but_failed_to_send_base_refs;
 
 
                 // 9000

@@ -134,7 +134,6 @@
     </Compile>
     <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentViewsManager.cs" />
-    <Compile Include="Forms\RtuForms\RtuInitialize\ReSendDtoExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml.cs">
       <DependentUpon>RtuAskSerialView.xaml</DependentUpon>
     </Compile>

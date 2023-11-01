@@ -7,9 +7,9 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceWebC2D 
+    public partial class WcfServiceWebC2D
     {
-   
+
         public async Task<RtuInformationDto> GetRtuInformation(string username, Guid rtuId)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuInformation");
@@ -56,8 +56,8 @@ namespace Iit.Fibertest.DataCenterCore
             result.MainChannel = rtu.MainChannel.ToStringA();
             result.IsReserveChannelSet = rtu.IsReserveChannelSet;
             result.ReserveChannel = rtu.ReserveChannel.ToStringA();
-            result.OtdrAddress = rtu.OtdrNetAddress.Ip4Address == "192.168.88.101" 
-                ? $"{rtu.MainChannel.Ip4Address}:{rtu.OtdrNetAddress.Port}" 
+            result.OtdrAddress = rtu.OtdrNetAddress.Ip4Address == "192.168.88.101"
+                ? $"{rtu.MainChannel.Ip4Address}:{rtu.OtdrNetAddress.Port}"
                 : rtu.OtdrNetAddress.ToStringA();
             return result;
         }
@@ -156,7 +156,23 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             if (!FillIn(dto)) return new RtuInitializedDto() { ReturnCode = ReturnCode.RtuInitializationError, };
-            return await _wcfIntermediate.InitializeRtuAsync(dto);
+            var result = await _wcfIntermediate.InitializeRtuAsync(dto);
+            if (!result.IsInitialized || !dto.IsSynchronizationRequired)
+                return result;
+
+            // base refs synchronization
+            var sendResult = await _wcfIntermediate.SynchronizeBaseRefs(dto);
+            if (sendResult == null || sendResult.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully)
+            {
+                // null if there is no base refs
+                result.ReturnCode = ReturnCode.RtuInitializedAndBaseRefsResentSuccessfully;
+                return result;
+            }
+
+            // failed to send
+            result.ReturnCode = ReturnCode.RtuInitializedFailedToReSendBaseRefs;
+            return result;
+
         }
 
         private bool FillIn(InitializeRtuDto dto)
@@ -176,5 +192,7 @@ namespace Iit.Fibertest.DataCenterCore
             dto.Children = rtu.Children;
             return true;
         }
- }
+
+
+    }
 }

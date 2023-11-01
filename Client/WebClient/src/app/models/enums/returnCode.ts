@@ -32,6 +32,8 @@ export enum ReturnCode {
 
   MeasurementError = 1500,
   MeasurementEndedNormally = 1501,
+  MeasurementErrorCleared = 1502, // by Initialization + RTU serial changed
+  MeasurementErrorClearedByInit = 1503, // RTU the same
   MeasurementPreparationError = 1510,
   MeasurementToggleToPortFailed = 1511,
   MeasurementBaseRefNotFound = 1512,
@@ -75,7 +77,9 @@ export enum ReturnCode {
   FailedToSendBaseToRtu = 5041,
   FailedToUpdateVeexTestList = 5042,
   BaseRefsAmendmentProcessDone = 5050,
-
+  RtuInitializedAndBaseRefsResentSuccessfully = 5101,
+  RtuInitializedFailedToReSendBaseRefs = 5110,
+ 
   ClientRegisteredSuccessfully = 9000,
   NoSuchUserOrWrongPassword = 9001,
   ThisUserRegisteredFromAnotherDevice = 9002,

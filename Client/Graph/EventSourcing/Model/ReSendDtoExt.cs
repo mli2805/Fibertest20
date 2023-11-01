@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public static class ReSendDtoExt
     {
-        public static IEnumerable<ReSendBaseRefsDto> CreateReSendDtos(this Model model, Rtu rtu, CurrentUser currentUser)
+        public static IEnumerable<ReSendBaseRefsDto> CreateReSendDtos(this Model model, Rtu rtu, string currentUserConnectionId)
         {
             foreach (var trace in model.Traces
                          .Where(t => t.RtuId == rtu.Id && t.IsAttached && t.HasAnyBaseRef))
             {
                 var dto = new ReSendBaseRefsDto()
                 {
-                    ConnectionId = currentUser.ConnectionId,
+                    ConnectionId = currentUserConnectionId,
                     RtuId = rtu.Id,
                     RtuMaker = rtu.RtuMaker,
                     OtdrId = rtu.OtdrId,

@@ -160,17 +160,17 @@ namespace Iit.Fibertest.Client
             }
             await _wcfServiceDesktopC2D.SendCommandsAsObjs(commands);
 
-
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                var list = _readModel.CreateReSendDtos(FullModel.OriginalRtu, _currentUser).ToList();
+                var list = _readModel.CreateReSendDtos(FullModel.OriginalRtu, _currentUser.ConnectionId).ToList();
                 foreach (var reSendBaseRefsDto in list)
                 {
                     _commonStatusBarViewModel.StatusBarMessage2 
                         = string.Format(Resources.SID_Sending_base_refs_for_port__0_, reSendBaseRefsDto.OtauPortDto.ToStringB());
                     var resultDto = await _wcfServiceCommonC2D.ReSendBaseRefAsync(reSendBaseRefsDto);
-                    _commonStatusBarViewModel.StatusBarMessage2 
-                        = $@"Sending base refs for port {reSendBaseRefsDto.OtauPortDto.ToStringB()} {resultDto.ReturnCode}";
+                    _commonStatusBarViewModel.StatusBarMessage2 = 
+                        // string.Format(Resources.SID_Sending_base_refs_for_port__0_, reSendBaseRefsDto.OtauPortDto.ToStringB()) + @"   " + 
+                        resultDto.ReturnCode.GetLocalizedString();
                 }
             }
         }

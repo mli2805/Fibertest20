@@ -56,6 +56,10 @@ export class ReturnCodePipe implements PipeTransform {
           return this.ts.instant("SID_Measurement_error");
       case ReturnCode.MeasurementEndedNormally:
           return this.ts.instant("SID_Measurement_completed_successfully");
+      case ReturnCode.MeasurementErrorCleared:
+          return this.ts.instant("SID_Status_changed__RTU_substitution_detected");
+      case ReturnCode.MeasurementErrorClearedByInit:
+          return this.ts.instant("SID_RTU_re_initialization");
       case ReturnCode.MeasurementPreparationError:
           return this.ts.instant("SID_Measurement_preparation_error");
       case ReturnCode.MeasurementBaseRefNotFound:
@@ -122,7 +126,11 @@ export class ReturnCodePipe implements PipeTransform {
         return this.ts.instant("SID_Failed_to_update_VEEX_test_list");
       case ReturnCode.BaseRefsAmendmentProcessDone:
         return this.ts.instant("SID_Base_refs_amendment_process_is_finished");
-
+      case ReturnCode.RtuInitializedAndBaseRefsResentSuccessfully:
+        return this.ts.instant("SID_RTU_initialized_and_base_refs_transferred_successfully");
+      case ReturnCode.RtuInitializedFailedToReSendBaseRefs:
+        return this.ts.instant("SID_RTU_initialized_but_failed_to_send_base_refs");
+    
       
       // 9000
       case ReturnCode.ClientRegisteredSuccessfully:

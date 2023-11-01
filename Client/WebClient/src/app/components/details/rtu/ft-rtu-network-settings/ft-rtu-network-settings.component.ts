@@ -67,7 +67,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
     this.setStandardView(resultDto);
   }
 
-  async initializeRtu() {
+  async initializeRtu(synch: boolean) {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.setRequestView();
 
@@ -75,6 +75,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
     const dto = new InitializeRtuDto();
     dto.rtuId = id;
     dto.connectionId = currentUser.connectionId;
+    dto.isSynchronizationRequired = synch;
     const res = (await this.oneApiService
       .postRequest(`rtu/initialize`, dto)
       .toPromise()) as RtuInitializedWebDto;

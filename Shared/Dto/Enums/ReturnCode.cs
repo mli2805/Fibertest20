@@ -80,6 +80,9 @@
         FailedToSendBaseToRtu = 5041,
         FailedToUpdateVeexTestList = 5042,
         BaseRefsAmendmentProcessDone = 5050,
+        RtuInitializedAndBaseRefsResentSuccessfully = 5101,
+        RtuInitializedFailedToReSendBaseRefs = 5110,
+
 
         ClientRegisteredSuccessfully = 9000,
         NoSuchUserOrWrongPassword = 9001,

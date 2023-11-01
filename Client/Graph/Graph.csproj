@@ -182,6 +182,7 @@
     <Compile Include="EventSourcing\Model\ModelUnusedExt.cs" />
     <Compile Include="EventSourcing\Model\ModelZonesExt.cs" />
     <Compile Include="EventSourcing\Model\OneRtuExportImport.cs" />
+    <Compile Include="EventSourcing\Model\ReSendDtoExt.cs" />
     <Compile Include="EventSourcing\Model\TraceInfoCalculator.cs" />
     <Compile Include="Events\Client\ClientConnectionLost.cs" />
     <Compile Include="Events\Client\ClientStationRegistered.cs" />

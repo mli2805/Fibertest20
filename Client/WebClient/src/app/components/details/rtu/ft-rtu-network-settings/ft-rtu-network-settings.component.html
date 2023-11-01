@@ -39,14 +39,22 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button
+      <button style="margin: 0px 10px 10px 0px;"
         mat-raised-button
         color="primary"
-        (click)="initializeRtu()"
+        (click)="initializeRtu(false)"
         [disabled]="isButtonDisabled"
       >
         {{ "SID_Initialize" | translate }}
       </button>
+      <button style="margin: 0px 10px 10px 0px;"
+      mat-raised-button
+      color="primary"
+      (click)="initializeRtu(true)"
+      [disabled]="isButtonDisabled"
+    >
+      {{ "SID_Initialize_and_synch" | translate }}
+    </button>
     </mat-card-actions>
   </mat-card>
   <div class="error-container">

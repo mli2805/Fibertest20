@@ -38,7 +38,8 @@ namespace Iit.Fibertest.DataCenterCore
             // during the tests "client" invokes not the C2DWcfManager's method to communicate by network
             // but right server's method from WcfServiceForClient
             var username = "NCrunch";
-            var clientIp = "127.0.0.1"; var list = new List<string>();
+            var clientIp = "127.0.0.1"; 
+            var list = new List<string>();
 
             foreach (var cmd in cmds)
             {
