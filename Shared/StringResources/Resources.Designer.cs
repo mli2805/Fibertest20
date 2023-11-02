@@ -9379,6 +9379,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The RFTS Reflect application cannot connect to RTU.
+        /// </summary>
+        public static string SID_The_RFTS_Reflect_application_cannot_connect_to_RTU {
+            get {
+                return ResourceManager.GetString("SID_The_RFTS_Reflect_application_cannot_connect_to_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The version of the Client software.
         /// </summary>
         public static string SID_The_version_of_the_Client_software {

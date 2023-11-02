@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
@@ -214,7 +215,8 @@ namespace Iit.Fibertest.Client
             var result = mainCharon.SetExtendedActivePort(serialOfCharonWithThisPort, portNumber);
             if (result == CharonOperationResult.Ok)
                 return Task.FromResult(true);
-            var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{mainCharon.LastErrorMessage}");
+            var msg = Resources.SID_The_RFTS_Reflect_application_cannot_connect_to_RTU;
+            var vm = new MyMessageBoxViewModel(MessageType.Error, msg);
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return Task.FromResult(false);
         }
