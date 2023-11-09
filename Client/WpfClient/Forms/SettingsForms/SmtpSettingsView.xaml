@@ -24,6 +24,11 @@
             <TextBox Margin="5" Text="{Binding SmtpPort}" />
         </DockPanel>
         <DockPanel>
+            <TextBlock DockPanel.Dock="Bottom"/>
+            <TextBlock Text="SSL/TLS" Margin="5" Width="120"/>
+            <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding SslEnabled}"/>
+        </DockPanel>
+        <DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_e_g_postbox}"
                        TextAlignment="Center" />
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="Mail from" Width="120" />

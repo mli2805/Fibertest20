@@ -42,12 +42,15 @@ namespace Iit.Fibertest.DataCenterCore
             _iniFile.Write(IniSection.Smtp, IniKey.MailFrom, dto.MailFrom);
             _iniFile.Write(IniSection.Smtp, IniKey.MailFromPassword, dto.MailFromPassword);
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpTimeoutMs, dto.SmtpTimeoutMs);
+            _iniFile.Write(IniSection.Smtp, IniKey.SslEnabled, dto.SslEnabled);
+
 
             _currentDatacenterParameters.Smtp.SmptHost = dto.SmptHost;
             _currentDatacenterParameters.Smtp.SmptPort = dto.SmptPort;
             _currentDatacenterParameters.Smtp.MailFrom = dto.MailFrom;
             _currentDatacenterParameters.Smtp.MailFromPassword = dto.MailFromPassword;
             _currentDatacenterParameters.Smtp.SmtpTimeoutMs = dto.SmtpTimeoutMs;
+            _currentDatacenterParameters.Smtp.SslEnabled = dto.SslEnabled;
         }
 
         public async Task<bool> SendTest(string address)
@@ -166,7 +169,7 @@ namespace Iit.Fibertest.DataCenterCore
             SmtpClient smtpClient = new SmtpClient(_currentDatacenterParameters.Smtp.SmptHost,
                 _currentDatacenterParameters.Smtp.SmptPort)
             {
-                EnableSsl = true,
+                EnableSsl = _currentDatacenterParameters.Smtp.SslEnabled,
                 Timeout = _currentDatacenterParameters.Smtp.SmtpTimeoutMs,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,

@@ -19,5 +19,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public int SmtpTimeoutMs { get; set; }
+
+        [DataMember]
+        public bool SslEnabled { get; set; }
     }
 }
