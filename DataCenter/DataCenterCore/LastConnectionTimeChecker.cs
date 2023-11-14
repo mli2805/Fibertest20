@@ -69,7 +69,8 @@ namespace Iit.Fibertest.DataCenterCore
             _clientHeartbeatPermittedGap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.ClientConnectionsPermittedGap, 180));
 
             // if server just started it should give RTUs time to check-in
-            Thread.Sleep(_rtuHeartbeatPermittedGap);
+            // Thread.Sleep(_rtuHeartbeatPermittedGap);
+            Thread.Sleep(10000);
 
             while (true)
             {
@@ -81,9 +82,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
+            _logFile.AppendLine("Last connection time checker is alive!");
             _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
 
-            var networkEvents = await GetNewNetworkEvents(_rtuHeartbeatPermittedGap);
+            var networkEvents = await GetConnectionChangesAsNetworkEvents(_rtuHeartbeatPermittedGap);
             if (networkEvents.Count == 0)
                 return 0;
 
@@ -98,38 +100,50 @@ namespace Iit.Fibertest.DataCenterCore
                 };
                 if (!string.IsNullOrEmpty(await _eventStoreService.SendCommand(command, "system", "OnServer")))
                     continue;
-                var lastEvent = _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == networkEvent.RtuId);
-                if (lastEvent == null) continue;
-                var dto = Mapper.Map<NetworkEventDto>(lastEvent);
+                // var lastEvent = _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == networkEvent.RtuId);
+                // if (lastEvent == null) continue;
 
-                _snmpNotifier.SendRtuNetworkEvent(lastEvent);
-                await _ftSignalRClient.NotifyAll("AddNetworkEvent", dto.ToCamelCaseJson());
+                var thread = new Thread(() => { NotifyAboutNewNetworkEvent(networkEvent).Wait(); }) {IsBackground = true};
+                thread.Start();
             }
 
             return 0;
         }
 
+        private async Task NotifyAboutNewNetworkEvent(NetworkEvent networkEvent)
+        {
+            _snmpNotifier.SendRtuNetworkEvent(networkEvent);
+            var isMainChannel = networkEvent.OnMainChannel != ChannelEvent.Nothing;
+            var isOk = (isMainChannel ? networkEvent.OnMainChannel : networkEvent.OnReserveChannel) ==
+                       ChannelEvent.Repaired;
+            await _smtp.SendNetworkEvent(networkEvent.RtuId, isMainChannel, isOk);
+            _smsManager.SendNetworkEvent(networkEvent.RtuId, isMainChannel, isOk);
 
-        private async Task<List<NetworkEvent>> GetNewNetworkEvents(TimeSpan rtuHeartbeatPermittedGap)
+            var dto = Mapper.Map<NetworkEventDto>(networkEvent);
+            await _ftSignalRClient.NotifyAll("AddNetworkEvent", dto.ToCamelCaseJson());
+        }
+
+
+        private async Task<List<NetworkEvent>> GetConnectionChangesAsNetworkEvents(TimeSpan rtuHeartbeatPermittedGap)
         {
             DateTime noLaterThan = DateTime.Now - rtuHeartbeatPermittedGap;
             var stations = await _rtuStationsRepository.GetAllRtuStations();
 
             List<RtuStation> changedStations = new List<RtuStation>();
-            List<NetworkEvent> networkEvents = new List<NetworkEvent>();
+            List<NetworkEvent> result = new List<NetworkEvent>();
             foreach (var rtuStation in stations)
             {
                 NetworkEvent networkEvent = await CheckRtuStation(rtuStation, noLaterThan);
                 if (networkEvent != null)
                 {
                     changedStations.Add(rtuStation);
-                    networkEvents.Add(networkEvent);
+                    result.Add(networkEvent);
                 }
             }
             if (changedStations.Count > 0)
                 await _rtuStationsRepository.SaveAvailabilityChanges(changedStations);
 
-            return networkEvents;
+            return result;
         }
 
         private async Task<NetworkEvent> CheckRtuStation(RtuStation rtuStation, DateTime noLaterThan)
@@ -155,8 +169,8 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsReserveAddressOkDuePreviousCheck = false;
                 networkEvent.OnReserveChannel = ChannelEvent.Broken;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Broken");
-                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, false);
-                _smsManager.SendNetworkEvent(rtuStation.RtuGuid, false, false);
+                // await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, false);
+                // _smsManager.SendNetworkEvent(rtuStation.RtuGuid, false, false);
                 return true;
             }
 
@@ -166,8 +180,8 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsReserveAddressOkDuePreviousCheck = true;
                 networkEvent.OnReserveChannel = ChannelEvent.Repaired;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Recovered");
-                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, true);
-                _smsManager.SendNetworkEvent(rtuStation.RtuGuid, false, true);
+                // await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, true);
+                // _smsManager.SendNetworkEvent(rtuStation.RtuGuid, false, true);
                 return true;
             }
             return false;
@@ -183,8 +197,8 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;
                 networkEvent.OnMainChannel = ChannelEvent.Broken;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Broken");
-                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, true, false);
-                _smsManager.SendNetworkEvent(rtuStation.RtuGuid, true, false);
+                // await _smtp.SendNetworkEvent(rtuStation.RtuGuid, true, false);
+                // _smsManager.SendNetworkEvent(rtuStation.RtuGuid, true, false);
                 return true;
             }
 
@@ -193,11 +207,14 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = true;
                 networkEvent.OnMainChannel = ChannelEvent.Repaired;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Recovered");
-                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, true, true);
-                _smsManager.SendNetworkEvent(rtuStation.RtuGuid, true, true);
+                // await _smtp.SendNetworkEvent(rtuStation.RtuGuid, true, true);
+                // _smsManager.SendNetworkEvent(rtuStation.RtuGuid, true, true);
+
                 return true;
             }
             return false;
         }
+
+       
     }
 }

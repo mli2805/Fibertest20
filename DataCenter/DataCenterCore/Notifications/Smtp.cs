@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -56,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> SendTest(string address)
         {
             var mailTo = new List<string> { address };
-            return await SendEmail(TestEmailSubj, TestEmailMessage, null, mailTo);
+            return SendEmailInOtherThread(TestEmailSubj, TestEmailMessage, null, mailTo);
         }
 
         public async Task<bool> SendOpticalEvent(MonitoringResultDto dto, AddMeasurement addMeasurement)
@@ -67,7 +68,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             var subj = _writeModel.GetShortMessageForMonitoringResult(dto);
             var attachmentFilename = PreparePdfAttachment(addMeasurement);
-            return await SendEmail(subj, subj, attachmentFilename, mailTo);
+            return SendEmailInOtherThread(subj, subj, attachmentFilename, mailTo);
         }
 
         private string PreparePdfAttachment(AddMeasurement addMeasurement)
@@ -121,7 +122,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (mailTo.Count == 0) return true;
 
             var subj = _writeModel.GetShortMessageForNetworkEvent(rtuId, isMainChannel, isOk);
-            return await SendEmail(subj, subj, null, mailTo);
+            return SendEmailInOtherThread(subj, subj, null, mailTo);
         }
 
         public async Task<bool> SendBopState(BopNetworkEvent cmd)
@@ -131,7 +132,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (mailTo.Count == 0) return true;
 
             var subj = EventReport.GetShortMessageForBopState(cmd);
-            return await SendEmail(subj, subj, null, mailTo);
+            return SendEmailInOtherThread(subj, subj, null, mailTo);
         }
 
         public async Task<bool> SendRtuStatusEvent(RtuAccident accident)
@@ -141,11 +142,20 @@ namespace Iit.Fibertest.DataCenterCore
             if (mailTo.Count == 0) return true;
 
             var subj = _writeModel.GetShortMessageForRtuStatusEvent(accident);
-            return await SendEmail(subj, subj, null, mailTo);
+            return SendEmailInOtherThread(subj, subj, null, mailTo);
+        }
+
+        private bool SendEmailInOtherThread(string subject, string body, string attachmentFilename,
+            List<string> addresses)
+        {
+            var thread = new Thread(() => { SendEmail1(subject, body, attachmentFilename, addresses).Wait(); });
+            thread.Start();
+
+            return true;
         }
 
         // userId - if empty - all users who have email
-        private async Task<bool> SendEmail(string subject, string body, string attachmentFilename, List<string> addresses)
+        private async Task<bool> SendEmail1(string subject, string body, string attachmentFilename, List<string> addresses)
         {
             try
             {
@@ -164,7 +174,15 @@ namespace Iit.Fibertest.DataCenterCore
                     if (attachmentFilename != null)
                         mail.Attachments.Add(new Attachment(attachmentFilename));
 
-                    await smtpClient.SendMailAsync(mail);
+                    try
+                    {
+                        await smtpClient.SendMailAsync(mail);
+                    }
+                    catch (Exception e)
+                    {
+                        _logFile.AppendLine(e.Message);
+                        return false;
+                    }
                     return true;
                 }
             }
