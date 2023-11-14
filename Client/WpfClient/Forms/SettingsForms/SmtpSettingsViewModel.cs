@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
 
         public string SmtpHost { get; set; }
         public int SmtpPort { get; set; }
+        public bool SslEnabled { get; set; }
         public string MailFrom { get; set; }
         public string MailFromPassword { get; set; }
         public int SmtpTimeoutMs { get; set; }
@@ -30,6 +31,7 @@ namespace Iit.Fibertest.Client
 
             SmtpHost = _currentDatacenterParameters.Smtp.SmptHost;
             SmtpPort = _currentDatacenterParameters.Smtp.SmptPort;
+            SslEnabled = _currentDatacenterParameters.Smtp.SslEnabled;
             MailFrom = _currentDatacenterParameters.Smtp.MailFrom;
             MailFromPassword = _currentDatacenterParameters.Smtp.MailFromPassword;
             SmtpTimeoutMs = _currentDatacenterParameters.Smtp.SmtpTimeoutMs;
@@ -50,6 +52,7 @@ namespace Iit.Fibertest.Client
                 _currentDatacenterParameters.Smtp.MailFrom = MailFrom;
                 _currentDatacenterParameters.Smtp.MailFromPassword = MailFromPassword;
                 _currentDatacenterParameters.Smtp.SmtpTimeoutMs = SmtpTimeoutMs;
+                _currentDatacenterParameters.Smtp.SslEnabled = SslEnabled;
 
                 var dto = new SmtpSettingsDto()
                 {
@@ -58,6 +61,7 @@ namespace Iit.Fibertest.Client
                     MailFrom = MailFrom,
                     MailFromPassword = MailFromPassword,
                     SmtpTimeoutMs = SmtpTimeoutMs,
+                    SslEnabled = SslEnabled,
                 };
                 res = await _c2DWcfManager.SaveSmtpSettings(dto);
             }

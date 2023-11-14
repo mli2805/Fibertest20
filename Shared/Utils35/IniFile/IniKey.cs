@@ -120,6 +120,7 @@
         MailFrom,
         MailFromPassword,
         SmtpTimeoutMs,
+        SslEnabled,
 
         // Snmp,
         IsSnmpOn,
