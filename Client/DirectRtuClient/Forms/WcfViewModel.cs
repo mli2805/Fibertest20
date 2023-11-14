@@ -166,7 +166,7 @@ namespace DirectRtuClient
 
                 using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
                 {
-                    smtpClient.EnableSsl = true;
+                    smtpClient.EnableSsl = _iniFile.Read(IniSection.Smtp, IniKey.SslEnabled, true);
                     smtpClient.Timeout = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 10000);
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtpClient.UseDefaultCredentials = false;

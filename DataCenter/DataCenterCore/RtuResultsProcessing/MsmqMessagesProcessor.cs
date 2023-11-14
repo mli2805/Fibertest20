@@ -140,22 +140,22 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async Task SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
+        private void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             SetCulture();
 
-            await _smtp.SendOpticalEvent(dto, addMeasurement);
-            _smsManager.SendMonitoringResult(dto);
             _snmpNotifier.SendTraceEvent(addMeasurement);
+            _smsManager.SendMonitoringResult(dto);
+            _smtp.SendOpticalEvent(dto, addMeasurement);
         }
 
-        private async Task SendNotificationsAboutRtuStatusEvents(RtuAccident accident)
+        private void SendNotificationsAboutRtuStatusEvents(RtuAccident accident)
         {
             SetCulture();
 
-            await _smtp.SendRtuStatusEvent(accident);
-            _smsManager.SendRtuStatusEvent(accident);
             _snmpNotifier.SendRtuStatusEvent(accident);
+            _smsManager.SendRtuStatusEvent(accident);
+            _smtp.SendRtuStatusEvent(accident);
         }
 
         private void SetCulture()

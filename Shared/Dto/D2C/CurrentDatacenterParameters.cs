@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Dto
                 MailFrom = dto.Smtp.MailFrom,
                 MailFromPassword = dto.Smtp.MailFromPassword,
                 SmtpTimeoutMs = dto.Smtp.SmtpTimeoutMs,
+                SslEnabled = dto.Smtp.SslEnabled,
             };
             GsmModemComPort = dto.GsmModemComPort;
             Snmp = new SnmpSettingsDto()

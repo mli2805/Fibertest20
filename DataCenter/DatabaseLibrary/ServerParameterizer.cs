@@ -48,6 +48,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 MailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, ""),
                 MailFromPassword = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, ""),
                 SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
+                SslEnabled = _iniFile.Read(IniSection.Smtp, IniKey.SslEnabled, true),
             };
             _currentDatacenterParameters.GsmModemComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
 

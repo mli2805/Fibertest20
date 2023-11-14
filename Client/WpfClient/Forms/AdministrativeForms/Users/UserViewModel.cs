@@ -136,9 +136,26 @@ namespace Iit.Fibertest.Client
                 res = await _c2DWcfManager.SendTest(UserInWork.EmailAddress, NotificationType.Email);
             }
 
-            var header = res ? MessageType.Information : MessageType.Error;
-            var message = res ? Resources.SID_Test_e_mail_sent_successfully_ : Resources.SID_Failed_to_send_test_e_mail_;
-            var vm = new MyMessageBoxViewModel(header, message);
+            MyMessageBoxViewModel vm;
+            if (res)
+            {
+                var header = MessageType.Information;
+                var lines = new List<string>()
+                {
+                    Resources.SID_Test_e_mail_sent_successfully_,
+                    "",
+                    Resources.SID_Check_the_recipient_s_mailbox,
+                };
+                vm = new MyMessageBoxViewModel(header, lines);
+            }
+            else
+            {
+                var header = MessageType.Error;
+                var message = Resources.SID_Failed_to_send_test_e_mail_;
+                vm = new MyMessageBoxViewModel(header, message);
+            }
+
+           
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

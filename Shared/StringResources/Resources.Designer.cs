@@ -1881,6 +1881,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check the recipient&apos;s mailbox.
+        /// </summary>
+        public static string SID_Check_the_recipient_s_mailbox {
+            get {
+                return ResourceManager.GetString("SID_Check_the_recipient_s_mailbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose encoding for strings with non ANSI symbols your SNMP manager is waiting for..
         /// </summary>
         public static string SID_Choose_encoding {

@@ -48,10 +48,10 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async void SendNotificationsAboutBop(BopNetworkEvent cmd)
+        private void SendNotificationsAboutBop(BopNetworkEvent cmd)
         {
             SetCulture();
-            await _smtp.SendBopState(cmd);
+            _smtp.SendBopState(cmd);
             _smsManager.SendBopState(cmd);
             _snmpNotifier.SendBopNetworkEvent(cmd);
         }
