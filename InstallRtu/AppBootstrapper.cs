@@ -13,8 +13,6 @@ namespace Iit.Fibertest.InstallRtu
 
     public class AppBootstrapper : BootstrapperBase
     {
-        // SimpleContainer container;
-
         private ILifetimeScope _container;
         private CurrentRtuInstallation _currentRtuInstallation;
 
@@ -25,16 +23,11 @@ namespace Iit.Fibertest.InstallRtu
 
         protected override void Configure()
         {
-            //            container = new SimpleContainer();
-
-            //            container.Singleton<IWindowManager, WindowManager>();
-            //            container.Singleton<IEventAggregator, EventAggregator>();
-            //            container.PerRequest<IShell, ShellViewModel>();
+          
         }
 
         protected override object GetInstance(Type service, string key)
         {
-            //            return container.GetInstance(service, key);
             return string.IsNullOrWhiteSpace(key) ?
                 _container.Resolve(service) :
                 _container.ResolveNamed(key, service);
@@ -42,13 +35,11 @@ namespace Iit.Fibertest.InstallRtu
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            //            return container.GetAllInstances(service);
             return _container.Resolve(typeof(IEnumerable<>).MakeGenericType(service)) as IEnumerable<object>;
         }
 
         protected override void BuildUp(object instance)
         {
-            //            container.BuildUp(instance);
             _container.InjectProperties(instance);
         }
 
@@ -65,11 +56,30 @@ namespace Iit.Fibertest.InstallRtu
 
             _currentRtuInstallation = _container.Resolve<CurrentRtuInstallation>();
             _currentRtuInstallation.ProductName = "IIT Fibertest";
-           
-            SetCurrentCulture();
+            _currentRtuInstallation.Args = e.Args;
 
+            // in Visual Studio
+            if (e.Args.Length == 1 && e.Args[0].ToLower() == @"/admin")
+            {
+                _currentRtuInstallation.IsAdmin = true;
+            }
+            // in real life
+            if (e.Args.Length == 2 && e.Args[1].ToLower() == @"/admin")
+            {
+                _currentRtuInstallation.IsAdmin = true;
+            }
 
+            if (_currentRtuInstallation.IsAdmin)
+                SetCurrentCulture();
+            else
+                SetEnUsCulture();
             DisplayRootViewFor<IShell>();
+        }
+
+        private void SetEnUsCulture()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
         }
 
         private void SetCurrentCulture()

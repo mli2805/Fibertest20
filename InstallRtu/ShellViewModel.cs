@@ -26,6 +26,8 @@ namespace Iit.Fibertest.InstallRtu
         private bool _isButtonBackEnabled;
         private bool _isButtonNextEnabled;
         private bool _isButtonCancelEnabled;
+        private Visibility _buttonBackVisibility;
+        private Visibility _buttonCancelVisibility;
 
         public string ButtonBackContent
         {
@@ -45,6 +47,17 @@ namespace Iit.Fibertest.InstallRtu
             {
                 if (value == _isButtonBackEnabled) return;
                 _isButtonBackEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public Visibility ButtonBackVisibility
+        {
+            get => _buttonBackVisibility;
+            set
+            {
+                if (value == _buttonBackVisibility) return;
+                _buttonBackVisibility = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -104,6 +117,17 @@ namespace Iit.Fibertest.InstallRtu
             }
         }
 
+        public Visibility ButtonCancelVisibility
+        {
+            get => _buttonCancelVisibility;
+            set
+            {
+                if (value == _buttonCancelVisibility) return;
+                _buttonCancelVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         #endregion
 
         public ShellViewModel(CurrentRtuInstallation currentRtuInstallation, IMyLog logFile,
@@ -117,7 +141,7 @@ namespace Iit.Fibertest.InstallRtu
             InstallationFolderViewModel = installationFolderViewModel;
             ProcessProgressViewModel = processProgressViewModel;
 
-            _currentPage = SetupPages.LicenseAgreement;
+            _currentPage = _currentRtuInstallation.IsAdmin ? SetupPages.LicenseAgreement : SetupPages.ProcessProgress;
         }
         protected override void OnViewLoaded(object view)
         {
@@ -127,6 +151,11 @@ namespace Iit.Fibertest.InstallRtu
             DisplayName = string.Format(Resources.SID_Setup_caption, info.FileVersion);
             _logFile.AssignFile(@"Setup.log");
             _logFile.AppendLine(@"Setup application started!");
+            foreach (var arg in _currentRtuInstallation.Args)
+            {
+                _logFile.AppendLine(arg);
+            }
+
             Do();
         }
 
@@ -177,7 +206,7 @@ namespace Iit.Fibertest.InstallRtu
                     IsButtonCancelEnabled = true;
 
                     break;
-              
+
                 case SetupPages.ProcessProgress:
                     RegistryOperations.SaveFibertestValue("InstallationFolder", InstallationFolderViewModel.InstallationFolder);
                     _currentRtuInstallation.InstallationFolder = InstallationFolderViewModel.InstallationFolder;
@@ -195,12 +224,16 @@ namespace Iit.Fibertest.InstallRtu
             InstallationFolderViewModel.Visibility = Visibility.Collapsed;
             ProcessProgressViewModel.Visibility = Visibility.Visible;
 
-            ButtonBackContent = Resources.SID_Back;
-            IsButtonBackEnabled = false;
+            // ButtonBackContent = Resources.SID_Back;
+            // IsButtonBackEnabled = false;
+            ButtonBackVisibility = Visibility.Hidden;
+
             ButtonNextContent = Resources.SID_Wait___;
             IsButtonNextEnabled = false;
-            ButtonCancelContent = Resources.SID_Cancel;
-            IsButtonCancelEnabled = false;
+
+            // ButtonCancelContent = Resources.SID_Cancel;
+            // IsButtonCancelEnabled = false;
+            ButtonCancelVisibility = Visibility.Collapsed;
 
         }
 
@@ -214,7 +247,7 @@ namespace Iit.Fibertest.InstallRtu
                     ButtonNextContent = Resources.SID_Done;
                 else
                 {
-                    ButtonNextContent =  Resources.SID_Close;
+                    ButtonNextContent = Resources.SID_Close;
                     ButtonNextColor = Brushes.Red;
                 }
                 IsButtonNextEnabled = true;
@@ -225,7 +258,7 @@ namespace Iit.Fibertest.InstallRtu
 
         public void Cancel()
         {
-            var result = MessageBox.Show(string.Format(Resources.SID_Are_you_sure_you_want_to_quit__0__setup_, 
+            var result = MessageBox.Show(string.Format(Resources.SID_Are_you_sure_you_want_to_quit__0__setup_,
                 _currentRtuInstallation.MainName), Resources.SID_Confirmation, MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
                 TryClose();

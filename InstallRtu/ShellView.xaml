@@ -10,12 +10,15 @@
         d:DataContext="{d:DesignInstance Iit.Fibertest.InstallRtu:ShellViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
-            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" 
-                    Content="{Binding ButtonCancelContent}" IsEnabled="{Binding IsButtonCancelEnabled}"/>
-            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Next" 
-                    Content="{Binding ButtonNextContent}" IsEnabled="{Binding IsButtonNextEnabled}" Foreground="{Binding ButtonNextColor}"/>
-            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Back" 
-                    Content="{Binding ButtonBackContent}" IsEnabled="{Binding IsButtonBackEnabled}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5" Name="Cancel" 
+                    Content="{Binding ButtonCancelContent}" IsEnabled="{Binding IsButtonCancelEnabled}"
+                    Visibility="{Binding ButtonCancelVisibility}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5" Name="Next" 
+                    Content="{Binding ButtonNextContent}" IsEnabled="{Binding IsButtonNextEnabled}" 
+                    Foreground="{Binding ButtonNextColor}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5" Name="Back" 
+                    Content="{Binding ButtonBackContent}" IsEnabled="{Binding IsButtonBackEnabled}"
+                    Visibility="{Binding ButtonBackVisibility}"/>
             <StackPanel></StackPanel>
         </DockPanel>
         <GroupBox Header="{x:Static StringResources:Resources.SID_Institute_of_Information_Technologies}" Foreground="LightGray" Margin="10,0"

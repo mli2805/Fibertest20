@@ -9,5 +9,8 @@
 
         public string InstallationFolder { get; set; }
 
+        public bool IsAdmin { get; set; }
+
+        public string[] Args { get; set; }
     }
 }
