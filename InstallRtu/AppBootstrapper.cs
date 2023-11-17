@@ -78,8 +78,10 @@ namespace Iit.Fibertest.InstallRtu
 
         private void SetEnUsCulture()
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            var culture = "en-US";
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+            RegistryOperations.SaveSetupCultureInRegistry(culture);
         }
 
         private void SetCurrentCulture()
