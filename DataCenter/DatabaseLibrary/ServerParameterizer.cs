@@ -48,6 +48,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 MailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, ""),
                 MailFromPassword = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, ""),
                 SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
+                SslEnabled = _iniFile.Read(IniSection.Smtp, IniKey.SslEnabled, true),
             };
             _currentDatacenterParameters.GsmModemComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
 
@@ -73,7 +74,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             _logFile.AppendLine($"Measurements: MYSQL=localhost:{_mysqlTcpPort}   Database={_measurementsScheme}");
         }
 
-        private string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database={_measurementsScheme}";
+        public string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database={_measurementsScheme}";
 
         public DbContextOptions<FtDbContext> Options =>
             new DbContextOptionsBuilder<FtDbContext>().UseMySql(MySqlConnectionString).Options;

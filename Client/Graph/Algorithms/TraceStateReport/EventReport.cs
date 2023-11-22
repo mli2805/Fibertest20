@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
             var what = isOk ? Resources.SID_Recovered : Resources.SID_Broken;
             return $@"RTU ""{rtu.Title}"" {channel} - {what}";
         }
-        public static string GetShortMessageForBopState(AddBopNetworkEvent cmd)
+        public static string GetShortMessageForBopState(BopNetworkEvent cmd)
         {
             var state = cmd.IsOk ? Resources.SID_Ok : Resources.SID_Breakdown;
             return string.Format(Resources.SID_BOP__0_____1__at__2_, cmd.OtauIp, state, cmd.EventTimestamp.ForReport());

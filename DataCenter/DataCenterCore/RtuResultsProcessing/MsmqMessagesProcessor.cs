@@ -108,11 +108,11 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
+        private void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             SetCulture();
 
-            await _smtp.SendOpticalEvent(dto, addMeasurement);
+            _smtp.SendOpticalEvent(dto, addMeasurement);
             _smsManager.SendMonitoringResult(dto);
             _snmpNotifier.SendTraceEvent(addMeasurement);
         }

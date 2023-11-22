@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Graph
                 .Select(u => u.Email.Address).ToList();
         }
 
-        public static List<string> GetEmailsToSendBopNetworkEvent(this Model writeModel, AddBopNetworkEvent cmd)
+        public static List<string> GetEmailsToSendBopNetworkEvent(this Model writeModel, BopNetworkEvent cmd)
         {
             var otau = writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == cmd.OtauIp && o.NetAddress.Port == cmd.TcpPort);
             if (otau == null) return new List<string>();

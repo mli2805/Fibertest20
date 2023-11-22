@@ -44,14 +44,14 @@ namespace Iit.Fibertest.DataCenterCore
                 var signal = Mapper.Map<BopEventDto>(bopEvent);
 
                 await _ftSignalRClient.NotifyAll("AddBopEvent", signal.ToCamelCaseJson());
-                var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
+                var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(bopEvent));
             }
         }
 
-        private async void SendNotificationsAboutBop(AddBopNetworkEvent cmd)
+        private void SendNotificationsAboutBop(BopNetworkEvent cmd)
         {
             SetCulture();
-            await _smtp.SendBopState(cmd);
+            _smtp.SendBopState(cmd);
             _smsManager.SendBopState(cmd);
             _snmpNotifier.SendBopNetworkEvent(cmd);
         }

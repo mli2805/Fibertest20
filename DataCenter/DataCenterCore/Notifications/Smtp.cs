@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -59,15 +60,15 @@ namespace Iit.Fibertest.DataCenterCore
             return await SendEmail(TestEmailSubj, TestEmailMessage, null, mailTo);
         }
 
-        public async Task<bool> SendOpticalEvent(MonitoringResultDto dto, AddMeasurement addMeasurement)
+        public void SendOpticalEvent(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             var mailTo = _writeModel.GetEmailsToSendMonitoringResult(dto);
             _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
-            if (mailTo.Count == 0) return true;
+            if (mailTo.Count == 0) return;
 
             var subj = _writeModel.GetShortMessageForMonitoringResult(dto);
             var attachmentFilename = PreparePdfAttachment(addMeasurement);
-            return await SendEmail(subj, subj, attachmentFilename, mailTo);
+            SendEmailInOtherThread(subj, subj, attachmentFilename, mailTo);
         }
 
         private string PreparePdfAttachment(AddMeasurement addMeasurement)
@@ -78,7 +79,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
                 string filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
-                var trace = _writeModel.Traces.First(t=>t.TraceId == addMeasurement.TraceId);
+                var trace = _writeModel.Traces.First(t => t.TraceId == addMeasurement.TraceId);
                 var rtu = _writeModel.Rtus.First(r => r.Id == addMeasurement.RtuId);
                 var reportModel = new TraceReportModel()
                 {
@@ -114,23 +115,35 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<bool> SendNetworkEvent(Guid rtuId, bool isMainChannel, bool isOk)
+        public void SendNetworkEvent(Guid rtuId, bool isMainChannel, bool isOk)
         {
             var mailTo = _writeModel.GetEmailsToSendNetworkEvent(rtuId);
             _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
-            if (mailTo.Count == 0) return true;
+            if (mailTo.Count == 0) return;
 
             var subj = _writeModel.GetShortMessageForNetworkEvent(rtuId, isMainChannel, isOk);
-            return await SendEmail(subj, subj, null, mailTo);
+            SendEmailInOtherThread(subj, subj, null, mailTo);
         }
-        public async Task<bool> SendBopState(AddBopNetworkEvent cmd)
+
+        public void SendBopState(BopNetworkEvent cmd)
         {
             var mailTo = _writeModel.GetEmailsToSendBopNetworkEvent(cmd);
             _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
-            if (mailTo.Count == 0) return true;
+            if (mailTo.Count == 0) return;
 
             var subj = EventReport.GetShortMessageForBopState(cmd);
-            return await SendEmail(subj, subj, null, mailTo);
+            SendEmailInOtherThread(subj, subj, null, mailTo);
+        }
+
+      
+
+        private void SendEmailInOtherThread(string subject, string body, string attachmentFilename,
+            List<string> addresses)
+        {
+            var thread = new Thread(() => { SendEmail(subject, body, attachmentFilename, addresses).Wait(); });
+            thread.Start();
+
+            _logFile.AppendLine("Thread started");
         }
 
         // userId - if empty - all users who have email
@@ -153,15 +166,19 @@ namespace Iit.Fibertest.DataCenterCore
                     if (attachmentFilename != null)
                         mail.Attachments.Add(new Attachment(attachmentFilename));
 
+
                     await smtpClient.SendMailAsync(mail);
-                    return true;
                 }
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(e.Message);
+                _logFile.AppendLine("SendEmail: " + e.Message);
                 return false;
             }
+
+            _logFile.AppendLine("SendEmail finished");
+            return true;
+
         }
 
         private SmtpClient GetSmtpClient(string mailFrom)

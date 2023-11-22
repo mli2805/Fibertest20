@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
             _snmpAgent.SentRealTrap(data, FtTrapType.RtuNetworkEventAsSnmp);
         }
 
-        public void SendBopNetworkEvent(AddBopNetworkEvent bopEvent)
+        public void SendBopNetworkEvent(BopNetworkEvent bopEvent)
         {
             var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
             if (!isSnmpOn) return;
@@ -128,7 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
             return data;
         }
 
-        private List<KeyValuePair<FtTrapProperty, string>> BopEventToSnmp(AddBopNetworkEvent bopEvent)
+        private List<KeyValuePair<FtTrapProperty, string>> BopEventToSnmp(BopNetworkEvent bopEvent)
         {
             var rtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == bopEvent.RtuId)?.Title ?? "RTU not found";
             var bopTitle =
