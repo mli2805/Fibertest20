@@ -74,18 +74,17 @@ namespace Iit.Fibertest.DataCenterCore
 
         private string PreparePdfAttachment(AddMeasurement addMeasurement)
         {
+            string filename;
+            TraceReportModel reportModel;
             try
             {
-                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
-                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-
+              
                 var ci = new CultureInfo("ru-RU");
                 string format = ci.DateTimeFormat.FullDateTimePattern;
 
-                string filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
                 var trace = _writeModel.Traces.First(t => t.TraceId == addMeasurement.TraceId);
                 var rtu = _writeModel.Rtus.First(r => r.Id == addMeasurement.RtuId);
-                var reportModel = new TraceReportModel()
+                reportModel = new TraceReportModel()
                 {
                     TraceTitle = trace.Title,
                     TraceState = trace.State.ToLocalizedString(),
@@ -99,12 +98,24 @@ namespace Iit.Fibertest.DataCenterCore
 
                     Accidents = ConvertAccidents(addMeasurement.Accidents).ToList(),
                 };
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(@"PreparePdfAttachment: prepare model: " + e.Message);
+                return null;
+            }
+
+            try
+            {
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+                filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
                 _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters).Save(filename);
                 return filename;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(@"ShowReport: " + e.Message);
+                _logFile.AppendLine(@"PreparePdfAttachment: create report" + e.Message);
                 return null;
             }
         }
