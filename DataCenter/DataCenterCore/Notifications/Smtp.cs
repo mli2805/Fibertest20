@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -78,6 +79,9 @@ namespace Iit.Fibertest.DataCenterCore
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
+                var ci = new CultureInfo("ru-RU");
+                string format = ci.DateTimeFormat.FullDateTimePattern;
+
                 string filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
                 var trace = _writeModel.Traces.First(t => t.TraceId == addMeasurement.TraceId);
                 var rtu = _writeModel.Rtus.First(r => r.Id == addMeasurement.RtuId);
@@ -90,8 +94,8 @@ namespace Iit.Fibertest.DataCenterCore
                     PortTitle = trace.OtauPort.IsPortOnMainCharon
                         ? trace.OtauPort.OpticalPort.ToString()
                         : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}",
-                    MeasurementTimestamp = $@"{addMeasurement.MeasurementTimestamp:G}",
-                    RegistrationTimestamp = $@"{addMeasurement.EventRegistrationTimestamp:G}",
+                    MeasurementTimestamp = $@"{addMeasurement.MeasurementTimestamp.ToString(format)}",
+                    RegistrationTimestamp = $@"{addMeasurement.EventRegistrationTimestamp.ToString(format)}",
 
                     Accidents = ConvertAccidents(addMeasurement.Accidents).ToList(),
                 };
