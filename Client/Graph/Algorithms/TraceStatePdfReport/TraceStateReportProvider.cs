@@ -41,7 +41,15 @@ namespace Iit.Fibertest.Graph
 
             PdfDocumentRenderer pdfDocumentRenderer =
                 new PdfDocumentRenderer(true) { Document = doc };
-            pdfDocumentRenderer.RenderDocument();
+            try
+            {
+                pdfDocumentRenderer.RenderDocument();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(@"RenderDocument: " + e.Message);
+                return null;
+            }
 
             return pdfDocumentRenderer.PdfDocument;
         }
