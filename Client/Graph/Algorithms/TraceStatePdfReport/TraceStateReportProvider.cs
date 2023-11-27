@@ -34,10 +34,26 @@ namespace Iit.Fibertest.Graph
 
             SetFooter(section);
 
-            LetsGetStarted(section);
+            try
+            {
+                LetsGetStarted(section);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(@"LetsGetStarted: " + e.Message);
+                return null;
+            }
 
             DrawTextTable(section);
-            AccidentPlaceReportProvider.DrawAccidents(_traceReportModel.Accidents, section);
+            try
+            {
+                AccidentPlaceReportProvider.DrawAccidents(_traceReportModel.Accidents, section);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(@"DrawAccidents: " + e.Message);
+                return null;
+            }
 
             PdfDocumentRenderer pdfDocumentRenderer =
                 new PdfDocumentRenderer(true) { Document = doc };
