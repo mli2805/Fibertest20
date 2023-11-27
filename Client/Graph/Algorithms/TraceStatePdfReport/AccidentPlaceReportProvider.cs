@@ -72,7 +72,8 @@ namespace Iit.Fibertest.Graph
 
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             logFile.AppendLine(@"basePath: " + basePath);
-            var filename = basePath + accidentLineModel.Scheme.LocalPath;
+            // var filename = basePath + accidentLineModel.Scheme.LocalPath;
+            var filename = basePath + accidentLineModel.PngPath;
             logFile.AppendLine(@"filename: " + filename);
             var rowImage = table.AddRow();
             rowImage.Borders.Visible = false;
