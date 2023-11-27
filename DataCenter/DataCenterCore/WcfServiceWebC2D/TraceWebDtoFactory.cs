@@ -64,7 +64,7 @@ namespace Iit.Fibertest.DataCenterCore
             int i = 1;
             foreach (var accidentOnTraceV2 in accidents)
             {
-                var line = accidentLineModelFactory.Create(accidentOnTraceV2, i++, true, GpsInputMode.Degrees, false);
+                var line = accidentLineModelFactory.Create(accidentOnTraceV2, i++, true, GpsInputMode.Degrees, "web");
                 var dtoLine = Mapper.Map<AccidentLineDto>(line);
                 if (line.Position != null)
                     dtoLine.Position = new GeoPoint{Latitude = line.Position.Value.Lat, Longitude = line.Position.Value.Lng};

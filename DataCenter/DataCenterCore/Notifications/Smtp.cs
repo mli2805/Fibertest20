@@ -147,7 +147,8 @@ namespace Iit.Fibertest.DataCenterCore
             var isGisOn = !_iniFile.Read(IniSection.General, IniKey.IsWithoutMapMode, false);
             foreach (var accidentOnTraceV2 in list)
             {
-                yield return _accidentLineModelFactory.Create(accidentOnTraceV2, ++number, isGisOn);
+                yield return _accidentLineModelFactory
+                    .Create(accidentOnTraceV2, ++number, isGisOn, GpsInputMode.DegreesMinutesAndSeconds, "datacenter");
             }
         }
 
