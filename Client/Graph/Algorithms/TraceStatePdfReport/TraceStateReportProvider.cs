@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Graph
             DrawTextTable(section);
             try
             {
-                AccidentPlaceReportProvider.DrawAccidents(_traceReportModel.Accidents, section);
+                AccidentPlaceReportProvider.DrawAccidents(_logFile, _traceReportModel.Accidents, section);
             }
             catch (Exception e)
             {
