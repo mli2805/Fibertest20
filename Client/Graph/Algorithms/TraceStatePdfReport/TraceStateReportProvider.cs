@@ -2,6 +2,7 @@
 using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
@@ -13,8 +14,10 @@ namespace Iit.Fibertest.Graph
     {
         private TraceReportModel _traceReportModel;
         private CurrentDatacenterParameters _server;
-        public PdfDocument Create(TraceReportModel traceReportModel, CurrentDatacenterParameters server)
+        private IMyLog _logFile;
+        public PdfDocument Create(IMyLog logFile, TraceReportModel traceReportModel, CurrentDatacenterParameters server)
         {
+            _logFile = logFile;
             _traceReportModel = traceReportModel;
             _server = server;
 
@@ -46,7 +49,9 @@ namespace Iit.Fibertest.Graph
         private void LetsGetStarted(Section section)
         {
             var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\Header.png");
+            _logFile.AppendLine($@"caption in file: {headerFileName}");
             var image = section.AddImage(headerFileName);
+            _logFile.AppendLine($@"section.AddImage");
             image.LockAspectRatio = true;
 
             var paragraph = section.AddParagraph();

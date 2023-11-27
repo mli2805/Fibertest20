@@ -68,23 +68,21 @@ namespace Iit.Fibertest.DataCenterCore
             if (mailTo.Count == 0) return;
 
             var subj = _writeModel.GetShortMessageForMonitoringResult(dto);
-            var attachmentFilename = PreparePdfAttachment(addMeasurement);
+            var reportModel = PrepareReportModel(addMeasurement);
+            var attachmentFilename = PreparePdfAttachment(reportModel);
             SendEmailInOtherThread(subj, subj, attachmentFilename, mailTo);
         }
 
-        private string PreparePdfAttachment(AddMeasurement addMeasurement)
+        private TraceReportModel PrepareReportModel(AddMeasurement addMeasurement)
         {
-            string filename;
-            TraceReportModel reportModel;
             try
             {
-              
                 var ci = new CultureInfo("ru-RU");
                 string format = ci.DateTimeFormat.FullDateTimePattern;
 
                 var trace = _writeModel.Traces.First(t => t.TraceId == addMeasurement.TraceId);
                 var rtu = _writeModel.Rtus.First(r => r.Id == addMeasurement.RtuId);
-                reportModel = new TraceReportModel()
+                var reportModel = new TraceReportModel()
                 {
                     TraceTitle = trace.Title,
                     TraceState = trace.State.ToLocalizedString(),
@@ -98,24 +96,32 @@ namespace Iit.Fibertest.DataCenterCore
 
                     Accidents = ConvertAccidents(addMeasurement.Accidents).ToList(),
                 };
+                return reportModel;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(@"PreparePdfAttachment: prepare model: " + e.Message);
+                _logFile.AppendLine(@"PrepareReportModel: " + e.Message);
                 return null;
             }
+        }
 
+
+        private string PreparePdfAttachment(TraceReportModel reportModel)
+        {
             try
             {
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-                filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
-                _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters).Save(filename);
+                var filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
+                var pdfDocument = _traceStateReportProvider.Create(_logFile, reportModel, _currentDatacenterParameters);
+                _logFile.AppendLine("pdf document created");
+                pdfDocument.Save(filename);
+                _logFile.AppendLine($@"saved in {filename}");
                 return filename;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(@"PreparePdfAttachment: create report" + e.Message);
+                _logFile.AppendLine(@"PreparePdfAttachment: create report file: " + e.Message);
                 return null;
             }
         }
