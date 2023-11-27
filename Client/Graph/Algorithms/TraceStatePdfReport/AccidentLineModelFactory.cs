@@ -138,7 +138,8 @@ namespace Iit.Fibertest.Graph
             try
             {
                 return _isDesktop
-                    ? $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}"
+                    // ? $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}"
+                    ? $@"Resources\AccidentSchemes\{pngFile}"
                     : $@"./assets/AccidentSchemes/{pngFile}";
             }
             catch (Exception e)
