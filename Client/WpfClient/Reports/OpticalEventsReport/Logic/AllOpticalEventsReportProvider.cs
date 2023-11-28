@@ -5,7 +5,6 @@ using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
@@ -15,7 +14,6 @@ namespace Iit.Fibertest.Client
 {
     public class AllOpticalEventsReportProvider
     {
-        private readonly IMyLog _logFile;
         private readonly CurrentDatacenterParameters _server;
         private readonly CurrentUser _currentUser;
         private readonly CurrentGis _currentGis;
@@ -26,11 +24,10 @@ namespace Iit.Fibertest.Client
 
         private List<OpticalEventModel> _events;
 
-        public AllOpticalEventsReportProvider(IMyLog logFile, CurrentDatacenterParameters server, CurrentUser currentUser,
+        public AllOpticalEventsReportProvider(CurrentDatacenterParameters server, CurrentUser currentUser,
             CurrentGis currentGis, Model readModel,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, AccidentLineModelFactory accidentLineModelFactory)
         {
-            _logFile = logFile;
             _server = server;
             _currentUser = currentUser;
             _currentGis = currentGis;
@@ -204,7 +201,7 @@ namespace Iit.Fibertest.Client
             {
                 var table = DrawOpticalEventTableHeader(section);
                 DrawOpticalEventRow(table, opticalEventModel);
-                AccidentPlaceReportProvider.DrawAccidents(_logFile, opticalEventModel.Accidents, section,
+                AccidentPlaceReportProvider.DrawAccidents(opticalEventModel.Accidents, section,
                     _accidentLineModelFactory, _currentGis.IsGisOn, _currentGis.GpsInputMode);
             }
         }

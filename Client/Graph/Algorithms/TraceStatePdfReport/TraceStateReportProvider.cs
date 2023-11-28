@@ -2,7 +2,6 @@
 using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
@@ -14,10 +13,8 @@ namespace Iit.Fibertest.Graph
     {
         private TraceReportModel _traceReportModel;
         private CurrentDatacenterParameters _server;
-        private IMyLog _logFile;
-        public PdfDocument Create(IMyLog logFile, TraceReportModel traceReportModel, CurrentDatacenterParameters server)
+        public PdfDocument Create(TraceReportModel traceReportModel, CurrentDatacenterParameters server)
         {
-            _logFile = logFile;
             _traceReportModel = traceReportModel;
             _server = server;
 
@@ -33,49 +30,20 @@ namespace Iit.Fibertest.Graph
             section.PageSetup.DifferentFirstPageHeaderFooter = false;
 
             SetFooter(section);
-
-            try
-            {
-                LetsGetStarted(section);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(@"LetsGetStarted: " + e.Message);
-                return null;
-            }
-
+            LetsGetStarted(section);
             DrawTextTable(section);
-            try
-            {
-                AccidentPlaceReportProvider.DrawAccidents(_logFile, _traceReportModel.Accidents, section);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(@"DrawAccidents: " + e.Message);
-                return null;
-            }
+            AccidentPlaceReportProvider.DrawAccidents(_traceReportModel.Accidents, section);
 
             PdfDocumentRenderer pdfDocumentRenderer =
                 new PdfDocumentRenderer(true) { Document = doc };
-            try
-            {
-                pdfDocumentRenderer.RenderDocument();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(@"RenderDocument: " + e.Message);
-                return null;
-            }
-
+            pdfDocumentRenderer.RenderDocument();
             return pdfDocumentRenderer.PdfDocument;
         }
 
         private void LetsGetStarted(Section section)
         {
             var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\Header.png");
-            _logFile.AppendLine($@"caption in file: {headerFileName}");
             var image = section.AddImage(headerFileName);
-            _logFile.AppendLine($@"section.AddImage");
             image.LockAspectRatio = true;
 
             var paragraph = section.AddParagraph();
@@ -86,7 +54,7 @@ namespace Iit.Fibertest.Graph
             var paragraph2 = section.AddParagraph();
             var title = !string.IsNullOrEmpty(_server.ServerTitle) ? string.Format(Resources.SID_ServerTitle, _server.ServerTitle) : "";
             var software = "";
-         //   var software = string.Format(Resources.SID_software____0_, _server.DatacenterVersion);
+            //   var software = string.Format(Resources.SID_software____0_, _server.DatacenterVersion);
             var server = string.Format(Resources.SID_Server_____0_____1_____2_, title, _server.ServerIp, software);
             paragraph2.AddFormattedText(server, TextFormat.Bold);
             paragraph2.Format.Font.Size = 14;
@@ -127,7 +95,7 @@ namespace Iit.Fibertest.Graph
             row = table.AddRow();
             row.Cells[0].AddParagraph(@"RTU");
             row.Cells[2].AddParagraph(_traceReportModel.RtuTitle);
-          //  row.Cells[2].AddParagraph(string.Format(Resources.SID__0_____software__1_, _traceReportModel.RtuTitle, _traceReportModel.RtuSoftwareVersion));
+            //  row.Cells[2].AddParagraph(string.Format(Resources.SID__0_____software__1_, _traceReportModel.RtuTitle, _traceReportModel.RtuSoftwareVersion));
 
             rowBetween = table.AddRow();
             rowBetween.HeightRule = RowHeightRule.Exactly; rowBetween.Height = Unit.FromMillimeter(4);

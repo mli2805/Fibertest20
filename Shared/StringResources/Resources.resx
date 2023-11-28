@@ -2403,7 +2403,7 @@ RTU is initializing right now!</value>
     <value>If you use Gmail.com make sure that for your account unsafe connection are permitted</value>
   </data>
 	<data name="SID_usually_smtp_port" xml:space="preserve">
-    <value>usually 587 or 465</value>
+    <value>usually 25, 587 or 465</value>
   </data>
 	<data name="SID_e_g_postbox" xml:space="preserve">
     <value>e.g.: name@gmail.com</value>
