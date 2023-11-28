@@ -114,6 +114,7 @@ namespace Iit.Fibertest.Client
                 IsOkOn = user.Sms.IsOkOn,
                 IsNetworkEventsOn = user.Sms.IsNetworkEventsOn,
                 IsBopEventsOn = user.Sms.IsBopEventsOn,
+                IsRtuStatusEventsOn = user.Sms.IsRtuStatusEventsOn,
                 IsActivated = user.Sms.IsActivated,
             };
 
@@ -134,6 +135,7 @@ namespace Iit.Fibertest.Client
                 IsOkOn = SmsReceiverVm.IsOkOn,
                 IsNetworkEventsOn = SmsReceiverVm.IsNetworkEventsOn,
                 IsBopEventsOn = SmsReceiverVm.IsBopEventsOn,
+                IsRtuStatusEventsOn = SmsReceiverVm.IsRtuStatusEventsOn,
                 IsActivated = SmsReceiverVm.IsActivated,
             };
             return userVm;
