@@ -66,7 +66,7 @@ namespace Iit.Fibertest.UtilsLib
             }
             catch (Exception e)
             {
-                MessageBox.Show(Resources.SID_Save_in_Registry_problem_ + $"({key}:{value})" + e.Message);
+                MessageBox.Show(Resources.SID_Save_in_Registry_problem_ + $@"({key}:{value})" + e.Message);
             }
         }
 
