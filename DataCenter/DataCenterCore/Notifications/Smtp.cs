@@ -113,25 +113,8 @@ namespace Iit.Fibertest.DataCenterCore
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
                 var filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
-                var pdfDocument = _traceStateReportProvider.Create(_logFile, reportModel, _currentDatacenterParameters);
-                if (pdfDocument == null)
-                {
-                    _logFile.AppendLine("Failed to create pdf document. (1)");
-                    pdfDocument = _traceStateReportProvider.Create(_logFile, reportModel, _currentDatacenterParameters);
-                    if (pdfDocument == null)
-                    {
-                        _logFile.AppendLine("Failed to create pdf document. (2)");
-                        pdfDocument = _traceStateReportProvider.Create(_logFile, reportModel, _currentDatacenterParameters);
-                        if (pdfDocument == null)
-                        {
-                            _logFile.AppendLine("Failed to create pdf document. (3)");
-                            return null;
-                        }
-                    }
-                }
-                _logFile.AppendLine("pdf document created");
+                var pdfDocument = _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters);
                 pdfDocument.Save(filename);
-                _logFile.AppendLine($@"saved in {filename}");
                 return filename;
             }
             catch (Exception e)

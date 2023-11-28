@@ -216,7 +216,7 @@ namespace Iit.Fibertest.Client
 
                 Accidents = Model.Accidents,
             };
-            var report = _traceStateReportProvider.Create(_logFile, reportModel, _currentDatacenterParameters);
+            var report = _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters);
 
             PdfExposer.Show(report, @"TraceStateReport.pdf", _windowManager);
         }

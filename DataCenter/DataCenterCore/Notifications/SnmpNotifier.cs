@@ -86,7 +86,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         private List<KeyValuePair<FtTrapProperty, string>> AccidentToSnmp(AccidentOnTraceV2 accident)
         {
-            var accidentType = $"{accident.AccidentSeriousness.ToLocalizedString()} ({accident.OpticalTypeOfAccident.ToLetter()})";
+            // var accidentType = $"{accident.AccidentSeriousness.ToLocalizedString()} ({accident.OpticalTypeOfAccident.ToLetter()})";
+            var accidentType = $"{accident.OpticalTypeOfAccident.ToLetter()}";
             var data = new List<KeyValuePair<FtTrapProperty, string>>()
             {
                 new KeyValuePair<FtTrapProperty, string>(FtTrapProperty.AccidentNodeTitle, accident.AccidentTitle ?? ""),

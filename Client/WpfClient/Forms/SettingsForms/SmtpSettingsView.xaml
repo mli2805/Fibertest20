@@ -14,40 +14,51 @@
                        TextWrapping="Wrap" TextAlignment="Center" />
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_e_g_smtp_server}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SMTP host" Width="120" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="SMTP host" Width="100" />
             <TextBox Margin="5" Text="{Binding SmtpHost}" />
         </DockPanel>
         <DockPanel>
+            <TextBlock DockPanel.Dock="Bottom"/>
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_smtp_port}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SMTP port" Width="120" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="SMTP port" Width="100" />
             <TextBox Margin="5" Text="{Binding SmtpPort}" />
         </DockPanel>
-        <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom"/>
-            <TextBlock Text="SSL/TLS" Margin="5" Width="120"/>
-            <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding SslEnabled}"/>
-        </DockPanel>
+
+
         <DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_e_g_postbox}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Mail from" Width="120" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="Mail from" Width="100" />
             <TextBox Margin="5" Text="{Binding MailFrom}" />
         </DockPanel>
-        <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="" TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Mail password" Width="120" />
-            <TextBox Margin="5" Text="{Binding MailFromPassword}" />
-        </DockPanel>
-        <DockPanel>
+        <GroupBox Header="Security settings">
+            <DockPanel>
+                <DockPanel Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication method" TextWrapping="Wrap" Width="100" />
+                    <ComboBox Height="22" Margin="5" IsEnabled="False" SelectedIndex="0">
+                        <ComboBoxItem Content="Normal password"/>
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Mail password" Width="100" />
+                    <TextBox Margin="5" Text="{Binding MailFromPassword}" />
+                </DockPanel>
+                <DockPanel Margin="0,5,0,0">
+                    <TextBlock Text="SSL/TLS" Margin="5" Width="100"/>
+                    <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding SslEnabled}"/>
+                </DockPanel>
+            </DockPanel>
+        </GroupBox>
+        <DockPanel Margin="0,15,0,0">
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_smtp_timeout}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SMTP timeout in ms" Width="120" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="Timeout in ms" Width="100" />
             <TextBox Margin="5" Text="{Binding SmtpTimeoutMs}" />
         </DockPanel>
-        <StackPanel Orientation="Horizontal" Margin="5,25" HorizontalAlignment="Center">
-            <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
-            <Button Width="120" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+        <StackPanel Orientation="Horizontal" Margin="5,25, 5, 10" HorizontalAlignment="Center">
+            <Button Width="100" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
+            <Button Width="100" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
     </StackPanel>
 </Window>

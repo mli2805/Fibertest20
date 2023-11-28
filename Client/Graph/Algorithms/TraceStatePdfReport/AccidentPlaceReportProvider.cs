@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Iit.Fibertest.UtilsLib;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 
@@ -8,18 +7,18 @@ namespace Iit.Fibertest.Graph
 {
     public static class AccidentPlaceReportProvider
     {
-        public static void DrawAccidents(IMyLog logFile, List<AccidentLineModel> accidents, Section section)
+        public static void DrawAccidents(List<AccidentLineModel> accidents, Section section)
         {
             foreach (var accidentLineModel in accidents)
             {
                 var gap = section.AddParagraph();
                 gap.Format.SpaceBefore = Unit.FromCentimeter(0.2);
 
-                DrawAccidentPlace(logFile, section, accidentLineModel).Clone();
+                DrawAccidentPlace(section, accidentLineModel).Clone();
             }
         }
 
-        public static void DrawAccidents(IMyLog logFile, List<AccidentOnTraceV2> accidents,
+        public static void DrawAccidents(List<AccidentOnTraceV2> accidents,
          Section section, AccidentLineModelFactory accidentLineModelFactory,
          bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds)
         {
@@ -30,12 +29,12 @@ namespace Iit.Fibertest.Graph
                 gap.Format.SpaceBefore = Unit.FromCentimeter(0.2);
 
                 var accidentLineModel = accidentLineModelFactory.Create(accidentOnTraceV2, ++number, isGisOn, gpsInputMode);
-                DrawAccidentPlace(logFile, section, accidentLineModel).Clone();
+                DrawAccidentPlace(section, accidentLineModel).Clone();
             }
         }
 
         private const string LeftArrow = "\U0001f860";
-        public static Table DrawAccidentPlace(IMyLog logFile, Section section, AccidentLineModel accidentLineModel)
+        public static Table DrawAccidentPlace(Section section, AccidentLineModel accidentLineModel)
         {
             var table = section.AddTable();
             table.KeepTogether = true;
@@ -71,10 +70,7 @@ namespace Iit.Fibertest.Graph
             rowTop.Cells[3].Format.Alignment = ParagraphAlignment.Right;
 
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
-            logFile.AppendLine(@"basePath: " + basePath);
-            // var filename = basePath + accidentLineModel.Scheme.LocalPath;
             var filename = basePath + accidentLineModel.PngPath;
-            logFile.AppendLine(@"filename: " + filename);
             var rowImage = table.AddRow();
             rowImage.Borders.Visible = false;
             rowImage.HeightRule = RowHeightRule.Exactly;
