@@ -315,7 +315,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<bool> SaveGsmComPort(int comPort)
+        public async Task<bool> SaveGsmSettings(GsmSettingsDto dto)
         {
             var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
@@ -324,7 +324,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.SaveGsmComPort(comPort);
+                var result = await channel.SaveGsmSettings(dto);
                 wcfConnection.Close();
                 return result;
             }

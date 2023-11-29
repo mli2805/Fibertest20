@@ -13,6 +13,8 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
 
         public int GsmModemComPort { get; set; }
+        public int GsmModemSpeed { get; set; }
+        public int GsmModemTimeoutMs { get; set; }
         public bool IsEditEnabled { get; set; }
 
         public SmsSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
@@ -23,7 +25,9 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 
-            GsmModemComPort = _currentDatacenterParameters.GsmModemComPort;
+            GsmModemComPort = _currentDatacenterParameters.Gsm.GsmModemPort;
+            GsmModemSpeed = _currentDatacenterParameters.Gsm.GsmModemSpeed;
+            GsmModemTimeoutMs = _currentDatacenterParameters.Gsm.GsmModemTimeoutMs;
         }
 
         protected override void OnViewLoaded(object view)
@@ -36,9 +40,11 @@ namespace Iit.Fibertest.Client
             bool res;
             using (new WaitCursor())
             {
-                _currentDatacenterParameters.GsmModemComPort = GsmModemComPort;
+                _currentDatacenterParameters.Gsm.GsmModemPort = GsmModemComPort;
+                _currentDatacenterParameters.Gsm.GsmModemSpeed = GsmModemSpeed;
+                _currentDatacenterParameters.Gsm.GsmModemTimeoutMs = GsmModemTimeoutMs;
 
-                res = await _c2DWcfManager.SaveGsmComPort(GsmModemComPort);
+                res = await _c2DWcfManager.SaveGsmSettings(_currentDatacenterParameters.Gsm);
             }
 
             if (res)

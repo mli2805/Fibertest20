@@ -14,15 +14,29 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly SmsSender _smsSender;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly int _eventLifetimeLimit;
 
-        public SmsManager(IniFile iniFile, IMyLog logFile, Model writeModel, SmsSender smsSender)
+        public SmsManager(IniFile iniFile, IMyLog logFile, Model writeModel, 
+            SmsSender smsSender, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _writeModel = writeModel;
             _smsSender = smsSender;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _eventLifetimeLimit = _iniFile.Read(IniSection.Broadcast, IniKey.EventLifetimeLimit, 1800);
+        }
+
+        public void SaveGsmSettings(GsmSettingsDto dto)
+        {
+            _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemComPort, dto.GsmModemPort);
+            _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemSpeed, dto.GsmModemSpeed);
+            _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemTimeoutMs, dto.GsmModemTimeoutMs);
+
+            _currentDatacenterParameters.Gsm.GsmModemPort = dto.GsmModemPort;
+            _currentDatacenterParameters.Gsm.GsmModemSpeed = dto.GsmModemSpeed;
+            _currentDatacenterParameters.Gsm.GsmModemTimeoutMs = dto.GsmModemTimeoutMs;
         }
 
         public Task<bool> SendTest(string phoneNumber)

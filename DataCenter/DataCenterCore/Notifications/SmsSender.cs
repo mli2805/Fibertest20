@@ -46,8 +46,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private bool Send(SmsSubmitPdu sms)
         {
-            var comPort = _currentDatacenterParameters.GsmModemComPort;
-            var comm = new GsmCommMain($"COM{comPort}", 9600, 150);
+            var comm = new GsmCommMain($"COM{_currentDatacenterParameters.Gsm.GsmModemPort}",
+                _currentDatacenterParameters.Gsm.GsmModemSpeed,
+                _currentDatacenterParameters.Gsm.GsmModemTimeoutMs);
             try
             {
                 comm.Open();

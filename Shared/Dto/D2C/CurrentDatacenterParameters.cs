@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Dto
         public string WebApiBindingProtocol { get; set; }
 
         public SmtpSettingsDto Smtp { get; set; }
-        public int GsmModemComPort { get; set; }
+        public GsmSettingsDto Gsm { get; set; }
         public SnmpSettingsDto Snmp { get; set; }
 
         public void FillIn(ClientRegisteredDto dto)
@@ -33,7 +33,12 @@ namespace Iit.Fibertest.Dto
                 SmtpTimeoutMs = dto.Smtp.SmtpTimeoutMs,
                 SslEnabled = dto.Smtp.SslEnabled,
             };
-            GsmModemComPort = dto.GsmModemComPort;
+            Gsm = new GsmSettingsDto()
+            {
+                GsmModemPort = dto.Gsm.GsmModemPort,
+                GsmModemSpeed = dto.Gsm.GsmModemSpeed,
+                GsmModemTimeoutMs = dto.Gsm.GsmModemTimeoutMs,
+            };
             Snmp = new SnmpSettingsDto()
             {
                 IsSnmpOn = dto.Snmp.IsSnmpOn,

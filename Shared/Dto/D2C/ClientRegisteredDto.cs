@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Dto
         public SmtpSettingsDto Smtp { get; set; }
 
         [DataMember]
-        public int GsmModemComPort { get; set; }
+        public GsmSettingsDto Gsm { get; set; }
 
         [DataMember]
         public SnmpSettingsDto Snmp { get; set; }

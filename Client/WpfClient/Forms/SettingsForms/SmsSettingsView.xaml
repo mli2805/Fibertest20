@@ -13,6 +13,14 @@
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Gsm_modem_com_port}" Width="150" />
             <TextBox Margin="5" Text="{Binding GsmModemComPort}" />
         </DockPanel>
+         <DockPanel Margin="5">
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="GSM modem speed" Width="150" />
+            <TextBox Margin="5" Text="{Binding GsmModemSpeed}" />
+        </DockPanel>
+         <DockPanel Margin="5">
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="GSM modem timeout, ms" Width="150" />
+            <TextBox Margin="5" Text="{Binding GsmModemTimeoutMs}" />
+        </DockPanel>
         <StackPanel Orientation="Horizontal" Margin="5,25" HorizontalAlignment="Center">
             <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
             <Button Width="120" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>

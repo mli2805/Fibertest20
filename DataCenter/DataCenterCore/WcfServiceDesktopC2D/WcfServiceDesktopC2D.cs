@@ -21,7 +21,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly Model _writeModel;
         private readonly IEventStoreInitializer _eventStoreInitializer;
 
@@ -42,7 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceDesktopC2D(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
+        public WcfServiceDesktopC2D(IniFile iniFile, IMyLog logFile, 
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
             MeasurementFactory measurementFactory, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, IFtSignalRClient ftSignalRClient,
@@ -54,7 +53,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _currentDatacenterParameters = currentDatacenterParameters;
             _writeModel = writeModel;
             _eventStoreInitializer = eventStoreInitializer;
             _eventStoreService = eventStoreService;

@@ -27,11 +27,10 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(true);
         }
 
-        public Task<bool> SaveGsmComPort(int comPort)
+        public Task<bool> SaveGsmSettings(GsmSettingsDto dto)
         {
-            _logFile.AppendLine("Client asked to save com port");
-            _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemComPort, comPort);
-            _currentDatacenterParameters.GsmModemComPort = comPort;
+            _logFile.AppendLine("Client asked to save GSM settings");
+            _smsManager.SaveGsmSettings(dto);
             return Task.FromResult(true);
         }
 

@@ -152,7 +152,7 @@ namespace Iit.Fibertest.DataCenterCore
             result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
             result.IsWithoutMapMode = collection.IniFile.Read(IniSection.Server, IniKey.IsWithoutMapMode, false);
             result.Smtp = collection.CurrentDatacenterParameters.Smtp;
-            result.GsmModemComPort = collection.CurrentDatacenterParameters.GsmModemComPort;
+            result.Gsm = collection.CurrentDatacenterParameters.Gsm;
             result.Snmp = collection.CurrentDatacenterParameters.Snmp;
             return result;
         }

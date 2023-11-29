@@ -62,7 +62,7 @@ namespace Iit.Fibertest.WcfConnections
         Task<bool> SaveGisMode(bool isMapVisible);
 
         [OperationContract]
-        Task<bool> SaveGsmComPort(int comPort);
+        Task<bool> SaveGsmSettings(GsmSettingsDto dto);
 
         [OperationContract]
         Task<bool> SendTest(string to, NotificationType notificationType);

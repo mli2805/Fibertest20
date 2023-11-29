@@ -50,7 +50,13 @@ namespace Iit.Fibertest.DatabaseLibrary
                 SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
                 SslEnabled = _iniFile.Read(IniSection.Smtp, IniKey.SslEnabled, true),
             };
-            _currentDatacenterParameters.GsmModemComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
+
+            _currentDatacenterParameters.Gsm = new GsmSettingsDto()
+            {
+                GsmModemPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0),
+                GsmModemSpeed = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemSpeed, 9600),
+                GsmModemTimeoutMs = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemTimeoutMs, 150),
+            };
 
             var localIp = LocalAddressResearcher.GetAllLocalAddresses().FirstOrDefault() ?? "127.0.0.1";
             _currentDatacenterParameters.Snmp = new SnmpSettingsDto()
