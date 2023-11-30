@@ -4288,6 +4288,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GSM modem speed.
+        /// </summary>
+        public static string SID_Gsm_modem_speed {
+            get {
+                return ResourceManager.GetString("SID_Gsm_modem_speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GSM modem timeout, ms.
+        /// </summary>
+        public static string SID_Gsm_modem_timeout {
+            get {
+                return ResourceManager.GetString("SID_Gsm_modem_timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to have to be confirmed by security administrator password..
         /// </summary>
         public static string SID_have_to_be_confirmed_by_security_administrator_password_ {
@@ -10558,7 +10576,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to usually 587 or 465.
+        ///   Looks up a localized string similar to usually 25, 587 or 465.
         /// </summary>
         public static string SID_usually_smtp_port {
             get {

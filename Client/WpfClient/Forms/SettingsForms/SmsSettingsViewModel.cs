@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
@@ -16,6 +17,8 @@ namespace Iit.Fibertest.Client
         public int GsmModemSpeed { get; set; }
         public int GsmModemTimeoutMs { get; set; }
         public bool IsEditEnabled { get; set; }
+
+        public List<int> Speeds { get; set; } = new List<int>() { 9600, 14400, 19200, 28800, 38400, 57600, 115200 };
 
         public SmsSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)

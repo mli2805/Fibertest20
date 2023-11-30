@@ -22,15 +22,4 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public string SnmpEncoding { get; set; }
     }
-
-    [DataContract]
-    public class GsmSettingsDto
-    {
-        [DataMember]
-        public int GsmModemPort { get; set; }
-        [DataMember]
-        public int GsmModemSpeed { get; set; }
-        [DataMember]
-        public int GsmModemTimeoutMs { get; set; }
-    }
 }

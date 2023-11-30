@@ -62,6 +62,7 @@
     <Compile Include="C2D\HeartbeatDto.cs" />
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />
     <Compile Include="D2C\DbOptimizationProgressDto.cs" />
+    <Compile Include="D2C\GsmSettingsDto.cs" />
     <Compile Include="D2C\SnmpSettingsDto.cs" />
     <Compile Include="Db\Snapshot.cs" />
     <Compile Include="Enums\ChannelEvent.cs" />

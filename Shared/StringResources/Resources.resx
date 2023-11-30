@@ -3725,4 +3725,10 @@ Please try again later</value>
 	<data name="SID_Check_the_recipient_s_mailbox" xml:space="preserve">
 		<value>Check the recipient's mailbox</value>
 	</data>
+	<data name="SID_Gsm_modem_speed" xml:space="preserve">
+		<value>GSM modem speed</value>
+	</data>
+	<data name="SID_Gsm_modem_timeout" xml:space="preserve">
+		<value>GSM modem timeout, ms</value>
+	</data>
 </root>
