@@ -3731,4 +3731,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Gsm_modem_timeout" xml:space="preserve">
 		<value>GSM модем таймаут, мс</value>
 	</data>
+	<data name="SID_Failed_to_connect_OTDR" xml:space="preserve">
+		<value>Не удалось подключиться к OTDR</value>
+	</data>
 </root>

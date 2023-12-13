@@ -3656,6 +3656,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to connect OTDR.
+        /// </summary>
+        public static string SID_Failed_to_connect_OTDR {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_connect_OTDR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to detach additional otau!.
         /// </summary>
         public static string SID_Failed_to_detach_additional_otau_ {

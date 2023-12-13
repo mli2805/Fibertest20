@@ -56,6 +56,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Cannot_find_dll_file_;
                 case ReturnCode.OtdrInitializationCannotInitializeDll:
                     return Resources.SID_Cannot_initialize_dll_;
+                case ReturnCode.FailedToConnectOtdr:
+                    return Resources.SID_Failed_to_connect_OTDR;
                 case ReturnCode.OtauInitializationError:
                     return Resources.SID_Failed_to_initialize_optical_switch;
                 case ReturnCode.OtdrInitializationFailed:

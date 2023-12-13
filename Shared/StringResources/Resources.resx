@@ -3731,4 +3731,7 @@ Please try again later</value>
 	<data name="SID_Gsm_modem_timeout" xml:space="preserve">
 		<value>GSM modem timeout, ms</value>
 	</data>
+	<data name="SID_Failed_to_connect_OTDR" xml:space="preserve">
+		<value>Failed to connect OTDR</value>
+	</data>
 </root>

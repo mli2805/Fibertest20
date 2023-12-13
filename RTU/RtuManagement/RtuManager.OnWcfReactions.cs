@@ -34,9 +34,11 @@ namespace Iit.Fibertest.RtuManagement
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsAutoBaseMeasurementInProgress, false);
 
 
-            LogInitializationStart();
+            _rtuLog.EmptyLine();
+            _rtuLog.AppendLine($"RTU {_id.First6()} initialization started");
 
             IsRtuInitialized = false;
+            _rtuLog.AppendLine($@"IsRtuInitialized = {IsRtuInitialized}");
 
             if (param != null)
             {
@@ -51,7 +53,8 @@ namespace Iit.Fibertest.RtuManagement
 
             _treeOfAcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams();
 
-            IsRtuInitialized = true;
+            if (_rtuInitializationResult == ReturnCode.Ok)
+                IsRtuInitialized = true;
             callback?.Invoke();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
@@ -59,13 +62,6 @@ namespace Iit.Fibertest.RtuManagement
                 RunMonitoringCycle();
             else
                 DisconnectOtdr();
-        }
-
-        private void LogInitializationStart()
-        {
-            _rtuLog.EmptyLine();
-
-            _rtuLog.AppendLine($"RTU {_id.First6()} initialization started");
         }
 
         private void SaveInitializationParameters(InitializeRtuDto rtu)

@@ -128,6 +128,9 @@ namespace Iit.Fibertest.RtuManagement
 
         public RtuInitializedDto GetInitializationResult()
         {
+            _rtuLog.AppendLine($"GetInitializationResult: IsRtuInitialized = {IsRtuInitialized}");
+            _rtuLog.AppendLine($"GetInitializationResult: _rtuInitializationResult = {_rtuInitializationResult}");
+
             var otdrIp = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
             var otdrPort = _rtuIni.Read(IniSection.Charon, IniKey.OtdrPort, 1500);
             return new RtuInitializedDto()
