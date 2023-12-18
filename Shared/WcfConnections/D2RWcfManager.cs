@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.WcfConnections
 {
@@ -53,7 +54,8 @@ namespace Iit.Fibertest.WcfConnections
                 result.NetAddress.Port = addressToCheck.Main.Port;
             else
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            logFile.AppendLine($"Return {result.NetAddress.ToStringA()}");
+            var json = JsonConvert.SerializeObject(result);
+            logFile.AppendLine($"Return {json}");
             return result;
         }
 

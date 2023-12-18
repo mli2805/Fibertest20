@@ -25,7 +25,8 @@ namespace Iit.Fibertest.Client
                 case ReturnCode.RtuTooBigPortNumber:
                     var strs = new List<string>()
                     {
-                        dto.ReturnCode.GetLocalizedString(), "", Resources.SID_Detach_BOP_manually, Resources.SID_and_start_initialization_again_
+                        dto.ReturnCode.GetLocalizedString(), "", Resources.SID_Detach_BOP_manually, 
+                        Resources.SID_and_start_initialization_again_
                     };
                     return new MyMessageBoxViewModel(MessageType.Error, strs);
                 case ReturnCode.RtuIsBusy:
@@ -37,11 +38,18 @@ namespace Iit.Fibertest.Client
                             string.Format(Resources.SID_RTU__0__is_busy_, rtuTitle), "", dto.RtuOccupationState.GetLocalized(),
                         }, 1);
                 case ReturnCode.RtuInitializationError:
+                    return new MyMessageBoxViewModel(MessageType.Error, 
+                        dto.ReturnCode.GetLocalizedWithOsInfo(dto.ErrorMessage).Split('\n'), 0);
                 case ReturnCode.OtauInitializationError:
                 case ReturnCode.OtdrInitializationFailed:
+                case ReturnCode.FailedToConnectOtdr:
                 default:
-                    return new MyMessageBoxViewModel
-                        (MessageType.Error, dto.ReturnCode.GetLocalizedWithOsInfo(dto.ErrorMessage).Split('\n'), 0);
+                    var strs1 = new List<string>()
+                    {
+                        ReturnCode.RtuInitializationError.GetLocalizedString(), "", 
+                    };
+                    strs1.AddRange(dto.ReturnCode.GetLocalizedWithOsInfo(dto.ErrorMessage).Split('\n'));
+                    return new MyMessageBoxViewModel(MessageType.Error, strs1, 0);
             }
         }
 
