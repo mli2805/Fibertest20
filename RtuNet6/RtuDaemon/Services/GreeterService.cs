@@ -13,6 +13,7 @@ namespace RtuDaemon.Services
 
         public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("request received");
             return Task.FromResult(new HelloReply
             {
                 Message = "Hello " + request.Name
