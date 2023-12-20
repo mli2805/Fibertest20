@@ -15,6 +15,8 @@
         // RTU
         RtuListenTo = 11842,
         RtuVeexListenTo = 80,
+        RtuListenToGrpc = 11942,
+        RtuListenToHttp = 11980,
 
         // Client
         ClientListenTo = 11843, // when started under SuperClient: 11843 + _commandLineParameters.ClientOrdinal
