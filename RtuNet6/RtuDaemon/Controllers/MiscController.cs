@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Iit.Fibertest.UtilsNet6;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Iit.Fibertest.RtuDaemon
 {
@@ -16,8 +17,8 @@ namespace Iit.Fibertest.RtuDaemon
         [HttpGet("CheckApi")]
         public string CheckApi()
         {
-            _logger.LogInformation("MiscController CheckApi");
-            return "Fibertest dotnet 6.0 RTU HTTP controller greets you!";
+            _logger.Info(Logs.RtuService, "MiscController CheckApi");
+            return "Fibertest dotnet 6.0 RTU HTTP service greets you!";
         }
     }
 }
