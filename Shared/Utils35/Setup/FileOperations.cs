@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Iit.Fibertest.UtilsLib
 {
     public static class FileOperations
     {
+        public static string GetMainFolder()
+        {
+            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            var assemblyPath = Path.GetDirectoryName(assemblyLocation)!;
+            return Directory.GetParent(assemblyPath)!.FullName;
+        }
+
         public static string GetParentFolder(string path, int depth = 1)
         {
             for (int i = 0; i < depth; i++)

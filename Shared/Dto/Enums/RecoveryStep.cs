@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.RtuManagement
+﻿namespace Iit.Fibertest.Dto
 {
     public enum RecoveryStep
     {

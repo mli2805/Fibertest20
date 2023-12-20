@@ -5,6 +5,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>Iit.Fibertest.ClientNet6Grpc</AssemblyName>
+    <RootNamespace>Iit.Fibertest.ClientNet6Grpc</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

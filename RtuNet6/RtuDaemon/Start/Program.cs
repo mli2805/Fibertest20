@@ -1,8 +1,7 @@
-using Fibertest.RtuDaemon.Services;
 using Iit.Fibertest.Dto;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
-namespace Fibertest.RtuDaemon
+namespace Iit.Fibertest.RtuDaemon
 {
     public class Program
     {

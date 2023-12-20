@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>Fibertest.RtuDaemon</AssemblyName>
-    <RootNamespace>Fibertest.RtuDaemon</RootNamespace>
+    <AssemblyName>Iit.Fibertest.RtuDaemon</AssemblyName>
+    <RootNamespace>Iit.Fibertest.RtuDaemon</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,10 +14,12 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj" />
+    <ProjectReference Include="..\UtilsNet6\UtilsNet6.csproj" />
   </ItemGroup>
 
 </Project>

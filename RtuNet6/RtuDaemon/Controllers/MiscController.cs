@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Fibertest.RtuDaemon
+namespace Iit.Fibertest.RtuDaemon
 {
     [ApiController]
     [Route("[controller]")]

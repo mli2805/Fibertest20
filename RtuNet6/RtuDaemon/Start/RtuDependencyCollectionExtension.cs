@@ -1,0 +1,40 @@
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsNet6;
+
+namespace Iit.Fibertest.RtuDaemon;
+
+public static class RtuDependencyCollectionExtension
+{
+    public static IServiceCollection AddDependencyGroup(this IServiceCollection services)
+    {
+        return services
+            .AddConfigAsInstance()
+            .AddBootAndBackgroundServices()
+            .AddOther();
+    }
+
+    private static IServiceCollection AddConfigAsInstance(this IServiceCollection services)
+    {
+        return services
+            .AddSingleton<IWritableConfig<RtuConfig>>(_ => new WritableConfig<RtuConfig>("rtu.json"));
+    }
+
+    private static IServiceCollection AddBootAndBackgroundServices(this IServiceCollection services)
+    {
+        services.AddSingleton<Boot>();
+        services.AddHostedService(x => x.GetService<Boot>()!);
+        // services.AddSingleton<MonitoringService>();
+        // services.AddHostedService(x => x.GetService<MonitoringService>()!);
+        // services.AddSingleton<HeartbeatService>();
+        // services.AddHostedService(x => x.GetService<HeartbeatService>()!);
+        return services;
+    }
+
+    private static IServiceCollection AddOther(this IServiceCollection services)
+    {
+        services.AddSingleton<GreeterService>();
+        return services;
+    }
+
+
+}

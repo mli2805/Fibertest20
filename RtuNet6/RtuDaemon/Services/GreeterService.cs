@@ -1,6 +1,7 @@
+using Fibertest.RtuDaemon;
 using Grpc.Core;
 
-namespace Fibertest.RtuDaemon.Services
+namespace Iit.Fibertest.RtuDaemon
 {
     public class GreeterService : Greeter.GreeterBase
     {

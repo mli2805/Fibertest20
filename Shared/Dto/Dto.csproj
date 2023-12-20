@@ -60,6 +60,11 @@
     <Compile Include="C2D\GetEventsDto.cs" />
     <Compile Include="C2D\GetSnapshotDto.cs" />
     <Compile Include="C2D\HeartbeatDto.cs" />
+    <Compile Include="ConfigRtu\CharonConfig.cs" />
+    <Compile Include="ConfigRtu\MonitoringConfig.cs" />
+    <Compile Include="ConfigRtu\RecoveryConfig.cs" />
+    <Compile Include="ConfigRtu\RtuConfig.cs" />
+    <Compile Include="ConfigRtu\RtuGeneralConfig.cs" />
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />
     <Compile Include="D2C\DbOptimizationProgressDto.cs" />
     <Compile Include="D2C\GsmSettingsDto.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="Enums\EquipmentType.cs" />
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Enums\RecoveryStep.cs" />
     <Compile Include="Enums\TceMaker.cs" />
     <Compile Include="Enums\OpticalAccidentType.cs" />
     <Compile Include="Enums\OpticalAccidentTypeExt.cs" />

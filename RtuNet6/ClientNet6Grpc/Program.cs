@@ -1,7 +1,7 @@
 ﻿using Fibertest.RtuDaemon;
 using Grpc.Net.Client;
 
-namespace ClientNet6Grpc
+namespace Iit.Fibertest.ClientNet6Grpc
 {
     internal class Program
     {
