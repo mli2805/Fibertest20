@@ -42,13 +42,16 @@ namespace Iit.Fibertest.RtuManagement
                 var monitoringPort = _monitoringQueue.Peek();
 
                 ProcessOnePort(monitoringPort);
+                // _monitoringQueue.LogQueue("Port processed.");
 
-                if (monitoringPort.LastMoniResult.MeasurementResult != MeasurementResult.Interrupted)
+                if (monitoringPort.LastMoniResult.MeasurementResult != MeasurementResult.Interrupted
+                    && monitoringPort.LastMoniResult.MeasurementResult != MeasurementResult.ToggleToPortFailed)
                 {
                     var unused = _monitoringQueue.Dequeue();
                     _monitoringQueue.Enqueue(monitoringPort);
+                    _monitoringQueue.Save();
+                    // _monitoringQueue.LogQueue("Queue changed.");
                 }
-
 
                 if (!IsMonitoringOn)
                     break;
@@ -86,7 +89,7 @@ namespace Iit.Fibertest.RtuManagement
             var isTraceBroken = monitoringPort.LastTraceState != FiberState.Ok;
             var isSecondMeasurementNeeded =
                 isNewTrace ||
-                isTraceBroken || 
+                isTraceBroken ||
                 //   monitoringPort.IsMonitoringModeChanged || // 740)
                 // monitoringPort.LastPreciseMadeTimestamp == null || 
                 _preciseMakeTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastPreciseMadeTimestamp > _preciseMakeTimespan;
@@ -263,7 +266,7 @@ namespace Iit.Fibertest.RtuManagement
                 monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Analysis, _rtuLog); // 
                 _rtuLog.AppendLine($"Auto analysis applied. Now sor data has {measBytes.Length} bytes.");
 
-                                                                 // base will be inserted into meas during comparison
+                // base will be inserted into meas during comparison
                 moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
 
                 if (_saveSorData)

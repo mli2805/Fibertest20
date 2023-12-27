@@ -81,7 +81,25 @@ namespace Iit.Fibertest.RtuManagement
                 _logFile.AppendLine($"Queue parsing: {e.Message}");
             }
 
-            _logFile.AppendLine($"{Queue.Count} port(s) in queue.");
+            // _logFile.AppendLine($"{Queue.Count} port(s) in queue.");
+            LogQueue();
+        }
+
+        public void LogQueue(string where = "")
+        {
+            if (!string.IsNullOrEmpty(where))
+                _logFile.AppendLine(where);
+
+            var count = 0;
+            var queue2 = new Queue<MonitoringPort>(Queue);
+
+            while (queue2.Any())
+            {
+                var port = queue2.Dequeue();
+                _logFile.AppendLine($"{port.CharonSerial} - {port.OpticalPort}");
+                count++;
+            }
+            _logFile.AppendLine($"{count} port(s) in queue.");
         }
 
         public void Save()
