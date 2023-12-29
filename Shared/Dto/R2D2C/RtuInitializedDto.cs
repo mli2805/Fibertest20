@@ -64,5 +64,14 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public TreeOfAcceptableMeasParams AcceptableMeasParams { get; set; }
+
+        public RtuInitializedDto()
+        {
+        }
+
+        public RtuInitializedDto(ReturnCode returnCode)
+        {
+            ReturnCode = returnCode;
+        }
     }
 }

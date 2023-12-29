@@ -41,6 +41,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Shared\Dto\Dto.csproj" />
 		<ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj" />
+		<ProjectReference Include="..\CharonLib\CharonLib.csproj" />
 		<ProjectReference Include="..\UtilsNet6\UtilsNet6.csproj" />
 	</ItemGroup>
 
@@ -48,6 +49,10 @@
 	  <Reference Include="Optixsoft.OtdrDataFormat">
 	    <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
 	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="RtuMng\" />
 	</ItemGroup>
 
 </Project>
