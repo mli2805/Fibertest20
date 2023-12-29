@@ -22,5 +22,13 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public OtauPortDto OtauPortDto { get; set; }
 
+        public ClientMeasurementStartedDto()
+        {
+        }
+
+        public ClientMeasurementStartedDto(ReturnCode returnCode)
+        {
+            ReturnCode = returnCode;
+        }
     }
 }

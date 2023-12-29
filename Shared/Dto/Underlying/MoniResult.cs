@@ -66,5 +66,15 @@ namespace Iit.Fibertest.Dto
 
             return false;
         }
+
+        public MoniResult()
+        {
+        }
+
+        public MoniResult(ReturnCode userReturnCode, ReturnCode hardwareReturnCode)
+        {
+            UserReturnCode = userReturnCode;
+            HardwareReturnCode = hardwareReturnCode;
+        }
     }
 }

@@ -19,5 +19,14 @@ namespace Iit.Fibertest.Dto
         public ReturnCode ReturnCode { get; set; }
         [DataMember]
         public string ErrorMessage { get; set; }
+
+        public OtauDetachedDto()
+        {
+        }
+
+        public OtauDetachedDto(ReturnCode returnCode)
+        {
+            ReturnCode = returnCode;
+        }
     }
 }

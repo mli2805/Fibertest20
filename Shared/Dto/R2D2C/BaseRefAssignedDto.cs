@@ -28,5 +28,14 @@ namespace Iit.Fibertest.Dto
         public List<VeexTestCreatedDto> AddVeexTests { get; set; } = new List<VeexTestCreatedDto>();
         [DataMember]
         public List<Guid> RemoveVeexTests { get; set; } = new List<Guid>();
+
+        public BaseRefAssignedDto()
+        {
+        }
+
+        public BaseRefAssignedDto(ReturnCode returnCode)
+        {
+            ReturnCode = returnCode;
+        }
     }
 }

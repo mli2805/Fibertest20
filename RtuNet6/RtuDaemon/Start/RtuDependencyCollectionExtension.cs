@@ -33,6 +33,8 @@ public static class RtuDependencyCollectionExtension
     private static IServiceCollection AddOther(this IServiceCollection services)
     {
         services.AddSingleton<GreeterService>();
+
+        services.AddSingleton<MessageStorage>();
         return services;
     }
 

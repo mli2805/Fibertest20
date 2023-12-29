@@ -11,5 +11,13 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public RtuOccupationState RtuOccupationState { get; set; }
 
+        public RequestAnswer()
+        {
+        }
+
+        public RequestAnswer(ReturnCode returnCode)
+        {
+            ReturnCode = returnCode;
+        }
     }
 }

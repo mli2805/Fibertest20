@@ -39,21 +39,6 @@ namespace Iit.Fibertest.UtilsLib
             return TimeSpan.FromMilliseconds(tickCount);
         }
 
-        // public static TimeSpan GetUpTime()
-        // {
-        //     using var upTime = new PerformanceCounter("System", "System Up Time");
-        //     upTime.NextValue();       //Call this an extra time before reading its value
-        //     return TimeSpan.FromSeconds(upTime.NextValue());
-        // }
-
-        // public static TimeSpan GetUpTime()
-        // {
-        //     return TimeSpan.FromMilliseconds(GetTickCount64());
-        // }
-
-        // [DllImport("kernel32")]
-        // static extern UInt64 GetTickCount64();
-
         public static string ToDiskSpaceSize(this long number)
         {
             return number < 1000

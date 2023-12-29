@@ -443,7 +443,9 @@ namespace Iit.Fibertest.RtuManagement
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(MonitoringPort monitoringPort)
         {
-            var cha = monitoringPort.IsPortOnMainCharon ? _mainCharon : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
+            var cha = monitoringPort.IsPortOnMainCharon ? 
+                _mainCharon 
+                : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
             // TCP port here is not important
             DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == cha.NetAddress.Ip4Address);
             if (damagedOtau != null)

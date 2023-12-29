@@ -3,8 +3,9 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.RtuManagement
 {
     public static class RestoreFunctions
     {

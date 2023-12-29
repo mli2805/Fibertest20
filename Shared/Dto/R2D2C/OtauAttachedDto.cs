@@ -25,5 +25,14 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public int PortCount { get; set; }
+
+        public OtauAttachedDto()
+        {
+        }
+
+        public OtauAttachedDto(ReturnCode returnCode)
+        {
+            ReturnCode = returnCode;
+        }
     }
 }
