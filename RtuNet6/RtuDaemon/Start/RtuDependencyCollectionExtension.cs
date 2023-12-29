@@ -1,4 +1,5 @@
 ﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.RtuMngr;
 using Iit.Fibertest.UtilsNet6;
 
 namespace Iit.Fibertest.RtuDaemon;
