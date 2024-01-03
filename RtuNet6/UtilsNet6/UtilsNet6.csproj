@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Dto\Dto.csproj" />
     <ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj" />
   </ItemGroup>
 
