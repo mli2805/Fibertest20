@@ -1,6 +1,7 @@
 ﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuMngr;
 using Iit.Fibertest.UtilsNet6;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.RtuDaemon;
 
@@ -33,6 +34,9 @@ public static class RtuDependencyCollectionExtension
 
     private static IServiceCollection AddOther(this IServiceCollection services)
     {
+        services.AddDbContext<RtuContext>(c => c.UseSqlite("Data Source=data/rtu.db;Cache=Shared"));
+        services.AddScoped<RtuContextInitializer>();
+
         services.AddSingleton<GreeterService>();
 
         services.AddSingleton<MonitoringQueue>();
