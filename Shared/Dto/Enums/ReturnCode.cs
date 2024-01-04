@@ -5,6 +5,7 @@
         Error = 0x0,
         Ok = 1,
         InProgress = 2,
+        Queued = 3,
 
         ClientCleanedAsDead = 10,
 

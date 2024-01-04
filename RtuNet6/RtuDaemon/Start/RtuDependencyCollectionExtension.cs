@@ -35,7 +35,14 @@ public static class RtuDependencyCollectionExtension
     {
         services.AddSingleton<GreeterService>();
 
+        services.AddSingleton<MonitoringQueue>();
+        services.AddSingleton<InterOpWrapper>();
+        services.AddSingleton<OtdrManager>();
         services.AddSingleton<MessageStorage>();
+        services.AddSingleton<RtuManager>();
+
+        services.AddSingleton<LongOperationsQueue>();
+        services.AddSingleton<CommandProcessor>();
         return services;
     }
 

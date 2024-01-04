@@ -49,6 +49,7 @@
     <Compile Include="C2D2R\DoClientMeasurementDto.cs" />
     <Compile Include="C2D2R\FreeOtdrDto.cs" />
     <Compile Include="C2D2R\GetClientMeasurementDto.cs" />
+    <Compile Include="C2D2R\GetCurrentRtuStateDto.cs" />
     <Compile Include="C2D2R\GetLineParametersDto.cs" />
     <Compile Include="C2D2R\InterruptMeasurementDto.cs" />
     <Compile Include="C2D2R\PrepareReflectMeasurementDto.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="ForWebApi\RtuTree\OtauWebDto.cs" />
     <Compile Include="ForWebApi\RtuTree\RtuDto.cs" />
     <Compile Include="ForWebApi\RtuTree\TraceDto.cs" />
+    <Compile Include="R2D\RtuCurrentStateDto.cs" />
     <Compile Include="RtuOccupy\OccupyRtuDto.cs" />
     <Compile Include="RtuOccupy\RtuOccupation.cs" />
     <Compile Include="Underlying\AccidentInSor.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
@@ -10,6 +11,8 @@ namespace Iit.Fibertest.Dto
         public string ErrorMessage { get; set; }
         [DataMember]
         public RtuOccupationState RtuOccupationState { get; set; }
+        [DataMember]
+        public Guid LongOperationGuid { get; set; }
 
         public RequestAnswer()
         {

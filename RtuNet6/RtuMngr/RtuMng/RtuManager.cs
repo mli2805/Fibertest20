@@ -46,6 +46,16 @@ public partial class RtuManager
         set { lock (_isRtuInitializedLocker) { _isRtuInitialized = value; } }
     }
 
+    private readonly object _currentStepLocker = new object();
+    private CurrentMonitoringStepDto _currentStep;
+    public CurrentMonitoringStepDto CurrentStep
+    {
+        get { lock (_currentStepLocker) { return _currentStep; } }
+        set { lock (_currentStepLocker) { _currentStep = value; } }
+    }
+
+
+
     public RtuManager(IWritableConfig<RtuConfig> config,
         ILogger<RtuManager> logger, MonitoringQueue monitoringQueue,
         InterOpWrapper interOpWrapper, OtdrManager otdrManager, MessageStorage messageStorage)

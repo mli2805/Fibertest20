@@ -1,5 +1,8 @@
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsNet6;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Serilog;
+using Serilog.Events;
 
 namespace Iit.Fibertest.RtuDaemon
 {
@@ -16,7 +19,19 @@ namespace Iit.Fibertest.RtuDaemon
                 });
 
             builder.Services.AddControllers();
-            builder.Services.AddGrpc();
+            builder.Services.AddGrpc(o =>
+            {
+                o.Interceptors.Add<RtuLoggerInterceptor>();
+            });
+
+            builder.Services
+                .AddDependencyGroup();
+
+            var logLevel = LogEventLevel.Debug;
+            var logger = LoggerConfigurationFactory.Configure(logLevel).CreateLogger();
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(logger);
 
             var app = builder.Build();
             app.UseRouting();

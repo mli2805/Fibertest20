@@ -75,7 +75,7 @@ namespace Iit.Fibertest.RtuMngr
             await Task.Delay(TimeSpan.FromSeconds(6));
 
             _logger.EmptyAndLog(Logs.RtuManager, $"{caller}: Monitoring stopped");
-            _messageStorage.Push(CreateStepDto(MonitoringCurrentStep.Interrupted));
+            _currentStep = CreateStepDto(MonitoringCurrentStep.Interrupted);
         }
 
     }
