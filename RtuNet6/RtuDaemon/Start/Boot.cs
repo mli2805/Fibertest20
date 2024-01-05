@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.RtuMngr;
 using Iit.Fibertest.UtilsNet6;
 using Serilog.Events;
 
@@ -19,7 +18,7 @@ public sealed class Boot : IHostedService
     }
 
     // Place here all that should be done before start listening to gRPC & Http requests, background workers, etc.
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         var assembly = Assembly.GetExecutingAssembly();
         FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -31,6 +30,7 @@ public sealed class Boot : IHostedService
 
         _config.Update(c => c.General.LogEventLevel = LogEventLevel.Debug.ToString());
 
+        return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

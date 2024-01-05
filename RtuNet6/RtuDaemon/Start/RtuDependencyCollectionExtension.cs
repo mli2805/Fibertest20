@@ -25,8 +25,8 @@ public static class RtuDependencyCollectionExtension
     {
         services.AddSingleton<Boot>();
         services.AddHostedService(x => x.GetService<Boot>()!);
-        // services.AddSingleton<MonitoringService>();
-        // services.AddHostedService(x => x.GetService<MonitoringService>()!);
+        services.AddSingleton<MonitoringService>();
+        services.AddHostedService(x => x.GetService<MonitoringService>()!);
         // services.AddSingleton<HeartbeatService>();
         // services.AddHostedService(x => x.GetService<HeartbeatService>()!);
         return services;
@@ -36,19 +36,18 @@ public static class RtuDependencyCollectionExtension
     {
         services.AddDbContext<RtuContext>(c => c.UseSqlite("Data Source=data/rtu.db;Cache=Shared"));
         services.AddScoped<RtuContextInitializer>();
+        services.AddScoped<EventsRepository>(); // get it in methods using IServiceProvider => scope => resolve
+        services.AddScoped<MonitoringResultsRepository>(); // get it in methods using IServiceProvider => scope => resolve
 
         services.AddSingleton<GreeterService>();
 
         services.AddSingleton<MonitoringQueue>();
         services.AddSingleton<InterOpWrapper>();
         services.AddSingleton<OtdrManager>();
-        services.AddSingleton<MessageStorage>();
         services.AddSingleton<RtuManager>();
 
         services.AddSingleton<LongOperationsQueue>();
         services.AddSingleton<CommandProcessor>();
         return services;
     }
-
-
 }

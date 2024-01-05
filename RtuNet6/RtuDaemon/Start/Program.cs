@@ -43,7 +43,6 @@ namespace Iit.Fibertest.RtuDaemon
                 await initializer.InitializeAsync();
             }
 
-
             app.UseRouting();
             app.UseCors();
 

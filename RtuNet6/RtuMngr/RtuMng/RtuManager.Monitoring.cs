@@ -148,7 +148,7 @@ public partial class RtuManager
 
             if (reason != ReasonToSendMonitoringResult.None)
             {
-                _messageStorage.Push(CreateDto(moniResult, monitoringPort, reason));
+                await SaveMoniResult(CreateEf(moniResult, monitoringPort, reason));
                 monitoringPort.LastFastSavedTimestamp = DateTime.Now;
                 await _monitoringQueue.Save();
             }
@@ -166,7 +166,7 @@ public partial class RtuManager
             _logger.Error(Logs.RtuManager,
                 $"{monitoringPort.LastMoniResult.UserReturnCode} => {moniResult.UserReturnCode}");
             _logger.Error(Logs.RtuManager, "Problem with base ref occurred!");
-            _messageStorage.Push(CreateDto(moniResult, monitoringPort,
+            await SaveMoniResult(CreateEf(moniResult, monitoringPort,
                 ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
             await _monitoringQueue.Save();
         }
@@ -231,7 +231,7 @@ public partial class RtuManager
 
             if (reason != ReasonToSendMonitoringResult.None)
             {
-                _messageStorage.Push(CreateDto(moniResult, monitoringPort, reason));
+                await SaveMoniResult(CreateEf(moniResult, monitoringPort, reason));
                 monitoringPort.LastPreciseSavedTimestamp = DateTime.Now;
                 await _monitoringQueue.Save();
             }
@@ -383,27 +383,19 @@ public partial class RtuManager
         }
     }
 
-    private MonitoringResultDto CreateDto(MoniResult moniResult, MonitoringPort monitoringPort,
+    private MonitoringResultEf CreateEf(MoniResult moniResult, MonitoringPort monitoringPort,
         ReasonToSendMonitoringResult reason)
     {
-        var dto = new MonitoringResultDto()
+        var dto = new MonitoringResultEf()
         {
             ReturnCode = moniResult.UserReturnCode,
             Reason = reason,
             RtuId = _config.Value.General.RtuId,
             TimeStamp = DateTime.Now,
-            PortWithTrace = new PortWithTraceDto()
-            {
-                OtauPort = new OtauPortDto()
-                {
                     Serial = monitoringPort.CharonSerial,
-                    //                        OtauIp = monitoringPort.NetAddress.Ip4Address,
-                    //                        OtauTcpPort = monitoringPort.NetAddress.Port,
                     IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
                     OpticalPort = monitoringPort.OpticalPort,
-                },
                 TraceId = monitoringPort.TraceId,
-            },
             BaseRefType = moniResult.BaseRefType,
             TraceState = moniResult.GetAggregatedResult(),
             SorBytes = moniResult.SorBytes

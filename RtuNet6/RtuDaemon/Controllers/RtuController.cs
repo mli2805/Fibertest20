@@ -52,4 +52,19 @@ public class RtuController : ControllerBase
         }
     }
 
+    [HttpGet("messages")]
+    public async Task<List<string>?> GetMessages()
+    {
+        try
+        {
+            _logger.Info(Logs.RtuService, "RtuController GetMessages");
+            return await _commandProcessor.GetMessages();
+        }
+        catch (Exception e)
+        {
+            _logger.Error(Logs.RtuService, $"{e.Message}");
+            return null;
+        }
+    }
+
 }

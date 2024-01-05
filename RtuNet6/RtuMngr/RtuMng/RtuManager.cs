@@ -1,7 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNet6;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuMngr;
 
@@ -12,7 +14,7 @@ public partial class RtuManager
     private readonly SerialPortManager _serialPortManager;
     private readonly InterOpWrapper _interOpWrapper;
     private readonly OtdrManager _otdrManager;
-    private readonly MessageStorage _messageStorage;
+    private readonly IServiceProvider _serviceProvider;
 
     private Charon _mainCharon = null!;
     private int _measurementNumber;
@@ -58,7 +60,8 @@ public partial class RtuManager
 
     public RtuManager(IWritableConfig<RtuConfig> config,
         ILogger<RtuManager> logger, MonitoringQueue monitoringQueue,
-        InterOpWrapper interOpWrapper, OtdrManager otdrManager, MessageStorage messageStorage)
+        InterOpWrapper interOpWrapper, OtdrManager otdrManager, 
+        IServiceProvider serviceProvider)
     {
         IsRtuInitialized = false;
         _config = config;
@@ -68,6 +71,26 @@ public partial class RtuManager
         _serialPortManager.Initialize(_config.Value.Charon, logger);
         _interOpWrapper = interOpWrapper;
         _otdrManager = otdrManager;
-        _messageStorage = messageStorage;
+        _serviceProvider = serviceProvider;
+    }
+
+    private async Task SaveMoniResult(MonitoringResultEf entity)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var repo = scope.ServiceProvider.GetRequiredService<MonitoringResultsRepository>();
+        await repo.Add(entity);
+    }
+
+    private static readonly JsonSerializerSettings JsonSerializerSettings =
+        new() { TypeNameHandling = TypeNameHandling.All };
+    // ClientMeasurementResultDto, BopStateChangedDto, ??? rtu accidents how?
+    private async Task SaveEvent(object obj)
+    {
+        var json = JsonConvert.SerializeObject(obj, JsonSerializerSettings);
+        _logger.Info(Logs.RtuService, json);
+
+        using var scope = _serviceProvider.CreateScope();
+        var eventsRepository = scope.ServiceProvider.GetRequiredService<EventsRepository>();
+        await eventsRepository.Add(json);
     }
 }

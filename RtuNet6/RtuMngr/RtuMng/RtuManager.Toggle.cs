@@ -56,7 +56,7 @@ public partial class RtuManager
                                 TcpPort = cha.NetAddress.Port,
                                 IsOk = true,
                             };
-                            _messageStorage.Push(dto);
+                            await SaveEvent(dto);
                         }
                         _damagedOtaus.Remove(damagedOtau);
                     }
@@ -77,7 +77,7 @@ public partial class RtuManager
                         damagedOtau = new DamagedOtau(cha.NetAddress.Ip4Address, cha.NetAddress.Port, monitoringPort.CharonSerial);
                         _damagedOtaus.Add(damagedOtau);
                     }
-                    RunAdditionalOtauRecovery(damagedOtau);
+                    await SaveEvent(damagedOtau);
                     return false;
                 }
             default:

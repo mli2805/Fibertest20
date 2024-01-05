@@ -88,7 +88,7 @@ namespace Iit.Fibertest.RtuMngr
                 ? $"Measurement Client done. Sor size is {result.SorBytes.Length}"
                 : "Measurement (Client) failed");
 
-            _messageStorage.Push(result);
+            await SaveEvent(result);
 
             if (dto.IsForAutoBase)
             {

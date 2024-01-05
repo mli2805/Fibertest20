@@ -24,7 +24,7 @@ namespace Iit.Fibertest.ClientNet6Grpc
             var response = await client.SayHelloAsync(new HelloRequest());
             Console.WriteLine($@"Server gRPC response: {response.Message}");
 
-       
+
             var httpClient = new HttpClient();
             var dto = new InitializeRtuDto();
             var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
@@ -51,6 +51,13 @@ namespace Iit.Fibertest.ClientNet6Grpc
                 ? $"Server HTTP answer: {answer3.ReturnCode}"
                 : "Failed to parse HTTP response!");
 
+            using var httpResponse4 =
+                          await httpClient.GetAsync("http://localhost:11980/rtu/messages");
+            var answer4 = await httpResponse4.Content.ReadFromJsonAsync<List<string>>();
+            Console.WriteLine(answer4 != null
+                ? $"Server HTTP answer: {answer4.Count}"
+                : "null");
+
 
             Console.ReadKey();
 
@@ -63,7 +70,7 @@ namespace Iit.Fibertest.ClientNet6Grpc
         {
             TypeNameHandling = TypeNameHandling.All
         };
-        
+
         public static async Task<HttpResponseMessage> PostAsJsonAsyncMy<T>(this HttpClient client, string requestUrl, T theObj)
         {
             var stringContent = new StringContent(

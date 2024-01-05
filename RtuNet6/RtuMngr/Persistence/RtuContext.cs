@@ -10,6 +10,7 @@ namespace Iit.Fibertest.RtuMngr
         public RtuContext(DbContextOptions<RtuContext> options) : base(options) { }
 
         public DbSet<EventInJsonEf> Events { get; set; }
+        public DbSet<MonitoringResultEf> MonitoringResults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder bulider)
         {

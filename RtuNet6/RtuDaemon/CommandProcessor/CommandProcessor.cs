@@ -12,12 +12,16 @@ namespace Iit.Fibertest.RtuDaemon
         private readonly ILogger<CommandProcessor> _logger;
         private readonly LongOperationsQueue _longOperationsQueue;
         private readonly RtuManager _rtuManager;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly EventsRepository _eventsRepository;
 
-        public CommandProcessor(ILogger<CommandProcessor> logger, LongOperationsQueue longOperationsQueue, RtuManager rtuManager)
+        public CommandProcessor(ILogger<CommandProcessor> logger, LongOperationsQueue longOperationsQueue,
+            RtuManager rtuManager, IServiceProvider serviceProvider)
         {
             _logger = logger;
             _longOperationsQueue = longOperationsQueue;
             _rtuManager = rtuManager;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task<RequestAnswer> EnqueueLongOperation(string json)
@@ -49,6 +53,14 @@ namespace Iit.Fibertest.RtuDaemon
                 IsMonitoringOn = _rtuManager.IsMonitoringOn,
                 CurrentStepDto = _rtuManager.CurrentStep,
             });
+        }
+
+        public async Task<List<string>> GetMessages()
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var eventRepository = scope.ServiceProvider.GetRequiredService<EventsRepository>();
+            var ff = await eventRepository.GetPortion(10);
+            return ff.Select(f => f.Json).ToList();
         }
     }
 }

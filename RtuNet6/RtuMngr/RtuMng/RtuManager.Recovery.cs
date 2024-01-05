@@ -61,7 +61,7 @@ public partial class RtuManager
         return ReturnCode.Ok;
     }
 
-    private void RunAdditionalOtauRecovery(DamagedOtau damagedOtau)
+    private async Task RunAdditionalOtauRecovery(DamagedOtau damagedOtau)
     {
         damagedOtau.RebootStarted = DateTime.Now;
         damagedOtau.RebootAttempts++;
@@ -69,7 +69,7 @@ public partial class RtuManager
         var mikrotikRebootAttemptsBeforeNotification =
             _config.Value.Recovery.MikrotikRebootAttemptsBeforeNotification;
         if (damagedOtau.RebootAttempts == mikrotikRebootAttemptsBeforeNotification)
-            _messageStorage.Push(new BopStateChangedDto()
+            await SaveEvent(new BopStateChangedDto()
             {
                 RtuId = _config.Value.General.RtuId,
                 OtauIp = damagedOtau.Ip,
