@@ -21,9 +21,8 @@ namespace Iit.Fibertest.RtuMngr
             var moniResult = await DoSecondMeasurement(
                 new MonitoringPort(dto.PortWithTraceDto!), false, BaseRefType.Precise, true);
 
-            var monitoringPort = _monitoringQueue.Queue.FirstOrDefault(p =>
-                p.CharonSerial == dto.PortWithTraceDto!.OtauPort.Serial
-                && p.OpticalPort == dto.PortWithTraceDto.OtauPort.OpticalPort);
+            var monitoringPort = await GetMonitoringPort(dto.PortWithTraceDto!.OtauPort.Serial,
+                dto.PortWithTraceDto.OtauPort.OpticalPort);
 
             if (monitoringPort != null)
             {

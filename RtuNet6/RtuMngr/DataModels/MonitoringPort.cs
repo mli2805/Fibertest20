@@ -13,8 +13,9 @@ public class MonitoringPort
     public int OpticalPort;
     public Guid TraceId;
 
-    public DateTime? LastPreciseMadeTimestamp;
+    public DateTime LastPreciseMadeTimestamp = DateTime.MinValue;
     public DateTime LastPreciseSavedTimestamp;
+    public DateTime LastFastMadeTimestamp = DateTime.MinValue;
     public DateTime LastFastSavedTimestamp;
 
     public FiberState LastTraceState;
@@ -24,32 +25,35 @@ public class MonitoringPort
     public bool IsMonitoringModeChanged;
     public bool IsConfirmationRequired;
 
-    public MonitoringPort(MonitoringPortOnDisk port)
-    {
-        CharonSerial = port.Serial;
-        OpticalPort = port.OpticalPort;
-        TraceId = port.TraceId;
-        IsPortOnMainCharon = port.IsPortOnMainCharon;
-        LastTraceState = port.LastTraceState;
+    public DateTime LastMadeTimestamp => 
+        LastFastMadeTimestamp > LastPreciseMadeTimestamp ? LastFastMadeTimestamp : LastPreciseMadeTimestamp;
 
-        LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp;
-        LastFastSavedTimestamp = port.LastFastSavedTimestamp;
-        LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
+    //public MonitoringPort(MonitoringPortOnDisk port)
+    //{
+    //    CharonSerial = port.Serial;
+    //    OpticalPort = port.OpticalPort;
+    //    TraceId = port.TraceId;
+    //    IsPortOnMainCharon = port.IsPortOnMainCharon;
+    //    LastTraceState = port.LastTraceState;
 
-        IsMonitoringModeChanged = port.IsMonitoringModeChanged;
-        IsConfirmationRequired = port.IsConfirmationRequired;
+    //    LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp ?? DateTime.MinValue;
+    //    LastFastSavedTimestamp = port.LastFastSavedTimestamp;
+    //    LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
 
-        if (port.LastMoniResult != null)
-            LastMoniResult = new MoniResult()
-            {
-                IsNoFiber = port.LastMoniResult.IsNoFiber,
-                IsFiberBreak = port.LastMoniResult.IsFiberBreak,
-                Levels = port.LastMoniResult.Levels,
-                BaseRefType = port.LastMoniResult.BaseRefType,
-                FirstBreakDistance = port.LastMoniResult.FirstBreakDistance,
-                Accidents = port.LastMoniResult.Accidents
-            };
-    }
+    //    IsMonitoringModeChanged = port.IsMonitoringModeChanged;
+    //    IsConfirmationRequired = port.IsConfirmationRequired;
+
+    //    if (port.LastMoniResult != null)
+    //        LastMoniResult = new MoniResult()
+    //        {
+    //            IsNoFiber = port.LastMoniResult.IsNoFiber,
+    //            IsFiberBreak = port.LastMoniResult.IsFiberBreak,
+    //            Levels = port.LastMoniResult.Levels,
+    //            BaseRefType = port.LastMoniResult.BaseRefType,
+    //            FirstBreakDistance = port.LastMoniResult.FirstBreakDistance,
+    //            Accidents = port.LastMoniResult.Accidents
+    //        };
+    //}
 
     // new port for monitoring in user's command
     public MonitoringPort(PortWithTraceDto port)

@@ -73,7 +73,7 @@ namespace Iit.Fibertest.RtuDaemon
 
             // We don't need to edit anything on the fly on our Api project, so 
             // let's change the current directory to project output directory.
-            var assemblyLocation = System.AppContext.BaseDirectory;
+            var assemblyLocation = AppContext.BaseDirectory;
             Directory.SetCurrentDirectory(Path.GetDirectoryName(assemblyLocation)!);
     
             // Create a directory for stored data (like sqlite database)

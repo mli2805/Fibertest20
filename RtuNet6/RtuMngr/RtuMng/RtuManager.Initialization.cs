@@ -19,9 +19,9 @@ public partial class RtuManager
         }
 
         if (dto != null)
-             SaveParametersAndStates(dto);
+            SaveParametersAndStates(dto);
 
-        _config.Update(c=>c.Monitoring.IsAutoBaseMeasurementInProgress = false);
+        _config.Update(c => c.Monitoring.IsAutoBaseMeasurementInProgress = false);
 
         var version = LogInitializationStart();
 
@@ -61,14 +61,14 @@ public partial class RtuManager
         IsRtuInitialized = true;
         _logger.Info(Logs.RtuManager, "RTU initialized successfully!");
 
-        await _monitoringQueue.Load();
+        // await _monitoringQueue.Load();
         EvaluateFrequencies();
 
         _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
 
         // permit to send heartbeats
         ShouldSendHeartbeat.Enqueue(new object());
-        
+
         IsMonitoringOn = _config.Value.Monitoring.IsMonitoringOnPersisted;
         if (disconnectOtdr)
         {

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNet6;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuMngr;
 
@@ -25,7 +23,7 @@ public partial class RtuManager
     private TreeOfAcceptableMeasParams? _treeOfAcceptableMeasParams;
     public CancellationToken RtuServiceCancellationToken;
     private CancellationTokenSource? _rtuManagerCts;
-    private MonitoringQueue _monitoringQueue;
+
     public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
     private CancellationTokenSource? _cancellationTokenSource;
@@ -59,14 +57,14 @@ public partial class RtuManager
 
 
     public RtuManager(IWritableConfig<RtuConfig> config,
-        ILogger<RtuManager> logger, MonitoringQueue monitoringQueue,
+        ILogger<RtuManager> logger,
         InterOpWrapper interOpWrapper, OtdrManager otdrManager, 
         IServiceProvider serviceProvider)
     {
         IsRtuInitialized = false;
+        _currentStep = new CurrentMonitoringStepDto() { Step = MonitoringCurrentStep.Idle };
         _config = config;
         _logger = logger;
-        _monitoringQueue = monitoringQueue;
         _serialPortManager = new SerialPortManager();
         _serialPortManager.Initialize(_config.Value.Charon, logger);
         _interOpWrapper = interOpWrapper;
@@ -74,23 +72,7 @@ public partial class RtuManager
         _serviceProvider = serviceProvider;
     }
 
-    private async Task SaveMoniResult(MonitoringResultEf entity)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<MonitoringResultsRepository>();
-        await repo.Add(entity);
-    }
+  
 
-    private static readonly JsonSerializerSettings JsonSerializerSettings =
-        new() { TypeNameHandling = TypeNameHandling.All };
-    // ClientMeasurementResultDto, BopStateChangedDto, ??? rtu accidents how?
-    private async Task SaveEvent(object obj)
-    {
-        var json = JsonConvert.SerializeObject(obj, JsonSerializerSettings);
-        _logger.Info(Logs.RtuService, json);
-
-        using var scope = _serviceProvider.CreateScope();
-        var eventsRepository = scope.ServiceProvider.GetRequiredService<EventsRepository>();
-        await eventsRepository.Add(json);
-    }
+   
 }

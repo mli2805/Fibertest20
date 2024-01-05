@@ -1,5 +1,6 @@
 ﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuMngr;
+using Iit.Fibertest.UtilsNet6;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuDaemon
@@ -13,7 +14,6 @@ namespace Iit.Fibertest.RtuDaemon
         private readonly LongOperationsQueue _longOperationsQueue;
         private readonly RtuManager _rtuManager;
         private readonly IServiceProvider _serviceProvider;
-        private readonly EventsRepository _eventsRepository;
 
         public CommandProcessor(ILogger<CommandProcessor> logger, LongOperationsQueue longOperationsQueue,
             RtuManager rtuManager, IServiceProvider serviceProvider)
@@ -47,6 +47,7 @@ namespace Iit.Fibertest.RtuDaemon
 
         public Task<RtuCurrentStateDto> GetCurrentState()
         {
+            _logger.Info(Logs.RtuService, "GetCurrentState");
             return Task.FromResult(new RtuCurrentStateDto(ReturnCode.Ok)
             {
                 IsRtuInitialized = _rtuManager.IsRtuInitialized,

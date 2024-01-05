@@ -7,10 +7,13 @@ namespace Iit.Fibertest.RtuMngr
 {
     public class RtuContext : DbContext
     {
+#pragma warning disable CS8618
         public RtuContext(DbContextOptions<RtuContext> options) : base(options) { }
+#pragma warning restore CS8618
 
         public DbSet<EventInJsonEf> Events { get; set; }
         public DbSet<MonitoringResultEf> MonitoringResults { get; set; }
+        public DbSet<MonitoringPortEf> MonitoringPorts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder bulider)
         {

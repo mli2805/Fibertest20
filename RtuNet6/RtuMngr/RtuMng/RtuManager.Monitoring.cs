@@ -12,7 +12,9 @@ public partial class RtuManager
         _saveSorData = _config.Value.Monitoring.ShouldSaveSorData;
         _logger.EmptyAndLog(Logs.RtuManager, "Run monitoring cycle.");
 
-        if (_monitoringQueue.Count() < 1)
+        
+            var monitoringPort = await GetNextPortForMonitoring();
+        if (monitoringPort == null)
         {
             _logger.Info(Logs.RtuManager, "There are no ports in queue for monitoring.");
             IsMonitoringOn = false;
@@ -26,23 +28,25 @@ public partial class RtuManager
         while (true)
         {
             _measurementNumber++;
-            var monitoringPort = _monitoringQueue.Peek();
-
-            var previousUserReturnCode = monitoringPort.LastMoniResult!.UserReturnCode;
+          
+            var previousUserReturnCode = monitoringPort!.LastMoniResult!.UserReturnCode;
             var previousHardwareReturnCode = monitoringPort.LastMoniResult!.HardwareReturnCode;
             await ProcessOnePort(monitoringPort);
 
             if (monitoringPort.LastMoniResult!.HardwareReturnCode != ReturnCode.MeasurementInterrupted)
             {
-                var unused = _monitoringQueue.Dequeue();
-                _monitoringQueue.Enqueue(monitoringPort);
-                await _monitoringQueue.Save();
+                //var unused = _monitoringQueue.Dequeue();
+                //_monitoringQueue.Enqueue(monitoringPort);
+                //await _monitoringQueue.Save();
+                await UpdateMonitoringPort(monitoringPort);
             }
             else
             {
                 // monitoringPort in memory changed
+                // monitoringPort уже изменился, а измерение прервали, надо откатить
                 monitoringPort.LastMoniResult.UserReturnCode = previousUserReturnCode;
                 monitoringPort.LastMoniResult.HardwareReturnCode = previousHardwareReturnCode;
+                await UpdateMonitoringPort(monitoringPort);
             }
 
             if (!IsMonitoringOn)
@@ -50,6 +54,9 @@ public partial class RtuManager
                 _logger.Debug(Logs.RtuManager, "IsMonitoringOn is FALSE. Leave monitoring cycle.");
                 break;
             }
+
+            //var monitoringPort = _monitoringQueue.Peek();
+            monitoringPort = await GetNextPortForMonitoring();
         }
 
         _logger.Info(Logs.RtuManager, "Monitoring stopped.");
@@ -142,15 +149,18 @@ public partial class RtuManager
                 reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
             }
 
+            monitoringPort.LastFastMadeTimestamp = DateTime.Now;
             monitoringPort.LastMoniResult = moniResult;
             monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
-            await _monitoringQueue.Save();
+            //await _monitoringQueue.Save();
+            await UpdateMonitoringPort(monitoringPort);
 
             if (reason != ReasonToSendMonitoringResult.None)
             {
                 await SaveMoniResult(CreateEf(moniResult, monitoringPort, reason));
                 monitoringPort.LastFastSavedTimestamp = DateTime.Now;
-                await _monitoringQueue.Save();
+                // await _monitoringQueue.Save();
+                await UpdateMonitoringPort(monitoringPort);
             }
         }
         else
@@ -168,7 +178,8 @@ public partial class RtuManager
             _logger.Error(Logs.RtuManager, "Problem with base ref occurred!");
             await SaveMoniResult(CreateEf(moniResult, monitoringPort,
                 ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
-            await _monitoringQueue.Save();
+            //await _monitoringQueue.Save();
+                await UpdateMonitoringPort(monitoringPort);
         }
         else
         {
@@ -227,16 +238,18 @@ public partial class RtuManager
             monitoringPort.LastPreciseMadeTimestamp = DateTime.Now;
             monitoringPort.LastMoniResult = moniResult;
             monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
-            await _monitoringQueue.Save();
+            // await _monitoringQueue.Save();
+            await UpdateMonitoringPort(monitoringPort);
 
             if (reason != ReasonToSendMonitoringResult.None)
             {
                 await SaveMoniResult(CreateEf(moniResult, monitoringPort, reason));
                 monitoringPort.LastPreciseSavedTimestamp = DateTime.Now;
-                await _monitoringQueue.Save();
+                // await _monitoringQueue.Save();
+                await UpdateMonitoringPort(monitoringPort);
             }
 
-            await _monitoringQueue.Save();
+            //await _monitoringQueue.Save();
         }
         else
             await LogFailedMeasurement(moniResult, monitoringPort);
@@ -392,10 +405,10 @@ public partial class RtuManager
             Reason = reason,
             RtuId = _config.Value.General.RtuId,
             TimeStamp = DateTime.Now,
-                    Serial = monitoringPort.CharonSerial,
-                    IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
-                    OpticalPort = monitoringPort.OpticalPort,
-                TraceId = monitoringPort.TraceId,
+            Serial = monitoringPort.CharonSerial,
+            IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
+            OpticalPort = monitoringPort.OpticalPort,
+            TraceId = monitoringPort.TraceId,
             BaseRefType = moniResult.BaseRefType,
             TraceState = moniResult.GetAggregatedResult(),
             SorBytes = moniResult.SorBytes

@@ -8,7 +8,7 @@ public partial class RtuManager
 {
     public async Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
     {
-        var isMonitoringModeChanged = IsMonitoringOn != dto.IsMonitoringOn;
+        //var isMonitoringModeChanged = IsMonitoringOn != dto.IsMonitoringOn;
         if (IsMonitoringOn)
         {
             await BreakMonitoringCycle("Apply monitoring settings");
@@ -17,13 +17,14 @@ public partial class RtuManager
 
         _config.Update(c=>c.Monitoring.IsMonitoringOnPersisted = dto.IsMonitoringOn);
         SaveNewFrequenciesInConfig(dto.Timespans);
-        _monitoringQueue.ComposeNewQueue(dto.Ports);
-        _logger.Info(Logs.RtuManager, $"Queue merged. {_monitoringQueue.Count()} port(s) in queue");
-        await _monitoringQueue.Save();
-        await _monitoringQueue.SaveBackup();
+        //_monitoringQueue.ComposeNewQueue(dto.Ports);
+        var count = await CreateNewQueue(dto.Ports);
+        _logger.Info(Logs.RtuManager, $"Queue merged. {count} port(s) in queue");
+        //await _monitoringQueue.Save();
+        //await _monitoringQueue.SaveBackup();
 
         if (dto.IsMonitoringOn)
-            await StartMonitoring(isMonitoringModeChanged);
+            await StartMonitoring();
         return new RequestAnswer(ReturnCode.MonitoringSettingsAppliedSuccessfully);
     }
 
@@ -37,7 +38,7 @@ public partial class RtuManager
         _fastSaveTimespan = dto.FastSave;
     }
 
-    private async Task StartMonitoring(bool isMonitoringModeChanged)
+    private async Task StartMonitoring()
     {
         var rtuInitializationResult = await InitializeRtu(null, false); // will corrupt IsMonitoringOn
         if (!rtuInitializationResult.IsInitialized)
@@ -47,8 +48,8 @@ public partial class RtuManager
         _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = true);
         IsMonitoringOn = true;
 
-        if (isMonitoringModeChanged)
-            _monitoringQueue.RaiseMonitoringModeChangedFlag();
+        //if (isMonitoringModeChanged)
+        //    _monitoringQueue.RaiseMonitoringModeChangedFlag();
 
         _logger.EmptyAndLog(Logs.RtuManager, "RTU is turned into AUTOMATIC mode.");
 

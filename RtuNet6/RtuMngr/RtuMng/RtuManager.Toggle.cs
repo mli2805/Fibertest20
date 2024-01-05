@@ -77,7 +77,7 @@ public partial class RtuManager
                         damagedOtau = new DamagedOtau(cha.NetAddress.Ip4Address, cha.NetAddress.Port, monitoringPort.CharonSerial);
                         _damagedOtaus.Add(damagedOtau);
                     }
-                    await SaveEvent(damagedOtau);
+                    await RunAdditionalOtauRecovery(damagedOtau);
                     return false;
                 }
             default:
