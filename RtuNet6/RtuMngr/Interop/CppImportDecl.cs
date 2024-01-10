@@ -5,11 +5,14 @@ namespace Iit.Fibertest.RtuMngr
     public static class CppImportDecl
     {
         // https://blog.magnusmontin.net/2018/11/05/platform-conditional-compilation-in-net-core/
-        #if Linux
+        // #if Linux
+        // private const string LibFileName = "OtdrMeasEngine/iit_otdr.so";
+        // #elif Windows
+        // private const string LibFileName = "OtdrMeasEngine/iit_otdr.dll";
+        // #endif
+
+        // здесь условная компиляция не срабатывает, возможно потому, что я publish'у на своей windows машине
         private const string LibFileName = "OtdrMeasEngine/iit_otdr.so";
-        #elif Windows
-        private const string LibFileName = "OtdrMeasEngine/iit_otdr.dll";
-        #endif
 
 
         [DllImport(LibFileName)]

@@ -22,8 +22,9 @@ public partial class InterOpWrapper
 
         try
         {
-            CppImportDecl.DllInit(path, logFile, lenUnit);
+            CppImportDecl.DllInit(path, logFile, lenUnit); // там не срабатывает условная компиляция
 
+            // а здесь идет определение системы в runtime поэтому всё работает
             var libFileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "iit_otdr.dll" : "iit_otdr.so";
             var iitOtdrLib = Path.Combine(path, libFileName);
 
@@ -41,7 +42,7 @@ public partial class InterOpWrapper
         return true;
     }
 
-  
+
     public bool InitOtdr(ConnectionTypes type, string ip, int port)
     {
         int initOtdr;

@@ -80,12 +80,15 @@
     <Compile Include="EnumsIitOtdr\ServiceFunctionCommand.cs" />
     <Compile Include="EnumsIitOtdr\ServiceFunctionFirstParam.cs" />
     <Compile Include="Enums\EquipmentType.cs" />
+    <Compile Include="Enums\FrequencyExt.cs" />
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Enums\OpticalAccidentTypeExt.cs" />
     <Compile Include="Enums\RecoveryStep.cs" />
+    <Compile Include="Enums\ReturnCodeExtensions.cs" />
+    <Compile Include="Enums\SorType.cs" />
     <Compile Include="Enums\TceMaker.cs" />
     <Compile Include="Enums\OpticalAccidentType.cs" />
-    <Compile Include="Enums\OpticalAccidentTypeExt.cs" />
     <Compile Include="Enums\RtuMaker.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\TraceToTceLinkState.cs" />
@@ -229,12 +232,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\StringResources\StringResources.csproj">
-      <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
-      <Name>StringResources</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

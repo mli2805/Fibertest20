@@ -128,6 +128,7 @@
     <Compile Include="Commands\ApplyLicense.cs" />
     <Compile Include="Commands\ExternalEvents\AddRtuAccident.cs" />
     <Compile Include="Commands\UpdateFromLandmarksBatch.cs" />
+    <Compile Include="DomainEntities\Extensions\BaseRefTypeExt.cs" />
     <Compile Include="DomainEntities\Extensions\ChannelEventExt.cs" />
     <Compile Include="Commands\MakeSnapshot.cs" />
     <Compile Include="Commands\Client\LostClientConnection.cs" />
@@ -147,7 +148,9 @@
     <Compile Include="DomainEntities\Breaks\AccidentOnTraceV2.cs" />
     <Compile Include="DomainEntities\Extensions\BoolExt.cs" />
     <Compile Include="DomainEntities\Extensions\AccessModeExt.cs" />
+    <Compile Include="DomainEntities\Extensions\EventStatusExt.cs" />
     <Compile Include="DomainEntities\Extensions\MonitoringStateExt.cs" />
+    <Compile Include="DomainEntities\Extensions\RoleExt.cs" />
     <Compile Include="DomainEntities\Extensions\TceTypeStructExt.cs" />
     <Compile Include="DomainEntities\ExternalEvents\RtuAccident.cs" />
     <Compile Include="DomainEntities\Graph\GponPortRelation.cs" />
