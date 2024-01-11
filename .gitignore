@@ -264,3 +264,5 @@ paket-files/
 /Deploy/Ft*.zip
 /Deploy/PackRtu
 /Deploy/Temp/OtdrMeasEngine
+/DeployDebian/rtu
+/DeployDebian/rtu.tar.gz
