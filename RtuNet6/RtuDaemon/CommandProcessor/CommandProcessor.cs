@@ -24,12 +24,12 @@ namespace Iit.Fibertest.RtuDaemon
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<RequestAnswer> EnqueueLongOperation(string json)
+        public Task<RequestAnswer> EnqueueLongOperation(string json)
         {
             object? o = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
             if (o == null)
             {
-                return new RequestAnswer(ReturnCode.Error);
+                return Task.FromResult(new RequestAnswer(ReturnCode.Error));
 
             }
             switch (o)
@@ -37,12 +37,12 @@ namespace Iit.Fibertest.RtuDaemon
                 case InitializeRtuDto _:
                 case ApplyMonitoringSettingsDto _:
                     var commandGuid = _longOperationsQueue.EnqueueLongOperation(json);
-                    return new RequestAnswer(ReturnCode.Queued) { LongOperationGuid = commandGuid };
+                    return Task.FromResult(new RequestAnswer(ReturnCode.Queued) { LongOperationGuid = commandGuid });
 
 
             }
 
-            return new RequestAnswer(ReturnCode.Ok);
+            return Task.FromResult(new RequestAnswer(ReturnCode.Ok));
         }
 
         public Task<RtuCurrentStateDto> GetCurrentState()

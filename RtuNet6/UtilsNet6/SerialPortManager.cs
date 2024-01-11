@@ -22,10 +22,6 @@ public class SerialPortManager
 
     public ReturnCode ResetCharon()
     {
-#if Windows
-        return ReturnCode.Ok;
-#endif
-
         try
         {
             var serialPort = new SerialPort(_comPortName, _comPortSpeed);
@@ -56,9 +52,6 @@ public class SerialPortManager
     public void ShowOnLedDisplay(LedDisplayCode code)
     {
         _logger.Debug(Logs.RtuManager, $"  Write <{code}> on led display");
-#if Windows
-        return;
-#endif
         var serialPort = new SerialPort(_comPortName, _comPortSpeed);
         try
         {

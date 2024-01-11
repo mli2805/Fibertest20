@@ -1,5 +1,5 @@
 rem In VS on project RtuDaemon press publish
-xcopy /E/D c:\VsGitProjects\Fibertest20\RtuNet6\RtuDaemon\bin\Release\net6.0\linux-x64\*.* rtu
+xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNet6\RtuDaemon\bin\Release\net6.0\linux-x64\*.* rtu
 
 rem folder OtdrMeasEngine is prepared on ubuntu2004 virtual machine
 tar -czf rtu.tar.gz rtu

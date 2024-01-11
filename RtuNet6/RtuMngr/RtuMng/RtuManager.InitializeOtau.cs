@@ -5,14 +5,13 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
-    private async Task<RtuInitializedDto> InitializeOtau(RtuInitializedDto result)
+    private Task<RtuInitializedDto> InitializeOtau(RtuInitializedDto result)
     {
-        await Task.Delay(1);
         var charonIp = _config.Value.General.CharonIp;
         _mainCharon = new Charon(new NetAddress(charonIp, 23), true, _config.Value.Charon, _logger);
         var res = _mainCharon.InitializeOtauRecursively();
         if (res == _mainCharon.NetAddress)
-            return new RtuInitializedDto(ReturnCode.OtauInitializationError);
+            return Task.FromResult(new RtuInitializedDto(ReturnCode.OtauInitializationError));
 
         var previousOwnPortCount = _config.Value.General.PreviousOwnPortCount;
         if (previousOwnPortCount == -1)
@@ -34,6 +33,7 @@ public partial class RtuManager
         result.Children = _mainCharon.GetChildrenDto();
 
         result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
+        result.IsInitialized = true;
 
         if (res != null)
         {
@@ -43,7 +43,7 @@ public partial class RtuManager
             
         _mainCharon.ShowOnDisplayMessageReady();
 
-        return result;
+        return Task.FromResult(result);
     }
 
     private async Task<RtuInitializedDto> ReInitializeOtauOnUsersRequest(InitializeRtuDto dto, RtuInitializedDto resultDto)
