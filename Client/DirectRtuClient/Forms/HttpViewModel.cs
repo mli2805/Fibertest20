@@ -70,7 +70,7 @@ namespace DirectRtuClient
             _rtuVeexDoubleAddress = iniFile.ReadDoubleAddress(80);
 
             var veexRtu = new VeexRtuAuthorizationDict();
-            _httpWrapper = new HttpWrapper(logFile, new HttpClientThinWrap(logFile, veexRtu));
+            _httpWrapper = new HttpWrapper(logFile, new HttpClientForVeex(logFile, veexRtu));
             RtuVeexAddress = _rtuVeexDoubleAddress.Main.Ip4Address;
         }
 

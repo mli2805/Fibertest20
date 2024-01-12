@@ -9,15 +9,6 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public static class NetAddressExt
-    {
-        public static string GetHost(this NetAddress netAddress)
-        {
-            var url = $"http://{netAddress.ToStringA()}/api/v1/info";
-            var uri = new Uri(url);
-            return uri.Host;
-        }
-    }
     public class HttpWrapper
     {
         private readonly IMyLog _logFile;
@@ -29,12 +20,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             _httpClientThinWrap = httpClientThinWrap;
         }
 
-        private string BaseUri(string address) { return $"http://{address}/api/v1/"; }
-
         public async Task<HttpRequestResult> GetByteArray(DoubleAddress rtuDoubleAddress, string relativeUri)
         {
             var result = new HttpRequestResult();
-            var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
+            var url = rtuDoubleAddress.Main.GetVeexRtuBaseUri() + relativeUri;
             try
             {
                 var myArr = await _httpClientThinWrap.GetByteArrayAsync(url);
@@ -55,7 +44,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             byte[] bytes, byte[] bytes2 = null)
         {
             var result = new HttpRequestResult();
-            var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
+            var url = rtuDoubleAddress.Main.GetVeexRtuBaseUri() + relativeUri;
 
             try
             {
@@ -63,26 +52,28 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     new MultipartFormDataContent(Guid.NewGuid().ToString());
 
                 var byteArrayContent = new ByteArrayContent(bytes);
-                byteArrayContent.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"0\"; filename=\"\"");
+                byteArrayContent.Headers.ContentDisposition = 
+                    ContentDispositionHeaderValue.Parse("form-data; name=\"0\"; filename=\"\"");
                 byteArrayContent.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
                 dataContent.Add(byteArrayContent);
 
                 if (bytes2 != null)
                 {
                     var byteArrayContent2 = new ByteArrayContent(bytes2);
-                    byteArrayContent2.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"2\"; filename=\"\"");
+                    byteArrayContent2.Headers.ContentDisposition = 
+                        ContentDispositionHeaderValue.Parse("form-data; name=\"2\"; filename=\"\"");
                     byteArrayContent2.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
                     dataContent.Add(byteArrayContent2);
                 }
 
                 var request = CreateRequestMessage(url, "POST");
                 request.Content = dataContent;
-                request.Headers.Host = rtuDoubleAddress.Main.GetHost();
+                request.Headers.Host = rtuDoubleAddress.Main.GetVeexRtuUriHost();
                 HttpResponseMessage responseMessage = await _httpClientThinWrap.SendAsync(request);
 
                 if (responseMessage.StatusCode != HttpStatusCode.Created)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
-                result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be explanation
+                result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be an explanation
                 result.HttpStatusCode = responseMessage.StatusCode;
             }
             catch (Exception e)
@@ -98,12 +89,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             string httpMethod, string contentRepresentation = null, string jsonData = null)
         {
             var result = new HttpRequestResult();
-            var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
+            var url = rtuDoubleAddress.Main.GetVeexRtuBaseUri() + relativeUri;
 
             try
             {
                 var request = CreateRequestMessage(url, httpMethod, contentRepresentation, jsonData);
-                request.Headers.Host = rtuDoubleAddress.Main.GetHost();
+                request.Headers.Host = rtuDoubleAddress.Main.GetVeexRtuUriHost();
                 var responseMessage = await _httpClientThinWrap.SendAsync(request);
 
 
@@ -123,7 +114,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        private HttpRequestMessage CreateRequestMessage(string url, string method, string contentRepresentationType = null, string jsonData = null)
+        private HttpRequestMessage CreateRequestMessage(string url, string method, 
+            string contentRepresentationType = null, string jsonData = null)
         {
             var request = new HttpRequestMessage(new HttpMethod(method.ToUpper()), url);
             if (jsonData != null)

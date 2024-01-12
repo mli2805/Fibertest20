@@ -7,7 +7,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public class HttpClientThinWrap : IHttpClientThinWrap
+    public class HttpClientForVeex : IHttpClientThinWrap
     {
         private readonly IMyLog _logFile;
         private readonly VeexRtuAuthorizationDict _veexRtuAuthorizationDict;
@@ -18,7 +18,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             Timeout = TimeSpan.FromSeconds(400)
         };
 
-        public HttpClientThinWrap(IMyLog logFile, VeexRtuAuthorizationDict veexRtuAuthorizationDict)
+        public HttpClientForVeex(IMyLog logFile, VeexRtuAuthorizationDict veexRtuAuthorizationDict)
         {
             _logFile = logFile;
             _veexRtuAuthorizationDict = veexRtuAuthorizationDict;

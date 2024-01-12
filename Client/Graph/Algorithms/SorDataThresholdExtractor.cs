@@ -5,9 +5,9 @@ using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace Iit.Fibertest.D2RtuVeexLibrary
+namespace Iit.Fibertest.Graph
 {
-    public static class SorDataThresholdExtractor
+    public static class ThresholdFromSorBytesExtractor
     {
         public static ThresholdSet ExtractThresholds(this byte[] bytes)
         {
@@ -15,7 +15,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return null;
 
             var thresholdSet = new ThresholdSet() { levels = new List<Level>() };
-            var levelNames = new List<string>() {"Minor", "Major", "Critical"};
+            var levelNames = new List<string>() {@"Minor", @"Major", @"Critical"};
 
             levelNames.Select(n=>sorData.ExtractRftsLevel(n))
                 .Where(l=>l != null).ToList()
@@ -47,8 +47,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     Iit2CmbThreshold(levelParams.LevelThresholdSet.AttenuationCoefThreshold),
                 eventMaxLevel = null, // PON, reflect do not work with this parameter
 
-                reflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtRDetectDeltaLen"),
-                nonReflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtDetectDeltaLen"),
+                reflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, @"EvtRDetectDeltaLen"),
+                nonReflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, @"EvtDetectDeltaLen"),
             };
         }
 
@@ -56,9 +56,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             return new AdvancedThresholds()
             {
-                attenuationCoefficientChangeForNewEvents = IitUniversalParam2double(sorData, "EvtDetectDeltaCT"),
-                eofAttenuationCoefficientChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeСT"),
-                eofLossChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeЕT"),
+                attenuationCoefficientChangeForNewEvents = IitUniversalParam2double(sorData, @"EvtDetectDeltaCT"),
+                eofAttenuationCoefficientChangeForFiberBreak = IitUniversalParam2double(sorData, @"EvtChangeСT"),
+                eofLossChangeForFiberBreak = IitUniversalParam2double(sorData, @"EvtChangeЕT"),
                 maxEofAttenuationCoefficientForFiberBreak = 0.05,
                 // noiseLevelChangeForFiberElongation, // is not used in IIT
             };

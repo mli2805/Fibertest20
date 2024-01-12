@@ -116,7 +116,7 @@ namespace Iit.Fibertest.DataCenterService
             await InitializeEventStoreService();
             foreach (var rtu in _writeModel.Rtus.Where(r=>r.IsInitialized && r.RtuMaker == RtuMaker.VeEX))
             {
-                _veexRtuAuthorizationDict.Dict.Add(rtu.MainChannel.GetHost(), new VeexRtuAuthorizationData()
+                _veexRtuAuthorizationDict.Dict.Add(rtu.MainChannel.GetVeexRtuUriHost(), new VeexRtuAuthorizationData()
                 {
                     RtuId = rtu.Id,
                     Serial = rtu.Serial,

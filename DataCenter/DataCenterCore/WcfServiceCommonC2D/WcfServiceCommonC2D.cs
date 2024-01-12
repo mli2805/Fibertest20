@@ -140,7 +140,9 @@ namespace Iit.Fibertest.DataCenterCore
             switch (dto.NetAddress.Port)
             {
                 case (int)TcpPorts.RtuListenTo: return await _clientToRtuTransmitter.CheckRtuConnection(dto);
-                case (int)TcpPorts.RtuVeexListenTo: return await _clientToRtuVeexTransmitter.CheckRtuConnection(dto);
+                case (int)TcpPorts.RtuVeexListenTo: 
+                    // TODO separate checker for VEEX RTU
+                    return await _clientToRtuTransmitter.CheckRtuConnection(dto);
                 case (int)TcpPorts.RtuListenToHttp:
                     return await _clientToLinuxRtuHttpTransmitter.CheckRtuConnection(dto);
                 case -1:
@@ -155,12 +157,13 @@ namespace Iit.Fibertest.DataCenterCore
             var result = await _clientToLinuxRtuHttpTransmitter.CheckRtuConnection(dto);
             if (result.IsConnectionSuccessfull) return result;
             
-            dto.NetAddress.Port = (int)TcpPorts.RtuVeexListenTo;
-            result = await _clientToRtuVeexTransmitter.CheckRtuConnection(dto);
+            dto.NetAddress.Port = (int)TcpPorts.RtuListenTo;
+            result = await _clientToRtuTransmitter.CheckRtuConnection(dto);
             if (result.IsConnectionSuccessfull) return result;
            
-            dto.NetAddress.Port = (int)TcpPorts.RtuListenTo;
-            return await _clientToRtuTransmitter.CheckRtuConnection(dto);
+            dto.NetAddress.Port = (int)TcpPorts.RtuVeexListenTo;
+            //TODO implement special checker for VEEX RTU
+            return await _clientToRtuVeexTransmitter.CheckRtuConnection(dto);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)

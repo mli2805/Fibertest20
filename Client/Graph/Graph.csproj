@@ -116,6 +116,7 @@
     <Compile Include="Algorithms\License\MachineKeyProvider.cs" />
     <Compile Include="Algorithms\License\Password.cs" />
     <Compile Include="Algorithms\License\Sha256Hasher.cs" />
+    <Compile Include="Algorithms\SorDataThresholdExtractor.cs" />
     <Compile Include="Algorithms\TraceStatePdfReport\AccidentLineModel.cs" />
     <Compile Include="Algorithms\TraceStatePdfReport\AccidentLineModelFactory.cs" />
     <Compile Include="Algorithms\TraceStatePdfReport\AccidentPlaceReportProvider.cs" />

@@ -72,7 +72,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
 
             builder.RegisterType<VeexRtuAuthorizationDict>().SingleInstance();
-            builder.RegisterType<HttpClientThinWrap>().As<IHttpClientThinWrap>().SingleInstance();
+            builder.RegisterType<HttpClientForVeex>().As<IHttpClientThinWrap>().SingleInstance();
             builder.RegisterType<HttpWrapper>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer1>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer2>().SingleInstance();

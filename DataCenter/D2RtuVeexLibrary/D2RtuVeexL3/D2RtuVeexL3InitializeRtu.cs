@@ -13,7 +13,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             try
             {
                 var rtuAddresses = (DoubleAddress)dto.RtuAddresses.Clone();
-                var host = rtuAddresses.Main.GetHost();
+                var host = rtuAddresses.Main.GetVeexRtuUriHost();
                 if (!_veexRtuAuthorizationDict.Dict.TryGetValue(host, out var rtuData))
                     _veexRtuAuthorizationDict.Dict.Add(host, new VeexRtuAuthorizationData()
                     {
