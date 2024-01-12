@@ -80,7 +80,7 @@
     <Compile Include="Database\TestParameterizer.cs" />
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="JsonUtil.cs" />
-    <Compile Include="MakLinux\IMakLinux.cs" />
+    <Compile Include="MakLinuxHttp\IMakLinux.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
     <Compile Include="OutOfTurn\OutOfTurnProcessor.cs" />

@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DigestAuth\DigestAuth.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1Otdr.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1CompletedTests.cs" />
@@ -70,16 +69,17 @@
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3CompletedTests.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3Otau.cs" />
     <Compile Include="D2RtuVeexL3\InitializedDtoFactory.cs" />
+    <Compile Include="HttpWrapper\DigestAuth\DigestAuth.cs" />
+    <Compile Include="HttpWrapper\DigestAuth\VeexRtuAuthorizationData.cs" />
+    <Compile Include="HttpWrapper\DigestAuth\VeexRtuAuthorizationDict.cs" />
     <Compile Include="HttpWrapper\HttpClientForVeex.cs" />
     <Compile Include="HttpWrapper\HttpRequestMessageExt.cs" />
     <Compile Include="HttpWrapper\HttpWrapper.cs" />
     <Compile Include="HttpWrapper\HttpRequestResult.cs" />
     <Compile Include="HttpWrapper\IHttpClientThinWrap.cs" />
-    <Compile Include="HttpWrapper\NetAddressExt.cs" />
+    <Compile Include="HttpWrapper\NetAddressVeexUrls.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3AssignBaseRefs.cs" />
-    <Compile Include="DigestAuth\VeexRtuAuthorizationData.cs" />
-    <Compile Include="DigestAuth\VeexRtuAuthorizationDict.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">

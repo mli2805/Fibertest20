@@ -145,7 +145,7 @@ namespace Iit.Fibertest.DataCenterCore
                     return await _clientToRtuTransmitter.CheckRtuConnection(dto);
                 case (int)TcpPorts.RtuListenToHttp:
                     return await _clientToLinuxRtuHttpTransmitter.CheckRtuConnection(dto);
-                case -1:
+                // case -1: - new RTU with port not set
                 default:
                     return await CheckRtuConnectionFirstTime(dto);
             }

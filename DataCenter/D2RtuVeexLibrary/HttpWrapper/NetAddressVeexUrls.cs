@@ -3,7 +3,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public static class NetAddressExt
+    public static class NetAddressVeexUrls
     {
         public static string GetVeexRtuUriHost(this NetAddress netAddress)
         {
