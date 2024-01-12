@@ -29,6 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly WcfIntermediate _wcfIntermediate;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
+        private readonly ClientToLinuxRtuHttpTransmitter _clientToLinuxRtuHttpTransmitter;
 
         public WcfServiceCommonC2D(GlobalState globalState, IMyLog logFile,
             Model writeModel, SorFileRepository sorFileRepository,
@@ -37,8 +38,8 @@ namespace Iit.Fibertest.DataCenterCore
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             IFtSignalRClient ftSignalRClient, RtuOccupations rtuOccupations,
             WcfIntermediate wcfIntermediate,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
-            )
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
+            ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
         {
             _globalState = globalState;
             _logFile = logFile;
@@ -53,6 +54,7 @@ namespace Iit.Fibertest.DataCenterCore
             _wcfIntermediate = wcfIntermediate;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+            _clientToLinuxRtuHttpTransmitter = clientToLinuxRtuHttpTransmitter;
         }
 
         public IWcfServiceCommonC2D SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -135,6 +137,30 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
+            _logFile.AppendLine($"CheckRtuConnectionAsync: {dto.NetAddress.ToStringA()}");
+            switch (dto.NetAddress.Port)
+            {
+                case (int)TcpPorts.RtuListenTo: return await _clientToRtuTransmitter.CheckRtuConnection(dto);
+                case (int)TcpPorts.RtuVeexListenTo: return await _clientToRtuVeexTransmitter.CheckRtuConnection(dto);
+                case (int)TcpPorts.RtuListenToHttp:
+                    return await _clientToLinuxRtuHttpTransmitter.CheckRtuConnection(dto);
+                case -1:
+                default:
+                    return await CheckRtuConnectionFirstTime(dto);
+            }
+        }
+
+        private async Task<RtuConnectionCheckedDto> CheckRtuConnectionFirstTime(CheckRtuConnectionDto dto)
+        {
+            dto.NetAddress.Port = (int)TcpPorts.RtuListenToHttp; // МАК linux
+            var result = await _clientToLinuxRtuHttpTransmitter.CheckRtuConnection(dto);
+            if (result.IsConnectionSuccessfull) return result;
+            
+            dto.NetAddress.Port = (int)TcpPorts.RtuVeexListenTo;
+            result = await _clientToRtuVeexTransmitter.CheckRtuConnection(dto);
+            if (result.IsConnectionSuccessfull) return result;
+           
+            dto.NetAddress.Port = (int)TcpPorts.RtuListenTo;
             return await _clientToRtuTransmitter.CheckRtuConnection(dto);
         }
 

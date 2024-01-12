@@ -58,6 +58,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WcfIntermediate>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
             builder.RegisterType<ClientToRtuVeexTransmitter>().SingleInstance();
+            builder.RegisterType<ClientToLinuxRtuHttpTransmitter>().SingleInstance();
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();
             builder.RegisterType<WebApiChecker>().SingleInstance();

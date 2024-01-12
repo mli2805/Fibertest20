@@ -69,9 +69,11 @@
     <Compile Include="ClientStations\ClientsInCollectionFinder.cs" />
     <Compile Include="ClientStations\ClientsRegistrator.cs" />
     <Compile Include="ClientStations\ClientStationFactory.cs" />
+    <Compile Include="ClientToLinuxRtuHttp\ClientToLinuxRtuHttpTransmitter.cs" />
     <Compile Include="ClientToRtu\WcfIntermediate.cs" />
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="JsonUtil.cs" />
+    <Compile Include="MakLinux\IMakLinux.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
     <Compile Include="OutOfTurn\OutOfTurnProcessor.cs" />
@@ -248,6 +250,7 @@
       <Version>3.1.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
