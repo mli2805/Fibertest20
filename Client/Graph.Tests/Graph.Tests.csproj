@@ -1037,10 +1037,6 @@
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataCenter\DatabaseLibrary\DatabaseLibrary.csproj">
-      <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
-      <Name>DatabaseLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\DataCenter\DataCenterCore\DataCenterCore.csproj">
       <Project>{6ba3ea08-6bdb-4b2d-8729-409e136d4d74}</Project>
       <Name>DataCenterCore</Name>

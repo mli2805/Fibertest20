@@ -4,7 +4,6 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using AutoMapper;
-using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.RtuOccupy;

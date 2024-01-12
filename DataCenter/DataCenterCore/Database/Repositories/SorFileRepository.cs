@@ -8,8 +8,7 @@ using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 
-
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.DataCenterCore
 {
     public class SorFileRepository
     {

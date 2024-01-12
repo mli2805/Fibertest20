@@ -71,6 +71,13 @@
     <Compile Include="ClientStations\ClientStationFactory.cs" />
     <Compile Include="ClientToLinuxRtuHttp\ClientToLinuxRtuHttpTransmitter.cs" />
     <Compile Include="ClientToRtu\WcfIntermediate.cs" />
+    <Compile Include="Database\FtDbContext.cs" />
+    <Compile Include="Database\IParameterizer.cs" />
+    <Compile Include="Database\Repositories\RtuStationsRepository.cs" />
+    <Compile Include="Database\Repositories\SnapshotRepository.cs" />
+    <Compile Include="Database\Repositories\SorFileRepository.cs" />
+    <Compile Include="Database\ServerParameterizer.cs" />
+    <Compile Include="Database\TestParameterizer.cs" />
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="JsonUtil.cs" />
     <Compile Include="MakLinux\IMakLinux.cs" />
@@ -183,10 +190,6 @@
     <ProjectReference Include="..\D2RtuVeexLibrary\D2RtuVeexLibrary.csproj">
       <Project>{a1bf104b-0d36-4895-81d9-9ac054fc4fad}</Project>
       <Name>D2RtuVeexLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DatabaseLibrary\DatabaseLibrary.csproj">
-      <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
-      <Name>DatabaseLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

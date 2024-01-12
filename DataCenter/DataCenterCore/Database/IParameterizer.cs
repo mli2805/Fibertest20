@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.DataCenterCore
 {
     public interface IParameterizer
     {

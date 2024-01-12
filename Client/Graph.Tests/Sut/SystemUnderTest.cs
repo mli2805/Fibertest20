@@ -4,7 +4,6 @@ using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.D2RtuVeexLibrary;
-using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;

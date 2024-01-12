@@ -111,10 +111,6 @@
       <Project>{a1bf104b-0d36-4895-81d9-9ac054fc4fad}</Project>
       <Name>D2RtuVeexLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DatabaseLibrary\DatabaseLibrary.csproj">
-      <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
-      <Name>DatabaseLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataCenterCore\DataCenterCore.csproj">
       <Project>{6ba3ea08-6bdb-4b2d-8729-409e136d4d74}</Project>
       <Name>DataCenterCore</Name>

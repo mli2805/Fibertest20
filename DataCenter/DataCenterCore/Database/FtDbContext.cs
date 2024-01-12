@@ -1,7 +1,7 @@
 ﻿using Iit.Fibertest.Dto;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.DataCenterCore
 {
     public class FtDbContext : DbContext
     {

@@ -4,7 +4,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iit.Fibertest.DatabaseLibrary
+namespace Iit.Fibertest.DataCenterCore
 {
     public class ServerParameterizer : IParameterizer
     {

@@ -7,7 +7,6 @@ using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.D2RtuVeexLibrary;
-using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
