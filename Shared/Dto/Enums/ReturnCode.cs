@@ -59,6 +59,8 @@
         C2RWcfConnectionError = 2021,
         C2RWcfOperationError  = 2022,
 
+        D2RHttpError = 2100,
+
         DbError = 3000,
         DbInitializedSuccessfully = 3001,
         DbIsNotInitializedError = 3002,

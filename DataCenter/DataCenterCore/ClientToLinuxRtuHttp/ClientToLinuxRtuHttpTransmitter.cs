@@ -8,23 +8,26 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly ClientsCollection _clientsCollection;
+        private readonly IMakLinuxConnector _makLinuxConnector;
 
-        public ClientToLinuxRtuHttpTransmitter(IMyLog logFile, ClientsCollection clientsCollection)
+        public ClientToLinuxRtuHttpTransmitter(IMyLog logFile, 
+            ClientsCollection clientsCollection, IMakLinuxConnector makLinuxConnector)
         {
             _logFile = logFile;
             _clientsCollection = clientsCollection;
+            _makLinuxConnector = makLinuxConnector;
         }
 
         public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} check RTU {dto.NetAddress.ToStringA()} connection");
-            throw new System.NotImplementedException();
-
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} checks RTU {dto.NetAddress.ToStringA()} connection");
+            return _makLinuxConnector.CheckRtuConnection(dto);
         }
 
         public Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            throw new System.NotImplementedException();
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} initializes RTU {dto.RtuAddresses.Main.ToStringA()}");
+            return _makLinuxConnector.InitializeRtu(dto);
         }
 
         public Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)

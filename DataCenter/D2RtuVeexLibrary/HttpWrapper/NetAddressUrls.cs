@@ -3,7 +3,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public static class NetAddressVeexUrls
+    public static class NetAddressUrls
     {
         public static string GetVeexRtuUriHost(this NetAddress netAddress)
         {
@@ -15,6 +15,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public static string GetVeexRtuBaseUri(this NetAddress netAddress)
         {
             return $"http://{netAddress.ToStringA()}/api/v1/";
+        }
+
+        public static string GetMakLinuxBaseUri(this NetAddress netAddress)
+        {
+            return $"http://{netAddress.ToStringA()}/";
         }
     }
 }

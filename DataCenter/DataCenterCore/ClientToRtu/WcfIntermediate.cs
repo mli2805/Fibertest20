@@ -26,6 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ManyChangesToBaseRefs _manyChangesToBaseRefs;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
+        private readonly ClientToLinuxRtuHttpTransmitter _clientToLinuxRtuHttpTransmitter;
 
         private readonly DoubleAddress _serverDoubleAddress;
 
@@ -35,7 +36,8 @@ namespace Iit.Fibertest.DataCenterCore
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
             BaseRefsCheckerOnServer baseRefsChecker, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             IFtSignalRClient ftSignalRClient, ManyChangesToBaseRefs manyChangesToBaseRefs,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
+            ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
         {
             _globalScope = globalScope;
             _logFile = logFile;
@@ -51,6 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
             _manyChangesToBaseRefs = manyChangesToBaseRefs;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+            _clientToLinuxRtuHttpTransmitter = clientToLinuxRtuHttpTransmitter;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
@@ -62,7 +65,8 @@ namespace Iit.Fibertest.DataCenterCore
             var clientStation = _clientsCollection.Get(dto.ConnectionId);
             _logFile.AppendLine($"Client {clientStation} sent initialize RTU {dto.RtuId.First6()} request");
 
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, clientStation?.UserName, out RtuOccupationState currentState))
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization,
+                    clientStation?.UserName, out RtuOccupationState currentState))
             {
                 return new RtuInitializedDto()
                 {
@@ -79,9 +83,18 @@ namespace Iit.Fibertest.DataCenterCore
                 // (it is an ideological requirement)
                 dto.ServerAddresses.HasReserveAddress = false;
 
-            var rtuInitializedDto = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.InitializeRtuAsync(dto)
-                : await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto);
+            RtuInitializedDto rtuInitializedDto;
+            switch (dto.RtuAddresses.Main.Port)
+            {
+                case (int)TcpPorts.RtuListenTo: 
+                    rtuInitializedDto = await _clientToRtuTransmitter.InitializeRtuAsync(dto); break;
+                case (int)TcpPorts.RtuVeexListenTo:
+                    rtuInitializedDto = await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto); break;
+                case (int)TcpPorts.RtuListenToHttp:
+                    rtuInitializedDto = await _clientToLinuxRtuHttpTransmitter.InitializeRtuAsync(dto); break;
+                default:
+                    return new RtuInitializedDto(ReturnCode.Error);
+            }
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", rtuInitializedDto.ToCamelCaseJson());
 

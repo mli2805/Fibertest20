@@ -18,7 +18,7 @@ namespace Iit.Fibertest.RtuDaemon
         public string CheckApi()
         {
             _logger.Info(Logs.RtuService, "MiscController CheckApi");
-            return "Fibertest dotnet 6.0 RTU HTTP service greets you!";
+            return "Fibertest dotnet 6.0 RTU HTTP service greets you!" + Environment.NewLine + Environment.NewLine;
         }
     }
 }

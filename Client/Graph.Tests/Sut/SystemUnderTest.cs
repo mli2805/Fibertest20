@@ -250,6 +250,7 @@ namespace Graph.Tests
             builder.RegisterType<D2RtuVeexLayer1>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer2>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer3>().SingleInstance();
+            builder.RegisterType<MakLinuxHttpManager>().As<IMakLinuxConnector>().SingleInstance();
             builder.RegisterType<SmsSender>().InstancePerLifetimeScope();
             builder.RegisterType<SmsManager>().InstancePerLifetimeScope();
             builder.RegisterType<Smtp>().InstancePerLifetimeScope();
