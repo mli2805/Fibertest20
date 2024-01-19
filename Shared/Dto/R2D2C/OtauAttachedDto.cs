@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class OtauAttachedDto
+    public class OtauAttachedDto : RequestAnswer
     {
         [DataMember]
         public Guid OtauId { get; set; }
@@ -15,10 +15,10 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public bool IsAttached { get; set; }
 
-        [DataMember]
-        public ReturnCode ReturnCode { get; set; }
-        [DataMember]
-        public string ErrorMessage { get; set; }
+        //[DataMember]
+        //public ReturnCode ReturnCode { get; set; }
+        //[DataMember]
+        //public string ErrorMessage { get; set; }
 
         [DataMember]
         public string Serial { get; set; }
@@ -30,9 +30,8 @@ namespace Iit.Fibertest.Dto
         {
         }
 
-        public OtauAttachedDto(ReturnCode returnCode)
+        public OtauAttachedDto(ReturnCode returnCode) : base(returnCode)
         {
-            ReturnCode = returnCode;
         }
     }
 }

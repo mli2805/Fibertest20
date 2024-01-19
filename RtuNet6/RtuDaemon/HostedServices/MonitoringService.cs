@@ -11,7 +11,7 @@ public class MonitoringService : BackgroundService
     private readonly ILogger<MonitoringService> _logger;
     private readonly RtuManager _rtuManager;
 
-    public MonitoringService(IWritableConfig<RtuConfig> config, ILogger<MonitoringService> logger, 
+    public MonitoringService(IWritableConfig<RtuConfig> config, ILogger<MonitoringService> logger,
         RtuManager rtuManager)
     {
         _config = config;
@@ -24,7 +24,7 @@ public class MonitoringService : BackgroundService
         var pid = Process.GetCurrentProcess().Id;
         var tid = Thread.CurrentThread.ManagedThreadId;
         _logger.Info(Logs.RtuManager, $"RTU monitoring service started. Process {pid}, thread {tid}");
-            
+
         await DoWork(stoppingToken);
     }
 

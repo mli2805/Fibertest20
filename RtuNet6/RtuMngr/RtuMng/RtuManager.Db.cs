@@ -30,7 +30,7 @@ public partial class RtuManager
     private async Task<MonitoringPort?> GetNextPortForMonitoring()
     {
         using var scope = _serviceProvider.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<MonitoringPortRepository>();
+        var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
         var allPorts = await repo.GetAll();
 
         var oldest = allPorts.MinBy(p => p.LastMadeTimestamp);
@@ -40,7 +40,7 @@ public partial class RtuManager
     private async Task<MonitoringPort?> GetMonitoringPort(string serial, int opticalPort)
     {
         using var scope = _serviceProvider.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<MonitoringPortRepository>();
+        var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
         var list = await repo.GetAll();
         return list.FirstOrDefault(p => p.CharonSerial == serial && p.OpticalPort == opticalPort);
     }
@@ -49,14 +49,14 @@ public partial class RtuManager
     private async Task UpdateMonitoringPort(MonitoringPort monitoringPort)
     {
         using var scope = _serviceProvider.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<MonitoringPortRepository>();
+        var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
         await repo.AddOrUpdate(monitoringPort);
     }
 
     private async Task<int> CreateNewQueue(List<PortWithTraceDto> ports)
     {
         using var scope = _serviceProvider.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<MonitoringPortRepository>();
+        var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
         var oldPorts = await repo.GetAll();
 
         var newPorts = new List<MonitoringPort>();

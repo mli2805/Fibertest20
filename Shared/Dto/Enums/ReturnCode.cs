@@ -5,7 +5,8 @@
         Error = 0x0,
         Ok = 1,
         InProgress = 2,
-        Queued = 3,
+        TimeOutExpired = 3,
+        NotFound = 4,
 
         ClientCleanedAsDead = 10,
 
@@ -60,6 +61,10 @@
         C2RWcfOperationError  = 2022,
 
         D2RHttpError = 2100,
+
+        SerializationError = 2201,
+        DeserializationError = 2202,
+        UnknownCommand = 2211,
 
         DbError = 3000,
         DbInitializedSuccessfully = 3001,

@@ -141,7 +141,9 @@
     <Compile Include="ForWebApi\RtuTree\OtauWebDto.cs" />
     <Compile Include="ForWebApi\RtuTree\RtuDto.cs" />
     <Compile Include="ForWebApi\RtuTree\TraceDto.cs" />
+    <Compile Include="R2D\InitializationResult.cs" />
     <Compile Include="R2D\RtuCurrentStateDto.cs" />
+    <Compile Include="R2D\RtuOperationResultDto.cs" />
     <Compile Include="RtuOccupy\OccupyRtuDto.cs" />
     <Compile Include="RtuOccupy\RtuOccupation.cs" />
     <Compile Include="Underlying\AccidentInSor.cs" />

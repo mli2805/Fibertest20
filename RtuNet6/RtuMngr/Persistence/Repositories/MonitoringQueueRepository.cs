@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.RtuMngr;
 
-public class MonitoringPortRepository
+public class MonitoringQueueRepository
 {
     private static readonly IMapper Mapper = new MapperConfiguration(
         cfg => cfg.AddProfile<MappingEfProfile>()).CreateMapper();
     private readonly RtuContext _rtuContext;
 
-    public MonitoringPortRepository(RtuContext rtuContext)
+    public MonitoringQueueRepository(RtuContext rtuContext)
     {
         _rtuContext = rtuContext;
     }

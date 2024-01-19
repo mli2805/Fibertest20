@@ -38,14 +38,6 @@ public partial class RtuManager
         set { lock (_lastSuccessfulMeasTimestampLocker) { _lastSuccessfulMeasTimestamp = value; } }
     }
 
-    private readonly object _isRtuInitializedLocker = new object();
-    private bool _isRtuInitialized;
-    public bool IsRtuInitialized
-    {
-        get { lock (_isRtuInitializedLocker) { return _isRtuInitialized; } }
-        set { lock (_isRtuInitializedLocker) { _isRtuInitialized = value; } }
-    }
-
     private readonly object _currentStepLocker = new object();
     private CurrentMonitoringStepDto _currentStep;
     public CurrentMonitoringStepDto CurrentStep
@@ -54,14 +46,20 @@ public partial class RtuManager
         set { lock (_currentStepLocker) { _currentStep = value; } }
     }
 
+    private readonly object _initializationResultLocker = new object();
+    private InitializationResult? _initializationResult;
+    public InitializationResult? InitializationResult
+    {
+        get { lock (_initializationResultLocker) { return _initializationResult; } }
+        set { lock (_initializationResultLocker) { _initializationResult = value; } }
+    }
 
 
     public RtuManager(IWritableConfig<RtuConfig> config,
         ILogger<RtuManager> logger,
-        InterOpWrapper interOpWrapper, OtdrManager otdrManager, 
+        InterOpWrapper interOpWrapper, OtdrManager otdrManager,
         IServiceProvider serviceProvider)
     {
-        IsRtuInitialized = false;
         _currentStep = new CurrentMonitoringStepDto() { Step = MonitoringCurrentStep.Idle };
         _config = config;
         _logger = logger;
@@ -72,7 +70,4 @@ public partial class RtuManager
         _serviceProvider = serviceProvider;
     }
 
-  
-
-   
 }

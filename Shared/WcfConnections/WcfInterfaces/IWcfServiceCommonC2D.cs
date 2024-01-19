@@ -35,6 +35,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
 
         [OperationContract]
+        Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto);
+
+        [OperationContract]
         Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto);
 
         [OperationContract]

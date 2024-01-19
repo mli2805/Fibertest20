@@ -27,7 +27,13 @@ namespace Iit.Fibertest.DataCenterCore
         public Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} initializes RTU {dto.RtuAddresses.Main.ToStringA()}");
-            return _makLinuxConnector.InitializeRtu(dto);
+            return _makLinuxConnector.InitializeRtu(dto); // could return InProgress or RtuIsBusy
+        }
+
+        public Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
+        {
+            _logFile.AppendLine($"GetRtuCurrentState from {dto.RtuDoubleAddress.Main.ToStringA()}");
+            return _makLinuxConnector.GetRtuCurrentState(dto);
         }
 
         public Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)

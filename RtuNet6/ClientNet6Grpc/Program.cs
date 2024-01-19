@@ -30,7 +30,7 @@ namespace Iit.Fibertest.ClientNet6Grpc
             var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
             using var httpResponse =
-                await httpClient.PostAsync("http://localhost:11980/rtu/enqueue-long-operation", stringContent);
+                await httpClient.PostAsync("http://localhost:11980/rtu/start-long-operation", stringContent);
             var answer = await httpResponse.Content.ReadFromJsonAsync<RequestAnswer>();
             Console.WriteLine(answer != null
                 ? $"Server HTTP answer: {answer.ReturnCode}"
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.ClientNet6Grpc
 
             var dto2 = new ApplyMonitoringSettingsDto();
             using var httpResponse2 =
-                await httpClient.PostAsJsonAsyncMy("http://localhost:11980/rtu/enqueue-long-operation", dto2);
+                await httpClient.PostAsJsonAsyncMy("http://localhost:11980/rtu/start-long-operation", dto2);
             var answer2 = await httpResponse2.Content.ReadFromJsonAsync<RequestAnswer>();
             Console.WriteLine(answer2 != null
                 ? $"Server HTTP answer: {answer2.ReturnCode}"

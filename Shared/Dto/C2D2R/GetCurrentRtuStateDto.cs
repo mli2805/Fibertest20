@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
@@ -10,7 +9,12 @@ namespace Iit.Fibertest.Dto
         public string ClientIp { get; set; }
         [DataMember]
         public string ConnectionId { get; set; }
+
+
+        // When client polling RTU for initialization result - client should fill RtuDoubleAddress from Initialization view
+        // When data-center polling RTU - polling thread fills RtuDoubleAddress from WriteModel
+
         [DataMember]
-        public Guid RtuId { get; set; }
+        public DoubleAddress RtuDoubleAddress { get; set; }
     }
 }

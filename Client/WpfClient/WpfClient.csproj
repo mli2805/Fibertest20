@@ -134,11 +134,11 @@
     </Compile>
     <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentViewsManager.cs" />
-    <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml.cs">
+    <Compile Include="Forms\RtuForms\RtuInitialize\AskVeexSerial\RtuAskSerialView.xaml.cs">
       <DependentUpon>RtuAskSerialView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RtuForms\RtuInitialize\RtuAskSerialViewModel.cs" />
-    <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializedDtoExt.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\AskVeexSerial\RtuAskSerialViewModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\ResultMessagesExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeModelExt.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
     <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentLineModel.cs" />
@@ -771,7 +771,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\RtuForms\RtuInitialize\RtuAskSerialView.xaml">
+    <Page Include="Forms\RtuForms\RtuInitialize\AskVeexSerial\RtuAskSerialView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

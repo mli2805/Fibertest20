@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
+    [DataContract]
     public class RequestAnswer
     {
         [DataMember]
@@ -11,8 +12,6 @@ namespace Iit.Fibertest.Dto
         public string ErrorMessage { get; set; }
         [DataMember]
         public RtuOccupationState RtuOccupationState { get; set; }
-        [DataMember]
-        public Guid LongOperationGuid { get; set; }
 
         public RequestAnswer()
         {

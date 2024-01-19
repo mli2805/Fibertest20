@@ -95,45 +95,41 @@ namespace Iit.Fibertest.Client
             {
                 IsIdle = false;
                 IsCloseEnabled = false;
+                InitializeRtuDto initializeRtuDto;
                 RtuInitializedDto result;
 
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
                     if (!await FullModel.CheckConnectionBeforeInitialization())
                         return;
-                    var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == (int)TcpPorts.RtuListenTo
-                        ? RtuMaker.IIT
-                        : RtuMaker.VeEX;
+
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
 
-                    var initializeRtuDto = FullModel.CreateDto(rtuMaker, _currentUser);
+                    initializeRtuDto = FullModel.CreateDto(_currentUser);
                     initializeRtuDto.IsSynchronizationRequired = isSynchronizationRequired;
                     result = await _wcfServiceCommonC2D.InitializeRtuAsync(initializeRtuDto);
                 }
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
 
-                if (result.ReturnCode == ReturnCode.RtuUnauthorizedAccess)
+                if (result.ReturnCode == ReturnCode.InProgress)
                 {
-                    var vm = new RtuAskSerialViewModel();
-                    vm.Initialize(!FullModel.OriginalRtu.IsInitialized,
-                        FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().ToStringA(), result.Serial);
-                    _windowManager.ShowDialogWithAssignedOwner(vm);
-                    if (!vm.IsSavePressed) return;
-                    FullModel.OriginalRtu.Serial = vm.Serial.ToUpper();
-                    await InitializeRtu();
+                    result = await PollMakLinuxTillResult(initializeRtuDto.RtuAddresses);
                 }
-                else
+                else if (result.ReturnCode == ReturnCode.RtuUnauthorizedAccess)
                 {
-                    _logFile.AppendLine(result.CreateLogMessage());
-
-                    if (result.IsInitialized)
-                        FullModel.UpdateWithDto(result);
-
-                    if (result.IsInitialized && isSynchronizationRequired)
-                        await SynchronizeBaseRefs();
-
-                    _windowManager.ShowDialogWithAssignedOwner(result.CreateMessageBox(FullModel.OriginalRtu.Title));
+                    if (AskVeexSerial(result.Serial))
+                        await InitializeRtu();
+                    return;
                 }
+                _logFile.AppendLine(result.CreateLogMessage());
+
+                if (result.IsInitialized)
+                    FullModel.UpdateWithDto(result);
+
+                if (result.IsInitialized && isSynchronizationRequired)
+                    await SynchronizeBaseRefs();
+
+                _windowManager.ShowDialogWithAssignedOwner(result.CreateMessageBox(FullModel.OriginalRtu.Title));
             }
             catch (Exception e)
             {
@@ -147,6 +143,32 @@ namespace Iit.Fibertest.Client
                 IsCloseEnabled = true;
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
             }
+        }
+
+        private bool AskVeexSerial(string oldSerial)
+        {
+            var vm = new RtuAskSerialViewModel();
+            vm.Initialize(!FullModel.OriginalRtu.IsInitialized,
+                FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().ToStringA(), oldSerial);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (!vm.IsSavePressed) return false;
+            FullModel.OriginalRtu.Serial = vm.Serial.ToUpper();
+            return true;
+        }
+
+        private async Task<RtuInitializedDto> PollMakLinuxTillResult(DoubleAddress rtuDoubleAddress)
+        {
+            var count = 18; // 18 * 5 sec = 90 sec limit
+            var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
+            while (--count >= 0)
+            {
+                await Task.Delay(5000);
+                var state = await _wcfServiceCommonC2D.GetRtuCurrentState(requestDto);
+                if (state.LastInitializationResult != null)
+                    return state.LastInitializationResult.Result;
+            }
+
+            return new RtuInitializedDto(ReturnCode.TimeOutExpired);
         }
 
         private async Task SynchronizeBaseRefs()
@@ -165,10 +187,10 @@ namespace Iit.Fibertest.Client
                 var list = _readModel.CreateReSendDtos(FullModel.OriginalRtu, _currentUser.ConnectionId).ToList();
                 foreach (var reSendBaseRefsDto in list)
                 {
-                    _commonStatusBarViewModel.StatusBarMessage2 
+                    _commonStatusBarViewModel.StatusBarMessage2
                         = string.Format(Resources.SID_Sending_base_refs_for_port__0_, reSendBaseRefsDto.OtauPortDto.ToStringB());
                     var resultDto = await _wcfServiceCommonC2D.ReSendBaseRefAsync(reSendBaseRefsDto);
-                    _commonStatusBarViewModel.StatusBarMessage2 = 
+                    _commonStatusBarViewModel.StatusBarMessage2 =
                         // string.Format(Resources.SID_Sending_base_refs_for_port__0_, reSendBaseRefsDto.OtauPortDto.ToStringB()) + @"   " + 
                         resultDto.ReturnCode.GetLocalizedString();
                 }

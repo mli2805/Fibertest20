@@ -171,6 +171,13 @@ namespace Iit.Fibertest.DataCenterCore
             return await _wcfIntermediate.InitializeRtuAsync(dto);
         }
 
+        public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
+        {
+            var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(dto);
+            _logFile.AppendLine($"state initialization is null - {state.LastInitializationResult == null}");
+            return state;
+        }
+
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
             var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
@@ -574,6 +581,12 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var sorBytes = await _sorFileRepository.GetSorBytesAsync(sorFileId);
             return RftsEventsFactory.Create(sorBytes);
+        }
+
+        public async Task<RtuCurrentStateDto> SayHello(string name)
+        {
+            await Task.Delay(0);
+            return new RtuCurrentStateDto(ReturnCode.Ok);
         }
     }
 

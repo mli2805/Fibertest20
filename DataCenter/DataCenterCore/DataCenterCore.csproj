@@ -81,6 +81,7 @@
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="JsonUtil.cs" />
     <Compile Include="MakLinuxHttp\IMakLinuxConnector.cs" />
+    <Compile Include="MakLinuxHttp\MakLinuxHttpManager.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
     <Compile Include="OutOfTurn\OutOfTurnProcessor.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="PON\TrapParser.cs" />
     <Compile Include="PON\TrapParserResult.cs" />
     <Compile Include="PON\ZteTrapParser.cs" />
+    <Compile Include="RtuLinuxPollster\RtuLinuxPollsterThread.cs" />
     <Compile Include="RtuResultsProcessing\CommonBopProcessor.cs" />
     <Compile Include="RtuResultsProcessing\VeexCompletedTestsProcessorThread.cs" />
     <Compile Include="SignalRNudger.cs" />

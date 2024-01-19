@@ -7,8 +7,12 @@ namespace Iit.Fibertest.Client
 {
     public static class RtuInitializeModelExt
     {
-        public static InitializeRtuDto CreateDto(this RtuInitializeModel fullModel, RtuMaker rtuMaker, CurrentUser currentUser)
+        public static InitializeRtuDto CreateDto(this RtuInitializeModel fullModel, CurrentUser currentUser)
         {
+            var rtuMaker = fullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == (int)TcpPorts.RtuListenTo
+                ? RtuMaker.IIT
+                : RtuMaker.VeEX;
+
             if (fullModel.IsReserveChannelEnabled && fullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Port == -1)
                 fullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Port = rtuMaker == RtuMaker.IIT
                     ? (int)TcpPorts.RtuListenTo

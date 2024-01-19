@@ -1,6 +1,6 @@
 ﻿namespace Iit.Fibertest.RtuMngr
 {
-    public class EventInJsonEf
+    public class DtoInDbEf
     {
         public int Id { get; init; }
         public DateTime Registered { get; set; }

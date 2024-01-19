@@ -12,6 +12,7 @@ public static class RtuDependencyCollectionExtension
         return services
             .AddConfigAsInstance()
             .AddBootAndBackgroundServices()
+            .AddDb()
             .AddOther();
     }
 
@@ -27,25 +28,32 @@ public static class RtuDependencyCollectionExtension
         services.AddHostedService(x => x.GetService<Boot>()!);
         services.AddSingleton<MonitoringService>();
         services.AddHostedService(x => x.GetService<MonitoringService>()!);
-        // services.AddSingleton<HeartbeatService>();
-        // services.AddHostedService(x => x.GetService<HeartbeatService>()!);
+        services.AddSingleton<ExecutorService>();
+        services.AddHostedService(x => x.GetService<ExecutorService>()!);
+        return services;
+    }
+
+    private static IServiceCollection AddDb(this IServiceCollection services)
+    {
+        // !!!! DO NOT USE for c-tor injection !!!!
+        // get them in methods using IServiceProvider => scope => resolve
+
+        services.AddDbContext<RtuContext>(c => c.UseSqlite("Data Source=data/rtu.db;Cache=Shared"));
+        services.AddScoped<RtuContextInitializer>();
+        services.AddScoped<EventsRepository>();
+        services.AddScoped<MonitoringResultsRepository>();
+        services.AddScoped<LongOperationRepository>();
         return services;
     }
 
     private static IServiceCollection AddOther(this IServiceCollection services)
     {
-        services.AddDbContext<RtuContext>(c => c.UseSqlite("Data Source=data/rtu.db;Cache=Shared"));
-        services.AddScoped<RtuContextInitializer>();
-        services.AddScoped<EventsRepository>(); // get it in methods using IServiceProvider => scope => resolve
-        services.AddScoped<MonitoringResultsRepository>(); // get it in methods using IServiceProvider => scope => resolve
-
         services.AddSingleton<GreeterService>();
 
         services.AddSingleton<InterOpWrapper>();
         services.AddSingleton<OtdrManager>();
         services.AddSingleton<RtuManager>();
 
-        services.AddSingleton<LongOperationsQueue>();
         services.AddSingleton<CommandProcessor>();
         return services;
     }

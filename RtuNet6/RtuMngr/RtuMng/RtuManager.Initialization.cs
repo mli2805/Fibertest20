@@ -25,7 +25,8 @@ public partial class RtuManager
 
         var version = LogInitializationStart();
 
-        IsRtuInitialized = false;
+        //IsRtuInitialized = false;
+        InitializationResult = null;
 
         if (_config.Value.Charon.IsComPortAvailable)
         {
@@ -58,7 +59,8 @@ public partial class RtuManager
         _treeOfAcceptableMeasParams = _interOpWrapper.GetTreeOfAcceptableMeasParams();
         result2.AcceptableMeasParams = _treeOfAcceptableMeasParams;
 
-        IsRtuInitialized = true;
+        //IsRtuInitialized = true;
+        InitializationResult = new InitializationResult(result2);
         _logger.Info(Logs.RtuManager, "RTU initialized successfully!");
 
         // await _monitoringQueue.Load();

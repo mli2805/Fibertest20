@@ -41,7 +41,7 @@ namespace Iit.Fibertest.RtuMngr
 
         public async Task<ClientMeasurementStartedDto> DoClientMeasurement(DoClientMeasurementDto dto)
         {
-            if (!IsRtuInitialized)
+            if (InitializationResult == null)
             {
                 _logger.Info(Logs.RtuService, "I am initializing now. Ignore command.");
                 return new ClientMeasurementStartedDto(ReturnCode.RtuInitializationInProgress);

@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class RtuCurrentStateDto : RequestAnswer
+    public class RtuCurrentStateDto
     {
         [DataMember]
-        public Guid RtuId { get; set; }
-       
+        public ReturnCode ReturnCode { get; set; }
         [DataMember]
-        public bool IsRtuInitialized { get; set; }
+        public string ErrorMessage { get; set; }
+
         [DataMember]
-        public bool IsMonitoringOn { get; set; }
+        public InitializationResult LastInitializationResult { get; set; }
         [DataMember]
         public CurrentMonitoringStepDto CurrentStepDto { get; set; }
 
-        [DataMember]
-        public List<string> MessagesJson { get; set; } // MonitoringResultDto, BopStatusChangedDto
+        public RtuCurrentStateDto() { }
 
-        public RtuCurrentStateDto() {}
-
-        public RtuCurrentStateDto(ReturnCode returnCode) : base(returnCode)
+        public RtuCurrentStateDto(ReturnCode returnCode)
         {
+            ReturnCode = returnCode;
         }
     }
 }

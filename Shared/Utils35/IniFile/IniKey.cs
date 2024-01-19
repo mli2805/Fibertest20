@@ -37,6 +37,7 @@
         CheckHeartbeatEvery,
         ClientConnectionsPermittedGap,
         RtuHeartbeatPermittedGap,
+        MakLinuxPollsterGap,
         // General - WebApi
         NudgeSignalrTimeout,
 

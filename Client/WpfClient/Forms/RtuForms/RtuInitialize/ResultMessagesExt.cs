@@ -9,7 +9,7 @@ using Iit.Fibertest.Graph.RtuOccupy;
 
 namespace Iit.Fibertest.Client
 {
-    public static class RtuInitializedDtoExt
+    public static class ResultMessagesExt
     {
         public static MyMessageBoxViewModel CreateMessageBox(this RtuInitializedDto dto, string rtuTitle)
         {
