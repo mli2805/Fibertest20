@@ -9,11 +9,10 @@
 		<IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
 		<IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
 		<IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
-		<Title>RTU Daemon</Title>
+		<Title>RTU Manager library</Title>
 		<Company>IIT</Company>
-		<Product>RTU Daemon</Product>
-		<Description>RTU Daemon Description</Description>
-		<Version>2.5.0.0</Version>
+		<Product>RTU Manager library</Product>
+		<Version>2.5.0.1</Version>
 		<Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
 		<Authors>Leanid Marholin</Authors>
 	</PropertyGroup>

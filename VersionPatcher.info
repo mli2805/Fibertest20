@@ -1,2 +1,4 @@
-Copyright © IIT Minsk 2017-2023
+Copyright © IIT Minsk 2017-2024
 version should be set as parameter (VersionPatcher.exe 2.3.8.7777)
+changes will be made in /Properties/AssemblyInfo.cs in all projects where such file exists
+TODO: .net core projects Copyright and Version are stored in .csproj file

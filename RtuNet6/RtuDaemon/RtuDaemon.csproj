@@ -13,7 +13,7 @@
 		<Company>IIT</Company>
 		<Product>RTU Daemon</Product>
 		<Description>RTU Daemon Description</Description>
-		<Version>2.5.0.0</Version>
+		<Version>2.5.0.1</Version>
 		<Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
 		<Authors>Leanid Marholin</Authors>
 	</PropertyGroup>

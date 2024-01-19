@@ -22,41 +22,7 @@ namespace Iit.Fibertest.RtuDaemon
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<RequestAnswer> StartLongOperation(string json)
-        {
-            //using var scope = _serviceProvider.CreateScope();
-            //var repo = scope.ServiceProvider.GetRequiredService<LongOperationRepository>();
-            //var guid = await repo.PersistNewCommand(json);
-            //return new RequestAnswer(ReturnCode.Queued) {LongOperationGuid = guid};
-            await Task.Delay(0);
-            return Start(json);
-        }
-
-        public Task<RtuCurrentStateDto> GetCurrentState()
-        {
-            return Task.FromResult(new RtuCurrentStateDto(ReturnCode.Ok)
-            {
-                LastInitializationResult = _rtuManager.InitializationResult,
-                CurrentStepDto = _rtuManager.CurrentStep,
-            });
-        }
-
-        public async Task<RtuOperationResultDto> GetLongOperationResult(Guid commandGuid)
-        {
-            using var scope = _serviceProvider.CreateScope();
-            var repo = scope.ServiceProvider.GetRequiredService<LongOperationRepository>();
-            return await repo.CheckResultByCommandId(commandGuid);
-        }
-
-        public async Task<List<string>> GetMessages()
-        {
-            using var scope = _serviceProvider.CreateScope();
-            var eventRepository = scope.ServiceProvider.GetRequiredService<EventsRepository>();
-            var ff = await eventRepository.GetPortion(10);
-            return ff.Select(f => f.Json).ToList();
-        }
-
-        private RequestAnswer Start(string json)
+        public RequestAnswer StartLongOperation(string json)
         {
             var o = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
             if (o == null) 
@@ -75,10 +41,25 @@ namespace Iit.Fibertest.RtuDaemon
                         return new RequestAnswer(ReturnCode.RtuIsBusy);
                     Task.Factory.StartNew(() => _rtuManager.ApplyMonitoringSettings(dto));
                     return new RequestAnswer(ReturnCode.InProgress);
-
             }
             return new RequestAnswer(ReturnCode.UnknownCommand);
+        }
 
+        public Task<RtuCurrentStateDto> GetCurrentState()
+        {
+            return Task.FromResult(new RtuCurrentStateDto(ReturnCode.Ok)
+            {
+                LastInitializationResult = _rtuManager.InitializationResult,
+                CurrentStepDto = _rtuManager.CurrentStep,
+            });
+        }
+
+        public async Task<List<string>> GetMessages()
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var eventRepository = scope.ServiceProvider.GetRequiredService<EventsRepository>();
+            var ff = await eventRepository.GetPortion(10);
+            return ff.Select(f => f.Json).ToList();
         }
 
         private async Task<RequestAnswer> Do(string json)

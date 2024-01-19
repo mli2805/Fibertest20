@@ -1,7 +1,6 @@
 ﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNet6;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuDaemon;
 
@@ -9,9 +8,6 @@ namespace Iit.Fibertest.RtuDaemon;
 [Route("[controller]")]
 public class RtuController : ControllerBase
 {
-    private static readonly JsonSerializerSettings JsonSerializerSettings =
-        new() { TypeNameHandling = TypeNameHandling.All };
-
     private readonly ILogger<RtuController> _logger;
     private readonly CommandProcessor _commandProcessor;
 
@@ -32,7 +28,7 @@ public class RtuController : ControllerBase
             {
                 body = await reader.ReadToEndAsync();
             }
-            return await _commandProcessor.StartLongOperation(body);
+            return _commandProcessor.StartLongOperation(body);
         }
         catch (Exception e)
         {
@@ -41,28 +37,11 @@ public class RtuController : ControllerBase
         }
     }
 
-    [HttpGet("long-operation-result/{id}")]
-    public async Task<RtuOperationResultDto> GetLongOperationResult(string id)
-    {
-        try
-        {
-            _logger.Info(Logs.RtuService, "RtuController GetLongOperationResult");
-            var commandGuid = Guid.Parse(id);
-            return await _commandProcessor.GetLongOperationResult(commandGuid);
-        }
-        catch (Exception e)
-        {
-            _logger.Error(Logs.RtuService, $"{e.Message}");
-            return new RtuOperationResultDto(ReturnCode.Error) { ErrorMessage = e.Message };
-        }
-    }
-
     [HttpGet("current-state")]
     public async Task<RtuCurrentStateDto> GetCurrentState()
     {
         try
         {
-            _logger.Info(Logs.RtuService, "RtuController GetCurrentState");
             return await _commandProcessor.GetCurrentState();
         }
         catch (Exception e)
