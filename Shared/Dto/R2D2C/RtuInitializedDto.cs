@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class RtuInitializedDto
+    public class RtuInitializedDto : RequestAnswer
     {
         [DataMember]
         public RtuMaker Maker { get; set; }
@@ -30,12 +30,12 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public bool IsInitialized { get; set; }
-        [DataMember]
-        public ReturnCode ReturnCode { get; set; }
-        [DataMember]
-        public string ErrorMessage { get; set; }
-        [DataMember]
-        public RtuOccupationState RtuOccupationState { get; set; }
+        //[DataMember]
+        //public ReturnCode ReturnCode { get; set; }
+        //[DataMember]
+        //public string ErrorMessage { get; set; }
+        //[DataMember]
+        //public RtuOccupationState RtuOccupationState { get; set; }
 
         [DataMember]
         public DoubleAddress RtuAddresses { get; set; }
@@ -69,9 +69,8 @@ namespace Iit.Fibertest.Dto
         {
         }
 
-        public RtuInitializedDto(ReturnCode returnCode)
+        public RtuInitializedDto(ReturnCode returnCode) : base(returnCode)
         {
-            ReturnCode = returnCode;
         }
     }
 }

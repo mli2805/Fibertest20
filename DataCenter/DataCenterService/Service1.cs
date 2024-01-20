@@ -29,6 +29,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly VeexCompletedTestsFetcher _veexCompletedTestsFetcher;
         private readonly VeexCompletedTestsProcessorThread _veexCompletedTestsProcessorThread;
         private readonly WebApiChecker _webApiChecker;
+        private readonly RtuLinuxPollsterThread _rtuLinuxPollsterThread;
         private readonly SmsSender _smsSender;
         private readonly SnmpTrapListener _snmpTrapListener;
         private readonly OutOfTurnProcessor _outOfTurnProcessor;
@@ -45,7 +46,7 @@ namespace Iit.Fibertest.DataCenterService
             EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
             VeexCompletedTestsFetcher veexCompletedTestsFetcher, VeexCompletedTestsProcessorThread veexCompletedTestsProcessorThread,
-            WebApiChecker webApiChecker,
+            WebApiChecker webApiChecker, RtuLinuxPollsterThread rtuLinuxPollsterThread,
             SmsSender smsSender, SnmpTrapListener snmpTrapListener, OutOfTurnProcessor outOfTurnProcessor,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
@@ -68,6 +69,7 @@ namespace Iit.Fibertest.DataCenterService
             _veexCompletedTestsFetcher = veexCompletedTestsFetcher;
             _veexCompletedTestsProcessorThread = veexCompletedTestsProcessorThread;
             _webApiChecker = webApiChecker;
+            _rtuLinuxPollsterThread = rtuLinuxPollsterThread;
             _smsSender = smsSender;
             _snmpTrapListener = snmpTrapListener;
             _outOfTurnProcessor = outOfTurnProcessor;
@@ -139,6 +141,7 @@ namespace Iit.Fibertest.DataCenterService
             _msmqHandler.Start();
             _veexCompletedTestsFetcher.Start();
             _veexCompletedTestsProcessorThread.Start();
+            _rtuLinuxPollsterThread.Start();
             _smsSender.Start();
             _snmpTrapListener.Start();
             _outOfTurnProcessor.Start();

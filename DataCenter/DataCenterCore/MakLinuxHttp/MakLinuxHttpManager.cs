@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             return result;
         }
+
         public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
         {
             var uri = dto.RtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/current-state";
@@ -66,7 +66,6 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"GetRtuCurrentState: {e.Message}");
                 return new RtuCurrentStateDto(ReturnCode.D2RHttpError)
                 {
                     ErrorMessage = e.Message
@@ -79,7 +78,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto dto)
         {
-            var httpRequestResult = new HttpRequestResult();
             var uri = dto.RtuAddresses.Main.GetMakLinuxBaseUri() + "rtu/start-long-operation";
             var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
             var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
@@ -87,15 +85,11 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var response = await HttpClient.SendAsync(request);
                 if (!response.IsSuccessStatusCode)
-                    httpRequestResult.ErrorMessage = response.ReasonPhrase;
-                if (response.StatusCode == HttpStatusCode.Created)
-                    httpRequestResult.ResponseJson = response.Headers.Location.ToString();
-                else
-                    httpRequestResult.ResponseJson = await response.Content.ReadAsStringAsync(); // if error - it could be explanation
-                httpRequestResult.HttpStatusCode = response.StatusCode;
+                    return new RtuInitializedDto(ReturnCode.D2RHttpError) 
+                        {ErrorMessage = $"StatusCode: {response.StatusCode}; "+ response.ReasonPhrase};
 
-
-                var result = new RtuInitializedDto(ReturnCode.InProgress);
+                var responseJson = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<RtuInitializedDto>(responseJson);
                 return result;
             }
             catch (Exception e)
@@ -104,7 +98,6 @@ namespace Iit.Fibertest.DataCenterCore
                 return new RtuInitializedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
             }
         }
-
 
         private HttpRequestMessage CreateRequestMessage(string url, string method,
             string contentRepresentationType = null, string jsonData = null)

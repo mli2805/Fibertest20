@@ -14,7 +14,7 @@ namespace Iit.Fibertest.RtuDaemon
         private readonly RtuManager _rtuManager;
         private readonly IServiceProvider _serviceProvider;
 
-        public CommandProcessor(ILogger<CommandProcessor> logger, 
+        public CommandProcessor(ILogger<CommandProcessor> logger,
             RtuManager rtuManager, IServiceProvider serviceProvider)
         {
             _logger = logger;
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.RtuDaemon
         public RequestAnswer StartLongOperation(string json)
         {
             var o = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-            if (o == null) 
+            if (o == null)
                 return new RequestAnswer(ReturnCode.DeserializationError);
             _logger.Info(Logs.RtuService, $"{o.GetType().Name} request received");
 
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.RtuDaemon
                     if (_rtuManager.InitializationResult == null)
                         return new RequestAnswer(ReturnCode.RtuIsBusy);
                     Task.Factory.StartNew(() => _rtuManager.InitializeRtu(dto, false));
-                    return new RequestAnswer(ReturnCode.InProgress);
+                    return new RtuInitializedDto(ReturnCode.InProgress) { Version = _rtuManager.Version };
                 case ApplyMonitoringSettingsDto dto:
                     if (_rtuManager.InitializationResult == null)
                         return new RequestAnswer(ReturnCode.RtuIsBusy);
@@ -44,6 +44,22 @@ namespace Iit.Fibertest.RtuDaemon
             }
             return new RequestAnswer(ReturnCode.UnknownCommand);
         }
+
+        //public RtuInitializedDto StartInitialization(string json)
+        //{
+        //    var dto = JsonConvert.DeserializeObject<InitializeRtuDto>(json, JsonSerializerSettings);
+        //    if (dto == null)
+        //        return new RtuInitializedDto(ReturnCode.DeserializationError);
+        //    if (_rtuManager.InitializationResult == null)
+        //        return new RtuInitializedDto(ReturnCode.RtuIsBusy);
+
+        //    Task.Factory.StartNew(() => _rtuManager.InitializeRtu(dto, false));
+        //    return new RtuInitializedDto(ReturnCode.InProgress)
+        //    {
+        //        RtuId = dto.RtuId,
+        //        Version = _rtuManager.Version
+        //    };
+        //}
 
         public Task<RtuCurrentStateDto> GetCurrentState()
         {

@@ -58,8 +58,6 @@ namespace Iit.Fibertest.DataCenterCore
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
 
-        // Web and Desktop clients send different dtos for RTU initialization
-        // so separate WCF channels send adapted command to this Intermediate class
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             var clientStation = _clientsCollection.Get(dto.ConnectionId);
@@ -98,6 +96,12 @@ namespace Iit.Fibertest.DataCenterCore
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", rtuInitializedDto.ToCamelCaseJson());
 
+            if (rtuInitializedDto.ReturnCode == ReturnCode.InProgress &&
+                dto.RtuAddresses.Main.Port == (int)TcpPorts.RtuListenToHttp)
+            {
+                rtuInitializedDto = await PollMakLinuxTillResult(dto.RtuAddresses);
+            }
+
             if (rtuInitializedDto.IsInitialized)
             {
                 try
@@ -125,6 +129,22 @@ namespace Iit.Fibertest.DataCenterCore
             var rtuInitializationToGraphApplier = _globalScope.Resolve<RtuInitializationToGraphApplier>();
             return await rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, rtuInitializedDto);
         }
+
+        private async Task<RtuInitializedDto> PollMakLinuxTillResult(DoubleAddress rtuDoubleAddress)
+        {
+            var count = 18; // 18 * 5 sec = 90 sec limit
+            var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
+            while (--count >= 0)
+            {
+                await Task.Delay(5000);
+                var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
+                if (state.LastInitializationResult != null)
+                    return state.LastInitializationResult.Result;
+            }
+
+            return new RtuInitializedDto(ReturnCode.TimeOutExpired);
+        }
+
 
         public async Task<BaseRefAssignedDto> SynchronizeBaseRefs(InitializeRtuDto dto)
         {

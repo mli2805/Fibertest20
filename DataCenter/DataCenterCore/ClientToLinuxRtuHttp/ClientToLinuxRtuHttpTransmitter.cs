@@ -32,7 +32,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
         {
-            _logFile.AppendLine($"GetRtuCurrentState from {dto.RtuDoubleAddress.Main.ToStringA()}");
             return _makLinuxConnector.GetRtuCurrentState(dto);
         }
 

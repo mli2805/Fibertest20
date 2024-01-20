@@ -79,6 +79,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<D2RtuVeexLayer3>().SingleInstance();
 
             builder.RegisterType<MakLinuxHttpManager>().As<IMakLinuxConnector>().SingleInstance();
+            builder.RegisterType<RtuLinuxPollsterThread>().SingleInstance();
 
             builder.RegisterType<ServerParameterizer>().As<IParameterizer>().SingleInstance();
 

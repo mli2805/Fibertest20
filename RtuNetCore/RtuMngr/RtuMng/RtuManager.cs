@@ -30,6 +30,8 @@ public partial class RtuManager
     private bool _wasMonitoringOn;
     public bool IsMonitoringOn;
 
+    public string Version { get; set; } = null!;
+
     private readonly object _lastSuccessfulMeasTimestampLocker = new object();
     private DateTime _lastSuccessfulMeasTimestamp;
     public DateTime LastSuccessfulMeasTimestamp

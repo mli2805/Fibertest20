@@ -111,11 +111,7 @@ namespace Iit.Fibertest.Client
                 }
                 _commonStatusBarViewModel.StatusBarMessage2 = "";
 
-                if (result.ReturnCode == ReturnCode.InProgress)
-                {
-                    result = await PollMakLinuxTillResult(initializeRtuDto.RtuAddresses);
-                }
-                else if (result.ReturnCode == ReturnCode.RtuUnauthorizedAccess)
+                if (result.ReturnCode == ReturnCode.RtuUnauthorizedAccess)
                 {
                     if (AskVeexSerial(result.Serial))
                         await InitializeRtu();
@@ -156,21 +152,7 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private async Task<RtuInitializedDto> PollMakLinuxTillResult(DoubleAddress rtuDoubleAddress)
-        {
-            var count = 18; // 18 * 5 sec = 90 sec limit
-            var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
-            while (--count >= 0)
-            {
-                await Task.Delay(5000);
-                var state = await _wcfServiceCommonC2D.GetRtuCurrentState(requestDto);
-                if (state.LastInitializationResult != null)
-                    return state.LastInitializationResult.Result;
-            }
-
-            return new RtuInitializedDto(ReturnCode.TimeOutExpired);
-        }
-
+       
         private async Task SynchronizeBaseRefs()
         {
             var commands = new List<object>();

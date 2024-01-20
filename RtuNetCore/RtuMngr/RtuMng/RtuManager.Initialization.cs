@@ -23,7 +23,7 @@ public partial class RtuManager
 
         _config.Update(c => c.Monitoring.IsAutoBaseMeasurementInProgress = false);
 
-        var version = LogInitializationStart();
+        LogInitializationStart();
 
         //IsRtuInitialized = false;
         InitializationResult = null;
@@ -42,7 +42,7 @@ public partial class RtuManager
         if (result.ReturnCode != ReturnCode.Ok)
             return result;
 
-        result.Version = version;
+        result.Version = Version;
         result.Version2 = "";
 
         var result2 = dto != null
@@ -81,18 +81,16 @@ public partial class RtuManager
         return result2;
     }
 
-    private string LogInitializationStart()
+    private void LogInitializationStart()
     {
         var assembly = Assembly.GetExecutingAssembly();
         FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
         var creationTime = File.GetLastWriteTime(assembly.Location);
-        var version = $"{info.FileVersion}";
+        Version = $"{info.FileVersion}";
 
         var versionRtuManager = $"{info.FileVersion} built {creationTime:dd/MM/yyyy}";
         _logger.EmptyAndLog(Logs.RtuManager, $"RtuManager {versionRtuManager}");
         _logger.Info(Logs.RtuManager, $"RtuId {_config.Value.General.RtuId}");
-
-        return version;
     }
 
     public RequestAnswer FreeOtdr()
