@@ -44,6 +44,31 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        // Full dto with base refs (sorBytes) is serialized into json here and de-serialized on RTU
+        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto,
+            DoubleAddress rtuDoubleAddress)
+        {
+            // var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/assign-base-refs-json";
+            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
+            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
+            try
+            {
+                var response = await HttpClient.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                    return new BaseRefAssignedDto(ReturnCode.D2RHttpError)
+                    { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
+
+                var responseJson = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<BaseRefAssignedDto>(responseJson);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"TransmitBaseRefsToRtuAsync: {e.Message}");
+                return new BaseRefAssignedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
         {
             var uri = dto.RtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/current-state";
@@ -69,7 +94,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return new RtuCurrentStateDto(ReturnCode.D2RHttpError)
                 {
                     ErrorMessage = e.Message
-                }; 
+                };
             }
         }
 
@@ -78,19 +103,18 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto dto)
         {
-            var uri = dto.RtuAddresses.Main.GetMakLinuxBaseUri() + "rtu/start-long-operation";
+            var uri = dto.RtuAddresses.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
             var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
             var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
             try
             {
                 var response = await HttpClient.SendAsync(request);
                 if (!response.IsSuccessStatusCode)
-                    return new RtuInitializedDto(ReturnCode.D2RHttpError) 
-                        {ErrorMessage = $"StatusCode: {response.StatusCode}; "+ response.ReasonPhrase};
+                    return new RtuInitializedDto(ReturnCode.D2RHttpError)
+                    { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
 
                 var responseJson = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<RtuInitializedDto>(responseJson);
-                return result;
+                return JsonConvert.DeserializeObject<RtuInitializedDto>(responseJson);
             }
             catch (Exception e)
             {

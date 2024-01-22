@@ -6,13 +6,12 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
-    public async Task<BaseRefAssignedDto> SaveBaseRefs(AssignBaseRefsDto dto)
+    public BaseRefAssignedDto SaveBaseRefs(AssignBaseRefsDto dto)
     {
-        await Task.Delay(1);
         try
         {
             var fibertestPath = FileOperations.GetMainFolder();
-            var portDataFolder = Path.Combine(fibertestPath, @"PortData");
+            var portDataFolder = Path.Combine(fibertestPath, @"data");
 
             if (!Directory.Exists(portDataFolder))
             {

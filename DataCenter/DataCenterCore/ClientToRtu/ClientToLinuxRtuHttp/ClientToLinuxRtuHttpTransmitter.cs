@@ -45,9 +45,9 @@ namespace Iit.Fibertest.DataCenterCore
             throw new System.NotImplementedException();
         }
 
-        public Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto)
+        public Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto, DoubleAddress rtuDoubleAddress)
         {
-            throw new System.NotImplementedException();
+            return _makLinuxConnector.TransmitBaseRefsToRtuAsync(dto, rtuDoubleAddress);
         }
 
         public Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)

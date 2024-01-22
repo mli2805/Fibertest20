@@ -17,18 +17,18 @@ public class RtuController : ControllerBase
         _commandProcessor = commandProcessor;
     }
 
-    [HttpPost("start-long-operation")]
+    [HttpPost("do-operation")]
     public async Task<RequestAnswer> StartLongOperation()
     {
         try
         {
-            _logger.Info(Logs.RtuService, "RtuController StartLongOperation");
+            _logger.Info(Logs.RtuService, "RtuController HttpPost do-operation endpoint");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
                 body = await reader.ReadToEndAsync();
             }
-            return _commandProcessor.StartLongOperation(body);
+            return _commandProcessor.DoOperation(body);
         }
         catch (Exception e)
         {
@@ -51,6 +51,35 @@ public class RtuController : ControllerBase
             return error;
         }
     }
+
+   
+    // // Full dto with base refs (sorBytes) is serialized into json on server and de-serialized here
+    // [HttpPost("assign-base-refs-json")]
+    // public async Task<BaseRefAssignedDto> AssignBaseRefsJson()
+    // {
+    //     _logger.Info(Logs.RtuService, "RtuController AssignBaseRefsJson started");
+    //     try
+    //     {
+    //         string body;
+    //         using (var reader = new StreamReader(Request.Body))
+    //         {
+    //             body = await reader.ReadToEndAsync();
+    //         }
+    //         var dto = JsonConvert.DeserializeObject<AssignBaseRefsDto>(body, JsonSerializerSettings);
+    //         if (dto == null)
+    //         {
+    //             _logger.Info(Logs.RtuService, "Failed deserialize base refs dto");
+    //             return new BaseRefAssignedDto(ReturnCode.DeserializationError);
+    //         }
+    //
+    //         return _commandProcessor.SaveBaseRefs(dto);
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         _logger.Error(Logs.RtuService, $"{e.Message}");
+    //         return new BaseRefAssignedDto(ReturnCode.BaseRefAssignmentFailed) { ErrorMessage = e.Message };
+    //     }
+    // }
 
 
     // MonitoringResults, BopStateChanges, etc

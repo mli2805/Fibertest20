@@ -1,5 +1,6 @@
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuMngr;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.UtilsNetCore;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Serilog;
@@ -56,7 +57,7 @@ namespace Iit.Fibertest.RtuDaemon
             app.Run();
         }
 
-        
+
         static void SetCurrentDirectoryAndCreateDataDirectory(WebApplicationBuilder builder)
         {
             if (builder.Environment.IsEnvironment("Test"))
@@ -65,7 +66,7 @@ namespace Iit.Fibertest.RtuDaemon
                 // everything should be in memory
                 return;
             }
-    
+
             // By default Visual Studio sets current directory of .NET Core Web projects (including Api)
             // to the /app directory. This could be handy if there are some CSS or JS files
             // which user can change using Visual Studio and expect to see the result in browser immediately.
@@ -73,11 +74,19 @@ namespace Iit.Fibertest.RtuDaemon
 
             // We don't need to edit anything on the fly on our Api project, so 
             // let's change the current directory to project output directory.
-            var assemblyLocation = AppContext.BaseDirectory;
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(assemblyLocation)!);
-    
-            // Create a directory for stored data (like sqlite database)
-            Directory.CreateDirectory("data");
+            // var assemblyLocation = AppContext.BaseDirectory;
+            // Directory.SetCurrentDirectory(Path.GetDirectoryName(assemblyLocation)!);
+            //
+            // // Create a directory for stored data (like sqlite database)
+            // Directory.CreateDirectory("data");
+
+            var fibertestPath = FileOperations.GetMainFolder();
+            var dataFolder = Path.Combine(fibertestPath, @"data");
+
+            if (!Directory.Exists(dataFolder))
+            {
+                Directory.CreateDirectory(dataFolder);
+            }
         }
 
     }

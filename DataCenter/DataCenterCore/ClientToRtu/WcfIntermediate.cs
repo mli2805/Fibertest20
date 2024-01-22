@@ -196,9 +196,7 @@ namespace Iit.Fibertest.DataCenterCore
             BaseRefAssignedDto transferResult = null;
             if (dto.OtauPortDto != null) // trace attached to the real port => send base to RTU
             {
-                transferResult = dto.RtuMaker == RtuMaker.IIT
-                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(dto)
-                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto);
+                transferResult = await _baseRefRepairmanIntermediary.TransmitBaseRefs(dto);
 
                 if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return transferResult;
@@ -227,6 +225,8 @@ namespace Iit.Fibertest.DataCenterCore
                 }
                 : transferResult ?? new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
         }
+
+      
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
         {
@@ -287,10 +287,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (!convertedDto.BaseRefs.Any())
                 return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
-            var transferResult = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(convertedDto)
-                : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(convertedDto);
-
+            var transferResult = await _baseRefRepairmanIntermediary.TransmitBaseRefs(convertedDto);
+            
             if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return transferResult;
 

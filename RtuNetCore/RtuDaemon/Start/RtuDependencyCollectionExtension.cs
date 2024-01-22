@@ -1,5 +1,6 @@
 ﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuMngr;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.UtilsNetCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +37,11 @@ public static class RtuDependencyCollectionExtension
         // !!!! DO NOT USE for c-tor injection !!!!
         // get them in methods using IServiceProvider => scope => resolve
 
-        services.AddDbContext<RtuContext>(c => c.UseSqlite("Data Source=data/rtu.db;Cache=Shared"));
+        var fibertestPath = FileOperations.GetMainFolder();
+        var dataFolder = Path.Combine(fibertestPath, @"data");
+
+        services.AddDbContext<RtuContext>(c =>
+            c.UseSqlite($"Data Source={dataFolder}/rtu.db;Cache=Shared"));
         services.AddScoped<RtuContextInitializer>();
         services.AddScoped<EventsRepository>();
         services.AddScoped<MonitoringResultsRepository>();

@@ -5,15 +5,15 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class BaseRefAssignedDto
+    public class BaseRefAssignedDto : RequestAnswer
     {
         [DataMember]
-        public ReturnCode ReturnCode { get; set; }
-
-        [DataMember]
         public BaseRefType BaseRefType { get; set; } // type of base ref where error happened
-        [DataMember]
-        public string ErrorMessage { get; set; }
+        //[DataMember]
+        //public string ErrorMessage { get; set; }
+        //[DataMember]
+        //public ReturnCode ReturnCode { get; set; }
+
 
         [DataMember]
         public int Landmarks { get; set; }
@@ -33,9 +33,6 @@ namespace Iit.Fibertest.Dto
         {
         }
 
-        public BaseRefAssignedDto(ReturnCode returnCode)
-        {
-            ReturnCode = returnCode;
-        }
+        public BaseRefAssignedDto(ReturnCode returnCode) : base(returnCode) {}
     }
 }

@@ -125,19 +125,8 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto, DoubleAddress rtuDoubleAddress)
         {
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new BaseRefAssignedDto()
-                {
-                    ReturnCode = ReturnCode.NoSuchRtu,
-                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
-                };
-            }
-
             if (dto.BaseRefs.All(b => b.BaseRefType != BaseRefType.Fast))
             {
                 var fastDto = await PrepareBaseRefDto(dto, BaseRefType.Fast);
@@ -162,7 +151,7 @@ namespace Iit.Fibertest.DataCenterCore
                 dto.BaseRefs.Add(baseRefDto);
             }
 
-            var result = await _d2RtuVeexLayer3.AssignBaseRefAsync(dto, rtuAddresses);
+            var result = await _d2RtuVeexLayer3.AssignBaseRefAsync(dto, rtuDoubleAddress);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");

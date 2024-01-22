@@ -191,25 +191,6 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        //public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
-        //{
-        //    var wcfConnection = _wcfFactory?.GetCommonC2DChannelFactory();
-        //    if (wcfConnection == null)
-        //        return new RtuCurrentStateDto(){ ReturnCode = ReturnCode.C2RWcfConnectionError };
-
-        //    try
-        //    {
-        //        var channel = wcfConnection.CreateChannel();
-        //        var result = await channel.GetRtuCurrentState(dto);
-        //        wcfConnection.Close();
-        //        return result;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return new RtuCurrentStateDto(){ ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
-        //    }
-        //}
-
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();

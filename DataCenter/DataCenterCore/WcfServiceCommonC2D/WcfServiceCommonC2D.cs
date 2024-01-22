@@ -402,9 +402,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = "RTU or trace not found!" };
 
             if (dto1.BaseRefs.Any())
-                return dto1.RtuMaker == RtuMaker.IIT
-                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(dto1)
-                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto1);
+            {
+                return await _baseRefRepairmanIntermediary.TransmitBaseRefs(dto1);
+            }
             return null;
         }
 

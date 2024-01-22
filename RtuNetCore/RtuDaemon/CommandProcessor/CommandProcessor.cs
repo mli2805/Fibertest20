@@ -22,7 +22,7 @@ namespace Iit.Fibertest.RtuDaemon
             _serviceProvider = serviceProvider;
         }
 
-        public RequestAnswer StartLongOperation(string json)
+        public RequestAnswer DoOperation(string json)
         {
             var o = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
             if (o == null)
@@ -36,6 +36,8 @@ namespace Iit.Fibertest.RtuDaemon
                         return new RequestAnswer(ReturnCode.RtuIsBusy);
                     Task.Factory.StartNew(() => _rtuManager.InitializeRtu(dto, false));
                     return new RtuInitializedDto(ReturnCode.InProgress) { Version = _rtuManager.Version };
+                case AssignBaseRefsDto dto:
+                    return _rtuManager.SaveBaseRefs(dto);
                 case ApplyMonitoringSettingsDto dto:
                     if (_rtuManager.InitializationResult == null)
                         return new RequestAnswer(ReturnCode.RtuIsBusy);
@@ -45,21 +47,10 @@ namespace Iit.Fibertest.RtuDaemon
             return new RequestAnswer(ReturnCode.UnknownCommand);
         }
 
-        //public RtuInitializedDto StartInitialization(string json)
-        //{
-        //    var dto = JsonConvert.DeserializeObject<InitializeRtuDto>(json, JsonSerializerSettings);
-        //    if (dto == null)
-        //        return new RtuInitializedDto(ReturnCode.DeserializationError);
-        //    if (_rtuManager.InitializationResult == null)
-        //        return new RtuInitializedDto(ReturnCode.RtuIsBusy);
-
-        //    Task.Factory.StartNew(() => _rtuManager.InitializeRtu(dto, false));
-        //    return new RtuInitializedDto(ReturnCode.InProgress)
-        //    {
-        //        RtuId = dto.RtuId,
-        //        Version = _rtuManager.Version
-        //    };
-        //}
+        public BaseRefAssignedDto SaveBaseRefs(AssignBaseRefsDto dto)
+        {
+            return _rtuManager.SaveBaseRefs(dto);
+        }
 
         public Task<RtuCurrentStateDto> GetCurrentState()
         {
@@ -78,23 +69,6 @@ namespace Iit.Fibertest.RtuDaemon
             return ff.Select(f => f.Json).ToList();
         }
 
-        private async Task<RequestAnswer> Do(string json)
-        {
-            var o = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-            if (o == null)
-                return new RequestAnswer(ReturnCode.DeserializationError);
-
-            _logger.Info(Logs.RtuService, $"{o.GetType().Name} request received");
-
-            switch (o)
-            {
-                case StopMonitoringDto _:
-                    return await _rtuManager.StopMonitoring();
-                case AttachOtauDto dto:
-                    return await _rtuManager.AttachOtau(dto);
-            }
-
-            return new RequestAnswer(ReturnCode.UnknownCommand);
-        }
+     
     }
 }

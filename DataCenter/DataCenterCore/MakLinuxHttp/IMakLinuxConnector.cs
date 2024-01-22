@@ -7,6 +7,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto);
         Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto dto);
+        Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto, DoubleAddress rtuDoubleAddress);
 
         Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto);
     }

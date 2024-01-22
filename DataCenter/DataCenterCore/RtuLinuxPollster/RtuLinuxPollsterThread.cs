@@ -72,6 +72,9 @@ namespace Iit.Fibertest.DataCenterCore
 
                     if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) continue;
 
+                    if (state.LastInitializationResult?.Result == null)
+                        continue;
+
                     var heartbeatDto = new RtuChecksChannelDto()
                     {
                         RtuId = makLinuxRtu.Id, 
@@ -80,6 +83,10 @@ namespace Iit.Fibertest.DataCenterCore
                     };
 
                     await _rtuStationsRepository.RegisterRtuHeartbeatAsync(heartbeatDto);
+
+                    //TODO Current Monitoring step
+
+
                 }
                 catch (Exception)
                 {

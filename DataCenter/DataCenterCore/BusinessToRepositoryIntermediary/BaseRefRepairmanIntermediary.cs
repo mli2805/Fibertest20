@@ -16,21 +16,27 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
         private readonly SorFileRepository _sorFileRepository;
+        private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
+        private readonly ClientToLinuxRtuHttpTransmitter _clientToLinuxRtuHttpTransmitter;
 
         public BaseRefRepairmanIntermediary(Model writeModel, IMyLog logFile, EventStoreService eventStoreService,
-            SorFileRepository sorFileRepository, BaseRefLandmarksTool baseRefLandmarksTool,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
+            SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
+            BaseRefLandmarksTool baseRefLandmarksTool,
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
+            ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
         {
             _writeModel = writeModel;
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _sorFileRepository = sorFileRepository;
+            _rtuStationsRepository = rtuStationsRepository;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+            _clientToLinuxRtuHttpTransmitter = clientToLinuxRtuHttpTransmitter;
         }
 
         private static readonly IMapper Mapper1 = new MapperConfiguration(
@@ -234,9 +240,35 @@ namespace Iit.Fibertest.DataCenterCore
                 BaseRefs = baseRefDtos,
             };
 
-            return dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(dto)
-                : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto);
+            return await TransmitBaseRefs(dto);
+        }
+
+        public async Task<BaseRefAssignedDto> TransmitBaseRefs(AssignBaseRefsDto dto)
+        {
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new BaseRefAssignedDto()
+                {
+                    ReturnCode = ReturnCode.NoSuchRtu,
+                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                };
+            }
+                
+            BaseRefAssignedDto transferResult;
+            switch (rtuAddresses.Main.Port)
+            {
+                case (int)TcpPorts.RtuListenTo: 
+                    transferResult = await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(dto, rtuAddresses); break;
+                case (int)TcpPorts.RtuVeexListenTo:
+                    transferResult = await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto, rtuAddresses); break;
+                case (int)TcpPorts.RtuListenToHttp:
+                    transferResult = await _clientToLinuxRtuHttpTransmitter.TransmitBaseRefsToRtuAsync(dto, rtuAddresses); break;
+                default:
+                    return new BaseRefAssignedDto(ReturnCode.Error);
+            }
+            return transferResult;
         }
     }
 }

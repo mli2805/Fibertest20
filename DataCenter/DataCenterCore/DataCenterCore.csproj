@@ -69,7 +69,7 @@
     <Compile Include="ClientStations\ClientsInCollectionFinder.cs" />
     <Compile Include="ClientStations\ClientsRegistrator.cs" />
     <Compile Include="ClientStations\ClientStationFactory.cs" />
-    <Compile Include="ClientToLinuxRtuHttp\ClientToLinuxRtuHttpTransmitter.cs" />
+    <Compile Include="ClientToRtu\ClientToLinuxRtuHttp\ClientToLinuxRtuHttpTransmitter.cs" />
     <Compile Include="ClientToRtu\WcfIntermediate.cs" />
     <Compile Include="Database\FtDbContext.cs" />
     <Compile Include="Database\IParameterizer.cs" />
