@@ -53,35 +53,6 @@ public class RtuController : ControllerBase
     }
 
    
-    // // Full dto with base refs (sorBytes) is serialized into json on server and de-serialized here
-    // [HttpPost("assign-base-refs-json")]
-    // public async Task<BaseRefAssignedDto> AssignBaseRefsJson()
-    // {
-    //     _logger.Info(Logs.RtuService, "RtuController AssignBaseRefsJson started");
-    //     try
-    //     {
-    //         string body;
-    //         using (var reader = new StreamReader(Request.Body))
-    //         {
-    //             body = await reader.ReadToEndAsync();
-    //         }
-    //         var dto = JsonConvert.DeserializeObject<AssignBaseRefsDto>(body, JsonSerializerSettings);
-    //         if (dto == null)
-    //         {
-    //             _logger.Info(Logs.RtuService, "Failed deserialize base refs dto");
-    //             return new BaseRefAssignedDto(ReturnCode.DeserializationError);
-    //         }
-    //
-    //         return _commandProcessor.SaveBaseRefs(dto);
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         _logger.Error(Logs.RtuService, $"{e.Message}");
-    //         return new BaseRefAssignedDto(ReturnCode.BaseRefAssignmentFailed) { ErrorMessage = e.Message };
-    //     }
-    // }
-
-
     // MonitoringResults, BopStateChanges, etc
     [HttpGet("messages")]
     public async Task<List<string>?> GetMessages()

@@ -17,11 +17,8 @@ public partial class RtuManager
 
         _config.Update(c=>c.Monitoring.IsMonitoringOnPersisted = dto.IsMonitoringOn);
         SaveNewFrequenciesInConfig(dto.Timespans);
-        //_monitoringQueue.ComposeNewQueue(dto.Ports);
-        var count = await CreateNewQueue(dto.Ports);
+        var count = await CreateNewQueue(dto.Ports); 
         _logger.Info(Logs.RtuManager, $"Queue merged. {count} port(s) in queue");
-        //await _monitoringQueue.Save();
-        //await _monitoringQueue.SaveBackup();
 
         if (dto.IsMonitoringOn)
             await StartMonitoring();

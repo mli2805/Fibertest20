@@ -35,10 +35,10 @@ namespace Iit.Fibertest.Graph
         {
             var rows = new List<TraceInfoTableItem>();
 
-            if (dict.ContainsKey(EquipmentType.EmptyNode))
-                rows.Add(new TraceInfoTableItem(Resources.SID_Node_without_equipment, dict[EquipmentType.EmptyNode]));
-            if (dict.ContainsKey(EquipmentType.CableReserve))
-                rows.Add(new TraceInfoTableItem(EquipmentType.CableReserve.ToLocalizedString(), dict[EquipmentType.CableReserve]));
+            if (dict.TryGetValue(EquipmentType.EmptyNode, out var value))
+                rows.Add(new TraceInfoTableItem(Resources.SID_Node_without_equipment, value));
+            if (dict.TryGetValue(EquipmentType.CableReserve, out var value1))
+                rows.Add(new TraceInfoTableItem(EquipmentType.CableReserve.ToLocalizedString(), value1));
 
             var nodeCount = dict.Where(item => item.Key > EquipmentType.AdjustmentPoint).ToDictionary(x => x.Key, x => x.Value).Values.Sum() + 1;
             rows.Add(new TraceInfoTableItem(Resources.SID_In_total__including_RTU, nodeCount));
@@ -50,10 +50,10 @@ namespace Iit.Fibertest.Graph
         {
             var rows = new List<TraceInfoTableItem>();
 
-            if (dict.ContainsKey(EquipmentType.EmptyNode))
-                rows.Add(new TraceInfoTableItem(@"SID_Node_without_equipment", dict[EquipmentType.EmptyNode]));
-            if (dict.ContainsKey(EquipmentType.CableReserve))
-                rows.Add(new TraceInfoTableItem(EquipmentType.CableReserve.ToSid(), dict[EquipmentType.CableReserve]));
+            if (dict.TryGetValue(EquipmentType.EmptyNode, out var value))
+                rows.Add(new TraceInfoTableItem(@"SID_Node_without_equipment", value));
+            if (dict.TryGetValue(EquipmentType.CableReserve, out var value1))
+                rows.Add(new TraceInfoTableItem(EquipmentType.CableReserve.ToSid(), value1));
 
             var nodeCount = dict.Where(item => item.Key > EquipmentType.AdjustmentPoint).ToDictionary(x => x.Key, x => x.Value).Values.Sum() + 1;
             rows.Add(new TraceInfoTableItem(@"SID_In_total__including_RTU", nodeCount));

@@ -907,11 +907,10 @@
                             {
                                 var lt = new LoadTask(tilePoint.PosXY, Core.Zoom);
 
-                                if (Core.FailedLoads.ContainsKey(lt))
+                                if (Core.FailedLoads.TryGetValue(lt, out var ex))
                                 {
                                     g.DrawRectangle(EmptytileBrush, EmptyTileBorders, new Rect(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height));
 
-                                    var ex = Core.FailedLoads[lt];
                                     FormattedText TileText = new FormattedText("Exception: " + ex.Message, System.Globalization.CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, tileTypeface, 14, Brushes.Red);
                                     TileText.MaxTextWidth = Core.tileRect.Width - 11;
 

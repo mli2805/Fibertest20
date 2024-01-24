@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
     // https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.rngcryptoserviceprovider?view=net-5.0
     public static class Password
     {
-        private static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
+        private static readonly RNGCryptoServiceProvider RngCsp = new RNGCryptoServiceProvider();
 
         public static string Generate(int length)
         {
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Graph
             do
             {
                 // Fill the array with a random value.
-                rngCsp.GetBytes(randomNumber);
+                RngCsp.GetBytes(randomNumber);
             }
             while (!IsFairNumber(randomNumber[0], allowedSymbolsNumber));
 

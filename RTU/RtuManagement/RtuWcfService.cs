@@ -75,7 +75,7 @@ namespace Iit.Fibertest.RtuManagement
 
             ThreadPool.QueueUserWorkItem(_ =>
             {
-                var result = new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully };
+                var result = new RequestAnswer(ReturnCode.MonitoringSettingsAppliedSuccessfully);
                 try
                 {
                     if (_rtuWcfOperationsPermissions.ShouldExecute("User sent monitoring settings"))

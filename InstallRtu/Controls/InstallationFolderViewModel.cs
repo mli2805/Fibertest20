@@ -73,7 +73,8 @@ namespace Iit.Fibertest.InstallRtu
 
         public void Browse()
         {
-            using (var dialog = new FolderBrowserDialog(){SelectedPath = InstallationFolder, ShowNewFolderButton = true})
+            var dialog = new FolderBrowserDialog(){SelectedPath = InstallationFolder, ShowNewFolderButton = true};
+            using (dialog)
             {
                 var result = dialog.ShowDialog();
                 if (result != DialogResult.OK) return;

@@ -103,9 +103,8 @@ namespace Iit.Fibertest.DataCenterCore
             var result = new List<RtuStateChildDto>();
             for (int i = 1; i <= rtu.OwnPortCount; i++)
             {
-                if (rtu.Children.ContainsKey(i))
+                if (rtu.Children.TryGetValue(i, out var otau))
                 {
-                    var otau = rtu.Children[i];
                     for (int j = 1; j <= otau.OwnPortCount; j++)
                     {
                         var trace = _writeModel.Traces.FirstOrDefault(t =>

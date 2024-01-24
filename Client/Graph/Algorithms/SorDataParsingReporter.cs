@@ -76,9 +76,9 @@ namespace Iit.Fibertest.Graph
             {
                 var keyEvent = sorData.KeyEvents.KeyEvents[i];
                 var line = $@"Number {i + 1}  owt {keyEvent.EventPropagationTime:D6} ({sorData.KeyEventDistanceKm(i),7:F3} km)";
-                if (dict.ContainsKey(@"Minor")) line = line + @"   " + $@"{dict[@"Minor"][i],21}";
-                if (dict.ContainsKey(@"Major")) line = line + @"   " + $@"{dict[@"Major"][i],21}";
-                if (dict.ContainsKey(@"Critical")) line = line + @"   " + $@"{dict[@"Critical"][i],21}";
+                if (dict.TryGetValue(@"Minor", out var value)) line = line + @"   " + $@"{value[i],21}";
+                if (dict.TryGetValue(@"Major", out var value1)) line = line + @"   " + $@"{value1[i],21}";
+                if (dict.TryGetValue(@"Critical", out var value2)) line = line + @"   " + $@"{value2[i],21}";
                 _report.Add(line);
             }
             _report.Add("");

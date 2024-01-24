@@ -7,7 +7,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto);
         Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
-        Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto);
+        Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuDoubleAddress);
         Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
         Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto, DoubleAddress rtuDoubleAddress);
 

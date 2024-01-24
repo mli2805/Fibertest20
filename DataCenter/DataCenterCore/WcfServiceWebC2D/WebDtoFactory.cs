@@ -81,9 +81,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel, IMyLog logFile, User user)
         {
-            if (rtu.Children.ContainsKey(port))
+            if (rtu.Children.TryGetValue(port, out var child))
             {
-                var otau = writeModel.Otaus.FirstOrDefault(o => o.NetAddress?.Ip4Address == rtu.Children[port].NetAddress.Ip4Address);
+                var otau = writeModel.Otaus.FirstOrDefault(o => o.NetAddress?.Ip4Address == child.NetAddress.Ip4Address);
                 if (otau == null)
                 {
                     logFile.AppendLine($"Something strange happened on RTU {rtu.Title} port {port}: otau not found");

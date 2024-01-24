@@ -170,7 +170,6 @@
     <Compile Include="C2D2R\InitializeRtuDto.cs" />
     <Compile Include="R2D\MonitoringResultDto.cs" />
     <Compile Include="C2D2R\ApplyMonitoringSettingsDto.cs" />
-    <Compile Include="R2D2C\MonitoringSettingsAppliedDto.cs" />
     <Compile Include="C2D2R\CheckRtuConnectionDto.cs" />
     <Compile Include="Underlying\DoubleAddress.cs" />
     <Compile Include="Enums\ReturnCode.cs" />

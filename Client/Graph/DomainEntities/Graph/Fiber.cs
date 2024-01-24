@@ -19,10 +19,7 @@ namespace Iit.Fibertest.Graph
 
         public void SetState(Guid traceId, FiberState traceState)
         {
-            if (States.ContainsKey(traceId))
-                States[traceId] = traceState;
-            else
-                States.Add(traceId, traceState);
+            States[traceId] = traceState;
         }
 
         public void RemoveState(Guid traceId)
@@ -51,10 +48,7 @@ namespace Iit.Fibertest.Graph
 
         public void SetBadSegment(Guid traceId, FiberState lossCoeffSeriousness)
         {
-            if (TracesWithExceededLossCoeff.ContainsKey(traceId))
-                TracesWithExceededLossCoeff[traceId] = lossCoeffSeriousness; 
-            else
-                TracesWithExceededLossCoeff.Add(traceId, lossCoeffSeriousness);
+            TracesWithExceededLossCoeff[traceId] = lossCoeffSeriousness;
         }
 
         public void RemoveBadSegment(Guid traceId)

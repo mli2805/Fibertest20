@@ -217,7 +217,7 @@ namespace Iit.Fibertest.Client
             dto.ConnectionId = _currentUser.ConnectionId;
             dto.IsMonitoringOn = true;
 
-            MonitoringSettingsAppliedDto resultDto;
+            RequestAnswer resultDto;
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 resultDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(dto);

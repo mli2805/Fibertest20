@@ -15,27 +15,27 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         }
 
-        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(
+        public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(
             ApplyMonitoringSettingsDto dto, DoubleAddress rtuAddresses)
         {
             try
             {
                 var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, dto.OtdrId);
                 if (!proxy.IsSuccessful)
-                    return new MonitoringSettingsAppliedDto() 
+                    return new RequestAnswer() 
                         { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ErrorMessage = proxy.ErrorMessage};
           
                 if (!await _d2RtuVeexLayer2.ApplyMoniSettingsToEveryTest(rtuAddresses, dto))
-                    return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
+                    return new RequestAnswer() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
 
                 var res = await _d2RtuVeexLayer2.ChangeMonitoringState(
                     rtuAddresses, dto.IsMonitoringOn ? "enabled" : "disabled");
-                return res ? new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully }
-                           : new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
+                return res ? new RequestAnswer() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully }
+                           : new RequestAnswer() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
             }
             catch (Exception e)
             {
-                return new MonitoringSettingsAppliedDto()
+                return new RequestAnswer()
                 {
                     ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
                     ErrorMessage = e.Message

@@ -32,9 +32,8 @@ public partial class RtuManager
         using var scope = _serviceProvider.CreateScope();
         var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
         var allPorts = await repo.GetAll();
-
-        var oldest = allPorts.MinBy(p => p.LastMadeTimestamp);
-        return oldest;
+        _logger.Info(Logs.RtuManager, $"Queue contains {allPorts.Count} entries");
+        return allPorts.Count == 0 ? null : allPorts.MinBy(p => p.LastMadeTimestamp);
     }
 
     private async Task<MonitoringPort?> GetMonitoringPort(string serial, int opticalPort)
@@ -55,9 +54,12 @@ public partial class RtuManager
 
     private async Task<int> CreateNewQueue(List<PortWithTraceDto> ports)
     {
+        _logger.Info(Logs.RtuManager, $"User sent {ports.Count} ports for monitoring");
+
         using var scope = _serviceProvider.CreateScope();
         var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
         var oldPorts = await repo.GetAll();
+        _logger.Info(Logs.RtuManager, $"Queue contains {ports.Count} ports");
 
         var newPorts = new List<MonitoringPort>();
         foreach (var portWithTraceDto in ports)
@@ -74,7 +76,9 @@ public partial class RtuManager
             newPorts.Add(monitoringPort);
         }
 
-        await repo.ApplyNewList(newPorts);
+        _logger.Info(Logs.RtuManager, $"Save new queue with {ports.Count} ports");
+        var portCount =  await repo.ApplyNewList(newPorts);
+        _logger.Info(Logs.RtuManager, $"Db reported: {portCount} ports saved in queue");
         return newPorts.Count;
     }
 }

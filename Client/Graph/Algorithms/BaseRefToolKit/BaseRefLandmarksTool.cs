@@ -65,10 +65,10 @@ namespace Iit.Fibertest.Graph
                         pos = (int)Math.Round(model.DistancesMm[i] * ratio);
                     }
                     pos += model.EquipArray[i].Type == EquipmentType.CableReserve
-                        ? (int)Math.Round(model.EquipArray[i].CableReserveLeft / 2 * 1000 * LinK)
+                        ? (int)Math.Round(model.EquipArray[i].CableReserveLeft / 2.0 * 1000 * LinK)
                         : (int)Math.Round(model.EquipArray[i].CableReserveRight * 1000 * LinK);
                     pos += model.EquipArray[i + 1].Type == EquipmentType.CableReserve
-                        ? (int)Math.Round(model.EquipArray[i + 1].CableReserveLeft / 2 * 1000 * LinK)
+                        ? (int)Math.Round(model.EquipArray[i + 1].CableReserveLeft / 2.0 * 1000 * LinK)
                         : (int)Math.Round(model.EquipArray[i + 1].CableReserveLeft * 1000 * LinK);
                     distancesMm[i] = pos;
                 }

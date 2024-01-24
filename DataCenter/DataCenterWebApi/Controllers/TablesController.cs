@@ -37,8 +37,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                    string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {
             var resultDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetOpticalEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetOpticalEventPortion(User.Identity!.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(resultDto == null
                 ? "Failed to get optical event list"
                 : $"Optical event list contains {resultDto.FullCount} items");
@@ -52,8 +52,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                           string filterRtu, string sortOrder, int pageNumber, int pageSize)
         {
             var resultDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetNetworkEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, sortOrder, pageNumber, pageSize);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetNetworkEventPortion(User.Identity!.Name, isCurrentEvents, filterRtu, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(resultDto == null
                 ? "Failed to get optical event list"
                 : $"Optical event list contains {resultDto.FullCount} items");
@@ -67,8 +67,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                                 string filterRtu, string sortOrder, int pageNumber, int pageSize)
         {
             var resultDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetBopEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, sortOrder, pageNumber, pageSize);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetBopEventPortion(User.Identity!.Name, isCurrentEvents, filterRtu, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(resultDto == null
                 ? "Failed to get bop event list"
                 : $"Bop event list contains {resultDto.FullCount} items");
@@ -82,8 +82,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                                      string sortOrder, int pageNumber, int pageSize)
         {
             var resultDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetStateAccidentPortion(User.Identity.Name, isCurrentEvents, sortOrder, pageNumber, pageSize);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetStateAccidentPortion(User.Identity!.Name, isCurrentEvents, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(resultDto == null
                 ? "Failed to RTU status accidents list"
                 : $"RTU status accidents list contains {resultDto.FullCount} items");

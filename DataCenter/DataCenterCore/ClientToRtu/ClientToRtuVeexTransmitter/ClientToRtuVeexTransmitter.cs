@@ -41,25 +41,9 @@ namespace Iit.Fibertest.DataCenterCore
             return await _d2RtuVeexLayer3.InitializeRtuAsync(dto);
         }
 
-        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuDoubleAddress)
         {
-            _logFile.AppendLine(
-                $"Client {_clientsCollection.Get(dto.ConnectionId)} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return null;
-
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new MonitoringSettingsAppliedDto()
-                {
-                    ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
-                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
-                };
-            }
-
-            var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtuAddresses);
+            var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtuDoubleAddress);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
@@ -205,7 +189,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to get measurement {dto.VeexMeasurementId.Substring(0,6)} from VeEX RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to get measurement {dto.VeexMeasurementId.Substring(0, 6)} from VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {

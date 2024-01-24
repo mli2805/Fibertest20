@@ -94,7 +94,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             var clientIp = GetRemoteAddress();
             var result = await _commonC2DWcfManager
-                .SetServerAddresses(_doubleAddress, User.Identity.Name, clientIp)
+                .SetServerAddresses(_doubleAddress, User.Identity!.Name, clientIp)
                 .RegisterHeartbeat(connectionId);
             return result;
         }

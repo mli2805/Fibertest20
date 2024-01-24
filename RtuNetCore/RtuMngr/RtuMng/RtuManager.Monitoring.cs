@@ -12,12 +12,12 @@ public partial class RtuManager
         _saveSorData = _config.Value.Monitoring.ShouldSaveSorData;
         _logger.EmptyAndLog(Logs.RtuManager, "Run monitoring cycle.");
 
-        
-            var monitoringPort = await GetNextPortForMonitoring();
+        var monitoringPort = await GetNextPortForMonitoring();
         if (monitoringPort == null)
         {
             _logger.Info(Logs.RtuManager, "There are no ports in queue for monitoring.");
             IsMonitoringOn = false;
+            _otdrManager.DisconnectOtdr();
             _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
             return;
         }
@@ -28,16 +28,13 @@ public partial class RtuManager
         while (true)
         {
             _measurementNumber++;
-          
+
             var previousUserReturnCode = monitoringPort!.LastMoniResult!.UserReturnCode;
             var previousHardwareReturnCode = monitoringPort.LastMoniResult!.HardwareReturnCode;
             await ProcessOnePort(monitoringPort);
 
             if (monitoringPort.LastMoniResult!.HardwareReturnCode != ReturnCode.MeasurementInterrupted)
             {
-                //var unused = _monitoringQueue.Dequeue();
-                //_monitoringQueue.Enqueue(monitoringPort);
-                //await _monitoringQueue.Save();
                 await UpdateMonitoringPort(monitoringPort);
             }
             else
@@ -51,22 +48,24 @@ public partial class RtuManager
 
             if (!IsMonitoringOn)
             {
-                _logger.Debug(Logs.RtuManager, "IsMonitoringOn is FALSE. Leave monitoring cycle.");
+                _logger.Info(Logs.RtuManager, "IsMonitoringOn is FALSE. Leave monitoring cycle.");
                 break;
             }
 
-            //var monitoringPort = _monitoringQueue.Peek();
             monitoringPort = await GetNextPortForMonitoring();
         }
 
-        _logger.Info(Logs.RtuManager, "Monitoring stopped.");
+        // _logger.Info(Logs.RtuManager, "Monitoring stopped.");
 
-        if (!_wasMonitoringOn)
-        {
-            _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
-            _otdrManager.DisconnectOtdr();
-            IsMonitoringOn = false; _logger.Info(Logs.RtuManager, "RTU is turned into MANUAL mode.");
-        }
+        // if (!_wasMonitoringOn)
+        // {
+        //     _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
+        //     _otdrManager.DisconnectOtdr();
+        //     IsMonitoringOn = false; 
+        //     _logger.Info(Logs.RtuManager, "RTU is turned into MANUAL mode.");
+        // }
+
+        _logger.Info(Logs.RtuManager, "RTU is turned into MANUAL mode.");
     }
 
     private async Task ProcessOnePort(MonitoringPort monitoringPort)
@@ -179,7 +178,7 @@ public partial class RtuManager
             await SaveMoniResult(CreateEf(moniResult, monitoringPort,
                 ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
             //await _monitoringQueue.Save();
-                await UpdateMonitoringPort(monitoringPort);
+            await UpdateMonitoringPort(monitoringPort);
         }
         else
         {
@@ -348,7 +347,7 @@ public partial class RtuManager
         _logger.Info(Logs.RtuManager, $"Trace state is {moniResult.GetAggregatedResult()}");
         if (moniResult.Accidents != null)
             foreach (var accidentInSor in moniResult.Accidents)
-                _logger.Info(Logs.RtuManager, accidentInSor.ToString());
+                _logger.Info(Logs.RtuManager, accidentInSor.ToString() ?? string.Empty);
         return moniResult;
     }
 

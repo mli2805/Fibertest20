@@ -8,7 +8,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 {
     public class SignalRHub : Hub
     {
-        private static Dictionary<string, string> Users = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> Users = new Dictionary<string, string>();
 
         private readonly IMyLog _logFile;
         private readonly string _localIpAddress;
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnConnectedAsync()
         {
-            var userName = Context.User.Identity.Name;
+            var userName = Context.User.Identity!.Name;
             if (string.IsNullOrEmpty(userName))
                 userName = "DataCenter";
 
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
-            var userName = Context.User.Identity.Name;
+            var userName = Context.User.Identity!.Name;
             if (string.IsNullOrEmpty(userName))
                 userName = "DataCenter?";
 

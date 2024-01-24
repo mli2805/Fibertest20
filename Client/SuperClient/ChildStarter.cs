@@ -23,8 +23,8 @@ namespace Iit.Fibertest.SuperClient
 
         public void PlaceFtClientOnPanel(int postfix)
         {
-            if (_processes.ContainsKey(postfix))
-                _gasketViewModel.PutProcessOnPanel(_processes[postfix], postfix);
+            if (_processes.TryGetValue(postfix, out var process))
+                _gasketViewModel.PutProcessOnPanel(process, postfix);
         }
 
         public void CleanOnLoadingFailed(int postfix)

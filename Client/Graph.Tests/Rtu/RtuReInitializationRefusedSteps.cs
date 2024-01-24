@@ -54,7 +54,7 @@ namespace Graph.Tests
             if (_portWithBop > p0)
                 _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.RtuTooBigPortNumber);
             else
-                _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.Ok, ownPortCount: p0);
+                _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ownPortCount: p0);
         }
 
         [When(@"Пользователь жмет переинициализировать RTU")]

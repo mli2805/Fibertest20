@@ -41,10 +41,7 @@ namespace Iit.Fibertest.Graph
         {
             if (_otauStates == null)
                 _otauStates = new Dictionary<Guid, bool>();
-            if (_otauStates.ContainsKey(otauId))
-                _otauStates[otauId] = isOk;
-            else
-                _otauStates.Add(otauId, isOk);
+            _otauStates[otauId] = isOk;
         }
 
         public void RemoveOtauState(Guid otauId)

@@ -45,7 +45,7 @@ public static class RtuDependencyCollectionExtension
         services.AddScoped<RtuContextInitializer>();
         services.AddScoped<EventsRepository>();
         services.AddScoped<MonitoringResultsRepository>();
-        services.AddScoped<LongOperationRepository>();
+        services.AddScoped<MonitoringQueueRepository>();
         return services;
     }
 

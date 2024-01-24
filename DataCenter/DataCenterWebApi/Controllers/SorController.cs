@@ -49,7 +49,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"sorFileId = {sorFileId}");
                 var result = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .GetRftsEvents(sorFileId);
                 _logFile.AppendLine($"Got RFTS events for measurement {sorFileId}, contains {result.LevelArray?.Length.ToString() ?? "no"} levels");
                 return result;
@@ -67,11 +67,11 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             var sorBytes = isSorFile
                ? await _commonC2DWcfManager
-                   .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                   .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                    .GetSorBytes(sorFileId)
                : await _webC2DWcfManager
-                   .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                   .GetClientMeasurementResult(User.Identity.Name, rtuGuid, measGuid);
+                   .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                   .GetClientMeasurementResult(User.Identity!.Name, rtuGuid, measGuid);
 
             if (sorBytes == null)
             {

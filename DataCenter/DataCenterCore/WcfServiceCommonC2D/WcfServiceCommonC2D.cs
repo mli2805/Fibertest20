@@ -285,11 +285,11 @@ namespace Iit.Fibertest.DataCenterCore
             return isStopped;
         }
 
-        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MonitoringSettings, username, out RtuOccupationState _))
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuIsBusy };
+                return new RequestAnswer() { ReturnCode = ReturnCode.RtuIsBusy };
 
             foreach (var portWithTraceDto in dto.Ports)
             {
@@ -297,10 +297,8 @@ namespace Iit.Fibertest.DataCenterCore
                 portWithTraceDto.LastTraceState = trace?.State ?? FiberState.Unknown;
             }
 
-            var resultFromRtu = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto)
-                : await _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto);
-
+            var resultFromRtu = await _wcfIntermediate.ApplyMonitoringSettingsAsync(dto);
+           
             if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
                 var cmd = new ChangeMonitoringSettings
@@ -317,7 +315,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                 if (!string.IsNullOrEmpty(resultFromEventStore))
                 {
-                    return new MonitoringSettingsAppliedDto
+                    return new RequestAnswer
                     {
                         ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
                         ErrorMessage = resultFromEventStore
@@ -336,7 +334,7 @@ namespace Iit.Fibertest.DataCenterCore
             return resultFromRtu;
         }
 
-        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
+          public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             return await _wcfIntermediate.AssignBaseRefAsync(dto);
         }

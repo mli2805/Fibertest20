@@ -149,11 +149,13 @@ namespace Iit.Fibertest.DataCenterCore
                     if (isLog) _logFile.AppendLine($"Build signalR connection: " + e.Message);
                     return false;
                 }
-                if (isLog) _logFile.AppendLine($"SignalR connection state is {_connection.State}");
+                if (isLog)
+                    if (_connection != null)
+                        _logFile.AppendLine($"SignalR connection state is {_connection.State}");
                 await Task.Delay(500);
             }
 
-            if (_connection.State != HubConnectionState.Connected)
+            if (_connection != null && _connection.State != HubConnectionState.Connected)
             {
                 if (isLog) _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
                 try

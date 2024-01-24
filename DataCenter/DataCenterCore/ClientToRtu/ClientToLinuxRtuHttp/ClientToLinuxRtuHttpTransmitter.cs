@@ -35,9 +35,9 @@ namespace Iit.Fibertest.DataCenterCore
             return _makLinuxConnector.GetRtuCurrentState(dto);
         }
 
-        public Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuDoubleAddress)
         {
-            throw new System.NotImplementedException();
+            return _makLinuxConnector.ApplyMonitoringSettingsAsync(dto, rtuDoubleAddress);
         }
 
         public Task<bool> StopMonitoringAsync(StopMonitoringDto dto)

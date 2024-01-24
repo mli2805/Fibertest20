@@ -27,7 +27,7 @@ namespace Iit.Fibertest.RtuDaemon
             var o = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
             if (o == null)
                 return new RequestAnswer(ReturnCode.DeserializationError);
-            _logger.Info(Logs.RtuService, $"{o.GetType().Name} request received");
+            _logger.Info(Logs.RtuService, $"{o.GetType().Name} received");
 
             switch (o)
             {

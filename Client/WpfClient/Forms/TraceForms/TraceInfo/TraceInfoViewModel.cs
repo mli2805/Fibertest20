@@ -96,10 +96,10 @@ namespace Iit.Fibertest.Client
             Model.EquipmentsRows = TraceInfoCalculator.CalculateEquipment(dict);
             Model.NodesRows = TraceInfoCalculator.CalculateNodes(dict);
 
-            if (dict.ContainsKey(EquipmentType.AdjustmentPoint))
+            if (dict.TryGetValue(EquipmentType.AdjustmentPoint, out var value))
             {
                 Model.AdjustmentPointsLine = string.Format(Resources.SID_To_adjust_trace_drawing_were_used__0__point_s_,
-                    dict[EquipmentType.AdjustmentPoint]);
+                    value);
                 Model.AdjustmentPointsLineVisibility = Visibility.Visible;
             }
 

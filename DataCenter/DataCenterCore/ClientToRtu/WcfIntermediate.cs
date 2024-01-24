@@ -226,7 +226,32 @@ namespace Iit.Fibertest.DataCenterCore
                 : transferResult ?? new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
         }
 
-      
+        public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        {
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new RequestAnswer(ReturnCode.NoSuchRtu)
+                {
+                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                };
+            }
+                
+            RequestAnswer transferResult;
+            switch (rtuAddresses.Main.Port)
+            {
+                case (int)TcpPorts.RtuListenTo: 
+                    transferResult = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
+                case (int)TcpPorts.RtuVeexListenTo:
+                    transferResult = await _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
+                case (int)TcpPorts.RtuListenToHttp:
+                    transferResult = await _clientToLinuxRtuHttpTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
+                default:
+                    return new RequestAnswer(ReturnCode.Error);
+            }
+            return transferResult;
+        }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
         {

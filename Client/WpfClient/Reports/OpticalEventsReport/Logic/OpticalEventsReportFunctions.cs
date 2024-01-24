@@ -15,8 +15,8 @@ namespace Iit.Fibertest.Client
 
             foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
             {
-                if (data.ContainsKey(eventStatus))
-                    result.Add(Convert(eventStatus, data[eventStatus], reportModel));
+                if (data.TryGetValue(eventStatus, out var value))
+                    result.Add(Convert(eventStatus, value, reportModel));
             }
             return result;
         }
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
             var statusLine = new List<string>() { eventStatus.GetLocalizedString() };
             foreach (var state in reportModel.TraceStateSelectionViewModel.GetCheckedStates())
             {
-                statusLine.Add(values.ContainsKey(state) ? values[state].ToString() : @"0");
+                statusLine.Add(values.TryGetValue(state, out var value) ? value.ToString() : @"0");
             }
             return statusLine;
         }

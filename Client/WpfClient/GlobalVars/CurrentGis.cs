@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
                 if (value == _gpsInputMode) return;
                 _gpsInputMode = value;
                 _iniFile.Write(IniSection.Miscellaneous, IniKey.GpsInputMode, (int)_gpsInputMode);
-                NotifyOfPropertyChange(nameof(GpsInputMode));
+                NotifyOfPropertyChange();
             }
         }
 

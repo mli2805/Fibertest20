@@ -44,11 +44,33 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto,
+            DoubleAddress rtuDoubleAddress)
+        {
+            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
+            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
+            try
+            {
+                var response = await HttpClient.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                    return new RequestAnswer(ReturnCode.D2RHttpError)
+                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
+
+                var responseJson = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<RequestAnswer>(responseJson);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"TransmitBaseRefsToRtuAsync: {e.Message}");
+                return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
+            }
+        }
+
         // Full dto with base refs (sorBytes) is serialized into json here and de-serialized on RTU
         public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto,
             DoubleAddress rtuDoubleAddress)
         {
-            // var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/assign-base-refs-json";
             var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
             var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
             var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
@@ -118,7 +140,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"CheckRtuConnection: {e.Message}");
+                _logFile.AppendLine($"InitializeRtu: {e.Message}");
                 return new RtuInitializedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
             }
         }

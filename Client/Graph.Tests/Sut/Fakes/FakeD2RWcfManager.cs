@@ -100,9 +100,9 @@ namespace Graph.Tests
             return Task.FromResult(new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully });
         }
 
-        public Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            return Task.FromResult(new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully });
+            return Task.FromResult(new RequestAnswer() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully });
         }
 
         public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)

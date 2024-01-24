@@ -44,10 +44,7 @@ namespace Iit.Fibertest.Client
         private Dictionary<Guid, bool> _otauStates = new Dictionary<Guid, bool>();
         public void SetOtauState(Guid otauId, bool isOkOrNot)
         {
-            if (_otauStates.ContainsKey(otauId))
-                _otauStates[otauId] = isOkOrNot;
-            else
-                _otauStates.Add(otauId, isOkOrNot);
+            _otauStates[otauId] = isOkOrNot;
 
             NotifyOfPropertyChange(nameof(BopPictogram));
         }

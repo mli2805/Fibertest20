@@ -14,7 +14,7 @@ namespace Iit.Fibertest.WcfConnections
         Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto);
         Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
         Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto);
-        Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto);
+        Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto);
         Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
         Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
         Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto);

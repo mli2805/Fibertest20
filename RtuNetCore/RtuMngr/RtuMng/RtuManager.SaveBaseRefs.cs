@@ -11,7 +11,7 @@ public partial class RtuManager
         try
         {
             var fibertestPath = FileOperations.GetMainFolder();
-            var portDataFolder = Path.Combine(fibertestPath, @"data");
+            var portDataFolder = Path.Combine(fibertestPath, @"portdata");
 
             if (!Directory.Exists(portDataFolder))
             {

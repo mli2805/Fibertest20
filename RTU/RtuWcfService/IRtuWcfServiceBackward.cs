@@ -19,7 +19,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void EndStopMonitoring(bool result);
 
         [OperationContract(IsOneWay = true)]
-        void EndApplyMonitoringSettings(MonitoringSettingsAppliedDto result);
+        void EndApplyMonitoringSettings(RequestAnswer result);
 
         [OperationContract(IsOneWay = true)]
         void EndAssignBaseRef(BaseRefAssignedDto result);

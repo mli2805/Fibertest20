@@ -17,7 +17,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;
-        private int portNumber = 3;
+        private int _portNumber = 3;
 
 
         [Given(@"Существует инициализированый RTU с неприсоединенной трассой")]
@@ -31,7 +31,7 @@ namespace Graph.Tests
         [Given(@"К RTU подключен доп оптический переключатель")]
         public void GivenКrtuПодключенДопОптическийПереключатель()
         {
-            _otauLeaf = _sut.AttachOtau(_rtuLeaf, portNumber);
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, _portNumber);
         }
 
         [Given(@"Трасса подключена к переключателю")]

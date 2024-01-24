@@ -44,7 +44,7 @@ namespace Iit.Fibertest.WcfConnections
         Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
 
         [OperationContract]
-        Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings);
+        Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings);
 
         [OperationContract]
         Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto baseRefs);

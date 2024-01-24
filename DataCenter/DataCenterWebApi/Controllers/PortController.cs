@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var dto = JsonConvert.DeserializeObject<AttachTraceDto>(body);
 
                 return await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .AttachTraceAndSendBaseRefs(dto);
             }
             catch (Exception e)
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 dto.OtauId = Guid.NewGuid();
 
                 var result = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .AttachOtauAsync(dto);
                 return result;
             }
@@ -101,7 +101,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine("body: " + body);
                 var detachTraceDto = JsonConvert.DeserializeObject<DetachTraceDto>(body);
                 return await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .DetachTraceAsync(detachTraceDto);
             }
             catch (Exception e)
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine("body: " + body);
                 var detachOtauDto = JsonConvert.DeserializeObject<DetachOtauDto>(body);
                 var otauDetachedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .DetachOtauAsync(detachOtauDto);
                 return otauDetachedDto;
             }

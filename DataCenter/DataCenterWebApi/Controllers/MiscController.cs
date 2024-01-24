@@ -45,8 +45,8 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task<AboutDto> GetAbout()
         {
             var about = await _webC2DWcfManager
-                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                .GetAboutInJson(User.Identity.Name);
+                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                .GetAboutInJson(User.Identity!.Name);
             _logFile.AppendLine(about == null
                 ? "Failed to get about view model"
                 : $"json contains {about.Length} symbols");
@@ -71,8 +71,8 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task<AlarmsDto> GetCurrentAccidents()
         {
             var currentAccidents = await _webC2DWcfManager
-                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                .GetCurrentAccidents(User.Identity.Name);
+                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                .GetCurrentAccidents(User.Identity!.Name);
             _logFile.AppendLine(currentAccidents == null
                 ? "Failed to get current accidents"
                 : $"json contains {currentAccidents.Length} symbols");
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             try
             {
                 var dcVersion = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .CheckDataCenterConnection();
          
                 Assembly assembly = Assembly.GetExecutingAssembly();

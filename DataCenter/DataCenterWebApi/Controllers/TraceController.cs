@@ -44,8 +44,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 var traceInformationDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetTraceInformation(User.Identity.Name, traceGuid);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetTraceInformation(User.Identity!.Name, traceGuid);
                 _logFile.AppendLine(traceInformationDto == null
                     ? "Failed to get trace's information"
                     : "Trace information ");
@@ -67,8 +67,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 var traceStatisticsDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetTraceStatistics(User.Identity.Name, traceGuid, pageNumber, pageSize);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetTraceStatistics(User.Identity!.Name, traceGuid, pageNumber, pageSize);
                 _logFile.AppendLine(traceStatisticsDto == null
                     ? "Failed to get trace's statistics"
                     : $"trace has {traceStatisticsDto.BaseRefs.Count} refs and {traceStatisticsDto.MeasFullCount} measurements");
@@ -90,8 +90,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 var traceLandmarksDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetTraceLandmarks(User.Identity.Name, traceGuid);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetTraceLandmarks(User.Identity!.Name, traceGuid);
                 _logFile.AppendLine(traceLandmarksDto == null
                     ? "Failed to get trace's landmarks"
                     : $"trace has {traceLandmarksDto.Landmarks.Count} landmarks");
@@ -114,8 +114,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine(body);
 
                 var traceStateDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetTraceState(User.Identity.Name, body);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetTraceState(User.Identity!.Name, body);
                 _logFile.AppendLine(traceStateDto == null
                     ? "Failed to get trace's state"
                     : $"trace state is {traceStateDto.TraceState}");
@@ -137,8 +137,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 var assignBaseParamsDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetAssignBaseParams(User.Identity.Name, traceGuid);
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .GetAssignBaseParams(User.Identity!.Name, traceGuid);
                 _logFile.AppendLine(assignBaseParamsDto == null
                     ? "Failed to get trace's statistics"
                     : $"trace has RTU-title {assignBaseParamsDto.RtuTitle}");
@@ -173,12 +173,12 @@ namespace Iit.Fibertest.DataCenterWebApi
                         await file.CopyToAsync(memoryStream);
                         baseRef.SorBytes = memoryStream.ToArray();
                         baseRef.Id = Guid.NewGuid();
-                        baseRef.UserName = User.Identity.Name;
+                        baseRef.UserName = User.Identity!.Name;
                     }
                 }
 
                 var baseRefAssignedDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .AssignBaseRefs(dto);
                 _logFile.AppendLine($"PostBaseRefs: {baseRefAssignedDto.ReturnCode}");
                 return baseRefAssignedDto;
@@ -195,7 +195,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             var result = new AssignBaseRefsDto
             {
                 ClientIp = GetRemoteAddress(),
-                Username = User.Identity.Name,
+                Username = User.Identity!.Name,
                 RtuId = dto.RtuId,
                 RtuMaker = dto.RtuMaker,
                 OtdrId = dto.OtdrId,

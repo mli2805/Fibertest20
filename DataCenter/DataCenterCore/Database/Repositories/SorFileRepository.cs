@@ -127,7 +127,8 @@ namespace Iit.Fibertest.DataCenterCore
                 using (MySqlConnection conn = new MySqlConnection(_parameterizer.MySqlConnectionString))
                 {
                     conn.Open();
-                    using (MySqlCommand command = new MySqlCommand(sb.ToString(), conn){CommandTimeout = 0})
+                    MySqlCommand command = new MySqlCommand(sb.ToString(), conn){CommandTimeout = 0};
+                    using (command)
                     {
                         return command.ExecuteNonQuery();
                     }

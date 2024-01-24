@@ -13,8 +13,9 @@ namespace Iit.Fibertest.RtuMngr
 
         public DbSet<DtoInDbEf> Events { get; set; } // results and
         public DbSet<MonitoringResultEf> MonitoringResults { get; set; }
-        public DbSet<MonitoringPortEf> MonitoringPorts { get; set; }
-        public DbSet<LongOperationEf> LongOperations { get; set; } // request to execute
+
+        // 4 tables => MonitoringQueue + MoniResultEf, MoniLevelEf, AccidentInSorEf
+        public DbSet<MonitoringPortEf> MonitoringQueue { get; set; }
 
         protected override void OnModelCreating(ModelBuilder bulider)
         {

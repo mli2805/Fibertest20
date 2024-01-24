@@ -27,7 +27,7 @@ public partial class RtuManager
     public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
     private CancellationTokenSource? _cancellationTokenSource;
-    private bool _wasMonitoringOn;
+    // private bool _wasMonitoringOn;
     public bool IsMonitoringOn;
 
     public string Version { get; set; } = null!;

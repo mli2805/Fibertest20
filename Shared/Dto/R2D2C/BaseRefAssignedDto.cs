@@ -9,12 +9,7 @@ namespace Iit.Fibertest.Dto
     {
         [DataMember]
         public BaseRefType BaseRefType { get; set; } // type of base ref where error happened
-        //[DataMember]
-        //public string ErrorMessage { get; set; }
-        //[DataMember]
-        //public ReturnCode ReturnCode { get; set; }
-
-
+       
         [DataMember]
         public int Landmarks { get; set; }
         [DataMember]
@@ -29,9 +24,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public List<Guid> RemoveVeexTests { get; set; } = new List<Guid>();
 
-        public BaseRefAssignedDto()
-        {
-        }
+        public BaseRefAssignedDto() {}
 
         public BaseRefAssignedDto(ReturnCode returnCode) : base(returnCode) {}
     }

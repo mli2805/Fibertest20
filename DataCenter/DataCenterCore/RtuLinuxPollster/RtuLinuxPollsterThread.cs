@@ -19,7 +19,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToLinuxRtuHttpTransmitter _clientToLinuxRtuHttpTransmitter;
 
         private TimeSpan _gap;
-        private Dictionary<Guid, bool> MakLinuxRtuAccess = new Dictionary<Guid, bool>();
+        private readonly Dictionary<Guid, bool> _makLinuxRtuAccess = new Dictionary<Guid, bool>();
 
         public RtuLinuxPollsterThread(IniFile iniFile, IMyLog logFile,
             GlobalState globalState, Model writeModel, RtuStationsRepository rtuStationsRepository,
@@ -98,15 +98,15 @@ namespace Iit.Fibertest.DataCenterCore
         private bool SaveResultInOrderToLogOnlyChanges(RtuCurrentStateDto state, Rtu makLinuxRtu)
         {
             var success = state.ReturnCode != ReturnCode.D2RHttpError;
-            if (!MakLinuxRtuAccess.ContainsKey(makLinuxRtu.Id))
+            if (!_makLinuxRtuAccess.ContainsKey(makLinuxRtu.Id))
             {
-                MakLinuxRtuAccess.Add(makLinuxRtu.Id, success);
+                _makLinuxRtuAccess.Add(makLinuxRtu.Id, success);
             }
-            else if (MakLinuxRtuAccess[makLinuxRtu.Id] != success)
+            else if (_makLinuxRtuAccess[makLinuxRtu.Id] != success)
             {
                 var w = success ? "Successfully" : "Failed to";
                 _logFile.AppendLine($"{w} GetRtuCurrentState {makLinuxRtu.MainChannel.ToStringA()}");
-                MakLinuxRtuAccess[makLinuxRtu.Id] = success;
+                _makLinuxRtuAccess[makLinuxRtu.Id] = success;
             }
 
             return success;

@@ -51,10 +51,10 @@ namespace Iit.Fibertest.DataCenterWebApi
 
                 dto.ClientIp = GetRemoteAddress();
                 dto.StatusChangedTimestamp = DateTime.Now;
-                dto.StatusChangedByUser = User.Identity.Name;
+                dto.StatusChangedByUser = User.Identity!.Name;
                 var result = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .UpdateMeasurement(User.Identity.Name, dto);
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
+                    .UpdateMeasurement(User.Identity!.Name, dto);
                 return result == null
                     ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
                     : new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = result };
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
                 var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
                 var clientMeasurementStartedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .StartClientMeasurementAsync(dto);
                 return clientMeasurementStartedDto;
             }
@@ -106,7 +106,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     { ConnectionId = connectionId, RtuId = Guid.Parse(rtuId), VeexMeasurementId = veexMeasurementId };
 
                 var clientMeasurementStartedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .GetClientMeasurementAsync(getDto);
                 return clientMeasurementStartedDto;
             }
@@ -132,7 +132,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 }
                 var dto = JsonConvert.DeserializeObject<DoOutOfTurnPreciseMeasurementDto>(body);
                 var outOfTurnMeasurementStarted = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity!.Name, GetRemoteAddress())
                     .DoOutOfTurnPreciseMeasurementAsync(dto);
                 return outOfTurnMeasurementStarted;
             }

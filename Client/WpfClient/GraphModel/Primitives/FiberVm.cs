@@ -30,10 +30,7 @@ namespace Iit.Fibertest.Client
 
         public void SetState(Guid traceId, FiberState traceState)
         {
-            if (States.ContainsKey(traceId))
-                States[traceId] = traceState;
-            else
-                States.Add(traceId, traceState);
+            States[traceId] = traceState;
 
             NotifyOfPropertyChange(nameof(State));
         }

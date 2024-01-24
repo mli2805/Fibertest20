@@ -262,11 +262,11 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+                return new RequestAnswer(ReturnCode.C2RWcfConnectionError);
 
             try
             {
@@ -280,7 +280,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("ApplyMonitoringSettingsAsync: " + e.Message);
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 

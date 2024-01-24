@@ -28,33 +28,6 @@ public class MonitoringPort
     public DateTime LastMadeTimestamp => 
         LastFastMadeTimestamp > LastPreciseMadeTimestamp ? LastFastMadeTimestamp : LastPreciseMadeTimestamp;
 
-    //public MonitoringPort(MonitoringPortOnDisk port)
-    //{
-    //    CharonSerial = port.Serial;
-    //    OpticalPort = port.OpticalPort;
-    //    TraceId = port.TraceId;
-    //    IsPortOnMainCharon = port.IsPortOnMainCharon;
-    //    LastTraceState = port.LastTraceState;
-
-    //    LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp ?? DateTime.MinValue;
-    //    LastFastSavedTimestamp = port.LastFastSavedTimestamp;
-    //    LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
-
-    //    IsMonitoringModeChanged = port.IsMonitoringModeChanged;
-    //    IsConfirmationRequired = port.IsConfirmationRequired;
-
-    //    if (port.LastMoniResult != null)
-    //        LastMoniResult = new MoniResult()
-    //        {
-    //            IsNoFiber = port.LastMoniResult.IsNoFiber,
-    //            IsFiberBreak = port.LastMoniResult.IsFiberBreak,
-    //            Levels = port.LastMoniResult.Levels,
-    //            BaseRefType = port.LastMoniResult.BaseRefType,
-    //            FirstBreakDistance = port.LastMoniResult.FirstBreakDistance,
-    //            Accidents = port.LastMoniResult.Accidents
-    //        };
-    //}
-
     // new port for monitoring in user's command
     public MonitoringPort(PortWithTraceDto port)
     {
@@ -70,16 +43,17 @@ public class MonitoringPort
         IsMonitoringModeChanged = true;
     }
 
-    private string GetPortFolderName()
-    {
-        return $"{CharonSerial}p{OpticalPort:000}";
-    }
-
     private string ToStringA()
     {
         return IsPortOnMainCharon
             ? $"{OpticalPort}"
             : $"{OpticalPort} on {CharonSerial}";
+    }
+
+    private string GetThisPortDataFolder()
+    {
+        var fibertestPath = FileOperations.GetMainFolder();
+        return Path.Combine(fibertestPath, $@"portdata/{CharonSerial}p{OpticalPort:000}");
     }
 
     public string ToStringB(Charon mainCharon)
@@ -96,17 +70,12 @@ public class MonitoringPort
 
     public bool HasAdditionalBase()
     {
-        var fibertestPath = FileOperations.GetMainFolder();
-        var portDataFolder = Path.Combine(fibertestPath, @"PortData");
-        var baseFile = Path.Combine(portDataFolder, $@"{GetPortFolderName()}/{BaseRefType.Additional.ToBaseFileName()}");
-        return File.Exists(baseFile);
+        return File.Exists($@"{GetThisPortDataFolder()}/{BaseRefType.Additional.ToBaseFileName()}");
     }
 
     public byte[]? GetBaseBytes<T>(BaseRefType baseRefType, ILogger<T> logger)
     {
-        var fibertestPath = FileOperations.GetMainFolder();
-        var portDataFolder = Path.Combine(fibertestPath, @"PortData");
-        var baseFile = Path.Combine(portDataFolder, $@"{GetPortFolderName()}/{baseRefType.ToBaseFileName()}");
+        var baseFile = $@"{GetThisPortDataFolder()}/{baseRefType.ToBaseFileName()}";
         if (File.Exists(baseFile))
             return File.ReadAllBytes(baseFile);
         logger.Error(Logs.RtuManager, $"Can't find {baseFile}");
@@ -134,16 +103,13 @@ public class MonitoringPort
 
     public void SaveMeasBytes<T>(BaseRefType baseRefType, byte[] bytes, SorType sorType, ILogger<T> logger)
     {
-        var fibertestPath = FileOperations.GetMainFolder();
-        var portDataFolder = Path.Combine(fibertestPath, @"PortData");
-        var measFile = Path.Combine(portDataFolder, $@"{GetPortFolderName()}/{baseRefType.ToFileName(sorType)}");
+        var measFile =  $@"{GetThisPortDataFolder()}/{baseRefType.ToFileName(sorType)}";
 
         try
         {
             if (baseRefType == BaseRefType.Precise && sorType == SorType.Meas && File.Exists(measFile))
             {
-                var previousFile = Path.Combine(portDataFolder,
-                    $@"{GetPortFolderName()}/{baseRefType.ToFileName(SorType.Previous)}");
+                var previousFile = $@"{GetThisPortDataFolder()}/{baseRefType.ToFileName(SorType.Previous)}";
                 if (File.Exists(previousFile))
                     File.Delete(previousFile);
                 File.Move(measFile, previousFile);

@@ -267,9 +267,9 @@ namespace Iit.Fibertest.Client
             var registrationTime = $@"{opticalEventModel.EventRegistrationTimestamp:G}";
             row.Cells[2].AddParagraph(registrationTime);
 
-            if (_closingTimes.ContainsKey(opticalEventModel.SorFileId))
+            if (_closingTimes.TryGetValue(opticalEventModel.SorFileId, out var time))
             {
-                var closingTime = $@"{_closingTimes[opticalEventModel.SorFileId]:G}";
+                var closingTime = $@"{time:G}";
                 row.Cells[3].AddParagraph(closingTime);
             }
             row.Cells[4].AddParagraph($@"{opticalEventModel.TraceTitle}");
