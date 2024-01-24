@@ -266,3 +266,5 @@ paket-files/
 /Deploy/Temp/OtdrMeasEngine
 /DeployDebian/rtu
 /DeployDebian/rtu.tar.gz
+/DeployDebian/rtu.db
+/DeployDebian/rtu.json
