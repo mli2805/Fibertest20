@@ -3,12 +3,9 @@
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class RtuCurrentStateDto
+    public class RtuCurrentStateDto : RequestAnswer
     {
-        [DataMember]
-        public ReturnCode ReturnCode { get; set; }
-        [DataMember]
-        public string ErrorMessage { get; set; }
+      
 
         [DataMember]
         public InitializationResult LastInitializationResult { get; set; }
@@ -17,9 +14,8 @@ namespace Iit.Fibertest.Dto
 
         public RtuCurrentStateDto() { }
 
-        public RtuCurrentStateDto(ReturnCode returnCode)
+        public RtuCurrentStateDto(ReturnCode returnCode) : base(returnCode)
         {
-            ReturnCode = returnCode;
         }
     }
 }

@@ -84,7 +84,7 @@ namespace Iit.Fibertest.DataCenterCore
             RtuInitializedDto rtuInitializedDto;
             switch (dto.RtuAddresses.Main.Port)
             {
-                case (int)TcpPorts.RtuListenTo: 
+                case (int)TcpPorts.RtuListenTo:
                     rtuInitializedDto = await _clientToRtuTransmitter.InitializeRtuAsync(dto); break;
                 case (int)TcpPorts.RtuVeexListenTo:
                     rtuInitializedDto = await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto); break;
@@ -94,13 +94,13 @@ namespace Iit.Fibertest.DataCenterCore
                     return new RtuInitializedDto(ReturnCode.Error);
             }
 
-            await _ftSignalRClient.NotifyAll("RtuInitialized", rtuInitializedDto.ToCamelCaseJson());
-
             if (rtuInitializedDto.ReturnCode == ReturnCode.InProgress &&
                 dto.RtuAddresses.Main.Port == (int)TcpPorts.RtuListenToHttp)
             {
-                rtuInitializedDto = await PollMakLinuxTillResult(dto.RtuAddresses);
+                rtuInitializedDto = await PollMakLinuxForInitializationResult(dto.RtuAddresses);
             }
+
+            await _ftSignalRClient.NotifyAll("RtuInitialized", rtuInitializedDto.ToCamelCaseJson());
 
             if (rtuInitializedDto.IsInitialized)
             {
@@ -130,7 +130,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, rtuInitializedDto);
         }
 
-        private async Task<RtuInitializedDto> PollMakLinuxTillResult(DoubleAddress rtuDoubleAddress)
+        private async Task<RtuInitializedDto> PollMakLinuxForInitializationResult(DoubleAddress rtuDoubleAddress)
         {
             var count = 18; // 18 * 5 sec = 90 sec limit
             var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
@@ -143,6 +143,22 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             return new RtuInitializedDto(ReturnCode.TimeOutExpired);
+        }
+        private async Task<RequestAnswer> PollMakLinuxForApplyMonitoringSettingsResult(DoubleAddress rtuDoubleAddress)
+        {
+            var count = 18; // 18 * 5 sec = 90 sec limit
+            var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
+            while (--count >= 0)
+            {
+                await Task.Delay(5000);
+                var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
+                if (state.ReturnCode == ReturnCode.D2RHttpError)
+                    return new RequestAnswer(ReturnCode.FailedToApplyMonitoringSettings);
+                if ( state.LastInitializationResult != null)
+                    return new RequestAnswer(ReturnCode.MonitoringSettingsAppliedSuccessfully);
+            }
+
+            return new RequestAnswer(ReturnCode.TimeOutExpired);
         }
 
 
@@ -237,20 +253,26 @@ namespace Iit.Fibertest.DataCenterCore
                     ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
                 };
             }
-                
-            RequestAnswer transferResult;
+
+            RequestAnswer applyResult;
             switch (rtuAddresses.Main.Port)
             {
-                case (int)TcpPorts.RtuListenTo: 
-                    transferResult = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
+                case (int)TcpPorts.RtuListenTo:
+                    applyResult = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
                 case (int)TcpPorts.RtuVeexListenTo:
-                    transferResult = await _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
+                    applyResult = await _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
                 case (int)TcpPorts.RtuListenToHttp:
-                    transferResult = await _clientToLinuxRtuHttpTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
+                    applyResult = await _clientToLinuxRtuHttpTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
                 default:
                     return new RequestAnswer(ReturnCode.Error);
             }
-            return transferResult;
+
+            if (applyResult.ReturnCode == ReturnCode.InProgress &&
+                rtuAddresses.Main.Port == (int)TcpPorts.RtuListenToHttp)
+            {
+                applyResult = await PollMakLinuxForApplyMonitoringSettingsResult(rtuAddresses);
+            }
+            return applyResult;
         }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
@@ -313,7 +335,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
             var transferResult = await _baseRefRepairmanIntermediary.TransmitBaseRefs(convertedDto);
-            
+
             if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return transferResult;
 

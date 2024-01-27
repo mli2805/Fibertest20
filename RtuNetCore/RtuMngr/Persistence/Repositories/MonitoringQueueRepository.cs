@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -7,8 +7,6 @@ namespace Iit.Fibertest.RtuMngr;
 
 public class MonitoringQueueRepository
 {
-    private static readonly IMapper Mapper = new MapperConfiguration(
-        cfg => cfg.AddProfile<MappingEfProfile>()).CreateMapper();
     private readonly RtuContext _rtuContext;
     private readonly ILogger<MonitoringQueueRepository> _logger;
 
@@ -23,7 +21,7 @@ public class MonitoringQueueRepository
         var entity = await _rtuContext.MonitoringQueue.FirstOrDefaultAsync(p =>
             p.CharonSerial == monitoringPort.CharonSerial && p.OpticalPort == monitoringPort.OpticalPort);
 
-        var newEntity = Mapper.Map<MonitoringPortEf>(monitoringPort);
+        var newEntity = monitoringPort.ToEf();
 
         if (entity != null)
         {
@@ -55,39 +53,54 @@ public class MonitoringQueueRepository
     public async Task<List<MonitoringPort>> GetAll()
     {
         var portEfs = await _rtuContext.MonitoringQueue.ToListAsync();
-        var ports = portEfs.Select(p => Mapper.Map<MonitoringPort>(p)).ToList();
+        var ports = portEfs.Select(p => p.FromEf()).ToList();
         return ports;
     }
 
-    public async Task<int> ApplyNewList(List<MonitoringPort> ports)
+    public async Task<int> CreateNewQueue(List<PortWithTraceDto> ports)
+    {
+        var oldPorts = await GetAll();
+        var newPorts = new List<MonitoringPort>();
+        foreach (var portWithTraceDto in ports)
+        {
+            var monitoringPort = new MonitoringPort(portWithTraceDto);
+            var oldPort = oldPorts.FirstOrDefault(p => p.TraceId == monitoringPort.TraceId);
+            if (oldPort != null)
+            {
+                monitoringPort.LastFastSavedTimestamp = oldPort.LastFastSavedTimestamp;
+                monitoringPort.LastPreciseSavedTimestamp = oldPort.LastPreciseSavedTimestamp;
+                monitoringPort.LastFastMadeTimestamp = oldPort.LastFastMadeTimestamp;
+                monitoringPort.LastPreciseMadeTimestamp = oldPort.LastPreciseMadeTimestamp;
+            }
+            newPorts.Add(monitoringPort);
+        }
+
+        await ApplyNewList(newPorts);
+        return newPorts.Count;
+    }
+
+    private async Task ApplyNewList(List<MonitoringPort> ports)
     {
         await using var transaction = await _rtuContext.Database.BeginTransactionAsync();
 
         try
         {
             var oldPorts = await _rtuContext.MonitoringQueue.ToListAsync();
-            _logger.Info(Logs.RtuManager, $"ApplyNewList: db contains {oldPorts.Count} old ports");
             _rtuContext.MonitoringQueue.RemoveRange(oldPorts);
 
-            var portEfs = ports.Select(Mapper.Map<MonitoringPortEf>).ToList();
-            _logger.Info(Logs.RtuManager, $"ApplyNewList: {portEfs.Count} new ports were converted to EF form");
+            var portEfs = ports.Select(p=>p.ToEf()).ToList();
             await _rtuContext.AddRangeAsync(portEfs);
-            var lines = await _rtuContext.SaveChangesAsync();
+            await _rtuContext.SaveChangesAsync();
             await transaction.CommitAsync();
-            return lines;
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, "ApplyNewList: "+ e.Message);
+            _logger.Error(Logs.RtuManager, "ApplyNewList: " + e.Message);
             if (e.InnerException != null)
-            {
-                _logger.Error(Logs.RtuManager, "InnerException: "+ e.InnerException.Message);
-
-            }
+                _logger.Error(Logs.RtuManager, "InnerException: " + e.InnerException.Message);
             await transaction.RollbackAsync();
-            return -1;
         }
-       
+
     }
 
 }

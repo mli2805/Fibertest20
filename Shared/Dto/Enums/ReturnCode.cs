@@ -73,7 +73,6 @@
         DbEntityToUpdateNotFound = 3004,
 
         BaseRefAssignedSuccessfully = 4001,
-        MonitoringSettingsAppliedSuccessfully = 4002,
         OtauAttachedSuccessfully = 4003,
         OtauDetachedSuccessfully = 4004,
 
@@ -88,8 +87,10 @@
         FailedToSendBaseToRtu = 5041,
         FailedToUpdateVeexTestList = 5042,
         BaseRefsAmendmentProcessDone = 5050,
-        RtuInitializedAndBaseRefsResentSuccessfully = 5101,
-        RtuInitializedFailedToReSendBaseRefs = 5110,
+        RtuInitializedAndBaseRefsResentSuccessfully = 5100,
+        RtuInitializedFailedToReSendBaseRefs = 5101,
+        MonitoringSettingsAppliedSuccessfully = 5110,
+        FailedToApplyMonitoringSettings = 5111,
 
 
         ClientRegisteredSuccessfully = 9000,

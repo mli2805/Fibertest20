@@ -7,9 +7,11 @@ namespace Iit.Fibertest.RtuMngr;
 
 public class MonitoringPort
 {
+    public int Id { get; init; }
+
     public bool IsPortOnMainCharon;
 
-    public string CharonSerial;
+    public string CharonSerial = string.Empty;
     public int OpticalPort;
     public Guid TraceId;
 
@@ -27,6 +29,8 @@ public class MonitoringPort
 
     public DateTime LastMadeTimestamp => 
         LastFastMadeTimestamp > LastPreciseMadeTimestamp ? LastFastMadeTimestamp : LastPreciseMadeTimestamp;
+
+    public MonitoringPort() {}
 
     // new port for monitoring in user's command
     public MonitoringPort(PortWithTraceDto port)

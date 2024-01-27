@@ -21,6 +21,8 @@ public partial class RtuManager
             _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
             return;
         }
+        _logger.Debug(Logs.RtuManager, $"Monitoring port is {monitoringPort.CharonSerial}:{monitoringPort.OpticalPort}");
+
         _config.Update(c => c.Monitoring.LastMeasurementTimestamp = DateTime.Now.ToString(CultureInfo.CurrentCulture));
         _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = true);
         IsMonitoringOn = true;
@@ -29,8 +31,10 @@ public partial class RtuManager
         {
             _measurementNumber++;
 
-            var previousUserReturnCode = monitoringPort!.LastMoniResult!.UserReturnCode;
-            var previousHardwareReturnCode = monitoringPort.LastMoniResult!.HardwareReturnCode;
+            // could be the very first measurement for port, so LastMoniResult is null
+            var previousUserReturnCode = monitoringPort!.LastMoniResult?.UserReturnCode ?? ReturnCode.Ok;
+            var previousHardwareReturnCode = monitoringPort.LastMoniResult?.HardwareReturnCode ?? ReturnCode.Ok;
+
             await ProcessOnePort(monitoringPort);
 
             if (monitoringPort.LastMoniResult!.HardwareReturnCode != ReturnCode.MeasurementInterrupted)
@@ -261,6 +265,7 @@ public partial class RtuManager
     {
         _cancellationTokenSource = new CancellationTokenSource();
 
+        _logger.Debug(Logs.RtuManager, "Log point 4");
         if (shouldChangePort && !(await ToggleToPort(monitoringPort)))
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementToggleToPortFailed);
 

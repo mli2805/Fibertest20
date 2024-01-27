@@ -24,27 +24,18 @@ namespace Iit.Fibertest.RtuMngr
         }
     }
 
-    public class RtuContextInitializer
+    public class RtuContextInitializer(ILogger<RtuContextInitializer> logger, RtuContext rtuContext)
     {
-        private readonly ILogger<RtuContextInitializer> _logger;
-        private readonly RtuContext _rtuContext;
-
-        public RtuContextInitializer(ILogger<RtuContextInitializer> logger, RtuContext rtuContext)
-        {
-            _logger = logger;
-            _rtuContext = rtuContext;
-        }
-
         public async Task InitializeAsync()
         {
             try
             {
-                await _rtuContext.Database.EnsureCreatedAsync();
+                await rtuContext.Database.EnsureCreatedAsync();
             }
             catch (Exception e)
             {
-                _logger.Error(Logs.RtuService, "An error occurred while initializing the database.");
-                _logger.Error(Logs.RtuService, e.Message);
+                logger.Error(Logs.RtuService, "An error occurred while initializing the database.");
+                logger.Error(Logs.RtuService, e.Message);
                 throw;
             }
         }

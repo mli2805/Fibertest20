@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Dto
         public double FirstBreakDistance { get; set; }
 
         public List<AccidentInSor> Accidents { get; set; }
+
         public byte[] SorBytes { get; set; }
 
         public FiberState GetAggregatedResult()

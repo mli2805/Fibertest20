@@ -4,7 +4,7 @@ xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.
 rem folder OtdrMeasEngine is prepared on ubuntu2004 virtual machine
 tar -czf rtu.tar.gz rtu
 
-rem password is iitft25user
+rem password is iitft25user или 123
 c:\putty\pscp.exe rtu.tar.gz user@192.168.96.56:/var/tmp
 rem c:\putty\pscp.exe install.sh user@192.168.96.56:/var/tmp
 pause
