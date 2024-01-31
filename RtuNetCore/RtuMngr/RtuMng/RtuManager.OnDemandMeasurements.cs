@@ -18,8 +18,8 @@ namespace Iit.Fibertest.RtuMngr
 
         private async Task DoOutOfTurn(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var moniResult = await DoSecondMeasurement(
-                new MonitoringPort(dto.PortWithTraceDto!), false, BaseRefType.Precise, true);
+            var moniResult = await DoFullMeasurement(
+                new MonitoringPort(dto.PortWithTraceDto!), BaseRefType.Precise, true, true);
 
             var monitoringPort = await GetMonitoringPort(dto.PortWithTraceDto!.OtauPort.Serial,
                 dto.PortWithTraceDto.OtauPort.OpticalPort);

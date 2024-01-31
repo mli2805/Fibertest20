@@ -29,6 +29,7 @@ public partial class RtuManager
 
         while (true)
         {
+            if (RtuServiceCancellationToken.IsCancellationRequested) break;
             _measurementNumber++;
 
             // could be the very first measurement for port, so LastMoniResult is null
@@ -37,18 +38,16 @@ public partial class RtuManager
 
             await ProcessOnePort(monitoringPort);
 
-            if (monitoringPort.LastMoniResult!.HardwareReturnCode != ReturnCode.MeasurementInterrupted)
-            {
-                await UpdateMonitoringPort(monitoringPort);
-            }
-            else
+            if (monitoringPort.LastMoniResult!.HardwareReturnCode == ReturnCode.MeasurementInterrupted)
             {
                 // monitoringPort in memory changed
                 // monitoringPort уже изменился, а измерение прервали, надо откатить
                 monitoringPort.LastMoniResult.UserReturnCode = previousUserReturnCode;
                 monitoringPort.LastMoniResult.HardwareReturnCode = previousHardwareReturnCode;
-                await UpdateMonitoringPort(monitoringPort);
             }
+
+            await PersistMonitoringPort(monitoringPort);
+
 
             if (!IsMonitoringOn)
             {
@@ -58,16 +57,6 @@ public partial class RtuManager
 
             monitoringPort = await GetNextPortForMonitoring();
         }
-
-        // _logger.Info(Logs.RtuManager, "Monitoring stopped.");
-
-        // if (!_wasMonitoringOn)
-        // {
-        //     _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
-        //     _otdrManager.DisconnectOtdr();
-        //     IsMonitoringOn = false; 
-        //     _logger.Info(Logs.RtuManager, "RTU is turned into MANUAL mode.");
-        // }
 
         _logger.Info(Logs.RtuManager, "RTU is turned into MANUAL mode.");
     }
@@ -81,11 +70,13 @@ public partial class RtuManager
         if ((_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan) ||
             (monitoringPort.LastTraceState == FiberState.Ok || isNewTrace))
         {
-            monitoringPort.LastMoniResult = await DoFastMeasurement(monitoringPort);
-            if (monitoringPort.LastMoniResult.IsMeasurementEndedNormally)
+            monitoringPort.LastMoniResult = await DoFullMeasurement(monitoringPort, BaseRefType.Fast);
+            if (!monitoringPort.LastMoniResult.IsMeasurementEndedNormally)
                 return;
             hasFastPerformed = true;
         }
+
+        if (RtuServiceCancellationToken.IsCancellationRequested) return;
 
         var isTraceBroken = monitoringPort.LastTraceState != FiberState.Ok;
         var isSecondMeasurementNeeded =
@@ -101,7 +92,7 @@ public partial class RtuManager
                 ? BaseRefType.Additional
                 : BaseRefType.Precise;
 
-            monitoringPort.LastMoniResult = await DoSecondMeasurement(monitoringPort, hasFastPerformed, baseType);
+            monitoringPort.LastMoniResult = await DoFullMeasurement(monitoringPort, baseType, !hasFastPerformed);
             if (monitoringPort.LastMoniResult.UserReturnCode == ReturnCode.MeasurementEndedNormally)
                 monitoringPort.IsConfirmationRequired = false;
         }
@@ -109,33 +100,58 @@ public partial class RtuManager
         monitoringPort.IsMonitoringModeChanged = false;
     }
 
-    private async Task<MoniResult> DoFastMeasurement(MonitoringPort monitoringPort)
+    private async Task<MoniResult> DoFullMeasurement(MonitoringPort monitoringPort, BaseRefType baseType,
+        bool shouldChangePort = true, bool isOutOfTurnMeasurement = false)
     {
         _logger.EmptyAndLog(Logs.RtuManager,
-            $"MEAS. {_measurementNumber}, Fast, port {monitoringPort.ToStringB(_mainCharon)}");
+            $"MEAS. {_measurementNumber}, {baseType}, port {monitoringPort.ToStringB(_mainCharon)}");
 
-        var moniResult = await DoMeasurement(BaseRefType.Fast, monitoringPort);
-        var reason = ReasonToSendMonitoringResult.None;
-
+        var moniResult = await DoMeasurement(baseType, monitoringPort, shouldChangePort);
         if (moniResult.IsMeasurementEndedNormally)
         {
             if (moniResult.GetAggregatedResult() != FiberState.Ok)
                 monitoringPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
-            if (monitoringPort.LastTraceState == FiberState.Unknown) // 740)
-            {
-                _logger.Info(Logs.RtuManager, "First measurement on port");
-                reason |= ReasonToSendMonitoringResult.FirstMeasurementOnPort;
-            }
+            var reason = BuildReason(moniResult, monitoringPort, baseType, isOutOfTurnMeasurement);
+            await ApplyMoniResult(moniResult, monitoringPort, baseType, reason);
+        }
+        else
+            await LogFailedMeasurement(moniResult, monitoringPort);
 
-            if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
-            {
-                _logger.Info(Logs.RtuManager,
-                    $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})");
-                reason |= ReasonToSendMonitoringResult.TraceStateChanged;
-                monitoringPort.IsConfirmationRequired = true;
-            }
+        return moniResult;
+    }
 
+    private ReasonToSendMonitoringResult BuildReason(MoniResult moniResult, MonitoringPort monitoringPort,
+          BaseRefType baseType, bool isOutOfTurnMeasurement = false)
+    {
+        var reason = ReasonToSendMonitoringResult.None;
+        if (monitoringPort.LastTraceState == FiberState.Unknown) // 740)
+        {
+            _logger.Info(Logs.RtuManager, "First measurement on port");
+            reason |= ReasonToSendMonitoringResult.FirstMeasurementOnPort;
+        }
+
+        if (isOutOfTurnMeasurement)
+        {
+            _logger.Info(Logs.RtuManager, "It's out of turn precise measurement");
+            reason |= ReasonToSendMonitoringResult.OutOfTurnPreciseMeasurement;
+        }
+
+        if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
+        {
+            _logger.Info(Logs.RtuManager,
+                $"Trace state changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})");
+            reason |= ReasonToSendMonitoringResult.TraceStateChanged;
+        }
+
+        if (monitoringPort.IsConfirmationRequired)
+        {
+            _logger.Info(Logs.RtuManager, "Accident confirmation - should be saved");
+            reason |= ReasonToSendMonitoringResult.OpticalAccidentConfirmation;
+        }
+
+        if (baseType == BaseRefType.Fast)
+        {
             if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan)
             {
                 _logger.Info(Logs.RtuManager,
@@ -143,33 +159,44 @@ public partial class RtuManager
                 _logger.Info(Logs.RtuManager, "It's time to save fast reflectogram");
                 reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
             }
-
-            if (moniResult.UserReturnCode != monitoringPort.LastMoniResult!.UserReturnCode)
-            {
-                _logger.Info(Logs.RtuManager,
-                    $"previous measurement code - {monitoringPort.LastMoniResult.UserReturnCode}, now - {moniResult.UserReturnCode}");
-                _logger.Info(Logs.RtuManager, "Problem with base ref solved");
-                reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
-            }
-
-            monitoringPort.LastFastMadeTimestamp = DateTime.Now;
-            monitoringPort.LastMoniResult = moniResult;
-            monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
-            //await _monitoringQueue.Save();
-            await UpdateMonitoringPort(monitoringPort);
-
-            if (reason != ReasonToSendMonitoringResult.None)
-            {
-                await SaveMoniResult(CreateEf(moniResult, monitoringPort, reason));
-                monitoringPort.LastFastSavedTimestamp = DateTime.Now;
-                // await _monitoringQueue.Save();
-                await UpdateMonitoringPort(monitoringPort);
-            }
         }
         else
-            await LogFailedMeasurement(moniResult, monitoringPort);
+        {
+            if (_preciseSaveTimespan != TimeSpan.Zero &&
+                DateTime.Now - monitoringPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
+            {
+                _logger.Info(Logs.RtuManager, "It's time to save precise reflectogram");
+                reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
+            }
+        }
 
-        return moniResult;
+        if ((monitoringPort.LastMoniResult == null && moniResult.UserReturnCode != ReturnCode.MeasurementEndedNormally) ||
+            (monitoringPort.LastMoniResult != null && moniResult.UserReturnCode != monitoringPort.LastMoniResult.UserReturnCode))
+        {
+            var previous = monitoringPort.LastMoniResult == null
+                ? "Unknown"
+                : monitoringPort.LastMoniResult.UserReturnCode.ToString();
+            _logger.Info(Logs.RtuManager,
+                $"previous measurement code - {previous}, now - {moniResult.UserReturnCode}");
+            reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
+        }
+        return reason;
+    }
+
+    private async Task ApplyMoniResult(MoniResult moniResult, MonitoringPort monitoringPort,
+         BaseRefType baseType, ReasonToSendMonitoringResult reason)
+    {
+        monitoringPort.SetMadeTimeStamp(baseType);
+        monitoringPort.LastMoniResult = moniResult;
+        monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
+
+        if (reason != ReasonToSendMonitoringResult.None)
+        {
+            _logger.Info(Logs.RtuManager, "ApplyMoniResult going to persist monitoring result");
+            await PersistMoniResultForServer(ToEf(moniResult, monitoringPort, reason));
+            monitoringPort.SetSavedTimeStamp(baseType);
+        }
+        await PersistMonitoringPort(monitoringPort);
     }
 
     private async Task LogFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
@@ -179,10 +206,9 @@ public partial class RtuManager
             _logger.Error(Logs.RtuManager,
                 $"{monitoringPort.LastMoniResult.UserReturnCode} => {moniResult.UserReturnCode}");
             _logger.Error(Logs.RtuManager, "Problem with base ref occurred!");
-            await SaveMoniResult(CreateEf(moniResult, monitoringPort,
+            await PersistMoniResultForServer(ToEf(moniResult, monitoringPort,
                 ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
-            //await _monitoringQueue.Save();
-            await UpdateMonitoringPort(monitoringPort);
+            await PersistMonitoringPort(monitoringPort);
         }
         else
         {
@@ -193,79 +219,10 @@ public partial class RtuManager
         // and will be discovered by user only if there are many
     }
 
-    private async Task<MoniResult> DoSecondMeasurement(MonitoringPort monitoringPort, bool hasFastPerformed,
-            BaseRefType baseType, bool isOutOfTurnMeasurement = false)
-    {
-        _logger.EmptyAndLog(Logs.RtuManager,
-            $"MEAS. {_measurementNumber}, {baseType}, port {monitoringPort.ToStringB(_mainCharon)}");
-
-        var moniResult = await DoMeasurement(baseType, monitoringPort, !hasFastPerformed);
-
-        if (moniResult.IsMeasurementEndedNormally)
-        {
-            var reason = ReasonToSendMonitoringResult.None;
-            if (isOutOfTurnMeasurement)
-            {
-                _logger.Info(Logs.RtuManager, "It's out of turn precise measurement");
-                reason |= ReasonToSendMonitoringResult.OutOfTurnPreciseMeasurement;
-            }
-
-            if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
-            {
-                _logger.Info(Logs.RtuManager,
-                    $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})");
-                reason |= ReasonToSendMonitoringResult.TraceStateChanged;
-            }
-
-            if (monitoringPort.IsConfirmationRequired)
-            {
-                _logger.Info(Logs.RtuManager, "Accident confirmation - should be saved");
-                reason |= ReasonToSendMonitoringResult.OpticalAccidentConfirmation;
-            }
-
-            if (_preciseSaveTimespan != TimeSpan.Zero &&
-                DateTime.Now - monitoringPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
-            {
-                _logger.Info(Logs.RtuManager, "It's time to save precise reflectogram");
-                reason |= ReasonToSendMonitoringResult.TimeToRegularSave;
-            }
-
-            if (moniResult.UserReturnCode != monitoringPort.LastMoniResult!.UserReturnCode)
-            {
-                _logger.Info(Logs.RtuManager,
-                    $"previous measurement code - {monitoringPort.LastMoniResult.UserReturnCode}, now - {moniResult.UserReturnCode}");
-                _logger.Info(Logs.RtuManager, "Problem with base ref solved");
-                reason |= ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged;
-            }
-
-            monitoringPort.LastPreciseMadeTimestamp = DateTime.Now;
-            monitoringPort.LastMoniResult = moniResult;
-            monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
-            // await _monitoringQueue.Save();
-            await UpdateMonitoringPort(monitoringPort);
-
-            if (reason != ReasonToSendMonitoringResult.None)
-            {
-                await SaveMoniResult(CreateEf(moniResult, monitoringPort, reason));
-                monitoringPort.LastPreciseSavedTimestamp = DateTime.Now;
-                // await _monitoringQueue.Save();
-                await UpdateMonitoringPort(monitoringPort);
-            }
-
-            //await _monitoringQueue.Save();
-        }
-        else
-            await LogFailedMeasurement(moniResult, monitoringPort);
-
-
-        return moniResult;
-    }
-
     private async Task<MoniResult> DoMeasurement(BaseRefType baseRefType, MonitoringPort monitoringPort, bool shouldChangePort = true)
     {
         _cancellationTokenSource = new CancellationTokenSource();
 
-        _logger.Debug(Logs.RtuManager, "Log point 4");
         if (shouldChangePort && !(await ToggleToPort(monitoringPort)))
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementToggleToPortFailed);
 
@@ -274,7 +231,6 @@ public partial class RtuManager
             return new MoniResult() { UserReturnCode = ReturnCode.MeasurementBaseRefNotFound, BaseRefType = baseRefType };
 
         _currentStep = CreateStepDto(MonitoringCurrentStep.Measure, monitoringPort, baseRefType);
-
 
         if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementInterrupted);
@@ -400,7 +356,7 @@ public partial class RtuManager
         }
     }
 
-    private MonitoringResultEf CreateEf(MoniResult moniResult, MonitoringPort monitoringPort,
+    private MonitoringResultEf ToEf(MoniResult moniResult, MonitoringPort monitoringPort,
         ReasonToSendMonitoringResult reason)
     {
         var dto = new MonitoringResultEf()
@@ -419,5 +375,4 @@ public partial class RtuManager
         };
         return dto;
     }
-
 }

@@ -27,10 +27,10 @@ public class MonitoringPort
     public bool IsMonitoringModeChanged;
     public bool IsConfirmationRequired;
 
-    public DateTime LastMadeTimestamp => 
+    public DateTime LastMadeTimestamp =>
         LastFastMadeTimestamp > LastPreciseMadeTimestamp ? LastFastMadeTimestamp : LastPreciseMadeTimestamp;
 
-    public MonitoringPort() {}
+    public MonitoringPort() { }
 
     // new port for monitoring in user's command
     public MonitoringPort(PortWithTraceDto port)
@@ -107,7 +107,7 @@ public class MonitoringPort
 
     public void SaveMeasBytes<T>(BaseRefType baseRefType, byte[] bytes, SorType sorType, ILogger<T> logger)
     {
-        var measFile =  $@"{GetThisPortDataFolder()}/{baseRefType.ToFileName(sorType)}";
+        var measFile = $@"{GetThisPortDataFolder()}/{baseRefType.ToFileName(sorType)}";
 
         try
         {
@@ -125,5 +125,21 @@ public class MonitoringPort
             logger.Error(Logs.RtuManager, $"Failed to persist measurement data into {measFile}");
             logger.Error(Logs.RtuManager, e.Message);
         }
+    }
+
+    public void SetMadeTimeStamp(BaseRefType baseType)
+    {
+        if (baseType == BaseRefType.Fast)
+            LastFastMadeTimestamp = DateTime.Now;
+        else
+            LastPreciseMadeTimestamp = DateTime.Now;
+    }
+    
+    public void SetSavedTimeStamp(BaseRefType baseType)
+    {
+        if (baseType == BaseRefType.Fast)
+            LastFastSavedTimestamp = DateTime.Now;
+        else
+            LastPreciseSavedTimestamp = DateTime.Now;
     }
 }

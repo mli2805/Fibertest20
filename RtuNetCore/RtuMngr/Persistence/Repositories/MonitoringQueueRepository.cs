@@ -5,23 +5,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Iit.Fibertest.RtuMngr;
 
-public class MonitoringQueueRepository
+public class MonitoringQueueRepository(RtuContext rtuContext, ILogger<MonitoringQueueRepository> logger)
 {
-    private readonly RtuContext _rtuContext;
-    private readonly ILogger<MonitoringQueueRepository> _logger;
-
-    public MonitoringQueueRepository(RtuContext rtuContext, ILogger<MonitoringQueueRepository> logger)
-    {
-        _rtuContext = rtuContext;
-        _logger = logger;
-    }
-
     public async Task AddOrUpdate(MonitoringPort monitoringPort)
     {
-        var entity = await _rtuContext.MonitoringQueue.FirstOrDefaultAsync(p =>
+        var entity = await rtuContext.MonitoringQueue.FirstOrDefaultAsync(p =>
             p.CharonSerial == monitoringPort.CharonSerial && p.OpticalPort == monitoringPort.OpticalPort);
 
-        var newEntity = monitoringPort.ToEf();
+        MonitoringPortEf newEntity = monitoringPort.ToEf();
 
         if (entity != null)
         {
@@ -29,30 +20,32 @@ public class MonitoringQueueRepository
         }
         else
         {
-            await _rtuContext.MonitoringQueue.AddAsync(newEntity);
-            await _rtuContext.SaveChangesAsync();
+            await rtuContext.MonitoringQueue.AddAsync(newEntity);
+            await rtuContext.SaveChangesAsync();
         }
     }
 
     private async Task UpdateExistingMonitoringPort(MonitoringPortEf entity, MonitoringPortEf newEntity)
     {
-        await using var transaction = await _rtuContext.Database.BeginTransactionAsync();
+        await using var transaction = await rtuContext.Database.BeginTransactionAsync();
 
         try
         {
-            _rtuContext.MonitoringQueue.Remove(entity);
-            _rtuContext.MonitoringQueue.Add(newEntity);
-            await _rtuContext.SaveChangesAsync();
+            rtuContext.MonitoringQueue.Remove(entity);
+            rtuContext.MonitoringQueue.Add(newEntity);
+            await rtuContext.SaveChangesAsync();
+            await transaction.CommitAsync();
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            logger.Error(Logs.RtuManager, "UpdateExistingMonitoringPort: " + e.Message);
             await transaction.RollbackAsync();
         }
     }
 
     public async Task<List<MonitoringPort>> GetAll()
     {
-        var portEfs = await _rtuContext.MonitoringQueue.ToListAsync();
+        var portEfs = await rtuContext.MonitoringQueue.ToListAsync();
         var ports = portEfs.Select(p => p.FromEf()).ToList();
         return ports;
     }
@@ -81,23 +74,23 @@ public class MonitoringQueueRepository
 
     private async Task ApplyNewList(List<MonitoringPort> ports)
     {
-        await using var transaction = await _rtuContext.Database.BeginTransactionAsync();
+        await using var transaction = await rtuContext.Database.BeginTransactionAsync();
 
         try
         {
-            var oldPorts = await _rtuContext.MonitoringQueue.ToListAsync();
-            _rtuContext.MonitoringQueue.RemoveRange(oldPorts);
+            var oldPorts = await rtuContext.MonitoringQueue.ToListAsync();
+            rtuContext.MonitoringQueue.RemoveRange(oldPorts);
 
-            var portEfs = ports.Select(p=>p.ToEf()).ToList();
-            await _rtuContext.AddRangeAsync(portEfs);
-            await _rtuContext.SaveChangesAsync();
+            var portEfs = ports.Select(p => p.ToEf()).ToList();
+            await rtuContext.AddRangeAsync(portEfs);
+            await rtuContext.SaveChangesAsync();
             await transaction.CommitAsync();
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, "ApplyNewList: " + e.Message);
+            logger.Error(Logs.RtuManager, "ApplyNewList: " + e.Message);
             if (e.InnerException != null)
-                _logger.Error(Logs.RtuManager, "InnerException: " + e.InnerException.Message);
+                logger.Error(Logs.RtuManager, "InnerException: " + e.InnerException.Message);
             await transaction.RollbackAsync();
         }
 

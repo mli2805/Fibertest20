@@ -10,13 +10,21 @@ public partial class RtuManager
     private static readonly JsonSerializerSettings JsonSerializerSettings =
         new() { TypeNameHandling = TypeNameHandling.All };
     // ClientMeasurementResultDto, BopStateChangedDto, ??? rtu accidents how?
-    private async Task SaveMoniResult(MonitoringResultEf entity)
+
+    private async Task PersistMoniResultForServer(MonitoringResultEf entity)
     {
-        using var scope = _serviceProvider.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<MonitoringResultsRepository>();
-        await repo.Add(entity);
+        try
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var repo = scope.ServiceProvider.GetRequiredService<MonitoringResultsRepository>();
+            await repo.Add(entity);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(Logs.RtuManager, "PersistMoniResultForServer: " + e.Message);
+        }
     }
-        
+
     private async Task SaveEvent(object obj)
     {
         var json = JsonConvert.SerializeObject(obj, JsonSerializerSettings);
@@ -34,7 +42,6 @@ public partial class RtuManager
             using var scope = _serviceProvider.CreateScope();
             var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
             var allPorts = await repo.GetAll();
-            _logger.Info(Logs.RtuManager, $"Queue contains {allPorts.Count} entries");
             return allPorts.Count == 0 ? null : allPorts.MinBy(p => p.LastMadeTimestamp);
         }
         catch (Exception e)
@@ -53,7 +60,7 @@ public partial class RtuManager
     }
 
 
-    private async Task UpdateMonitoringPort(MonitoringPort monitoringPort)
+    private async Task PersistMonitoringPort(MonitoringPort monitoringPort)
     {
         using var scope = _serviceProvider.CreateScope();
         var repo = scope.ServiceProvider.GetRequiredService<MonitoringQueueRepository>();
