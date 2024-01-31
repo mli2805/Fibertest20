@@ -29,6 +29,9 @@ namespace Iit.Fibertest.Graph
 
         public List<TceTypeStruct> TceTypeStructs { get; set; } = new List<TceTypeStruct>();
 
+
+        // if some List property added to Model see AdjustModelDeserializedFromSnapshotMadeByOldVersion
+
         public void CopyFrom(Model source)
         {
             Licenses = source.Licenses;

@@ -83,6 +83,8 @@ namespace Iit.Fibertest.Graph
                 model.VeexTests = new List<VeexTest>();
             if (model.GponPortRelations == null)
                 model.GponPortRelations = new List<GponPortRelation>();
+            if (model.RtuAccidents == null)
+                model.RtuAccidents = new List<RtuAccident>();
         }
     }
 }
