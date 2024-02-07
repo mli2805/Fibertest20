@@ -17,13 +17,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly ClientToLinuxRtuHttpTransmitter _clientToLinuxRtuHttpTransmitter;
+        private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
 
         private TimeSpan _gap;
         private readonly Dictionary<Guid, bool> _makLinuxRtuAccess = new Dictionary<Guid, bool>();
 
         public RtuLinuxPollsterThread(IniFile iniFile, IMyLog logFile,
             GlobalState globalState, Model writeModel, RtuStationsRepository rtuStationsRepository,
-            ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
+            ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter, MsmqMessagesProcessor msmqMessagesProcessor)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
             _rtuStationsRepository = rtuStationsRepository;
             _clientToLinuxRtuHttpTransmitter = clientToLinuxRtuHttpTransmitter;
+            _msmqMessagesProcessor = msmqMessagesProcessor;
         }
 
         public void Start()
@@ -67,19 +69,46 @@ namespace Iit.Fibertest.DataCenterCore
                     if (station == null) continue;
 
                     var rtuDoubleAddress = station.GetRtuDoubleAddress();
-                    var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
+                    var requestDto = new GetCurrentRtuStateDto()
+                    {
+                        RtuDoubleAddress = rtuDoubleAddress,
+                        LastMeasurementTimestamp = station.LastMeasurementTimestamp
+                    };
                     var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
 
+                    // временно логируем каждое обращение
+                    // if (state == null || state.ReturnCode != ReturnCode.Ok)
+                    // {
+                    //     _logFile.AppendLine($"Failed to get current state of RTU {station.MainAddress}");
+                    //     continue;
+                    // }
+                    // _logFile.AppendLine($"RTU {station.MainAddress} returns current state");
+                    // потом только изменение
                     if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) continue;
+                    //
 
                     if (state.LastInitializationResult?.Result == null)
                         continue;
 
+                    var lastMeasurementTimestamp = state.MonitoringResultDtos.Any()
+                            ? state.MonitoringResultDtos
+                                        .OrderBy(r => r.TimeStamp).Last().TimeStamp
+                            : DateTime.MinValue;
+                    if (state.MonitoringResultDtos.Count > 0)
+                    {
+                        _logFile.AppendLine($"{state.MonitoringResultDtos.Count} monitoring results up to {lastMeasurementTimestamp} received ");
+                        // process monitoring results in another thread
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        Task.Factory.StartNew(() => TransmitMoniResults(state.MonitoringResultDtos));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    }
+
                     var heartbeatDto = new RtuChecksChannelDto()
                     {
-                        RtuId = makLinuxRtu.Id, 
+                        RtuId = makLinuxRtu.Id,
                         Version = state.LastInitializationResult.Result.Version,
-                        IsMainChannel = true
+                        IsMainChannel = true,
+                        LastMeasurementTimestamp = lastMeasurementTimestamp, //DateTime.MinValue means no results received 
                     };
 
                     await _rtuStationsRepository.RegisterRtuHeartbeatAsync(heartbeatDto);
@@ -87,12 +116,24 @@ namespace Iit.Fibertest.DataCenterCore
                     //TODO Current Monitoring step
 
 
+                   
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     _logFile.AppendLine($"Failed to get RTU {makLinuxRtu.MainChannel.ToStringA()} current state");
+                    _logFile.AppendLine(e.Message);
                 }
             }
+        }
+
+        private async Task TransmitMoniResults(List<MonitoringResultDto> dtos)
+        {
+            foreach (var dto in dtos)
+            {
+                _logFile.AppendLine($"Transmit moniresult with state {dto.TraceState} for trace {dto.PortWithTrace.TraceId} to _msmqMessagesProcessor");
+                await _msmqMessagesProcessor.ProcessMonitoringResult(dto);
+            }
+
         }
 
         private bool SaveResultInOrderToLogOnlyChanges(RtuCurrentStateDto state, Rtu makLinuxRtu)

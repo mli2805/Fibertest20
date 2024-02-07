@@ -20,7 +20,7 @@ public partial class RtuManager
                 var recoveryResult = await InitializeRtu(null, true);
                 if (recoveryResult.IsInitialized)
                     _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
-                return recoveryResult.ReturnCode; // Reset Charon
+                return recoveryResult.ReturnCode; // Reset Charon inside InitializeRtu
             case RecoveryStep.ResetArpAndCharon:
                 _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.RestartService);
                 _logger.Info(Logs.RtuManager, "Recovery procedure: Exit rtu service.");

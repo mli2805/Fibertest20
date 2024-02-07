@@ -94,7 +94,8 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
         {
             var uri = dto.RtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/current-state";
-            var request = new HttpRequestMessage(new HttpMethod("GET"), uri);
+            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
             try
             {
                 var response = await HttpClient.SendAsync(request);
@@ -109,7 +110,6 @@ namespace Iit.Fibertest.DataCenterCore
                 var responseJson = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<RtuCurrentStateDto>(responseJson, JsonSerializerSettings);
                 return result;
-
             }
             catch (Exception e)
             {

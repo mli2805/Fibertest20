@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
@@ -16,5 +17,11 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public DoubleAddress RtuDoubleAddress { get; set; }
+
+
+        // Server says RTU that last fetched measurement has this timestamp
+        // and all monitoring results older than this could be removed from db
+        [DataMember]
+        public DateTime LastMeasurementTimestamp { get; set; }
     }
 }

@@ -119,6 +119,9 @@ namespace Iit.Fibertest.DataCenterCore
                             rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
                         else
                             rtu.LastConnectionByReserveAddressTimestamp = DateTime.Now;
+
+                        if (dto.LastMeasurementTimestamp > DateTime.MinValue) //DateTime.MinValue means no results received
+                            rtu.LastMeasurementTimestamp = dto.LastMeasurementTimestamp;
                         rtu.Version = dto.Version;
                     }
                     return await dbContext.SaveChangesAsync();

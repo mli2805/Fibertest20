@@ -193,7 +193,7 @@ public partial class RtuManager
         if (reason != ReasonToSendMonitoringResult.None)
         {
             _logger.Info(Logs.RtuManager, "ApplyMoniResult going to persist monitoring result");
-            await PersistMoniResultForServer(ToEf(moniResult, monitoringPort, reason));
+            await PersistMoniResultForServer(moniResult.ToEf(monitoringPort, _config.Value.General.RtuId, reason));
             monitoringPort.SetSavedTimeStamp(baseType);
         }
         await PersistMonitoringPort(monitoringPort);
@@ -206,7 +206,7 @@ public partial class RtuManager
             _logger.Error(Logs.RtuManager,
                 $"{monitoringPort.LastMoniResult.UserReturnCode} => {moniResult.UserReturnCode}");
             _logger.Error(Logs.RtuManager, "Problem with base ref occurred!");
-            await PersistMoniResultForServer(ToEf(moniResult, monitoringPort,
+            await PersistMoniResultForServer(moniResult.ToEf(monitoringPort, _config.Value.General.RtuId,
                 ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
             await PersistMonitoringPort(monitoringPort);
         }
@@ -356,23 +356,23 @@ public partial class RtuManager
         }
     }
 
-    private MonitoringResultEf ToEf(MoniResult moniResult, MonitoringPort monitoringPort,
-        ReasonToSendMonitoringResult reason)
-    {
-        var dto = new MonitoringResultEf()
-        {
-            ReturnCode = moniResult.UserReturnCode,
-            Reason = reason,
-            RtuId = _config.Value.General.RtuId,
-            TimeStamp = DateTime.Now,
-            Serial = monitoringPort.CharonSerial,
-            IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
-            OpticalPort = monitoringPort.OpticalPort,
-            TraceId = monitoringPort.TraceId,
-            BaseRefType = moniResult.BaseRefType,
-            TraceState = moniResult.GetAggregatedResult(),
-            SorBytes = moniResult.SorBytes
-        };
-        return dto;
-    }
+    // private MonitoringResultEf ToEf(MoniResult moniResult, MonitoringPort monitoringPort,
+    //     ReasonToSendMonitoringResult reason)
+    // {
+    //     var dto = new MonitoringResultEf()
+    //     {
+    //         ReturnCode = moniResult.UserReturnCode,
+    //         Reason = reason,
+    //         RtuId = _config.Value.General.RtuId,
+    //         TimeStamp = DateTime.Now,
+    //         Serial = monitoringPort.CharonSerial,
+    //         IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
+    //         OpticalPort = monitoringPort.OpticalPort,
+    //         TraceId = monitoringPort.TraceId,
+    //         BaseRefType = moniResult.BaseRefType,
+    //         TraceState = moniResult.GetAggregatedResult(),
+    //         SorBytes = moniResult.SorBytes
+    //     };
+    //     return dto;
+    // }
 }

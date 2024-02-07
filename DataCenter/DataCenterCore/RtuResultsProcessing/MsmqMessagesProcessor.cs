@@ -90,6 +90,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if ((dto.Reason ^ ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged) != 0)
             {
+                _logFile.AppendLine($"Monitoring result for trace {dto.PortWithTrace.TraceId}");
                 var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
                 if (sorId != -1)
                     await SaveEventFromDto(dto, sorId);
@@ -120,6 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task SaveEventFromDto(MonitoringResultDto dto, int sorId)
         {
             var addMeasurement = _measurementFactory.CreateCommand(dto, sorId);
+            _logFile.AppendLine($"AddMeasurement with state {addMeasurement.TraceState.ToLocalizedString()} for trace {addMeasurement.TraceId}");
             var result = await _eventStoreService.SendCommand(addMeasurement, "system", "OnServer");
 
             if (result != null) // Unknown trace or something else

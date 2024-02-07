@@ -20,6 +20,7 @@ public static class MappingEf
             TraceId = port.TraceId,
             LastTraceState = port.LastTraceState,
 
+            LastFastMadeTimestamp = port.LastFastMadeTimestamp,
             LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp,
             LastFastSavedTimestamp = port.LastFastSavedTimestamp,
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp,
@@ -50,6 +51,7 @@ public static class MappingEf
             IsPortOnMainCharon = port.IsPortOnMainCharon,
             LastTraceState = port.LastTraceState,
 
+            LastFastMadeTimestamp = port.LastFastMadeTimestamp,
             LastPreciseMadeTimestamp = port.LastPreciseMadeTimestamp,
             LastFastSavedTimestamp = port.LastFastSavedTimestamp,
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp,
@@ -79,5 +81,53 @@ public static class MappingEf
         }
 
         return result;
+    }
+
+    public static MonitoringResultDto FromEf(this MonitoringResultEf moniResult)
+    {
+        var dto = new MonitoringResultDto()
+        {
+            ReturnCode = moniResult.ReturnCode,
+            Reason = moniResult.Reason,
+            RtuId = moniResult.RtuId,
+            TimeStamp = moniResult.TimeStamp,
+            TraceState = moniResult.TraceState,
+            PortWithTrace = new PortWithTraceDto()
+            {
+                OtauPort = new OtauPortDto()
+                {
+                    Serial = moniResult.Serial,
+                    IsPortOnMainCharon = moniResult.IsPortOnMainCharon,
+                    OpticalPort = moniResult.OpticalPort,
+                },
+                TraceId = moniResult.TraceId,
+                LastTraceState = moniResult.TraceState,
+            },
+            BaseRefType = moniResult.BaseRefType,
+            SorBytes = moniResult.SorBytes
+        };
+
+        return dto;
+
+    }
+
+    public static MonitoringResultEf ToEf(this MoniResult moniResult, MonitoringPort monitoringPort,
+        Guid rtuId, ReasonToSendMonitoringResult reason)
+    {
+        var dto = new MonitoringResultEf()
+        {
+            ReturnCode = moniResult.UserReturnCode,
+            Reason = reason,
+            RtuId = rtuId,
+            TimeStamp = DateTime.Now,
+            Serial = monitoringPort.CharonSerial,
+            IsPortOnMainCharon = monitoringPort.IsPortOnMainCharon,
+            OpticalPort = monitoringPort.OpticalPort,
+            TraceId = monitoringPort.TraceId,
+            BaseRefType = moniResult.BaseRefType,
+            TraceState = moniResult.GetAggregatedResult(),
+            SorBytes = moniResult.SorBytes
+        };
+        return dto;
     }
 }

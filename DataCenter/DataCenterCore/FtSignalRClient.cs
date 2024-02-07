@@ -82,7 +82,7 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var isConnected = await IsSignalRConnected(false);
-                if (isConnected)
+                if (_connection != null && isConnected)
                 {
                     var unused = _connection.InvokeAsync("NotifyAll", eventType, dataInJson);
                     if (eventType != "NotifyMonitoringStep" && eventType != "NudgeSignalR") // too many

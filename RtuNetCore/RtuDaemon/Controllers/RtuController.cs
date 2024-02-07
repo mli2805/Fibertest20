@@ -37,12 +37,18 @@ public class RtuController : ControllerBase
         }
     }
 
-    [HttpGet("current-state")]
+    [HttpPost("current-state")]
     public async Task<RtuCurrentStateDto> GetCurrentState()
     {
         try
         {
-            return await _commandProcessor.GetCurrentState();
+            string body;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = await reader.ReadToEndAsync();
+            }
+
+            return await _commandProcessor.GetCurrentState(body);
         }
         catch (Exception e)
         {

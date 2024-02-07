@@ -13,6 +13,9 @@ namespace Iit.Fibertest.Dto
         public string Version { get; set; }
 
         [DataMember]
-        public bool IsMainChannel { get; set; }
+        public bool IsMainChannel { get; set; } 
+        
+        [DataMember]
+        public DateTime LastMeasurementTimestamp { get; set; }
     }
 }

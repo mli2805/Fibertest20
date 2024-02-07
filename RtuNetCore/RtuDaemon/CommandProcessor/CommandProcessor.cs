@@ -48,18 +48,29 @@ namespace Iit.Fibertest.RtuDaemon
             return new RequestAnswer(ReturnCode.UnknownCommand);
         }
 
-        public BaseRefAssignedDto SaveBaseRefs(AssignBaseRefsDto dto)
-        {
-            return _rtuManager.SaveBaseRefs(dto);
-        }
+      
 
-        public Task<RtuCurrentStateDto> GetCurrentState()
+        public async Task<RtuCurrentStateDto> GetCurrentState(string json)
         {
-            return Task.FromResult(new RtuCurrentStateDto(ReturnCode.Ok)
+            var dto = JsonConvert.DeserializeObject<GetCurrentRtuStateDto>(json, JsonSerializerSettings);
+            if (dto == null)
+                return new RtuCurrentStateDto(ReturnCode.DeserializationError);
+
+            var rtuCurrentStateDto = new RtuCurrentStateDto(ReturnCode.Ok)
             {
                 LastInitializationResult = _rtuManager.InitializationResult,
                 CurrentStepDto = _rtuManager.CurrentStep,
-            });
+                MonitoringResultDtos = await GetMonitoringResults(dto.LastMeasurementTimestamp)
+            };
+
+            return rtuCurrentStateDto;
+        }
+
+        private async Task<List<MonitoringResultDto>> GetMonitoringResults(DateTime lastReceived)
+        {
+            using var scope = _serviceProvider.CreateScope();
+            var repository = scope.ServiceProvider.GetRequiredService<MonitoringResultsRepository>();
+            return await repository.GetPortionYoungerThan(lastReceived);
         }
 
         public async Task<List<string>> GetMessages()

@@ -14,6 +14,7 @@ public class MonitoringPortEf
 
     public DateTime LastPreciseMadeTimestamp{ get; set; }
     public DateTime LastPreciseSavedTimestamp{ get; set; }
+    public DateTime LastFastMadeTimestamp{ get; set; }
     public DateTime LastFastSavedTimestamp{ get; set; }
 
     public FiberState LastTraceState{ get; set; }

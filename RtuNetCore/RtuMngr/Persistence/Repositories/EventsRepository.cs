@@ -19,9 +19,17 @@ namespace Iit.Fibertest.RtuMngr
 
         public async Task<List<DtoInDbEf>> GetPortion(int portion)
         {
-            IQueryable<DtoInDbEf> query = _rtuContext.Events;
-            query = query.OrderBy(e => e.Registered).Take(portion);
-            return await query.ToListAsync();
+            try
+            {
+                IQueryable<DtoInDbEf> query = _rtuContext.Events;
+                query = query.OrderBy(e => e.Registered).Take(portion);
+                return await query.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

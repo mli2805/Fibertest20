@@ -4,6 +4,7 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.UtilsNetCore;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Iit.Fibertest.RtuDaemon;
 
 public static class RtuDependencyCollectionExtension
