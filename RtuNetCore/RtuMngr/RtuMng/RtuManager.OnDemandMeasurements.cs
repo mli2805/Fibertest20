@@ -18,7 +18,9 @@ namespace Iit.Fibertest.RtuMngr
 
         private async Task DoOutOfTurn(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var moniResult = await DoFullMeasurement(
+            _rtuManagerCts = new CancellationTokenSource();
+            var tokens = new[] { RtuServiceCancellationToken, _rtuManagerCts.Token };
+            var moniResult = await DoFullMeasurement(tokens,
                 new MonitoringPort(dto.PortWithTraceDto!), BaseRefType.Precise, true, true);
 
             var monitoringPort = await GetMonitoringPort(dto.PortWithTraceDto!.OtauPort.Serial,

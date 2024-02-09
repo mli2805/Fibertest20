@@ -21,12 +21,21 @@ public partial class RtuManager
     private TimeSpan _fastSaveTimespan;
 
     private TreeOfAcceptableMeasParams? _treeOfAcceptableMeasParams;
+
+    // RtuService set its token on execution start
+    // System uses it to stop whole RTU daemon
     public CancellationToken RtuServiceCancellationToken;
+    
+    // Plus create new Source into _rtuManagerCts then create new Token
+    // every time before starting monitoring cycle or doing Out-of-turn or Client's measurement
+    // during these long operations check array of 2 tokens (system and local)
+    // 
+    // When User requests ApplyMonitoringSettings or StopMonitoring 
+    //  we call Cancel on _rtuManagerCts 
     private CancellationTokenSource? _rtuManagerCts;
 
     public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
-    private CancellationTokenSource? _cancellationTokenSource;
     // private bool _wasMonitoringOn;
     public bool IsMonitoringOn;
 

@@ -68,7 +68,11 @@ namespace Iit.Fibertest.RtuMngr
             _logger.EmptyAndLog(Logs.RtuManager, $"{caller}: Interrupt measurement requested...");
             //_wasMonitoringOn = IsMonitoringOn;
             IsMonitoringOn = false;
-            _rtuManagerCts?.Cancel();
+
+            // new _rtuManagerCts must be created when monitoring cycle starts
+            // check for security
+            if (_rtuManagerCts != null)
+                await _rtuManagerCts.CancelAsync();
 
             // if Lmax = 240km and Time = 10min one step lasts 5-6 sec
             // important - OTDR is busy until current measurement really stops

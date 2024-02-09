@@ -11,6 +11,8 @@ public partial class RtuManager
     {
         _saveSorData = _config.Value.Monitoring.ShouldSaveSorData;
         _logger.EmptyAndLog(Logs.RtuManager, "Run monitoring cycle.");
+        _rtuManagerCts = new CancellationTokenSource();
+        var tokens = new[] { RtuServiceCancellationToken, _rtuManagerCts.Token };
 
         var monitoringPort = await GetNextPortForMonitoring();
         if (monitoringPort == null)
@@ -36,7 +38,7 @@ public partial class RtuManager
             var previousUserReturnCode = monitoringPort!.LastMoniResult?.UserReturnCode ?? ReturnCode.Ok;
             var previousHardwareReturnCode = monitoringPort.LastMoniResult?.HardwareReturnCode ?? ReturnCode.Ok;
 
-            await ProcessOnePort(monitoringPort);
+            await ProcessOnePort(tokens, monitoringPort);
 
             if (monitoringPort.LastMoniResult!.HardwareReturnCode == ReturnCode.MeasurementInterrupted)
             {
@@ -61,7 +63,7 @@ public partial class RtuManager
         _logger.Info(Logs.RtuManager, "RTU is turned into MANUAL mode.");
     }
 
-    private async Task ProcessOnePort(MonitoringPort monitoringPort)
+    private async Task ProcessOnePort(CancellationToken[] tokens, MonitoringPort monitoringPort)
     {
         var hasFastPerformed = false;
 
@@ -70,13 +72,13 @@ public partial class RtuManager
         if ((_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan) ||
             (monitoringPort.LastTraceState == FiberState.Ok || isNewTrace))
         {
-            monitoringPort.LastMoniResult = await DoFullMeasurement(monitoringPort, BaseRefType.Fast);
+            monitoringPort.LastMoniResult = await DoFullMeasurement(tokens, monitoringPort, BaseRefType.Fast);
             if (!monitoringPort.LastMoniResult.IsMeasurementEndedNormally)
                 return;
             hasFastPerformed = true;
         }
 
-        if (RtuServiceCancellationToken.IsCancellationRequested) return;
+        if (tokens.IsCancellationRequested()) return;
 
         var isTraceBroken = monitoringPort.LastTraceState != FiberState.Ok;
         var isSecondMeasurementNeeded =
@@ -92,7 +94,7 @@ public partial class RtuManager
                 ? BaseRefType.Additional
                 : BaseRefType.Precise;
 
-            monitoringPort.LastMoniResult = await DoFullMeasurement(monitoringPort, baseType, !hasFastPerformed);
+            monitoringPort.LastMoniResult = await DoFullMeasurement(tokens, monitoringPort, baseType, !hasFastPerformed);
             if (monitoringPort.LastMoniResult.UserReturnCode == ReturnCode.MeasurementEndedNormally)
                 monitoringPort.IsConfirmationRequired = false;
         }
@@ -100,13 +102,13 @@ public partial class RtuManager
         monitoringPort.IsMonitoringModeChanged = false;
     }
 
-    private async Task<MoniResult> DoFullMeasurement(MonitoringPort monitoringPort, BaseRefType baseType,
-        bool shouldChangePort = true, bool isOutOfTurnMeasurement = false)
+    private async Task<MoniResult> DoFullMeasurement(CancellationToken[] tokens, MonitoringPort monitoringPort, 
+        BaseRefType baseType, bool shouldChangePort = true, bool isOutOfTurnMeasurement = false)
     {
         _logger.EmptyAndLog(Logs.RtuManager,
             $"MEAS. {_measurementNumber}, {baseType}, port {monitoringPort.ToStringB(_mainCharon)}");
 
-        var moniResult = await DoMeasurement(baseType, monitoringPort, shouldChangePort);
+        var moniResult = await DoMeasurement(tokens, baseType, monitoringPort, shouldChangePort);
         if (moniResult.IsMeasurementEndedNormally)
         {
             if (moniResult.GetAggregatedResult() != FiberState.Ok)
@@ -219,10 +221,8 @@ public partial class RtuManager
         // and will be discovered by user only if there are many
     }
 
-    private async Task<MoniResult> DoMeasurement(BaseRefType baseRefType, MonitoringPort monitoringPort, bool shouldChangePort = true)
+    private async Task<MoniResult> DoMeasurement(CancellationToken[] tokens, BaseRefType baseRefType, MonitoringPort monitoringPort, bool shouldChangePort = true)
     {
-        _cancellationTokenSource = new CancellationTokenSource();
-
         if (shouldChangePort && !(await ToggleToPort(monitoringPort)))
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementToggleToPortFailed);
 
@@ -232,11 +232,11 @@ public partial class RtuManager
 
         _currentStep = CreateStepDto(MonitoringCurrentStep.Measure, monitoringPort, baseRefType);
 
-        if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
+        if (tokens.IsCancellationRequested()) // command to interrupt monitoring came while port toggling
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementInterrupted);
 
         var result = _otdrManager
-            .MeasureWithBase(new[] { _cancellationTokenSource.Token }, baseBytes, _mainCharon.GetActiveChildCharon());
+            .MeasureWithBase(tokens, baseBytes, _mainCharon.GetActiveChildCharon());
 
         switch (result)
         {
