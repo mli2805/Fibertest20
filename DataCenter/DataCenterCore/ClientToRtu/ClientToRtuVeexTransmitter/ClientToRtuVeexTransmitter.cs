@@ -50,23 +50,17 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
+        public async Task<RequestAnswer> StopMonitoringAsync(StopMonitoringDto dto, DoubleAddress rtuDoubleAddress)
         {
             _logFile.AppendLine(
                 $"Client {_clientsCollection.Get(dto.ConnectionId)} sent request to stop monitoring on VeEX RTU {dto.RtuId.First6()} ");
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return false;
+            if (rtu == null)
+                return new RequestAnswer(ReturnCode.NoSuchRtu);
 
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return false;
-            }
-
-            var result = await _d2RtuVeexLayer3.StopMonitoringAsync(rtuAddresses, rtu.OtdrId);
+            var result = await _d2RtuVeexLayer3.StopMonitoringAsync(rtuDoubleAddress, rtu.OtdrId);
             _logFile.AppendLine($"Stop monitoring result is {result}");
-            return result;
+            return new RequestAnswer(result ? ReturnCode.Ok : ReturnCode.Error);
         }
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)

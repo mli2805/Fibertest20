@@ -9,6 +9,13 @@ public partial class RtuManager
     public async Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
     {
         //var isMonitoringModeChanged = IsMonitoringOn != dto.IsMonitoringOn;
+
+        if (dto.IsMonitoringOn)
+        {
+            // user received InProgress and will start polling RTU and should wait until new initialization will be done
+            InitializationResult = null;
+        }
+
         if (IsMonitoringOn)
         {
             await BreakMonitoringCycle("Apply monitoring settings");

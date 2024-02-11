@@ -28,7 +28,7 @@ public class RtuController : ControllerBase
             {
                 body = await reader.ReadToEndAsync();
             }
-            return _commandProcessor.DoOperation(body);
+            return await _commandProcessor.DoOperation(body);
         }
         catch (Exception e)
         {

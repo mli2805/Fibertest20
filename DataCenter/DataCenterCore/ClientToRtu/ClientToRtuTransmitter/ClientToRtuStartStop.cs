@@ -19,31 +19,26 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 _logFile.AppendLine("ApplyMonitoringSettingsAsync:" + e.Message);
-                return new RequestAnswer() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
+                return new RequestAnswer() { ReturnCode = ReturnCode.D2RHttpError, ErrorMessage = e.Message };
             }
         }
 
-        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
+        public async Task<RequestAnswer> StopMonitoringAsync(StopMonitoringDto dto, DoubleAddress rtuDoubleAddress)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent stop monitoring on RTU {dto.RtuId.First6()} request");
+           
             try
             {
-                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-                if (rtuAddresses != null)
-                {
-                    var result = await _d2RWcfManager.SetRtuAddresses(rtuAddresses, _iniFile, _logFile)
-                        .StopMonitoringAsync(dto);
-                    _logFile.AppendLine($"Stop monitoring result is {result}");
-                    return result;
-                }
+                var result = await _d2RWcfManager.SetRtuAddresses(rtuDoubleAddress, _iniFile, _logFile)
+                    .StopMonitoringAsync(dto);
 
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return false;
+                _logFile.AppendLine($"Stop monitoring result is {result}");
+                return new RequestAnswer(result ? ReturnCode.Ok : ReturnCode.Error);
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("StopMonitoringAsync:" + e.Message);
-                return false;
+                return new RequestAnswer() { ReturnCode = ReturnCode.D2RHttpError, ErrorMessage = e.Message };
             }
         }
     }

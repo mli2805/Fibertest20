@@ -140,7 +140,7 @@ namespace Iit.Fibertest.DataCenterCore
             switch (dto.NetAddress.Port)
             {
                 case (int)TcpPorts.RtuListenTo: return await _clientToRtuTransmitter.CheckRtuConnection(dto);
-                case (int)TcpPorts.RtuVeexListenTo: 
+                case (int)TcpPorts.RtuVeexListenTo:
                     // TODO separate checker for VEEX RTU
                     return await _clientToRtuTransmitter.CheckRtuConnection(dto);
                 case (int)TcpPorts.RtuListenToHttp:
@@ -156,11 +156,11 @@ namespace Iit.Fibertest.DataCenterCore
             dto.NetAddress.Port = (int)TcpPorts.RtuListenToHttp; // МАК linux
             var result = await _clientToLinuxRtuHttpTransmitter.CheckRtuConnection(dto);
             if (result.IsConnectionSuccessfull) return result;
-            
+
             dto.NetAddress.Port = (int)TcpPorts.RtuListenTo;
             result = await _clientToRtuTransmitter.CheckRtuConnection(dto);
             if (result.IsConnectionSuccessfull) return result;
-           
+
             dto.NetAddress.Port = (int)TcpPorts.RtuVeexListenTo;
             //TODO implement special checker for VEEX RTU
             return await _clientToRtuVeexTransmitter.CheckRtuConnection(dto);
@@ -270,9 +270,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState _))
                 return false;
 
-            var isStopped = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.StopMonitoringAsync(dto)
-                : await _clientToRtuVeexTransmitter.StopMonitoringAsync(dto);
+            var stopResult = await _wcfIntermediate.StopMonitoringAsync(dto);
+            var isStopped = stopResult.ReturnCode == ReturnCode.Ok;
 
             if (isStopped)
             {
@@ -298,7 +297,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             var resultFromRtu = await _wcfIntermediate.ApplyMonitoringSettingsAsync(dto);
-           
+
             if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
                 var cmd = new ChangeMonitoringSettings
@@ -334,7 +333,7 @@ namespace Iit.Fibertest.DataCenterCore
             return resultFromRtu;
         }
 
-          public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             return await _wcfIntermediate.AssignBaseRefAsync(dto);
         }

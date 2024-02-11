@@ -2,48 +2,40 @@
 using Iit.Fibertest.RtuMngr;
 using Iit.Fibertest.UtilsNetCore;
 using Newtonsoft.Json;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
 namespace Iit.Fibertest.RtuDaemon
 {
-    public class CommandProcessor
+    public class CommandProcessor(ILogger<CommandProcessor> logger,
+        RtuManager rtuManager, IServiceProvider serviceProvider)
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new() { TypeNameHandling = TypeNameHandling.All };
 
-        private readonly ILogger<CommandProcessor> _logger;
-        private readonly RtuManager _rtuManager;
-        private readonly IServiceProvider _serviceProvider;
-
-        public CommandProcessor(ILogger<CommandProcessor> logger,
-            RtuManager rtuManager, IServiceProvider serviceProvider)
-        {
-            _logger = logger;
-            _rtuManager = rtuManager;
-            _serviceProvider = serviceProvider;
-        }
-
-        public RequestAnswer DoOperation(string json)
+        public async Task<RequestAnswer> DoOperation(string json)
         {
             var o = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
             if (o == null)
                 return new RequestAnswer(ReturnCode.DeserializationError);
-            _logger.Info(Logs.RtuService, $"{o.GetType().Name} received");
-            _logger.TimestampWithoutMessage(Logs.RtuManager);
+            logger.Info(Logs.RtuService, $"{o.GetType().Name} received");
+            logger.TimestampWithoutMessage(Logs.RtuManager);
 
             switch (o)
             {
                 case InitializeRtuDto dto:
-                    if (_rtuManager.InitializationResult == null)
+                    if (rtuManager.InitializationResult == null)
                         return new RequestAnswer(ReturnCode.RtuIsBusy);
-                    Task.Factory.StartNew(() => _rtuManager.InitializeRtu(dto, false));
-                    return new RtuInitializedDto(ReturnCode.InProgress) { Version = _rtuManager.Version };
+                    Task.Factory.StartNew(() => rtuManager.InitializeRtu(dto, false));
+                    return new RtuInitializedDto(ReturnCode.InProgress) { Version = rtuManager.Version };
                 case AssignBaseRefsDto dto:
-                    return _rtuManager.SaveBaseRefs(dto);
+                    return rtuManager.SaveBaseRefs(dto);
                 case ApplyMonitoringSettingsDto dto:
-                    if (_rtuManager.InitializationResult == null)
+                    if (rtuManager.InitializationResult == null)
                         return new RequestAnswer(ReturnCode.RtuIsBusy);
-                    Task.Factory.StartNew(() => _rtuManager.ApplyMonitoringSettings(dto));
+                    Task.Factory.StartNew(() => rtuManager.ApplyMonitoringSettings(dto));
                     return new RequestAnswer(ReturnCode.InProgress);
+                case StopMonitoringDto _:
+                    return await rtuManager.StopMonitoring();
             }
             return new RequestAnswer(ReturnCode.UnknownCommand);
         }
@@ -58,8 +50,8 @@ namespace Iit.Fibertest.RtuDaemon
 
             var rtuCurrentStateDto = new RtuCurrentStateDto(ReturnCode.Ok)
             {
-                LastInitializationResult = _rtuManager.InitializationResult,
-                CurrentStepDto = _rtuManager.CurrentStep,
+                LastInitializationResult = rtuManager.InitializationResult,
+                CurrentStepDto = rtuManager.CurrentStep,
                 MonitoringResultDtos = await GetMonitoringResults(dto.LastMeasurementTimestamp)
             };
 
@@ -68,14 +60,14 @@ namespace Iit.Fibertest.RtuDaemon
 
         private async Task<List<MonitoringResultDto>> GetMonitoringResults(DateTime lastReceived)
         {
-            using var scope = _serviceProvider.CreateScope();
+            using var scope = serviceProvider.CreateScope();
             var repository = scope.ServiceProvider.GetRequiredService<MonitoringResultsRepository>();
             return await repository.GetPortionYoungerThan(lastReceived);
         }
 
         public async Task<List<string>> GetMessages()
         {
-            using var scope = _serviceProvider.CreateScope();
+            using var scope = serviceProvider.CreateScope();
             var eventRepository = scope.ServiceProvider.GetRequiredService<EventsRepository>();
             var ff = await eventRepository.GetPortion(10);
             return ff.Select(f => f.Json).ToList();

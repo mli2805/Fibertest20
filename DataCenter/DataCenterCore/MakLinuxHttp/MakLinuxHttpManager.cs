@@ -62,7 +62,29 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"TransmitBaseRefsToRtuAsync: {e.Message}");
+                _logFile.AppendLine($"ApplyMonitoringSettingsAsync: {e.Message}");
+                return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<RequestAnswer> StopMonitoringAsync(StopMonitoringDto dto, DoubleAddress rtuDoubleAddress)
+        {
+            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
+            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
+            try
+            {
+                var response = await HttpClient.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                    return new RequestAnswer(ReturnCode.D2RHttpError)
+                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
+
+                var responseJson = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<RequestAnswer>(responseJson);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"StopMonitoringAsync: {e.Message}");
                 return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
             }
         }
