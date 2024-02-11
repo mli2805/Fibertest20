@@ -41,20 +41,8 @@ namespace Iit.Fibertest.RtuMngr
                 _otdrManager.DisconnectOtdr();
         }
 
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurement(DoClientMeasurementDto dto)
+        public async Task DoClientMeasurement(DoClientMeasurementDto dto)
         {
-            if (InitializationResult == null)
-            {
-                _logger.Info(Logs.RtuService, "I am initializing now. Ignore command.");
-                return new ClientMeasurementStartedDto(ReturnCode.RtuInitializationInProgress);
-            }
-
-            if (_config.Value.Monitoring.IsAutoBaseMeasurementInProgress)
-            {
-                _logger.Info(Logs.RtuService, "Auto Base Measurement In Progress. Ignore command.");
-                return new ClientMeasurementStartedDto(ReturnCode.RtuAutoBaseMeasurementInProgress);
-            }
-
             _logger.EmptyAndLog(Logs.RtuManager, "DoClientMeasurement command received");
 
             await BreakMonitoringCycle(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
@@ -72,24 +60,19 @@ namespace Iit.Fibertest.RtuMngr
                     DateTime.Now.ToString(CultureInfo.CurrentCulture));
             }
 
-            _logger.Info(Logs.RtuService, "Start Measurement in another thread");
-            // await Task.Factory.StartNew(() => { MeasureWrapped(dto); }); // blocking call
-            var unused = Task.Run(() => { MeasureWrapped(dto); });
-            _logger.Info(Logs.RtuService, "Measurement TASK started, return this fact to client");
-
-            return new ClientMeasurementStartedDto(ReturnCode.MeasurementClientStartedSuccessfully)
-            { ClientMeasurementId = Guid.NewGuid() };
+            await MeasureWrapped(dto); 
         }
 
-        private async void MeasureWrapped(DoClientMeasurementDto dto)
+        private async Task MeasureWrapped(DoClientMeasurementDto dto)
         {
             _logger.Debug(Logs.RtuManager, "Measurement client is in progress...");
             var result = await Measure(dto);
+
             _logger.Info(Logs.RtuManager, result.SorBytes != null
                 ? $"Measurement Client done. Sor size is {result.SorBytes.Length}"
                 : "Measurement (Client) failed");
 
-            await SaveEvent(result);
+            await PersistClientMeasurementResult(result);
 
             if (dto.IsForAutoBase)
             {

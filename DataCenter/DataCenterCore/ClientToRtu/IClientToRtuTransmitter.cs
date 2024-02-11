@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto);
 
         //Task<LineParametersDto> GetLineParameters(GetLineParametersDto dto);
-        Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
+        Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto, DoubleAddress rtuDoubleAddress);
         Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto);
         Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto);
     }

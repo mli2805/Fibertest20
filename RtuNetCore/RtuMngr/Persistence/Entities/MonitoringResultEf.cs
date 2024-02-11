@@ -29,6 +29,4 @@ namespace Iit.Fibertest.RtuMngr
 
         public byte[] SorBytes { get; set; } = null!;
     }
-
-   
 }

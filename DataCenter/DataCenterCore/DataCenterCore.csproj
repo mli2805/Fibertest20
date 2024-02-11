@@ -65,6 +65,7 @@
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\VeexTestListUpdater.cs" />
+    <Compile Include="ClientMeasurementSender.cs" />
     <Compile Include="ClientStations\ClientsCollection.cs" />
     <Compile Include="ClientStations\ClientsInCollectionFinder.cs" />
     <Compile Include="ClientStations\ClientsRegistrator.cs" />

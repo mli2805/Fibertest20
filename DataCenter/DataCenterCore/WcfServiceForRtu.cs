@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -7,6 +6,8 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
+
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class WcfServiceForRtu : IWcfServiceForRtu
     {
@@ -15,21 +16,21 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly GlobalState _globalState;
-        private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly IFtSignalRClient _ftSignalRClient;
+        private readonly ClientMeasurementSender _clientMeasurementSender;
 
 
         public WcfServiceForRtu(IMyLog logFile, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState,
-            MeasurementsForWebNotifier measurementsForWebNotifier, IFtSignalRClient ftSignalRClient)
+            IFtSignalRClient ftSignalRClient, ClientMeasurementSender clientMeasurementSender)
         {
             _logFile = logFile;
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
             _globalState = globalState;
-            _measurementsForWebNotifier = measurementsForWebNotifier;
             _ftSignalRClient = ftSignalRClient;
+            _clientMeasurementSender = clientMeasurementSender;
         }
 
         public async void RegisterRtuHeartbeat(RtuChecksChannelDto dto)
@@ -75,40 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (_globalState.IsDatacenterInDbOptimizationMode)
                 return;
 
-            var word = (result.SorBytes == null || result.SorBytes.Length == 0)
-                ? $": {result.ReturnCode}"
-                : $", {result.SorBytes.Length} bytes";
-            _logFile.AppendLine($"Measurement Client result for {_clientsCollection.Get(result.ConnectionId)}{word}");
-
-            try
-            {
-                var client = _clientsCollection.Get(result.ConnectionId);
-                if (client == null)
-                {
-                    _logFile.AppendLine($@"TransmitClientMeasurementResult: client {result.ConnectionId} not found");
-                    return;
-                }
-
-                if (client.IsWebClient)
-                {
-                    _measurementsForWebNotifier.Push(result);
-                    _logFile.AppendLine("TransmitClientMeasurementResult: measurement placed into queue for web clients");
-                }
-                else
-                {
-                    _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>()
-                    {
-                        new DoubleAddress()
-                            { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) }
-                    });
-                    _d2CWcfManager.NotifyMeasurementClientDone(result).Wait();
-                }
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("WcfServiceForRtu.TransmitClientMeasurementResult: " + e.Message);
-            }
-            _logFile.AppendLine("Client measurement ended");
+            _clientMeasurementSender.ToClient(result).Wait();
         }
     }
 }

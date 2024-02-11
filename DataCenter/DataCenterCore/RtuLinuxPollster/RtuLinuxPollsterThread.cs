@@ -19,6 +19,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly ClientToLinuxRtuHttpTransmitter _clientToLinuxRtuHttpTransmitter;
+        private readonly ClientMeasurementSender _clientMeasurementSender;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly IFtSignalRClient _ftSignalRClient;
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public RtuLinuxPollsterThread(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
             GlobalState globalState, Model writeModel, RtuStationsRepository rtuStationsRepository,
-            ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter,
+            ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter, ClientMeasurementSender clientMeasurementSender,
             MsmqMessagesProcessor msmqMessagesProcessor, D2CWcfManager d2CWcfManager, IFtSignalRClient ftSignalRClient)
         {
             _iniFile = iniFile;
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
             _rtuStationsRepository = rtuStationsRepository;
             _clientToLinuxRtuHttpTransmitter = clientToLinuxRtuHttpTransmitter;
+            _clientMeasurementSender = clientMeasurementSender;
             _msmqMessagesProcessor = msmqMessagesProcessor;
             _d2CWcfManager = d2CWcfManager;
             _ftSignalRClient = ftSignalRClient;
@@ -110,6 +112,12 @@ namespace Iit.Fibertest.DataCenterCore
                         Task.Factory.StartNew(() => TransmitMoniResults(state.MonitoringResultDtos));
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     }
+
+                    if (state.ClientMeasurementResultDtos != null)
+                        foreach (var dto in state.ClientMeasurementResultDtos)
+                        {
+                            await _clientMeasurementSender.ToClient(dto);
+                        }
 
                     var heartbeatDto = new RtuChecksChannelDto()
                     {

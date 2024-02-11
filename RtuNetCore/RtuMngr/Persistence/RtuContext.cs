@@ -13,6 +13,7 @@ namespace Iit.Fibertest.RtuMngr
 
         public DbSet<DtoInDbEf> Events { get; set; } // results and
         public DbSet<MonitoringResultEf> MonitoringResults { get; set; }
+        public DbSet<ClientMeasurementEf> ClientMeasurements { get; set; }
 
         // 4 tables => MonitoringQueue + MoniResultEf, MoniLevelEf, AccidentInSorEf
         public DbSet<MonitoringPortEf> MonitoringQueue { get; set; }

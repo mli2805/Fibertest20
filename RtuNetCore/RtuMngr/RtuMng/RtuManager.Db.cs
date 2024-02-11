@@ -9,7 +9,7 @@ public partial class RtuManager
 {
     private static readonly JsonSerializerSettings JsonSerializerSettings =
         new() { TypeNameHandling = TypeNameHandling.All };
-    // ClientMeasurementResultDto, BopStateChangedDto, ??? rtu accidents how?
+    //  BopStateChangedDto ?? 
 
     private async Task PersistMoniResultForServer(MonitoringResultEf entity)
     {
@@ -22,6 +22,22 @@ public partial class RtuManager
         catch (Exception e)
         {
             _logger.Error(Logs.RtuManager, "PersistMoniResultForServer: " + e.Message);
+        }
+    }
+
+    private async Task PersistClientMeasurementResult(ClientMeasurementResultDto dto)
+    {
+        try
+        {
+            var entity = dto.ToEf();
+            using var scope = _serviceProvider.CreateScope();
+            var repo = scope.ServiceProvider.GetRequiredService<ClientMeasurementsRepository>();
+            await repo.Add(entity);
+        }
+        catch (Exception e)
+        {
+            _logger.Error(Logs.RtuManager, "PersistClientMeasurementResult: " + e.Message);
+
         }
     }
 

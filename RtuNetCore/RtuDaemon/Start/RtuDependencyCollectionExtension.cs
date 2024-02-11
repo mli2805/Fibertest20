@@ -47,6 +47,7 @@ public static class RtuDependencyCollectionExtension
         services.AddScoped<EventsRepository>();
         services.AddScoped<MonitoringResultsRepository>();
         services.AddScoped<MonitoringQueueRepository>();
+        services.AddScoped<ClientMeasurementsRepository>();
         return services;
     }
 

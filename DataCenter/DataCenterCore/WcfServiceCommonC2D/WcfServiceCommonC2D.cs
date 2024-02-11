@@ -469,11 +469,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientMeasurementStartedDto> StartClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.NoSuchRtu };
-
             var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState currentState))
+            _logFile.AppendLine($"Client {username} asked to do measurement on RTU {dto.RtuId.First6()}");
+            var occupation = dto.IsForAutoBase ? RtuOccupation.AutoBaseMeasurement : RtuOccupation.MeasurementClient;
+            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, username, out RtuOccupationState currentState))
             {
                 return new ClientMeasurementStartedDto()
                 {
@@ -482,9 +481,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            return rtu.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.DoClientMeasurementAsync(dto)
-                : await _clientToRtuVeexTransmitter.DoClientMeasurementAsync(dto);
+            return await _wcfIntermediate.DoClientMeasurementAsync(dto);
 
             // Client must free RTU when result received
         }

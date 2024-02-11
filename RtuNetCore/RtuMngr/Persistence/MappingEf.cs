@@ -130,4 +130,39 @@ public static class MappingEf
         };
         return dto;
     }
+
+    public static ClientMeasurementResultDto FromEf(this ClientMeasurementEf entity)
+    {
+        return new ClientMeasurementResultDto()
+        {
+            ConnectionId = entity.ConnectionId,
+            ClientMeasurementId = entity.ClientMeasurementId,
+            ReturnCode = entity.ReturnCode,
+            SorBytes = entity.SorBytes,
+
+            OtauPortDto = new OtauPortDto()
+            {
+                OpticalPort = entity.OpticalPort,
+                IsPortOnMainCharon = entity.IsPortOnMainCharon,
+                MainCharonPort = entity.MainCharonPort,
+                Serial = entity.Serial,
+            }
+        };
+    }
+
+    public static ClientMeasurementEf ToEf(this ClientMeasurementResultDto dto)
+    {
+        return new ClientMeasurementEf()
+        {
+            ConnectionId = dto.ConnectionId,
+            ClientMeasurementId = dto.ClientMeasurementId,
+            ReturnCode = dto.ReturnCode,
+            SorBytes = dto.SorBytes,
+
+            Serial = dto.OtauPortDto.Serial,
+            OpticalPort = dto.OtauPortDto.OpticalPort,
+            IsPortOnMainCharon = dto.OtauPortDto.IsPortOnMainCharon,
+            MainCharonPort = dto.OtauPortDto.MainCharonPort,
+        };
+    }
 }

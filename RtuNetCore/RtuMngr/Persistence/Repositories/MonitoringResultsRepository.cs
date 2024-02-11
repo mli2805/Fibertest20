@@ -5,22 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Iit.Fibertest.RtuMngr;
 
-public class MonitoringResultsRepository
+public class MonitoringResultsRepository(RtuContext rtuContext, ILogger<MonitoringResultsRepository> logger)
 {
-    private readonly RtuContext _rtuContext;
-    private readonly ILogger<MonitoringResultsRepository> _logger;
-
-    public MonitoringResultsRepository(RtuContext rtuContext, ILogger<MonitoringResultsRepository> logger)
-    {
-        _rtuContext = rtuContext;
-        _logger = logger;
-    }
-
     public async Task Add(MonitoringResultEf entity)
     {
-        _logger.Info(Logs.RtuManager, $"persist monitoring result with state {entity.TraceState} for trace {entity.TraceId}");
-        await _rtuContext.MonitoringResults.AddAsync(entity);
-        await _rtuContext.SaveChangesAsync();
+        logger.Info(Logs.RtuManager, $"persist monitoring result with state {entity.TraceState} for trace {entity.TraceId}");
+        await rtuContext.MonitoringResults.AddAsync(entity);
+        await rtuContext.SaveChangesAsync();
     }
 
     public async Task<List<MonitoringResultDto>> GetPortionYoungerThan(DateTime lastReceived)
@@ -30,30 +21,30 @@ public class MonitoringResultsRepository
         try
         {
             // remove older
-            var olderThan = await _rtuContext.MonitoringResults
+            var olderThan = await rtuContext.MonitoringResults
                 .OrderBy(r => r.TimeStamp)
                 .Where(r => r.TimeStamp <= lastReceived.AddSeconds(1))
                 .ToListAsync();
 
-            _rtuContext.MonitoringResults.RemoveRange(olderThan);
-            await _rtuContext.SaveChangesAsync();
+            rtuContext.MonitoringResults.RemoveRange(olderThan);
+            await rtuContext.SaveChangesAsync();
 
             // get portion
-            var portionEf = await _rtuContext.MonitoringResults
+            var portionEf = await rtuContext.MonitoringResults
                 .OrderBy(r => r.TimeStamp)
                 .Take(portionSize)
                 .ToListAsync();
 
             foreach (var monitoringResultEf in portionEf)
             {
-                _logger.Info(Logs.RtuService, $"Made at {monitoringResultEf.TimeStamp} for trace {monitoringResultEf.TraceId} state is {monitoringResultEf.TraceState.ToString()}");
+                logger.Info(Logs.RtuService, $"Made at {monitoringResultEf.TimeStamp} for trace {monitoringResultEf.TraceId} state is {monitoringResultEf.TraceState.ToString()}");
             }
 
             return portionEf.Select(r => r.FromEf()).ToList();
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuService, "GetPortionYoungerThan " + e.Message);
+            logger.Error(Logs.RtuService, "GetPortionYoungerThan " + e.Message);
             return new List<MonitoringResultDto>();
         }
     }

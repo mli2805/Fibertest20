@@ -9,7 +9,6 @@ public partial class RtuManager
     private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
     private async Task<bool> ToggleToPort(MonitoringPort monitoringPort)
     {
-        _logger.Info(Logs.RtuManager, $"{monitoringPort.IsPortOnMainCharon}, {monitoringPort.CharonSerial}");
         var cha = monitoringPort.IsPortOnMainCharon
             ? _mainCharon 
             : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);

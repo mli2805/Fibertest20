@@ -6,39 +6,20 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class ClientToRtuTransmitter
     {
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
-            var clientStation = _clientsCollection.Get(dto.ConnectionId);
-            _logFile.AppendLine($"Client {clientStation} asked to do measurement on RTU {dto.RtuId.First6()}");
-            var occupation = dto.IsForAutoBase ? RtuOccupation.AutoBaseMeasurement : RtuOccupation.MeasurementClient;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, clientStation?.UserName, out RtuOccupationState currentState))
-            {
-                return new ClientMeasurementStartedDto()
-                {
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    RtuOccupationState = currentState,
-                };
-            }
-
             try
             {
-                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-                if (rtuAddresses != null)
-                {
-                    var result = await _d2RWcfManager
-                        .SetRtuAddresses(rtuAddresses, _iniFile, _logFile)
-                        .DoClientMeasurementAsync(dto);
-                    _logFile.AppendLine($"Client's measurement started with code {result.ReturnCode.ToString()}");
-                    return result;
-                }
-
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError };
+                var result = await _d2RWcfManager
+                    .SetRtuAddresses(rtuDoubleAddress, _iniFile, _logFile)
+                    .DoClientMeasurementAsync(dto);
+                _logFile.AppendLine($"Client's measurement started with code {result.ReturnCode.ToString()}");
+                return result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("StartClientMeasurementAsync:" + e.Message);
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
 

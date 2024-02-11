@@ -232,6 +232,7 @@ namespace Graph.Tests
 
             builder.RegisterType<TestParameterizer>().As<IParameterizer>().InstancePerLifetimeScope();
 
+            builder.RegisterType<ClientMeasurementSender>().InstancePerLifetimeScope();
             builder.RegisterType<ClientsCollection>().InstancePerLifetimeScope();
             builder.RegisterType<RtuOccupations>().InstancePerLifetimeScope();
             builder.RegisterType<RtuStationsRepository>().InstancePerLifetimeScope();

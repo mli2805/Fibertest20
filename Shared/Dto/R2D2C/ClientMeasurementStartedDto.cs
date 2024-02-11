@@ -4,15 +4,8 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class ClientMeasurementStartedDto
+    public class ClientMeasurementStartedDto : RequestAnswer
     {
-        [DataMember]
-        public ReturnCode ReturnCode { get; set; }
-        [DataMember]
-        public string ErrorMessage { get; set; }
-        [DataMember]
-        public RtuOccupationState RtuOccupationState { get; set; }
-
         [DataMember]
         public Guid ClientMeasurementId { get; set; }
 
@@ -26,9 +19,8 @@ namespace Iit.Fibertest.Dto
         {
         }
 
-        public ClientMeasurementStartedDto(ReturnCode returnCode)
+        public ClientMeasurementStartedDto(ReturnCode returnCode) : base(returnCode)
         {
-            ReturnCode = returnCode;
         }
     }
 }

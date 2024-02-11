@@ -65,9 +65,9 @@ namespace Iit.Fibertest.DataCenterCore
             throw new System.NotImplementedException();
         }
 
-        public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
-            throw new System.NotImplementedException();
+            return _makLinuxConnector.DoClientMeasurementAsync(dto, rtuDoubleAddress);
         }
 
         public Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)

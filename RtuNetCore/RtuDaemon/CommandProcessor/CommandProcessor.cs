@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuDaemon
 {
-    public class CommandProcessor(ILogger<CommandProcessor> logger,
+    public class CommandProcessor(ILogger<CommandProcessor> logger, IWritableConfig<RtuConfig> config,
         RtuManager rtuManager, IServiceProvider serviceProvider)
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
@@ -24,23 +24,28 @@ namespace Iit.Fibertest.RtuDaemon
             {
                 case InitializeRtuDto dto:
                     if (rtuManager.InitializationResult == null)
-                        return new RequestAnswer(ReturnCode.RtuIsBusy);
+                        return new RequestAnswer(ReturnCode.RtuInitializationInProgress);
                     Task.Factory.StartNew(() => rtuManager.InitializeRtu(dto, false));
                     return new RtuInitializedDto(ReturnCode.InProgress) { Version = rtuManager.Version };
                 case AssignBaseRefsDto dto:
                     return rtuManager.SaveBaseRefs(dto);
                 case ApplyMonitoringSettingsDto dto:
                     if (rtuManager.InitializationResult == null)
-                        return new RequestAnswer(ReturnCode.RtuIsBusy);
+                        return new RequestAnswer(ReturnCode.RtuInitializationInProgress);
                     Task.Factory.StartNew(() => rtuManager.ApplyMonitoringSettings(dto));
                     return new RequestAnswer(ReturnCode.InProgress);
                 case StopMonitoringDto _:
                     return await rtuManager.StopMonitoring();
+                case DoClientMeasurementDto dto:
+                    if (rtuManager.InitializationResult == null)
+                        return new ClientMeasurementStartedDto(ReturnCode.RtuInitializationInProgress);
+                    if (config.Value.Monitoring.IsAutoBaseMeasurementInProgress)
+                        return new ClientMeasurementStartedDto(ReturnCode.RtuAutoBaseMeasurementInProgress);
+                    Task.Factory.StartNew(() => rtuManager.DoClientMeasurement(dto));
+                    return new ClientMeasurementStartedDto(ReturnCode.MeasurementClientStartedSuccessfully);
             }
             return new RequestAnswer(ReturnCode.UnknownCommand);
         }
-
-      
 
         public async Task<RtuCurrentStateDto> GetCurrentState(string json)
         {
@@ -52,7 +57,8 @@ namespace Iit.Fibertest.RtuDaemon
             {
                 LastInitializationResult = rtuManager.InitializationResult,
                 CurrentStepDto = rtuManager.CurrentStep,
-                MonitoringResultDtos = await GetMonitoringResults(dto.LastMeasurementTimestamp)
+                MonitoringResultDtos = await GetMonitoringResults(dto.LastMeasurementTimestamp),
+                ClientMeasurementResultDtos = await GetClientMeasurements(),
             };
 
             return rtuCurrentStateDto;
@@ -63,6 +69,14 @@ namespace Iit.Fibertest.RtuDaemon
             using var scope = serviceProvider.CreateScope();
             var repository = scope.ServiceProvider.GetRequiredService<MonitoringResultsRepository>();
             return await repository.GetPortionYoungerThan(lastReceived);
+        }
+
+        private async Task<List<ClientMeasurementResultDto>> GetClientMeasurements()
+        {
+            using var scope = serviceProvider.CreateScope();
+            var repository = scope.ServiceProvider.GetRequiredService<ClientMeasurementsRepository>();
+            var ff = await repository.GetAll();
+            return ff.Select(f=>f.FromEf()).ToList();
         }
 
         public async Task<List<string>> GetMessages()

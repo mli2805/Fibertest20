@@ -48,8 +48,8 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuIni.Write(IniSection.Monitoring, IniKey.LastAutoBaseMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
             }
 
-            ClientMeasurementStartedDto = new ClientMeasurementStartedDto()
-            { ClientMeasurementId = Guid.NewGuid(), ReturnCode = ReturnCode.MeasurementClientStartedSuccessfully };
+            ClientMeasurementStartedDto = 
+                new ClientMeasurementStartedDto(ReturnCode.MeasurementClientStartedSuccessfully) { ClientMeasurementId = Guid.NewGuid() };
             callback?.Invoke(); // sends ClientMeasurementStartedDto (means "started successfully")
 
             var result = Measure(dto);
