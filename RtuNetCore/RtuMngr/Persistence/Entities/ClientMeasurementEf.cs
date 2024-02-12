@@ -8,7 +8,7 @@ public class ClientMeasurementEf
     public Guid ClientMeasurementId { get; set; }
     public string ConnectionId { get; set; } = null!;
     public ReturnCode ReturnCode { get; set; }
-    public byte[] SorBytes { get; set; } = null!;
+    public byte[]? SorBytes { get; set; }
 
     public string Serial { get; set; } = null!;
     public bool IsPortOnMainCharon { get; set; }

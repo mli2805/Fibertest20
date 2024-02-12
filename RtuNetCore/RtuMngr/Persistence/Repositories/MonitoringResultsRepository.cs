@@ -44,7 +44,7 @@ public class MonitoringResultsRepository(RtuContext rtuContext, ILogger<Monitori
         }
         catch (Exception e)
         {
-            logger.Error(Logs.RtuService, "GetPortionYoungerThan " + e.Message);
+            logger.Exception(Logs.RtuService, e,  "GetPortionYoungerThan");
             return new List<MonitoringResultDto>();
         }
     }

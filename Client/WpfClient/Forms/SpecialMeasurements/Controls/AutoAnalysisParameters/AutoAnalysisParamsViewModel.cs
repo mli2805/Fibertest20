@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
     public class AutoAnalysisParamsViewModel : PropertyChangedBase, IDataErrorInfo
     {
         private readonly IMyLog _logFile;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IWindowManager _windowManager;
         private string _autoLt;
         private string _autoRt;
@@ -65,9 +66,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public AutoAnalysisParamsViewModel(IMyLog logFile, IWindowManager windowManager)
+        public AutoAnalysisParamsViewModel(IMyLog logFile, IDispatcherProvider dispatcherProvider, IWindowManager windowManager)
         {
             _logFile = logFile;
+            _dispatcherProvider = dispatcherProvider;
             _windowManager = windowManager;
         }
 
@@ -98,11 +100,15 @@ namespace Iit.Fibertest.Client
 
             if (!RftsParamsParser.TryLoad(templateFileName, out RftsParams result, out Exception exception))
             {
-                var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+
+                _dispatcherProvider.GetDispatcher().Invoke(() =>
                 {
-                    @"Failed to load RFTS parameters template from file:!", $@"{templateFileName}", exception.Message
-                });
-                _windowManager.ShowDialogWithAssignedOwner(mb);
+                    var mb = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                    {
+                        Resources.SID_Failed_to_load_RFTS_parameters_template_from_file_, $@"{templateFileName}", "", exception.Message
+                    }, 0);
+                    _windowManager.ShowDialogWithAssignedOwner(mb);
+                }); // sync, GUI thread
 
                 return null;
             }
@@ -123,16 +129,18 @@ namespace Iit.Fibertest.Client
             else
                 rftsParams = LoadFromTemplate(templateId);
 
+            if (rftsParams == null) return null;
+
             rftsParams.UniParams.First(p => p.Name == @"AutoLT").Set(double.Parse(AutoLt));
             rftsParams.UniParams.First(p => p.Name == @"AutoRT").Set(double.Parse(AutoRt));
             return rftsParams;
         }
 
-
         private bool DisplayLtAndRtFromAnyTemplateFile()
         {
             // AutoLT & AutoRT are the same for all templates!
             var rftsParams = LoadFromTemplate(1);
+            if (rftsParams == null) return false;
             var up = rftsParams.UniParams.First(u => u.Name == @"AutoLT");
             AutoLt = up.ToString();
             AutoRt = rftsParams.UniParams.First(u => u.Name == @"AutoRT").ToString();

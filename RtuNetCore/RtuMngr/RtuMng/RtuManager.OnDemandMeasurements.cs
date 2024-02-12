@@ -225,7 +225,7 @@ namespace Iit.Fibertest.RtuMngr
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(Logs.RtuManager, $"Cannot connect Mikrotik {port.NetAddress.Ip4Address}" + e.Message);
+                    _logger.Exception(Logs.RtuManager, e, $"Cannot connect Mikrotik {port.NetAddress.Ip4Address}");
                 }
             }
 

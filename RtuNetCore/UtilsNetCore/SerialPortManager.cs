@@ -44,7 +44,7 @@ public class SerialPortManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, e.Message);
+            _logger.Exception(Logs.RtuManager, e, "ResetCharon");
             return ReturnCode.CharonComPortError;
         }
     }
@@ -62,7 +62,7 @@ public class SerialPortManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, $"  Can't open {_comPortName}.  {e.Message}");
+            _logger.Exception(Logs.RtuManager, e, $"  Can't open {_comPortName}");
             return;
         }
 
@@ -77,7 +77,7 @@ public class SerialPortManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, $"  Can't send to {_comPortName}.  {e.Message}");
+            _logger.Exception(Logs.RtuManager, e, $"  Can't send to {_comPortName}");
         }
         Thread.Sleep(1000);
     }

@@ -35,7 +35,7 @@ namespace Iit.Fibertest.RtuMngr
             }
             catch (Exception e)
             {
-                logger.Error(Logs.RtuManager, e.Message);
+                logger.Exception(Logs.RtuManager, e, "RebootSystem");
             }
         }}
 }

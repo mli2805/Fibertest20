@@ -46,7 +46,7 @@ public partial class Charon
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, e.Message);
+            _logger.Exception(Logs.RtuManager, e, "SendCommand");
             LastErrorMessage = e.Message;
         }
     }
@@ -123,7 +123,7 @@ public partial class Charon
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, e.Message);
+            _logger.Exception(Logs.RtuManager, e, "SendWriteIniCommand");
             LastErrorMessage = e.Message;
         }
 

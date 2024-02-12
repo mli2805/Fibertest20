@@ -40,7 +40,7 @@ public partial class OtdrManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, "Failed to restore etc: " + e.Message);
+            _logger.Exception(Logs.RtuManager, e, "Failed to restore etc");
             return new RtuInitializedDto(ReturnCode.OtdrInitializationCannotInitializeDll);
         }
 

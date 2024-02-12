@@ -35,8 +35,7 @@ namespace Iit.Fibertest.RtuMngr
             }
             catch (Exception e)
             {
-                logger.Error(Logs.RtuService, "An error occurred while initializing the database.");
-                logger.Error(Logs.RtuService, e.Message);
+                logger.Exception(Logs.RtuService, e, "RtuContextInitializer");
                 throw;
             }
         }

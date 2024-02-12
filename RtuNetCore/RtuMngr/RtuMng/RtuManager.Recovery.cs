@@ -87,7 +87,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, $"Cannot connect Mikrotik {damagedOtau.Ip}" + e.Message);
+            _logger.Exception(Logs.RtuManager, e, $"Cannot connect Mikrotik {damagedOtau.Ip}");
         }
 
     }

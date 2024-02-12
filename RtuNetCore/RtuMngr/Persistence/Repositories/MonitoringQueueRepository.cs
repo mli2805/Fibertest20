@@ -38,7 +38,7 @@ public class MonitoringQueueRepository(RtuContext rtuContext, ILogger<Monitoring
         }
         catch (Exception e)
         {
-            logger.Error(Logs.RtuManager, "UpdateExistingMonitoringPort: " + e.Message);
+            logger.Exception(Logs.RtuManager, e, "UpdateExistingMonitoringPort");
             await transaction.RollbackAsync();
         }
     }
@@ -88,9 +88,7 @@ public class MonitoringQueueRepository(RtuContext rtuContext, ILogger<Monitoring
         }
         catch (Exception e)
         {
-            logger.Error(Logs.RtuManager, "ApplyNewList: " + e.Message);
-            if (e.InnerException != null)
-                logger.Error(Logs.RtuManager, "InnerException: " + e.InnerException.Message);
+            logger.Exception(Logs.RtuManager, e, "ApplyNewList");
             await transaction.RollbackAsync();
         }
 

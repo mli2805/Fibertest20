@@ -32,7 +32,7 @@ public class RtuController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuService, $"{e.Message}");
+            _logger.Exception(Logs.RtuService, e, "StartLongOperation");
             return new RequestAnswer(ReturnCode.Error) { ErrorMessage = e.Message };
         }
     }
@@ -52,7 +52,7 @@ public class RtuController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuService, $"{e.Message}");
+            _logger.Exception(Logs.RtuService, e, "GetCurrentState");
             var error = new RtuCurrentStateDto(ReturnCode.Error) { ErrorMessage = e.Message };
             return error;
         }
@@ -70,7 +70,7 @@ public class RtuController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuService, $"{e.Message}");
+            _logger.Exception(Logs.RtuService, e, "GetMessages");
             return null;
         }
     }

@@ -3734,4 +3734,10 @@ Please try again later</value>
 	<data name="SID_Failed_to_connect_OTDR" xml:space="preserve">
 		<value>Failed to connect OTDR</value>
 	</data>
+	<data name="SID_Failed_to_load_RFTS_parameters_template_from_file_" xml:space="preserve">
+		<value>Failed to load RFTS parameters template from file:</value>
+	</data>
+	<data name="SID_Can_t_start_auto_base_assignment_without_RFTS_template_file_" xml:space="preserve">
+		<value>Can't start auto base assignment without RFTS template file!</value>
+	</data>
 </root>

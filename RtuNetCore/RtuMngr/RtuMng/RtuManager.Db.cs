@@ -21,7 +21,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, "PersistMoniResultForServer: " + e.Message);
+            _logger.Exception(Logs.RtuManager, e, "PersistMoniResultForServer");
         }
     }
 
@@ -36,8 +36,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, "PersistClientMeasurementResult: " + e.Message);
-
+            _logger.Exception(Logs.RtuManager, e, "PersistClientMeasurementResult");
         }
     }
 
@@ -62,7 +61,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, "GetNextPortForMonitoring: " + e.Message);
+            _logger.Exception(Logs.RtuManager, e, "GetNextPortForMonitoring");
             return null;
         }
     }

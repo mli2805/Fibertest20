@@ -101,7 +101,7 @@ public class MonitoringPort
         catch (Exception e)
         {
             logger.Error(Logs.RtuManager, $"Failed to persist measurement data into {filename}");
-            logger.Error(Logs.RtuManager, e.Message);
+            logger.Exception(Logs.RtuManager, e, "SaveSorData");
         }
     }
 
@@ -123,7 +123,7 @@ public class MonitoringPort
         catch (Exception e)
         {
             logger.Error(Logs.RtuManager, $"Failed to persist measurement data into {measFile}");
-            logger.Error(Logs.RtuManager, e.Message);
+            logger.Exception(Logs.RtuManager, e, "SaveMeasBytes");
         }
     }
 

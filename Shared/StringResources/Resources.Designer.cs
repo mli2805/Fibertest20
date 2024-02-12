@@ -1530,6 +1530,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t start auto base assignment without RFTS template file!.
+        /// </summary>
+        public static string SID_Can_t_start_auto_base_assignment_without_RFTS_template_file_ {
+            get {
+                return ResourceManager.GetString("SID_Can_t_start_auto_base_assignment_without_RFTS_template_file_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string SID_Cancel {
@@ -3724,6 +3733,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_initialize_OTDR {
             get {
                 return ResourceManager.GetString("SID_Failed_to_initialize_OTDR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load RFTS parameters template from file:.
+        /// </summary>
+        public static string SID_Failed_to_load_RFTS_parameters_template_from_file_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_load_RFTS_parameters_template_from_file_", resourceCulture);
             }
         }
         

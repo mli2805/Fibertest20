@@ -285,7 +285,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, $"Exception during PrepareMeasurement: {e.Message}");
+            _logger.Exception(Logs.RtuManager, e, $"PrepareMeasurement");
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementHardwareProblem);
         }
 
@@ -331,7 +331,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, $"Exception during measurement analysis: {e.Message}");
+            _logger.Exception(Logs.RtuManager, e, "AnalyzeMeasurement");
             return new MoniResult() { UserReturnCode = ReturnCode.MeasurementAnalysisFailed };
         }
     }
@@ -351,7 +351,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, $"Exception during comparison: {e.Message}");
+            _logger.Exception(Logs.RtuManager, e, "CompareWithBase");
             return new MoniResult() { UserReturnCode = ReturnCode.MeasurementComparisonFailed };
         }
     }

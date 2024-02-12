@@ -69,7 +69,7 @@ public partial class Charon
             {
                 IsLastCommandSuccessful = false;
                 LastErrorMessage = $"{e.Message} in GetIniSize!";
-                _logger.Error(Logs.RtuManager, LastErrorMessage);
+                _logger.Exception(Logs.RtuManager, e, LastErrorMessage);
             }
 
             return 0;

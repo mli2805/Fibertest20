@@ -50,7 +50,7 @@ public partial class InterOpWrapper
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, $"Set parameter: {e.Message}!");
+            _logger.Exception(Logs.RtuManager, e, "Set parameter");
             return false;
         }
     }

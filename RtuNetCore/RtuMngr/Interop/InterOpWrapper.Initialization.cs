@@ -61,12 +61,12 @@ public partial class InterOpWrapper
         }
         catch (ExternalException e)
         {
-            _logger.Error(Logs.RtuManager, "InterOpWrapper.InitOTDR: " + e.Message);
+            _logger.Exception(Logs.RtuManager, e, "InterOpWrapper.InitOTDR");
             return false;
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuManager, "InterOpWrapper.InitOTDR: " + e.Message);
+            _logger.Exception(Logs.RtuManager, e, "InterOpWrapper.InitOTDR");
             return false;
         }
 

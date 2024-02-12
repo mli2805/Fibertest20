@@ -37,7 +37,7 @@ public partial class RtuManager
         }
         catch (Exception e)
         {
-            _logger.Error(Logs.RtuService, $"SaveBaseRefs: {e.Message}");
+            _logger.Exception(Logs.RtuService, e, "SaveBaseRefs");
             return new BaseRefAssignedDto(ReturnCode.BaseRefAssignmentFailed);
         }
     }
