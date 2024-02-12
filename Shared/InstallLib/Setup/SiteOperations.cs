@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Microsoft.Web.Administration;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
     public static class SiteOperations
     {

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Forms;
 using Caliburn.Micro;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 

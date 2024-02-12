@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.UtilsLib
+﻿namespace Iit.Fibertest.InstallLib
 {
     public class CurrentInstallation
     {

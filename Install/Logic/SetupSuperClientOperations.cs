@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
@@ -22,7 +23,7 @@ namespace Iit.Fibertest.Install
 
             var fullSuperClientPath = Path.Combine(installationFolder, SuperClientSubdir);
             _logFile.AppendLine($" full super-client path = {fullSuperClientPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathSuperClient, 
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathSuperClient, 
                 fullSuperClientPath, worker))
                 return false;
 

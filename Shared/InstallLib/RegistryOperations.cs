@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Iit.Fibertest.StringResources;
 using Microsoft.Win32;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
 
 /*

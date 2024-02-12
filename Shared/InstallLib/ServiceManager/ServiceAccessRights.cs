@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
     [Flags]
     public enum ServiceAccessRights

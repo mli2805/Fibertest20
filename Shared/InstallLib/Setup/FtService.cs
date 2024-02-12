@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
     public enum DestinationComputer
     {

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using System.Windows;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 

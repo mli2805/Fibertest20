@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.Win32;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
     public static class FtServices
     {

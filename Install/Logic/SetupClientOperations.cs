@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
@@ -30,29 +31,29 @@ namespace Iit.Fibertest.Install
             var clientFolder = string.Format(ClientSubdir, currentInstallation.ClientInstallationFolder);
             var fullClientPath = Path.Combine(currentInstallation.InstallationFolder, clientFolder);
             _logFile.AppendLine($" full client path = {fullClientPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathClient,
                 fullClientPath, worker))
                 return false;
 
             var userGuideFolder = Path.Combine(fullClientPath, UserGuideSubdir);
             _logFile.AppendLine($" full userGuide path = {userGuideFolder}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
                 userGuideFolder, worker))
                 return false;
 
             var rftsTemplatesFolder = Path.Combine(fullClientPath, RftsTemplatesSubdir);
             _logFile.AppendLine($" full rftsTemplates path = {rftsTemplatesFolder}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRftsTemplates,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathRftsTemplates,
                     rftsTemplatesFolder, worker))
                 return false;
 
 
             var fullReflectPath = Path.Combine(currentInstallation.InstallationFolder, ReflectSubdir);
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathReflect,
                 fullReflectPath, worker))
                 return false;
-            if (!FileOperations.CleanAntiGhost(fullReflectPath, false, worker))
+            if (!InstallFileOperations.CleanAntiGhost(fullReflectPath, false, worker))
                 return false;
 
             if (!Directory.Exists(fullReflectPath + "\\Share"))

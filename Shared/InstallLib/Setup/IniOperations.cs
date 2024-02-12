@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
     public static class IniOperations
     {

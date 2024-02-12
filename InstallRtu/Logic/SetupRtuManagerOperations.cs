@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.InstallRtu
@@ -30,16 +31,16 @@ namespace Iit.Fibertest.InstallRtu
             var fullBinariesFolder = service
                 .GetFullBinariesFolder(installationFolder);
             // both service RtuManager and RtuWatchdog are in one folder
-            if (!FileOperations.DirectoryCopyWithDecorations(service.SourcePath, fullBinariesFolder, worker))
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(service.SourcePath, fullBinariesFolder, worker))
                 return false;
 
             var otdrmeasengine = Path.Combine(fullBinariesFolder, @"OtdrMeasEngine\");
-            if (!FileOperations.CleanAntiGhost(otdrmeasengine, true, worker)) 
+            if (!InstallFileOperations.CleanAntiGhost(otdrmeasengine, true, worker)) 
                 return false;
             CreateIniForIpAddressesSetting(installationFolder);
 
             var fullUtilsPath = Path.Combine(installationFolder, UtilsSubdir);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils,  
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathUtils,  
                 fullUtilsPath, worker))
                 return false;
 
@@ -56,10 +57,10 @@ namespace Iit.Fibertest.InstallRtu
 
         private bool CopyReflect(string fullReflectPath, BackgroundWorker worker)
         {
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, 
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathReflect, 
                 fullReflectPath, worker))
                 return false;
-            if (!FileOperations.CleanAntiGhost(fullReflectPath, false, worker)) 
+            if (!InstallFileOperations.CleanAntiGhost(fullReflectPath, false, worker)) 
                 return false;
 
             if (!Directory.Exists(fullReflectPath + "\\Share"))

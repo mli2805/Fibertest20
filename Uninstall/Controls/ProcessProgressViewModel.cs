@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using Caliburn.Micro;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.InstallLib;
 
 namespace Iit.Fibertest.Uninstall
 {

@@ -191,6 +191,10 @@
       <Project>{86A00748-2A4E-4180-B04E-0E1F6A62A258}</Project>
       <Name>Dto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Shared\InstallLib\InstallLib.csproj">
+      <Project>{4cacf894-657e-4319-ad35-161048f2d27b}</Project>
+      <Name>InstallLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>

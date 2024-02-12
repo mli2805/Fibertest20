@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using Caliburn.Micro;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.InstallLib;
 
 namespace Iit.Fibertest.Uninstall
 {

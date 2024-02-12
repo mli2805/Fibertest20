@@ -3,32 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
-    public static class FileOperations
+    public static class InstallFileOperations
     {
-        public static string GetMainFolder()
-        {
-            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var assemblyPath = Path.GetDirectoryName(assemblyLocation)!;
-            return Directory.GetParent(assemblyPath)!.FullName;
-        }
-
-        public static string GetParentFolder(string path, int depth = 1)
-        {
-            for (int i = 0; i < depth; i++)
-            {
-                var index = path.Substring(0, path.Length - 1).LastIndexOf(@"\", StringComparison.CurrentCulture);
-                if (index == -1) return string.Empty;
-                path = path.Substring(0, index);
-            }
-            return path;
-        }
-
         public static bool DirectoryCopyWithDecorations(string sourceDirName, string destDirName,
-            BackgroundWorker worker)
+         BackgroundWorker worker)
         {
             var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
             var fullSourcePath = Path.Combine(currentDomain, sourceDirName);
@@ -100,14 +81,14 @@ namespace Iit.Fibertest.UtilsLib
             foreach (var model in Models)
             {
                 var filename = Path.Combine(fullRtuManagerPath, $@"Etc\param{model}.ini");
-                if (!CleanAntiGhostInOneFile(filename, worker)) 
+                if (!CleanAntiGhostInOneFile(filename, worker))
                     return false;
 
-                if (!isThereEtcDefaultFolder) 
+                if (!isThereEtcDefaultFolder)
                     continue;
 
                 var filename2 = Path.Combine(fullRtuManagerPath, $@"Etc_default\param{model}.ini");
-                if (!CleanAntiGhostInOneFile(filename2, worker)) 
+                if (!CleanAntiGhostInOneFile(filename2, worker))
                     return false;
             }
 
@@ -129,6 +110,5 @@ namespace Iit.Fibertest.UtilsLib
                 return false;
             }
         }
-
     }
 }

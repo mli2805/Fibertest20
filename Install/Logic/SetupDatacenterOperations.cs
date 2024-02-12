@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.InstallLib;
 
 namespace Iit.Fibertest.Install
 {
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Install
         {
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
             var service = FtServices.List.First(s => s.Name == "FibertestDcService");
-            if (!FileOperations.DirectoryCopyWithDecorations(service.SourcePath,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(service.SourcePath,
                 service.GetFullBinariesFolder(currentInstallation.InstallationFolder), worker))
                 return false;
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Install
         {
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
             var service = FtServices.List.First(s => s.Name == "FibertestWaService");
-            if (!FileOperations.DirectoryCopyWithDecorations(service.SourcePath,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(service.SourcePath,
                 service.GetFullBinariesFolder(currentInstallation.InstallationFolder), worker))
                 return false;
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
@@ -98,9 +98,9 @@ namespace Iit.Fibertest.Install
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
 
             var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
-            if (!FileOperations.DirectoryRemove(fullWebClientPath, worker))
+            if (!InstallFileOperations.DirectoryRemove(fullWebClientPath, worker))
                 return false;
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebClient,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathWebClient,
                 fullWebClientPath, worker))
                 return false;
 
@@ -108,7 +108,7 @@ namespace Iit.Fibertest.Install
             File.WriteAllText(settingsFilename, currentInstallation.GetWebClientSettingsJson());
 
             var userGuideFolder = Path.Combine(fullWebClientPath, UserGuideSubdir);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
                 userGuideFolder, worker))
                 return false;
 

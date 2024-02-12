@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Iit.Fibertest.InstallLib;
 
 #pragma warning disable 414
 // ReSharper disable All

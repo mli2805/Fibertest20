@@ -2,8 +2,9 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
     public static class ServiceOperations
     {

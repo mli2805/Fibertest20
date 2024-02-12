@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Documents;
 using Caliburn.Micro;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
 {

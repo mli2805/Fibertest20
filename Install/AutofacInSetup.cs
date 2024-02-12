@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.InstallLib;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install

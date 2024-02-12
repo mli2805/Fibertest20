@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.InstallLib
 {
     public class SetupUninstallOperations
     {
@@ -20,7 +21,7 @@ namespace Iit.Fibertest.UtilsLib
 
             var fullUninstallPath = Path.Combine(installationFolder, UninstallSubdir);
             _logFile.AppendLine($" full uninstall path = {fullUninstallPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, 
+            if (!InstallFileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, 
                 fullUninstallPath, worker))
                 return false;
 

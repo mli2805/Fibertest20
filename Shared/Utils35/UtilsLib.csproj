@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="AesExt.cs" />
     <Compile Include="Arp.cs" />
+    <Compile Include="FileOperations.cs" />
     <Compile Include="IniFile\IniFile.cs" />
     <Compile Include="IniFile\IniKey.cs" />
     <Compile Include="IniFile\IniSection.cs" />
@@ -102,28 +103,6 @@
     <Compile Include="MikrotikInBop.cs" />
     <Compile Include="Pinger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceManager\FailureAction.cs" />
-    <Compile Include="ServiceManager\ScmAccessRights.cs" />
-    <Compile Include="ServiceManager\ServiceAccessRights.cs" />
-    <Compile Include="ServiceManager\ServiceBootFlag.cs" />
-    <Compile Include="ServiceManager\ServiceControl.cs" />
-    <Compile Include="ServiceManager\ServiceError.cs" />
-    <Compile Include="ServiceManager\ServiceInstaller.cs" />
-    <Compile Include="ServiceManager\ServiceState.cs" />
-    <Compile Include="Setup\BwReturnProgressCode.cs" />
-    <Compile Include="Setup\CurrentInstallation.cs" />
-    <Compile Include="Setup\FileOperations.cs" />
-    <Compile Include="Setup\FtService.cs" />
-    <Compile Include="Setup\FtServices.cs" />
-    <Compile Include="Setup\IniOperations.cs" />
-    <Compile Include="Setup\InstallationType.cs" />
-    <Compile Include="Setup\RegistryOperations.cs" />
-    <Compile Include="Setup\ServiceOperations.cs" />
-    <Compile Include="Setup\SetupUninstallOperations.cs" />
-    <Compile Include="Setup\ShortcutOperatios.cs" />
-    <Compile Include="Setup\SiteOperations.cs" />
-    <Compile Include="Setup\WebApiSettings.cs" />
-    <Compile Include="Setup\WebClientSettings.cs" />
     <Compile Include="SorData\AccidentsExtractor.cs" />
     <Compile Include="SorData\RftsEventExt.cs" />
     <Compile Include="SorData\RftsEventsExt.cs" />
@@ -140,21 +119,6 @@
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StringResources\StringResources.csproj">
-      <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
-      <Name>StringResources</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="IWshRuntimeLibrary">
-      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Web.Administration">

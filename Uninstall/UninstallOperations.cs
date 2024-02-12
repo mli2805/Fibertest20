@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.InstallLib;
 
 namespace Iit.Fibertest.Uninstall
 {
