@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph.RtuOccupy;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -12,17 +11,15 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly RtuOccupations _rtuOccupations;
         private readonly ID2RWcfManager _d2RWcfManager;
 
         public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
-            RtuStationsRepository rtuStationsRepository, RtuOccupations rtuOccupations, ID2RWcfManager d2RWcfManager)
+            RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
-            _rtuOccupations = rtuOccupations;
             _d2RWcfManager = d2RWcfManager;
         }
 
