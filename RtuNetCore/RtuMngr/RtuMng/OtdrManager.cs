@@ -71,8 +71,9 @@ public partial class OtdrManager
         var destinationPath = Path.Combine(_iitOtdrFolder, @"etc");
         if (!Directory.Exists(destinationPath))
         {
-            _logger.Error(Logs.RtuManager, $"Can't work without <{destinationPath}> folder!");
-            return false;
+            _logger.Error(Logs.RtuManager, $"Can't work without <{destinationPath}> folder! Create it.");
+            Directory.CreateDirectory(destinationPath);
+            // return false;
         }
         var sourcePath = Path.Combine(_iitOtdrFolder, "etc_default");
         if (!Directory.Exists(sourcePath))

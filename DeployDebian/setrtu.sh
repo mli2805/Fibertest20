@@ -1,5 +1,5 @@
-chmod -R 777 Rtu.service
-cp Rtu.service /etc/systemd/system/
-systemctl enable Rtu
+chmod -R 777 rtu.service
+cp rtu.service /etc/systemd/system/
+systemctl enable rtu
 
 

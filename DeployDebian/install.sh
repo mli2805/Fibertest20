@@ -1,15 +1,17 @@
 #!/bin/bash
 
-systemctl stop Rtu.service
+systemctl stop rtu.service
 echo "сервис остановлен"
 sleep 1s
 
-tar -xzf rtu.tar.gz -C /var/fibertest
+mkdir -p /var/fibertest/bin
+
+tar -xzf rtu.tar.gz -C /var/fibertest/bin
 echo "файлы распакованы"
 chmod -R 777 /var/fibertest
 
-systemctl start Rtu.service
+systemctl start rtu.service
 echo "сервис запущен"
 sleep 2s
 
-systemctl status Rtu.service
+systemctl status rtu.service
