@@ -10,7 +10,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly IMakLinuxConnector _makLinuxConnector;
 
-        public ClientToLinuxRtuHttpTransmitter(IMyLog logFile, 
+        public ClientToLinuxRtuHttpTransmitter(IMyLog logFile,
             ClientsCollection clientsCollection, IMakLinuxConnector makLinuxConnector)
         {
             _logFile = logFile;
@@ -78,6 +78,16 @@ namespace Iit.Fibertest.DataCenterCore
         public Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress)
+        {
+            return _makLinuxConnector.AttachOtauAsync(dto, rtuDoubleAddress);
+        }
+
+        public Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
+        {
+            return _makLinuxConnector.DetachOtauAsync(dto, rtuDoubleAddress);
         }
     }
 }

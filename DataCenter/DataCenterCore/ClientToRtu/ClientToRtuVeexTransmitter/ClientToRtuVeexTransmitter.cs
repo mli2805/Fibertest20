@@ -63,40 +63,18 @@ namespace Iit.Fibertest.DataCenterCore
             return new RequestAnswer(result ? ReturnCode.Ok : ReturnCode.Error);
         }
 
-        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new OtauAttachedDto()
-                {
-                    ReturnCode = ReturnCode.RtuAttachOtauError,
-                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
-                };
-            }
-
-            var result = await _d2RtuVeexLayer3.AttachOtauAsync(dto, rtuAddresses);
+            var result = await _d2RtuVeexLayer3.AttachOtauAsync(dto, rtuDoubleAddress);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.OtauAttachedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
             return result;
         }
 
-        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new OtauDetachedDto()
-                {
-                    ReturnCode = ReturnCode.RtuDetachOtauError,
-                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
-                };
-            }
-
-            var result = await _d2RtuVeexLayer3.DetachOtauAsync(dto, rtuAddresses);
+            var result = await _d2RtuVeexLayer3.DetachOtauAsync(dto, rtuDoubleAddress);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.OtauDetachedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");

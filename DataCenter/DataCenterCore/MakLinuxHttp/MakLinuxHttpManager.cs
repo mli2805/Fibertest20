@@ -164,6 +164,50 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress)
+        {
+            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
+            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
+            try
+            {
+                var response = await HttpClient.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                    return new OtauAttachedDto(ReturnCode.D2RHttpError)
+                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
+
+                var responseJson = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<OtauAttachedDto>(responseJson);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"AttachOtauAsync: {e.Message}");
+                return new OtauAttachedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
+        {
+            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
+            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
+            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
+            try
+            {
+                var response = await HttpClient.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                    return new OtauDetachedDto(ReturnCode.D2RHttpError)
+                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
+
+                var responseJson = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<OtauDetachedDto>(responseJson);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"DetachOtauAsync: {e.Message}");
+                return new OtauDetachedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
+            }
+        }
+
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
 

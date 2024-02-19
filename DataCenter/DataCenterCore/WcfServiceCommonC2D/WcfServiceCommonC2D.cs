@@ -188,9 +188,7 @@ namespace Iit.Fibertest.DataCenterCore
                     IsAttached = false,
                 };
 
-            var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.AttachOtauAsync(dto)
-                : await _clientToRtuVeexTransmitter.AttachOtauAsync(dto);
+            var otauAttachedDto = await _wcfIntermediate.AttachOtauAsync(dto);
             if (otauAttachedDto.IsAttached)
             {
                 AttachOtauIntoGraph(dto, otauAttachedDto);
@@ -228,9 +226,7 @@ namespace Iit.Fibertest.DataCenterCore
                     IsDetached = false,
                 };
 
-            var otauDetachedDto = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.DetachOtauAsync(dto)
-                : await _clientToRtuVeexTransmitter.DetachOtauAsync(dto);
+            var otauDetachedDto = await _wcfIntermediate.DetachOtauAsync(dto);
 
             if (otauDetachedDto.IsDetached)
             {

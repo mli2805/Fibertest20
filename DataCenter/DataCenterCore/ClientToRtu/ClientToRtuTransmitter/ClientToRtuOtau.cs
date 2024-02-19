@@ -6,22 +6,15 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class ClientToRtuTransmitter
     {
-        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent attach OTAU {dto.OtauId.First6()} request");
             OtauAttachedDto result;
             try
             {
-                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-                if (rtuAddresses != null)
-                {
-                    result = await _d2RWcfManager.SetRtuAddresses(rtuAddresses, _iniFile, _logFile).AttachOtauAsync(dto);
-                }
-                else
-                {
-                    _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                    result = new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.NoSuchRtu };
-                }
+               
+                    result = await _d2RWcfManager.SetRtuAddresses(rtuDoubleAddress, _iniFile, _logFile).AttachOtauAsync(dto);
+                
             }
             catch (Exception e)
             {
@@ -34,22 +27,13 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} sent detach OTAU {dto.OtauId.First6()} request");
             OtauDetachedDto result;
             try
             {
-                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-                if (rtuAddresses != null)
-                {
-                    result = await _d2RWcfManager.SetRtuAddresses(rtuAddresses, _iniFile, _logFile).DetachOtauAsync(dto);
-                }
-                else
-                {
-                    _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                    result = new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.NoSuchRtu };
-                }
+                    result = await _d2RWcfManager.SetRtuAddresses(rtuDoubleAddress, _iniFile, _logFile).DetachOtauAsync(dto);
             }
             catch (Exception e)
             {

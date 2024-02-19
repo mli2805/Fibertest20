@@ -5,9 +5,8 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
-    public async Task<OtauAttachedDto> AttachOtau(AttachOtauDto param)
+    public OtauAttachedDto AttachOtau(AttachOtauDto param)
     {
-        await Task.Delay(1);
         _logger.TimestampWithoutMessage(Logs.RtuManager);
         OtauAttachedDto result;
 
@@ -18,6 +17,7 @@ public partial class RtuManager
                 $"Otau {param.NetAddress.ToStringA()} attached to port {param.OpticalPort} and has {newCharon.OwnPortCount} ports");
             result = new OtauAttachedDto(ReturnCode.OtauAttachedSuccessfully)
             {
+                IsAttached = true,
                 OtauId = param.OtauId,
                 RtuId = param.RtuId,
                 Serial = newCharon.Serial,
@@ -35,9 +35,8 @@ public partial class RtuManager
         return result;
     }
 
-    public async Task<OtauDetachedDto> DetachOtau(DetachOtauDto param)
+    public OtauDetachedDto DetachOtau(DetachOtauDto param)
     {
-        await Task.Delay(1);
         _logger.TimestampWithoutMessage(Logs.RtuManager);
         OtauDetachedDto result;
 
@@ -48,7 +47,7 @@ public partial class RtuManager
             _logger.Info(Logs.RtuManager,
                 $"Now RTU has {_mainCharon.OwnPortCount}/{_mainCharon.FullPortCount} ports");
 
-            result = new OtauDetachedDto(ReturnCode.OtauDetachedSuccessfully);
+            result = new OtauDetachedDto(ReturnCode.OtauDetachedSuccessfully) { IsDetached = true };
         }
         else
         {

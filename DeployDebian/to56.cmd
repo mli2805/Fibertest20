@@ -2,16 +2,16 @@ rem dotnet publish ..\RtuNetCore\RtuDaemon\RtuDaemon.csproj --configuration=Rele
 rem xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\publish\*.* rtu
 
 rem published in VS
-xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\*.* rtu
-pause
+xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\*.* bin
+
 
 rem folder OtdrMeasEngine is prepared on ubuntu2004 virtual machine
 rem and place directly in /DeployDebian/rtu folder
-tar -czf rtu.tar.gz rtu
+tar -czf bin.tar.gz bin
 
 rem 172.16.4.209 / 192.168.96.56 / 
 rem password is iitft25user or 123
-c:\putty\pscp.exe rtu.tar.gz user@192.168.96.56:/var/tmp
+c:\putty\pscp.exe bin.tar.gz user@192.168.96.56:/var/tmp
 rem c:\putty\pscp.exe install.sh user@192.168.96.56:/var/tmp
 
 

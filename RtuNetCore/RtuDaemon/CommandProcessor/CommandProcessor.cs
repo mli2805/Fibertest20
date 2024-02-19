@@ -34,6 +34,10 @@ namespace Iit.Fibertest.RtuDaemon
                         return new RequestAnswer(ReturnCode.RtuInitializationInProgress);
                     Task.Factory.StartNew(() => rtuManager.ApplyMonitoringSettings(dto));
                     return new RequestAnswer(ReturnCode.InProgress);
+                case AttachOtauDto dto:
+                    return rtuManager.AttachOtau(dto);
+                case DetachOtauDto dto:
+                    return rtuManager.DetachOtau(dto);
                 case StopMonitoringDto _:
                     return await rtuManager.StopMonitoring();
                 case DoClientMeasurementDto dto:

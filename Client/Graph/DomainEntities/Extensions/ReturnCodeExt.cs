@@ -134,6 +134,10 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.C2RWcfOperationError:
                     return Resources.SID_Error_during_Client_RTU_operation__;
 
+                //
+                case ReturnCode.UnknownCommand:
+                    return @"Unknown command";
+
                 // 3000
                 case ReturnCode.DbError:
                     return Resources.SID_Database_error_;
