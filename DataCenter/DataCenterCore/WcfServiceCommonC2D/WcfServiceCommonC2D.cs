@@ -514,9 +514,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
-
             var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.PreciseMeasurementOutOfTurn, username, out RtuOccupationState currentState))
             {
@@ -527,9 +524,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            var result = rtu.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
-                : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
+            var result = await _wcfIntermediate.DoOutOfTurnPreciseMeasurementAsync(dto);
 
             return result;
         }

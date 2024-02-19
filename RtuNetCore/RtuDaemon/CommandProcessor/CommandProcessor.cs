@@ -47,6 +47,13 @@ namespace Iit.Fibertest.RtuDaemon
                         return new ClientMeasurementStartedDto(ReturnCode.RtuAutoBaseMeasurementInProgress);
                     Task.Factory.StartNew(() => rtuManager.DoClientMeasurement(dto));
                     return new ClientMeasurementStartedDto(ReturnCode.MeasurementClientStartedSuccessfully);
+                case DoOutOfTurnPreciseMeasurementDto dto:
+                    if (rtuManager.InitializationResult == null)
+                        return new RequestAnswer(ReturnCode.RtuInitializationInProgress);
+                    if (config.Value.Monitoring.IsAutoBaseMeasurementInProgress)
+                        return new RequestAnswer(ReturnCode.RtuAutoBaseMeasurementInProgress);
+                    Task.Factory.StartNew(() => rtuManager.StartOutOfTurnMeasurement(dto));
+                    return new RequestAnswer(ReturnCode.InProgress);
             }
             return new RequestAnswer(ReturnCode.UnknownCommand);
         }

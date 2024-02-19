@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Precise_monitoring_out_of_turn;
 
             var result = await StartRequestedMeasurement();
-            if (result.ReturnCode != ReturnCode.Ok)
+            if (result.ReturnCode != ReturnCode.Ok && result.ReturnCode != ReturnCode.InProgress)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, result.ErrorMessage);
                 _windowManager.ShowDialogWithAssignedOwner(vm);

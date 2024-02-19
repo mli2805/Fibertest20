@@ -23,18 +23,13 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to do out of turn measurement on RTU {dto.RtuId.First6()}");
             try
             {
-                var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-                if (rtuAddresses != null)
-                    return await _d2RWcfManager.SetRtuAddresses(rtuAddresses, _iniFile, _logFile)
-                        .DoOutOfTurnPreciseMeasurementAsync(dto);
-
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new RequestAnswer() { ReturnCode = ReturnCode.DbError };
+                return await _d2RWcfManager.SetRtuAddresses(rtuDoubleAddress, _iniFile, _logFile)
+                    .DoOutOfTurnPreciseMeasurementAsync(dto);
             }
             catch (Exception e)
             {

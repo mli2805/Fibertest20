@@ -202,13 +202,11 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
             _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to start measurement out of turn on VeEX RTU {dto.RtuId.First6()}");
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtu == null || rtuAddresses == null)
-                return new RequestAnswer { ReturnCode = ReturnCode.NoSuchRtu };
+            if (rtu == null) return new RequestAnswer(ReturnCode.NoSuchRtu);
 
             var veexTest = _writeModel.VeexTests.FirstOrDefault(v =>
                 v.BasRefType == BaseRefType.Precise && v.TraceId == dto.PortWithTraceDto.TraceId);
@@ -219,7 +217,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             _logFile.AppendLine($"Out of turn measurement for Veex test {veexTest.TestId.First6()} {veexTest.OtauId}");
 
-            var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuAddresses, rtu.OtdrId, veexTest.TestId.ToString());
+            var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurementAsync(rtuDoubleAddress, rtu.OtdrId, veexTest.TestId.ToString());
             var errorMessage = result.ReturnCode == ReturnCode.Error ? result.ErrorMessage : "";
             var rs = $"result is {result.ReturnCode} {errorMessage}";
             _logFile.AppendLine($"Start out of turn measurement (testId = {veexTest.TestId.First6()}) {rs}");

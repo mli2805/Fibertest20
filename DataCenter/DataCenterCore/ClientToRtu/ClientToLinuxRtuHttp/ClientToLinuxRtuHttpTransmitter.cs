@@ -50,9 +50,10 @@ namespace Iit.Fibertest.DataCenterCore
             return _makLinuxConnector.TransmitBaseRefsToRtuAsync(dto, rtuDoubleAddress);
         }
 
-        public Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
-            throw new System.NotImplementedException();
+            return _makLinuxConnector.DoOutOfTurnPreciseMeasurementAsync(dto, rtuDoubleAddress);
+
         }
 
         public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)

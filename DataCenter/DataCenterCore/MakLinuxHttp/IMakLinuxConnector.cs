@@ -12,6 +12,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto,
             DoubleAddress rtuDoubleAddress);
+        Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto,
+             DoubleAddress rtuDoubleAddress);
         Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto, DoubleAddress rtuDoubleAddress);
 
         Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto);
