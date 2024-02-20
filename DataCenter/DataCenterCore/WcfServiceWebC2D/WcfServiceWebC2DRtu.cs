@@ -155,12 +155,12 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             if (!FillIn(dto)) return new RtuInitializedDto() { ReturnCode = ReturnCode.RtuInitializationError, };
-            var result = await _wcfIntermediate.InitializeRtuAsync(dto);
+            var result = await _wcfIntermediateC2R.InitializeRtuAsync(dto);
             if (!result.IsInitialized || !dto.IsSynchronizationRequired)
                 return result;
 
             // base refs synchronization
-            var sendResult = await _wcfIntermediate.SynchronizeBaseRefs(dto);
+            var sendResult = await _wcfIntermediateC2R.SynchronizeBaseRefs(dto);
             if (sendResult == null || sendResult.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully)
             {
                 // null if there is no base refs
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return result;
             }
 
-            // failed to send
+            // failed to send base refs
             result.ReturnCode = ReturnCode.RtuInitializedFailedToReSendBaseRefs;
             return result;
 

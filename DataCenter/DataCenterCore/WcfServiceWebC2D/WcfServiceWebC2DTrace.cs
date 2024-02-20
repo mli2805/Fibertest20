@@ -182,7 +182,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (additional != null && trace.AdditionalId != Guid.Empty)
                 dto.DeleteOldSorFileIds.Add(_writeModel.BaseRefs.First(b=>b.Id == trace.AdditionalId).SorFileId);
 
-            return await _wcfIntermediate.AssignBaseRefAsync(dto);
+            return await _wcfIntermediateC2R.AssignBaseRefAsync(dto);
         }
     }
 

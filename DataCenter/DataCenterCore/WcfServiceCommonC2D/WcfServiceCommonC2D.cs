@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly RtuOccupations _rtuOccupations;
-        private readonly WcfIntermediate _wcfIntermediate;
+        private readonly WcfIntermediateC2R _wcfIntermediateC2R;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
         private readonly ClientToLinuxRtuHttpTransmitter _clientToLinuxRtuHttpTransmitter;
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
             BaseRefLandmarksTool baseRefLandmarksTool,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             IFtSignalRClient ftSignalRClient, RtuOccupations rtuOccupations,
-            WcfIntermediate wcfIntermediate,
+            WcfIntermediateC2R wcfIntermediateC2R,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
             ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
         {
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _ftSignalRClient = ftSignalRClient;
             _rtuOccupations = rtuOccupations;
-            _wcfIntermediate = wcfIntermediate;
+            _wcfIntermediateC2R = wcfIntermediateC2R;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
             _clientToLinuxRtuHttpTransmitter = clientToLinuxRtuHttpTransmitter;
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            return await _wcfIntermediate.InitializeRtuAsync(dto);
+            return await _wcfIntermediateC2R.InitializeRtuAsync(dto);
         }
 
         public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
@@ -188,7 +188,7 @@ namespace Iit.Fibertest.DataCenterCore
                     IsAttached = false,
                 };
 
-            var otauAttachedDto = await _wcfIntermediate.AttachOtauAsync(dto);
+            var otauAttachedDto = await _wcfIntermediateC2R.AttachOtauAsync(dto);
             if (otauAttachedDto.IsAttached)
             {
                 AttachOtauIntoGraph(dto, otauAttachedDto);
@@ -226,7 +226,7 @@ namespace Iit.Fibertest.DataCenterCore
                     IsDetached = false,
                 };
 
-            var otauDetachedDto = await _wcfIntermediate.DetachOtauAsync(dto);
+            var otauDetachedDto = await _wcfIntermediateC2R.DetachOtauAsync(dto);
 
             if (otauDetachedDto.IsDetached)
             {
@@ -266,7 +266,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState _))
                 return false;
 
-            var stopResult = await _wcfIntermediate.StopMonitoringAsync(dto);
+            var stopResult = await _wcfIntermediateC2R.StopMonitoringAsync(dto);
             var isStopped = stopResult.ReturnCode == ReturnCode.Ok;
 
             if (isStopped)
@@ -292,7 +292,7 @@ namespace Iit.Fibertest.DataCenterCore
                 portWithTraceDto.LastTraceState = trace?.State ?? FiberState.Unknown;
             }
 
-            var resultFromRtu = await _wcfIntermediate.ApplyMonitoringSettingsAsync(dto);
+            var resultFromRtu = await _wcfIntermediateC2R.ApplyMonitoringSettingsAsync(dto);
 
             if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
@@ -331,7 +331,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            return await _wcfIntermediate.AssignBaseRefAsync(dto);
+            return await _wcfIntermediateC2R.AssignBaseRefAsync(dto);
         }
 
 
@@ -379,12 +379,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<CorrectionProgressDto> StartLandmarksCorrection(LandmarksCorrectionDto changesList)
         {
-            return await _wcfIntermediate.StartLandmarksCorrection(changesList);
+            return await _wcfIntermediateC2R.StartLandmarksCorrection(changesList);
         }
 
         public async Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId)
         {
-            return await _wcfIntermediate.GetLandmarksCorrectionProgress(batchId);
+            return await _wcfIntermediateC2R.GetLandmarksCorrectionProgress(batchId);
         }
 
 
@@ -460,7 +460,7 @@ namespace Iit.Fibertest.DataCenterCore
         // or user explicitly demands to resend base refs to RTU 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-            return await _wcfIntermediate.ReSendBaseRefAsync(dto);
+            return await _wcfIntermediateC2R.ReSendBaseRefAsync(dto);
         }
 
         public async Task<ClientMeasurementStartedDto> StartClientMeasurementAsync(DoClientMeasurementDto dto)
@@ -477,7 +477,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            return await _wcfIntermediate.DoClientMeasurementAsync(dto);
+            return await _wcfIntermediateC2R.DoClientMeasurementAsync(dto);
 
             // Client must free RTU when result received
         }
@@ -524,7 +524,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            var result = await _wcfIntermediate.DoOutOfTurnPreciseMeasurementAsync(dto);
+            var result = await _wcfIntermediateC2R.DoOutOfTurnPreciseMeasurementAsync(dto);
 
             return result;
         }

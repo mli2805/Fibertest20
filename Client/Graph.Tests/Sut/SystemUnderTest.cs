@@ -238,8 +238,7 @@ namespace Graph.Tests
             builder.RegisterType<RtuStationsRepository>().InstancePerLifetimeScope();
             builder.RegisterType<RtuInitializationToGraphApplier>().InstancePerLifetimeScope();
             builder.RegisterType<LongOperationsData>().InstancePerLifetimeScope();
-            builder.RegisterType<ManyChangesToBaseRefs>().InstancePerLifetimeScope();
-            builder.RegisterType<WcfIntermediate>().InstancePerLifetimeScope();
+            builder.RegisterType<WcfIntermediateC2R>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToRtuTransmitter>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToRtuVeexTransmitter>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToLinuxRtuHttpTransmitter>().InstancePerLifetimeScope();

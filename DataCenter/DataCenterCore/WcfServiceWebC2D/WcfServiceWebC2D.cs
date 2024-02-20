@@ -27,14 +27,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
-        private readonly WcfIntermediate _wcfIntermediate;
+        private readonly WcfIntermediateC2R _wcfIntermediateC2R;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
             ClientsCollection clientsCollection, SorFileRepository sorFileRepository,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
             AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier,
-            WcfIntermediate wcfIntermediate,
+            WcfIntermediateC2R wcfIntermediateC2R,
             ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _logFile = logFile;
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DataCenterCore
             _landmarksGraphParser = landmarksGraphParser;
             _accidentLineModelFactory = accidentLineModelFactory;
             _measurementsForWebNotifier = measurementsForWebNotifier;
-            _wcfIntermediate = wcfIntermediate;
+            _wcfIntermediateC2R = wcfIntermediateC2R;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 

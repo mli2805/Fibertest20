@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -24,32 +23,28 @@ namespace Iit.Fibertest.DataCenterCore
         public readonly Dictionary<Guid, ConcurrentQueue<string>> Data = new Dictionary<Guid, ConcurrentQueue<string>>();
     }
 
-    public class ManyChangesToBaseRefs
+    public partial class WcfIntermediateC2R
     {
-        private readonly IMyLog _logFile;
-        private readonly Model _writeModel;
-        private readonly EventStoreService _eventStoreService;
-        private readonly LongOperationsData _longOperationsData;
-        private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
-
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-        public ManyChangesToBaseRefs(IMyLog logFile, Model writeModel, EventStoreService eventStoreService,
-            LongOperationsData longOperationsData, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary)
+        public async Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId)
         {
-            _logFile = logFile;
-            _writeModel = writeModel;
-            _eventStoreService = eventStoreService;
-            _longOperationsData = longOperationsData;
-            _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
+            await Task.Delay(0);
+            if (!_longOperationsData.Data.ContainsKey(batchId)) return null;
+
+            var result = _longOperationsData.Data[batchId].TryDequeue(out string value);
+            if (!result) return null;
+
+            var resultDto = JsonConvert.DeserializeObject<CorrectionProgressDto>(value);
+            return resultDto;
         }
 
         public async Task<CorrectionProgressDto> StartLandmarksCorrection(LandmarksCorrectionDto changesList)
         {
             // Event Sourcing
             await _eventStoreService.SendCommands(changesList.Corrections
-                .Select(j => JsonConvert.DeserializeObject(j, JsonSerializerSettings)).ToList(),
+                    .Select(j => JsonConvert.DeserializeObject(j, JsonSerializerSettings)).ToList(),
                 "", changesList.ClientIp);
 
 
@@ -70,18 +65,6 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId)
-        {
-            await Task.Delay(0);
-            if (!_longOperationsData.Data.ContainsKey(batchId)) return null;
-
-            var result = _longOperationsData.Data[batchId].TryDequeue(out string value);
-            if (!result) return null;
-
-            var resultDto = JsonConvert.DeserializeObject<CorrectionProgressDto>(value);
-            return resultDto;
-        }
-
         private List<Trace> GetTracesInvolved(LandmarksCorrectionDto changesList)
         {
             var result = new Dictionary<Guid, Trace>();
@@ -93,6 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result.Values.ToList();
         }
 
+       
         private IEnumerable<Trace> GetTracesThrough(string json)
         {
             var obj = JsonConvert.DeserializeObject(json, JsonSerializerSettings);

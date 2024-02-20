@@ -11,18 +11,18 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly OutOfTurnData _outOfTurnData;
         private readonly RtuOccupations _rtuOccupations;
-        private readonly WcfIntermediate _wcfIntermediate;
+        private readonly WcfIntermediateC2R _wcfIntermediateC2R;
         private readonly IMyLog _logFile;
         private readonly string _trapSenderUser;
         private TimeSpan _gap;
 
         public OutOfTurnProcessor(IniFile iniFile, OutOfTurnData outOfTurnData,  
-            RtuOccupations rtuOccupations, WcfIntermediate wcfIntermediate)
+            RtuOccupations rtuOccupations, WcfIntermediateC2R wcfIntermediateC2R)
         {
             _iniFile = iniFile;
             _outOfTurnData = outOfTurnData;
             _rtuOccupations = rtuOccupations;
-            _wcfIntermediate = wcfIntermediate;
+            _wcfIntermediateC2R = wcfIntermediateC2R;
             _logFile = new LogFile(iniFile, 20000);
             _logFile.AssignFile("out-of-turn.log");
 
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
                         continue;
                     }
 
-                    var unused = await _wcfIntermediate.DoOutOfTurnPreciseMeasurementAsync(dto);
+                    var unused = await _wcfIntermediateC2R.DoOutOfTurnPreciseMeasurementAsync(dto);
                 }
             }
             catch (Exception e)
