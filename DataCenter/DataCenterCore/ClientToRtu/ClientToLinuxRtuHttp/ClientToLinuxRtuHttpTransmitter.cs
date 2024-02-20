@@ -56,12 +56,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         }
 
-        public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)
+        public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
+        public Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto, DoubleAddress rtuDoubleAddress)
         {
             throw new System.NotImplementedException();
         }

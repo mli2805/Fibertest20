@@ -1,5 +1,7 @@
 ﻿using Iit.Fibertest.Dto;
+using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -7,34 +9,62 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
+            if (!TryToGetClientAndOccupyRtu(dto.ConnectionId, dto.RtuId, RtuOccupation.MonitoringSettings,
+                    out RequestAnswer response))
+                return response;
+
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
+                return new RequestAnswer(ReturnCode.NoSuchRtu);
+            
+            foreach (var portWithTraceDto in dto.Ports)
             {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new RequestAnswer(ReturnCode.NoSuchRtu)
-                {
-                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
-                };
+                var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == portWithTraceDto.TraceId);
+                portWithTraceDto.LastTraceState = trace?.State ?? FiberState.Unknown;
             }
 
-            RequestAnswer applyResult;
-            switch (rtuAddresses.Main.Port)
-            {
-                case (int)TcpPorts.RtuListenTo:
-                    applyResult = await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
-                case (int)TcpPorts.RtuVeexListenTo:
-                    applyResult = await _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
-                case (int)TcpPorts.RtuListenToHttp:
-                    applyResult = await _clientToLinuxRtuHttpTransmitter.ApplyMonitoringSettingsAsync(dto, rtuAddresses); break;
-                default:
-                    return new RequestAnswer(ReturnCode.Error);
-            }
+            var applyResult = await GetRtuSpecificTransmitter(rtuAddresses.Main.Port)
+                .ApplyMonitoringSettingsAsync(dto, rtuAddresses);
 
             if (applyResult.ReturnCode == ReturnCode.InProgress &&
                 rtuAddresses.Main.Port == (int)TcpPorts.RtuListenToHttp)
             {
                 applyResult = await PollMakLinuxForApplyMonitoringSettingsResult(rtuAddresses);
             }
+
+            if (applyResult.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
+            {
+                var cmd = new ChangeMonitoringSettings
+                {
+                    RtuId = dto.RtuId,
+                    PreciseMeas = dto.Timespans.PreciseMeas.GetFrequency(),
+                    PreciseSave = dto.Timespans.PreciseSave.GetFrequency(),
+                    FastSave = dto.Timespans.FastSave.GetFrequency(),
+                    TracesInMonitoringCycle = dto.Ports.Select(p => p.TraceId).ToList(),
+                    IsMonitoringOn = dto.IsMonitoringOn,
+                };
+
+                var resultFromEventStore = await _eventStoreService.SendCommand(cmd, response.UserName, dto.ClientIp);
+
+                if (!string.IsNullOrEmpty(resultFromEventStore))
+                {
+                    return new RequestAnswer
+                    {
+                        ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
+                        ErrorMessage = resultFromEventStore
+                    };
+                }
+                else
+                {
+                    if (dto.IsMonitoringOn)
+                        await _ftSignalRClient.NotifyAll("MonitoringStarted", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
+                    else
+                        await _ftSignalRClient.NotifyAll("MonitoringStopped", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
+                }
+            }
+
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, response.UserName, out RtuOccupationState _);
+
             return applyResult;
         }
 
@@ -54,31 +84,5 @@ namespace Iit.Fibertest.DataCenterCore
 
             return new RequestAnswer(ReturnCode.TimeOutExpired);
         }
-
-        public async Task<RequestAnswer> StopMonitoringAsync(StopMonitoringDto dto)
-        {
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new RequestAnswer(ReturnCode.NoSuchRtu)
-                {
-                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
-                };
-            }
-
-            switch (rtuAddresses.Main.Port)
-            {
-                case (int)TcpPorts.RtuListenTo:
-                    return await _clientToRtuTransmitter.StopMonitoringAsync(dto, rtuAddresses);
-                case (int)TcpPorts.RtuVeexListenTo:
-                    return await _clientToRtuVeexTransmitter.StopMonitoringAsync(dto, rtuAddresses);
-                case (int)TcpPorts.RtuListenToHttp:
-                    return await _clientToLinuxRtuHttpTransmitter.StopMonitoringAsync(dto, rtuAddresses);
-                default:
-                    return new RequestAnswer(ReturnCode.Error);
-            }
-        }
-
     }
 }

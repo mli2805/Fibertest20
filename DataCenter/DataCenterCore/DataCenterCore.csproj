@@ -108,6 +108,7 @@
     <Compile Include="RtuResultsProcessing\VeexCompletedTestProcessor.cs" />
     <Compile Include="RtuResultsProcessing\VeexCompletedTestsFetcher.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.ReSendBaseRefs.cs" />
+    <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.StopFreeInterrupt.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForEventSourcing.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForRemoveUnused.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceNotifyWebClient.cs" />

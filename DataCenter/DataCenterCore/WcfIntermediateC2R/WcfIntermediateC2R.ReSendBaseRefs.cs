@@ -36,15 +36,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} asked to re-send base ref for trace {dto.TraceId.First6()}");
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState _))
-            {
-                return new BaseRefAssignedDto()
-                {
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                };
-            }
+            if (!TryToGetClientAndOccupyRtu(dto.ConnectionId, dto.RtuId, RtuOccupation.AssignBaseRefs,
+                    out BaseRefAssignedDto response))
+                return response;
 
             var convertedDto = await ConvertToAssignBaseRefsDto(dto);
 
@@ -67,7 +61,7 @@ namespace Iit.Fibertest.DataCenterCore
                     { ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage };
             }
 
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, response.UserName, out RtuOccupationState _);
 
             return transferResult;
         }

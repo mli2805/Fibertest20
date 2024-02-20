@@ -163,7 +163,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             dto.NetAddress.Port = (int)TcpPorts.RtuVeexListenTo;
             //TODO implement special checker for VEEX RTU
-            return await _clientToRtuVeexTransmitter.CheckRtuConnection(dto);
+            return await _clientToRtuTransmitter.CheckRtuConnection(dto);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
@@ -180,153 +180,23 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AttachOrDetachOtau, username, out RtuOccupationState _))
-                return new OtauAttachedDto()
-                {
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    IsAttached = false,
-                };
-
-            var otauAttachedDto = await _wcfIntermediateC2R.AttachOtauAsync(dto);
-            if (otauAttachedDto.IsAttached)
-            {
-                AttachOtauIntoGraph(dto, otauAttachedDto);
-                await _ftSignalRClient.NotifyAll("FetchTree", null);
-            }
-
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
-
-            return otauAttachedDto;
-        }
-
-        private async void AttachOtauIntoGraph(AttachOtauDto dto, OtauAttachedDto result)
-        {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            var cmd = new AttachOtau
-            {
-                Id = result.OtauId,
-                RtuId = dto.RtuId,
-                MasterPort = dto.OpticalPort,
-                Serial = result.Serial,
-                PortCount = result.PortCount,
-                NetAddress = dto.NetAddress.Clone(),
-                IsOk = true,
-            };
-            await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
+            return await _wcfIntermediateC2R.AttachOtauAsync(dto);
         }
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AttachOrDetachOtau, username, out RtuOccupationState _))
-                return new OtauDetachedDto()
-                {
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    IsDetached = false,
-                };
-
-            var otauDetachedDto = await _wcfIntermediateC2R.DetachOtauAsync(dto);
-
-            if (otauDetachedDto.IsDetached)
-            {
-                var res = await RemoveOtauFromGraph(dto);
-                if (string.IsNullOrEmpty(res))
-                    await _ftSignalRClient.NotifyAll("FetchTree", null);
-            }
-
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
-
-            return otauDetachedDto;
-        }
-
-        private async Task<string> RemoveOtauFromGraph(DetachOtauDto dto)
-        {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            var otau = _writeModel.Otaus.FirstOrDefault(o => o.Id == dto.OtauId);
-            if (otau == null) return null;
-            var cmd = new DetachOtau
-            {
-                Id = dto.OtauId,
-                RtuId = dto.RtuId,
-                OtauIp = dto.NetAddress.Ip4Address,
-                TcpPort = dto.NetAddress.Port,
-                TracesOnOtau = _writeModel.Traces
-                    .Where(t => t.OtauPort != null && t.OtauPort.Serial == otau.Serial)
-                    .Select(t => t.TraceId)
-                    .ToList(),
-            };
-
-            return await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
+            return await _wcfIntermediateC2R.DetachOtauAsync(dto);
         }
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient, username, out RtuOccupationState _))
-                return false;
-
             var stopResult = await _wcfIntermediateC2R.StopMonitoringAsync(dto);
-            var isStopped = stopResult.ReturnCode == ReturnCode.Ok;
-
-            if (isStopped)
-            {
-                var cmd = new StopMonitoring { RtuId = dto.RtuId };
-                await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
-                await _ftSignalRClient.NotifyAll("MonitoringStopped", cmd.ToCamelCaseJson());
-            }
-
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
-            return isStopped;
+            return stopResult.ReturnCode == ReturnCode.Ok;
         }
 
         public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.MonitoringSettings, username, out RtuOccupationState _))
-                return new RequestAnswer() { ReturnCode = ReturnCode.RtuIsBusy };
-
-            foreach (var portWithTraceDto in dto.Ports)
-            {
-                var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == portWithTraceDto.TraceId);
-                portWithTraceDto.LastTraceState = trace?.State ?? FiberState.Unknown;
-            }
-
-            var resultFromRtu = await _wcfIntermediateC2R.ApplyMonitoringSettingsAsync(dto);
-
-            if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
-            {
-                var cmd = new ChangeMonitoringSettings
-                {
-                    RtuId = dto.RtuId,
-                    PreciseMeas = dto.Timespans.PreciseMeas.GetFrequency(),
-                    PreciseSave = dto.Timespans.PreciseSave.GetFrequency(),
-                    FastSave = dto.Timespans.FastSave.GetFrequency(),
-                    TracesInMonitoringCycle = dto.Ports.Select(p => p.TraceId).ToList(),
-                    IsMonitoringOn = dto.IsMonitoringOn,
-                };
-
-                var resultFromEventStore = await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
-
-                if (!string.IsNullOrEmpty(resultFromEventStore))
-                {
-                    return new RequestAnswer
-                    {
-                        ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
-                        ErrorMessage = resultFromEventStore
-                    };
-                }
-                else
-                {
-                    if (dto.IsMonitoringOn)
-                        await _ftSignalRClient.NotifyAll("MonitoringStarted", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
-                    else
-                        await _ftSignalRClient.NotifyAll("MonitoringStopped", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
-                }
-            }
-
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, username, out RtuOccupationState _);
-            return resultFromRtu;
+            return await _wcfIntermediateC2R.ApplyMonitoringSettingsAsync(dto);
         }
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
@@ -465,20 +335,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientMeasurementStartedDto> StartClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            _logFile.AppendLine($"Client {username} asked to do measurement on RTU {dto.RtuId.First6()}");
-            var occupation = dto.IsForAutoBase ? RtuOccupation.AutoBaseMeasurement : RtuOccupation.MeasurementClient;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, occupation, username, out RtuOccupationState currentState))
-            {
-                return new ClientMeasurementStartedDto()
-                {
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    RtuOccupationState = currentState,
-                };
-            }
-
             return await _wcfIntermediateC2R.DoClientMeasurementAsync(dto);
-
             // Client must free RTU when result received
         }
 
@@ -514,39 +371,17 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var username = _clientsCollection.Get(dto.ConnectionId)?.UserName;
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.PreciseMeasurementOutOfTurn, username, out RtuOccupationState currentState))
-            {
-                return new RequestAnswer()
-                {
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    RtuOccupationState = currentState,
-                };
-            }
-
-            var result = await _wcfIntermediateC2R.DoOutOfTurnPreciseMeasurementAsync(dto);
-
-            return result;
+            return await _wcfIntermediateC2R.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
 
         public async Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)
         {
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
-
-            return rtu.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.InterruptMeasurementAsync(dto)
-                : await _clientToRtuVeexTransmitter.InterruptMeasurementAsync(dto);
+            return await _wcfIntermediateC2R.InterruptMeasurementAsync(dto);
         }
 
         public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
         {
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
-
-            return rtu.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.FreeOtdrAsync(dto)
-                : await _clientToRtuVeexTransmitter.FreeOtdrAsync(dto);
+            return await _wcfIntermediateC2R.FreeOtdrAsync(dto);
         }
 
         private static readonly IMapper Mapper = new MapperConfiguration(

@@ -6,22 +6,11 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfIntermediateC2R
     {
-            public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var clientStation = _clientsCollection.Get(dto.ConnectionId);
-            _logFile.AppendLine($"Client {clientStation} sent initialize RTU {dto.RtuId.First6()} request");
-
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization,
-                    clientStation?.UserName, out RtuOccupationState currentState))
-            {
-                return new RtuInitializedDto()
-                {
-                    RtuId = dto.RtuId,
-                    IsInitialized = false,
-                    ReturnCode = ReturnCode.RtuIsBusy,
-                    RtuOccupationState = currentState,
-                };
-            }
+            if (!TryToGetClientAndOccupyRtu(dto.ConnectionId, dto.RtuId, RtuOccupation.Initialization,
+                    out RtuInitializedDto response))
+                return response;
 
             dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)
@@ -29,18 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
                 // (it is an ideological requirement)
                 dto.ServerAddresses.HasReserveAddress = false;
 
-            RtuInitializedDto rtuInitializedDto;
-            switch (dto.RtuAddresses.Main.Port)
-            {
-                case (int)TcpPorts.RtuListenTo:
-                    rtuInitializedDto = await _clientToRtuTransmitter.InitializeRtuAsync(dto); break;
-                case (int)TcpPorts.RtuVeexListenTo:
-                    rtuInitializedDto = await _clientToRtuVeexTransmitter.InitializeRtuAsync(dto); break;
-                case (int)TcpPorts.RtuListenToHttp:
-                    rtuInitializedDto = await _clientToLinuxRtuHttpTransmitter.InitializeRtuAsync(dto); break;
-                default:
-                    return new RtuInitializedDto(ReturnCode.Error);
-            }
+            var rtuInitializedDto = await GetRtuSpecificTransmitter(dto.RtuAddresses.Main.Port).InitializeRtuAsync(dto);
 
             if (rtuInitializedDto.ReturnCode == ReturnCode.InProgress &&
                 dto.RtuAddresses.Main.Port == (int)TcpPorts.RtuListenToHttp)
@@ -72,7 +50,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine(message);
 
 
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, clientStation?.UserName, out RtuOccupationState _);
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, response.UserName, out RtuOccupationState _);
 
             return await ApplyRtuInitializationResult(dto, rtuInitializedDto);
         }
@@ -91,6 +69,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             return new RtuInitializedDto(ReturnCode.TimeOutExpired);
         }
-      
+
     }
 }

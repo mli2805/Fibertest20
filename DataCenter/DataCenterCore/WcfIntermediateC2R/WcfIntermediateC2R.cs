@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.Graph.RtuOccupy;
@@ -28,8 +29,8 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, EventStoreService eventStoreService,
             ClientsCollection clientsCollection, RtuOccupations rtuOccupations,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
-            BaseRefsCheckerOnServer baseRefsChecker, LongOperationsData longOperationsData, 
-            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, IFtSignalRClient ftSignalRClient, 
+            BaseRefsCheckerOnServer baseRefsChecker, LongOperationsData longOperationsData,
+            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, IFtSignalRClient ftSignalRClient,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
             ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
         {
@@ -50,5 +51,66 @@ namespace Iit.Fibertest.DataCenterCore
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
+
+        private bool TryToGetClientAndOccupyRtu<T>(string connectionId, Guid rtuId, RtuOccupation occupation,
+            out T response) where T : RequestAnswer, new()
+        {
+            response = new T();
+
+            var clientStation = _clientsCollection.Get(connectionId);
+            if (clientStation == null)
+            {
+                _logFile.AppendLine($"Client's connection {connectionId} not found");
+                response.ReturnCode = ReturnCode.NoSuchClientStation;
+                return false;
+            }
+
+            var userName = clientStation.UserName;
+            _logFile.AppendLine($"Client {userName} sent {occupation} request for {rtuId.First6()}");
+
+            if (!_rtuOccupations.TrySetOccupation(rtuId, occupation, userName, out RtuOccupationState currentState))
+            {
+                response = new T() { ReturnCode = ReturnCode.RtuIsBusy, RtuOccupationState = currentState, UserName = userName };
+                return false;
+            }
+            response = new T() { ReturnCode = ReturnCode.Ok, RtuOccupationState = currentState, UserName = userName };
+            return true;
+        }
+
+        private bool TryToGetClient<T>(string connectionId, Guid rtuId, RtuOccupation occupation,
+                 out T response) where T : RequestAnswer, new()
+        {
+            response = new T();
+
+            var clientStation = _clientsCollection.Get(connectionId);
+            if (clientStation == null)
+            {
+                _logFile.AppendLine($"Client's connection {connectionId} not found");
+                response.ReturnCode = ReturnCode.NoSuchClientStation;
+                return false;
+            }
+
+            var userName = clientStation.UserName;
+            _logFile.AppendLine($"Client {userName} sent {occupation} request for {rtuId.First6()}");
+
+            return true;
+        }
+
+        private IClientToRtuTransmitter GetRtuSpecificTransmitter(int tcpPort)
+        {
+            switch (tcpPort)
+            {
+                case (int)TcpPorts.RtuListenTo:
+                    return _clientToRtuTransmitter;
+                case (int)TcpPorts.RtuVeexListenTo:
+                    return _clientToRtuVeexTransmitter;
+                case (int)TcpPorts.RtuListenToHttp:
+                    return _clientToLinuxRtuHttpTransmitter;
+                default:
+                    _logFile.AppendLine("Incorrect TCP port!");
+                    return null;
+            }
+        }
+
     }
 }

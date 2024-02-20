@@ -131,12 +131,12 @@ namespace Iit.Fibertest.DataCenterCore
             return baseRef.CreateFromBaseRef(sorBytes);
         }
 
-        public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto)
+        public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto)
+        public Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto, DoubleAddress rtuDoubleAddress)
         {
             throw new NotImplementedException();
         }

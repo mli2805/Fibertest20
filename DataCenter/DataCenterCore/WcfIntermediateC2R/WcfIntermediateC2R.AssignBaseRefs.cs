@@ -9,15 +9,12 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfIntermediateC2R
     {
-          public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            var clientStation = _clientsCollection.Get(dto.ConnectionId);
-            _logFile.AppendLine($"Client {clientStation} sent base ref for trace {dto.TraceId.First6()}");
-            if (!_rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.AssignBaseRefs, clientStation?.UserName,
-                    out RtuOccupationState _))
-            {
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.RtuIsBusy };
-            }
+            if (!TryToGetClientAndOccupyRtu(dto.ConnectionId, dto.RtuId, RtuOccupation.AssignBaseRefs,
+                    out BaseRefAssignedDto response))
+                return response;
+
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
             if (trace == null)
                 return new BaseRefAssignedDto
@@ -52,7 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (string.IsNullOrEmpty(result))
                 await _ftSignalRClient.NotifyAll("FetchTree", null);
 
-            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, clientStation?.UserName, out RtuOccupationState _);
+            _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, response.UserName, out RtuOccupationState _);
 
             return !string.IsNullOrEmpty(result)
                 ? new BaseRefAssignedDto
@@ -63,36 +60,36 @@ namespace Iit.Fibertest.DataCenterCore
                 : transferResult ?? new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
         }
 
-          private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
-          {
-              var command = new AssignBaseRef { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
-              foreach (var baseRefDto in dto.BaseRefs)
-              {
-                  var oldBaseRef = _writeModel.BaseRefs.FirstOrDefault(b =>
-                      b.TraceId == dto.TraceId && b.BaseRefType == baseRefDto.BaseRefType);
-                  if (oldBaseRef != null)
-                      await _sorFileRepository.RemoveSorBytesAsync(oldBaseRef.SorFileId);
+        private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
+        {
+            var command = new AssignBaseRef { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
+            foreach (var baseRefDto in dto.BaseRefs)
+            {
+                var oldBaseRef = _writeModel.BaseRefs.FirstOrDefault(b =>
+                    b.TraceId == dto.TraceId && b.BaseRefType == baseRefDto.BaseRefType);
+                if (oldBaseRef != null)
+                    await _sorFileRepository.RemoveSorBytesAsync(oldBaseRef.SorFileId);
 
-                  var sorFileId = 0;
-                  if (baseRefDto.Id != Guid.Empty)
-                      sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
+                var sorFileId = 0;
+                if (baseRefDto.Id != Guid.Empty)
+                    sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
 
-                  var baseRef = new BaseRef
-                  {
-                      TraceId = dto.TraceId,
+                var baseRef = new BaseRef
+                {
+                    TraceId = dto.TraceId,
 
-                      Id = baseRefDto.Id,
-                      BaseRefType = baseRefDto.BaseRefType,
-                      SaveTimestamp = DateTime.Now,
-                      Duration = baseRefDto.Duration,
-                      UserName = baseRefDto.UserName,
+                    Id = baseRefDto.Id,
+                    BaseRefType = baseRefDto.BaseRefType,
+                    SaveTimestamp = DateTime.Now,
+                    Duration = baseRefDto.Duration,
+                    UserName = baseRefDto.UserName,
 
-                      SorFileId = sorFileId,
-                  };
-                  command.BaseRefs.Add(baseRef);
-              }
-              return await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
-          }
+                    SorFileId = sorFileId,
+                };
+                command.BaseRefs.Add(baseRef);
+            }
+            return await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
+        }
 
     }
 }

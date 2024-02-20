@@ -11,6 +11,8 @@ namespace Iit.Fibertest.Dto
         public string ErrorMessage { get; set; }
         [DataMember]
         public RtuOccupationState RtuOccupationState { get; set; }
+        [DataMember]
+        public string UserName { get; set; }
 
         public RequestAnswer()
         {
