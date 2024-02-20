@@ -1,31 +1,15 @@
-﻿using System;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
+using System;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class RtuInitializationToGraphApplier
+    public partial class WcfIntermediateC2R
     {
-        private readonly IMyLog _logFile;
-        private readonly Model _writeModel;
-        private readonly EventStoreService _eventStoreService;
-        private readonly ClientsCollection _clientsCollection;
-
-        public RtuInitializationToGraphApplier(IMyLog logFile, Model writeModel, EventStoreService eventStoreService,
-            ClientsCollection clientsCollection
-            )
-        {
-            _logFile = logFile;
-            _writeModel = writeModel;
-            _eventStoreService = eventStoreService;
-            _clientsCollection = clientsCollection;
-        }
-
-        public async Task<RtuInitializedDto> ApplyRtuInitializationResult(InitializeRtuDto dto, RtuInitializedDto result)
+          public async Task<RtuInitializedDto> ApplyRtuInitializationResult(InitializeRtuDto dto, RtuInitializedDto result)
         {
             if (result.IsInitialized)
             {

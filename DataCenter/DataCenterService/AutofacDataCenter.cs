@@ -51,7 +51,6 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<BaseRefsCheckerOnServer>().SingleInstance();
 
             builder.RegisterType<SorFileRepository>().SingleInstance();
-            builder.RegisterType<RtuInitializationToGraphApplier>().SingleInstance();
             builder.RegisterType<LongOperationsData>().SingleInstance();
             builder.RegisterType<WcfIntermediateC2R>().SingleInstance();
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();

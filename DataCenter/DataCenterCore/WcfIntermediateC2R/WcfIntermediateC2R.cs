@@ -1,5 +1,4 @@
 ﻿using Iit.Fibertest.Dto;
-using Autofac;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.Graph.RtuOccupy;
@@ -8,7 +7,6 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfIntermediateC2R
     {
-        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly EventStoreService _eventStoreService;
@@ -26,7 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly DoubleAddress _serverDoubleAddress;
 
-        public WcfIntermediateC2R(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
+        public WcfIntermediateC2R(IniFile iniFile, IMyLog logFile,
             Model writeModel, EventStoreService eventStoreService,
             ClientsCollection clientsCollection, RtuOccupations rtuOccupations,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
@@ -35,7 +33,6 @@ namespace Iit.Fibertest.DataCenterCore
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
             ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
         {
-            _globalScope = globalScope;
             _logFile = logFile;
             _writeModel = writeModel;
             _eventStoreService = eventStoreService;

@@ -1,5 +1,4 @@
-﻿using Autofac;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using System.Threading.Tasks;
 using System;
 
@@ -75,8 +74,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, clientStation?.UserName, out RtuOccupationState _);
 
-            var rtuInitializationToGraphApplier = _globalScope.Resolve<RtuInitializationToGraphApplier>();
-            return await rtuInitializationToGraphApplier.ApplyRtuInitializationResult(dto, rtuInitializedDto);
+            return await ApplyRtuInitializationResult(dto, rtuInitializedDto);
         }
 
         private async Task<RtuInitializedDto> PollMakLinuxForInitializationResult(DoubleAddress rtuDoubleAddress)

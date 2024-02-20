@@ -71,10 +71,11 @@
     <Compile Include="ClientStations\ClientsRegistrator.cs" />
     <Compile Include="ClientStations\ClientStationFactory.cs" />
     <Compile Include="ClientToRtu\ClientToLinuxRtuHttp\ClientToLinuxRtuHttpTransmitter.cs" />
-    <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.ApplyStop.cs" />
+    <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.ApplyAndStop.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.AssignBaseRefs.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.Initialize.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.cs" />
+    <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.InitializeResultToGraph.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.LandmarkCorrection.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.Measurements.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.Otau.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="RtuResultsProcessing\VeexCompletedTestProcessor.cs" />
     <Compile Include="RtuResultsProcessing\VeexCompletedTestsFetcher.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.ReSendBaseRefs.cs" />
-    <Compile Include="WcfServiceCommonC2D\RtuInitializationToGraphApplier.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForEventSourcing.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForRemoveUnused.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceNotifyWebClient.cs" />
