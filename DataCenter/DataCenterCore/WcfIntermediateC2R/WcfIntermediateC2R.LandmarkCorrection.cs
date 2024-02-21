@@ -99,7 +99,7 @@ namespace Iit.Fibertest.DataCenterCore
             var cc = 0;
             foreach (var trace in allTracesInvolved)
             {
-                var res = await _baseRefRepairmanIntermediary.AmendBaseRefsForOneTrace(trace);
+                var res = await AmendBaseRefsForOneTrace(trace);
 
                 var entry = new CorrectionProgressDto()
                 {

@@ -19,6 +19,8 @@ namespace Iit.Fibertest.DataCenterCore
         Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto);
         Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress);
         Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress);
+        Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto, DoubleAddress rtuDoubleAddress);
+        Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto, DoubleAddress rtuDoubleAddress);
 
     }
 }

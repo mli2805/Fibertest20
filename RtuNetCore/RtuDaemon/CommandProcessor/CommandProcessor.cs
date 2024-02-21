@@ -54,6 +54,10 @@ namespace Iit.Fibertest.RtuDaemon
                         return new RequestAnswer(ReturnCode.RtuAutoBaseMeasurementInProgress);
                     Task.Factory.StartNew(() => rtuManager.StartOutOfTurnMeasurement(dto));
                     return new RequestAnswer(ReturnCode.InProgress);
+                case InterruptMeasurementDto dto:
+                    return await rtuManager.InterruptMeasurement(dto);
+                case FreeOtdrDto _:
+                    return rtuManager.FreeOtdr();
             }
             return new RequestAnswer(ReturnCode.UnknownCommand);
         }

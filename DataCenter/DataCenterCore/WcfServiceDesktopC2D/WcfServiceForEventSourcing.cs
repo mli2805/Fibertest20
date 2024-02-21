@@ -130,21 +130,21 @@ namespace Iit.Fibertest.DataCenterCore
 
             #region Base ref amend
             if (cmd is UpdateAndMoveNode updateAndMoveNode)
-                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateAndMoveNode.NodeId);
+                return await _wcfIntermediateC2R.AmendForTracesWhichUseThisNode(updateAndMoveNode.NodeId);
             if (cmd is UpdateRtu updateRtu)
-                return await _baseRefRepairmanIntermediary.AmendForTracesFromRtu(updateRtu.RtuId);
+                return await _wcfIntermediateC2R.AmendForTracesFromRtu(updateRtu.RtuId);
             if (cmd is UpdateNode updateNode)
-                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateNode.NodeId);
+                return await _wcfIntermediateC2R.AmendForTracesWhichUseThisNode(updateNode.NodeId);
             if (cmd is MoveNode moveNode)
-                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(moveNode.NodeId);
+                return await _wcfIntermediateC2R.AmendForTracesWhichUseThisNode(moveNode.NodeId);
             if (cmd is UpdateEquipment updateEquipment)
-                return await _baseRefRepairmanIntermediary.ProcessUpdateEquipment(updateEquipment.EquipmentId);
+                return await _wcfIntermediateC2R.ProcessUpdateEquipment(updateEquipment.EquipmentId);
             if (cmd is UpdateFiber updateFiber)
-                return await _baseRefRepairmanIntermediary.ProcessUpdateFiber(updateFiber.Id);
+                return await _wcfIntermediateC2R.ProcessUpdateFiber(updateFiber.Id);
             if (cmd is AddNodeIntoFiber addNodeIntoFiber)
-                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(addNodeIntoFiber.Id);
+                return await _wcfIntermediateC2R.AmendForTracesWhichUseThisNode(addNodeIntoFiber.Id);
             if (cmd is RemoveNode removeNode && removeNode.IsAdjustmentPoint)
-                return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d => d.TraceId)
+                return await _wcfIntermediateC2R.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d => d.TraceId)
                     .ToList());
             #endregion
 

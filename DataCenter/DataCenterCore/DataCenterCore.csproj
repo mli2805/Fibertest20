@@ -61,7 +61,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessToRepositoryIntermediary\BaseRefRepairmanIntermediary.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\VeexTestListUpdater.cs" />
@@ -73,6 +72,8 @@
     <Compile Include="ClientToRtu\ClientToLinuxRtuHttp\ClientToLinuxRtuHttpTransmitter.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.ApplyAndStop.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.AssignBaseRefs.cs" />
+    <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.AttachTrace.cs" />
+    <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.BaseRefRepairman.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.Initialize.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.InitializeResultToGraph.cs" />

@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (!convertedDto.BaseRefs.Any())
                 return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
-            var transferResult = await _baseRefRepairmanIntermediary.TransmitBaseRefs(convertedDto);
+            var transferResult = await TransmitBaseRefs(convertedDto);
 
             if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return transferResult;
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (dto.RtuMaker == RtuMaker.VeEX)
             // Veex and there are base refs so veexTests table should be updated
             {
-                var updateResult = await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+                var updateResult = await UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
                 if (updateResult.ReturnCode != ReturnCode.Ok)
                     return new BaseRefAssignedDto()
                     { ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage };
@@ -86,6 +86,16 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             return result;
+        }
+
+        public async Task<BaseRefAssignedDto> TransmitBaseRefs(AssignBaseRefsDto dto)
+        {
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+                return new BaseRefAssignedDto(ReturnCode.NoSuchRtu);
+
+            return await GetRtuSpecificTransmitter(rtuAddresses.Main.Port)
+                .TransmitBaseRefsToRtuAsync(dto, rtuAddresses);
         }
     }
 }

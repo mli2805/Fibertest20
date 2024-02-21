@@ -27,7 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly SorFileRepository _sorFileRepository;
         private readonly SnapshotRepository _snapshotRepository;
-        private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
+        private readonly WcfIntermediateC2R _wcfIntermediateC2R;
         private readonly Smtp _smtp;
         private readonly SnmpAgent _snmpAgent;
         private readonly SmsManager _smsManager;
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
             MeasurementFactory measurementFactory, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, IFtSignalRClient ftSignalRClient,
-            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
+             WcfIntermediateC2R wcfIntermediateC2R,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
             Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider,
             GlobalState globalState, D2CWcfManager d2CWcfManager
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.DataCenterCore
             _ftSignalRClient = ftSignalRClient;
             _sorFileRepository = sorFileRepository;
             _snapshotRepository = snapshotRepository;
-            _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
+            _wcfIntermediateC2R = wcfIntermediateC2R;
             _smtp = smtp;
             _snmpAgent = snmpAgent;
             _smsManager = smsManager;

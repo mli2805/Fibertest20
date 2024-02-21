@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
             BaseRefAssignedDto transferResult = null;
             if (dto.OtauPortDto != null) // trace attached to the real port => send base to RTU
             {
-                transferResult = await _baseRefRepairmanIntermediary.TransmitBaseRefs(dto);
+                transferResult = await TransmitBaseRefs(dto);
 
                 if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return transferResult;
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (dto.RtuMaker == RtuMaker.VeEX)
                 // Veex and there are base refs so veexTests table should be updated
                 {
-                    var updateResult = await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+                    var updateResult = await UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
                     if (updateResult.ReturnCode != ReturnCode.Ok)
                         return new BaseRefAssignedDto()
                         { ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage };

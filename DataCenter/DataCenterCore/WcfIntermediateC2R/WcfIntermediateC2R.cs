@@ -17,7 +17,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly BaseRefsCheckerOnServer _baseRefsChecker;
         private readonly LongOperationsData _longOperationsData;
-        private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
+        private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
             ClientsCollection clientsCollection, RtuOccupations rtuOccupations,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
             BaseRefsCheckerOnServer baseRefsChecker, LongOperationsData longOperationsData,
-            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, IFtSignalRClient ftSignalRClient,
+            BaseRefLandmarksTool baseRefLandmarksTool, IFtSignalRClient ftSignalRClient,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
             ClientToLinuxRtuHttpTransmitter clientToLinuxRtuHttpTransmitter)
         {
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStationsRepository = rtuStationsRepository;
             _baseRefsChecker = baseRefsChecker;
             _longOperationsData = longOperationsData;
-            _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
+            _baseRefLandmarksTool = baseRefLandmarksTool;
             _ftSignalRClient = ftSignalRClient;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;

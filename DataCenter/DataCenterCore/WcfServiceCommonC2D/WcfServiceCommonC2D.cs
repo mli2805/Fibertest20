@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
@@ -22,7 +21,6 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly EventStoreService _eventStoreService;
         private readonly ClientsCollection _clientsCollection;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
-        private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly RtuOccupations _rtuOccupations;
         private readonly WcfIntermediateC2R _wcfIntermediateC2R;
@@ -34,7 +32,6 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefLandmarksTool baseRefLandmarksTool,
-            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             IFtSignalRClient ftSignalRClient, RtuOccupations rtuOccupations,
             WcfIntermediateC2R wcfIntermediateC2R,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
@@ -47,7 +44,6 @@ namespace Iit.Fibertest.DataCenterCore
             _eventStoreService = eventStoreService;
             _clientsCollection = clientsCollection;
             _baseRefLandmarksTool = baseRefLandmarksTool;
-            _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _ftSignalRClient = ftSignalRClient;
             _rtuOccupations = rtuOccupations;
             _wcfIntermediateC2R = wcfIntermediateC2R;
@@ -204,47 +200,11 @@ namespace Iit.Fibertest.DataCenterCore
             return await _wcfIntermediateC2R.AssignBaseRefAsync(dto);
         }
 
-
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
         // base refs should be extracted from Db and sent to the RTU
         public async Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto dto)
         {
-            var clientStation = _clientsCollection.Get(dto.ConnectionId);
-            var username = clientStation?.UserName;
-            _logFile.AppendLine($@"User {clientStation} asked attach trace and re-send base refs");
-
-            var trace = _writeModel.Traces.First(t => t.TraceId == dto.TraceId);
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            if (rtu == null)
-                return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
-            if (!_rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.AttachTrace, username, out RtuOccupationState _))
-                return new RequestAnswer() { ReturnCode = ReturnCode.RtuIsBusy };
-
-            try
-            {
-                BaseRefAssignedDto transferResult = await SendBaseRefsIfAny(dto);
-
-                if (transferResult != null && transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                    return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = transferResult.ErrorMessage };
-
-                var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
-                var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
-
-                if (!string.IsNullOrEmpty(res))
-                    return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };
-
-                await NotifyWebClientTraceAttached(dto.TraceId);
-
-                if (transferResult == null || dto.RtuMaker == RtuMaker.IIT)
-                    return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
-
-                // Veex and there are base refs so veexTests table should be updated
-                return await _baseRefRepairmanIntermediary.UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
-            }
-            finally
-            {
-                _rtuOccupations.TrySetOccupation(rtu.Id, RtuOccupation.None, username, out RtuOccupationState _);
-            }
+            return await _wcfIntermediateC2R.AttachTraceAndSendBaseRefs(dto);
         }
 
         public async Task<CorrectionProgressDto> StartLandmarksCorrection(LandmarksCorrectionDto changesList)
@@ -255,74 +215,6 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<CorrectionProgressDto> GetLandmarksCorrectionProgress(Guid batchId)
         {
             return await _wcfIntermediateC2R.GetLandmarksCorrectionProgress(batchId);
-        }
-
-
-        private async Task<BaseRefAssignedDto> SendBaseRefsIfAny(AttachTraceDto dto)
-        {
-            var dto1 = await CreateAssignBaseRefsDto(dto);
-            if (dto1 == null)
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = "RTU or trace not found!" };
-
-            if (dto1.BaseRefs.Any())
-            {
-                return await _baseRefRepairmanIntermediary.TransmitBaseRefs(dto1);
-            }
-            return null;
-        }
-
-        private async Task<AssignBaseRefsDto> CreateAssignBaseRefsDto(AttachTraceDto cmd)
-        {
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == cmd.TraceId);
-            if (trace == null) return null;
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            if (rtu == null) return null;
-
-            var dto = new AssignBaseRefsDto()
-            {
-                RtuId = trace.RtuId,
-                RtuMaker = rtu.RtuMaker,
-                OtdrId = rtu.OtdrId,
-                TraceId = cmd.TraceId,
-                OtauPortDto = cmd.OtauPortDto,
-                MainOtauPortDto = cmd.MainOtauPortDto,
-                BaseRefs = new List<BaseRefDto>(),
-            };
-
-            foreach (var baseRef in _writeModel.BaseRefs.Where(b => b.TraceId == trace.TraceId))
-            {
-                dto.BaseRefs.Add(new BaseRefDto()
-                {
-                    SorFileId = baseRef.SorFileId,
-                    Id = baseRef.TraceId,
-                    BaseRefType = baseRef.BaseRefType,
-                    Duration = baseRef.Duration,
-                    SaveTimestamp = baseRef.SaveTimestamp,
-                    UserName = baseRef.UserName,
-
-                    SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId),
-                });
-            }
-
-            return dto;
-        }
-
-        private async Task NotifyWebClientTraceAttached(Guid traceId)
-        {
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
-            if (trace != null)
-            {
-                var meas = _writeModel.Measurements.LastOrDefault(m => m.TraceId == traceId);
-                var signal = new TraceTachDto()
-                {
-                    TraceId = traceId,
-                    Attach = true,
-                    TraceState = trace.State,
-                    SorFileId = meas?.SorFileId ?? -1
-                };
-
-                await _ftSignalRClient.NotifyAll("TraceTach", signal.ToCamelCaseJson());
-            }
         }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
@@ -402,12 +294,5 @@ namespace Iit.Fibertest.DataCenterCore
             var sorBytes = await _sorFileRepository.GetSorBytesAsync(sorFileId);
             return RftsEventsFactory.Create(sorBytes);
         }
-
-        public async Task<RtuCurrentStateDto> SayHello(string name)
-        {
-            await Task.Delay(0);
-            return new RtuCurrentStateDto(ReturnCode.Ok);
-        }
     }
-
 }
