@@ -26,8 +26,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {_clientsCollection.Get(dto.ConnectionId)} initializes RTU {dto.RtuAddresses.Main.ToStringA()}");
-            return _makLinuxConnector.InitializeRtu(dto); // could return InProgress or RtuIsBusy
+            return _makLinuxConnector
+                .SendCommand<InitializeRtuDto, RtuInitializedDto>(dto, dto.RtuAddresses); // could return InProgress or RtuIsBusy
         }
 
         public Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
@@ -37,58 +37,61 @@ namespace Iit.Fibertest.DataCenterCore
 
         public Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuDoubleAddress)
         {
-            return _makLinuxConnector.ApplyMonitoringSettingsAsync(dto, rtuDoubleAddress);
+            return _makLinuxConnector
+                .SendCommand<ApplyMonitoringSettingsDto, RequestAnswer>(dto, rtuDoubleAddress);
         }
 
         public Task<RequestAnswer> StopMonitoringAsync(StopMonitoringDto dto, DoubleAddress rtuDoubleAddress)
         {
-            return _makLinuxConnector.StopMonitoringAsync(dto, rtuDoubleAddress);
+            return _makLinuxConnector.SendCommand<StopMonitoringDto, RequestAnswer>(dto, rtuDoubleAddress);
         }
 
+        // Full dto with base refs (sorBytes) is serialized into json here and de-serialized on RTU
         public Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto, DoubleAddress rtuDoubleAddress)
         {
-            return _makLinuxConnector.TransmitBaseRefsToRtuAsync(dto, rtuDoubleAddress);
+            return _makLinuxConnector.SendCommand<AssignBaseRefsDto, BaseRefAssignedDto>(dto, rtuDoubleAddress);
         }
 
         public Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
-            return _makLinuxConnector.DoOutOfTurnPreciseMeasurementAsync(dto, rtuDoubleAddress);
-
+            return _makLinuxConnector.SendCommand<DoOutOfTurnPreciseMeasurementDto, RequestAnswer>(dto, rtuDoubleAddress);
         }
 
         public Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
-            throw new System.NotImplementedException();
+            return _makLinuxConnector.SendCommand<InterruptMeasurementDto, RequestAnswer>(dto, rtuDoubleAddress);
         }
 
         public Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto, DoubleAddress rtuDoubleAddress)
         {
-            throw new System.NotImplementedException();
+            return _makLinuxConnector.SendCommand<FreeOtdrDto, RequestAnswer>(dto, rtuDoubleAddress);
         }
 
         public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto, DoubleAddress rtuDoubleAddress)
         {
-            return _makLinuxConnector.DoClientMeasurementAsync(dto, rtuDoubleAddress);
+            return _makLinuxConnector.SendCommand<DoClientMeasurementDto, ClientMeasurementStartedDto>(dto, rtuDoubleAddress);
         }
 
         public Task<ClientMeasurementVeexResultDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
         {
+            // VeEx
             throw new System.NotImplementedException();
         }
 
         public Task<ClientMeasurementVeexResultDto> GetClientMeasurementSorBytesAsync(GetClientMeasurementDto dto)
         {
+            // VeEx
             throw new System.NotImplementedException();
         }
 
         public Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
-            return _makLinuxConnector.AttachOtauAsync(dto, rtuDoubleAddress);
+            return _makLinuxConnector.SendCommand<AttachOtauDto, OtauAttachedDto>(dto, rtuDoubleAddress);
         }
 
         public Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
-            return _makLinuxConnector.DetachOtauAsync(dto, rtuDoubleAddress);
+            return _makLinuxConnector.SendCommand<DetachOtauDto, OtauDetachedDto>(dto, rtuDoubleAddress);
         }
     }
 }

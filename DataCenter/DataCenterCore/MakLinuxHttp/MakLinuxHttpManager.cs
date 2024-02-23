@@ -14,6 +14,9 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private static readonly HttpClient HttpClient = new HttpClient();
 
+        private static readonly JsonSerializerSettings JsonSerializerSettings =
+            new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
+
         public MakLinuxHttpManager(IMyLog logFile)
         {
             _logFile = logFile;
@@ -42,119 +45,6 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             return result;
-        }
-
-        public async Task<RequestAnswer> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto,
-            DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new RequestAnswer(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<RequestAnswer>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"ApplyMonitoringSettingsAsync: {e.Message}");
-                return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        public async Task<RequestAnswer> StopMonitoringAsync(StopMonitoringDto dto, DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new RequestAnswer(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<RequestAnswer>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"StopMonitoringAsync: {e.Message}");
-                return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto, DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new ClientMeasurementStartedDto(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<ClientMeasurementStartedDto>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"DoClientMeasurementAsync: {e.Message}");
-                return new ClientMeasurementStartedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto, DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new RequestAnswer(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<RequestAnswer>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"DoClientMeasurementAsync: {e.Message}");
-                return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        // Full dto with base refs (sorBytes) is serialized into json here and de-serialized on RTU
-        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto,
-            DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new BaseRefAssignedDto(ReturnCode.D2RHttpError)
-                    { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<BaseRefAssignedDto>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"TransmitBaseRefsToRtuAsync: {e.Message}");
-                return new BaseRefAssignedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
         }
 
         public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
@@ -186,7 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress)
+        public async Task<TResult> SendCommand<T, TResult>(T dto, DoubleAddress rtuDoubleAddress) where TResult : RequestAnswer, new()
         {
             var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
             var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
@@ -195,107 +85,19 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var response = await HttpClient.SendAsync(request);
                 if (!response.IsSuccessStatusCode)
-                    return new OtauAttachedDto(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
+                    return new TResult()
+                    {
+                        ReturnCode = ReturnCode.D2RHttpError,
+                        ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase
+                    };
 
                 var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<OtauAttachedDto>(responseJson);
+                return JsonConvert.DeserializeObject<TResult>(responseJson);
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"AttachOtauAsync: {e.Message}");
-                return new OtauAttachedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new OtauDetachedDto(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<OtauDetachedDto>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"DetachOtauAsync: {e.Message}");
-                return new OtauDetachedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        public async Task<RequestAnswer> InterruptMeasurementAsync(InterruptMeasurementDto dto, DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new RequestAnswer(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<RequestAnswer>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"DetachOtauAsync: {e.Message}");
-                return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        public async Task<RequestAnswer> FreeOtdrAsync(FreeOtdrDto dto, DoubleAddress rtuDoubleAddress)
-        {
-            var uri = rtuDoubleAddress.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new RequestAnswer(ReturnCode.D2RHttpError)
-                        { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<RequestAnswer>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"DetachOtauAsync: {e.Message}");
-                return new RequestAnswer(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
-            }
-        }
-
-        private static readonly JsonSerializerSettings JsonSerializerSettings =
-            new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
-
-        public async Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto dto)
-        {
-            var uri = dto.RtuAddresses.Main.GetMakLinuxBaseUri() + "rtu/do-operation";
-            var json = JsonConvert.SerializeObject(dto, JsonSerializerSettings);
-            var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-            try
-            {
-                var response = await HttpClient.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                    return new RtuInitializedDto(ReturnCode.D2RHttpError)
-                    { ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase };
-
-                var responseJson = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<RtuInitializedDto>(responseJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"InitializeRtu: {e.Message}");
-                return new RtuInitializedDto(ReturnCode.D2RHttpError) { ErrorMessage = e.Message };
+                _logFile.AppendLine($"SendCommand: {e.Message}");
+                return new TResult() { ReturnCode = ReturnCode.D2RHttpError, ErrorMessage = e.Message };
             }
         }
 
