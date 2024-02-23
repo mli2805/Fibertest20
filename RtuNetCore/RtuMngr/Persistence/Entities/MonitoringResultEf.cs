@@ -27,6 +27,6 @@ namespace Iit.Fibertest.RtuMngr
 
         public FiberState TraceState { get; set; }
 
-        public byte[] SorBytes { get; set; } = null!;
+        public byte[]? SorBytes { get; set; }
     }
 }

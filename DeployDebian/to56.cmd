@@ -1,8 +1,8 @@
-rem dotnet publish ..\RtuNetCore\RtuDaemon\RtuDaemon.csproj --configuration=Release --runtime=linux-x64
-rem xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\publish\*.* rtu
+dotnet publish ..\RtuNetCore\RtuDaemon\RtuDaemon.csproj --configuration=Release --runtime=linux-x64
+xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\publish\*.* bin
 
-rem published in VS
-xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\*.* bin
+rem if published in Visual Studio
+rem xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\*.* bin
 
 
 rem folder OtdrMeasEngine is prepared on ubuntu2004 virtual machine

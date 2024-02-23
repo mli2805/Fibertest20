@@ -18,7 +18,6 @@ namespace Iit.Fibertest.RtuDaemon
             if (o == null)
                 return new RequestAnswer(ReturnCode.DeserializationError);
             logger.Info(Logs.RtuService, $"{o.GetType().Name} received");
-            logger.TimestampWithoutMessage(Logs.RtuManager);
 
             switch (o)
             {

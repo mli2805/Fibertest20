@@ -28,9 +28,9 @@ namespace Iit.Fibertest.Dto
         public BaseRefType BaseRefType { get; set; }
         public double FirstBreakDistance { get; set; }
 
-        public List<AccidentInSor> Accidents { get; set; }
+        public List<AccidentInSor> Accidents { get; set; } // could be null
 
-        public byte[] SorBytes { get; set; }
+        public byte[] SorBytes { get; set; } // could be null
 
         public FiberState GetAggregatedResult()
         {

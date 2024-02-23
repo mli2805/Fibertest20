@@ -109,6 +109,7 @@ public partial class RtuManager
             $"MEAS. {_measurementNumber}, {baseType}, port {monitoringPort.ToStringB(_mainCharon)}");
 
         var moniResult = await DoMeasurement(tokens, baseType, monitoringPort, shouldChangePort);
+        monitoringPort.SetMadeTimeStamp(baseType); // even failed measurement is a measurement
         if (moniResult.IsMeasurementEndedNormally)
         {
             if (moniResult.GetAggregatedResult() != FiberState.Ok)
@@ -188,7 +189,6 @@ public partial class RtuManager
     private async Task ApplyMoniResult(MoniResult moniResult, MonitoringPort monitoringPort,
          BaseRefType baseType, ReasonToSendMonitoringResult reason)
     {
-        monitoringPort.SetMadeTimeStamp(baseType);
         monitoringPort.LastMoniResult = moniResult;
         monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
 
@@ -308,7 +308,7 @@ public partial class RtuManager
         _logger.Info(Logs.RtuManager, $"Trace state is {moniResult.GetAggregatedResult()}");
         if (moniResult.Accidents != null)
             foreach (var accidentInSor in moniResult.Accidents)
-                _logger.Info(Logs.RtuManager, accidentInSor.ToString() ?? string.Empty);
+                _logger.Info(Logs.RtuManager, accidentInSor.ToString()!);
         return moniResult;
     }
 
