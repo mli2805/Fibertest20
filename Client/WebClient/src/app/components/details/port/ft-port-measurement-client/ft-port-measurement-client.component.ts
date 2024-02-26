@@ -277,7 +277,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
       this.isSpinnerVisible = false;
       this.isButtonDisabled = false;
     } else {
-      console.log(`measurement id ${res.clientMeasurementId}`);
+      console.log(`RTU returned measurement id ${res.clientMeasurementId}`);
       this.message = this.ts.instant(
         "SID_Measurement__Client__in_progress__Please_wait___"
       );

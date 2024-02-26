@@ -20,7 +20,7 @@ public class MonitoringQueueRepository(RtuContext rtuContext, ILogger<Monitoring
         }
         else
         {
-            await rtuContext.MonitoringQueue.AddAsync(newEntity);
+            rtuContext.MonitoringQueue.Add(newEntity);
             await rtuContext.SaveChangesAsync();
         }
     }

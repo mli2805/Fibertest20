@@ -228,7 +228,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientMeasurementStartedDto> StartClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             return await _wcfIntermediateC2R.DoClientMeasurementAsync(dto);
-            // Client must free RTU when result received
+            // it is only start, client must free RTU when result received
         }
 
         public async Task<ClientMeasurementVeexResultDto> GetClientMeasurementAsync(GetClientMeasurementDto dto)

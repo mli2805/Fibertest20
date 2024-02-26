@@ -48,7 +48,8 @@ namespace Iit.Fibertest.DataCenterCore
                 clientMeasurementResultDto.ClientMeasurementId = Guid.NewGuid();
                 _measDict.TryAdd(clientMeasurementResultDto.ClientMeasurementId, clientMeasurementResultDto.SorBytes);
                 clientMeasurementResultDto.SorBytes = null;
-                _logFile.AppendLine($"measurement result saved with id {clientMeasurementResultDto.ClientMeasurementId}");
+                _logFile.AppendLine($"measurement result moved to dict with id {clientMeasurementResultDto.ClientMeasurementId}");
+                _logFile.AppendLine($"meas client is for web client with connectionId {clientMeasurementResultDto.ConnectionId}");
                 await _ftSignalRClient.SendToOne(
                     clientMeasurementResultDto.ConnectionId, "ClientMeasurementDone", clientMeasurementResultDto.ToCamelCaseJson());
             }

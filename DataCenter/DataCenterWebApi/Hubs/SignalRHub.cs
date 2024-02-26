@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnConnectedAsync()
         {
-            var userName = Context.User.Identity!.Name;
+            var userName = Context.User.Identity?.Name ?? "";
             if (string.IsNullOrEmpty(userName))
                 userName = "DataCenter";
 
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
-            var userName = Context.User.Identity!.Name;
+            var userName = Context.User.Identity?.Name ?? "";
             if (string.IsNullOrEmpty(userName))
                 userName = "DataCenter?";
 

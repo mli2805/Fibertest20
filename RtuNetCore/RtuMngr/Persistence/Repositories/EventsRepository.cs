@@ -13,7 +13,7 @@ public class EventsRepository
 
     public async Task Add(string json)
     {
-        await _rtuContext.Events.AddAsync(new DtoInDbEf() { Registered = DateTime.Now, Json = json });
+        _rtuContext.Events.Add(new DtoInDbEf() { Registered = DateTime.Now, Json = json });
         await _rtuContext.SaveChangesAsync();
     }
 

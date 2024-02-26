@@ -48,7 +48,6 @@ export class FtRtuLineComponent implements OnInit {
     this.user = JSON.parse(
       sessionStorage.getItem("currentUser")
     );
-    console.log(`I'm rtu ${this.rtu.title}.`);
   }
 
   expand(rtu: RtuDto) {

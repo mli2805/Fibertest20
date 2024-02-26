@@ -25,10 +25,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         public  async Task ToClient(ClientMeasurementResultDto result)
         {
-            var word = (result.SorBytes == null || result.SorBytes.Length == 0)
+            var bytes = (result.SorBytes == null || result.SorBytes.Length == 0)
                 ? $": {result.ReturnCode}"
                 : $", {result.SorBytes.Length} bytes";
-            _logFile.AppendLine($"Measurement Client result for {_clientsCollection.Get(result.ConnectionId)}{word}");
+            _logFile.AppendLine($"Measurement Client {result.ClientMeasurementId.First6()} result for {_clientsCollection.Get(result.ConnectionId)}{bytes}");
 
             try
             {

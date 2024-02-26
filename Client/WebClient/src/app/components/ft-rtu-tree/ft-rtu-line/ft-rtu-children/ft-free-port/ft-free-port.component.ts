@@ -31,7 +31,6 @@ export class FtFreePortComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(sessionStorage.getItem("currentUser"));
-    console.log(`I'm port ${this.port} on main otau ${this.isPortOnMainCharon} and otauId is ${this.otauId}`);
   }
 
   onContextMenu(event: MouseEvent) {

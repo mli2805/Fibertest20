@@ -10,7 +10,7 @@ public class MonitoringResultsRepository(RtuContext rtuContext, ILogger<Monitori
     public async Task Add(MonitoringResultEf entity)
     {
         logger.Info(Logs.RtuManager, $"persist monitoring result with state {entity.TraceState} for trace {entity.TraceId}");
-        await rtuContext.MonitoringResults.AddAsync(entity);
+        rtuContext.MonitoringResults.Add(entity);
         await rtuContext.SaveChangesAsync();
     }
 
