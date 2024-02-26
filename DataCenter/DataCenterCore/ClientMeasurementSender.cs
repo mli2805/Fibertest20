@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 _logFile.AppendLine("WcfServiceForRtu.TransmitClientMeasurementResult: " + e.Message);
             }
-            _logFile.AppendLine("Client measurement ended");
+            _logFile.AppendLine($"Client's {_clientsCollection.Get(result.ConnectionId)} measurement {result.ClientMeasurementId.First6()} ended");
         }
     }
 }

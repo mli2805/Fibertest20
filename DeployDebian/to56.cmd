@@ -11,7 +11,7 @@ tar -C bin -czf bin.tar.gz .
 
 rem 172.16.4.209 / 192.168.96.56 / 
 rem password is iitft25user or 123
-c:\putty\pscp.exe bin.tar.gz user@192.168.96.56:/var/tmp
+c:\putty\pscp.exe bin.tar.gz user@172.16.4.209:/var/tmp
 rem c:\putty\pscp.exe install.sh user@192.168.96.56:/var/tmp
 
 
