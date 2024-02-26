@@ -87,16 +87,16 @@ namespace Iit.Fibertest.DataCenterCore
                     var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
 
                     // временно логируем каждое обращение
-                    if (state == null || state.ReturnCode != ReturnCode.Ok)
-                    {
-                        _logFile.AppendLine($"Failed to get current state of RTU {station.MainAddress}");
-                        continue;
-                    }
-
-                    var word = $"{state.MonitoringResultDtos.Count}/{state.ClientMeasurementResultDtos.Count}/{state.CurrentStepDto.Step.ToString()}";
-                    _logFile.AppendLine($"RTU {station.MainAddress} returns current state {word}");
+                    // if (state == null || state.ReturnCode != ReturnCode.Ok)
+                    // {
+                    //     _logFile.AppendLine($"Failed to get current state of RTU {station.MainAddress}");
+                    //     continue;
+                    // }
+                    //
+                    // var word = $"{state.MonitoringResultDtos.Count}/{state.ClientMeasurementResultDtos.Count}/{state.CurrentStepDto.Step.ToString()}";
+                    // _logFile.AppendLine($"RTU {station.MainAddress} returns current state {word}");
                     // потом только изменение
-                    // if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) continue;
+                    if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) continue;
                     //
 
                     if (state.LastInitializationResult?.Result == null)
