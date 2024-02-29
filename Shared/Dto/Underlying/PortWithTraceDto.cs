@@ -15,5 +15,10 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public FiberState LastTraceState { get; set; }
+
+
+        // ReturnCode.MeasurementEndedNormally  if all is OK
+        [DataMember]
+        public ReturnCode LastRtuAccidentOnTrace { get; set; }
     }
 }

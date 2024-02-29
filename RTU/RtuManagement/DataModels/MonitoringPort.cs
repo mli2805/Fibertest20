@@ -67,7 +67,12 @@ namespace Iit.Fibertest.RtuManagement
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;
 
-            LastMoniResult = new MoniResult() { UserReturnCode = ReturnCode.MeasurementEndedNormally, HardwareReturnCode = ReturnCode.MeasurementEndedNormally};
+            LastMoniResult = new MoniResult()
+            {
+                // user sends ReturnCode.MeasurementEndedNormally if there is no accidents on this trace
+                UserReturnCode = port.LastRtuAccidentOnTrace, 
+                HardwareReturnCode = ReturnCode.MeasurementEndedNormally
+            };
             IsMonitoringModeChanged = true;
         }
 

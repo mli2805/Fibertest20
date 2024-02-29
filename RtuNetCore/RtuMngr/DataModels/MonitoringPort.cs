@@ -41,13 +41,20 @@ public class MonitoringPort
         TraceId = port.TraceId;
         LastTraceState = port.LastTraceState;
 
+            LastPreciseMadeTimestamp = DateTime.Now;
         LastFastSavedTimestamp = DateTime.Now;
         LastPreciseSavedTimestamp = DateTime.Now;
 
+        LastMoniResult = new MoniResult()
+        {
+            // user sends ReturnCode.MeasurementEndedNormally if there is no accidents on this trace
+            UserReturnCode = port.LastRtuAccidentOnTrace, 
+            HardwareReturnCode = ReturnCode.MeasurementEndedNormally
+        };
         IsMonitoringModeChanged = true;
     }
 
-    private string ToStringA()
+    public string ToStringA()
     {
         return IsPortOnMainCharon
             ? $"{OpticalPort}"

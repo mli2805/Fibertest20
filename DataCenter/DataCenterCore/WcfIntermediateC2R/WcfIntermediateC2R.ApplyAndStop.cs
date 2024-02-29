@@ -21,7 +21,11 @@ namespace Iit.Fibertest.DataCenterCore
             foreach (var portWithTraceDto in dto.Ports)
             {
                 var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == portWithTraceDto.TraceId);
-                portWithTraceDto.LastTraceState = trace?.State ?? FiberState.Unknown;
+                if (trace == null) continue;
+                portWithTraceDto.LastTraceState = trace.State;
+                portWithTraceDto.LastRtuAccidentOnTrace =
+                    _writeModel.RtuAccidents.LastOrDefault(a => a.TraceId == trace.TraceId)?.ReturnCode ??
+                    ReturnCode.MeasurementEndedNormally;
             }
 
             var applyResult = await GetRtuSpecificTransmitter(rtuAddresses.Main.Port)

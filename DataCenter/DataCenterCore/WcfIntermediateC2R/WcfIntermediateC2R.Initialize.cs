@@ -57,7 +57,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<RtuInitializedDto> PollMakLinuxForInitializationResult(Guid rtuId, DoubleAddress rtuDoubleAddress)
         {
-            var count = 18; // 18 * 5 sec = 90 sec limit
+            await Task.Delay(20000);
+
+            var count = 16; // 20 +  16 * 5 sec = 100 sec limit
             var requestDto = new GetCurrentRtuStateDto() { RtuId = rtuId, RtuDoubleAddress = rtuDoubleAddress };
             while (--count >= 0)
             {

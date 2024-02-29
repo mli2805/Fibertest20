@@ -52,11 +52,15 @@ public class MonitoringQueueRepository(RtuContext rtuContext, ILogger<Monitoring
 
     public async Task<int> CreateNewQueue(List<PortWithTraceDto> ports)
     {
+        logger.TimestampWithoutMessage(Logs.RtuManager);
+        logger.Debug(Logs.RtuManager, "CreateNewQueue");
         var oldPorts = await GetAll();
         var newPorts = new List<MonitoringPort>();
         foreach (var portWithTraceDto in ports)
         {
+            logger.Debug(Logs.RtuManager, $"port {portWithTraceDto.OtauPort.ToStringB()} on server: state {portWithTraceDto.LastTraceState}, accidents: {portWithTraceDto.LastRtuAccidentOnTrace}");
             var monitoringPort = new MonitoringPort(portWithTraceDto);
+            logger.Debug(Logs.RtuManager, $"monitoringPort {monitoringPort.ToStringA()} created: state {monitoringPort.LastTraceState}, accidents: {monitoringPort.LastMoniResult!.UserReturnCode}");
             var oldPort = oldPorts.FirstOrDefault(p => p.TraceId == monitoringPort.TraceId);
             if (oldPort != null)
             {
