@@ -203,6 +203,12 @@ public partial class RtuManager
 
     private async Task LogFailedMeasurement(MoniResult moniResult, MonitoringPort monitoringPort)
     {
+        if (moniResult.HardwareReturnCode == ReturnCode.MeasurementInterrupted)
+        {
+            _logger.Info(Logs.RtuManager, "Measurement interrupted");
+            return;
+        }
+
         if (moniResult.UserReturnCode != monitoringPort.LastMoniResult!.UserReturnCode)
         {
             _logger.Error(Logs.RtuManager,
