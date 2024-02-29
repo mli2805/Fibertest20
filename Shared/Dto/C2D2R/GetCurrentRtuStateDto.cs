@@ -6,11 +6,9 @@ namespace Iit.Fibertest.Dto
     [DataContract]
     public class GetCurrentRtuStateDto
     {
+        // only if RtuId matches with one persisted on RTU - server has right to get current state
         [DataMember]
-        public string ClientIp { get; set; }
-        [DataMember]
-        public string ConnectionId { get; set; }
-
+        public Guid RtuId { get; set; }
 
         // When client polling RTU for initialization result - client should fill RtuDoubleAddress from Initialization view
         // When data-center polling RTU - polling thread fills RtuDoubleAddress from WriteModel

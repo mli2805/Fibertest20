@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System;
+using Iit.Fibertest.Dto;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Graph;
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (applyResult.ReturnCode == ReturnCode.InProgress &&
                 rtuAddresses.Main.Port == (int)TcpPorts.RtuListenToHttp)
             {
-                applyResult = await PollMakLinuxForApplyMonitoringSettingsResult(rtuAddresses);
+                applyResult = await PollMakLinuxForApplyMonitoringSettingsResult(dto.RtuId, rtuAddresses);
             }
 
             if (applyResult.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
@@ -68,10 +69,10 @@ namespace Iit.Fibertest.DataCenterCore
             return applyResult;
         }
 
-        private async Task<RequestAnswer> PollMakLinuxForApplyMonitoringSettingsResult(DoubleAddress rtuDoubleAddress)
+        private async Task<RequestAnswer> PollMakLinuxForApplyMonitoringSettingsResult(Guid rtuId, DoubleAddress rtuDoubleAddress)
         {
             var count = 18; // 18 * 5 sec = 90 sec limit
-            var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
+            var requestDto = new GetCurrentRtuStateDto() { RtuId = rtuId, RtuDoubleAddress = rtuDoubleAddress };
             while (--count >= 0)
             {
                 await Task.Delay(5000);

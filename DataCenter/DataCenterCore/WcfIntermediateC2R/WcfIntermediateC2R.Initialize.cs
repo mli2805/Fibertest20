@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtuInitializedDto.ReturnCode == ReturnCode.InProgress &&
                 dto.RtuAddresses.Main.Port == (int)TcpPorts.RtuListenToHttp)
             {
-                rtuInitializedDto = await PollMakLinuxForInitializationResult(dto.RtuAddresses);
+                rtuInitializedDto = await PollMakLinuxForInitializationResult(dto.RtuId, dto.RtuAddresses);
             }
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", rtuInitializedDto.ToCamelCaseJson());
@@ -55,10 +55,10 @@ namespace Iit.Fibertest.DataCenterCore
             return await ApplyRtuInitializationResult(dto, rtuInitializedDto);
         }
 
-        private async Task<RtuInitializedDto> PollMakLinuxForInitializationResult(DoubleAddress rtuDoubleAddress)
+        private async Task<RtuInitializedDto> PollMakLinuxForInitializationResult(Guid rtuId, DoubleAddress rtuDoubleAddress)
         {
             var count = 18; // 18 * 5 sec = 90 sec limit
-            var requestDto = new GetCurrentRtuStateDto() { RtuDoubleAddress = rtuDoubleAddress };
+            var requestDto = new GetCurrentRtuStateDto() { RtuId = rtuId, RtuDoubleAddress = rtuDoubleAddress };
             while (--count >= 0)
             {
                 await Task.Delay(5000);

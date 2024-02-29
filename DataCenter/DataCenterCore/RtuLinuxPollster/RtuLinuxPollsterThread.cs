@@ -81,6 +81,7 @@ namespace Iit.Fibertest.DataCenterCore
                     var rtuDoubleAddress = station.GetRtuDoubleAddress();
                     var requestDto = new GetCurrentRtuStateDto()
                     {
+                        RtuId = station.RtuGuid,
                         RtuDoubleAddress = rtuDoubleAddress,
                         LastMeasurementTimestamp = station.LastMeasurementTimestamp
                     };

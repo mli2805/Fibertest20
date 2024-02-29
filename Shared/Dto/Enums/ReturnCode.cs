@@ -7,6 +7,7 @@
         InProgress = 2,
         TimeOutExpired = 3,
         NotFound = 4,
+        WrongDataCenter = 5, // not the same server that has initialized this RTU earlier
 
         ClientCleanedAsDead = 10,
 

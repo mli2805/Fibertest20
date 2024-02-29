@@ -66,6 +66,7 @@ namespace Iit.Fibertest.RtuDaemon
             var dto = JsonConvert.DeserializeObject<GetCurrentRtuStateDto>(json, JsonSerializerSettings);
             if (dto == null)
                 return new RtuCurrentStateDto(ReturnCode.DeserializationError);
+            if (config.Value.General.RtuId != dto.RtuId) return new RtuCurrentStateDto(ReturnCode.WrongDataCenter);
 
             var rtuCurrentStateDto = new RtuCurrentStateDto(ReturnCode.Ok)
             {
