@@ -13,7 +13,7 @@ public partial class OtdrManager
     private readonly SerialPortManager _serialPort;
 
     private readonly string _iitOtdrFolder;
-    private readonly string _charonIp;
+    private readonly string _otdrIp;
     private readonly int _otdrTcpPort;
 
     public OtdrManager(IWritableConfig<RtuConfig> config, ILogger<OtdrManager> logger,
@@ -27,7 +27,7 @@ public partial class OtdrManager
         var assemblyLocation = Assembly.GetExecutingAssembly().Location;
         var basePath = Path.GetDirectoryName(assemblyLocation) ?? "";
         _iitOtdrFolder = basePath + "/OtdrMeasEngine";
-        _charonIp = config.Value.General.CharonIp;
+        _otdrIp = config.Value.General.OtdrIp;
         _otdrTcpPort = config.Value.General.OtdrTcpPort;
     }
 
@@ -53,7 +53,7 @@ public partial class OtdrManager
 
         var result = new RtuInitializedDto(ReturnCode.Ok);
 
-        result.OtdrAddress = new NetAddress(_charonIp, _otdrTcpPort);
+        result.OtdrAddress = new NetAddress(_otdrIp, _otdrTcpPort);
         result.Mfid = _interOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetOtdrInfoMfid);
         _logger.Info(Logs.RtuManager, $"MFID = {result.Mfid}");
         result.Mfsn = _interOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetOtdrInfoMfsn);
@@ -94,8 +94,8 @@ public partial class OtdrManager
 
     public bool ConnectOtdr()
     {
-        _logger.Info(Logs.RtuManager, $"Connecting to OTDR {_charonIp}:{_otdrTcpPort}...");
-        var isOtdrConnected = _interOpWrapper.InitOtdr(ConnectionTypes.Tcp, _charonIp, _otdrTcpPort);
+        _logger.Info(Logs.RtuManager, $"Connecting to OTDR {_otdrIp}:{_otdrTcpPort}...");
+        var isOtdrConnected = _interOpWrapper.InitOtdr(ConnectionTypes.Tcp, _otdrIp, _otdrTcpPort);
         if (!isOtdrConnected)
             _serialPort.ShowOnLedDisplay(LedDisplayCode.ErrorConnectOtdr);
         return isOtdrConnected;
@@ -103,7 +103,7 @@ public partial class OtdrManager
 
     public bool DisconnectOtdr()
     {
-        _logger.Info(Logs.RtuManager, $"Disconnecting OTDR {_charonIp}...");
-        return _interOpWrapper.InitOtdr(ConnectionTypes.FreePort, _charonIp, _otdrTcpPort);
+        _logger.Info(Logs.RtuManager, $"Disconnecting OTDR {_otdrIp}...");
+        return _interOpWrapper.InitOtdr(ConnectionTypes.FreePort, _otdrIp, _otdrTcpPort);
     }
 }

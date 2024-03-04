@@ -57,7 +57,8 @@ public static class LoggerConfigurationFactory
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuService.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "srv-.log"), outputTemplate: template,
-                    rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    retainedFileCountLimit: 2, 
+                    rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuManager.ToInt()))
                 .WriteTo

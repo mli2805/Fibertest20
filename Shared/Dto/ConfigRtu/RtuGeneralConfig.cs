@@ -9,8 +9,10 @@ namespace Iit.Fibertest.Dto
         public DoubleAddress ServerAddress { get; set; } = new DoubleAddress();
         public Guid RtuId { get; set; }
         public int PreviousOwnPortCount { get; set; } = -1;
-        public string CharonIp { get; set; } = "192.168.88.101";
+        public string OtdrIp { get; set; } = "192.168.88.101";
+        public string OtauIp { get; set; } = "192.168.88.101";
         public int OtdrTcpPort { get; set; } = 1500;
+        public int OtauTcpPort { get; set; } = 23;
 
         public string LogEventLevel { get; set; } = "Information";
 

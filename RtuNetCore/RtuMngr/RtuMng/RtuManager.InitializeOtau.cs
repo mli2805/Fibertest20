@@ -7,8 +7,9 @@ public partial class RtuManager
 {
     private Task<RtuInitializedDto> InitializeOtau(RtuInitializedDto result)
     {
-        var charonIp = _config.Value.General.CharonIp;
-        _mainCharon = new Charon(new NetAddress(charonIp, 23), true, _config.Value.Charon, _logger);
+        var mainOtauIp = _config.Value.General.OtauIp;
+        var mainOtauPort = _config.Value.General.OtauTcpPort;
+        _mainCharon = new Charon(new NetAddress(mainOtauIp, mainOtauPort), true, _config.Value.Charon, _logger);
         var res = _mainCharon.InitializeOtauRecursively();
         if (res == _mainCharon.NetAddress)
             return Task.FromResult(new RtuInitializedDto(ReturnCode.OtauInitializationError));
