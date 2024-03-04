@@ -1,16 +1,11 @@
 ﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNetCore;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
-    private static readonly JsonSerializerSettings JsonSerializerSettings =
-        new() { TypeNameHandling = TypeNameHandling.All };
-    //  BopStateChangedDto ?? 
-
     private async Task PersistMoniResultForServer(MonitoringResultEf entity)
     {
         try
@@ -40,14 +35,19 @@ public partial class RtuManager
         }
     }
 
-    private async Task SaveEvent(object obj)
+    private async Task SaveBopEvent(BopStateChangedDto dto)
     {
-        var json = JsonConvert.SerializeObject(obj, JsonSerializerSettings);
-        _logger.Info(Logs.RtuService, json);
-
-        using var scope = _serviceProvider.CreateScope();
-        var eventsRepository = scope.ServiceProvider.GetRequiredService<EventsRepository>();
-        await eventsRepository.Add(json);
+        try
+        {
+            var entity = dto.ToEf();
+            using var scope = _serviceProvider.CreateScope();
+            var repo = scope.ServiceProvider.GetRequiredService<BopEventsRepository>();
+            await repo.Add(entity);
+        }
+        catch (Exception e)
+        {
+            _logger.Exception(Logs.RtuManager, e, "SaveBopEvent");
+        }
     }
 
     private async Task<MonitoringPort?> GetNextPortForMonitoring()

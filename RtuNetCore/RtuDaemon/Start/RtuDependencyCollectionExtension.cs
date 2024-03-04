@@ -44,7 +44,7 @@ public static class RtuDependencyCollectionExtension
         services.AddDbContext<RtuContext>(c =>
             c.UseSqlite($"Data Source={dataFolder}/rtu.db;Cache=Shared"));
         services.AddScoped<RtuContextInitializer>();
-        services.AddScoped<EventsRepository>();
+        services.AddScoped<BopEventsRepository>();
         services.AddScoped<MonitoringResultsRepository>();
         services.AddScoped<MonitoringQueueRepository>();
         services.AddScoped<ClientMeasurementsRepository>();

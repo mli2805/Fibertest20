@@ -56,7 +56,7 @@ public partial class RtuManager
                                 TcpPort = cha.NetAddress.Port,
                                 IsOk = true,
                             };
-                            await SaveEvent(dto);
+                            await SaveBopEvent(dto);
                         }
                         _damagedOtaus.Remove(damagedOtau);
                     }

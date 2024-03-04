@@ -69,7 +69,7 @@ public partial class RtuManager
         var mikrotikRebootAttemptsBeforeNotification =
             _config.Value.Recovery.MikrotikRebootAttemptsBeforeNotification;
         if (damagedOtau.RebootAttempts == mikrotikRebootAttemptsBeforeNotification)
-            await SaveEvent(new BopStateChangedDto()
+            await SaveBopEvent(new BopStateChangedDto()
             {
                 RtuId = _config.Value.General.RtuId,
                 OtauIp = damagedOtau.Ip,

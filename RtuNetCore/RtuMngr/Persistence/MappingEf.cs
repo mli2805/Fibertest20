@@ -165,4 +165,29 @@ public static class MappingEf
             MainCharonPort = dto.OtauPortDto.MainCharonPort,
         };
     }
+
+    public static BopStateChangedDto FromEf(this BopStateChangedEf entity)
+    {
+        return new BopStateChangedDto()
+        {
+
+            RtuId = entity.RtuId,
+            Serial = entity.Serial,
+            OtauIp = entity.OtauIp,
+            TcpPort = entity.TcpPort,
+            IsOk = entity.IsOk,
+        };
+    }
+
+    public static BopStateChangedEf ToEf(this BopStateChangedDto dto)
+    {
+        return new BopStateChangedEf()
+        {
+            RtuId = dto.RtuId,
+            Serial = dto.Serial,
+            OtauIp = dto.OtauIp,
+            TcpPort = dto.TcpPort,
+            IsOk = dto.IsOk,
+        };
+    }
 }

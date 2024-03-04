@@ -36,7 +36,6 @@ public static class LoggerConfigurationFactory
 
         var template = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
         var loggerConfiguration = new LoggerConfiguration()
-            //.MinimumLevel.Is(Parse(logLevelConstant))
             .MinimumLevel.Is(level)
             .Enrich.FromLogContext()
             .WriteTo.Logger(cc => cc
@@ -63,6 +62,7 @@ public static class LoggerConfigurationFactory
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuManager.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "mng-.log"), outputTemplate: template,
+                    fileSizeLimitBytes: 200_000_000, retainedFileCountLimit: 3, rollOnFileSizeLimit: true, 
                     rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             ;
 

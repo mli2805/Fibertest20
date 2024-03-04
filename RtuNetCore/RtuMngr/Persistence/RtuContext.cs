@@ -11,11 +11,10 @@ namespace Iit.Fibertest.RtuMngr
         public RtuContext(DbContextOptions<RtuContext> options) : base(options) { }
 #pragma warning restore CS8618
 
-        public DbSet<DtoInDbEf> Events { get; set; } // results and
-        public DbSet<MonitoringResultEf> MonitoringResults { get; set; }
+        public DbSet<BopStateChangedEf> BopEvents { get; set; } // bop problems
+        public DbSet<MonitoringResultEf> MonitoringResults { get; set; } // results and RTU_accidents
         public DbSet<ClientMeasurementEf> ClientMeasurements { get; set; }
 
-        // 4 tables => MonitoringQueue + MoniResultEf, MoniLevelEf, AccidentInSorEf
         public DbSet<MonitoringPortEf> MonitoringQueue { get; set; }
 
         protected override void OnModelCreating(ModelBuilder bulider)

@@ -111,9 +111,7 @@ namespace Iit.Fibertest.DataCenterCore
                     {
                         _logFile.AppendLine($"{state.MonitoringResultDtos.Count} monitoring results up to {lastMeasurementTimestamp} received ");
                         // process monitoring results in another thread
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                        Task.Factory.StartNew(() => TransmitMoniResults(state.MonitoringResultDtos));
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                        _ = Task.Factory.StartNew(() => TransmitMoniResults(state.MonitoringResultDtos));
                     }
 
                     if (state.ClientMeasurementResultDtos != null)
@@ -121,6 +119,9 @@ namespace Iit.Fibertest.DataCenterCore
                         {
                             await _clientMeasurementSender.ToClient(dto);
                         }
+
+                    if (state.BopStateChangedDtos != null)
+                        _ = Task.Factory.StartNew(() => TransmitBopEvents(state.BopStateChangedDtos));
 
                     var heartbeatDto = new RtuChecksChannelDto()
                     {
@@ -148,6 +149,16 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 _logFile.AppendLine($"Transmit moniresult with state {dto.TraceState} for trace {dto.PortWithTrace.TraceId} to _msmqMessagesProcessor");
                 await _msmqMessagesProcessor.ProcessMonitoringResult(dto);
+            }
+
+        }
+
+        private async Task TransmitBopEvents(List<BopStateChangedDto> dtos)
+        {
+            foreach (var dto in dtos)
+            {
+                _logFile.AppendLine($"Transmit bop event {dto.OtauIp}:{dto.TcpPort} to _msmqMessagesProcessor");
+                await _msmqMessagesProcessor.ProcessBopStateChanges(dto);
             }
 
         }

@@ -15,6 +15,8 @@ namespace Iit.Fibertest.Dto
         public List<MonitoringResultDto> MonitoringResultDtos { get; set; }
         [DataMember]
         public List<ClientMeasurementResultDto> ClientMeasurementResultDtos { get; set; }
+        [DataMember]
+        public List<BopStateChangedDto> BopStateChangedDtos { get; set; }
 
         public RtuCurrentStateDto() { }
 
