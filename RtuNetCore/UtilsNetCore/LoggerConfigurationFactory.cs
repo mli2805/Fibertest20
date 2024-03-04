@@ -62,8 +62,9 @@ public static class LoggerConfigurationFactory
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuManager.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "mng-.log"), outputTemplate: template,
-                    fileSizeLimitBytes: 200_000_000, retainedFileCountLimit: 3, rollOnFileSizeLimit: true, 
-                    rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    // fileSizeLimitBytes: 200_000_000, rollOnFileSizeLimit: true, 
+                    retainedFileCountLimit: 2, 
+                    rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             ;
 
         if (Debugger.IsAttached)
