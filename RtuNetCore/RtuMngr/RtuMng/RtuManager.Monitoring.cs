@@ -46,6 +46,7 @@ public partial class RtuManager
                 // monitoringPort уже изменился, а измерение прервали, надо откатить
                 monitoringPort.LastMoniResult.UserReturnCode = previousUserReturnCode;
                 monitoringPort.LastMoniResult.HardwareReturnCode = previousHardwareReturnCode;
+                _logger.Info(Logs.RtuManager, $"Measurement interrupted by user, save as {previousUserReturnCode} / {previousHardwareReturnCode}");
             }
 
             await PersistMonitoringPort(monitoringPort);
@@ -110,6 +111,7 @@ public partial class RtuManager
 
         var moniResult = await DoMeasurement(tokens, baseType, monitoringPort, shouldChangePort);
         monitoringPort.SetMadeTimeStamp(baseType); // even failed measurement is a measurement
+        _logger.Info(Logs.RtuManager, $"Measurement ended with codes: {moniResult.UserReturnCode} / {moniResult.HardwareReturnCode}");
         if (moniResult.IsMeasurementEndedNormally)
         {
             if (moniResult.GetAggregatedResult() != FiberState.Ok)
@@ -128,18 +130,22 @@ public partial class RtuManager
           BaseRefType baseType, bool isOutOfTurnMeasurement = false)
     {
         var reason = ReasonToSendMonitoringResult.None;
+        if (isOutOfTurnMeasurement)
+        {
+            _logger.Info(Logs.RtuManager, "It's out of turn precise measurement");
+            reason |= ReasonToSendMonitoringResult.OutOfTurnPreciseMeasurement;
+            // for OutOfTurn measurement MonitoringPort was created from scratch
+            // all fields about previous state are inconsistent! do not check them!
+            return reason;
+        }
+
         if (monitoringPort.LastTraceState == FiberState.Unknown) // 740)
         {
             _logger.Info(Logs.RtuManager, "First measurement on port");
             reason |= ReasonToSendMonitoringResult.FirstMeasurementOnPort;
         }
 
-        if (isOutOfTurnMeasurement)
-        {
-            _logger.Info(Logs.RtuManager, "It's out of turn precise measurement");
-            reason |= ReasonToSendMonitoringResult.OutOfTurnPreciseMeasurement;
-        }
-
+       
         if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
         {
             _logger.Info(Logs.RtuManager,
@@ -249,6 +255,7 @@ public partial class RtuManager
             case ReturnCode.MeasurementInterrupted:
                 IsMonitoringOn = false;
                 _currentStep = CreateStepDto(MonitoringCurrentStep.Interrupted);
+                _logger.Info(Logs.RtuManager, $"previous UserReturnCode was {monitoringPort.LastMoniResult!.UserReturnCode}");
                 return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementInterrupted);
 
             case ReturnCode.MeasurementFailedToSetParametersFromBase:

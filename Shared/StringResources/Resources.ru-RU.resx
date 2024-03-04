@@ -3740,4 +3740,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Can_t_start_auto_base_assignment_without_RFTS_template_file_" xml:space="preserve">
 		<value>Нельзя задать базовую автоматически без файла шаблона RFTS параметров!</value>
 	</data>
+	<data name="SID_Error_during_Datacenter_to_RTU_http_connection" xml:space="preserve">
+		<value>Ошибка во время http соединения Датацентр-RTU</value>
+	</data>
 </root>

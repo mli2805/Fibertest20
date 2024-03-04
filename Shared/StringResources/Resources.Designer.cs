@@ -3205,6 +3205,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error during Datacenter to RTU http connection.
+        /// </summary>
+        public static string SID_Error_during_Datacenter_to_RTU_http_connection {
+            get {
+                return ResourceManager.GetString("SID_Error_during_Datacenter_to_RTU_http_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error while base ref acceptability checking!.
         /// </summary>
         public static string SID_Error_while_base_ref_acceptability_checking_ {

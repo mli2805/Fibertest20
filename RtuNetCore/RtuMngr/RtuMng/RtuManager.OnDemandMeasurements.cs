@@ -20,6 +20,8 @@ namespace Iit.Fibertest.RtuMngr
         {
             _rtuManagerCts = new CancellationTokenSource();
             var tokens = new[] { RtuServiceCancellationToken, _rtuManagerCts.Token };
+            // monitoring port could be not from Queue, so we can't get it from Queue and should create new one
+            // so all fields about previous state are inconsistent! do not check them!
             var moniResult = await DoFullMeasurement(tokens,
                 new MonitoringPort(dto.PortWithTraceDto!), BaseRefType.Precise, true, true);
 

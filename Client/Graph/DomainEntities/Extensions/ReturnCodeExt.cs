@@ -133,6 +133,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Cannot_establish_connection_with_RTU_;
                 case ReturnCode.C2RWcfOperationError:
                     return Resources.SID_Error_during_Client_RTU_operation__;
+                case ReturnCode.D2RHttpError:
+                    return Resources.SID_Error_during_Datacenter_to_RTU_http_connection;
 
                 //
                 case ReturnCode.UnknownCommand:

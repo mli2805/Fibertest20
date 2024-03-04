@@ -3740,4 +3740,7 @@ Please try again later</value>
 	<data name="SID_Can_t_start_auto_base_assignment_without_RFTS_template_file_" xml:space="preserve">
 		<value>Can't start auto base assignment without RFTS template file!</value>
 	</data>
+	<data name="SID_Error_during_Datacenter_to_RTU_http_connection" xml:space="preserve">
+		<value>Error during Datacenter to RTU http connection</value>
+	</data>
 </root>
