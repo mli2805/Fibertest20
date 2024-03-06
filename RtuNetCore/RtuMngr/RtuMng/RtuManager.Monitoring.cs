@@ -82,12 +82,12 @@ public partial class RtuManager
         if (tokens.IsCancellationRequested()) return;
 
         var isTraceBroken = monitoringPort.LastTraceState != FiberState.Ok;
-        var isSecondMeasurementNeeded =
+        monitoringPort.IsConfirmationRequired =
             isNewTrace ||
             isTraceBroken ||
             _preciseMakeTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastPreciseMadeTimestamp > _preciseMakeTimespan;
 
-        if (isSecondMeasurementNeeded)
+        if (monitoringPort.IsConfirmationRequired)
         {
             // PRECISE (or ADDITIONAL)
             var baseType = (isTraceBroken && monitoringPort.IsBreakdownCloserThen20Km &&
