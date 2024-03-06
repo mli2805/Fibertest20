@@ -92,7 +92,6 @@ public class CommandProcessor(ILogger<CommandProcessor> logger, IWritableConfig<
         using var scope = serviceProvider.CreateScope();
         var repository = scope.ServiceProvider.GetRequiredService<ClientMeasurementsRepository>();
         var ff = await repository.GetAll();
-        // logger.Info(Logs.RtuService, $"return to server {ff.Count} measurements (Client)");
         return ff.Select(f=>f.FromEf()).ToList();
     }
 
@@ -101,7 +100,6 @@ public class CommandProcessor(ILogger<CommandProcessor> logger, IWritableConfig<
         using var scope = serviceProvider.CreateScope();
         var repository = scope.ServiceProvider.GetRequiredService<BopEventsRepository>();
         var ff = await repository.GetAll();
-        logger.Info(Logs.RtuService, $"return to server {ff.Count} bop events");
         return ff.Select(f=>f.FromEf()).ToList();
     }
 }
