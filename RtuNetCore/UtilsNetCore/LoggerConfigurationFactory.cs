@@ -34,7 +34,7 @@ public static class LoggerConfigurationFactory
     {
         var logFolder = Path.Combine(FileOperations.GetMainFolder(), @"log");
 
-        var template = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+        var template = "[{Timestamp:ddMMM HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
         var loggerConfiguration = new LoggerConfiguration()
             .MinimumLevel.Is(level)
             .Enrich.FromLogContext()

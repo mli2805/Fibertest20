@@ -44,7 +44,7 @@ public partial class InterOpWrapper
         var str = SorData.TryGetFromBytes(buffer, out var sorData);
         if (!string.IsNullOrEmpty(str) || sorData == null)
         {
-            _logger.Error(Logs.RtuManager, str);
+            logger.Error(Logs.RtuManager, str);
             return -1;
         }
         int lmaxOwt = sorData.IitParameters.DistnaceRangeUser;
@@ -58,7 +58,7 @@ public partial class InterOpWrapper
     {
         var error = CppImportDecl.MeasPrepare(isAver ? 601 : 600);
         if (error != 0)
-            _logger.Error(Logs.RtuManager, $"Error {error} in MeasPrepare");
+            logger.Error(Logs.RtuManager, $"Error {error} in MeasPrepare");
         return error == 0;
     }
 

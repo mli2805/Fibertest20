@@ -43,14 +43,14 @@ public partial class InterOpWrapper
             var result = CppImportDecl.ServiceFunction(cmd, ref prm1, ref prm2);
             if (result != 0)
             {
-                _logger.Error(Logs.RtuManager, $"Set parameter error={result}!");
+                logger.Error(Logs.RtuManager, $"Set parameter error={result}!");
                 return false;
             }
             return true;
         }
         catch (Exception e)
         {
-            _logger.Exception(Logs.RtuManager, e, "Set parameter");
+            logger.Exception(Logs.RtuManager, e, "Set parameter");
             return false;
         }
     }
@@ -63,7 +63,7 @@ public partial class InterOpWrapper
         var result = CppImportDecl.ServiceFunction(cmd, ref prm1, ref prm2);
         if (result != 0)
         {
-            _logger.Error(Logs.RtuManager, $"Set TuningAPDMode error={result}!");
+            logger.Error(Logs.RtuManager, $"Set TuningAPDMode error={result}!");
             return false;
         }
         return true;
@@ -76,7 +76,7 @@ public partial class InterOpWrapper
 
         var result = CppImportDecl.ServiceFunction(cmd, ref reserved, ref baseSorData);
         if (result != 0)
-            _logger.Error(Logs.RtuManager, $"Set parameters from sor error={result}!");
+            logger.Error(Logs.RtuManager, $"Set parameters from sor error={result}!");
         return result == 0;
     }
 
@@ -86,9 +86,9 @@ public partial class InterOpWrapper
         IntPtr reserved = IntPtr.Zero;
         var result = CppImportDecl.ServiceFunction(cmd, ref lmaxNs, ref reserved);
         if (result != 1)
-            _logger.Error(Logs.RtuManager, $"Force Lmax {lmaxNs} ns: Error = {result}!");
+            logger.Error(Logs.RtuManager, $"Force Lmax {lmaxNs} ns: Error = {result}!");
         else
-            _logger.Info(Logs.RtuManager, $"Force Lmax {lmaxNs} ns: Ok");
+            logger.Info(Logs.RtuManager, $"Force Lmax {lmaxNs} ns: Ok");
         return result == 1;
     }
 }

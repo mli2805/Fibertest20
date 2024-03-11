@@ -8,7 +8,7 @@ public partial class InterOpWrapper
         return CppImportDecl.GetSorSize(sorData);
     }
 
-    public int GetSordata(IntPtr sorData, byte[] buffer, int bufferLength)
+    public int GetSorData(IntPtr sorData, byte[] buffer, int bufferLength)
     {
         return CppImportDecl.GetSorData(sorData, buffer, bufferLength);
     }

@@ -32,9 +32,10 @@ public partial class RtuManager
     // 
     // When User requests ApplyMonitoringSettings or StopMonitoring 
     //  we call Cancel on _rtuManagerCts 
+    // or Recovery asks Initialization
     private CancellationTokenSource? _rtuManagerCts;
 
-    public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
+    public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new();
 
     // private bool _wasMonitoringOn;
     public bool IsMonitoringOn;
@@ -65,7 +66,6 @@ public partial class RtuManager
         set { lock (_initializationResultLocker) { _initializationResult = value; } }
     }
 
-
     public RtuManager(IWritableConfig<RtuConfig> config,
         ILogger<RtuManager> logger,
         InterOpWrapper interOpWrapper, OtdrManager otdrManager,
@@ -80,5 +80,4 @@ public partial class RtuManager
         _otdrManager = otdrManager;
         _serviceProvider = serviceProvider;
     }
-
 }

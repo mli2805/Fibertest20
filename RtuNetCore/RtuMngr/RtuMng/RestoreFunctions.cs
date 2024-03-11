@@ -13,7 +13,7 @@ namespace Iit.Fibertest.RtuMngr
             logger.Info(Logs.RtuService, res ?? "");
             Arp.ClearCache();
             logger.Info(Logs.RtuManager, "Recovery procedure: Clear ARP table.");
-            logger.Info(Logs.RtuManager, "Recovery procedure: Reset Charon");
+            logger.Info(Logs.RtuManager, "Recovery procedure: Reset Charon (by calling Initialization)");
             logger.Info(Logs.RtuService, "Recovery procedure: Clear ARP table and Reset Charon.");
             res = Arp.GetTable();
             logger.Info(Logs.RtuService, res ?? "");

@@ -17,7 +17,8 @@ public partial class RtuManager
             case RecoveryStep.Ok:
                 _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.ResetArpAndCharon);
                 RestoreFunctions.ClearArp(_logger);
-                var recoveryResult = await InitializeRtu(null, true);
+                var recoveryResult = await InitializeRtu(null, false);
+                _logger.Info(Logs.RtuManager, $"Initialization from Recovery returned {recoveryResult.IsInitialized}");
                 if (recoveryResult.IsInitialized)
                     _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
                 return recoveryResult.ReturnCode; // Reset Charon inside InitializeRtu

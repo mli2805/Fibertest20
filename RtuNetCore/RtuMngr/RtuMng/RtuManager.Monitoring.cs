@@ -23,7 +23,6 @@ public partial class RtuManager
             _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
             return;
         }
-        _logger.Debug(Logs.RtuManager, $"Monitoring port is {monitoringPort.CharonSerial}:{monitoringPort.OpticalPort}");
 
         _config.Update(c => c.Monitoring.LastMeasurementTimestamp = DateTime.Now.ToString(CultureInfo.CurrentCulture));
         _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = true);
@@ -40,6 +39,12 @@ public partial class RtuManager
 
             await ProcessOnePort(tokens, monitoringPort);
 
+            // cancellation could be used inside measurement by Recovery,
+            // and measurement returns another code (not ReturnCode.MeasurementInterrupted)
+            // so just create new Token after every measurement
+            _rtuManagerCts = new CancellationTokenSource();
+            tokens[1] = _rtuManagerCts.Token;
+
             if (monitoringPort.LastMoniResult!.HardwareReturnCode == ReturnCode.MeasurementInterrupted)
             {
                 // monitoringPort in memory changed
@@ -50,7 +55,6 @@ public partial class RtuManager
             }
 
             await PersistMonitoringPort(monitoringPort);
-
 
             if (!IsMonitoringOn)
             {
@@ -103,7 +107,7 @@ public partial class RtuManager
         monitoringPort.IsMonitoringModeChanged = false;
     }
 
-    private async Task<MoniResult> DoFullMeasurement(CancellationToken[] tokens, MonitoringPort monitoringPort, 
+    private async Task<MoniResult> DoFullMeasurement(CancellationToken[] tokens, MonitoringPort monitoringPort,
         BaseRefType baseType, bool shouldChangePort = true, bool isOutOfTurnMeasurement = false)
     {
         _logger.EmptyAndLog(Logs.RtuManager,
@@ -111,7 +115,7 @@ public partial class RtuManager
 
         var moniResult = await DoMeasurement(tokens, baseType, monitoringPort, shouldChangePort);
         monitoringPort.SetMadeTimeStamp(baseType); // even failed measurement is a measurement
-        _logger.Info(Logs.RtuManager, $"Measurement ended with codes: {moniResult.UserReturnCode} / {moniResult.HardwareReturnCode}");
+        _logger.Info(Logs.RtuManager, $"Measurement ended: {moniResult.UserReturnCode} / {moniResult.HardwareReturnCode}");
         if (moniResult.IsMeasurementEndedNormally)
         {
             if (moniResult.GetAggregatedResult() != FiberState.Ok)
@@ -145,7 +149,6 @@ public partial class RtuManager
             reason |= ReasonToSendMonitoringResult.FirstMeasurementOnPort;
         }
 
-       
         if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
         {
             _logger.Info(Logs.RtuManager,
@@ -222,7 +225,13 @@ public partial class RtuManager
             _logger.Error(Logs.RtuManager, "Problem with base ref occurred!");
             await PersistMoniResultForServer(moniResult.ToEf(monitoringPort, _config.Value.General.RtuId,
                 ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
-            await PersistMonitoringPort(monitoringPort);
+            await PersistMonitoringPort(monitoringPort); // зачем? monitoringPort eщё не изменён
+        }
+        else if (moniResult.HardwareReturnCode != monitoringPort.LastMoniResult!.HardwareReturnCode)
+        {
+            _logger.Error(Logs.RtuManager,
+                $"HardwareReturnCode changed {monitoringPort.LastMoniResult!.HardwareReturnCode} => {moniResult.HardwareReturnCode}");
+            // we do not send hardware problems to server (user)
         }
         else
         {
@@ -263,26 +272,23 @@ public partial class RtuManager
                 return new MoniResult() { UserReturnCode = result, BaseRefType = baseRefType };
 
             case ReturnCode.MeasurementError:
-                if (await RunMainCharonRecovery() != ReturnCode.Ok)
+                if (await RunMainCharonRecovery() != ReturnCode.RtuInitializedSuccessfully)
                     await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode,
-                    result); // восстановление, без сообщения
+                return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, result); // восстановление, без сообщения пользователю
         }
 
         var buffer = _otdrManager.GetLastSorDataBuffer();
         if (buffer == null)
         {
-            if (await RunMainCharonRecovery() != ReturnCode.Ok)
+            if (await RunMainCharonRecovery() != ReturnCode.RtuInitializedSuccessfully)
                 await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-            return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode,
-                ReturnCode.MeasurementError);// восстановление, без сообщения
+            return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementError); // восстановление, без сообщения
         }
 
         if (_saveSorData)
             monitoringPort.SaveSorData(baseRefType, buffer, SorType.Raw, _logger); // for investigations purpose
         monitoringPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _logger); // for investigations purpose
         _logger.Info(Logs.RtuManager, $"Measurement returned ({buffer.Length} bytes).");
-
 
         try
         {

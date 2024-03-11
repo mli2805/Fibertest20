@@ -116,7 +116,7 @@ namespace Iit.Fibertest.RtuMngr
 
                 var size = _interOpWrapper.GetSorDataSize(measIntPtr);
                 byte[] buffer = new byte[size];
-                _interOpWrapper.GetSordata(measIntPtr, buffer, size);
+                _interOpWrapper.GetSorData(measIntPtr, buffer, size);
                 measSorData = SorData.FromBytes(buffer);
 
                 moniLevel.IsLevelFailed = (measSorData.RftsEvents.Results & MonitoringResults.IsFailed) != 0;

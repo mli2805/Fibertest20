@@ -116,7 +116,7 @@ namespace Iit.Fibertest.RtuMngr
             }
             byte[] buffer = new byte[bufferLength];
 
-            var size = _interOpWrapper.GetSordata(_sorData, buffer, bufferLength);
+            var size = _interOpWrapper.GetSorData(_sorData, buffer, bufferLength);
             if (size == -1)
             {
                 _logger.Info(Logs.RtuManager, "  Error in GetLastSorData");
@@ -139,7 +139,7 @@ namespace Iit.Fibertest.RtuMngr
             var size = _interOpWrapper.GetSorDataSize(measIntPtr);
             _logger.Debug(Logs.RtuManager, "  GetSorDataSize done.");
             byte[] resultBytes = new byte[size];
-            _interOpWrapper.GetSordata(measIntPtr, resultBytes, size);
+            _interOpWrapper.GetSorData(measIntPtr, resultBytes, size);
             _logger.Debug(Logs.RtuManager, "  GetSorData done.");
             _interOpWrapper.FreeSorDataMemory(measIntPtr);
             return resultBytes;
@@ -156,7 +156,7 @@ namespace Iit.Fibertest.RtuMngr
 
             var size = _interOpWrapper.GetSorDataSize(measIntPtr);
             byte[] resultBytes = new byte[size];
-            _interOpWrapper.GetSordata(measIntPtr, resultBytes, size);
+            _interOpWrapper.GetSorData(measIntPtr, resultBytes, size);
             _interOpWrapper.FreeSorDataMemory(measIntPtr);
             return resultBytes;
         }
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.RtuMngr
 
             var size = _interOpWrapper.GetSorDataSize(measIntPtr);
             byte[] resultBytes = new byte[size];
-            _interOpWrapper.GetSordata(measIntPtr, resultBytes, size);
+            _interOpWrapper.GetSorData(measIntPtr, resultBytes, size);
             _interOpWrapper.FreeSorDataMemory(measIntPtr);
             return resultBytes;
         }
