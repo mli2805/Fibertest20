@@ -38,6 +38,10 @@ namespace Iit.Fibertest.Client
 
                 case RtuUpdated evnt: RtuUpdated(evnt.RtuId); break; // Title
                 case RtuRemoved evnt: RtuRemoved(evnt.RtuId); break;
+
+                case TraceAttached evnt: TraceAttached(evnt.TraceId); break;
+                case TraceDetached evnt: TraceDetached(evnt.TraceId); break;
+
                 case TraceUpdated evnt: TraceUpdated(evnt.Id); break; // Title
                 case TraceCleaned evnt: TraceRemovedOrCleaned(evnt.TraceId); break;
                 case TraceRemoved evnt: TraceRemovedOrCleaned(evnt.TraceId); break;
@@ -87,6 +91,24 @@ namespace Iit.Fibertest.Client
             ActualRtuAccidentsViewModel.RemoveAllEventsForRtu(rtuId);
             AllRtuAccidentsViewModel.RemoveAllEventsForRtu(rtuId);
         }
+
+        private void TraceAttached(Guid traceId)
+        {
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId))
+                return;
+
+            var lastAccidentOnTrace = _readModel.RtuAccidents.LastOrDefault(m => m.TraceId == traceId);
+            if (lastAccidentOnTrace != null && !lastAccidentOnTrace.IsGoodAccident)
+                ActualRtuAccidentsViewModel.AddAccident(lastAccidentOnTrace);
+        }
+
+        private void TraceDetached(Guid traceId)
+        {
+            ActualRtuAccidentsViewModel.RemoveAllEventsForTrace(traceId);
+        }
+
+
         private void TraceUpdated(Guid traceId)
         {
             ActualRtuAccidentsViewModel.RefreshRowsWithUpdatedTrace(traceId);
