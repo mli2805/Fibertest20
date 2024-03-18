@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNetCore;
 
 namespace Iit.Fibertest.RtuMngr;
@@ -20,12 +19,12 @@ public partial class RtuManager
             _logger.Info(Logs.RtuManager, "There are no ports in queue for monitoring.");
             IsMonitoringOn = false;
             _otdrManager.DisconnectOtdr();
-            _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
+            await UpdateIsMonitoringOn(false);
             return;
         }
 
-        _config.Update(c => c.Monitoring.LastMeasurementTimestamp = DateTime.Now.ToString(CultureInfo.CurrentCulture));
-        _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = true);
+        await PersistLastMeasurementTime();
+        await UpdateIsMonitoringOn(true);
         IsMonitoringOn = true;
 
         while (true)
@@ -309,7 +308,7 @@ public partial class RtuManager
         }
 
         var moniResult = AnalyzeAndCompare(baseRefType, monitoringPort, buffer, baseBytes);
-        _config.Update(c => c.Monitoring.LastMeasurementTimestamp = DateTime.Now.ToString(CultureInfo.CurrentCulture));
+        await PersistLastMeasurementTime();
         return moniResult;
     }
 

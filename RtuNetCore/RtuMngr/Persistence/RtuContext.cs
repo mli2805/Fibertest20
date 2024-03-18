@@ -17,6 +17,8 @@ namespace Iit.Fibertest.RtuMngr
 
         public DbSet<MonitoringPortEf> MonitoringQueue { get; set; }
 
+        public DbSet<RtuSettingsEf> RtuSettings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder bulider)
         {
             bulider.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -31,9 +33,29 @@ namespace Iit.Fibertest.RtuMngr
             try
             {
                 await rtuContext.Database.EnsureCreatedAsync();
+                if (await rtuContext.RtuSettings.AnyAsync()) return;
+
+                logger.Info(Logs.WatchDog, "Empty DB. ");
+                logger.Info(Logs.RtuService, "Empty DB. ");
+                {
+                    rtuContext.RtuSettings.Add(
+                        new RtuSettingsEf()
+                        {
+                            IsMonitoringOn = false,
+                            IsAutoBaseMeasurementInProgress = false,
+
+                            LastMeasurement = DateTime.MinValue,
+                            LastAutoBase = DateTime.MinValue,
+                            LastRestartByWatchDog = DateTime.MinValue,
+                            LastCheckedByWatchDog = DateTime.MinValue,
+                        });
+                }
+                await rtuContext.SaveChangesAsync();
+
             }
             catch (Exception e)
             {
+                logger.Exception(Logs.WatchDog, e, "RtuContextInitializer");
                 logger.Exception(Logs.RtuService, e, "RtuContextInitializer");
                 throw;
             }

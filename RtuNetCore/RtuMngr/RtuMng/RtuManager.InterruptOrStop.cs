@@ -51,7 +51,7 @@ namespace Iit.Fibertest.RtuMngr
         // user request
         public async Task<RequestAnswer> StopMonitoring()
         {
-            _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
+            await UpdateIsMonitoringOn(false);
             await BreakMonitoringCycle("Stop monitoring");
             _otdrManager.DisconnectOtdr();
             return new RequestAnswer(ReturnCode.Ok);

@@ -10,6 +10,7 @@ public enum Logs
 {
     RtuService = 513248,
     RtuManager = 715343,
+    WatchDog = 520483,
     SnmpTraps = 231748,
     DataCenter = 187901,
     WebApi = 625487,
@@ -57,14 +58,21 @@ public static class LoggerConfigurationFactory
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuService.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "srv-.log"), outputTemplate: template,
-                    retainedFileCountLimit: 2, 
+                    retainedFileCountLimit: 2,
                     rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuManager.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "mng-.log"), outputTemplate: template,
                     // fileSizeLimitBytes: 200_000_000, rollOnFileSizeLimit: true, 
-                    retainedFileCountLimit: 2, 
+                    retainedFileCountLimit: 2,
+                    rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+            .WriteTo.Logger(cc => cc
+                .Filter.ByIncludingOnly(WithEventId(Logs.WatchDog.ToInt()))
+                .WriteTo
+                .File(Path.Combine(logFolder, "wd-.log"), outputTemplate: template,
+                    // fileSizeLimitBytes: 200_000_000, rollOnFileSizeLimit: true, 
+                    retainedFileCountLimit: 2,
                     rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             ;
 

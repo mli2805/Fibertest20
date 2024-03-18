@@ -66,6 +66,7 @@
     <Compile Include="ConfigRtu\RecoveryConfig.cs" />
     <Compile Include="ConfigRtu\RtuConfig.cs" />
     <Compile Include="ConfigRtu\RtuGeneralConfig.cs" />
+    <Compile Include="ConfigRtu\WatchDogConfig.cs" />
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />
     <Compile Include="D2C\DbOptimizationProgressDto.cs" />
     <Compile Include="D2C\GsmSettingsDto.cs" />

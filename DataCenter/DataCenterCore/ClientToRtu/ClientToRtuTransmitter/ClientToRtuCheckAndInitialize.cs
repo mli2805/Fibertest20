@@ -10,16 +10,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly ClientsCollection _clientsCollection;
-        private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly ID2RWcfManager _d2RWcfManager;
 
         public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
-            RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager)
+             ID2RWcfManager d2RWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _clientsCollection = clientsCollection;
-            _rtuStationsRepository = rtuStationsRepository;
             _d2RWcfManager = d2RWcfManager;
         }
 

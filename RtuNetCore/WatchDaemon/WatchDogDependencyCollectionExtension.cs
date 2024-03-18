@@ -1,13 +1,12 @@
-﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuMngr;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.UtilsNetCore;
 using Microsoft.EntityFrameworkCore;
 
+namespace Iit.Fibertest.WatchDaemon;
 
-namespace Iit.Fibertest.RtuDaemon;
-
-public static class RtuDependencyCollectionExtension
+public static class WatchDogDependencyCollectionExtension
 {
     public static IServiceCollection AddDependencyGroup(this IServiceCollection services)
     {
@@ -15,21 +14,20 @@ public static class RtuDependencyCollectionExtension
             .AddConfigAsInstance()
             .AddBootAndBackgroundServices()
             .AddDb()
-            .AddOther();
+            .AddOthers();
     }
 
     private static IServiceCollection AddConfigAsInstance(this IServiceCollection services)
     {
         return services
-            .AddSingleton<IWritableConfig<RtuConfig>>(_ => new WritableConfig<RtuConfig>("rtu.json"));
+            .AddSingleton<IWritableConfig<WatchDogConfig>>(_ => new WritableConfig<WatchDogConfig>("wd.json"));
     }
 
     private static IServiceCollection AddBootAndBackgroundServices(this IServiceCollection services)
     {
+        services.AddSingleton<RtuWatch>();
         services.AddSingleton<Boot>();
         services.AddHostedService(x => x.GetService<Boot>()!);
-        services.AddSingleton<MonitoringService>();
-        services.AddHostedService(x => x.GetService<MonitoringService>()!);
         return services;
     }
 
@@ -44,23 +42,13 @@ public static class RtuDependencyCollectionExtension
         services.AddDbContext<RtuContext>(c =>
             c.UseSqlite($"Data Source={dataFolder}/rtu.db;Cache=Shared"));
         services.AddScoped<RtuContextInitializer>();
-        services.AddScoped<BopEventsRepository>();
-        services.AddScoped<MonitoringResultsRepository>();
-        services.AddScoped<MonitoringQueueRepository>();
-        services.AddScoped<ClientMeasurementsRepository>();
         services.AddScoped<RtuSettingsRepository>();
         return services;
     }
 
-    private static IServiceCollection AddOther(this IServiceCollection services)
+    private static IServiceCollection AddOthers(this IServiceCollection services)
     {
-        services.AddSingleton<GreeterService>();
-
-        services.AddSingleton<InterOpWrapper>();
-        services.AddSingleton<OtdrManager>();
-        services.AddSingleton<RtuManager>();
-
-        services.AddSingleton<CommandProcessor>();
+        services.AddSingleton<DebianServiceManager>();
         return services;
     }
 }

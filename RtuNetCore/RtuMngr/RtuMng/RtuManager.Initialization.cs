@@ -11,7 +11,7 @@ public partial class RtuManager
     public async Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto? dto, bool disconnectOtdr)
     {
         // prohibit to send heartbeats
-        ShouldSendHeartbeat.TryDequeue(out _);
+        // ShouldSendHeartbeat.TryDequeue(out _);
 
         if (IsMonitoringOn)
         {
@@ -19,9 +19,9 @@ public partial class RtuManager
         }
 
         if (dto != null)
-            SaveParametersAndStates(dto);
+            await SaveParametersAndStates(dto);
 
-        _config.Update(c => c.Monitoring.IsAutoBaseMeasurementInProgress = false);
+        await UpdateIsAutoBaseMeasurementInProgress(false);
 
         LogInitializationStart();
 
@@ -54,7 +54,7 @@ public partial class RtuManager
             return result2;
         }
 
-        result2.IsMonitoringOn = _config.Value.Monitoring.IsMonitoringOnPersisted;
+        result2.IsMonitoringOn = await GetIsMonitoringOn();
 
         _treeOfAcceptableMeasParams = _interOpWrapper.GetTreeOfAcceptableMeasParams();
         result2.AcceptableMeasParams = _treeOfAcceptableMeasParams;
@@ -69,9 +69,9 @@ public partial class RtuManager
         _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
 
         // permit to send heartbeats
-        ShouldSendHeartbeat.Enqueue(new object());
+        // ShouldSendHeartbeat.Enqueue(new object());
 
-        IsMonitoringOn = _config.Value.Monitoring.IsMonitoringOnPersisted;
+        IsMonitoringOn = await GetIsMonitoringOn();
         if (disconnectOtdr)
         {
             _logger.Info(Logs.RtuManager, "RTU is in MANUAL mode, disconnect OTDR");
@@ -100,14 +100,14 @@ public partial class RtuManager
         return new RequestAnswer(res ? ReturnCode.Ok : ReturnCode.Error);
     }
 
-    private void SaveParametersAndStates(InitializeRtuDto dto)
+    private async Task SaveParametersAndStates(InitializeRtuDto dto)
     {
         _config.Update(c => c.General.RtuId = dto.RtuId);
         _config.Update(c => c.General.ServerAddress = dto.ServerAddresses!);
 
         //_wasMonitoringOn = false;
         IsMonitoringOn = false;
-        _config.Update(c => c.Monitoring.IsMonitoringOnPersisted = false);
+        await UpdateIsMonitoringOn(false);
 
         _logger.EmptyAndLog(Logs.RtuManager, "Initialization by the USER puts RTU into MANUAL mode.");
     }

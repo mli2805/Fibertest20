@@ -42,14 +42,14 @@ public class CommandProcessor(ILogger<CommandProcessor> logger, IWritableConfig<
             case DoClientMeasurementDto dto:
                 if (rtuManager.InitializationResult == null)
                     return new ClientMeasurementStartedDto(ReturnCode.RtuInitializationInProgress);
-                if (config.Value.Monitoring.IsAutoBaseMeasurementInProgress)
+                if (await rtuManager.GetIsMonitoringOn())
                     return new ClientMeasurementStartedDto(ReturnCode.RtuAutoBaseMeasurementInProgress);
                 Task.Factory.StartNew(() => rtuManager.DoClientMeasurement(dto));
                 return new ClientMeasurementStartedDto(ReturnCode.MeasurementClientStartedSuccessfully);
             case DoOutOfTurnPreciseMeasurementDto dto:
                 if (rtuManager.InitializationResult == null)
                     return new RequestAnswer(ReturnCode.RtuInitializationInProgress);
-                if (config.Value.Monitoring.IsAutoBaseMeasurementInProgress)
+                if (await rtuManager.GetIsAutoBaseMeasurementInProgress())
                     return new RequestAnswer(ReturnCode.RtuAutoBaseMeasurementInProgress);
                 Task.Factory.StartNew(() => rtuManager.StartOutOfTurnMeasurement(dto));
                 return new RequestAnswer(ReturnCode.InProgress);

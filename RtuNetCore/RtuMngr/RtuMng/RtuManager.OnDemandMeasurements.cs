@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNetCore;
 
 namespace Iit.Fibertest.RtuMngr
@@ -9,7 +8,7 @@ namespace Iit.Fibertest.RtuMngr
         public async Task<RequestAnswer> StartOutOfTurnMeasurement(DoOutOfTurnPreciseMeasurementDto dto)
         {
             await BreakMonitoringCycle("Out of turn precise measurement");
-            if (!_config.Value.Monitoring.IsMonitoringOnPersisted)
+            if (!await GetIsMonitoringOn())
                 await ConnectOtdrWithRecovering();
             var _ = Task.Run(() => DoOutOfTurn(dto));
 
@@ -34,7 +33,7 @@ namespace Iit.Fibertest.RtuMngr
                 monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
             }
 
-            if (_config.Value.Monitoring.IsMonitoringOnPersisted)
+            if (await GetIsMonitoringOn())
             {
                 IsMonitoringOn = true;
                 await RunMonitoringCycle();
@@ -49,7 +48,7 @@ namespace Iit.Fibertest.RtuMngr
 
             await BreakMonitoringCycle(dto.IsForAutoBase ? "Auto base measurement" : "Measurement (Client)");
 
-            if (!(_config.Value.Monitoring.KeepOtdrConnection || _config.Value.Monitoring.IsMonitoringOnPersisted))
+            if (!(_config.Value.Monitoring.KeepOtdrConnection || await GetIsMonitoringOn()))
             {
                 await ConnectOtdrWithRecovering();
             }
@@ -57,12 +56,11 @@ namespace Iit.Fibertest.RtuMngr
             _config.Update(c => c.Monitoring.KeepOtdrConnection = dto.KeepOtdrConnection);
             if (dto.IsForAutoBase)
             {
-                _config.Update(c => c.Monitoring.IsAutoBaseMeasurementInProgress = true);
-                _config.Update(c => c.Monitoring.LastMeasurementTimestamp =
-                    DateTime.Now.ToString(CultureInfo.CurrentCulture));
+                await UpdateIsAutoBaseMeasurementInProgress(true);
+                await PersistLastAutoBaseTime();
             }
 
-            await MeasureWrapped(dto); 
+            await MeasureWrapped(dto);
         }
 
         private async Task MeasureWrapped(DoClientMeasurementDto dto)
@@ -78,11 +76,11 @@ namespace Iit.Fibertest.RtuMngr
 
             if (dto.IsForAutoBase)
             {
-                _config.Update(c => c.Monitoring.IsAutoBaseMeasurementInProgress = false);
+                await UpdateIsAutoBaseMeasurementInProgress(false);
             }
             _logger.Info(Logs.RtuManager);
 
-            if (_config.Value.Monitoring.IsMonitoringOnPersisted)
+            if (await GetIsMonitoringOn())
             {
                 IsMonitoringOn = true;
                 //_wasMonitoringOn = false;

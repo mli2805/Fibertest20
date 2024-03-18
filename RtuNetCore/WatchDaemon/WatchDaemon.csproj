@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <AssemblyName>Iit.Fibertest.WatchDaemon</AssemblyName>
+    <RootNamespace>Iit.Fibertest.WatchDaemon</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RtuMngr\RtuMngr.csproj" />
+    <ProjectReference Include="..\UtilsNetCore\UtilsNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

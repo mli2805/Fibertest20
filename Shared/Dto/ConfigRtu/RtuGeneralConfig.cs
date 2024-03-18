@@ -4,7 +4,7 @@ namespace Iit.Fibertest.Dto
 {
     public class RtuGeneralConfig
     {
-        public int RtuHeartbeatRate { get; set; } = 30;
+        // public int RtuHeartbeatRate { get; set; } = 30;
 
         public DoubleAddress ServerAddress { get; set; } = new DoubleAddress();
         public Guid RtuId { get; set; }
@@ -16,8 +16,8 @@ namespace Iit.Fibertest.Dto
 
         public string LogEventLevel { get; set; } = "Information";
 
-        public int RtuPauseAfterReboot { get; set; } = 20;
-        public int RtuUpTimeForAdditionalPause { get; set; } = 100;
+        // public int RtuPauseAfterReboot { get; set; } = 20;
+        // public int RtuUpTimeForAdditionalPause { get; set; } = 100;
 
     }
 }

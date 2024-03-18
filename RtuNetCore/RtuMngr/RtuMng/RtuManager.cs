@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNetCore;
 using Microsoft.Extensions.Logging;
 
@@ -35,7 +34,7 @@ public partial class RtuManager
     // or Recovery asks Initialization
     private CancellationTokenSource? _rtuManagerCts;
 
-    public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new();
+    // public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new();
 
     // private bool _wasMonitoringOn;
     public bool IsMonitoringOn;

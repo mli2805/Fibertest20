@@ -5,8 +5,7 @@ using Iit.Fibertest.UtilsNetCore;
 
 namespace Iit.Fibertest.RtuDaemon;
 
-public class MonitoringService(IWritableConfig<RtuConfig> config, ILogger<MonitoringService> logger,
-        RtuManager rtuManager)
+public class MonitoringService(ILogger<MonitoringService> logger, RtuManager rtuManager)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,10 +21,10 @@ public class MonitoringService(IWritableConfig<RtuConfig> config, ILogger<Monito
     private async Task DoWork(CancellationToken stoppingToken)
     {
         rtuManager.RtuServiceCancellationToken = stoppingToken;
-        var result = await rtuManager.InitializeRtu(null, !config.Value.Monitoring.IsMonitoringOnPersisted);
+        var result = await rtuManager.InitializeRtu(null, !(await rtuManager.GetIsMonitoringOn()));
         if (result.ReturnCode != ReturnCode.RtuInitializedSuccessfully)
             return;
-        if (config.Value.Monitoring.IsMonitoringOnPersisted)
+        if (await rtuManager.GetIsMonitoringOn())
             await rtuManager.RunMonitoringCycle();
     }
 }
