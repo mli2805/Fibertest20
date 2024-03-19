@@ -1,26 +1,11 @@
 ﻿using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Serilog.Events;
 
 namespace Iit.Fibertest.UtilsNetCore
 {
     public static class WebApplicationBuilderExt
     {
-        public static LogEventLevel GetLogEventLevelFromAppSettingJson(this WebApplicationBuilder builder)
-        {
-            var configurationBuilder = new ConfigurationBuilder()
-                .SetBasePath(builder.Environment.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-            var configurationRoot = configurationBuilder.Build();
-            var logLevel =  configurationRoot.GetSection("Logging:LogLevel:Default").Value ?? "Information";
-            if (!Enum.TryParse(logLevel, true, out LogEventLevel logEventLevel))
-                logEventLevel = LogEventLevel.Information;
-            return logEventLevel;
-        }
-
         public static void SetCurrentDirectoryAndCreateDataDirectory(this WebApplicationBuilder builder)
         {
             if (builder.Environment.IsEnvironment("Test"))

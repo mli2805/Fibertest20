@@ -28,8 +28,7 @@ public class Program
         builder.Services
             .AddDependencyGroup();
 
-        var logEventLevel = builder.GetLogEventLevelFromAppSettingJson();
-        var logger = LoggerConfigurationFactory.Configure(logEventLevel).CreateLogger();
+        var logger = builder.ConfigureLogger().CreateLogger();
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
 

@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using Iit.Fibertest.UtilsLib;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
@@ -31,49 +33,61 @@ public static class LogsExt
 /// </summary>
 public static class LoggerConfigurationFactory
 {
-    public static LoggerConfiguration Configure(LogEventLevel level)
+    public static LoggerConfiguration ConfigureLogger(this WebApplicationBuilder builder)
     {
+        var configurationBuilder = new ConfigurationBuilder()
+            .SetBasePath(builder.Environment.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+        var configurationRoot = configurationBuilder.Build();
+        var logLevel =  configurationRoot.GetSection("Logging:LogLevel:Default").Value ?? "Information";
+        if (!Enum.TryParse(logLevel, true, out LogEventLevel logEventLevel))
+            logEventLevel = LogEventLevel.Information;
+        var rollingIntervalStr = configurationRoot.GetSection("Logging:RollingInterval:Default").Value ?? "Day";
+        if (!Enum.TryParse(rollingIntervalStr, true, out RollingInterval rollingInterval))
+            rollingInterval = RollingInterval.Day;
+
         var logFolder = Path.Combine(FileOperations.GetMainFolder(), @"log");
 
         var template = "[{Timestamp:ddMMM HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
         var loggerConfiguration = new LoggerConfiguration()
-            .MinimumLevel.Is(level)
+            .MinimumLevel.Is(logEventLevel)
             .Enrich.FromLogContext()
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.Client.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "cl-.log"), outputTemplate: template,
-                    rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.DataCenter.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "dc-.log"), outputTemplate: template,
-                    rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.SnmpTraps.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "trap-.log"), outputTemplate: template,
-                    rollingInterval: RollingInterval.Day, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuService.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "srv-.log"), outputTemplate: template,
                     retainedFileCountLimit: 2,
-                    rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuManager.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "mng-.log"), outputTemplate: template,
                     // fileSizeLimitBytes: 200_000_000, rollOnFileSizeLimit: true, 
                     retainedFileCountLimit: 2,
-                    rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.WatchDog.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "wd-.log"), outputTemplate: template,
                     // fileSizeLimitBytes: 200_000_000, rollOnFileSizeLimit: true, 
                     retainedFileCountLimit: 2,
-                    rollingInterval: RollingInterval.Month, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             ;
 
         if (Debugger.IsAttached)
