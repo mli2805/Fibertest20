@@ -88,6 +88,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             _rtuOccupations.TrySetOccupation(dto.RtuId, RtuOccupation.None, _trapSenderUser, out RtuOccupationState _);
 
+            // it is not a RtuAccident, it is Measurement
             if ((dto.Reason ^ ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged) != 0)
             {
                 _logFile.AppendLine($"Monitoring result for trace {dto.PortWithTrace.TraceId}");
@@ -96,22 +97,31 @@ namespace Iit.Fibertest.DataCenterCore
                     await SaveEventFromDto(dto, sorId);
             }
 
+            // it is a RtuAccident
             if ((dto.Reason & ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged) != 0)
             {
                 // if dto.ReturnCode != ReturnCode.MeasurementEndedNormally - it is an accident
                 // if dto.ReturnCode == ReturnCode.MeasurementEndedNormally - restored after accident
-                var accident = await SaveRtuAccident(dto);
+                var accident = await SaveRtuAccidentIfNeeded(dto);
+                if (accident == null) return;
                 var unused = Task.Factory.StartNew(() => SendNotificationsAboutRtuStatusEvents(accident));
             }
-
         }
 
-        private async Task<RtuAccident> SaveRtuAccident(MonitoringResultDto dto)
+        
+        private async Task<RtuAccident> SaveRtuAccidentIfNeeded(MonitoringResultDto dto)
         {
+            // RTU initialization cleans RtuAccidents for RTU on server and in RTU queue
+            // but let's check once more when RTU sends 'Good' RtuAccident that in DB there is a problem for this trace
+            var lastAccident = _writeModel.RtuAccidents.LastOrDefault(a => a.TraceId == dto.PortWithTrace.TraceId);
+            if (dto.ReturnCode == ReturnCode.MeasurementEndedNormally
+                && (lastAccident == null || lastAccident.IsGoodAccident))
+                return null;
+
             var addRtuAccident = _measurementFactory.CreateRtuAccidentCommand(dto);
             var result = await _eventStoreService.SendCommand(addRtuAccident, "system", "OnServer");
             if (result != null)
-                _logFile.AppendLine($"SaveRtuAccident {result}");
+                _logFile.AppendLine($"SaveRtuAccidentIfNeeded {result}");
 
             var accident = _writeModel.RtuAccidents.Last();
             await _ftSignalRClient.NotifyAll("AddAccident", accident.ToCamelCaseJson());
