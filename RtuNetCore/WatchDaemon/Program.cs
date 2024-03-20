@@ -1,3 +1,4 @@
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuMngr;
 using Iit.Fibertest.UtilsNetCore;
 using Serilog;
@@ -14,7 +15,10 @@ public class Program
         builder.Services
             .AddDependencyGroup();
 
-        var logger = builder.ConfigureLogger().CreateLogger();
+        var wdConfig = ConfigUtils.GetConfigManually<WatchDogConfig>("rtu.json");
+        var logger = LoggerConfigurationFactory
+            .ConfigureLogger(wdConfig.LogLevelMinimum, wdConfig.LogRollingInterval)
+            .CreateLogger();
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
 

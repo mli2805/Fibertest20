@@ -28,7 +28,10 @@ public class Program
         builder.Services
             .AddDependencyGroup();
 
-        var logger = builder.ConfigureLogger().CreateLogger();
+        var rtuConfig = ConfigUtils.GetConfigManually<RtuConfig>("rtu.json");
+        var logger = LoggerConfigurationFactory
+            .ConfigureLogger(rtuConfig.General.LogLevelMinimum, rtuConfig.General.LogRollingInterval)
+            .CreateLogger();
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
 
