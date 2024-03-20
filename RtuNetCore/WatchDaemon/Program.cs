@@ -15,7 +15,7 @@ public class Program
         builder.Services
             .AddDependencyGroup();
 
-        var wdConfig = ConfigUtils.GetConfigManually<WatchDogConfig>("rtu.json");
+        var wdConfig = ConfigUtils.GetConfigManually<WatchDogConfig>("wd.json");
         var logger = LoggerConfigurationFactory
             .ConfigureLogger(wdConfig.LogLevelMinimum, wdConfig.LogRollingInterval)
             .CreateLogger();

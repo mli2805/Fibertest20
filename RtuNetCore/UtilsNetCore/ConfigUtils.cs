@@ -36,7 +36,7 @@ public static class ConfigUtils
             return new T();
 
         var content = File.ReadAllText(configFile);
-        object? o = JsonConvert.DeserializeObject(content);
-        return o != null ? (T)o : new T();
+        T? o = JsonConvert.DeserializeObject<T>(content);
+        return o != null ? o : new T();
     }
 }

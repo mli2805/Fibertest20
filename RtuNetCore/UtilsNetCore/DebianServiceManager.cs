@@ -44,7 +44,9 @@ public class DebianServiceManager(ILogger<DebianServiceManager> logger)
     {
         try
         {
-            string shCommand = $"/usr/sbin/service {serviceName} {command} ";
+            // string shCommand = $"/usr/sbin/service {serviceName} {command} ";
+            string shCommand = $"/usr/bin/systemctl {command} {serviceName} "; // faster?
+            logger.Info(Logs.WatchDog, shCommand);
             return shCommand.ExecuteCommandLine();
         }
         catch (Exception e)
