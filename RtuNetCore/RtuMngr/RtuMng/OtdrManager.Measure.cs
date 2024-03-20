@@ -9,7 +9,7 @@ namespace Iit.Fibertest.RtuMngr
     {
         public ReturnCode MeasureWithBase(CancellationToken[] tokens, byte[] buffer, Charon? bopCharonToShowPortOnDisplay)
         {
-            var result = ReturnCode.Error;
+            var result = ReturnCode.MeasurementFailedToSetParametersFromBase;
 
             // allocate memory inside c++ library
             // put there base sor data

@@ -257,6 +257,7 @@ public partial class RtuManager
 
         var result = _otdrManager
             .MeasureWithBase(tokens, baseBytes, _mainCharon.GetActiveChildCharon());
+        _logger.Debug(Logs.RtuManager, $"MeasureWithBase returned {result}");
 
         switch (result)
         {
