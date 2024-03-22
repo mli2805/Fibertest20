@@ -24,7 +24,7 @@ public class CommandProcessor(ILogger<CommandProcessor> logger, IWritableConfig<
             case InitializeRtuDto dto:
                 if (rtuManager.InitializationResult == null)
                     return new RequestAnswer(ReturnCode.RtuInitializationInProgress);
-                Task.Factory.StartNew(() => rtuManager.InitializeRtu(dto, false));
+                Task.Factory.StartNew(() => rtuManager.InitializeWrapper(dto, false));
                 return new RtuInitializedDto(ReturnCode.InProgress) { Version = rtuManager.Version };
             case AssignBaseRefsDto dto:
                 return rtuManager.SaveBaseRefs(dto);

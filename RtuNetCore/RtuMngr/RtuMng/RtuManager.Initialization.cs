@@ -8,6 +8,15 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
+    public async Task<RtuInitializedDto> InitializeWrapper(InitializeRtuDto? dto, bool disconnectOtdr)
+    {
+        var result = await InitializeRtu(dto, disconnectOtdr);
+        if (result.IsInitialized) return result;
+
+        while (await RunMainCharonRecovery() != ReturnCode.Ok) { }
+        return await InitializeRtu(dto, disconnectOtdr);
+    }
+
     public async Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto? dto, bool disconnectOtdr)
     {
         // prohibit to send heartbeats

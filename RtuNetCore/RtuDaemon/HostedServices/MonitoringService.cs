@@ -23,7 +23,9 @@ public class MonitoringService(ILogger<MonitoringService> logger, RtuManager rtu
         rtuManager.RtuServiceCancellationToken = stoppingToken;
         var result = await rtuManager.InitializeRtu(null, !(await rtuManager.GetIsMonitoringOn()));
         if (result.ReturnCode != ReturnCode.RtuInitializedSuccessfully)
-            return;
+        {
+            while (await rtuManager.RunMainCharonRecovery() != ReturnCode.Ok) { }
+        }
         if (await rtuManager.GetIsMonitoringOn())
             await rtuManager.RunMonitoringCycle();
     }

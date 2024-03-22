@@ -7,7 +7,7 @@ public partial class RtuManager
 {
     private TimeSpan _mikrotikRebootTimeout;
 
-    private async Task<ReturnCode> RunMainCharonRecovery()
+    public async Task<ReturnCode> RunMainCharonRecovery()
     {
         _mikrotikRebootTimeout = TimeSpan.FromSeconds(_config.Value.Recovery.MikrotikRebootTimeout);
         var previousStep = _config.Value.Recovery.RecoveryStep;

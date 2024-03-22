@@ -7,6 +7,13 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <AssemblyName>Iit.Fibertest.WatchDaemon</AssemblyName>
     <RootNamespace>Iit.Fibertest.WatchDaemon</RootNamespace>
+	  <Title>RTU Daemon</Title>
+	  <Company>IIT</Company>
+	  <Product>RTU Daemon</Product>
+	  <Description>RTU Daemon Description</Description>
+	  <Version>2.5.0.1</Version>
+	  <Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
+	  <Authors>Leanid Marholin</Authors>
   </PropertyGroup>
 
   <ItemGroup>
