@@ -177,7 +177,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_RTU_initialized_and_base_refs_transferred_successfully;
                 case ReturnCode.RtuInitializedFailedToReSendBaseRefs:
                     return Resources.SID_RTU_initialized_but_failed_to_send_base_refs;
-
+                case ReturnCode.FailedToApplyMonitoringSettings:
+                    return Resources.SID_Failed_to_apply_monitoring_settings;
 
                 // 9000
                 case ReturnCode.ClientRegisteredSuccessfully:

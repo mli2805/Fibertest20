@@ -3647,6 +3647,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to apply monitoring settings.
+        /// </summary>
+        public static string SID_Failed_to_apply_monitoring_settings {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_apply_monitoring_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to apply monitoring settings!.
         /// </summary>
         public static string SID_Failed_to_apply_monitoring_settings_ {

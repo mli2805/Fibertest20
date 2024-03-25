@@ -159,9 +159,9 @@ namespace Iit.Fibertest.Client
                 RtuMaker = rtuLeaf.RtuMaker,
                 Timespans = new MonitoringTimespansDto()
                 {
-                    FastSave = TimeSpan.FromHours((int)rtu.FastSave),
-                    PreciseMeas = TimeSpan.FromHours((int)rtu.PreciseMeas),
-                    PreciseSave = TimeSpan.FromHours((int)rtu.PreciseSave),
+                    FastSave = rtu.FastSave.GetTimeSpan(),
+                    PreciseMeas = rtu.PreciseMeas.GetTimeSpan(),
+                    PreciseSave = rtu.PreciseSave.GetTimeSpan(),
                 },
                 Ports = CollectTracesInMonitoringCycle(rtuLeaf, true, rtu.MainVeexOtau.id, 1),
             };

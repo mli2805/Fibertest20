@@ -3743,4 +3743,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Error_during_Datacenter_to_RTU_http_connection" xml:space="preserve">
 		<value>Ошибка во время http соединения Датацентр-RTU</value>
 	</data>
+	<data name="SID_Failed_to_apply_monitoring_settings" xml:space="preserve">
+		<value>Не удалось применить настройки мониторинга</value>
+	</data>
 </root>
