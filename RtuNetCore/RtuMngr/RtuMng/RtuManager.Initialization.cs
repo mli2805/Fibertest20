@@ -19,9 +19,6 @@ public partial class RtuManager
 
     public async Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto? dto, bool disconnectOtdr)
     {
-        // prohibit to send heartbeats
-        // ShouldSendHeartbeat.TryDequeue(out _);
-
         if (IsMonitoringOn)
         {
             await BreakMonitoringCycle("Initialization");
@@ -68,17 +65,12 @@ public partial class RtuManager
         _treeOfAcceptableMeasParams = _interOpWrapper.GetTreeOfAcceptableMeasParams();
         result2.AcceptableMeasParams = _treeOfAcceptableMeasParams;
 
-        //IsRtuInitialized = true;
         InitializationResult = new InitializationResult(result2);
         _logger.Info(Logs.RtuManager, "RTU initialized successfully!");
 
-        // await _monitoringQueue.Load();
         EvaluateFrequencies();
 
         _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
-
-        // permit to send heartbeats
-        // ShouldSendHeartbeat.Enqueue(new object());
 
         IsMonitoringOn = await GetIsMonitoringOn();
         if (disconnectOtdr)

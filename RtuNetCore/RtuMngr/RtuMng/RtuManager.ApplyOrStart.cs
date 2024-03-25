@@ -7,8 +7,6 @@ public partial class RtuManager
 {
     public async Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
     {
-        //var isMonitoringModeChanged = IsMonitoringOn != dto.IsMonitoringOn;
-
         if (dto.IsMonitoringOn)
         {
             // user received InProgress and will start polling RTU and should wait until new initialization will be done
@@ -21,9 +19,10 @@ public partial class RtuManager
             _otdrManager.DisconnectOtdr();
         }
 
-        await UpdateIsMonitoringOn(dto.IsMonitoringOn);
+        if (!dto.IsMonitoringOn)
+            await UpdateIsMonitoringOn(dto.IsMonitoringOn);
         SaveNewFrequenciesInConfig(dto.Timespans);
-        var count = await CreateNewQueue(dto.Ports); 
+        var count = await CreateNewQueue(dto.Ports);
         _logger.Info(Logs.RtuManager, $"Queue merged. {count} port(s) in queue");
 
         if (dto.IsMonitoringOn)
@@ -51,9 +50,6 @@ public partial class RtuManager
 
         await UpdateIsMonitoringOn(true);
         IsMonitoringOn = true;
-
-        //if (isMonitoringModeChanged)
-        //    _monitoringQueue.RaiseMonitoringModeChangedFlag();
 
         _logger.EmptyAndLog(Logs.RtuManager, "RTU is turned into AUTOMATIC mode.");
 
