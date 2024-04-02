@@ -3,6 +3,7 @@
 
     public class RtuConfig
     {
+        public LogConfig Logging { get; set; } = new LogConfig();
         public RtuGeneralConfig General { get; set; } = new RtuGeneralConfig();
         public MonitoringConfig Monitoring { get; set; } = new MonitoringConfig();
         public CharonConfig Charon { get; set; } = new CharonConfig();

@@ -27,16 +27,4 @@ public static class ConfigUtils
         if (config == null) return;
         File.WriteAllText(filename, JsonConvert.SerializeObject(config));
     }
-
-    public static T GetConfigManually<T>(string fileName) where T : new()
-    {
-        var configFolder = Path.Combine(FileOperations.GetMainFolder(), "config");
-        var configFile = Path.Combine(configFolder, fileName);
-        if (!Directory.Exists(configFolder) || !File.Exists(configFile))
-            return new T();
-
-        var content = File.ReadAllText(configFile);
-        T? o = JsonConvert.DeserializeObject<T>(content);
-        return o != null ? o : new T();
-    }
 }

@@ -15,9 +15,10 @@ public class Program
         builder.Services
             .AddDependencyGroup();
 
-        var wdConfig = ConfigUtils.GetConfigManually<WatchDogConfig>("wd.json");
+        var wdConfig = new WritableConfig<WatchDogConfig>("wd.json");
         var logger = LoggerConfigurationFactory
-            .ConfigureLogger(wdConfig.LogLevelMinimum, wdConfig.LogRollingInterval)
+            .ConfigureLogger(wdConfig.Value.Logging.LogLevelMinimum, 
+                wdConfig.Value.Logging.LogRollingSizeKb, wdConfig.Value.Logging.LogFileCount)
             .CreateLogger();
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);

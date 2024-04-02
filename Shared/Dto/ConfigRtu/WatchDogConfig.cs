@@ -2,8 +2,7 @@
 {
     public class WatchDogConfig
     {
-        public string LogLevelMinimum { get; set; } = "Information";
-        public string LogRollingInterval { get; set; } = "Month";
+        public LogConfig Logging { get; set; } = new LogConfig();
         
         public string RtuDaemonExecutiveName { get; set; } = "Iit.Fibertest.RtuDaemon";
         public string RtuDaemonName { get; set; } = "rtu";

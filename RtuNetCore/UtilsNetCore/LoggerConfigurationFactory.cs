@@ -31,14 +31,14 @@ public static class LogsExt
 /// </summary>
 public static class LoggerConfigurationFactory
 {
-    public static LoggerConfiguration ConfigureLogger(string logLevel, string interval)
+    public static LoggerConfiguration ConfigureLogger(string logLevel, long rollingSize, int fileCountLimit)
     {
         if (!Enum.TryParse(logLevel, true, out LogEventLevel logEventLevel))
             logEventLevel = LogEventLevel.Information;
-        if (!Enum.TryParse(interval, true, out RollingInterval rollingInterval))
-            rollingInterval = RollingInterval.Day;
+        // if (!Enum.TryParse(interval, true, out RollingInterval rollingInterval))
+        //     rollingInterval = RollingInterval.Day;
 
-        var fileCountLimit = rollingInterval == RollingInterval.Day ? 31 : 2;
+        // var fileCountLimit = rollingInterval == RollingInterval.Day ? 31 : 2;
 
         var logFolder = Path.Combine(FileOperations.GetMainFolder(), "log");
 
@@ -50,37 +50,40 @@ public static class LoggerConfigurationFactory
                 .Filter.ByIncludingOnly(WithEventId(Logs.Client.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "cl-.log"), outputTemplate: template,
-                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
+                    flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.DataCenter.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "dc-.log"), outputTemplate: template,
-                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
+                    flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.SnmpTraps.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "trap-.log"), outputTemplate: template,
-                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
+                    flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuService.ToInt()))
                 .WriteTo
                 .File(Path.Combine(logFolder, "srv-.log"), outputTemplate: template,
-                    retainedFileCountLimit: fileCountLimit,
-                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
+                    retainedFileCountLimit: fileCountLimit, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuManager.ToInt()))
                 .WriteTo
-                .File(Path.Combine(logFolder, "mng-.log"), outputTemplate: template,
-                    // fileSizeLimitBytes: 200_000_000, rollOnFileSizeLimit: true, 
+                .PersistentFile(Path.Combine(logFolder, "mng.log"), outputTemplate: template,
+                    fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
                     retainedFileCountLimit: fileCountLimit,
-                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                    // rollingInterval: rollingInterval, 
+                    flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.WatchDog.ToInt()))
                 .WriteTo
-                .File(Path.Combine(logFolder, "wd-.log"), outputTemplate: template,
-                    // fileSizeLimitBytes: 200_000_000, rollOnFileSizeLimit: true, 
-                    retainedFileCountLimit: fileCountLimit,
-                    rollingInterval: rollingInterval, flushToDiskInterval: TimeSpan.FromSeconds(1)))
+                .File(Path.Combine(logFolder, "wd.log"), outputTemplate: template,
+                    fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
+                    retainedFileCountLimit: fileCountLimit, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             ;
 
         if (Debugger.IsAttached)

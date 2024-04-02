@@ -62,6 +62,7 @@
     <Compile Include="C2D\GetSnapshotDto.cs" />
     <Compile Include="C2D\HeartbeatDto.cs" />
     <Compile Include="ConfigRtu\CharonConfig.cs" />
+    <Compile Include="ConfigRtu\LogConfig.cs" />
     <Compile Include="ConfigRtu\MonitoringConfig.cs" />
     <Compile Include="ConfigRtu\RecoveryConfig.cs" />
     <Compile Include="ConfigRtu\RtuConfig.cs" />

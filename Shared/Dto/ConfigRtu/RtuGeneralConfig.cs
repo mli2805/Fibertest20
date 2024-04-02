@@ -4,9 +4,6 @@ namespace Iit.Fibertest.Dto
 {
     public class RtuGeneralConfig
     {
-        public string LogLevelMinimum { get; set; } = "Information";
-        public string LogRollingInterval { get; set; } = "Month";
-
         public DoubleAddress ServerAddress { get; set; } = new DoubleAddress();
         public Guid RtuId { get; set; }
         public int PreviousOwnPortCount { get; set; } = -1;
