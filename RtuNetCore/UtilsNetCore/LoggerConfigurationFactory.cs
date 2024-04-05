@@ -49,25 +49,25 @@ public static class LoggerConfigurationFactory
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.Client.ToInt()))
                 .WriteTo
-                .File(Path.Combine(logFolder, "cl-.log"), outputTemplate: template,
+                .File(Path.Combine(logFolder, "cl.log"), outputTemplate: template,
                     fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
                     flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.DataCenter.ToInt()))
                 .WriteTo
-                .File(Path.Combine(logFolder, "dc-.log"), outputTemplate: template,
+                .File(Path.Combine(logFolder, "dc.log"), outputTemplate: template,
                     fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
                     flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.SnmpTraps.ToInt()))
                 .WriteTo
-                .File(Path.Combine(logFolder, "trap-.log"), outputTemplate: template,
+                .File(Path.Combine(logFolder, "trap.log"), outputTemplate: template,
                     fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
                     flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc
                 .Filter.ByIncludingOnly(WithEventId(Logs.RtuService.ToInt()))
                 .WriteTo
-                .File(Path.Combine(logFolder, "srv-.log"), outputTemplate: template,
+                .File(Path.Combine(logFolder, "srv.log"), outputTemplate: template,
                     fileSizeLimitBytes: rollingSize * 1024, rollOnFileSizeLimit: true, 
                     retainedFileCountLimit: fileCountLimit, flushToDiskInterval: TimeSpan.FromSeconds(1)))
             .WriteTo.Logger(cc => cc

@@ -1,10 +1,11 @@
 using System.Diagnostics;
 using System.Reflection;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsNetCore;
 
 namespace Iit.Fibertest.RtuDaemon;
 
-public sealed class Boot(ILogger<Boot> logger) : IHostedService
+public sealed class Boot(IWritableConfig<RtuConfig> config, ILogger<Boot> logger) : IHostedService
 {
     // Place here all that should be done before start listening to gRPC & Http requests, background workers, etc.
     public Task StartAsync(CancellationToken cancellationToken)
@@ -12,6 +13,7 @@ public sealed class Boot(ILogger<Boot> logger) : IHostedService
         var assembly = Assembly.GetExecutingAssembly();
         FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
 
+        config.Update(v => v.General.Version = info.FileVersion);
         logger.StartLine(Logs.RtuService);
         logger.StartLine(Logs.RtuManager);
         logger.Info(Logs.RtuService, $"Fibertest RTU service {info.FileVersion}");
