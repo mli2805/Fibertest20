@@ -104,7 +104,7 @@ namespace Iit.Fibertest.DataCenterService
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
             _logFile.AppendLine($"Current UI culture is {Thread.CurrentThread.CurrentUICulture}");
 
-           
+
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             // for clean installation it would set "previous" version the same as current
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.DataCenterService
             _serverParameterizer.Init();
             _ftSignalRClient.Initialize();
             await InitializeEventStoreService();
-            foreach (var rtu in _writeModel.Rtus.Where(r=>r.IsInitialized && r.RtuMaker == RtuMaker.VeEX))
+            foreach (var rtu in _writeModel.Rtus.Where(r => r.IsInitialized && r.RtuMaker == RtuMaker.VeEX))
             {
                 _veexRtuAuthorizationDict.Dict.Add(rtu.MainChannel.GetVeexRtuUriHost(), new VeexRtuAuthorizationData()
                 {
@@ -143,7 +143,9 @@ namespace Iit.Fibertest.DataCenterService
             _veexCompletedTestsProcessorThread.Start();
             _rtuLinuxPollsterThread.Start();
             _smsSender.Start();
-            _snmpTrapListener.Start();
+            var isSnmpListenerOn = IniFile.Read(IniSection.SnmpListener, IniKey.IsSnmpListenerOn, false);
+            if (isSnmpListenerOn)
+                _snmpTrapListener.Start();
             _outOfTurnProcessor.Start();
         }
 

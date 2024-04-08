@@ -135,6 +135,9 @@
         EnterpriseOid,
         SnmpEncoding,
 
+        // SnmpListener (PON) 
+        IsSnmpListenerOn,
+
         // Map
         Zoom,
         CenterLatitude,
