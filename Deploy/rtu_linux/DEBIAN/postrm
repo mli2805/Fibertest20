@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+systemctl daemon-reload
+sleep 1s
+
+echo "   !!!!Uninstall completed!!!!Удаление завершено!!!!"
+echo
