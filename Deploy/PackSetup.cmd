@@ -51,24 +51,15 @@ cd Pack\
 del RftsReflect.zip
 cd ..\
 
-
-xcopy /E/D/Y ..\RtuNetCore\WatchDaemon\bin\Release\net8.0\linux-x64\publish\*.* PackLinuxRtu\
-xcopy /E/D/Y ..\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\publish\*.* PackLinuxRtu\
-
-curl --user mli:iNansIM6Y8Uq http://192.168.96.4:8989/job/linux-projects/job/OtdrMeasEngine-Fibertest-linux64/pinned-for-ft30/artifact/otdrmeasengine.tar.gz --output PackLinuxRtu\otdrmeasengine.tar.gz
-
-cd PackLinuxRtu
-mkdir OtdrMeasEngine
-tar -xzf otdrmeasengine.tar.gz -C OtdrMeasEngine\
-del otdrmeasengine.tar.gz
-cd ..
+CollectLinuxRtu.cmd
 
 rem both installers need RftsReflect
 xcopy Pack\RftsReflect\*.* PackRtu\RftsReflect\*.* /S/D/Y
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackRtuSetup.conf" FtRtu_%1.exe PackRtu\*.*
-tar -C PackLinuxRtu -czf ftlinux_%1.tar.gz .
+
+rem tar -C PackLinuxRtu -czf ftlinux_%1.tar.gz .
 
 rem additional archive with administrative tools
 
