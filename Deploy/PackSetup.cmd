@@ -7,6 +7,7 @@ rmdir /S/Q PackAdmin\
 rmdir /S/Q PackLinuxRtu\
 del Ft*.exe
 del Ft*.zip
+del Ft*.deb
 del ftlinux*.tar.gz
 
 chcp 65001
