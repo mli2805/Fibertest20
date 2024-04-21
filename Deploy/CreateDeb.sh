@@ -1,4 +1,4 @@
 #!/bin/bash
-dpkg-deb --build "./rtu_linux" "./rtulinux_$1.deb"
-chmod -R 777 "./rtulinux_$1.deb"
-
+chmod -R 755 "./rtu_linux"
+dpkg-deb --build "./rtu_linux" "./FtRtuLinux_${Version}.deb"
+chmod -R 777 "./FtRtuLinux_${Version}.deb"
