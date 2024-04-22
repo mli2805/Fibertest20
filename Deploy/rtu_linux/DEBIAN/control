@@ -1,0 +1,7 @@
+Package: rtu
+Version: 2.5.0.1476
+Maintainer: IIT
+Description: The RTUmanager for rtulinux, Fibertest 3.0
+Priority: important
+Architecture: amd64
+Installed-Size: 25
