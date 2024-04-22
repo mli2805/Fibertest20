@@ -5,6 +5,9 @@ rmdir /S/Q Pack\
 rmdir /S/Q PackRtu\
 rmdir /S/Q PackAdmin\
 rmdir /S/Q PackLinuxRtu\
+rem do not remove all rtu_linux folder, it contains special files to create DEB file
+del /S/Q rtu_linux\var\fibertest\bin\*.*
+rmdir /S/Q rtu_linux\var\fibertest\bin\OtdrMeasEngine
 del Ft*.exe
 del Ft*.zip
 del Ft*.deb
@@ -52,7 +55,17 @@ cd Pack\
 del RftsReflect.zip
 cd ..\
 
-CollectLinuxRtu.cmd
+rem collect Linux RTU part
+xcopy /E/D/Y ..\RtuNetCore\WatchDaemon\bin\Release\net8.0\linux-x64\publish\*.* rtu_linux\var\fibertest\bin\
+xcopy /E/D/Y ..\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\publish\*.* rtu_linux\var\fibertest\bin\
+
+rem OtdrMeasEngine compiled for Linux 
+curl --user mli:iNansIM6Y8Uq http://192.168.96.4:8989/job/linux-projects/job/OtdrMeasEngine-Fibertest-linux64/pinned-for-ft30/artifact/otdrmeasengine.tar.gz --output rtu_linux\var\fibertest\bin\otdrmeasengine.tar.gz
+cd rtu_linux\var\fibertest\bin\
+mkdir OtdrMeasEngine
+tar -xzf otdrmeasengine.tar.gz -C OtdrMeasEngine\
+del otdrmeasengine.tar.gz
+cd ../../../..
 
 rem both installers need RftsReflect
 xcopy Pack\RftsReflect\*.* PackRtu\RftsReflect\*.* /S/D/Y
