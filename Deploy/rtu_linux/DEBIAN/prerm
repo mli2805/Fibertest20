@@ -2,6 +2,7 @@
 
 set -e
 
+# rem
 echo
 systemctl stop watchdog.service
 sleep 3s

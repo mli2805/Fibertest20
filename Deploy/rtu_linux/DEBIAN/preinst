@@ -2,7 +2,7 @@
 
 set -e
 
-# если службы в данный момент работают их необходимо остановить
+# если службы в данный момент работают, то их необходимо остановить
 if systemctl is-active --quiet watchdog;
 then
 systemctl stop watchdog.service

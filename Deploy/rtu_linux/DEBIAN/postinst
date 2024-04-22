@@ -5,7 +5,7 @@ set -e
 chmod -R 777 /var/fibertest
 
 echo
-echo "   !!!!The Services are starting!!!!!!!!Службы запускаются!!!!"
+echo "   !!!!The services are starting!!!!!!!!Службы запускаются!!!!"
 echo
 
 systemctl enable watchdog
