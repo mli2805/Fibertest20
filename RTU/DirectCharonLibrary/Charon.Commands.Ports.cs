@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             {
                 var bopCharon = GetBopCharonWithLogging(serial);
                 if (bopCharon == null)
-                    return CharonOperationResult.LogicalError;
+                    return CharonOperationResult.AdditionalOtauError;
                 else
                 {
                     var result = ToggleMasterCharonToBopIfNeeded(bopCharon);
