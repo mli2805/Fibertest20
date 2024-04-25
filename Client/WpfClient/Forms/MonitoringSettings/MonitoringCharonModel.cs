@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
@@ -10,6 +11,7 @@ namespace Iit.Fibertest.Client
         public string OtauId { get; set; }
         public bool IsMainCharon { get; set; }
         public int MainCharonPort { get; set; }
+        public NetAddress CharonAddress { get; set; }
         public string Title { get; set; }
 
 

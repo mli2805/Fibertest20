@@ -62,6 +62,7 @@ namespace Iit.Fibertest.Client
             var rtu = _readModel.Rtus.First(r => r.Id == _rtuLeaf.Id);
             var mainCharonModel = new MonitoringCharonModel(_rtuLeaf.Serial)
             {
+                CharonAddress = new NetAddress(@"192.168.88.101", 23),
                 Title = _rtuLeaf.Title,
                 IsMainCharon = true,
                 OtauId = rtu.MainVeexOtau.id,
@@ -76,6 +77,7 @@ namespace Iit.Fibertest.Client
             var otau = _readModel.Otaus.First(o => o.Id == otauLeaf.Id);
             var bopCharonModel = new MonitoringCharonModel(otauLeaf.Serial)
             {
+                CharonAddress = otauLeaf.OtauNetAddress,
                 Title = otauLeaf.OtauNetAddress.ToStringA(),
                 IsMainCharon = false,
                 OtauId = otau.Id.ToString(),

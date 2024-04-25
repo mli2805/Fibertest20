@@ -12,6 +12,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public string CharonSerial { get; set; }
         public int OpticalPort { get; set; }
+        public NetAddress CharonAddress { get; set; }
         public Guid TraceId { get; set; }
 
         public DateTime LastPreciseMadeTimestamp { get; set; }
@@ -29,6 +30,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             CharonSerial = port.Serial;
             OpticalPort = port.OpticalPort;
+            CharonAddress = port.CharonAddress.Clone();
             TraceId = port.TraceId;
             IsPortOnMainCharon = port.IsPortOnMainCharon;
             LastTraceState = port.LastTraceState;
@@ -58,6 +60,7 @@ namespace Iit.Fibertest.RtuManagement
         public MonitoringPort(PortWithTraceDto port)
         {
             CharonSerial = port.OtauPort.Serial;
+            CharonAddress = port.OtauPort.NetAddress.Clone();
             OpticalPort = port.OtauPort.OpticalPort;
             IsPortOnMainCharon = port.OtauPort.IsPortOnMainCharon;
             TraceId = port.TraceId;

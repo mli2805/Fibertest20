@@ -41,6 +41,7 @@ namespace Iit.Fibertest.Client
                             OtauPort = new OtauPortDto
                             {
                                 IsPortOnMainCharon = charon.IsMainCharon,
+                                NetAddress = charon.CharonAddress.Clone(),
                                 Serial = charon.Serial,
                                 OpticalPort = port.PortNumber,
                                 OtauId = charon.OtauId,

@@ -7,6 +7,7 @@ namespace Iit.Fibertest.RtuManagement
     public class MonitoringPortOnDisk
     {
         public string Serial { get; set; }
+        public NetAddress CharonAddress { get; set; } = new NetAddress();
         public int OpticalPort { get; set; }
         public bool IsPortOnMainCharon { get; set; }
         public Guid TraceId { get; set; }
@@ -29,6 +30,7 @@ namespace Iit.Fibertest.RtuManagement
         public MonitoringPortOnDisk(MonitoringPort port)
         {
             Serial = port.CharonSerial;
+            CharonAddress = port.CharonAddress.Clone();
             OpticalPort = port.OpticalPort;
             IsPortOnMainCharon = port.IsPortOnMainCharon;
             TraceId = port.TraceId;

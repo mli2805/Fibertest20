@@ -81,7 +81,7 @@ namespace Iit.Fibertest.RtuManagement
             damagedOtau.RebootStarted = DateTime.Now;
             damagedOtau.RebootAttempts++;
 
-            var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 3);
+            var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 2);
             if (damagedOtau.RebootAttempts == mikrotikRebootAttemptsBeforeNotification)
                 SendByMsmq(new BopStateChangedDto()
                 {
