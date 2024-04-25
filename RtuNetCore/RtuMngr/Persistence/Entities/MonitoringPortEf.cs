@@ -10,7 +10,10 @@ public class MonitoringPortEf
 
     public string CharonSerial { get; set; } = null!;
     public int OpticalPort { get; set; }
-    public NetAddress CharonAddress { get; set; } = null!;
+    //
+    public string CharonIp { get; set; } = null!;
+    public int CharonTcpPort { get; set; }
+    //
     public Guid TraceId { get; set; }
 
     public DateTime LastPreciseMadeTimestamp { get; set; }

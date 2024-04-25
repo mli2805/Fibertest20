@@ -66,8 +66,6 @@ mkdir OtdrMeasEngine
 tar -xzf otdrmeasengine.tar.gz -C OtdrMeasEngine\
 del otdrmeasengine.tar.gz
 cd ../../../..
-
-tar -C PackLinuxRtu -czf ftlinux_%1.tar.gz .
 rem End of Linux RTU part (deb package will be created in docker)
 
 rem additional archive with administrative tools
