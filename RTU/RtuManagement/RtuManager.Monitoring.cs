@@ -443,24 +443,39 @@ namespace Iit.Fibertest.RtuManagement
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(MonitoringPort monitoringPort)
         {
-            var cha = monitoringPort.IsPortOnMainCharon ? 
-                _mainCharon 
+            var cha = monitoringPort.IsPortOnMainCharon
+                ? _mainCharon
                 : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
+
+            var damagedAddress = cha != null ? cha.NetAddress.Ip4Address : monitoringPort.CharonAddress.Ip4Address;
+
             // TCP port here is not important
-            DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == cha.NetAddress.Ip4Address);
+            DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == damagedAddress);
             if (damagedOtau != null)
             {
                 _rtuLog.AppendLine($"Port is on damaged BOP {damagedOtau.Ip}");
                 if (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout)
                 {
-                    _rtuLog.AppendLine($"Mikrotik {cha.NetAddress.Ip4Address} is rebooting, step to the next port");
+                    _rtuLog.AppendLine($"Mikrotik {damagedAddress} is rebooting, step to the next port");
                     return false;
                 }
                 else
                 {
-                    if (cha.OwnPortCount == 0)
-                        InitializeOtau();
+                    // этот чарон считается поломанным, был запущен reboot и пора проверить
+                    InitializeOtau();
+                    cha = monitoringPort.IsPortOnMainCharon
+                        ? _mainCharon
+                        : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
                 }
+            }
+            else if (cha == null)
+            {
+                // чарон не записан поломанным, и не найден в памяти по серийнику
+                damagedOtau = new DamagedOtau(monitoringPort.CharonAddress.Ip4Address,
+                    monitoringPort.CharonAddress.Port, "");
+                _damagedOtaus.Add(damagedOtau);
+                RunBopRecovery(damagedOtau);
+                return false;
             }
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Toggle, monitoringPort);
