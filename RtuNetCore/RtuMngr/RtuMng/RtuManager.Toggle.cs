@@ -10,25 +10,37 @@ public partial class RtuManager
     private async Task<bool> ToggleToPort(MonitoringPort monitoringPort)
     {
         var cha = monitoringPort.IsPortOnMainCharon
-            ? _mainCharon 
+            ? _mainCharon
             : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
 
-        if (cha == null) return false;
+        var damagedAddress = cha != null ? cha.NetAddress.Ip4Address : monitoringPort.CharonAddress.Ip4Address;
+
         // TCP port here is not important
-        var damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == cha.NetAddress.Ip4Address);
+        var damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == damagedAddress);
         if (damagedOtau != null)
         {
             _logger.Info(Logs.RtuManager, $"Port is on damaged BOP {damagedOtau.Ip}");
             if (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout)
             {
-                _logger.Info(Logs.RtuManager, $"Mikrotik {cha.NetAddress.Ip4Address} is rebooting, step to the next port");
+                _logger.Info(Logs.RtuManager, $"Mikrotik {damagedAddress} is rebooting, step to the next port");
                 return false;
             }
             else
             {
-                if (cha.OwnPortCount == 0)
-                    await InitializeOtau(new RtuInitializedDto());
+                await InitializeOtau(new RtuInitializedDto());
+                cha = monitoringPort.IsPortOnMainCharon
+                    ? _mainCharon
+                    : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
             }
+        }
+        else if (cha == null)
+        {
+            // чарон не записан поломанным, и не найден в памяти по серийнику
+            damagedOtau = new DamagedOtau(monitoringPort.CharonAddress.Ip4Address,
+                monitoringPort.CharonAddress.Port, "");
+            _damagedOtaus.Add(damagedOtau);
+            await RunAdditionalOtauRecovery(damagedOtau);
+            return false;
         }
 
         _currentStep = CreateStepDto(MonitoringCurrentStep.Toggle, monitoringPort);
@@ -41,7 +53,7 @@ public partial class RtuManager
                     _logger.Info(Logs.RtuManager, "Toggled Ok.");
                     // Here TCP port is important
                     if (damagedOtau != null &&
-                        damagedOtau.Ip == cha.NetAddress.Ip4Address &&
+                        damagedOtau.Ip == cha!.NetAddress.Ip4Address &&
                         damagedOtau.TcpPort == cha.NetAddress.Port)
                     {
                         _logger.Info(Logs.RtuManager, $"OTAU {cha.NetAddress.ToStringA()} recovered");
@@ -74,7 +86,7 @@ public partial class RtuManager
                 {
                     if (damagedOtau == null)
                     {
-                        damagedOtau = new DamagedOtau(cha.NetAddress.Ip4Address, cha.NetAddress.Port, monitoringPort.CharonSerial);
+                        damagedOtau = new DamagedOtau(cha!.NetAddress.Ip4Address, cha.NetAddress.Port, monitoringPort.CharonSerial);
                         _damagedOtaus.Add(damagedOtau);
                     }
                     await RunAdditionalOtauRecovery(damagedOtau);

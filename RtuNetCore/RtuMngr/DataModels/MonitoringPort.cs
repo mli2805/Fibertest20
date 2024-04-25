@@ -13,6 +13,7 @@ public class MonitoringPort
 
     public string CharonSerial = string.Empty;
     public int OpticalPort;
+    public NetAddress CharonAddress = null!;
     public Guid TraceId;
 
     public DateTime LastPreciseMadeTimestamp = DateTime.MinValue;
@@ -37,18 +38,19 @@ public class MonitoringPort
     {
         CharonSerial = port.OtauPort.Serial ?? "";
         OpticalPort = port.OtauPort.OpticalPort;
+        CharonAddress = port.OtauPort.NetAddress.Clone();
         IsPortOnMainCharon = port.OtauPort.IsPortOnMainCharon;
         TraceId = port.TraceId;
         LastTraceState = port.LastTraceState;
 
-            LastPreciseMadeTimestamp = DateTime.Now;
+        LastPreciseMadeTimestamp = DateTime.Now;
         LastFastSavedTimestamp = DateTime.Now;
         LastPreciseSavedTimestamp = DateTime.Now;
 
         LastMoniResult = new MoniResult()
         {
             // user sends ReturnCode.MeasurementEndedNormally if there is no accidents on this trace
-            UserReturnCode = port.LastRtuAccidentOnTrace, 
+            UserReturnCode = port.LastRtuAccidentOnTrace,
             HardwareReturnCode = ReturnCode.MeasurementEndedNormally
         };
         IsMonitoringModeChanged = true;
@@ -141,7 +143,7 @@ public class MonitoringPort
         else
             LastPreciseMadeTimestamp = DateTime.Now;
     }
-    
+
     public void SetSavedTimeStamp(BaseRefType baseType)
     {
         if (baseType == BaseRefType.Fast)
