@@ -78,5 +78,6 @@ public partial class RtuManager
         _interOpWrapper = interOpWrapper;
         _otdrManager = otdrManager;
         _serviceProvider = serviceProvider;
+        _mikrotikRebootTimeout = TimeSpan.FromSeconds(_config.Value.Recovery.MikrotikRebootTimeout);
     }
 }

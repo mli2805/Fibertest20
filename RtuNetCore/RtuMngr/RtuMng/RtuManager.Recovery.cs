@@ -5,11 +5,10 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
-    private TimeSpan _mikrotikRebootTimeout;
+    private readonly TimeSpan _mikrotikRebootTimeout;
 
     public async Task<ReturnCode> RunMainCharonRecovery()
     {
-        _mikrotikRebootTimeout = TimeSpan.FromSeconds(_config.Value.Recovery.MikrotikRebootTimeout);
         var previousStep = _config.Value.Recovery.RecoveryStep;
 
         switch (previousStep)

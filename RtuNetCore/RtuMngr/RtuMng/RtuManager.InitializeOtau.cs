@@ -61,7 +61,7 @@ public partial class RtuManager
         if (!_mainCharon.IsBopSupported)
         {
             resultDto.ReturnCode = dto.Children.Count > 0 
-                ? ReturnCode.RtuDoesNotSupportBop : ReturnCode.Ok;
+                ? ReturnCode.RtuDoesNotSupportBop : ReturnCode.RtuInitializedSuccessfully;
             return resultDto;
         }
 

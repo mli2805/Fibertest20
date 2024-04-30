@@ -30,8 +30,6 @@ public partial class Charon
     public string LastAnswer { get; set; } = string.Empty;
     public bool IsLastCommandSuccessful { get; set; }
 
-    private ILogger<Charon> _lll;
-
     public Charon(NetAddress netAddress, bool isMainCharon, CharonConfig config, ILogger logger)
     {
         _config = config;
@@ -44,9 +42,6 @@ public partial class Charon
         _pauseBetweenCommands = config.PauseBetweenCommandsMs;
         NetAddress = netAddress;
         IsMainCharon = isMainCharon;
-
-        var lf = new LoggerFactory();
-        _lll = new Logger<Charon>(lf);
     }
 
     /// <summary>
@@ -55,8 +50,6 @@ public partial class Charon
     /// <returns>null if initialization is successful, damaged OTAU address otherwise</returns>
     public async Task<NetAddress?> InitializeOtauRecursively()
     {
-        _lll.Error(Logs.RtuManager, "local logger");
-
         _logger.Info(Logs.RtuManager, $"Initializing OTAU on {NetAddress.ToStringA()}");
         Children = new Dictionary<int, Charon>();
 

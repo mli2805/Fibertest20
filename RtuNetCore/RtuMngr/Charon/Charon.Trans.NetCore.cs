@@ -23,7 +23,7 @@ namespace Iit.Fibertest.RtuMngr
                 await client.ConnectAsync(NetAddress.Ip4Address, NetAddress.Port).WaitAsync(TimeSpan.FromSeconds(_connectionTimeout));
                 if (client.Connected)
                 {
-                    _logger.Debug(Logs.RtuManager, "    connected successfully");
+                    // _logger.Debug(Logs.RtuManager, "    connected successfully");
                 }
                 else
                 {

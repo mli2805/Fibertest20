@@ -18,15 +18,15 @@ public partial class Charon
     //     return await activeCharon.GetExtendedActivePort(out charonAddress, out port);
     // }
 
-    public async Task<Charon?> GetActiveChildCharon()
-    {
-        var activePort = await GetActivePort();
-        if (!Children.ContainsKey(activePort))
-        {
-            return null;
-        }
-        return Children[activePort];
-    }
+    // public async Task<Charon?> GetActiveChildCharon()
+    // {
+    //     var activePort = await GetActivePort();
+    //     if (!Children.ContainsKey(activePort))
+    //     {
+    //         return null;
+    //     }
+    //     return Children[activePort];
+    // }
 
     public async Task<CharonOperationResult> SetExtendedActivePort(string serial, int port)
     {
@@ -82,6 +82,7 @@ public partial class Charon
 
     private async Task<CharonOperationResult> SetActivePortOnBopCharon(Charon charon, int port)
     {
+        _logger.Debug(Logs.RtuManager, "SetActivePortOnBopCharon");
         var activePort = await charon.SetActivePort(port);
         if (activePort == port)
             return CharonOperationResult.Ok;

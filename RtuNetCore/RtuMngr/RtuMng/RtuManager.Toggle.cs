@@ -27,10 +27,15 @@ public partial class RtuManager
             }
             else
             {
-                await InitializeOtau(new RtuInitializedDto());
-                cha = monitoringPort.IsPortOnMainCharon
-                    ? _mainCharon
-                    : _mainCharon.GetBopCharonWithLogging(monitoringPort.CharonSerial);
+                _logger.Info(Logs.RtuManager, $"Mikrotik {damagedAddress} reboot timeout exceeded, try to toggle");
+                cha = _mainCharon.Children.Values.FirstOrDefault(c => c.NetAddress.Ip4Address == damagedAddress);
+                if (cha != null && string.IsNullOrEmpty(cha.Serial))
+                {
+                    // если не отвалился во время работы, а не был проинициализирован, 
+                    // то в нем нет серийника и колва портов
+                    if (await cha.InitializeOtauRecursively() != null) return false;
+
+                }
             }
         }
         else if (cha == null)

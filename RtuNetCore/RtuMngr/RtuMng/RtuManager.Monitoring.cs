@@ -8,18 +8,6 @@ public partial class RtuManager
     private bool _saveSorData;
     public async Task RunMonitoringCycle()
     {
-        // temp
-        if (_mainCharon.Children.Count > 0)
-        {
-            var child = _mainCharon.Children.Values.FirstOrDefault(p => p.FullPortCount == 0);
-            if (child != null)
-            {
-                _logger.Debug(Logs.RtuManager, $"invalid charon, serial = {child.Serial}, isOk = {child.IsOk}");
-                await Task.Delay(3000);
-            }
-        }
-        //
-
         _saveSorData = _config.Value.Monitoring.ShouldSaveSorData;
         _logger.EmptyAndLog(Logs.RtuManager, "Run monitoring cycle.");
         _rtuManagerCts = new CancellationTokenSource();
@@ -267,8 +255,11 @@ public partial class RtuManager
         if (tokens.IsCancellationRequested()) // command to interrupt monitoring came while port toggling
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementInterrupted);
 
+        var childCharon = monitoringPort.IsPortOnMainCharon
+            ? null
+            : _mainCharon.Children.Values.FirstOrDefault(c => c.NetAddress.Equals(monitoringPort.CharonAddress));
         var result = _otdrManager
-            .MeasureWithBase(tokens, baseBytes, await _mainCharon.GetActiveChildCharon());
+            .MeasureWithBase(tokens, baseBytes, childCharon);
         _logger.Debug(Logs.RtuManager, $"MeasureWithBase returned {result}");
 
         switch (result)
@@ -284,6 +275,10 @@ public partial class RtuManager
                 return new MoniResult() { UserReturnCode = result, BaseRefType = baseRefType };
 
             case ReturnCode.MeasurementPreparationError: // 814
+                _otdrManager.DisconnectOtdr();
+                _otdrManager.ConnectOtdr();
+                return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, result); // восстановление, без сообщения пользователю
+
             case ReturnCode.MeasurementError:
                 if (await RunMainCharonRecovery() != ReturnCode.RtuInitializedSuccessfully)
                     await RunMainCharonRecovery(); // one of recovery steps inevitably exits process

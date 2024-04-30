@@ -31,7 +31,6 @@ public partial class RtuManager
 
         LogInitializationStart();
 
-        //IsRtuInitialized = false;
         InitializationResult = null;
 
         if (_config.Value.Charon.IsComPortAvailable)
@@ -44,6 +43,7 @@ public partial class RtuManager
         }
 
         var result = _otdrManager.InitializeOtdr();
+
         result.RtuId = _config.Value.General.RtuId;
         if (result.ReturnCode != ReturnCode.Ok)
             return result;
@@ -61,6 +61,24 @@ public partial class RtuManager
         }
 
         result2.IsMonitoringOn = await GetIsMonitoringOn();
+
+        if (_mainCharon.Children.Count > 0 && _mainCharon.Children.Values.Any(p => !p.IsOk))
+        {
+            foreach (var child in _mainCharon.Children.Values.Where(p => !p.IsOk))
+            {
+                _logger.Debug(Logs.RtuManager, $"Invalid charon {child.NetAddress.ToStringA()}, serial = {child.Serial}, isOk = {child.IsOk}");
+            }
+
+            // если во время инициализации OTAU были проблемы с боп и включен мониторинг,
+            // надо переподключить OTDR, иначе лезет 814 ошибка при измерении на портах главного OTAU
+            // в ручном режиме нет смысла, итак переподключится
+            if (result2.IsMonitoringOn)
+            {
+                _otdrManager.DisconnectOtdr();
+                _otdrManager.ConnectOtdr();
+            }
+        }
+
 
         _logger.Debug(Logs.RtuManager, "GetTreeOfAcceptableMeasParams");
         _treeOfAcceptableMeasParams = _interOpWrapper.GetTreeOfAcceptableMeasParams();
