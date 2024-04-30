@@ -99,7 +99,7 @@ namespace Iit.Fibertest.RtuMngr
         private async Task<ClientMeasurementResultDto> Measure(DoClientMeasurementDto dto)
         {
             ClientMeasurementResultDto result = new ClientMeasurementResultDto() { ConnectionId = dto.ConnectionId };
-            var toggleResult = ToggleToPort2(dto.OtauPortDto[0]);
+            var toggleResult = await ToggleToPort2(dto.OtauPortDto[0]);
             if (toggleResult != CharonOperationResult.Ok)
                 return result.Set(dto.OtauPortDto[0],
                     toggleResult == CharonOperationResult.MainOtauError
@@ -208,9 +208,9 @@ namespace Iit.Fibertest.RtuMngr
                         : _otdrManager.Sf780(lastSorDataBuffer));
         }
 
-        private CharonOperationResult ToggleToPort2(OtauPortDto port)
+        private async Task<CharonOperationResult> ToggleToPort2(OtauPortDto port)
         {
-            var toggleResult = _mainCharon.SetExtendedActivePort(port.Serial!, port.OpticalPort);
+            var toggleResult = await _mainCharon.SetExtendedActivePort(port.Serial!, port.OpticalPort);
             _logger.Info(Logs.RtuManager, toggleResult == CharonOperationResult.Ok
                 ? "Toggled Ok."
                 : toggleResult == CharonOperationResult.MainOtauError

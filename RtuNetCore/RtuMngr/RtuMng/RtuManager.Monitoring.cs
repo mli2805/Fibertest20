@@ -8,6 +8,18 @@ public partial class RtuManager
     private bool _saveSorData;
     public async Task RunMonitoringCycle()
     {
+        // temp
+        if (_mainCharon.Children.Count > 0)
+        {
+            var child = _mainCharon.Children.Values.FirstOrDefault(p => p.FullPortCount == 0);
+            if (child != null)
+            {
+                _logger.Debug(Logs.RtuManager, $"invalid charon, serial = {child.Serial}, isOk = {child.IsOk}");
+                await Task.Delay(3000);
+            }
+        }
+        //
+
         _saveSorData = _config.Value.Monitoring.ShouldSaveSorData;
         _logger.EmptyAndLog(Logs.RtuManager, "Run monitoring cycle.");
         _rtuManagerCts = new CancellationTokenSource();
@@ -256,7 +268,7 @@ public partial class RtuManager
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementInterrupted);
 
         var result = _otdrManager
-            .MeasureWithBase(tokens, baseBytes, _mainCharon.GetActiveChildCharon());
+            .MeasureWithBase(tokens, baseBytes, await _mainCharon.GetActiveChildCharon());
         _logger.Debug(Logs.RtuManager, $"MeasureWithBase returned {result}");
 
         switch (result)
@@ -271,6 +283,7 @@ public partial class RtuManager
                 // сообщить пользователю, восстановление не нужно
                 return new MoniResult() { UserReturnCode = result, BaseRefType = baseRefType };
 
+            case ReturnCode.MeasurementPreparationError: // 814
             case ReturnCode.MeasurementError:
                 if (await RunMainCharonRecovery() != ReturnCode.RtuInitializedSuccessfully)
                     await RunMainCharonRecovery(); // one of recovery steps inevitably exits process

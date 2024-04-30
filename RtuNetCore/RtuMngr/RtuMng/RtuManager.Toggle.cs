@@ -45,7 +45,7 @@ public partial class RtuManager
 
         _currentStep = CreateStepDto(MonitoringCurrentStep.Toggle, monitoringPort);
 
-        var toggleResult = _mainCharon.SetExtendedActivePort(monitoringPort.CharonSerial, monitoringPort.OpticalPort);
+        var toggleResult = await _mainCharon.SetExtendedActivePort(monitoringPort.CharonSerial, monitoringPort.OpticalPort);
         switch (toggleResult)
         {
             case CharonOperationResult.Ok:

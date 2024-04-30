@@ -5,10 +5,10 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class Charon
 {
-    public bool DetachOtauFromPort(int fromOpticalPort)
+    public async Task<bool> DetachOtauFromPort(int fromOpticalPort)
     {
         _logger.Info(Logs.RtuManager, $"Detach from port {fromOpticalPort} requested...");
-        var extPorts = GetExtendedPorts();
+        var extPorts =  await GetExtendedPorts();
         if (extPorts == null)
             return false;
         if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
@@ -24,7 +24,7 @@ public partial class Charon
 
         extPorts.Remove(fromOpticalPort);
         var content = DictionaryToContent(extPorts);
-        SendWriteIniCommand(content);
+        await SendWriteIniCommandAsync(content);
 
         if (IsLastCommandSuccessful)
         {
@@ -35,18 +35,18 @@ public partial class Charon
         return IsLastCommandSuccessful;
     }
 
-    public void RewriteIni(Dictionary<int, NetAddress> extPorts)
+    public async Task RewriteIni(Dictionary<int, NetAddress> extPorts)
     {
         var content = DictionaryToContent(extPorts);
-        SendWriteIniCommand(content);
+        await SendWriteIniCommandAsync(content);
     }
 
-    public Charon? AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
+    public async Task<Charon?> AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
     {
         _logger.Info(Logs.RtuManager, $"Attach {additionalOtauAddress.ToStringA()} to port {toOpticalPort} requested...");
         if (!ValidateAttachCommand(additionalOtauAddress, toOpticalPort))
             return null;
-        var extPorts = GetExtendedPorts();
+        var extPorts = await GetExtendedPorts();
         if (extPorts == null) // read charon ini file error
         {
             return null;
@@ -64,14 +64,14 @@ public partial class Charon
 
         _logger.Info(Logs.RtuManager, $"Check connection with OTAU {additionalOtauAddress.ToStringA()}");
         var child = new Charon(additionalOtauAddress, false, _config, _logger);
-        if (child.InitializeOtauRecursively() != null)
+        if (await child.InitializeOtauRecursively() != null)
         {
             return null;
         }
 
         extPorts.Add(toOpticalPort, additionalOtauAddress);
         var content = DictionaryToContent(extPorts);
-        SendWriteIniCommand(content);
+        await SendWriteIniCommandAsync(content);
 
         if (IsLastCommandSuccessful)
         {

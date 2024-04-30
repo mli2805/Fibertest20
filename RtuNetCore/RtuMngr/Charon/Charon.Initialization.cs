@@ -53,14 +53,14 @@ public partial class Charon
     /// Initialized OTAU recursively
     /// </summary>
     /// <returns>null if initialization is successful, damaged OTAU address otherwise</returns>
-    public NetAddress? InitializeOtauRecursively()
+    public async Task<NetAddress?> InitializeOtauRecursively()
     {
         _lll.Error(Logs.RtuManager, "local logger");
 
         _logger.Info(Logs.RtuManager, $"Initializing OTAU on {NetAddress.ToStringA()}");
         Children = new Dictionary<int, Charon>();
 
-        Serial = GetSerial();
+        Serial = await GetSerial();
         if (!IsLastCommandSuccessful)
         {
             _serialPort.ShowOnLedDisplay(LedDisplayCode.ErrorConnectOtau);
@@ -71,7 +71,7 @@ public partial class Charon
         Serial = Serial.Substring(0, Serial.Length - 2);
         _logger.Info(Logs.RtuManager, $"Serial {Serial}");
 
-        OwnPortCount = GetOwnPortCount();
+        OwnPortCount = await GetOwnPortCount();
         FullPortCount = OwnPortCount;
         if (!IsLastCommandSuccessful)
         {
@@ -84,9 +84,9 @@ public partial class Charon
 
         if (IsMainCharon)
         {
-            CharonIniSize = GetIniSize();
+            CharonIniSize = await GetIniSize();
             IsBopSupported = CharonIniSize > 0;
-            var extendedPorts = GetExtendedPorts();
+            var extendedPorts = await GetExtendedPorts();
             if (extendedPorts == null)
                 return NetAddress;
 
@@ -105,7 +105,7 @@ public partial class Charon
                 var childCharon = new Charon(expendedPort, false, _config, _logger);
                 Children.Add(p, childCharon); // even if it broken it should be in list
 
-                var childSerial = childCharon.GetSerial();
+                var childSerial = await childCharon.GetSerial();
                 if (!IsLastCommandSuccessful || childSerial == "")
                 {
                     _serialPort.ShowOnLedDisplay(LedDisplayCode.ErrorConnectOtau);
@@ -115,7 +115,7 @@ public partial class Charon
                 else
                 {
                     childCharon.Serial = childSerial.Substring(0, childSerial.Length - 2);
-                    if (childCharon.InitializeOtauRecursively() != null)
+                    if (await childCharon.InitializeOtauRecursively() != null)
                     {
                         _serialPort.ShowOnLedDisplay(LedDisplayCode.ErrorConnectBop);
                         IsLastCommandSuccessful = true; // child initialization shouldn't break full process
@@ -128,7 +128,7 @@ public partial class Charon
             }
 
             if (isBopRemoved)
-                RewriteIni(extendedPorts);
+                await RewriteIni(extendedPorts);
         }
         _logger.Info(Logs.RtuManager, $"Full port count  {FullPortCount}");
         _logger.Info(Logs.RtuManager, $"OTAU {Serial} initialized successfully.   {OwnPortCount}/{FullPortCount}.");

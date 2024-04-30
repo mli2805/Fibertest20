@@ -34,9 +34,9 @@ public class CommandProcessor(ILogger<CommandProcessor> logger, IWritableConfig<
                 Task.Factory.StartNew(() => rtuManager.ApplyMonitoringSettings(dto));
                 return new RequestAnswer(ReturnCode.InProgress);
             case AttachOtauDto dto:
-                return rtuManager.AttachOtau(dto);
+                return await rtuManager.AttachOtau(dto);
             case DetachOtauDto dto:
-                return rtuManager.DetachOtau(dto);
+                return await rtuManager.DetachOtau(dto);
             case StopMonitoringDto _:
                 return await rtuManager.StopMonitoring();
             case DoClientMeasurementDto dto:

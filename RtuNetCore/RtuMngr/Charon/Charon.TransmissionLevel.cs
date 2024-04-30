@@ -6,7 +6,7 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class Charon
 {
-    private void SendCommand(string cmd)
+    private void SendCommandOld(string cmd)
     {
         Thread.Sleep(TimeSpan.FromMilliseconds(_pauseBetweenCommands));
         LastAnswer = "";
@@ -14,6 +14,7 @@ public partial class Charon
         IsLastCommandSuccessful = false;
         try
         {
+            _logger.Debug(Logs.RtuManager, $"    SendCommand <<{cmd.Trim()}>> to {NetAddress.ToStringA()}");
             var client = new TcpClient();
             var connection = client.BeginConnect(NetAddress.Ip4Address, NetAddress.Port, null, null);
             var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(_connectionTimeout));
@@ -23,6 +24,10 @@ public partial class Charon
                 _logger.Error(Logs.RtuManager, LastErrorMessage);
                 return;
             }
+            else
+            {
+                _logger.Debug(Logs.RtuManager, "    connected successfully");
+            }
             client.SendTimeout = TimeSpan.FromSeconds(_writeTimeout).Milliseconds;
             client.ReceiveTimeout = TimeSpan.FromSeconds(_readTimeout).Milliseconds;
 
@@ -30,7 +35,7 @@ public partial class Charon
             byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);
 
             //---send the text---
-            _logger.Debug(Logs.RtuManager, $"    Sending : {cmd.Trim()}");
+            // _logger.Debug(Logs.RtuManager, $"    Sending : {cmd.Trim()}");
             nwStream.Write(bytesToSend, 0, bytesToSend.Length);
 
             // for bulk command could be needed
@@ -46,12 +51,12 @@ public partial class Charon
         }
         catch (Exception e)
         {
-            _logger.Exception(Logs.RtuManager, e, "SendCommand");
+            _logger.Exception(Logs.RtuManager, e, $"SendCommand: {cmd.Trim()}");
             LastErrorMessage = e.Message;
         }
     }
 
-    private void SendWriteIniCommand(string content)
+    private void SendWriteIniCommandOld(string content)
     {
         Thread.Sleep(TimeSpan.FromMilliseconds(_pauseBetweenCommands));
         LastAnswer = "";

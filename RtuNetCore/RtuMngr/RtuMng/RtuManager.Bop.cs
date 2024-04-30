@@ -5,12 +5,12 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
-    public OtauAttachedDto AttachOtau(AttachOtauDto param)
+    public async Task<OtauAttachedDto> AttachOtau(AttachOtauDto param)
     {
         _logger.TimestampWithoutMessage(Logs.RtuManager);
         OtauAttachedDto result;
 
-        var newCharon = _mainCharon.AttachOtauToPort(param.NetAddress, param.OpticalPort);
+        var newCharon = await _mainCharon.AttachOtauToPort(param.NetAddress, param.OpticalPort);
         if (newCharon != null)
         {
             _logger.Info(Logs.RtuManager,
@@ -35,12 +35,12 @@ public partial class RtuManager
         return result;
     }
 
-    public OtauDetachedDto DetachOtau(DetachOtauDto param)
+    public async Task<OtauDetachedDto> DetachOtau(DetachOtauDto param)
     {
         _logger.TimestampWithoutMessage(Logs.RtuManager);
         OtauDetachedDto result;
 
-        if (_mainCharon.DetachOtauFromPort(param.OpticalPort))
+        if (await _mainCharon.DetachOtauFromPort(param.OpticalPort))
         {
             _logger.Info(Logs.RtuManager,
                 $"Otau {param.NetAddress.ToStringA()} detached from port {param.OpticalPort}");

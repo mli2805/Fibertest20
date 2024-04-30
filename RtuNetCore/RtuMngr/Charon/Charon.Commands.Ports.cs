@@ -1,27 +1,26 @@
-﻿using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsNetCore;
+﻿using Iit.Fibertest.UtilsNetCore;
 
 namespace Iit.Fibertest.RtuMngr;
 
 public partial class Charon
 {
-    public bool GetExtendedActivePort(out NetAddress charonAddress, out int port)
-    {
-        var activePort = GetActivePort();
-        if (!Children.ContainsKey(activePort))
-        {
-            charonAddress = NetAddress;
-            port = activePort;
-            return true;
-        }
+    // public Task<bool> GetExtendedActivePort(out NetAddress charonAddress, out int port)
+    // {
+    //     var activePort = GetActivePort().WaitAsync();
+    //     if (!Children.ContainsKey(activePort))
+    //     {
+    //         charonAddress = NetAddress;
+    //         port = activePort;
+    //         return true;
+    //     }
+    //
+    //     var activeCharon = Children[activePort];
+    //     return await activeCharon.GetExtendedActivePort(out charonAddress, out port);
+    // }
 
-        var activeCharon = Children[activePort];
-        return activeCharon.GetExtendedActivePort(out charonAddress, out port);
-    }
-
-    public Charon? GetActiveChildCharon()
+    public async Task<Charon?> GetActiveChildCharon()
     {
-        var activePort = GetActivePort();
+        var activePort = await GetActivePort();
         if (!Children.ContainsKey(activePort))
         {
             return null;
@@ -29,11 +28,11 @@ public partial class Charon
         return Children[activePort];
     }
 
-    public CharonOperationResult SetExtendedActivePort(string serial, int port)
+    public async Task<CharonOperationResult> SetExtendedActivePort(string serial, int port)
     {
         _logger.Info(Logs.RtuManager, $"Toggling to port {port} on {serial}...");
         if (Serial == serial)
-            return SetActivePortOnMainCharon(port);
+            return await SetActivePortOnMainCharon(port);
         else
         {
             var bopCharon = GetBopCharonWithLogging(serial);
@@ -41,20 +40,20 @@ public partial class Charon
                 return CharonOperationResult.AdditionalOtauError;
             else
             {
-                var result = ToggleMasterCharonToBopIfNeeded(bopCharon);
-                return result == CharonOperationResult.Ok ? SetActivePortOnBopCharon(bopCharon, port) : result;
+                var result = await ToggleMasterCharonToBopIfNeeded(bopCharon);
+                return result == CharonOperationResult.Ok ? await SetActivePortOnBopCharon(bopCharon, port) : result;
             }
         }
     }
 
-    private CharonOperationResult SetActivePortOnMainCharon(int port)
+    private async Task<CharonOperationResult> SetActivePortOnMainCharon(int port)
     {
-        var activePort = SetActivePort(port);
+        var activePort = await SetActivePort(port);
         if (activePort == port)
             return CharonOperationResult.Ok;
 
         _logger.Info(Logs.RtuManager, "Toggling second attempt...");
-        activePort = SetActivePort(port);
+        activePort = await SetActivePort(port);
         if (activePort == port)
             return CharonOperationResult.Ok;
 
@@ -75,20 +74,20 @@ public partial class Charon
         return charon;
     }
 
-    private CharonOperationResult ToggleMasterCharonToBopIfNeeded(Charon charon)
+    private async Task<CharonOperationResult> ToggleMasterCharonToBopIfNeeded(Charon charon)
     {
         var masterPort = Children.First(pair => pair.Value == charon).Key;
-        return GetActivePort() != masterPort ? SetActivePortOnMainCharon(masterPort) : CharonOperationResult.Ok;
+        return await GetActivePort() != masterPort ? await SetActivePortOnMainCharon(masterPort) : CharonOperationResult.Ok;
     }
 
-    private CharonOperationResult SetActivePortOnBopCharon(Charon charon, int port)
+    private async Task<CharonOperationResult> SetActivePortOnBopCharon(Charon charon, int port)
     {
-        var activePort = charon.SetActivePort(port);
+        var activePort = await charon.SetActivePort(port);
         if (activePort == port)
             return CharonOperationResult.Ok;
 
         _logger.Info(Logs.RtuManager, "Toggling second attempt...");
-        activePort = charon.SetActivePort(port);
+        activePort = await charon.SetActivePort(port);
         if (activePort == port)
             return CharonOperationResult.Ok;
 

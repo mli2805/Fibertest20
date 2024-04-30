@@ -5,24 +5,24 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class Charon
 {
-    public bool ResetOtau()
+    public async Task<bool> ResetOtau()
     {
-        SendCommand("otau_reset\r\n");
+        await SendCommandAsync("otau_reset\r\n");
         if (!IsLastCommandSuccessful)
             return false;
         return LastAnswer == "OK";
     }
 
 
-    public string GetSerial()
+    public async Task<string> GetSerial()
     {
-        SendCommand("get_rtu_number\r\n");
+        await SendCommandAsync("get_rtu_number\r\n");
         return LastAnswer;
     }
 
-    private int GetOwnPortCount()
+    private async Task<int> GetOwnPortCount()
     {
-        SendCommand("otau_get_count_channels\r\n");
+        await SendCommandAsync("otau_get_count_channels\r\n");
         if (!IsLastCommandSuccessful)
             return -1;
 
@@ -35,23 +35,23 @@ public partial class Charon
         return -1;
     }
 
-    public string ShowOnDisplayMessageReady()
+    public async Task<string> ShowOnDisplayMessageReady()
     {
-        SendCommand("pc_loaded\r\n");
+        await SendCommandAsync("pc_loaded\r\n");
         return !IsLastCommandSuccessful ? LastErrorMessage : "";
     }
 
-    public string ShowMessageMeasurementPort()
+    public async Task<string> ShowMessageMeasurementPort()
     {
-        SendCommand("meas\r\n");
+        await SendCommandAsync("meas\r\n");
         return !IsLastCommandSuccessful ? LastErrorMessage : "";
     }
 
-    private int GetIniSize()
+    private async Task<int> GetIniSize()
     {
         try
         {
-            SendCommand("ini_size\r\n");
+            await SendCommandAsync("ini_size\r\n");
             if (!IsLastCommandSuccessful)
                 return 0; // read error
 
@@ -76,11 +76,11 @@ public partial class Charon
         }
     }
 
-    private Dictionary<int, NetAddress>? GetExtendedPorts()
+    private async Task<Dictionary<int, NetAddress>?> GetExtendedPorts()
     {
         try
         {
-            ReadIniFile();
+            await ReadIniFile();
             if (!IsLastCommandSuccessful)
             {
                 // read iniFile error
@@ -112,7 +112,7 @@ public partial class Charon
         }
     }
 
-    private void ReadIniFile() { SendCommand("ini_read\r\n"); }
+    private async Task ReadIniFile() { await SendCommandAsync("ini_read\r\n"); }
 
     private Dictionary<int, NetAddress> ParseIniContent(string content)
     {
@@ -130,7 +130,7 @@ public partial class Charon
         return result;
     }
 
-    private int SetActivePort(int port)
+    private async Task<int> SetActivePort(int port)
     {
         if (port < 1 || port > OwnPortCount)
         {
@@ -139,10 +139,10 @@ public partial class Charon
             return -1;
         }
 
-        SendCommand($"otau_set_channel {port} d\r\n");
+        await SendCommandAsync($"otau_set_channel {port} d\r\n");
         if (!IsLastCommandSuccessful)
             return -1;
-        var resultingPort = GetActivePort();
+        var resultingPort = await GetActivePort();
         if (!IsLastCommandSuccessful)
             return -1;
         if (resultingPort != port)
@@ -150,9 +150,9 @@ public partial class Charon
         return resultingPort;
     }
 
-    private int GetActivePort()
+    private async Task<int> GetActivePort()
     {
-        SendCommand("otau_get_channel\r\n");
+        await SendCommandAsync("otau_get_channel\r\n");
         if (!IsLastCommandSuccessful)
             return -1;
 

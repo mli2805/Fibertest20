@@ -62,6 +62,7 @@ public partial class RtuManager
 
         result2.IsMonitoringOn = await GetIsMonitoringOn();
 
+        _logger.Debug(Logs.RtuManager, "GetTreeOfAcceptableMeasParams");
         _treeOfAcceptableMeasParams = _interOpWrapper.GetTreeOfAcceptableMeasParams();
         result2.AcceptableMeasParams = _treeOfAcceptableMeasParams;
 

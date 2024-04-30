@@ -5,14 +5,14 @@ namespace Iit.Fibertest.RtuMngr;
 
 public partial class RtuManager
 {
-    private Task<RtuInitializedDto> InitializeOtau(RtuInitializedDto result)
+    private async Task<RtuInitializedDto> InitializeOtau(RtuInitializedDto result)
     {
         var mainOtauIp = _config.Value.General.OtauIp;
         var mainOtauPort = _config.Value.General.OtauTcpPort;
         _mainCharon = new Charon(new NetAddress(mainOtauIp, mainOtauPort), true, _config.Value.Charon, _logger);
-        var res = _mainCharon.InitializeOtauRecursively();
+        var res = await _mainCharon.InitializeOtauRecursively();
         if (res == _mainCharon.NetAddress)
-            return Task.FromResult(new RtuInitializedDto(ReturnCode.OtauInitializationError));
+            return new RtuInitializedDto(ReturnCode.OtauInitializationError);
 
         var previousOwnPortCount = _config.Value.General.PreviousOwnPortCount;
         if (previousOwnPortCount == -1)
@@ -42,9 +42,9 @@ public partial class RtuManager
             _logger.Info(Logs.RtuManager, "But RTU should work without BOP, so continue...");
         }
             
-        _mainCharon.ShowOnDisplayMessageReady();
+        await _mainCharon.ShowOnDisplayMessageReady();
 
-        return Task.FromResult(result);
+        return result;
     }
 
     private async Task<RtuInitializedDto> ReInitializeOtauOnUsersRequest(InitializeRtuDto dto, RtuInitializedDto resultDto)
@@ -69,7 +69,7 @@ public partial class RtuManager
         {
             _logger.Info(Logs.RtuManager, "FullMatch - false, need to rewrite ini");
             var expPorts = dto.Children.ToDictionary(pair => pair.Key, pair => pair.Value.NetAddress);
-            _mainCharon.RewriteIni(expPorts);
+            await _mainCharon.RewriteIni(expPorts);
         }
 
         return await InitializeOtau(resultDto);
