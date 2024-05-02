@@ -33,8 +33,16 @@ public partial class RtuManager
                 {
                     // если не отвалился во время работы, а не был проинициализирован, 
                     // то в нем нет серийника и колва портов
-                    if (await cha.InitializeOtauRecursively() != null) return false;
-
+                    if (await cha.InitializeOtauRecursively() != null)
+                    {
+                        // не помогло, боп всё равно не инитится
+                        // надо переконнектить OTDR, иначе даже порты основного рту не мониторятся
+                        _otdrManager.DisconnectOtdr();
+                        _otdrManager.ConnectOtdr();
+                        // еще попытка перегрузить микротик бопа
+                        await RunAdditionalOtauRecovery(damagedOtau);
+                        return false;
+                    }
                 }
             }
         }
