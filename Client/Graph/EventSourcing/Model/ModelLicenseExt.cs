@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph
 
         public static bool IsMachineKeyRequired(this Model model)
         {
-            return model.Licenses.Last().IsMachineKeyRequired;
+            return model.Licenses.First().IsMachineKeyRequired;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone },
             new AddUser() { UserId = Guid.NewGuid(), Title = "developer",
-                EncodedPassword = "developer".GetHashString(), Role = Role.Developer, ZoneId = Guid.Empty },
+                EncodedPassword = "zse4%RDX".GetHashString(), Role = Role.Developer, ZoneId = Guid.Empty },
             new AddUser() { UserId = Guid.NewGuid(), Title = "root",
                 EncodedPassword = "root".GetHashString(), Role = Role.Root, ZoneId = Guid.Empty },
             new AddUser() { UserId = Guid.NewGuid(), Title = "operator", 

@@ -59,9 +59,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
 
             // R3
-            var hasRight = user.CheckRights(dto);
-            if (hasRight != null)
-                return hasRight;
+            var hasNoRight = user.CheckRights(dto);
+            if (hasNoRight != null)
+                return hasNoRight;
 
 
             // R4
