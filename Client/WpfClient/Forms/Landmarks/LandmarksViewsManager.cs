@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly TraceChoiceViewModel _traceChoiceViewModel;
         private List<LandmarksViewModel> LaunchedViews { get; } = new List<LandmarksViewModel>();
 
-        public LandmarksViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
+        public LandmarksViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
             ChildrenViews childrenViews, Model readModel, TraceChoiceViewModel traceChoiceViewModel)
         {
             _globalScope = globalScope;
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
         {
             if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
             {
-                if (((ChildrenViews) sender).ShouldBeClosed)
+                if (((ChildrenViews)sender).ShouldBeClosed)
                 {
                     foreach (var traceStateViewModel in LaunchedViews.ToArray())
                     {
@@ -85,15 +85,21 @@ namespace Iit.Fibertest.Client
         {
             switch (e)
             {
-                case RtuUpdated _: 
+                case RtuUpdated _:
                 case EquipmentUpdated _:
                 case EquipmentIntoTraceIncluded _:
                 case EquipmentFromTraceExcluded _:
                 case NodeUpdatedAndMoved _:
-                case NodeUpdated _: 
-                case NodeMoved _: 
-                    foreach (var v in LaunchedViews) 
-                        await v.RefreshOnChangedTrace(); 
+                case NodeUpdated _:
+                case NodeMoved _:
+
+
+                case EquipmentRemoved _:
+                case NodeIntoFiberAdded _:
+                case NodeRemoved _:
+
+                    foreach (var v in LaunchedViews)
+                        await v.RefreshOnChangedTrace();
                     return;
             }
 
