@@ -100,6 +100,16 @@ namespace Iit.Fibertest.Client
                 };
 
                 var resultDto = await _c2RWcfManager.CheckRtuConnectionAsync(dto);
+
+                // не коннектится, а пинг есть
+                if (!resultDto.IsConnectionSuccessfull && resultDto.IsPingSuccessful)
+                {
+                    dto.NetAddress.Port = -1;
+                    resultDto = await _c2RWcfManager.CheckRtuConnectionAsync(dto);
+                }
+                //
+
+
                 if (resultDto.IsConnectionSuccessfull && dto.NetAddress.Port != resultDto.NetAddress.Port)
                 {
                     NetAddressInputViewModel = new NetAddressInputViewModel(resultDto.NetAddress, _currentUser.Role <= Role.Root);

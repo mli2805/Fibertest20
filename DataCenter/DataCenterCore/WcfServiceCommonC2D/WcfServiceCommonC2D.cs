@@ -132,6 +132,16 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
+            var result = await CheckRtuConnectionStep1Async(dto);
+            if (!result.IsConnectionSuccessfull)
+            {
+                result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
+            }
+            return result;
+        }
+
+        private async Task<RtuConnectionCheckedDto> CheckRtuConnectionStep1Async(CheckRtuConnectionDto dto)
+        {
             _logFile.AppendLine($"CheckRtuConnectionAsync: {dto.NetAddress.ToStringA()}");
             switch (dto.NetAddress.Port)
             {
@@ -146,6 +156,7 @@ namespace Iit.Fibertest.DataCenterCore
                     return await CheckRtuConnectionFirstTime(dto);
             }
         }
+
 
         private async Task<RtuConnectionCheckedDto> CheckRtuConnectionFirstTime(CheckRtuConnectionDto dto)
         {

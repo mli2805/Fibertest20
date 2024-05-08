@@ -78,6 +78,13 @@ namespace Iit.Fibertest.DataCenterCore
                 // both clients are desktop
                 if (!dto.IsWebClient && !stationWithTheSameUser.IsWebClient)
                 {
+                    if (dto.ClientIp == stationWithTheSameUser.ClientIp)
+                    {
+                        collection.LogFile.AppendLine($"The same user from the same IP");
+                        collection.Clients.Remove(stationWithTheSameUser);
+                        return null;
+                    }
+
                     collection.LogFile.AppendLine($"The same user {dto.UserName} registered from device {stationWithTheSameUser.ClientIp}");
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
                 }

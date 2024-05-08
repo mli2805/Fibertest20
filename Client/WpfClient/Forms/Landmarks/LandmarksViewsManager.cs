@@ -93,7 +93,6 @@ namespace Iit.Fibertest.Client
                 case NodeUpdated _:
                 case NodeMoved _:
 
-
                 case EquipmentRemoved _:
                 case NodeIntoFiberAdded _:
                 case NodeRemoved _:
@@ -102,8 +101,6 @@ namespace Iit.Fibertest.Client
                         await v.RefreshOnChangedTrace();
                     return;
             }
-
         }
-
     }
 }
