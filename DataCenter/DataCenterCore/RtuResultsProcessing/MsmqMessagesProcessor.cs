@@ -91,7 +91,9 @@ namespace Iit.Fibertest.DataCenterCore
             // it is not a RtuAccident, it is Measurement
             if ((dto.Reason ^ ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged) != 0)
             {
-                _logFile.AppendLine($"Monitoring result for trace {dto.PortWithTrace.TraceId}");
+                var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+                var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
+                _logFile.AppendLine($"Monitoring result for {rtu?.Title} / {trace?.Title}");
                 var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
                 if (sorId != -1)
                     await SaveEventFromDto(dto, sorId);
