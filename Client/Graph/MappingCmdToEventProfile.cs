@@ -48,6 +48,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<AddTrace, TraceAdded>();
             CreateMap<UpdateTrace, TraceUpdated>();
+            CreateMap<UpdateTracePort, TracePortUpdated>();
             CreateMap<CleanTrace, TraceCleaned>();
             CreateMap<RemoveTrace, TraceRemoved>();
             CreateMap<AssignBaseRef, BaseRefAssigned>();

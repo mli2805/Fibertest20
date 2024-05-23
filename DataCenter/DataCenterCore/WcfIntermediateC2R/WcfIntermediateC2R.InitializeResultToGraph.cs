@@ -9,7 +9,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfIntermediateC2R
     {
-          public async Task<RtuInitializedDto> ApplyRtuInitializationResult(InitializeRtuDto dto, RtuInitializedDto result)
+        public async Task<RtuInitializedDto> ApplyRtuInitializationResult(InitializeRtuDto dto, RtuInitializedDto result)
         {
             if (result.IsInitialized)
             {
@@ -24,17 +24,27 @@ namespace Iit.Fibertest.DataCenterCore
             var commandList = new List<object>();
             var originalRtu = _writeModel.Rtus.First(r => r.Id == result.RtuId);
 
-            // after RTU initialization  active RTU state events should be turned off by mock OK events
-            // different explanation whether RTU serial changed or not
-            // if (dto.Serial != result.Serial)
             {
                 foreach (var trace in _writeModel.Traces.Where(t => t.RtuId == dto.RtuId))
                 {
-                    var lastAccident = _writeModel.RtuAccidents.LastOrDefault(a => a.TraceId == trace.TraceId && a.IsMeasurementProblem);
+                    // after RTU initialization  active RTU state events should be turned off by mock OK events
+                    var lastAccident = _writeModel.RtuAccidents
+                        .LastOrDefault(a => a.TraceId == trace.TraceId && a.IsMeasurementProblem);
                     if (lastAccident != null && !lastAccident.IsGoodAccident)
                     {
                         commandList.Add(CreateClearingAccidentCommand(dto, lastAccident, dto.Serial != result.Serial));
                     }
+                }
+            }
+
+            // change Charon Serial for traces on main charon ports
+            if (dto.Serial != result.Serial)
+            {
+                // OtauPort is null until Trace attached
+                foreach (var trace in _writeModel.Traces
+                             .Where(t => t.RtuId == dto.RtuId && t.OtauPort != null && t.OtauPort.IsPortOnMainCharon))
+                {
+                    commandList.Add(new UpdateTracePort() { Id = trace.TraceId, Serial = result.Serial });
                 }
             }
 

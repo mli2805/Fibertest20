@@ -23,6 +23,7 @@ namespace Graph.Tests
         private int _portWithBop;
         private string _newSerial;
         private int _oldOwnPortCount, _newOwnPortCount;
+        private Iit.Fibertest.Graph.Trace _trace4;
         private Iit.Fibertest.Graph.Trace _trace11;
 
 
@@ -58,6 +59,8 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
             _sut.AttachTraceTo(trace.TraceId, _rtuLeaf, p1, Answer.Yes);
             _sut.Poller.EventSourcingTick().Wait();
+            if (p1 == 4)
+                _trace4 = trace; 
             if (p1 == 11)
                 _trace11 = trace;
         }
@@ -143,6 +146,13 @@ namespace Graph.Tests
         public void ThenВДеревеУRTUИзменяетсяКоличествоВеток_Портов()
         {
             _rtuLeaf.ChildrenImpresario.Children.Count.Should().Be(9);
+        }
+
+        [Then(@"У трассы в порте тоже меняется серийник")]
+        public void ThenУТрассыВПортеТожеМеняетсяСерийник()
+        {
+            _trace4.OtauPort.Should().NotBeNull();
+            _trace4.OtauPort.Serial.Should().Be(_newSerial);
         }
 
     }

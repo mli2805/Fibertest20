@@ -48,6 +48,7 @@ namespace Iit.Fibertest.Graph
                     case TraceRemoved evnt: return model.RemoveTrace(evnt);
                     case TraceAttached evnt: return model.AttachTrace(evnt);
                     case TraceDetached evnt: return model.DetachTrace(evnt);
+                    case TracePortUpdated evnt: return model.UpdateTracePort(evnt);
 
                     case TceWithRelationsAddedOrUpdated evnt: return model.AddOrUpdateTceWithRelations(evnt);
                     case TceRemoved evnt: return model.RemoveTce(evnt);

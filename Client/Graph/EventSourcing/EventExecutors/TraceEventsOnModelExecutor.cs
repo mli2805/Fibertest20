@@ -28,6 +28,13 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public static string UpdateTracePort(this Model model, TracePortUpdated e)
+        {
+            var trace = model.Traces.First(t => t.TraceId == e.Id);
+            trace.OtauPort.Serial = e.Serial;
+            return null;
+        }
+
         public static string CleanTrace(this Model model, TraceCleaned e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);

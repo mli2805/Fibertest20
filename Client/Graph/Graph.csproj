@@ -128,6 +128,7 @@
     <Compile Include="Algorithms\VersionExt.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
     <Compile Include="Commands\ExternalEvents\AddRtuAccident.cs" />
+    <Compile Include="Commands\Trace\UpdateTracePort.cs" />
     <Compile Include="Commands\UpdateFromLandmarksBatch.cs" />
     <Compile Include="DomainEntities\Extensions\BaseRefTypeExt.cs" />
     <Compile Include="DomainEntities\Extensions\ChannelEventExt.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Commands\RemoveEventsAndSors.cs" />
     <Compile Include="Events\Tce\TceTypeStructListReSeeded.cs" />
     <Compile Include="Events\Tce\TceWithRelationsAddedOrUpdated.cs" />
+    <Compile Include="Events\Trace\TracePortUpdated.cs" />
     <Compile Include="Events\UnusedRemoved.cs" />
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />

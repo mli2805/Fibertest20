@@ -73,6 +73,7 @@ namespace Iit.Fibertest.Graph
 
                 case AddTrace command: return Validate(command);
                 case UpdateTrace command: return _eventsQueue.Add(Mapper.Map<TraceUpdated>(command));
+                case UpdateTracePort command: return _eventsQueue.Add(Mapper.Map<TracePortUpdated>(command));
                 case CleanTrace command: return Validate(command);
                 case RemoveTrace command: return Validate(command);
                 case AttachTrace command: return Complete(command);
