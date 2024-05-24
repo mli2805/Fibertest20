@@ -85,12 +85,14 @@ public partial class RtuManager
         if (tokens.IsCancellationRequested()) return;
 
         var isTraceBroken = monitoringPort.LastTraceState != FiberState.Ok;
-        monitoringPort.IsConfirmationRequired =
+        var isPreciseNeeded =
             isNewTrace ||
             isTraceBroken ||
             _preciseMakeTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastPreciseMadeTimestamp > _preciseMakeTimespan;
 
-        if (monitoringPort.IsConfirmationRequired)
+        monitoringPort.IsConfirmationRequired = isTraceBroken && hasFastPerformed;
+
+        if (isPreciseNeeded)
         {
             // PRECISE (or ADDITIONAL)
             var baseType = (isTraceBroken && monitoringPort.IsBreakdownCloserThen20Km &&
@@ -157,7 +159,7 @@ public partial class RtuManager
 
         if (monitoringPort.IsConfirmationRequired)
         {
-            _logger.Info(Logs.RtuManager, "Accident confirmation - should be saved");
+            _logger.Info(Logs.RtuManager, "It is an accident confirmation - should be saved");
             reason |= ReasonToSendMonitoringResult.OpticalAccidentConfirmation;
         }
 
