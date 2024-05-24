@@ -1575,6 +1575,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel trace definition?.
+        /// </summary>
+        public static string SID_Cancel_trace_definition_ {
+            get {
+                return ResourceManager.GetString("SID_Cancel_trace_definition_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot connect RTU {0}.
         /// </summary>
         public static string SID_Cannot_connect_RTU__0_ {

@@ -360,6 +360,11 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
+            var strs = new List<string>() { Resources.SID_Cancel_trace_definition_ };
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, strs, 0);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (!vm.IsAnswerPositive) return;
+
             _currentHighlightedNodeVm.IsHighlighted = false;
             foreach (var fiberIds in Steps.Select(s => s.FiberIds))
             {
