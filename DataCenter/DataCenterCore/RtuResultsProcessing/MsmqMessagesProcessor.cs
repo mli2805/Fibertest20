@@ -93,7 +93,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
                 var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
-                _logFile.AppendLine($"Monitoring result for {rtu?.Title} / {trace?.Title}");
+                _logFile.AppendLine($"Monitoring result for {rtu?.Title} / {trace?.Title}, measured at {dto.TimeStamp:g}");
                 var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
                 if (sorId != -1)
                     await SaveEventFromDto(dto, sorId);

@@ -187,6 +187,7 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuLog.AppendLine($"{monitoringPort.LastMoniResult.UserReturnCode} => {moniResult.UserReturnCode}");
                 _rtuLog.AppendLine("Problem with base ref occurred!");
                 var sent = SendByMsmq(CreateDto(moniResult, monitoringPort, ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged));
+                monitoringPort.LastMoniResult = moniResult;
                 _monitoringQueue.Save();
                 if (!sent)
                     FastRestart();
