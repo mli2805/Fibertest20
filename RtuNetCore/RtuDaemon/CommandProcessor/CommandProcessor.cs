@@ -42,7 +42,7 @@ public class CommandProcessor(ILogger<CommandProcessor> logger, IWritableConfig<
             case DoClientMeasurementDto dto:
                 if (rtuManager.InitializationResult == null)
                     return new ClientMeasurementStartedDto(ReturnCode.RtuInitializationInProgress);
-                if (await rtuManager.GetIsMonitoringOn())
+                if (await rtuManager.GetIsAutoBaseMeasurementInProgress())
                     return new ClientMeasurementStartedDto(ReturnCode.RtuAutoBaseMeasurementInProgress);
                 Task.Factory.StartNew(() => rtuManager.DoClientMeasurement(dto));
                 return new ClientMeasurementStartedDto(ReturnCode.MeasurementClientStartedSuccessfully);
