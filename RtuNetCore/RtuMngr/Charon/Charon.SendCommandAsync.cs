@@ -82,8 +82,8 @@ namespace Iit.Fibertest.RtuMngr
                     return;
                 }
 
-                client.SendTimeout = _writeTimeout * 1000;
-                client.ReceiveTimeout = _readTimeout * 1000;
+                client.SendTimeout = 15_000;
+                client.ReceiveTimeout = 15_000;
 
                 NetworkStream nwStream = client.GetStream();
                 //---send the command---

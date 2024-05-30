@@ -71,8 +71,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         _rtuLogFile.AppendLine(LastErrorMessage, 0, 3);
                     return;
                 }
-                client.SendTimeout = 2000;
-                client.ReceiveTimeout = 4000;
+                client.SendTimeout = 15_000;
+                client.ReceiveTimeout = 15_000;
 
                 NetworkStream nwStream = client.GetStream();
 
