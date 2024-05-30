@@ -24,7 +24,7 @@ public class MonitoringService(ILogger<MonitoringService> logger, RtuManager rtu
         var result = await rtuManager.InitializeRtu(null, !(await rtuManager.GetIsMonitoringOn()));
         if (result.ReturnCode != ReturnCode.RtuInitializedSuccessfully)
         {
-            while (await rtuManager.RunMainCharonRecovery() != ReturnCode.Ok) { }
+            while (!await rtuManager.RunMainCharonRecovery()) { }
         }
         if (await rtuManager.GetIsMonitoringOn())
             await rtuManager.RunMonitoringCycle();

@@ -126,7 +126,7 @@ namespace Iit.Fibertest.RtuMngr
 
             if (lmax.Equals(0) && cp.splice == 0)
             {
-                if (await RunMainCharonRecovery() != ReturnCode.Ok)
+                if (!await RunMainCharonRecovery())
                     await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                 return ReturnCode.MeasurementPreparationError;
             }
@@ -191,7 +191,7 @@ namespace Iit.Fibertest.RtuMngr
 
             if (measResult != ReturnCode.MeasurementEndedNormally)
             {
-                if (await RunMainCharonRecovery() != ReturnCode.Ok)
+                if (!await RunMainCharonRecovery())
                     await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                 return result.Set(currentOtauPortDto, ReturnCode.MeasurementError);
             }

@@ -7,7 +7,7 @@ public partial class RtuManager
 {
     private readonly TimeSpan _mikrotikRebootTimeout;
 
-    public async Task<ReturnCode> RunMainCharonRecovery()
+    public async Task<bool> RunMainCharonRecovery()
     {
         var previousStep = _config.Value.Recovery.RecoveryStep;
 
@@ -19,15 +19,18 @@ public partial class RtuManager
                 var recoveryResult = await InitializeRtu(null, false);
                 _logger.Info(Logs.RtuManager, $"Initialization from Recovery returned {recoveryResult.IsInitialized}");
                 if (recoveryResult.IsInitialized)
+                {
                     _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
-                return recoveryResult.ReturnCode; // Reset Charon inside InitializeRtu
+                    return true;
+                }
+                return false; // Reset Charon inside InitializeRtu
             case RecoveryStep.ResetArpAndCharon:
                 _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.RestartService);
                 _logger.Info(Logs.RtuManager, "Recovery procedure: Exit rtu service.");
                 _logger.Info(Logs.RtuService, "Recovery procedure: Exit rtu service.");
                 Environment.FailFast("Recovery procedure: Exit rtu service.");
                 // ReSharper disable once HeuristicUnreachableCode
-                return ReturnCode.Ok;
+                return true;
             case RecoveryStep.RestartService:
                 var enabled = _config.Value.Recovery.RebootSystemEnabled;
                 if (enabled)
@@ -38,7 +41,7 @@ public partial class RtuManager
                     _logger.Info(Logs.RtuService, "Recovery procedure: Reboot system.");
                     RestoreFunctions.RebootSystem(_logger, delay);
                     Thread.Sleep(TimeSpan.FromSeconds(delay + 5));
-                    return ReturnCode.Ok;
+                    return true;
                 }
                 else
                 {
@@ -46,19 +49,25 @@ public partial class RtuManager
                     RestoreFunctions.ClearArp(_logger);
                     var recoveryResult1 = await InitializeRtu(null, true);
                     if (recoveryResult1.IsInitialized)
+                    {
                         _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
-                    return recoveryResult1.ReturnCode;
+                        return true;
+                    }
+                    return false;
                 }
             case RecoveryStep.RebootPc:
                 _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.ResetArpAndCharon);
                 RestoreFunctions.ClearArp(_logger);
                 var recoveryResult2 = await InitializeRtu(null, true);
                 if (recoveryResult2.IsInitialized)
+                {
                     _config.Update(c => c.Recovery.RecoveryStep = RecoveryStep.Ok);
-                return recoveryResult2.ReturnCode;
+                    return true;
+                }
+                return false;
         }
 
-        return ReturnCode.Ok;
+        return true;
     }
 
     private async Task RunAdditionalOtauRecovery(DamagedOtau damagedOtau)

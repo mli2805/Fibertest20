@@ -42,8 +42,7 @@ namespace Iit.Fibertest.RtuMngr
             var res = _otdrManager.ConnectOtdr();
             if (!res)
             {
-                var recovery = await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                if (recovery != ReturnCode.Ok)
+                if (!await RunMainCharonRecovery())
                     await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             }
         }

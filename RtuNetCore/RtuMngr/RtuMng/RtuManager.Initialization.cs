@@ -13,7 +13,7 @@ public partial class RtuManager
         var result = await InitializeRtu(dto, disconnectOtdr);
         if (result.IsInitialized) return result;
 
-        while (await RunMainCharonRecovery() != ReturnCode.Ok) { }
+        while (!await RunMainCharonRecovery()) { }
         return await InitializeRtu(dto, disconnectOtdr);
     }
 

@@ -282,7 +282,7 @@ public partial class RtuManager
                 return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, result); // восстановление, без сообщения пользователю
 
             case ReturnCode.MeasurementError:
-                if (await RunMainCharonRecovery() != ReturnCode.RtuInitializedSuccessfully)
+                if (!await RunMainCharonRecovery())
                     await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                 return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, result); // восстановление, без сообщения пользователю
         }
@@ -290,7 +290,7 @@ public partial class RtuManager
         var buffer = _otdrManager.GetLastSorDataBuffer();
         if (buffer == null)
         {
-            if (await RunMainCharonRecovery() != ReturnCode.RtuInitializedSuccessfully)
+            if (!await RunMainCharonRecovery())
                 await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementError); // восстановление, без сообщения
         }

@@ -91,7 +91,7 @@ public partial class RtuManager
             case CharonOperationResult.MainOtauError:
                 {
                     _serialPortManager.ShowOnLedDisplay(LedDisplayCode.ErrorTogglePort);
-                    if (await RunMainCharonRecovery() != ReturnCode.Ok)
+                    if (!await RunMainCharonRecovery())
                         await RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                     return false;
                 }
