@@ -11,8 +11,8 @@ rem if published in Visual Studio
 rem xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\*.* bin
 
 
-set address="192.168.96.56"
-rem set address="172.16.4.209"%
+rem set address="192.168.96.56"
+set address="172.16.4.209"
 
 
 rem folder OtdrMeasEngine is prepared on ubuntu2004 virtual machine
@@ -21,7 +21,7 @@ tar -C bin -czf bin.tar.gz .
 
 rem password is iitft25user or 123
 c:\putty\pscp.exe bin.tar.gz user@%address%:/var/tmp
-rem c:\putty\pscp.exe install.sh user@192.168.96.56:/var/tmp
+rem c:\putty\pscp.exe install.sh user@%address%:/var/tmp
 rem c:\putty\pscp.exe rtu.service user@192.168.96.56:/var/tmp
 rem c:\putty\pscp.exe watchdog.service user@192.168.96.56:/var/tmp
 rem c:\putty\pscp.exe setrtu.sh user@192.168.96.56:/var/tmp

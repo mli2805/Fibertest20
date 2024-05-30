@@ -17,9 +17,9 @@ namespace Iit.Fibertest.RtuMngr
             {
                 _logger.Debug(Logs.RtuManager, $"    SendCommand <<{cmd.Trim()}>> to {NetAddress.ToStringA()}");
                 var client = new TcpClient();
-                client.SendTimeout = TimeSpan.FromSeconds(_writeTimeout).Milliseconds;
-                client.ReceiveTimeout = TimeSpan.FromSeconds(_readTimeout).Milliseconds;
-                
+                client.SendTimeout = _writeTimeout * 1000;
+                client.ReceiveTimeout = _readTimeout * 1000;
+
                 await client.ConnectAsync(NetAddress.Ip4Address, NetAddress.Port).WaitAsync(TimeSpan.FromSeconds(_connectionTimeout));
                 if (client.Connected)
                 {
@@ -44,6 +44,7 @@ namespace Iit.Fibertest.RtuMngr
                 //---read back the text---
                 byte[] bytesToRead = new byte[client.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(bytesToRead, 0, client.ReceiveBufferSize);
+                //_logger.Debug(Logs.RtuManager, $"stream received {bytesRead} bytes");
 
                 client.Close();
                 LastAnswer = Encoding.ASCII.GetString(bytesToRead, 0, bytesRead);
@@ -53,6 +54,7 @@ namespace Iit.Fibertest.RtuMngr
             catch (Exception e)
             {
                 _logger.Exception(Logs.RtuManager, e, $"SendCommand: {cmd.Trim()}");
+                IsLastCommandSuccessful = false;
                 LastErrorMessage = e.Message;
             }
         }
@@ -80,8 +82,8 @@ namespace Iit.Fibertest.RtuMngr
                     return;
                 }
 
-                client.SendTimeout = TimeSpan.FromSeconds(_writeTimeout).Milliseconds;
-                client.ReceiveTimeout = TimeSpan.FromSeconds(_readTimeout).Milliseconds;
+                client.SendTimeout = _writeTimeout * 1000;
+                client.ReceiveTimeout = _readTimeout * 1000;
 
                 NetworkStream nwStream = client.GetStream();
                 //---send the command---

@@ -24,8 +24,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         _rtuLogFile.AppendLine(LastErrorMessage, 0, 3);
                     return;
                 }
-                client.SendTimeout = TimeSpan.FromSeconds(_writeTimeout).Milliseconds;
-                client.ReceiveTimeout = TimeSpan.FromSeconds(_readTimeout).Milliseconds;
+                client.SendTimeout = _writeTimeout * 1000;
+                client.ReceiveTimeout = _readTimeout * 1000;
 
                 NetworkStream nwStream = client.GetStream();
                 byte[] bytesToSend = Encoding.ASCII.GetBytes(cmd);
@@ -71,8 +71,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         _rtuLogFile.AppendLine(LastErrorMessage, 0, 3);
                     return;
                 }
-                client.SendTimeout = TimeSpan.FromSeconds(2).Milliseconds;
-                client.ReceiveTimeout = TimeSpan.FromSeconds(4).Milliseconds;
+                client.SendTimeout = 2000;
+                client.ReceiveTimeout = 4000;
 
                 NetworkStream nwStream = client.GetStream();
 
