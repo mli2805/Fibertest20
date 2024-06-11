@@ -210,28 +210,24 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                // var tcpConnection = tcpClient
-                //     .BeginConnect(netAddress.GetAddress(), netAddress.Port, null, null);
-                // if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
-                // {
-                //     tcpClient.Close();
-                //     return true;
-                // }
-
-                var task = tcpClient.ConnectAsync(netAddress.GetAddress(), netAddress.Port);
-                if (task.Wait(openTimeout))
+                var tcpConnection = tcpClient
+                    .BeginConnect(netAddress.GetAddress(), netAddress.Port, null, null);
+                if (tcpConnection.AsyncWaitHandle.WaitOne(openTimeout))
                 {
                     tcpClient.Close();
                     return true;
                 }
+
+                //var task = tcpClient.ConnectAsync(netAddress.GetAddress(), netAddress.Port);
+                //if (task.Wait(openTimeout))
+                //{
+                //    tcpClient.Close();
+                //    return true;
+                //}
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-            }
-            finally
-            {
-                tcpClient.Close();
             }
 
             if (shouldWriteToLogProblems)
