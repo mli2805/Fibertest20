@@ -229,6 +229,10 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine(e.Message);
             }
+            finally
+            {
+                tcpClient.Close();
+            }
 
             if (shouldWriteToLogProblems)
             {
