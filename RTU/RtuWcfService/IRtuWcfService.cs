@@ -7,6 +7,9 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
     public interface IRtuWcfService
     {
         [OperationContract]
+        void BeginCheck();
+        
+        [OperationContract]
         void BeginInitialize(InitializeRtuDto dto);
 
         [OperationContract]

@@ -31,6 +31,25 @@ namespace Iit.Fibertest.RtuManagement
             _baseRefsSaver = baseRefsSaver;
         }
 
+        public void BeginCheck()
+        {
+            _serviceLog.AppendLine("User checks connection - OK");
+            var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
+
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    _rtuManager.CheckConnection(() => callbackChannel
+                        .EndCheck(new RtuConnectionCheckedDto(){IsConnectionSuccessfull = true}));
+                }
+                catch (Exception e)
+                {
+                    _serviceLog.AppendLine("Thread pool: " + e);
+                }
+            });
+        }
+
         public void BeginInitialize(InitializeRtuDto dto)
         {
             _serviceLog.AppendLine("User demands initialization - OK");

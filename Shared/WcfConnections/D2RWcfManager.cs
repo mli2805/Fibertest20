@@ -20,6 +20,8 @@ namespace Iit.Fibertest.WcfConnections
             return this;
         }
 
+        //TODO убрать из WCF функции всё что касается veex модуля
+        //TODO выбор типа модуля происходит в WcfServiceCommonC2D и порт здесь уже только правильный
         public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile)
         {
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
@@ -57,6 +59,27 @@ namespace Iit.Fibertest.WcfConnections
             var json = JsonConvert.SerializeObject(result);
             logFile.AppendLine($"Return {json}");
             return result;
+        }
+
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
+        {
+            var backward = new RtuWcfServiceBackward();
+            var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
+            if (rtuDuplexConnection == null)
+                return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
+
+            try
+            {
+                var channel = rtuDuplexConnection.CreateChannel();
+                var result = await channel.CheckAsync(backward);
+                rtuDuplexConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("InitializeAsync: " + e.Message);
+                return null;
+            }
         }
 
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)

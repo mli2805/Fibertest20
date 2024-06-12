@@ -5,8 +5,17 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 {
     public static class RtuWcfServiceExtension
     {
+        public static Task<RtuConnectionCheckedDto> CheckAsync(
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService)
+        {
+            var src = new TaskCompletionSource<RtuConnectionCheckedDto>();
+            backwardService.HandlerForCheck.AddHandler(src);
+            rtuWcfService.BeginCheck();
+            return src.Task;
+        }
+
         public static Task<RtuInitializedDto> InitializeAsync(
-            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, InitializeRtuDto dto)
+                 this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, InitializeRtuDto dto)
         {
             var src = new TaskCompletionSource<RtuInitializedDto>();
             backwardService.HandlerForInitializeRtu.AddHandler(src);
@@ -79,7 +88,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             backwardService.HandlerForInterruptMeasurement.AddHandler(src);
             rtuWcfService.BeginInterruptMeasurement(dto);
             return src.Task;
-        }  
+        }
         public static Task<RequestAnswer> StartFreeOtdrAsync(
              this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, FreeOtdrDto dto)
         {

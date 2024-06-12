@@ -13,6 +13,8 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
 
     public class RtuWcfServiceBackward : IRtuWcfServiceBackward
     {
+        public Handler<RtuConnectionCheckedDto> HandlerForCheck { get; } = new Handler<RtuConnectionCheckedDto>();
+        public void EndCheck(RtuConnectionCheckedDto result) => HandlerForCheck.End(result);
         public Handler<RtuInitializedDto> HandlerForInitializeRtu { get; } = new Handler<RtuInitializedDto>();
         public void EndInitialize(RtuInitializedDto dto) => HandlerForInitializeRtu.End(dto);
         public Handler<OtauAttachedDto> HandlerForAttachOtau { get; } = new Handler<OtauAttachedDto>();

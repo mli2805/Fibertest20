@@ -7,6 +7,9 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
     public interface IRtuWcfServiceBackward
     {
         [OperationContract(IsOneWay = true)]
+        void EndCheck(RtuConnectionCheckedDto result);
+        
+        [OperationContract(IsOneWay = true)]
         void EndInitialize(RtuInitializedDto dto);
 
         [OperationContract(IsOneWay = true)]
