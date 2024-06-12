@@ -15,8 +15,9 @@ namespace Iit.Fibertest.RtuManagement
         // public ConcurrentQueue<object> WcfCommandsQueue = new ConcurrentQueue<object>();
         public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
-        public void CheckConnection(Action callback)
+        public void CheckConnection(CheckRtuConnectionDto dto, Action callback)
         {
+            _serviceLog.AppendLine($"{dto.ClientIp} checks connection");
             callback?.Invoke();
         }
         public void Initialize(InitializeRtuDto param, Action callback)

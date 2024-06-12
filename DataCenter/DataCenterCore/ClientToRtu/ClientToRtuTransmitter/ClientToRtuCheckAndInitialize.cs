@@ -34,7 +34,7 @@ namespace Iit.Fibertest.DataCenterCore
             var addressToCheck = new DoubleAddress() { Main = dto.NetAddress };
             return await _d2RWcfManager
                 .SetRtuAddresses(addressToCheck, _iniFile, _logFile)
-                .CheckRtuConnection(dto, _iniFile, _logFile);
+                .CheckRtuConnection(dto);
         }
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)

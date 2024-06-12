@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.WcfConnections
 {
@@ -22,44 +20,44 @@ namespace Iit.Fibertest.WcfConnections
 
         //TODO убрать из WCF функции всё что касается veex модуля
         //TODO выбор типа модуля происходит в WcfServiceCommonC2D и порт здесь уже только правильный
-        public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile)
-        {
-            var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
-            var backward = new RtuWcfServiceBackward();
+        //public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile)
+        //{
+        //    var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
+        //    var backward = new RtuWcfServiceBackward();
 
-            var addressToCheck = new DoubleAddress() { Main = dto.NetAddress.Clone() };
-            if (addressToCheck.Main.Port == -1)
-            {
-                logFile.AppendLine("D2RWcfManager: new RTU address.");
-                addressToCheck.Main.Port = (int)TcpPorts.RtuListenTo;
-                logFile.AppendLine($"Testing {addressToCheck.Main.ToStringA()} ...");
-            }
+        //    var addressToCheck = new DoubleAddress() { Main = dto.NetAddress.Clone() };
+        //    if (addressToCheck.Main.Port == -1)
+        //    {
+        //        logFile.AppendLine("D2RWcfManager: new RTU address.");
+        //        addressToCheck.Main.Port = (int)TcpPorts.RtuListenTo;
+        //        logFile.AppendLine($"Testing {addressToCheck.Main.ToStringA()} ...");
+        //    }
 
-            var wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
-            var rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
-            await Task.Factory.StartNew(() => Thread.Sleep(1)); // just to have await in function :)
+        //    var wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
+        //    var rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
+        //    await Task.Factory.StartNew(() => Thread.Sleep(1)); // just to have await in function :)
 
-            if (rtuConnection == null)
-            {
-                addressToCheck.Main.Port = addressToCheck.Main.Port == (int)TcpPorts.RtuListenTo
-                    ? (int)TcpPorts.RtuVeexListenTo
-                    : (int)TcpPorts.RtuListenTo;
-                logFile.AppendLine($"Testing {addressToCheck.Main.ToStringA()} ...");
-                wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
-                rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
-            }
+        //    if (rtuConnection == null)
+        //    {
+        //        addressToCheck.Main.Port = addressToCheck.Main.Port == (int)TcpPorts.RtuListenTo
+        //            ? (int)TcpPorts.RtuVeexListenTo
+        //            : (int)TcpPorts.RtuListenTo;
+        //        logFile.AppendLine($"Testing {addressToCheck.Main.ToStringA()} ...");
+        //        wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
+        //        rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
+        //    }
 
-            result.IsConnectionSuccessfull = rtuConnection != null;
-            result.NetAddress = dto.NetAddress.Clone();
+        //    result.IsConnectionSuccessfull = rtuConnection != null;
+        //    result.NetAddress = dto.NetAddress.Clone();
 
-            if (result.IsConnectionSuccessfull)
-                result.NetAddress.Port = addressToCheck.Main.Port;
-            else
-                result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
-            var json = JsonConvert.SerializeObject(result);
-            logFile.AppendLine($"Return {json}");
-            return result;
-        }
+        //    if (result.IsConnectionSuccessfull)
+        //        result.NetAddress.Port = addressToCheck.Main.Port;
+        //    else
+        //        result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
+        //    var json = JsonConvert.SerializeObject(result);
+        //    logFile.AppendLine($"Return {json}");
+        //    return result;
+        //}
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
         {
@@ -71,13 +69,13 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = rtuDuplexConnection.CreateChannel();
-                var result = await channel.CheckAsync(backward);
+                var result = await channel.CheckAsync(backward, dto);
                 rtuDuplexConnection.Close();
                 return result;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("InitializeAsync: " + e.Message);
+                _logFile.AppendLine("CheckRtuConnection: " + e.Message);
                 return null;
             }
         }

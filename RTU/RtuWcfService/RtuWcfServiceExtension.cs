@@ -6,11 +6,11 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
     public static class RtuWcfServiceExtension
     {
         public static Task<RtuConnectionCheckedDto> CheckAsync(
-            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService)
+            this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, CheckRtuConnectionDto dto)
         {
             var src = new TaskCompletionSource<RtuConnectionCheckedDto>();
             backwardService.HandlerForCheck.AddHandler(src);
-            rtuWcfService.BeginCheck();
+            rtuWcfService.BeginCheck(dto);
             return src.Task;
         }
 

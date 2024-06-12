@@ -31,7 +31,7 @@ namespace Graph.Tests
             return this;
         }
 
-        public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile)
+        public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
         {
             return Task.FromResult(new RtuConnectionCheckedDto()
             {
@@ -42,6 +42,17 @@ namespace Graph.Tests
                 NetAddress = dto.NetAddress.Clone(),
             });
         }
+        //public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto, IniFile iniFile, IMyLog logFile)
+        //{
+        //    return Task.FromResult(new RtuConnectionCheckedDto()
+        //    {
+        //        ClientIp = dto.ClientIp,
+        //        RtuId = dto.RtuId,
+        //        IsConnectionSuccessfull = true,
+        //        IsPingSuccessful = true,
+        //        NetAddress = dto.NetAddress.Clone(),
+        //    });
+        //}
 
 
         public Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)

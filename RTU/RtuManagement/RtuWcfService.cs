@@ -31,7 +31,7 @@ namespace Iit.Fibertest.RtuManagement
             _baseRefsSaver = baseRefsSaver;
         }
 
-        public void BeginCheck()
+        public void BeginCheck(CheckRtuConnectionDto dto)
         {
             _serviceLog.AppendLine("User checks connection - OK");
             var callbackChannel = OperationContext.Current.GetCallbackChannel<IRtuWcfServiceBackward>();
@@ -40,8 +40,15 @@ namespace Iit.Fibertest.RtuManagement
             {
                 try
                 {
-                    _rtuManager.CheckConnection(() => callbackChannel
-                        .EndCheck(new RtuConnectionCheckedDto(){IsConnectionSuccessfull = true}));
+                    _rtuManager.CheckConnection(dto,() => callbackChannel
+                        .EndCheck(new RtuConnectionCheckedDto()
+                        {
+                            ClientIp = dto.ClientIp,
+                            RtuId = dto.RtuId,
+                            IsConnectionSuccessfull = true,
+                            IsPingSuccessful = true,
+                            NetAddress = dto.NetAddress.Clone()
+                        }));
                 }
                 catch (Exception e)
                 {
