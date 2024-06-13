@@ -204,6 +204,19 @@ namespace Iit.Fibertest.WcfConnections
             return null;
         }
 
+
+        private bool DoNotUse(NetAddress netAddress, TimeSpan openTimeout)
+        {
+            var tcpClient = new TcpClient();
+            var task = tcpClient.ConnectAsync(netAddress.GetAddress(), netAddress.Port);
+            if (task.Wait(openTimeout))
+            {
+                tcpClient.Close();
+                return true;
+            }
+            return false;
+        }
+
         private bool CheckTcpConnection(NetAddress netAddress, TimeSpan openTimeout, bool shouldWriteToLogProblems)
         {
             var tcpClient = new TcpClient();
@@ -218,12 +231,7 @@ namespace Iit.Fibertest.WcfConnections
                     return true;
                 }
 
-                //var task = tcpClient.ConnectAsync(netAddress.GetAddress(), netAddress.Port);
-                //if (task.Wait(openTimeout))
-                //{
-                //    tcpClient.Close();
-                //    return true;
-                //}
+               
             }
             catch (Exception e)
             {
