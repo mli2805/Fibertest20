@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.DataCenterCore
+namespace Iit.Fibertest.Graph
 {
     public class MappingWebApiProfile : Profile
     {
@@ -28,7 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
                         .MapFrom(src => src.Ordinal))
                 .ForMember(dest=> dest.BopAddress,
                     opt=> opt
-                        .MapFrom(src => src.OtauIp + " : " + src.TcpPort))
+                        .MapFrom(src => src.OtauIp + @" : " + src.TcpPort))
                 .ForMember(dest => dest.EventRegistrationTimestamp,
                     opt => opt
                         .MapFrom(src => src.EventTimestamp))

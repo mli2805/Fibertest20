@@ -130,7 +130,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             try
             {
-                var result = _writeModel.GetTree(_logFile, user).ToList();
+                var result = _writeModel.GetTree(user).ToList();
                 var json = JsonConvert.SerializeObject(result, JsonSerializerSettings);
                 // _logFile.AppendLine(json, 0, 3);
                 return json;

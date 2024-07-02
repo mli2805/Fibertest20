@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.DataCenterCore
+namespace Iit.Fibertest.Graph
 {
     public static class WebDtoFactory
     {
-        public static IEnumerable<RtuDto> GetTree(this Model writeModel, IMyLog logFile, User user)
+        public static IEnumerable<RtuDto> GetTree(this Model writeModel, User user)
         {
             foreach (var rtu in writeModel.Rtus)
             {
@@ -18,7 +17,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var rtuDto = rtu.CreateRtuDto();
                 for (int i = 1; i <= rtuDto.OwnPortCount; i++)
                 {
-                    rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel, logFile, user));
+                    rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel, user));
                 }
                 //detached traces
                 foreach (var trace in writeModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port == -1))
@@ -79,24 +78,26 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
-        private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel, IMyLog logFile, User user)
+        private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel, User user)
         {
             if (rtu.Children.TryGetValue(port, out var child))
             {
-                var otau = writeModel.Otaus.FirstOrDefault(o => o.NetAddress?.Ip4Address == child.NetAddress.Ip4Address);
+                var otau = writeModel.Otaus
+                    .FirstOrDefault(o => o.NetAddress?.Ip4Address == child.NetAddress.Ip4Address);
                 if (otau == null)
                 {
-                    logFile.AppendLine($"Something strange happened on RTU {rtu.Title} port {port}: otau not found");
+                    Debug.WriteLine($@"Something strange happened on RTU {rtu.Title} port {port}: otau not found");
                     return null;
                 }
                 var otauWebDto = otau.CreateOtauWebDto(port);
                 for (var j = 1; j <= otau.PortCount; j++)
                 {
-                    var traceOnOtau = writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id
-                                                                            && t.OtauPort != null
-                                                                            && t.OtauPort.Serial == otau.Serial
-                                                                            && t.OtauPort.OpticalPort == j
-                                                                            && t.ZoneIds.Contains(user.ZoneId));
+                    var traceOnOtau = writeModel.Traces
+                        .FirstOrDefault(t => t.RtuId == rtu.Id
+                                                    && t.OtauPort != null
+                                                    && t.OtauPort.Serial == otau.Serial
+                                                    && t.OtauPort.OpticalPort == j
+                                                    && t.ZoneIds.Contains(user.ZoneId));
                     otauWebDto.Children.Add(traceOnOtau != null
                         ? traceOnOtau.CreateTraceDto(rtu, otauWebDto)
                         : new ChildDto(ChildType.FreePort) { Port = j });
@@ -224,12 +225,12 @@ namespace Iit.Fibertest.DataCenterCore
             var na = new NetworkAlarm { EventId = n.Ordinal, RtuId = n.RtuId, HasBeenSeen = true };
             if (n.OnMainChannel == ChannelEvent.Broken)
             {
-                na.Channel = "Main";
+                na.Channel = @"Main";
                 yield return na;
             }
             if (n.OnReserveChannel == ChannelEvent.Broken)
             {
-                na.Channel = "Reserve";
+                na.Channel = @"Reserve";
                 yield return na;
             }
         }
