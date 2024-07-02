@@ -204,7 +204,11 @@ namespace Iit.Fibertest.WcfConnections
             return null;
         }
 
-
+        // не удалять
+        // присутствие данного кода заставляет на тимсити подтягивать либку Microsoft.Threading.Tasks.Extensions.Desktop.dll
+        // без которой не стартует WebApi !!!!!
+        // на моем компе и без этого либой способ билда подтягивает эту либку
+        // ReSharper disable once UnusedMember.Local
         private bool DoNotUse(NetAddress netAddress, TimeSpan openTimeout)
         {
             var tcpClient = new TcpClient();

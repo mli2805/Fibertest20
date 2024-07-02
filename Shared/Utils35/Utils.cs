@@ -6,7 +6,7 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class Utils
     {
-        public static string FileNameForSure(string subDir, string filename, bool isBoomNeeded, bool isSubDirAbsolute = false)
+        public static string FileNameForSure(string subDir, string filename, bool isBomNeeded, bool isSubDirAbsolute = false)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Iit.Fibertest.UtilsLib
                     return fullPath;
                 using (FileStream fs = File.Create(fullPath))
                 {
-                    if (isBoomNeeded)
+                    if (isBomNeeded)
                     { fs.WriteByte(239); fs.WriteByte(187); fs.WriteByte(191); }
                 }
                 return fullPath;
