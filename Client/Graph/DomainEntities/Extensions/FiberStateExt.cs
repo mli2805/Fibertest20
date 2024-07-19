@@ -80,8 +80,8 @@ namespace Iit.Fibertest.Graph
                     return Brushes.Yellow;
                 case FiberState.Minor:
                     return isForeground 
-                        ?  new SolidColorBrush(Color.FromArgb(255, 164, 128, 224)) 
-                        : new SolidColorBrush(Color.FromArgb(255, 128, 128, 192));
+                        ?  new SolidColorBrush(Color.FromArgb(255, 164, 128, 224)) // A480E0
+                        : new SolidColorBrush(Color.FromArgb(255, 128, 128, 192)); // 8080C0
                 case FiberState.Major:
                     return isForeground 
                         ? Brushes.Fuchsia // FF00FF

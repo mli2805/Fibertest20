@@ -89,6 +89,8 @@ export class FtAssignBaseComponent implements OnInit {
   }
 
   prepareDto() {
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    this.assignDto.connectionId = currentUser.connectionId;
     this.assignDto.rtuId = this.trace.rtuId;
     this.assignDto.rtuMaker = this.params.rtuMaker;
     this.assignDto.otdrId = this.params.otdrId;

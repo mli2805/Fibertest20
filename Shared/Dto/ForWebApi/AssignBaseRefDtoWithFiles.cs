@@ -7,6 +7,8 @@ namespace Iit.Fibertest.Dto
     public class AssignBaseRefDtoWithFiles
     {
         [DataMember]
+        public string ConnectionId { get; set; } 
+        [DataMember]
         public Guid RtuId { get; set; }
         [DataMember]
         public RtuMaker RtuMaker { get; set; }

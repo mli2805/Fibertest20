@@ -195,6 +195,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             var result = new AssignBaseRefsDto
             {
                 ClientIp = GetRemoteAddress(),
+                ConnectionId = dto.ConnectionId,
                 Username = User.Identity!.Name,
                 RtuId = dto.RtuId,
                 RtuMaker = dto.RtuMaker,
