@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using System.Messaging;
@@ -22,7 +24,20 @@ namespace RtuEmulator {
             ReturnCode.MeasurementBaseRefNotFound,
         };
 
+        public List<ReasonToSendMonitoringResult> ReasonsToSend { get; set; } = new List<ReasonToSendMonitoringResult>()
+        {
+            ReasonToSendMonitoringResult.OpticalAccidentConfirmation,
+            ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged
+        };
+
+        public List<FiberState> FiberStates { get; set; } = Enum.GetValues(typeof(FiberState)).Cast<FiberState>().ToList();
+
+
         public ReturnCode SelectedReturnCode { get; set; } = ReturnCode.MeasurementEndedNormally;
+        public ReasonToSendMonitoringResult SelectedReason { get; set; } =
+            ReasonToSendMonitoringResult.OpticalAccidentConfirmation;
+        public FiberState SelectedFiberState { get; set; } = FiberState.Critical;
+
 
         public ShellViewModel()
         {
@@ -62,13 +77,13 @@ namespace RtuEmulator {
 
         private MonitoringResultDto CreateDto()
         {
-            return new MonitoringResultDto()
+            var monitoringResultDto = new MonitoringResultDto()
             {
                 ReturnCode = SelectedReturnCode,
-                Reason = ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged,
+                Reason = SelectedReason,
 
                 RtuId = Guid.Parse(RtuId),
-                BaseRefType = BaseRefType.Fast,
+                BaseRefType = BaseRefType.Precise,
 
                 PortWithTrace = new PortWithTraceDto()
                 {
@@ -81,6 +96,14 @@ namespace RtuEmulator {
                 },
                 TimeStamp = DateTime.Now,
             };
+
+            if (SelectedReason == ReasonToSendMonitoringResult.OpticalAccidentConfirmation)
+            {
+                monitoringResultDto.TraceState = SelectedFiberState;
+                monitoringResultDto.SorBytes = File.ReadAllBytes(@"../../meas.sor");
+            }
+
+            return monitoringResultDto;
         }
     }
 }

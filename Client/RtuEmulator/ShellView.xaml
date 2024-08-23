@@ -13,9 +13,7 @@
 
         <GroupBox Header="MonitoringResultDto" Margin="5">
             <StackPanel>
-                <StackPanel Margin="5">
-                    <ComboBox Margin="5" ItemsSource="{Binding ReturnCodes}" SelectedItem="{Binding SelectedReturnCode}"/>
-                </StackPanel>
+
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBlock Text="RtuId" Margin="5" Width="100" TextAlignment="Right" />
                     <TextBox Text="{Binding RtuId}" Width="320" Margin="5"/>
@@ -28,7 +26,13 @@
                     <TextBlock Text="MainCharonPort" Margin="5" Width="100" TextAlignment="Right"/>
                     <TextBox Text="{Binding MainCharonPort}" Width="320" Margin="5"/>
                 </StackPanel>
-                
+
+                <ComboBox Margin="20,5" ItemsSource="{Binding ReturnCodes}" 
+                              SelectedItem="{Binding SelectedReturnCode}"/>
+                <ComboBox Margin="20,5" ItemsSource="{Binding ReasonsToSend}" 
+                              SelectedItem="{Binding SelectedReason}"/>
+                <ComboBox Margin="20,5" ItemsSource="{Binding FiberStates}" 
+                              SelectedItem="{Binding SelectedFiberState}"/>
             </StackPanel>
         </GroupBox>
 

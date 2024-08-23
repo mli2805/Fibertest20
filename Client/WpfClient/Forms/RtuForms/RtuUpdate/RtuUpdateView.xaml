@@ -21,9 +21,21 @@
         </Style>
     </Window.Resources>
     <StackPanel IsEnabled="{Binding IsEditEnabled}">
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Title}" Margin="5">
-            <TextBox Text="{Binding Title, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                     Name="TextBoxTitle" Margin="5" IsEnabled="{Binding HasPrivilegies}" Style="{StaticResource TextBoxValidationStyle}"/>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
+            <StackPanel Margin="5">
+                <DockPanel>
+                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" Width="55"/>
+                    <TextBox Text="{Binding Title, Mode=TwoWay, ValidatesOnDataErrors=True, 
+                             UpdateSourceTrigger=PropertyChanged}" Name="TextBoxTitle" Margin="5" 
+                             IsEnabled="{Binding HasPrivilegies}"
+                             Style="{StaticResource TextBoxValidationStyle}"/>
+                </DockPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="ID" Margin="5" Width="55"/>
+                    <TextBox Margin="5" IsReadOnly="True" BorderThickness="0"
+                             Text="{Binding RtuId}" Foreground="DarkGray"/>
+                </StackPanel>
+            </StackPanel>
         </GroupBox>
 
         <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" 

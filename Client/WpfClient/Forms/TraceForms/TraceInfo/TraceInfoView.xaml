@@ -34,7 +34,8 @@
                 </DockPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="ID" Margin="5" Width="55"/>
-                    <TextBlock Margin="5" Text="{Binding Model.TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
+                    <TextBox Margin="5" IsReadOnly="True" BorderThickness="0"
+                               Text="{Binding Model.TraceId}" Foreground="DarkGray"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="RTU" />

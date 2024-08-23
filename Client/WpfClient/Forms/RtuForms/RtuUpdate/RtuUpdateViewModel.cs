@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuUpdateViewModel : Screen, IDataErrorInfo
     {
-        public Guid RtuId;
+        public Guid RtuId { get; set; }
         private Rtu _originalRtu;
         private Node _originalNode;
         private readonly ILifetimeScope _globalScope;
