@@ -72,6 +72,9 @@ namespace Iit.Fibertest.RtuMngr
                 ? $"Measurement Client done. Sor size is {result.SorBytes.Length}"
                 : "Measurement (Client) failed");
 
+            if (result.SorBytes != null)
+                await File.WriteAllBytesAsync(@"../portdata/client.sor", result.SorBytes, RtuServiceCancellationToken);
+
             await PersistClientMeasurementResult(result);
 
             if (dto.IsForAutoBase)
