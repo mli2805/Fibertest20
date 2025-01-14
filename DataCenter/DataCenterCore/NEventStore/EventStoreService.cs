@@ -59,6 +59,10 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 if (!await _writeModel.Deserialize(_logFile, snapshot.Item2))
                     return -1;
+
+                // потом этот файл используется в 3.0
+                // _writeModel.WriteToJsonFile(@"c:\temp\model.json");
+
                 _eventLogComposer.Initialize();
             }
 
