@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
@@ -141,11 +142,15 @@ namespace Iit.Fibertest.Graph
             {
                 switch (_owner)
                 {
+                    // only for xaml
                     case "desktop" : return $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}";
                     case "web" : return $@"./assets/AccidentSchemes/{pngFile}";
                     case "pdf_report_in_client" :
                     case "datacenter" :
-                        return $@"Resources\AccidentSchemes\{pngFile}";
+                    {
+                        var basePath = AppDomain.CurrentDomain.BaseDirectory;
+                        return Path.Combine(basePath, $@"Resources\AccidentSchemes\{pngFile}");
+                    }
                 }
 
                 return @"unknown owner, can't return path";
