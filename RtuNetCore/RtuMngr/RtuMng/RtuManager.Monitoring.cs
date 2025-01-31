@@ -252,7 +252,7 @@ public partial class RtuManager
         if (baseBytes == null)
             return new MoniResult() { UserReturnCode = ReturnCode.MeasurementBaseRefNotFound, BaseRefType = baseRefType };
 
-        _currentStep = CreateStepDto(MonitoringCurrentStep.Measure, monitoringPort, baseRefType);
+        CurrentStep = CreateStepDto(MonitoringCurrentStep.Measure, monitoringPort, baseRefType);
 
         if (tokens.IsCancellationRequested()) // command to interrupt monitoring came while port toggling
             return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementInterrupted);
@@ -268,7 +268,7 @@ public partial class RtuManager
         {
             case ReturnCode.MeasurementInterrupted:
                 IsMonitoringOn = false;
-                _currentStep = CreateStepDto(MonitoringCurrentStep.Interrupted);
+                CurrentStep = CreateStepDto(MonitoringCurrentStep.Interrupted);
                 _logger.Info(Logs.RtuManager, $"previous UserReturnCode was {monitoringPort.LastMoniResult!.UserReturnCode}");
                 return new MoniResult(monitoringPort.LastMoniResult!.UserReturnCode, ReturnCode.MeasurementInterrupted);
 

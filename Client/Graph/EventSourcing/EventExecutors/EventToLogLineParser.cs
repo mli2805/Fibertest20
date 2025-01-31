@@ -263,14 +263,21 @@ namespace Iit.Fibertest.Graph
         {
             if (_measurements.ContainsKey(e.SorFileId))
                 _logFile.AppendLine($@"Event to log parse MeasurementAdded error. SorFileId = {e.SorFileId} already exists");
-            else 
+            else
                 _measurements.Add(e.SorFileId, e);
             return null;
         }
 
         private LogLine Parse(MeasurementUpdated e)
         {
-            var meas = _measurements[e.SorFileId];
+            // при разработке 3.0 закинул в базу плохие события
+            if (!_measurements.TryGetValue(e.SorFileId, out MeasurementAdded meas))
+                return new LogLine() 
+                {
+                    OperationCode = LogOperationCode.MeasurementUpdated,
+                    Timestamp = e.StatusChangedTimestamp,
+                };
+            meas = _measurements[e.SorFileId];
             return new LogLine()
             {
                 OperationCode = LogOperationCode.MeasurementUpdated,

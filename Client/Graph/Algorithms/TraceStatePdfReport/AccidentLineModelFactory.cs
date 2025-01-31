@@ -143,15 +143,12 @@ namespace Iit.Fibertest.Graph
                 {
                     case "desktop" : return $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}";
                     case "web" : return $@"./assets/AccidentSchemes/{pngFile}";
-                    case "datacenter" : return $@"Resources\AccidentSchemes\{pngFile}";
+                    case "pdf_report_in_client" :
+                    case "datacenter" :
+                        return $@"Resources\AccidentSchemes\{pngFile}";
                 }
 
                 return @"unknown owner, can't return path";
-
-                // return _isDesktop
-                //     // ? $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}"
-                //     ? $@"Resources\AccidentSchemes\{pngFile}"
-                //     : $@"./assets/AccidentSchemes/{pngFile}";
             }
             catch (Exception e)
             {

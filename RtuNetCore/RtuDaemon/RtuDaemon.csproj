@@ -16,6 +16,7 @@
 		<Version>2.5.0.1</Version>
 		<Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
 		<Authors>Leanid Marholin</Authors>
+		<UserSecretsId>fd3d64c0-5ae1-474e-ad0b-559064ef020f</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(IsWindows)'=='true'">

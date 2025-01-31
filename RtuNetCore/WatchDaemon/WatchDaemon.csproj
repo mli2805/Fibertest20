@@ -14,6 +14,7 @@
 	  <Version>2.5.0.1</Version>
 	  <Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
 	  <Authors>Leanid Marholin</Authors>
+	  <UserSecretsId>6155dc90-a481-41b2-bec7-380a3bae7374</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

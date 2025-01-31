@@ -13,6 +13,8 @@ public class MonitoringPort
 
     public string CharonSerial = string.Empty;
     public int OpticalPort;
+    public int MainCharonOpticalPort;
+
     public NetAddress CharonAddress = null!;
     public Guid TraceId;
 
@@ -38,6 +40,7 @@ public class MonitoringPort
     {
         CharonSerial = port.OtauPort.Serial ?? "";
         OpticalPort = port.OtauPort.OpticalPort;
+        MainCharonOpticalPort = port.OtauPort.MainCharonPort; // не сохраняется на диске, надо переделат бд рту
         CharonAddress = port.OtauPort.NetAddress.Clone();
         IsPortOnMainCharon = port.OtauPort.IsPortOnMainCharon;
         TraceId = port.TraceId;

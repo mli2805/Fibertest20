@@ -11,8 +11,8 @@ rem if published in Visual Studio
 rem xcopy /E/D/Y c:\VsGitProjects\Fibertest20\RtuNetCore\RtuDaemon\bin\Release\net8.0\linux-x64\*.* bin
 
 
-rem set address="192.168.96.56"
-set address="172.16.4.209"
+set address="192.168.96.56"
+rem set address="172.16.4.209"
 
 
 rem folder OtdrMeasEngine is prepared on ubuntu2004 virtual machine

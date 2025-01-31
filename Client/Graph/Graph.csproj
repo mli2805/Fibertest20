@@ -171,6 +171,7 @@
     <Compile Include="EventSourcing\EventExecutors\VeexTestsEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
     <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelJsonSerializationExt.cs" />
     <Compile Include="EventSourcing\Model\ModelLicenseExt.cs" />
     <Compile Include="EventSourcing\Model\ModelRemoveThroughAdjustmentPointsExt.cs" />
     <Compile Include="EventSourcing\Model\ModelSerializationExt.cs" />

@@ -28,7 +28,8 @@ namespace Iit.Fibertest.Graph
                 var gap = section.AddParagraph();
                 gap.Format.SpaceBefore = Unit.FromCentimeter(0.2);
 
-                var accidentLineModel = accidentLineModelFactory.Create(accidentOnTraceV2, ++number, isGisOn, gpsInputMode);
+                var accidentLineModel = accidentLineModelFactory
+                    .Create(accidentOnTraceV2, ++number, isGisOn, gpsInputMode, @"pdf_report_in_client");
                 DrawAccidentPlace(section, accidentLineModel).Clone();
             }
         }
@@ -69,13 +70,11 @@ namespace Iit.Fibertest.Graph
             rowTop.Cells[3].AddParagraph((accidentLineModel.TopRight ?? "").Replace(LeftArrow, @"<-"));
             rowTop.Cells[3].Format.Alignment = ParagraphAlignment.Right;
 
-            var basePath = AppDomain.CurrentDomain.BaseDirectory;
-            var filename = basePath + accidentLineModel.PngPath;
             var rowImage = table.AddRow();
             rowImage.Borders.Visible = false;
             rowImage.HeightRule = RowHeightRule.Exactly;
             rowImage.Height = Unit.FromCentimeter(0.9);
-            var image = rowImage.Cells[0].AddImage(filename);
+            var image = rowImage.Cells[0].AddImage(accidentLineModel.PngPath);
             image.Width = Unit.FromCentimeter(14.7);
             image.LockAspectRatio = true;
 
