@@ -40,8 +40,8 @@ namespace Iit.Fibertest.Graph
 
         // if some of neighbors are AdjustmentPoints - step farther a find first node on this way
         // RTU could not be inside trace
-        public static List<Tuple<Guid, List<Guid>>> GetNeighboursPassingThroughAdjustmentPoints(this Model model,
-            Guid nodeId)
+        public static List<Tuple<Guid, List<Guid>>> 
+            GetNeighboursPassingThroughAdjustmentPoints(this Model model, Guid nodeId)
         {
             var res = new List<Tuple<Guid, List<Guid>>>();
 
@@ -65,7 +65,9 @@ namespace Iit.Fibertest.Graph
                         break;
 
                     previousNodeId = neighbourId;
-                    currentFiber = model.GetAnotherFiberOfAdjustmentPoint(neighbourId, currentFiber.FiberId);
+                    currentFiber = model
+                        .GetAnotherFiberOfAdjustmentPoint(
+                            neighbourId, currentFiber.FiberId);
                 }
                 if (neighbour != null && neighbour.TypeOfLastAddedEquipment != EquipmentType.Rtu)
                     res.Add(new Tuple<Guid, List<Guid>>(neighbourId, fiberIdsOfOneDestination));

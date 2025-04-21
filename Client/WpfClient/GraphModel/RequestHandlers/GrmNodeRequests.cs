@@ -76,14 +76,18 @@ namespace Iit.Fibertest.Client
             {
                 AddDetoursForTrace(nodeId, trace, detoursForGraph);
             }
-            var cmd = new RemoveNode { NodeId = nodeId, IsAdjustmentPoint = type == EquipmentType.AdjustmentPoint, DetoursForGraph = detoursForGraph };
+            var cmd = new RemoveNode
+            {
+                NodeId = nodeId, IsAdjustmentPoint = type == EquipmentType.AdjustmentPoint, DetoursForGraph = detoursForGraph
+            };
 
             if (detoursForGraph.Count == 0 && type == EquipmentType.AdjustmentPoint)
                 cmd.FiberIdToDetourAdjustmentPoint = Guid.NewGuid();
 
             var message = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, @"Graph RemoveNode: " + message));
+                _windowManager.ShowDialogWithAssignedOwner(
+                        new MyMessageBoxViewModel(MessageType.Error, @"Graph RemoveNode: " + message));
         }
 
         // if node has 3 or more neighbours (it's a fork) and one or more from them are adjustment point 
