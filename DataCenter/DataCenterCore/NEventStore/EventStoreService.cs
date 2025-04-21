@@ -28,6 +28,9 @@ namespace Iit.Fibertest.DataCenterCore
         public int LastEventNumberInSnapshot;
         public DateTime LastEventDateInSnapshot;
 
+        public IEventStream EventStream { get; set; }
+
+
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
@@ -66,10 +69,10 @@ namespace Iit.Fibertest.DataCenterCore
                 _eventLogComposer.Initialize();
             }
 
-            var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
+            EventStream = StoreEvents.OpenStream(StreamIdOriginal);
 
             var flag = false;
-            if (LastEventNumberInSnapshot == 0 && eventStream.CommittedEvents.FirstOrDefault() == null)
+            if (LastEventNumberInSnapshot == 0 && EventStream.CommittedEvents.FirstOrDefault() == null)
             {
                 flag = true;
                 foreach (object seed in DbSeeds.Collection)
@@ -78,7 +81,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("Empty graph is seeded with default zone and users.");
             }
 
-            var eventMessages = eventStream.CommittedEvents.ToList();
+            var eventMessages = EventStream.CommittedEvents.ToList();
             _logFile.AppendLine($"{eventMessages.Count} events should be applied...");
             foreach (var eventMessage in eventMessages)
             {
@@ -94,7 +97,7 @@ namespace Iit.Fibertest.DataCenterCore
                 await SendCommand(cmd, "developer", "OnServer");
             }
 
-            var msg = eventStream.CommittedEvents.LastOrDefault();
+            var msg = EventStream.CommittedEvents.LastOrDefault();
             if (msg != null)
                 _logFile.AppendLine($@"Last applied event has timestamp {msg.Headers[Timestamp]:O}");
 
@@ -154,15 +157,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         private void StoreEventsInDb(string username, string clientIp)
         {
-            var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
+            // var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
             foreach (var e in _eventsQueue.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
             {
                 var eventMessage = WrapEvent(e, username, clientIp);
-                eventStream.Add(eventMessage);   // and stores this event in BD
+                EventStream.Add(eventMessage);   // and stores this event in BD
                 _eventLogComposer.AddEventToLog(eventMessage);
             }
             _eventsQueue.Commit();                                     // now cleans WriteModel's list
-            eventStream.CommitChanges(Guid.NewGuid());
+            EventStream.CommitChanges(Guid.NewGuid());
         }
 
         private EventMessage WrapEvent(object e, string username, string clientIp)
