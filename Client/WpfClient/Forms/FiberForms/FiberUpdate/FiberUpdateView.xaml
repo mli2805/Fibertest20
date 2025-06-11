@@ -15,9 +15,8 @@
         </Style>
     </Window.Resources>
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=UserInput}">
-        <GroupBox Margin="5">
+        <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Nodes_of_section}">
             <StackPanel>
-                <TextBlock Margin="10,5,5,5" Text="{x:Static stringResources:Resources.SID_Nodes_of_section}" />
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="25,5,5,5" Text="{Binding NodeAtitle}" Width="150" />
                     <TextBlock Text=" - "></TextBlock>

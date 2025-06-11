@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -14,7 +15,9 @@ namespace Iit.Fibertest.Client
             cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
 
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly Model _readModel;
         private bool _isInCreationMode;
+        private Zone _originalZone;
 
         public Guid ZoneId { get; set; }
 
@@ -54,9 +57,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ZoneViewModel(IWcfServiceDesktopC2D c2DWcfManager)
+        public ZoneViewModel(IWcfServiceDesktopC2D c2DWcfManager, Model readModel)
         {
             _c2DWcfManager = c2DWcfManager;
+            _readModel = readModel;
         }
 
         protected override void OnViewLoaded(object view)
@@ -67,6 +71,7 @@ namespace Iit.Fibertest.Client
         public void Initialize(Zone selectedZone)
         {
             _isInCreationMode = false;
+            _originalZone = selectedZone;
             ZoneId = selectedZone.ZoneId;
             Title = selectedZone.Title;
             Comment = selectedZone.Comment;
@@ -76,6 +81,7 @@ namespace Iit.Fibertest.Client
         {
             _isInCreationMode = true;
             ZoneId = Guid.NewGuid();
+            _originalZone = new Zone() { ZoneId = ZoneId };
         }
 
         public async void Save()
@@ -104,6 +110,8 @@ namespace Iit.Fibertest.Client
                     case "Title":
                         if (string.IsNullOrEmpty(_title?.Trim()))
                             errorMessage = Resources.SID_Title_is_required;
+                        if (_readModel.Zones.Any(z => z.Title == Title && z.ZoneId != _originalZone.ZoneId))
+                            errorMessage = @"There is a zone with the same title";
                         IsButtonSaveEnabled = errorMessage == string.Empty;
                         break;
                 }

@@ -117,25 +117,25 @@ namespace Iit.Fibertest.Graph
         }
 
         // in meters
-        public static double GetDistanceBetweenPointLatLngOldMethod(PointLatLng p1, PointLatLng p2)
-        {
-            var q1 = new CoorsInRad(p1);
-            var q2 = new CoorsInRad(p2);
-
-            var lat1Cos = Math.Cos(q1.Lat);
-            var lat2Cos = Math.Cos(q2.Lat);
-            var lat1Sin = Math.Sin(q1.Lat);
-            var lat2Sin = Math.Sin(q2.Lat);
-
-            var sinDeltaLong = Math.Sin(q2.Lng - q1.Lng);
-            var cosDeltaLong = Math.Cos(q2.Lng - q1.Lng);
-
-            var y = Math.Sqrt(Math.Pow(lat2Cos * sinDeltaLong, 2) + 
-                              Math.Pow(lat1Cos * lat2Sin - lat1Sin * lat2Cos * cosDeltaLong, 2));
-            var x = lat1Sin * lat2Sin + lat1Cos * lat2Cos * cosDeltaLong;
-
-            return Math.Atan2(y, x) * EarthRadius;
-        }
+        // public static double GetDistanceBetweenPointLatLngOldMethod(PointLatLng p1, PointLatLng p2)
+        // {
+        //     var q1 = new CoorsInRad(p1);
+        //     var q2 = new CoorsInRad(p2);
+        //
+        //     var lat1Cos = Math.Cos(q1.Lat);
+        //     var lat2Cos = Math.Cos(q2.Lat);
+        //     var lat1Sin = Math.Sin(q1.Lat);
+        //     var lat2Sin = Math.Sin(q2.Lat);
+        //
+        //     var sinDeltaLong = Math.Sin(q2.Lng - q1.Lng);
+        //     var cosDeltaLong = Math.Cos(q2.Lng - q1.Lng);
+        //
+        //     var y = Math.Sqrt(Math.Pow(lat2Cos * sinDeltaLong, 2) + 
+        //                       Math.Pow(lat1Cos * lat2Sin - lat1Sin * lat2Cos * cosDeltaLong, 2));
+        //     var x = lat1Sin * lat2Sin + lat1Cos * lat2Cos * cosDeltaLong;
+        //
+        //     return Math.Atan2(y, x) * EarthRadius;
+        // }
         
         public static PointLatLng GetPointAsPartOfSegmentOnPlaneEarth(PointLatLng p1, PointLatLng p2, double part)
         {

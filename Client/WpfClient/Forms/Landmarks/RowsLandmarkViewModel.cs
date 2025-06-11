@@ -224,6 +224,7 @@ namespace Iit.Fibertest.Client
         {
             var hasRowChanges = false;
             Landmark changedLandmark = OneLandmarkViewModel.GetLandmark();
+            if (changedLandmark == null) return;
             var originalLandmark = _originalLandmarks.First(l => l.Number == changedLandmark.Number);
 
             var currentNode = _changedModel.NodeArray.First(n => n.NodeId == SelectedRow.NodeId);
