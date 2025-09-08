@@ -3749,4 +3749,7 @@ Please try again later</value>
 	<data name="SID_Cancel_trace_definition_" xml:space="preserve">
 		<value>Cancel trace definition?</value>
 	</data>
+	<data name="SID_created_" xml:space="preserve">
+		<value>created:</value>
+	</data>
 </root>

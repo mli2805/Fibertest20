@@ -3749,4 +3749,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Cancel_trace_definition_" xml:space="preserve">
 		<value>Завершить определение трассы?</value>
 	</data>
+	<data name="SID_created_" xml:space="preserve">
+		<value>создано:</value>
+	</data>
 </root>

@@ -2368,6 +2368,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to created:.
+        /// </summary>
+        public static string SID_created_ {
+            get {
+                return ResourceManager.GetString("SID_created_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creation date.
         /// </summary>
         public static string SID_Creation_date {
