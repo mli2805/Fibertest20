@@ -42,6 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpHost, dto.SmptHost);
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpPort, dto.SmptPort);
             _iniFile.Write(IniSection.Smtp, IniKey.MailFrom, dto.MailFrom);
+            _iniFile.Write(IniSection.Smtp, IniKey.IsAuthenticationOn, dto.IsAuthenticationOn);
             _iniFile.Write(IniSection.Smtp, IniKey.MailFromPassword, dto.MailFromPassword);
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpTimeoutMs, dto.SmtpTimeoutMs);
             _iniFile.Write(IniSection.Smtp, IniKey.SslEnabled, dto.SslEnabled);
@@ -50,6 +51,7 @@ namespace Iit.Fibertest.DataCenterCore
             _currentDatacenterParameters.Smtp.SmptHost = dto.SmptHost;
             _currentDatacenterParameters.Smtp.SmptPort = dto.SmptPort;
             _currentDatacenterParameters.Smtp.MailFrom = dto.MailFrom;
+            _currentDatacenterParameters.Smtp.IsAuthenticationOn = dto.IsAuthenticationOn;
             _currentDatacenterParameters.Smtp.MailFromPassword = dto.MailFromPassword;
             _currentDatacenterParameters.Smtp.SmtpTimeoutMs = dto.SmtpTimeoutMs;
             _currentDatacenterParameters.Smtp.SslEnabled = dto.SslEnabled;
@@ -218,8 +220,13 @@ namespace Iit.Fibertest.DataCenterCore
                 Timeout = _currentDatacenterParameters.Smtp.SmtpTimeoutMs,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(mailFrom, _currentDatacenterParameters.Smtp.MailFromPassword)
             };
+
+            if (_currentDatacenterParameters.Smtp.IsAuthenticationOn)
+            {
+                smtpClient.Credentials =
+                    new NetworkCredential(mailFrom, _currentDatacenterParameters.Smtp.MailFromPassword);
+            }
 
             return smtpClient;
         }

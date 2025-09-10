@@ -16,6 +16,19 @@ namespace Iit.Fibertest.Client
         public int SmtpPort { get; set; }
         public bool SslEnabled { get; set; }
         public string MailFrom { get; set; }
+
+        private bool _isAuthenticationOn;
+        public bool IsAuthenticationOn
+        {
+            get => _isAuthenticationOn;
+            set
+            {
+                if (value == _isAuthenticationOn) return;
+                _isAuthenticationOn = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public string MailFromPassword { get; set; }
         public int SmtpTimeoutMs { get; set; }
 
@@ -33,6 +46,7 @@ namespace Iit.Fibertest.Client
             SmtpPort = _currentDatacenterParameters.Smtp.SmptPort;
             SslEnabled = _currentDatacenterParameters.Smtp.SslEnabled;
             MailFrom = _currentDatacenterParameters.Smtp.MailFrom;
+            IsAuthenticationOn = _currentDatacenterParameters.Smtp.IsAuthenticationOn;
             MailFromPassword = _currentDatacenterParameters.Smtp.MailFromPassword;
             SmtpTimeoutMs = _currentDatacenterParameters.Smtp.SmtpTimeoutMs;
         }
@@ -50,6 +64,7 @@ namespace Iit.Fibertest.Client
                 _currentDatacenterParameters.Smtp.SmptHost = SmtpHost;
                 _currentDatacenterParameters.Smtp.SmptPort = SmtpPort;
                 _currentDatacenterParameters.Smtp.MailFrom = MailFrom;
+                _currentDatacenterParameters.Smtp.IsAuthenticationOn = IsAuthenticationOn;
                 _currentDatacenterParameters.Smtp.MailFromPassword = MailFromPassword;
                 _currentDatacenterParameters.Smtp.SmtpTimeoutMs = SmtpTimeoutMs;
                 _currentDatacenterParameters.Smtp.SslEnabled = SslEnabled;
@@ -59,6 +74,7 @@ namespace Iit.Fibertest.Client
                     SmptHost = SmtpHost,
                     SmptPort = SmtpPort,
                     MailFrom = MailFrom,
+                    IsAuthenticationOn = IsAuthenticationOn,
                     MailFromPassword = MailFromPassword,
                     SmtpTimeoutMs = SmtpTimeoutMs,
                     SslEnabled = SslEnabled,

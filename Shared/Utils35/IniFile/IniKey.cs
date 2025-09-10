@@ -121,6 +121,7 @@
         SmtpHost,
         SmtpPort,
         MailFrom,
+        IsAuthenticationOn,
         MailFromPassword,
         SmtpTimeoutMs,
         SslEnabled,

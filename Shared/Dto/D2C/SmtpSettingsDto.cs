@@ -15,6 +15,9 @@ namespace Iit.Fibertest.Dto
         public string MailFrom { get; set; }
 
         [DataMember]
+        public bool IsAuthenticationOn { get; set; }
+
+        [DataMember]
         public string MailFromPassword { get; set; }
 
         [DataMember]

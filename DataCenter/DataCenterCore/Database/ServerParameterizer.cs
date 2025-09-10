@@ -46,6 +46,7 @@ namespace Iit.Fibertest.DataCenterCore
                 SmptHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, ""),
                 SmptPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 0),
                 MailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, ""),
+                IsAuthenticationOn = _iniFile.Read(IniSection.Smtp, IniKey.IsAuthenticationOn, true),
                 MailFromPassword = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, ""),
                 SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
                 SslEnabled = _iniFile.Read(IniSection.Smtp, IniKey.SslEnabled, true),

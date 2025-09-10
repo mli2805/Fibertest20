@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Dto
                 SmptHost = dto.Smtp.SmptHost,
                 SmptPort = dto.Smtp.SmptPort,
                 MailFrom = dto.Smtp.MailFrom,
+                IsAuthenticationOn = dto.Smtp.IsAuthenticationOn,
                 MailFromPassword = dto.Smtp.MailFromPassword,
                 SmtpTimeoutMs = dto.Smtp.SmtpTimeoutMs,
                 SslEnabled = dto.Smtp.SslEnabled,

@@ -19,6 +19,10 @@
         </DockPanel>
         <DockPanel>
             <TextBlock DockPanel.Dock="Bottom"/>
+            <DockPanel DockPanel.Dock="Bottom" Margin="5,5,0,0">
+                <TextBlock Text="SSL/TLS" Margin="5" Width="100"/>
+                <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding SslEnabled}"/>
+            </DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_smtp_port}"
                        TextAlignment="Center" />
             <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="SMTP port" Width="100" />
@@ -35,19 +39,17 @@
         <GroupBox Header="Security settings">
             <DockPanel>
                 <DockPanel Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication method" TextWrapping="Wrap" Width="100" />
-                    <ComboBox Height="22" Margin="5" IsEnabled="False" SelectedIndex="0">
-                        <ComboBoxItem Content="Normal password"/>
-                    </ComboBox>
+                    <DockPanel DockPanel.Dock="Bottom" Margin="0,5,0,0">
+                        <TextBlock Text="Authentication" Margin="5" Width="100"/>
+                        <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding IsAuthenticationOn}"/>
+                    </DockPanel>
+                    
                 </DockPanel>
                 <DockPanel Dock="Top">
                     <TextBlock DockPanel.Dock="Left" Margin="5" Text="Mail password" Width="100" />
-                    <TextBox Margin="5" Text="{Binding MailFromPassword}" />
+                    <TextBox Margin="5" IsEnabled="{Binding IsAuthenticationOn}" Text="{Binding MailFromPassword}" />
                 </DockPanel>
-                <DockPanel Margin="0,5,0,0">
-                    <TextBlock Text="SSL/TLS" Margin="5" Width="100"/>
-                    <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding SslEnabled}"/>
-                </DockPanel>
+              
             </DockPanel>
         </GroupBox>
         <DockPanel Margin="0,15,0,0">
