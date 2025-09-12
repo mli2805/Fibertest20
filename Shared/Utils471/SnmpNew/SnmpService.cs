@@ -13,19 +13,20 @@ namespace Utils471
 
     public interface ISnmpService
     {
-        void SendSnmpTrap(SnmpNewSettings snmpNewSettings, int specificTrapValue, Dictionary<int, string> payload);
+        void SendSnmpTrap(SnmpNewSettings snmpNewSettings, FtTrapType specificTrapValue, Dictionary<FtTrapProperty, string> payload);
     }
 
 #pragma warning disable CS0618
 
     public class SnmpService : ISnmpService
     {
-        public void SendSnmpTrap(SnmpNewSettings snmpNewSettings, int specificTrapValue, Dictionary<int, string> payload)
+        public void SendSnmpTrap(SnmpNewSettings snmpNewSettings, 
+            FtTrapType specificTrapValue, Dictionary<FtTrapProperty, string> payload)
         {
             var ipAddress = IPAddress.Parse(snmpNewSettings.TrapReceiverAddress);
             var enterpriseOid = snmpNewSettings.UseIitOid ? "1.3.6.1.4.1.36220" : snmpNewSettings.CustomOid;
             var variables = GetVariables(payload, enterpriseOid).ToList();
-            var trapOid = enterpriseOid + "." + specificTrapValue;
+            var trapOid = enterpriseOid + "." + (int)specificTrapValue;
             
             if (snmpNewSettings.SnmpVersion == "v1")
             {
@@ -50,12 +51,12 @@ namespace Utils471
             }
         }
 
-        private IEnumerable<Variable> GetVariables(Dictionary<int, string> payload, string enterpriseOid)
+        private IEnumerable<Variable> GetVariables(Dictionary<FtTrapProperty, string> payload, string enterpriseOid)
         {
-            foreach (KeyValuePair<int, string> pair in payload)
+            foreach (KeyValuePair<FtTrapProperty, string> pair in payload)
             {
                 ISnmpData data = new OctetString(pair.Value);
-                var oid = enterpriseOid + $".{pair.Key}";
+                var oid = enterpriseOid + $".{(int)pair.Key}";
                 yield return new Variable(new ObjectIdentifier(oid), data);
             }
         }
@@ -138,7 +139,7 @@ namespace Utils471
         }
 
         private void SendSnmpV1TrapV1(IPAddress address, int port, string community, string enterpriseOid,
-            int specificTrapValue, List<Variable> payload)
+            FtTrapType specificTrapValue, List<Variable> payload)
         {
             Messenger.SendTrapV1(
                 new IPEndPoint(address, port),
@@ -146,7 +147,7 @@ namespace Utils471
                 new OctetString(community),
                 new ObjectIdentifier(enterpriseOid),
                 GenericCode.EnterpriseSpecific,
-                specificTrapValue,
+                (int)specificTrapValue,
                 0,
                 payload
             );

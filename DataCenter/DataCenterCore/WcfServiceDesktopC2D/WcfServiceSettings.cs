@@ -19,8 +19,6 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(true);
         }
 
-  
-
         public Task<bool> TestSnmpNewSettings(SnmpNewSettingsDto dto)
         {
             var json = JsonSerializer.Serialize(dto);
@@ -28,15 +26,15 @@ namespace Iit.Fibertest.DataCenterCore
 
             // var message = "Тестовая строка полностью на русском языке.";
             var message = "Test string with Русский язык.";
-            var payload = new Dictionary<int, string>()
+            var payload = new Dictionary<FtTrapProperty, string>()
             {
-                { (int)FtTrapProperty.TestString, message },
-                { (int)FtTrapProperty.EventRegistrationTime, DateTime.Now.ToString(CultureInfo.InvariantCulture) },
-                { (int)FtTrapProperty.TestInt, 123.ToString() },
-                { (int)FtTrapProperty.TestDouble, 3.1415926.ToString(CultureInfo.InvariantCulture) }
+                { FtTrapProperty.TestString, message },
+                { FtTrapProperty.EventRegistrationTime, DateTime.Now.ToString(CultureInfo.InvariantCulture) },
+                { FtTrapProperty.TestInt, 123.ToString() },
+                { FtTrapProperty.TestDouble, 3.1415926.ToString(CultureInfo.InvariantCulture) }
             };
 
-            _snmpService.SendSnmpTrap(newSnmpSettings, (int)FtTrapType.TestTrap, payload);
+            _snmpService.SendSnmpTrap(newSnmpSettings, FtTrapType.TestTrap, payload);
             return Task.FromResult(true);
         }
 
