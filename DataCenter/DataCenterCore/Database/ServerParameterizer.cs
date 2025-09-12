@@ -59,17 +59,6 @@ namespace Iit.Fibertest.DataCenterCore
                 GsmModemTimeoutMs = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemTimeoutMs, 150),
             };
 
-            var localIp = LocalAddressResearcher.GetAllLocalAddresses().FirstOrDefault() ?? "127.0.0.1";
-            _currentDatacenterParameters.Snmp = new SnmpSettingsDto()
-            {
-                IsSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, true),
-                SnmpReceiverIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21"),
-                SnmpReceiverPort = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverPort, 162),
-                SnmpAgentIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpAgentIp, localIp),
-                SnmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT"),
-                SnmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251"),
-                EnterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220"),
-            };
 
             _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
             var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");

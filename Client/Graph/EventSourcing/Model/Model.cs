@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -29,6 +30,8 @@ namespace Iit.Fibertest.Graph
 
         public List<TceTypeStruct> TceTypeStructs { get; set; } = new List<TceTypeStruct>();
 
+        public SnmpNewSettings SnmpNewSettings { get; set; }
+
 
         // if some List property added to Model see AdjustModelDeserializedFromSnapshotMadeByOldVersion
 
@@ -53,6 +56,7 @@ namespace Iit.Fibertest.Graph
             VeexTests = source.VeexTests;
             UserActionsLog = source.UserActionsLog;
             TceTypeStructs = source.TceTypeStructs;
+            SnmpNewSettings = source.SnmpNewSettings;
         }
     }
 }

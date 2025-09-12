@@ -100,6 +100,8 @@ namespace Iit.Fibertest.Graph
 
                 case RemoveEventsAndSors command: return _eventsQueue.Add(Mapper.Map<EventsAndSorsRemoved>(command));
                 case MakeSnapshot command: return _eventsQueue.Add(Mapper.Map<SnapshotMade>(command));
+                case UpdateSnmpNewSettings command:
+                    return _eventsQueue.Add(Mapper.Map<SnmpNewSettingsUpdated>(command));
 
                 default: return @"Unknown command";
             }

@@ -11,7 +11,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _currentDatacenterParameters = currentDatacenterParameters;
             _currentDatacenterParameters.Smtp = new SmtpSettingsDto();
-            _currentDatacenterParameters.Snmp = new SnmpSettingsDto();
             _currentDatacenterParameters.Gsm = new GsmSettingsDto();
         }
 
@@ -19,6 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _currentDatacenterParameters.Smtp = new SmtpSettingsDto();
         }
+
         public void LogSettings() { }
         public string MySqlConnectionString => "";
 

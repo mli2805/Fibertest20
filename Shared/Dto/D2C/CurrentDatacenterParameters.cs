@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Dto
 
         public SmtpSettingsDto Smtp { get; set; }
         public GsmSettingsDto Gsm { get; set; }
-        public SnmpSettingsDto Snmp { get; set; }
 
         public void FillIn(ClientRegisteredDto dto)
         {
@@ -39,17 +38,6 @@ namespace Iit.Fibertest.Dto
                 GsmModemPort = dto.Gsm.GsmModemPort,
                 GsmModemSpeed = dto.Gsm.GsmModemSpeed,
                 GsmModemTimeoutMs = dto.Gsm.GsmModemTimeoutMs,
-            };
-            Snmp = new SnmpSettingsDto()
-            {
-                IsSnmpOn = dto.Snmp.IsSnmpOn,
-                SnmpTrapVersion = dto.Snmp.SnmpTrapVersion,
-                SnmpReceiverIp = dto.Snmp.SnmpReceiverIp,
-                SnmpReceiverPort = dto.Snmp.SnmpReceiverPort,
-                SnmpAgentIp = dto.Snmp.SnmpAgentIp,
-                SnmpCommunity = dto.Snmp.SnmpCommunity,
-                EnterpriseOid = dto.Snmp.EnterpriseOid,
-                SnmpEncoding = dto.Snmp.SnmpEncoding,
             };
         }
     }

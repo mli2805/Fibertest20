@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Graph
         /// <para>If there are public properties/variables that you do not want written to the file,
         /// decorate them with the [JsonIgnore] attribute.</para>
         /// </summary>
-        /// <typeparam name="T">The type of object being written to the file.</typeparam>
         /// <param name="model"></param>
         /// <param name="filePath">The file path to write the object instance to.</param>
         public static void WriteToJsonFile(this Model model, string filePath)

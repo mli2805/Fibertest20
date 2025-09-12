@@ -10,14 +10,12 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class SnmpNotifier
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly SnmpAgent _snmpAgent;
 
-        public SnmpNotifier(IniFile iniFile, IMyLog logFile, Model writeModel, SnmpAgent snmpAgent)
+        public SnmpNotifier(IMyLog logFile, Model writeModel, SnmpAgent snmpAgent)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
             _writeModel = writeModel;
             _snmpAgent = snmpAgent;
@@ -25,8 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void SendTraceEvent(AddMeasurement meas)
         {
-            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
-            if (!isSnmpOn) return;
+            if (!_writeModel.SnmpNewSettings.Enabled) return;
             var data = MeasToSnmp(meas);
 
             _snmpAgent.SendRealTrap(data, FtTrapType.MeasurementAsSnmp);
@@ -35,8 +32,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void SendRtuNetworkEvent(NetworkEvent rtuEvent)
         {
-            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
-            if (!isSnmpOn) return;
+            if (!_writeModel.SnmpNewSettings.Enabled) return;
+
             var data = RtuEventToSnmp(rtuEvent);
 
             _snmpAgent.SendRealTrap(data, FtTrapType.RtuNetworkEventAsSnmp);
@@ -44,8 +41,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void SendBopNetworkEvent(BopNetworkEvent bopEvent)
         {
-            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
-            if (!isSnmpOn) return;
+            if (!_writeModel.SnmpNewSettings.Enabled) return;
+
             var data = BopEventToSnmp(bopEvent);
 
             _snmpAgent.SendRealTrap(data, FtTrapType.BopNetworkEventAsSnmp);
@@ -53,8 +50,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void SendRtuStatusEvent(RtuAccident rtuAccident)
         {
-            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
-            if (!isSnmpOn) return;
+            if (!_writeModel.SnmpNewSettings.Enabled) return;
+
             var data = RtuStatusEventToSnmp(rtuAccident);
 
             _snmpAgent.SendRealTrap(data, FtTrapType.RtuStatusEventAsSnmp);

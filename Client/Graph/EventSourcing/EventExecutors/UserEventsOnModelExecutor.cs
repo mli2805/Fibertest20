@@ -78,6 +78,10 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-
+        public static string UpdateSnmpNewSettings(this Model model, SnmpNewSettingsUpdated e)
+        {
+            model.SnmpNewSettings = e.SnmpNewSettings;
+            return null;
+        }
     }
 }

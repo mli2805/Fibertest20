@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly SnapshotRepository _snapshotRepository;
         private readonly WcfIntermediateC2R _wcfIntermediateC2R;
         private readonly Smtp _smtp;
-        private readonly SnmpAgent _snmpAgent;
+        private readonly ISnmpService _snmpService;
         private readonly SmsManager _smsManager;
         private readonly DiskSpaceProvider _diskSpaceProvider;
         private readonly GlobalState _globalState;
@@ -46,7 +46,8 @@ namespace Iit.Fibertest.DataCenterCore
             RtuStationsRepository rtuStationsRepository, IFtSignalRClient ftSignalRClient,
              WcfIntermediateC2R wcfIntermediateC2R,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
-            Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider,
+            Smtp smtp, ISnmpService snmpService,
+            SmsManager smsManager, DiskSpaceProvider diskSpaceProvider,
             GlobalState globalState, D2CWcfManager d2CWcfManager
             )
         {
@@ -63,7 +64,7 @@ namespace Iit.Fibertest.DataCenterCore
             _snapshotRepository = snapshotRepository;
             _wcfIntermediateC2R = wcfIntermediateC2R;
             _smtp = smtp;
-            _snmpAgent = snmpAgent;
+            _snmpService = snmpService;
             _smsManager = smsManager;
             _diskSpaceProvider = diskSpaceProvider;
             _globalState = globalState;

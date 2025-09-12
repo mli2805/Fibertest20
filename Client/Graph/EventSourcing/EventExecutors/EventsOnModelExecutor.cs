@@ -34,6 +34,7 @@ namespace Iit.Fibertest.Graph
                     case EquipmentFromTraceExcluded evnt: return model.ExcludeEquipmentFromTrace(evnt);
 
                     case UnusedRemoved _: return model.RemoveUnused();
+                    case SnmpNewSettingsUpdated evnt: return model.UpdateSnmpNewSettings(evnt);
 
                     case RtuAtGpsLocationAdded evnt: return model.AddRtuAtGpsLocation(evnt);
                     case RtuUpdated evnt: return model.UpdateRtu(evnt);
