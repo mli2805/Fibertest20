@@ -71,16 +71,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             EventStream = StoreEvents.OpenStream(StreamIdOriginal);
 
-            var flag = false;
-            if (LastEventNumberInSnapshot == 0 && EventStream.CommittedEvents.FirstOrDefault() == null)
-            {
-                flag = true;
-                foreach (object seed in DbSeeds.Collection)
-                    await SendCommand(seed, "developer", "OnServer");
-
-                _logFile.AppendLine("Empty graph is seeded with default zone and users.");
-            }
-
             var eventMessages = EventStream.CommittedEvents.ToList();
             _logFile.AppendLine($"{eventMessages.Count} events should be applied...");
             foreach (var eventMessage in eventMessages)
@@ -90,6 +80,18 @@ namespace Iit.Fibertest.DataCenterCore
             }
             _logFile.AppendLine("Events applied successfully.");
             _logFile.AppendLine($"Last event number is {LastEventNumberInSnapshot + eventMessages.Count}");
+
+            // перенес посев дефолтных пользователей и зоны после применения событий из базы, 
+            // потому что посев заносится в базу и потом применялся 2й раз (задваивались пользователи)
+            var flag = false;
+            if (LastEventNumberInSnapshot == 0 && EventStream.CommittedEvents.FirstOrDefault() == null)
+            {
+                flag = true;
+                foreach (object seed in DbSeeds.Collection)
+                    await SendCommand(seed, "developer", "OnServer");
+
+                _logFile.AppendLine("Empty graph is seeded with default zone and users.");
+            }
 
             if (_writeModel.TceTypeStructs == null || !_writeModel.TceTypeStructs.Any())
             {
