@@ -17,7 +17,6 @@
         MySql,
         Broadcast,
         Smtp,
-        Snmp,
         SnmpListener,
         Map,
         Miscellaneous,

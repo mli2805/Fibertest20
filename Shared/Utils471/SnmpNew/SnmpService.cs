@@ -152,5 +152,34 @@ namespace Utils471
                 payload
             );
         }
+
+        public bool SendOltTrap(SnmpNewSettings snmpNewSettings,  
+            ObjectIdentifier enterpriseObjectIdentifier, uint uptime, List<Variable> payload)
+        {
+            var endpoint = CreateEndPoint(snmpNewSettings);
+            if (endpoint == null) return false;
+
+            Messenger.SendTrapV2(
+                0,
+                VersionCode.V2,
+                CreateEndPoint(snmpNewSettings),
+                new OctetString("public"), 
+                enterpriseObjectIdentifier,
+                uptime, 
+                payload);
+
+            return true;
+        }
+
+        private IPEndPoint CreateEndPoint(SnmpNewSettings snmpNewSettings)
+        {
+            if (snmpNewSettings == null)
+                throw new ArgumentNullException(nameof(snmpNewSettings));
+
+            if (!IPAddress.TryParse(snmpNewSettings.TrapReceiverAddress, out var ipAddress))
+                return null;
+
+            return new IPEndPoint(ipAddress, snmpNewSettings.TrapReceiverPort);
+        }
     }
 }

@@ -126,16 +126,6 @@
         SmtpTimeoutMs,
         SslEnabled,
 
-        // Snmp,
-        IsSnmpOn,
-        SnmpTrapVersion,
-        SnmpReceiverIp,
-        SnmpReceiverPort,
-        SnmpAgentIp,
-        SnmpCommunity,
-        EnterpriseOid,
-        SnmpEncoding,
-
         // SnmpListener (PON) 
         IsSnmpListenerOn,
 
