@@ -27,8 +27,8 @@
 		<DefineConstants>Linux</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.25" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.20" />
 	</ItemGroup>
 
 

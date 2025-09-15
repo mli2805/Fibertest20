@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System.ComponentModel.DataAnnotations;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.RtuMngr;
 
@@ -8,9 +9,11 @@ public class MonitoringPortEf
 
     public bool IsPortOnMainCharon { get; set; }
 
+    [MaxLength(32)]
     public string CharonSerial { get; set; } = null!;
     public int OpticalPort { get; set; }
     //
+    [MaxLength(32)]
     public string CharonIp { get; set; } = null!;
     public int CharonTcpPort { get; set; }
     //
@@ -23,6 +26,7 @@ public class MonitoringPortEf
 
     public FiberState LastTraceState { get; set; }
 
+    [MaxLength(255)]
     public string? LastMoniResult { get; set; }
 
     public bool IsBreakdownCloserThen20Km { get; set; }

@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System.ComponentModel.DataAnnotations;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.RtuMngr
 {
@@ -16,12 +17,13 @@ namespace Iit.Fibertest.RtuMngr
 
         #region PortWithTrace
         //public PortWithTraceDto PortWithTrace { get; set; } = null!;
+        [MaxLength(32)]
         public string Serial { get; set; } = null!;
         public bool IsPortOnMainCharon { get; set; }
         public int OpticalPort { get; set; }
         public Guid TraceId { get; set; }
         #endregion
-       
+
 
         public BaseRefType BaseRefType { get; set; }
 
