@@ -10,6 +10,19 @@ namespace Iit.Fibertest.Licenser
     public class ShellViewModel : Screen, IShell
     {
         public bool HaveRights { get; set; }
+        public bool AppJustOpened { get; set; }
+
+        private bool _showPdfAndSave;
+        public bool ShowPdfAndSave
+        {
+            get => _showPdfAndSave;
+            set
+            {
+                if (value == _showPdfAndSave) return;
+                _showPdfAndSave = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private bool _isEditable;
         public bool IsEditable
@@ -50,19 +63,26 @@ namespace Iit.Fibertest.Licenser
 
         public ShellViewModel()
         {
+            AppJustOpened = true;
+            HaveRights = false;
+            IsEditable = false;
+            LoadFromFileButtonRow = 1;
+            ShowPdfAndSave = false;
+
             var rr = Environment.GetCommandLineArgs();
             HaveRights = rr.Length > 1 && rr[1] == "ihaverights";
 
-            if (rr.Length > 2)
+            // второй параметр - файл лицензии, тогда сразу открываем ее для редактирования
+            if (HaveRights && rr.Length > 2)
             {
                 var licFileDecoder = new LicenseFromFileDecoder(new WindowManager());
                 var license = licFileDecoder.Decode(rr[2]);
                 if (license != null)
                     LicenseInFileModel = new LicenseInFileModel(license);
-                IsEditable = true;
+                LoadFromFileButtonRow = 0;
+                AppJustOpened = false;
+                ShowPdfAndSave = true;
             }
-
-            LoadFromFileButtonRow = IsEditable ? 0 : 1;
         }
 
         protected override void OnViewLoaded(object view)
@@ -81,7 +101,8 @@ namespace Iit.Fibertest.Licenser
                 CreationDate = DateTime.Today,
             };
             IsEditable = true;
-            LoadFromFileButtonRow = IsEditable ? 0 : 1;
+            ShowPdfAndSave = true;
+            LoadFromFileButtonRow = 0;
         }
 
         public void LoadFromFile()
@@ -92,8 +113,9 @@ namespace Iit.Fibertest.Licenser
 
             if (license != null)
                 LicenseInFileModel = new LicenseInFileModel(license);
-            IsEditable = HaveRights;
-            LoadFromFileButtonRow = IsEditable ? 0 : 1;
+            IsEditable = false; // существующий файл никому нельзя редактировать, можно только создавать новый
+            ShowPdfAndSave = true;
+            LoadFromFileButtonRow = 0;
         }
 
 
@@ -116,8 +138,7 @@ namespace Iit.Fibertest.Licenser
                 File.WriteAllBytes(filename, encoded);
             }
 
-            // var licenseInFile = (LicenseInFile)Cryptography.Decode(encoded);
-            // LicenseInFileModel = new LicenseInFileModel(licenseInFile);
+            IsEditable = false;
         }
 
         public void ToPdf()
