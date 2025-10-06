@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Uninstall
             _isOnRtu = iniFile.Read(IniSection.Uninstall, IniKey.IsOnRtu, false);
 
             UnInstallFolderViewModel =
-                new UnInstallFolderViewModel(_isOnRtu ? Visibility.Collapsed : Visibility.Visible)
+                new UnInstallFolderViewModel(Visibility.Collapsed) // никогда не показывать птичку Полная очистка - смущает пользователей
                 { Visibility = Visibility.Visible };
             ProcessProgressViewModel = new ProcessProgressViewModel() { Visibility = Visibility.Collapsed };
             LastButtonContent = "Cancel";
