@@ -96,7 +96,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<SmsManager>().SingleInstance();
             builder.RegisterType<Smtp>().SingleInstance();
             builder.RegisterType<SnmpNotifier>().SingleInstance();
-            builder.RegisterType<SnmpAgent>().SingleInstance();
+            builder.RegisterType<SnmpService>().As<ISnmpService>().SingleInstance();
             builder.RegisterType<MsmqMessagesProcessor>().SingleInstance();
             builder.RegisterType<MsmqHandler>().As<IMsmqHandler>().SingleInstance();
             builder.RegisterType<CommonBopProcessor>().SingleInstance();

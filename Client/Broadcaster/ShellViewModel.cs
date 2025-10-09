@@ -1,4 +1,5 @@
 using Iit.Fibertest.UtilsLib;
+using Utils471;
 
 namespace Broadcaster {
     public class ShellViewModel : Caliburn.Micro.PropertyChangedBase, IShell
@@ -17,8 +18,8 @@ namespace Broadcaster {
 
             GsmViewModel = new GsmViewModel(iniFile);
             MsmqViewModel = new MsmqViewModel(iniFile);
-            SnmpViewModel = new SnmpViewModel(iniFile, logFile);
-            HuaweiTrapViewModel = new HuaweiTrapViewModel(iniFile, logFile);
+            SnmpViewModel = new SnmpViewModel(new SnmpService());
+            HuaweiTrapViewModel = new HuaweiTrapViewModel();
         }
     }
 }

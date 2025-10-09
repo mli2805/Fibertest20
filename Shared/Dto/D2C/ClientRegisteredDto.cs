@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public GsmSettingsDto Gsm { get; set; }
 
-        [DataMember]
-        public SnmpSettingsDto Snmp { get; set; }
+        // [DataMember]
+        // public SnmpNewSettingsDto Snmp { get; set; }
     }
 }

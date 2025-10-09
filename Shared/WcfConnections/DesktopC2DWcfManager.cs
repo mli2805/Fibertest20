@@ -275,7 +275,8 @@ namespace Iit.Fibertest.WcfConnections
                 return false;
             }
         }
-        public async Task<bool> SaveAndTestSnmpSettings(SnmpSettingsDto dto)
+        
+        public async Task<bool> TestSnmpNewSettings(SnmpNewSettingsDto dto)
         {
             var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
@@ -284,13 +285,13 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.SaveAndTestSnmpSettings(dto);
+                var result = await channel.TestSnmpNewSettings(dto);
                 wcfConnection.Close();
                 return result;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("SaveSnmpSettings: " + e.Message);
+                _logFile.AppendLine("TestSnmpNewSettings: " + e.Message);
                 return false;
             }
         }

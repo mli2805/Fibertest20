@@ -141,6 +141,7 @@
     <Compile Include="Forms\RtuForms\RtuInitialize\ResultMessagesExt.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeModelExt.cs" />
     <Compile Include="Forms\RtuForms\RtuUpdate\TceRelationInfo.cs" />
+    <Compile Include="Forms\SettingsForms\SnmpVersionToVisibilityConverter.cs" />
     <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentLineModel.cs" />
     <Compile Include="Forms\RtuForms\RtuAccident\RtuAccidentModel.cs" />
     <Compile Include="Forms\Shell\RtuAccidentsControl\RtuAccidentsDoubleView.xaml.cs">

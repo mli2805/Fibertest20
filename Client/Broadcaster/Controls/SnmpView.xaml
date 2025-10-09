@@ -4,31 +4,101 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:broadcaster="clr-namespace:Broadcaster"
              mc:Ignorable="d" 
              cal:Bind.ModelWithoutContext="{Binding .}">
-        <StackPanel HorizontalAlignment="Center" Margin="5,30">
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="SNMP manager (listener) IP" Margin="5"/>
-                <TextBox Text="{Binding SnmpManagerIp}" Margin="5" Width="200"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="SNMP manager (listener) port" Margin="5"/>
-                <TextBox Text="{Binding SnmpManagerPort}" Margin="5" Width="200"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="SNMP community" Margin="5"/>
-                <TextBox Text="{Binding SnmpCommunity}" Margin="5" Width="200"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Strings encoding" Margin="5"/>
-                <ComboBox ItemsSource="{Binding SnmpEncodings}" SelectedItem="{Binding SelectedSnmpEncoding}" Margin="5" Width="200"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="EnterpriseOid" Margin="5"/>
-                <TextBox Text="{Binding EnterpriseOid}" Margin="5" Width="200"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Width="200" Height="22" Content="Send Test Trap " Margin="5" Name="SendV1TestTrap"/>
-            </StackPanel>
-        </StackPanel>
+    <UserControl.Resources>
+        <broadcaster:SnmpVersionToVisibilityConverter x:Key="SnmpVersionToVisibilityConverter"/>
+    </UserControl.Resources>
+
+   <StackPanel Margin="5" >
+     <GroupBox Margin="0,5,0,0">
+         <DockPanel Margin="0,5,0,0">
+             <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP Version" Width="160" />
+             <ComboBox ItemsSource="{Binding SnmpVersions}" 
+                    SelectedItem="{Binding SelectedSnmpVersion}" Margin="5" />
+         </DockPanel>
+     </GroupBox>
+     <GroupBox Margin="0,5,0,0">
+         <DockPanel Margin="0,5,0,0">
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Use IIT OID" Width="160" />
+                 <CheckBox Margin="5,10" IsChecked="{Binding UseIitOid}" />
+             </DockPanel>
+             <DockPanel IsEnabled="{Binding EnableCustomId}">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Enterprise OID" Width="160" />
+                 <TextBox Margin="5" Text="{Binding CustomOid}" />
+             </DockPanel>
+         </DockPanel>
+     </GroupBox>
+
+     <!-- v1 -->
+     <GroupBox Margin="0,5,0,0" Visibility="{Binding SelectedSnmpVersion,
+                             Converter={StaticResource SnmpVersionToVisibilityConverter},
+                             ConverterParameter=v1}">
+         <DockPanel Margin="0,5,0,0">
+             <TextBlock DockPanel.Dock="Left" Margin="5" Text="Community" Width="160" />
+             <TextBox Margin="5" Text="{Binding Community}" />
+         </DockPanel>
+     </GroupBox>
+
+     <!-- v3 -->
+     <GroupBox Margin="0,5,0,0" Visibility="{Binding SelectedSnmpVersion,
+                     Converter={StaticResource SnmpVersionToVisibilityConverter},
+                     ConverterParameter=v3}">
+         <DockPanel  Margin="0,5,0,0">
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authoritative Engine ID" Width="160" />
+                 <TextBox Margin="5" Text="{Binding AuthoritativeEngineId}" />
+             </DockPanel>
+
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Username" Width="160" />
+                 <TextBox Margin="5" Text="{Binding UserName}" />
+             </DockPanel>
+
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Password" Width="160" />
+                 <TextBox Margin="5" Text="{Binding AuthenticationPassword}" />
+             </DockPanel>
+
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Protocol" Width="160" />
+                 <ComboBox ItemsSource="{Binding AuthenticationProtocols}" 
+                        SelectedItem="{Binding SelectedAuthenticationProtocol}" Margin="5" />
+             </DockPanel>
+
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Password" Width="160" />
+                 <TextBox Margin="5" Text="{Binding PrivacyPassword}" />
+             </DockPanel>
+
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Protocol" Width="160" />
+                 <ComboBox ItemsSource="{Binding PrivacyProtocols}" 
+                        SelectedItem="{Binding SelectedPrivacyProtocol}" Margin="5" />
+             </DockPanel>
+         </DockPanel>
+     </GroupBox>
+
+     <!-- общее -->
+     <GroupBox Margin="0,5,0,0">
+         <DockPanel Margin="0,5,0,0">
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP trap receiver address" Width="160" />
+                 <TextBox Margin="5" Text="{Binding TrapReceiverAddress}" />
+             </DockPanel>
+             <DockPanel DockPanel.Dock="Top">
+                 <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP trap receiver port" Width="160" />
+                 <TextBox Margin="5" Text="{Binding TrapReceiverPort}" />
+             </DockPanel>
+
+          
+         </DockPanel>
+     </GroupBox>
+
+     <StackPanel Orientation="Horizontal" Margin="5,25,5,15" HorizontalAlignment="Center">
+         <Button Width="180" Margin="5" Name="SaveAndTest" Content="Save and Test"/>
+     </StackPanel>
+ </StackPanel>
 </UserControl>

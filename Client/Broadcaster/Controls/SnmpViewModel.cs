@@ -1,65 +1,129 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using Caliburn.Micro;
-using Iit.Fibertest.UtilsLib;
 using Utils471;
+using System.Text.Json;
+using Iit.Fibertest.Dto;
 
 namespace Broadcaster
 {
     public class SnmpViewModel : PropertyChangedBase
     {
-        private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
+        private readonly SnmpService _snmpService;
 
-        private int _snmpTrapVersion;
-        public string SnmpManagerIp { get; set; }
-        public int SnmpManagerPort { get; set; }
-        public string SnmpCommunity { get; set; }
+        public List<string> SnmpVersions { get; set; } = new List<string>() { @"v1", @"v3" };
 
-        public List<string> SnmpEncodings { get; set; } = new List<string>() { "unicode (utf16)", "utf8", "windows1251" };
-
-        public string SelectedSnmpEncoding { get; set; }
-        public string EnterpriseOid { get; set; }
-
-
-        public SnmpViewModel(IniFile iniFile, IMyLog logFile)
+        private string _selectedSnmpVersion;
+        public string SelectedSnmpVersion
         {
-            _iniFile = iniFile;
-            _logFile = logFile;
+            get => _selectedSnmpVersion;
+            set
+            {
+                if (value == _selectedSnmpVersion) return;
+                _selectedSnmpVersion = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-            LoadSnmpSets();
-            SelectedSnmpEncoding = SnmpEncodings[2];
+
+        private bool _useIitOid;
+        public bool UseIitOid
+        {
+            get => _useIitOid;
+            set
+            {
+                if (value == _useIitOid) return;
+                _useIitOid = value;
+                EnableCustomId = !_useIitOid;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(EnableCustomId));
+            }
+        }
+
+        public bool EnableCustomId { get; set; }
+
+        public string CustomOid { get; set; }
+
+        public string Community { get; set; }
+        public string AuthoritativeEngineId { get; set; }
+        public string UserName { get; set; }
+        public bool IsAuthPswSet { get; set; }
+        public string AuthenticationPassword { get; set; }
+        public List<string> AuthenticationProtocols { get; set; } = new List<string>() { @"Md5", @"Sha", @"Sha256", @"Sha384", @"Sha512" };
+        public string SelectedAuthenticationProtocol { get; set; }
+        public bool IsPrivPswSet { get; set; }
+        public string PrivacyPassword { get; set; }
+        public List<string> PrivacyProtocols { get; set; } = new List<string>()
+        {
+            @"None", @"Des", @"TripleDes", @"Aes128", @"Aes192", @"Aes256"
+        };
+        public string SelectedPrivacyProtocol { get; set; }
+        public string TrapReceiverAddress { get; set; }
+        public int TrapReceiverPort { get; set; }
+
+
+        public SnmpViewModel(SnmpService snmpService)
+        {
+            _snmpService = snmpService;
+
+            LoadSnmpSettings();
         }
       
-        public void SendV1TestTrap()
+     private void LoadSnmpSettings()
         {
-            // save all user's input into ini-file: snmpAgent will read them from ini-file
-            SaveInputs();
+            var json = File.ReadAllText(@"../ini/snmp-settings.json");
+            var snmp = JsonSerializer.Deserialize<SnmpNewSettings>(json);
 
-            var snmpAgent = new SnmpAgent(_iniFile, _logFile);
-            var unused = snmpAgent.SendTestTrap();
+            SelectedSnmpVersion = snmp.SnmpVersion;
+            UseIitOid = snmp.UseIitOid;
+            CustomOid = snmp.CustomOid;
+            Community = snmp.Community;
+            AuthoritativeEngineId = snmp.AuthoritativeEngineId;
+            UserName = snmp.UserName;
+            IsAuthPswSet = snmp.IsAuthPswSet;
+            AuthenticationPassword = snmp.AuthenticationPassword;
+            SelectedAuthenticationProtocol = snmp.AuthenticationProtocol;
+            IsPrivPswSet = snmp.IsPrivPswSet;
+            PrivacyPassword = snmp.PrivacyPassword;
+            SelectedPrivacyProtocol = snmp.PrivacyProtocol;
+            TrapReceiverAddress = snmp.TrapReceiverAddress;
+            TrapReceiverPort = snmp.TrapReceiverPort;
         }
 
-    
-        private void LoadSnmpSets()
+        public void SaveAndTest()
         {
-            _snmpTrapVersion = _iniFile.Read(IniSection.Snmp, IniKey.SnmpTrapVersion, 1);
-            SnmpManagerIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21");
-            SnmpManagerPort = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverPort, 162);
-            SnmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT");
-            SelectedSnmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251");
-            EnterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220");
-        }
+            var snmpNewSettings = new SnmpNewSettings()
+            {
+                SnmpVersion = SelectedSnmpVersion,
+                UseIitOid = UseIitOid,
+                CustomOid = CustomOid,
+                Community = Community,
+                AuthoritativeEngineId = AuthoritativeEngineId,
+                UserName = UserName,
+                IsAuthPswSet = IsAuthPswSet,
+                AuthenticationPassword = AuthenticationPassword,
+                AuthenticationProtocol = SelectedAuthenticationProtocol,
+                IsPrivPswSet = IsPrivPswSet,
+                PrivacyPassword = PrivacyPassword,
+                PrivacyProtocol = SelectedPrivacyProtocol,
+                TrapReceiverAddress = TrapReceiverAddress,
+                TrapReceiverPort = TrapReceiverPort,
+            };
 
-        private void SaveInputs()
-        {
-            _iniFile.Write(IniSection.Snmp, IniKey.SnmpTrapVersion, _snmpTrapVersion);
+            var json = JsonSerializer.Serialize(snmpNewSettings);
+            File.WriteAllText(@"../ini/snmp-settings.json", json);
 
-            _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverIp, SnmpManagerIp);
-            _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverPort, SnmpManagerPort);
-            _iniFile.Write(IniSection.Snmp, IniKey.SnmpCommunity, SnmpCommunity);
-            _iniFile.Write(IniSection.Snmp, IniKey.SnmpEncoding, SelectedSnmpEncoding);
-
-            _iniFile.Write(IniSection.Snmp, IniKey.EnterpriseOid, EnterpriseOid);
+            var message = "Test string with Русский язык.";
+            var payload = new Dictionary<FtTrapProperty, string>()
+            {
+                { FtTrapProperty.TestString, message },
+                { FtTrapProperty.EventRegistrationTime, DateTime.Now.ToString(CultureInfo.InvariantCulture) },
+                { FtTrapProperty.TestInt, 123.ToString() },
+                { FtTrapProperty.TestDouble, 3.1415926.ToString(CultureInfo.InvariantCulture) }
+            };
+            _snmpService.SendSnmpTrap(snmpNewSettings, FtTrapType.TestTrap, payload);
         }
     }
 }

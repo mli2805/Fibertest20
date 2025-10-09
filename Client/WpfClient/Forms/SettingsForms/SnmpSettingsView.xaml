@@ -4,48 +4,116 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
         Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignData SnmpSettingsViewModel}">
-     <StackPanel Margin="5" IsEnabled="{Binding IsEditEnabled}">
-         <CheckBox IsChecked="{Binding IsSnmpOn}" Content="{x:Static stringResources:Resources.SID_SNMP_notification_on}" Margin="5,10"/>
-         <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"
+    <Window.Resources>
+        <client:SnmpVersionToVisibilityConverter x:Key="SnmpVersionToVisibilityConverter" />
+    </Window.Resources>
+
+    <StackPanel Margin="5" IsEnabled="{Binding IsEditEnabled}">
+        <CheckBox Margin="5,10" IsChecked="{Binding Enabled}" 
+                   Content="{x:Static stringResources:Resources.SID_SNMP_notification_on}" />
+        <GroupBox Margin="0,5,0,0">
+            <DockPanel Margin="0,5,0,0">
+                <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP Version" Width="160" />
+                <ComboBox ItemsSource="{Binding SnmpVersions}" 
+                       SelectedItem="{Binding SelectedSnmpVersion}" Margin="5" />
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Margin="0,5,0,0">
+            <DockPanel Margin="0,5,0,0">
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Use IIT OID" Width="160" />
+                    <CheckBox Margin="5,10" IsChecked="{Binding UseIitOid}" />
+                </DockPanel>
+                <DockPanel IsEnabled="{Binding EnableCustomId}">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Enterprise OID" Width="160" />
+                    <TextBox Margin="5" Text="{Binding CustomOid}" />
+                </DockPanel>
+            </DockPanel>
+        </GroupBox>
+
+        <!-- v1 -->
+        <GroupBox Margin="0,5,0,0" Visibility="{Binding SelectedSnmpVersion,
+                                Converter={StaticResource SnmpVersionToVisibilityConverter},
+                                ConverterParameter=v1}">
+            <DockPanel Margin="0,5,0,0">
+                <TextBlock DockPanel.Dock="Left" Margin="5" Text="Community" Width="160" />
+                <TextBox Margin="5" Text="{Binding Community}" />
+            </DockPanel>
+        </GroupBox>
+
+        <!-- v3 -->
+        <GroupBox Margin="0,5,0,0" Visibility="{Binding SelectedSnmpVersion,
+                        Converter={StaticResource SnmpVersionToVisibilityConverter},
+                        ConverterParameter=v3}">
+            <DockPanel  Margin="0,5,0,0">
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authoritative Engine ID" Width="160" />
+                    <TextBox Margin="5" Text="{Binding AuthoritativeEngineId}" />
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Username" Width="160" />
+                    <TextBox Margin="5" Text="{Binding UserName}" />
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Password" Width="160" />
+                    <TextBox Margin="5" Text="{Binding AuthenticationPassword}" />
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Protocol" Width="160" />
+                    <ComboBox ItemsSource="{Binding AuthenticationProtocols}" 
+                           SelectedItem="{Binding SelectedAuthenticationProtocol}" Margin="5" />
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Password" Width="160" />
+                    <TextBox Margin="5" Text="{Binding PrivacyPassword}" />
+                </DockPanel>
+
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Protocol" Width="160" />
+                    <ComboBox ItemsSource="{Binding PrivacyProtocols}" 
+                           SelectedItem="{Binding SelectedPrivacyProtocol}" Margin="5" />
+                </DockPanel>
+            </DockPanel>
+        </GroupBox>
+
+        <!-- общее -->
+        <GroupBox Margin="0,5,0,0">
+            <DockPanel Margin="0,5,0,0">
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"
                        Text="{x:Static stringResources:Resources.SID_Listener_to_the_traps}"
                        TextWrapping="Wrap" TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP Manager IP" Width="120" />
-            <TextBox Margin="5" Text="{Binding SnmpManagerIp}" />
-        </DockPanel>
-        <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_162}"
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP trap receiver address" Width="160" />
+                    <TextBox Margin="5" Text="{Binding TrapReceiverAddress}" />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_162}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP port" Width="120" />
-            <TextBox Margin="5" Text="{Binding SnmpManagerPort}" />
-        </DockPanel>
-         <DockPanel>
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP community" Width="120" />
-            <TextBox Margin="5" Text="{Binding SnmpCommunity}" />
-        </DockPanel>
-        <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_Fibertest_server_address}"
-                       TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP agent IP" Width="120" />
-            <TextBox Margin="5" Text="{Binding SnmpAgentIp}" />
-        </DockPanel>
-        <DockPanel>
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Enterprise OID" Width="120" />
-            <TextBox Margin="5" Text="{Binding EnterpriseOid}" />
-        </DockPanel>
-        <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" 
-                       Text="{x:Static stringResources:Resources.SID_Choose_encoding}"
-                       TextAlignment="Center" TextWrapping="Wrap" Width="300"/>
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Strings_encoding}" Width="120" />
-            <ComboBox ItemsSource="{Binding SnmpEncodings}" SelectedItem="{Binding SelectedSnmpEncoding}" Margin="5" />
-        </DockPanel>
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP trap receiver port" Width="160" />
+                    <TextBox Margin="5" Text="{Binding TrapReceiverPort}" />
+                </DockPanel>
+
+                <!-- <DockPanel> -->
+                <!--     <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray"  -->
+                <!--        Text="{x:Static stringResources:Resources.SID_Choose_encoding}" -->
+                <!--        TextAlignment="Center" TextWrapping="Wrap" Width="300"/> -->
+                <!--     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Strings_encoding}" Width="160" /> -->
+                <!--     <ComboBox ItemsSource="{Binding SnmpEncodings}" SelectedItem="{Binding SelectedSnmpEncoding}" Margin="5" /> -->
+                <!-- </DockPanel> -->
+            </DockPanel>
+        </GroupBox>
+
         <StackPanel Orientation="Horizontal" Margin="5,25,5,15" HorizontalAlignment="Center">
             <Button Width="180" Margin="5" Name="SaveAndTest" Content="{x:Static stringResources:Resources.SID_Save_and_test}"/>
-            <Button Width="120" Margin="5" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}"/>
+            <Button Width="160" Margin="5" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}"/>
         </StackPanel>
     </StackPanel>
 </Window>

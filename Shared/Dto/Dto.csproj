@@ -71,6 +71,7 @@
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />
     <Compile Include="D2C\DbOptimizationProgressDto.cs" />
     <Compile Include="D2C\GsmSettingsDto.cs" />
+    <Compile Include="D2C\SnmpNewSettingsDto.cs" />
     <Compile Include="D2C\SnmpSettingsDto.cs" />
     <Compile Include="Db\Snapshot.cs" />
     <Compile Include="Enums\ChannelEvent.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Underlying\PortWithTraceDto.cs" />
     <Compile Include="Underlying\RequestAnswer.cs" />
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
+    <Compile Include="Underlying\SnmpNewSettings.cs" />
     <Compile Include="Underlying\TraceInfoTableItem.cs" />
     <Compile Include="Underlying\VeexTestCreatedDto.cs" />
     <Compile Include="VeEX\CompletedTest\CompletedTest.cs" />

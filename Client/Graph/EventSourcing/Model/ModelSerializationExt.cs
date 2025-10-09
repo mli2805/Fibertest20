@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
@@ -85,6 +86,26 @@ namespace Iit.Fibertest.Graph
                 model.GponPortRelations = new List<GponPortRelation>();
             if (model.RtuAccidents == null)
                 model.RtuAccidents = new List<RtuAccident>();
+
+            if (model.SnmpNewSettings == null)
+                model.SnmpNewSettings= new SnmpNewSettings()
+                {
+                    Enabled = false,
+                    SnmpVersion = @"v1",
+                    UseIitOid = false,
+                    CustomOid = "",
+                    Community = "",
+                    AuthoritativeEngineId = "",
+                    UserName = "",
+                    IsAuthPswSet = false,
+                    AuthenticationPassword = "",
+                    AuthenticationProtocol = @"Sha256",
+                    IsPrivPswSet = false,
+                    PrivacyPassword = "",
+                    PrivacyProtocol = @"Aes256",
+                    TrapReceiverAddress = "",
+                    TrapReceiverPort = 162
+                };
         }
     }
 }

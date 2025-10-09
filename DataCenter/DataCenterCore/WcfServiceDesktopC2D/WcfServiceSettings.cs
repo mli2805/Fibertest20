@@ -1,8 +1,12 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Utils471;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -14,10 +18,24 @@ namespace Iit.Fibertest.DataCenterCore
             _smtp.SaveSmtpSettings(dto);
             return Task.FromResult(true);
         }
-        public Task<bool> SaveAndTestSnmpSettings(SnmpSettingsDto dto)
+
+        public Task<bool> TestSnmpNewSettings(SnmpNewSettingsDto dto)
         {
-            _snmpAgent.SaveSnmpSettings(dto);
-            return Task.FromResult(_snmpAgent.SendTestTrap());
+            var json = JsonSerializer.Serialize(dto);
+            var newSnmpSettings = JsonSerializer.Deserialize<SnmpNewSettings>(json);
+
+            // var message = "Тестовая строка полностью на русском языке.";
+            var message = "Test string with Русский язык.";
+            var payload = new Dictionary<FtTrapProperty, string>()
+            {
+                { FtTrapProperty.TestString, message },
+                { FtTrapProperty.EventRegistrationTime, DateTime.Now.ToString(CultureInfo.InvariantCulture) },
+                { FtTrapProperty.TestInt, 123.ToString() },
+                { FtTrapProperty.TestDouble, 3.1415926.ToString(CultureInfo.InvariantCulture) }
+            };
+
+            _snmpService.SendSnmpTrap(newSnmpSettings, FtTrapType.TestTrap, payload);
+            return Task.FromResult(true);
         }
 
         public Task<bool> SaveGisMode(bool isWithoutMapMode)
