@@ -47,6 +47,9 @@ namespace Iit.Fibertest.Client
             if (licenseInFile == null)
                 return false;
 
+            if (!licenseInFile.Version.StartsWith(@"2"))
+                return false;
+
             return await ApplyLicenseFromFile(licenseInFile);
         }
 

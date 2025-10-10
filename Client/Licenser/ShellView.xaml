@@ -25,14 +25,17 @@
                 <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="300" Text="{Binding LicenseInFileModel.Owner}" />
             </StackPanel>
-            <StackPanel Name="MachineKey" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" 
+            <StackPanel Visibility="{Binding HiddenForVersion3}">
+                <StackPanel Name="MachineKey" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" 
                         Visibility="{Binding LicenseInFileModel.IsBasic, Converter={StaticResource BoolToVis}}">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_License_type}" TextAlignment="Right" Margin="0,0,20,0"/>
-                <RadioButton GroupName="LicType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Standart}" 
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_License_type}" 
+                           TextAlignment="Right" Margin="0,0,20,0"/>
+                    <RadioButton GroupName="LicType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Standart}" 
                              IsChecked="{Binding LicenseInFileModel.IsStandart}"/>
-                <RadioButton GroupName="LicType" Width="190" Height="18" Content="{x:Static stringResources:Resources.SID_With_workstation_linking}" 
+                    <RadioButton GroupName="LicType" Width="190" Height="18" Content="{x:Static stringResources:Resources.SID_With_workstation_linking}" 
                              IsChecked="{Binding LicenseInFileModel.IsMachineKeyRequired}"/>
-                <TextBlock Width="0"/>
+                    <TextBlock Width="0"/>
+                </StackPanel>
             </StackPanel>
             <StackPanel Name="Incremental" Orientation="Horizontal" Height="22" Margin="0,5"  HorizontalAlignment="Right" >
                 <TextBlock Text="{x:Static stringResources:Resources.SID_License_key_type}" TextAlignment="Right" Margin="0,0,20,0"/>
@@ -49,12 +52,15 @@
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.RtuCountTermUnit}"/>
             </StackPanel>
-            <StackPanel Name="Client" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Client_stations}" TextAlignment="Right" Margin="0,0,20,0"/>
-                <TextBox Width="100" Text="{Binding LicenseInFileModel.ClientStationCount}" />
-                <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.ClientStationTerm}"/>
-                <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
+
+            <StackPanel Visibility="{Binding HiddenForVersion3}">
+                <StackPanel Name="Client" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Client_stations}" TextAlignment="Right" Margin="0,0,20,0"/>
+                    <TextBox Width="100" Text="{Binding LicenseInFileModel.ClientStationCount}" />
+                    <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.ClientStationTerm}"/>
+                    <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.ClientStationTermUnit}"/>
+                </StackPanel>
             </StackPanel>
             <StackPanel Name="Web" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" 
                         IsEnabled="{Binding LicenseInFileModel.IsWebClientsEnabled}" >
@@ -64,15 +70,17 @@
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.WebClientTermUnit}"/>
             </StackPanel>
-            <StackPanel Name="Super" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
-                <TextBlock Text="{x:Static stringResources:Resources.SID_SuperClients}" TextAlignment="Right" 
-                           Margin="0,0,20,0"/>
-                <TextBox Width="100" Text="{Binding LicenseInFileModel.SuperClientStationCount}" />
-                <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.SuperClientTerm}"/>
-                <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
-                          SelectedItem="{Binding LicenseInFileModel.SuperClientTermUnit}"/>
-            </StackPanel>
 
+            <StackPanel Visibility="{Binding HiddenForVersion3}">
+                <StackPanel Name="Super" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_SuperClients}" TextAlignment="Right" 
+                           Margin="0,0,20,0"/>
+                    <TextBox Width="100" Text="{Binding LicenseInFileModel.SuperClientStationCount}" />
+                    <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.SuperClientTerm}"/>
+                    <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
+                          SelectedItem="{Binding LicenseInFileModel.SuperClientTermUnit}"/>
+                </StackPanel>
+            </StackPanel>
 
             <StackPanel Name="Date" Orientation="Horizontal" Height="24" Margin="0,5" HorizontalAlignment="Right">
                 <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Creation_date}" 

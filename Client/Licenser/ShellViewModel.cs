@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
@@ -9,7 +10,25 @@ namespace Iit.Fibertest.Licenser
 {
     public class ShellViewModel : Screen, IShell
     {
+        private readonly IWindowManager _windowManager;
         public bool HaveRights { get; set; }
+
+        private string _selectedVersion;
+        public string SelectedVersion
+        {
+            get => _selectedVersion;
+            set
+            {
+                if (value == _selectedVersion) return;
+                _selectedVersion = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(HiddenForVersion3));
+            }
+        }
+
+        public Visibility HiddenForVersion3 => SelectedVersion == null || SelectedVersion.StartsWith("2") 
+            ? Visibility.Visible : Visibility.Hidden;
+
         public bool AppJustOpened { get; set; }
 
         private bool _showPdfAndSave;
@@ -48,7 +67,7 @@ namespace Iit.Fibertest.Licenser
             }
         }
 
-        private LicenseInFileModel _licenseInFileModel = new LicenseInFileModel();
+        private LicenseInFileModel _licenseInFileModel = new LicenseInFileModel("2.5.0.1");
 
         public LicenseInFileModel LicenseInFileModel
         {
@@ -61,8 +80,9 @@ namespace Iit.Fibertest.Licenser
             }
         }
 
-        public ShellViewModel()
+        public ShellViewModel(IWindowManager windowManager)
         {
+            _windowManager = windowManager;
             AppJustOpened = true;
             HaveRights = false;
             IsEditable = false;
@@ -87,12 +107,19 @@ namespace Iit.Fibertest.Licenser
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Fibertest 2.0 License maker";
+            DisplayName = "Fibertest License maker";
         }
 
         public void CreateNew()
         {
-            LicenseInFileModel = new LicenseInFileModel()
+            var vm = new AskVersionViewModel();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (vm.SelectedVersion == null)
+                return;
+
+            SelectedVersion = vm.SelectedVersion;
+
+            LicenseInFileModel = new LicenseInFileModel(SelectedVersion)
             {
                 LicenseId = Guid.NewGuid(),
                 IsStandart = true,
@@ -109,13 +136,19 @@ namespace Iit.Fibertest.Licenser
         {
             var licenseFromFileDecoder = new LicenseFromFileDecoder(new WindowManager());
             var licFileReader = new LicenseFileChooser();
-            var license = licenseFromFileDecoder.Decode(licFileReader.ChooseFilename());
+            var filename = licFileReader.ChooseFilename();
+            if (filename == null)
+                return;
 
-            if (license != null)
-                LicenseInFileModel = new LicenseInFileModel(license);
+            var license = licenseFromFileDecoder.Decode(filename);
+            if (license == null)
+                return;
+
+            LicenseInFileModel = new LicenseInFileModel(license);
             IsEditable = false; // существующий файл никому нельзя редактировать, можно только создавать новый
             ShowPdfAndSave = true;
             LoadFromFileButtonRow = 0;
+            SelectedVersion = license.Version;
         }
 
 

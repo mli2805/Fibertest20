@@ -11,6 +11,8 @@ namespace Iit.Fibertest.Licenser
     {
         public List<string> TermUnit { get; set; } = new List<string>() { "years", "months" };
 
+        public string Version { get; set; }
+
         private Guid _licenseId;
         public Guid LicenseId
         {
@@ -29,13 +31,14 @@ namespace Iit.Fibertest.Licenser
 
         private string Lk()
         {
+            var version = Version.StartsWith("2") ? "FT020" : "FT030";
             if (LicenseId == Guid.Empty)
-                return "FT020-00000000-000000000-000000";
+                return $"{version}-00000000-000000000-000000";
 
             var id = LicenseId.ToString().ToUpper().Substring(0, 8);
             var licType = IsIncremental ? "I" : IsMachineKeyRequired ? "BR" : "BF";
             var stations = $"{ClientStationCount:D2}{WebClientCount:D2}{SuperClientStationCount:D2}";
-            return $"FT020-{id}-{licType}{RtuCount:D2}{stations}-{CreationDate:yyMMdd}";
+            return $"{version}-{id}-{licType}{RtuCount:D2}{stations}-{CreationDate:yyMMdd}";
         }
 
         public Brush LicenseKeyColor => LicenseId == Guid.Empty ? Brushes.Gray : Brushes.Black;
@@ -281,8 +284,9 @@ namespace Iit.Fibertest.Licenser
             }
         }
 
-        public LicenseInFileModel()
+        public LicenseInFileModel(string fibertestVersion)
         {
+            Version = fibertestVersion;
             LicenseId = Guid.Empty;
             IsBasic = true;
             IsStandart = true;
@@ -294,6 +298,7 @@ namespace Iit.Fibertest.Licenser
 
         public LicenseInFileModel(LicenseInFile licenseInFile)
         {
+            Version = licenseInFile.Version;
             LicenseId = licenseInFile.LicenseId;
             Owner = licenseInFile.Owner;
             IsIncremental = licenseInFile.IsIncremental;
@@ -326,6 +331,7 @@ namespace Iit.Fibertest.Licenser
         {
             return new LicenseInFile()
             {
+                Version = Version,
                 LicenseId = LicenseId,
                 Owner = Owner,
                 IsIncremental = IsIncremental,
