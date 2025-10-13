@@ -6678,6 +6678,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical fiber monitoring system software FIBERTEST.
+        /// </summary>
+        public static string SID_Optical_fiber_monitoring_system_software_FIBERTEST {
+            get {
+                return ResourceManager.GetString("SID_Optical_fiber_monitoring_system_software_FIBERTEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical fiber monitoring system software FIBERTEST 2.0.
         /// </summary>
         public static string SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0 {

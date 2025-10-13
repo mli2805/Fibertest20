@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Licenser
             doc.DefaultPageSetup.FooterDistance = Unit.FromCentimeter(0.5);
 
             AddCaption(section);
-            AddMain(section);
+            AddMain(section, licenseModel.Version);
             AddContent(section);
             if (_licenseInFileModel.IsMachineKeyRequired)
                 AddSecurityAdminPasswordPage(section);
@@ -85,10 +85,11 @@ namespace Iit.Fibertest.Licenser
             paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.1);
         }
 
-        private void AddMain(Section section)
+        private void AddMain(Section section, string version)
         {
             var paragraph = section.AddParagraph();
-            paragraph.AddFormattedText(Resources.SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0);
+            var ver = version.StartsWith("2") ? "2.0" : "3.0";
+            paragraph.AddFormattedText(Resources.SID_Optical_fiber_monitoring_system_software_FIBERTEST + ver);
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Format.Font.Size = 16;
             paragraph.Format.Font.Bold = true;

@@ -2919,12 +2919,6 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_JS_Institute_of_Information_Technologies" xml:space="preserve">
 		<value>JS Institute of Information Technologies</value>
 	</data>
-	<data name="SID_License_key_long" xml:space="preserve">
-		<value>License key for optical fiber monitoring system software Fibertest 2.0</value>
-	</data>
-	<data name="SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0" xml:space="preserve">
-		<value>Optical fiber monitoring system software FIBERTEST 2.0</value>
-	</data>
 	<data name="SID_License_number_" xml:space="preserve">
 		<value>License number:</value>
 	</data>
@@ -3751,5 +3745,8 @@ Please try again later</value>
 	</data>
 	<data name="SID_created_" xml:space="preserve">
 		<value>created:</value>
+	</data>
+	<data name="SID_Optical_fiber_monitoring_system_software_FIBERTEST" xml:space="preserve">
+		<value>Optical fiber monitoring system software FIBERTEST</value>
 	</data>
 </root>
