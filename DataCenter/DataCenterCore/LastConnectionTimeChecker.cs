@@ -114,7 +114,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private void NotifyAboutNewNetworkEvent(NetworkEvent networkEvent)
         {
-            _snmpNotifier.SendRtuNetworkEvent(networkEvent);
+            _snmpNotifier.Send(networkEvent);
             var isMainChannel = networkEvent.OnMainChannel != ChannelEvent.Nothing;
             var isOk = (isMainChannel ? networkEvent.OnMainChannel : networkEvent.OnReserveChannel) ==
                        ChannelEvent.Repaired;

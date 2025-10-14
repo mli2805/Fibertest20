@@ -157,7 +157,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             SetCulture();
 
-            _snmpNotifier.SendTraceEvent(addMeasurement);
+            _snmpNotifier.Send(addMeasurement);
             _smsManager.SendMonitoringResult(dto);
             _smtp.SendOpticalEvent(dto, addMeasurement);
         }
@@ -166,7 +166,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             SetCulture();
 
-            _snmpNotifier.SendRtuStatusEvent(accident);
+            _snmpNotifier.Send(accident);
             _smsManager.SendRtuStatusEvent(accident);
             _smtp.SendRtuStatusEvent(accident);
         }

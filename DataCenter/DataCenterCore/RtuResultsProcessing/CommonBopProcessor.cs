@@ -53,7 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
             SetCulture();
             _smtp.SendBopState(cmd);
             _smsManager.SendBopState(cmd);
-            _snmpNotifier.SendBopNetworkEvent(cmd);
+            _snmpNotifier.Send(cmd);
         }
 
         private void SetCulture()
