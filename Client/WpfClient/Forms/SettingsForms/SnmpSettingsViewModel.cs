@@ -66,8 +66,11 @@ namespace Iit.Fibertest.Client
         public string TrapReceiverAddress { get; set; }
         public int TrapReceiverPort { get; set; }
 
-        public List<string> SnmpEncodings { get; set; } = new List<string>() { @"utf8", @"windows1251" };
-        public string SelectedSnmpEncoding { get; set; }
+        //public List<string> SnmpEncodings { get; set; } = new List<string>() { @"utf8", @"windows1251" };
+        //public string SelectedSnmpEncoding { get; set; }
+
+        public List<string> Languages { get; set; } = new List<string>() { @"en-US", @"ru-RU" };
+        public string SelectedLanguage { get; set; }
 
         public bool IsEditEnabled { get; set; }
 
@@ -95,7 +98,7 @@ namespace Iit.Fibertest.Client
             SelectedPrivacyProtocol = snmp.PrivacyProtocol;
             TrapReceiverAddress = snmp.TrapReceiverAddress;
             TrapReceiverPort = snmp.TrapReceiverPort;
-            SelectedSnmpEncoding = snmp.SnmpEncoding;
+            SelectedLanguage = snmp.SnmpLanguage;
         }
 
         protected override void OnViewLoaded(object view)
@@ -131,7 +134,7 @@ namespace Iit.Fibertest.Client
                         PrivacyProtocol = SelectedPrivacyProtocol,
                         TrapReceiverAddress = TrapReceiverAddress,
                         TrapReceiverPort = TrapReceiverPort,
-                        SnmpEncoding = SelectedSnmpEncoding
+                        SnmpLanguage = SelectedLanguage
                     };
 
                     res = await _c2DWcfManager.TestSnmpNewSettings(dto);
@@ -173,7 +176,7 @@ namespace Iit.Fibertest.Client
                 PrivacyProtocol = SelectedPrivacyProtocol,
                 TrapReceiverAddress = TrapReceiverAddress,
                 TrapReceiverPort = TrapReceiverPort,
-                SnmpEncoding = SelectedSnmpEncoding
+                SnmpLanguage = SelectedLanguage
             };
             var command = new UpdateSnmpNewSettings() { SnmpNewSettings = settings };
             return await _c2DWcfManager.SendCommandAsObj(command);

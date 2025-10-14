@@ -21,6 +21,9 @@ namespace Iit.Fibertest.Dto
         public string TrapReceiverAddress { get; set; }
         public int TrapReceiverPort { get; set; }
 
-        public string SnmpEncoding { get; set; } = "utf8";
+        public string SnmpEncoding { get; set; } = "utf8"; // не используется, всегда UTF8
+
+        // влияет только на константы Состояние/Статус внутри трапов типа Fiber break / Обрыв волокна
+        public string SnmpLanguage { get; set; } = "en-US";
     }
 }

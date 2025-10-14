@@ -17,7 +17,7 @@
                    Content="{x:Static stringResources:Resources.SID_SNMP_notification_on}" />
         <GroupBox Margin="0,5,0,0">
             <DockPanel Margin="0,5,0,0">
-                <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP Version" Width="160" />
+                <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_SNMP_version}" Width="180" />
                 <ComboBox ItemsSource="{Binding SnmpVersions}" 
                        SelectedItem="{Binding SelectedSnmpVersion}" Margin="5" />
             </DockPanel>
@@ -25,11 +25,11 @@
         <GroupBox Margin="0,5,0,0">
             <DockPanel Margin="0,5,0,0">
                 <DockPanel DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Use IIT OID" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Use_IIT_OID}" Width="180" />
                     <CheckBox Margin="5,10" IsChecked="{Binding UseIitOid}" />
                 </DockPanel>
                 <DockPanel IsEnabled="{Binding EnableCustomId}">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Enterprise OID" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Enterprise_OID}" Width="180" />
                     <TextBox Margin="5" Text="{Binding CustomOid}" />
                 </DockPanel>
             </DockPanel>
@@ -40,7 +40,7 @@
                                 Converter={StaticResource SnmpVersionToVisibilityConverter},
                                 ConverterParameter=v1}">
             <DockPanel Margin="0,5,0,0">
-                <TextBlock DockPanel.Dock="Left" Margin="5" Text="Community" Width="160" />
+                <TextBlock DockPanel.Dock="Left" Margin="5" Text="Community" Width="180" />
                 <TextBox Margin="5" Text="{Binding Community}" />
             </DockPanel>
         </GroupBox>
@@ -51,33 +51,33 @@
                         ConverterParameter=v3}">
             <DockPanel  Margin="0,5,0,0">
                 <DockPanel DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authoritative Engine ID" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authoritative Engine ID" Width="180" />
                     <TextBox Margin="5" Text="{Binding AuthoritativeEngineId}" />
                 </DockPanel>
 
                 <DockPanel DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Username" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Username" Width="180" />
                     <TextBox Margin="5" Text="{Binding UserName}" />
                 </DockPanel>
 
                 <DockPanel DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Password" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Password" Width="180" />
                     <TextBox Margin="5" Text="{Binding AuthenticationPassword}" />
                 </DockPanel>
 
                 <DockPanel DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Protocol" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Authentication Protocol" Width="180" />
                     <ComboBox ItemsSource="{Binding AuthenticationProtocols}" 
                            SelectedItem="{Binding SelectedAuthenticationProtocol}" Margin="5" />
                 </DockPanel>
 
                 <DockPanel DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Password" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Password" Width="180" />
                     <TextBox Margin="5" Text="{Binding PrivacyPassword}" />
                 </DockPanel>
 
                 <DockPanel DockPanel.Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Protocol" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Privacy Protocol" Width="180" />
                     <ComboBox ItemsSource="{Binding PrivacyProtocols}" 
                            SelectedItem="{Binding SelectedPrivacyProtocol}" Margin="5" />
                 </DockPanel>
@@ -91,29 +91,30 @@
                     <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"
                        Text="{x:Static stringResources:Resources.SID_Listener_to_the_traps}"
                        TextWrapping="Wrap" TextAlignment="Center" />
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP trap receiver address" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_SNMP_trap_receiver_address}" Width="180" />
                     <TextBox Margin="5" Text="{Binding TrapReceiverAddress}" />
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Top">
                     <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_162}"
                        TextAlignment="Center" />
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP trap receiver port" Width="160" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_SNMP_trap_receiver_port}" Width="180" />
                     <TextBox Margin="5" Text="{Binding TrapReceiverPort}" />
                 </DockPanel>
-
-                <!-- <DockPanel> -->
-                <!--     <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray"  -->
-                <!--        Text="{x:Static stringResources:Resources.SID_Choose_encoding}" -->
-                <!--        TextAlignment="Center" TextWrapping="Wrap" Width="300"/> -->
-                <!--     <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Strings_encoding}" Width="160" /> -->
-                <!--     <ComboBox ItemsSource="{Binding SnmpEncodings}" SelectedItem="{Binding SelectedSnmpEncoding}" Margin="5" /> -->
-                <!-- </DockPanel> -->
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Margin="0,5,0,0">
+            <DockPanel Margin="0,5,0,0">
+                <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_For_Trace_RTU_and_BOP_states_and_events}"
+                           TextAlignment="Center" />     
+                <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Language}" Width="180" />
+                <ComboBox ItemsSource="{Binding Languages}" 
+                          SelectedItem="{Binding SelectedLanguage}" Margin="5" />
             </DockPanel>
         </GroupBox>
 
         <StackPanel Orientation="Horizontal" Margin="5,25,5,15" HorizontalAlignment="Center">
             <Button Width="180" Margin="5" Name="SaveAndTest" Content="{x:Static stringResources:Resources.SID_Save_and_test}"/>
-            <Button Width="160" Margin="5" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}"/>
+            <Button Width="180" Margin="5" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}"/>
         </StackPanel>
     </StackPanel>
 </Window>

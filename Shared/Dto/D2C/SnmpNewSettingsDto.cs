@@ -38,5 +38,6 @@ namespace Iit.Fibertest.Dto
 
 
         [DataMember] public string SnmpEncoding { get; set; } = "utf8";
+        [DataMember] public string SnmpLanguage { get; set; } = "en-US";
     }
 }

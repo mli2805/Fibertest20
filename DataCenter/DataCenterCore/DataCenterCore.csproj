@@ -70,6 +70,7 @@
     <Compile Include="ClientStations\ClientsRegistrator.cs" />
     <Compile Include="ClientStations\ClientStationFactory.cs" />
     <Compile Include="ClientToRtu\ClientToLinuxRtuHttp\ClientToLinuxRtuHttpTransmitter.cs" />
+    <Compile Include="Notifications\SnmpDataFactory.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.ApplyAndStop.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.AssignBaseRefs.cs" />
     <Compile Include="WcfIntermediateC2R\WcfIntermediateC2R.AttachTrace.cs" />

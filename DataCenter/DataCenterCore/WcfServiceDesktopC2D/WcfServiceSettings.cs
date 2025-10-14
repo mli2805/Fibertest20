@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
             var newSnmpSettings = JsonSerializer.Deserialize<SnmpNewSettings>(json);
 
             // var message = "Тестовая строка полностью на русском языке.";
-            var message = "Test string with Русский язык.";
+            var message =  dto.SnmpLanguage == "en-US" ? "Test string" : "Тестовая строка";
             var payload = new Dictionary<FtTrapProperty, string>()
             {
                 { FtTrapProperty.TestString, message },

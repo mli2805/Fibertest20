@@ -12,20 +12,24 @@
             <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"
                        Text="{x:Static stringResources:Resources.SID_If_you_use_Gmail}"
                        TextWrapping="Wrap" TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_e_g_smtp_server}"
-                       TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="SMTP host" Width="100" />
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" 
+                       Text="{x:Static stringResources:Resources.SID_e_g_smtp_server}" TextAlignment="Center" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" 
+                       Text="{x:Static stringResources:Resources.SID_SMTP_host}" Width="180" />
             <TextBox Margin="5" Text="{Binding SmtpHost}" />
         </DockPanel>
         <DockPanel>
             <TextBlock DockPanel.Dock="Bottom"/>
             <DockPanel DockPanel.Dock="Bottom" Margin="5,5,0,0">
-                <TextBlock Text="SSL/TLS" Margin="5" Width="100"/>
+                <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"
+                           Text="{x:Static stringResources:Resources.SID_usually_for_port_465_ssl_must_be_turned_on}"
+                           TextWrapping="Wrap" TextAlignment="Center" />
+                <TextBlock Text="SSL/TLS" Margin="5" Width="180"/>
                 <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding SslEnabled}"/>
             </DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_smtp_port}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="SMTP port" Width="100" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="{x:Static stringResources:Resources.SID_SMTP_port}" Width="180" />
             <TextBox Margin="5" Text="{Binding SmtpPort}" />
         </DockPanel>
 
@@ -33,20 +37,20 @@
         <DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_e_g_postbox}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="Mail from" Width="100" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="{x:Static stringResources:Resources.SID_Mail_from}" Width="180" />
             <TextBox Margin="5" Text="{Binding MailFrom}" />
         </DockPanel>
-        <GroupBox Header="Security settings">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Security_settings}">
             <DockPanel>
                 <DockPanel Dock="Top">
                     <DockPanel DockPanel.Dock="Bottom" Margin="0,5,0,0">
-                        <TextBlock Text="Authentication" Margin="5" Width="100"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Authentication}" Margin="5" Width="180"/>
                         <CheckBox DockPanel.Dock="Left" Margin="5" IsChecked="{Binding IsAuthenticationOn}"/>
                     </DockPanel>
                     
                 </DockPanel>
                 <DockPanel Dock="Top">
-                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="Mail password" Width="100" />
+                    <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Mail_password}" Width="180" />
                     <TextBox Margin="5" IsEnabled="{Binding IsAuthenticationOn}" Text="{Binding MailFromPassword}" />
                 </DockPanel>
               
@@ -55,12 +59,12 @@
         <DockPanel Margin="0,15,0,0">
             <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_smtp_timeout}"
                        TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="Timeout in ms" Width="100" />
+            <TextBlock DockPanel.Dock="Left" Margin="10,5,5,5" Text="{x:Static stringResources:Resources.SID_Timeout_in_ms}" Width="180" />
             <TextBox Margin="5" Text="{Binding SmtpTimeoutMs}" />
         </DockPanel>
         <StackPanel Orientation="Horizontal" Margin="5,25, 5, 10" HorizontalAlignment="Center">
-            <Button Width="100" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
-            <Button Width="100" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+            <Button Width="180" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
+            <Button Width="180" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
     </StackPanel>
 </Window>

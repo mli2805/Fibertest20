@@ -3749,4 +3749,46 @@ Please try again later</value>
 	<data name="SID_Optical_fiber_monitoring_system_software_FIBERTEST" xml:space="preserve">
 		<value>Optical fiber monitoring system software FIBERTEST</value>
 	</data>
+	<data name="SID_Language" xml:space="preserve">
+		<value>Language</value>
+	</data>
+	<data name="SID_For_Trace_RTU_and_BOP_states_and_events" xml:space="preserve">
+		<value>For Trace, RTU and BOP states and events</value>
+	</data>
+	<data name="SID_SNMP_trap_receiver_port" xml:space="preserve">
+		<value>SNMP trap receiver port</value>
+	</data>
+	<data name="SID_SNMP_trap_receiver_address" xml:space="preserve">
+		<value>SNMP trap receiver address</value>
+	</data>
+	<data name="SID_Enterprise_OID" xml:space="preserve">
+		<value>Enterprise OID</value>
+	</data>
+	<data name="SID_Use_IIT_OID" xml:space="preserve">
+		<value>Use IIT OID</value>
+	</data>
+	<data name="SID_SNMP_version" xml:space="preserve">
+		<value>SNMP Version</value>
+	</data>
+	<data name="SID_SMTP_host" xml:space="preserve">
+		<value>SMTP host</value>
+	</data>
+	<data name="SID_SMTP_port" xml:space="preserve">
+		<value>SMTP port</value>
+	</data>
+	<data name="SID_Mail_from" xml:space="preserve">
+		<value>Mail from</value>
+	</data>
+	<data name="SID_Security_settings" xml:space="preserve">
+		<value>Security settings</value>
+	</data>
+	<data name="SID_Mail_password" xml:space="preserve">
+		<value>Mail password</value>
+	</data>
+	<data name="SID_Timeout_in_ms" xml:space="preserve">
+		<value>Timeout in ms</value>
+	</data>
+	<data name="SID_usually_for_port_465_ssl_must_be_turned_on" xml:space="preserve">
+		<value>usually for port 465 ssl must be turned on</value>
+	</data>
 </root>

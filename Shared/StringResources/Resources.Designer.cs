@@ -3070,6 +3070,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enterprise OID.
+        /// </summary>
+        public static string SID_Enterprise_OID {
+            get {
+                return ResourceManager.GetString("SID_Enterprise_OID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End of monitoring landmark number.
         /// </summary>
         public static string SID_EOFLMN {
@@ -4153,6 +4162,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to For Trace, RTU and BOP states and events.
+        /// </summary>
+        public static string SID_For_Trace_RTU_and_BOP_states_and_events {
+            get {
+                return ResourceManager.GetString("SID_For_Trace_RTU_and_BOP_states_and_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For traces  0.05 - 20 km long.
         /// </summary>
         public static string SID_For_traces_0_05___20_km_long {
@@ -5003,6 +5021,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string SID_Language {
+            get {
+                return ResourceManager.GetString("SID_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language choice.
         /// </summary>
         public static string SID_Language_choice {
@@ -5143,15 +5170,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_License_Key {
             get {
                 return ResourceManager.GetString("SID_License_Key", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to License key for optical fiber monitoring system software Fibertest 2.0.
-        /// </summary>
-        public static string SID_License_key_long {
-            get {
-                return ResourceManager.GetString("SID_License_key_long", resourceCulture);
             }
         }
         
@@ -5386,6 +5404,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_m {
             get {
                 return ResourceManager.GetString("SID_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mail from.
+        /// </summary>
+        public static string SID_Mail_from {
+            get {
+                return ResourceManager.GetString("SID_Mail_from", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mail password.
+        /// </summary>
+        public static string SID_Mail_password {
+            get {
+                return ResourceManager.GetString("SID_Mail_password", resourceCulture);
             }
         }
         
@@ -6683,15 +6719,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Optical_fiber_monitoring_system_software_FIBERTEST {
             get {
                 return ResourceManager.GetString("SID_Optical_fiber_monitoring_system_software_FIBERTEST", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Optical fiber monitoring system software FIBERTEST 2.0.
-        /// </summary>
-        public static string SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0 {
-            get {
-                return ResourceManager.GetString("SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0", resourceCulture);
             }
         }
         
@@ -8307,6 +8334,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Security settings.
+        /// </summary>
+        public static string SID_Security_settings {
+            get {
+                return ResourceManager.GetString("SID_Security_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string SID_Select {
@@ -8875,6 +8911,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SMTP host.
+        /// </summary>
+        public static string SID_SMTP_host {
+            get {
+                return ResourceManager.GetString("SID_SMTP_host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMTP port.
+        /// </summary>
+        public static string SID_SMTP_port {
+            get {
+                return ResourceManager.GetString("SID_SMTP_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Snapshot created..
         /// </summary>
         public static string SID_Snapshot_created_ {
@@ -8911,11 +8965,38 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SNMP trap receiver address.
+        /// </summary>
+        public static string SID_SNMP_trap_receiver_address {
+            get {
+                return ResourceManager.GetString("SID_SNMP_trap_receiver_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SNMP trap receiver port.
+        /// </summary>
+        public static string SID_SNMP_trap_receiver_port {
+            get {
+                return ResourceManager.GetString("SID_SNMP_trap_receiver_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SNMP trap sent..
         /// </summary>
         public static string SID_SNMP_trap_sent_ {
             get {
                 return ResourceManager.GetString("SID_SNMP_trap_sent_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SNMP Version.
+        /// </summary>
+        public static string SID_SNMP_version {
+            get {
+                return ResourceManager.GetString("SID_SNMP_version", resourceCulture);
             }
         }
         
@@ -9685,6 +9766,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Timeout in ms.
+        /// </summary>
+        public static string SID_Timeout_in_ms {
+            get {
+                return ResourceManager.GetString("SID_Timeout_in_ms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Timestamp.
         /// </summary>
         public static string SID_Timestamp {
@@ -10450,6 +10540,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use IIT OID.
+        /// </summary>
+        public static string SID_Use_IIT_OID {
+            get {
+                return ResourceManager.GetString("SID_Use_IIT_OID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string SID_User {
@@ -10644,6 +10743,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_usually_162 {
             get {
                 return ResourceManager.GetString("SID_usually_162", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to usually for port 465 ssl must be turned on.
+        /// </summary>
+        public static string SID_usually_for_port_465_ssl_must_be_turned_on {
+            get {
+                return ResourceManager.GetString("SID_usually_for_port_465_ssl_must_be_turned_on", resourceCulture);
             }
         }
         

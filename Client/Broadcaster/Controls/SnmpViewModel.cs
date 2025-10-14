@@ -63,6 +63,9 @@ namespace Broadcaster
         public string TrapReceiverAddress { get; set; }
         public int TrapReceiverPort { get; set; }
 
+        public List<string> Languages { get; set; } = new List<string>() { @"en-US", @"ru-RU" };
+        public string SelectedLanguage { get; set; }
+
 
         public SnmpViewModel(SnmpService snmpService)
         {
@@ -90,6 +93,7 @@ namespace Broadcaster
             SelectedPrivacyProtocol = snmp.PrivacyProtocol;
             TrapReceiverAddress = snmp.TrapReceiverAddress;
             TrapReceiverPort = snmp.TrapReceiverPort;
+            SelectedLanguage = snmp.SnmpLanguage;
         }
 
         public void SaveAndTest()
@@ -110,12 +114,13 @@ namespace Broadcaster
                 PrivacyProtocol = SelectedPrivacyProtocol,
                 TrapReceiverAddress = TrapReceiverAddress,
                 TrapReceiverPort = TrapReceiverPort,
+                SnmpLanguage = SelectedLanguage
             };
 
             var json = JsonSerializer.Serialize(snmpNewSettings);
             File.WriteAllText(@"../ini/snmp-settings.json", json);
 
-            var message = "Test string with Русский язык.";
+            var message = SelectedLanguage == "en-US" ? "Test string" : "Тестовая строка";
             var payload = new Dictionary<FtTrapProperty, string>()
             {
                 { FtTrapProperty.TestString, message },
