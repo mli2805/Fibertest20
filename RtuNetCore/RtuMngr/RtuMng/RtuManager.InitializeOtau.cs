@@ -41,13 +41,13 @@ public partial class RtuManager
             _logger.Info(Logs.RtuManager, $"Child charon {res.ToStringA()} initialization failed.");
             _logger.Info(Logs.RtuManager, "But RTU should work without BOP, so continue...");
         }
-            
+
         await _mainCharon.ShowOnDisplayMessageReady();
 
         return result;
     }
 
-    private async Task<RtuInitializedDto> ReInitializeOtauOnUsersRequest(InitializeRtuDto dto, RtuInitializedDto resultDto)
+    private async Task<RtuInitializedDto> CompareAndRewriteIfNeeded(InitializeRtuDto dto, RtuInitializedDto resultDto)
     {
         _logger.Info(Logs.RtuManager, $"RTU hardware has {_mainCharon.Children.Count} additional OTAU ");
         foreach (var pair in _mainCharon.Children)
@@ -60,19 +60,24 @@ public partial class RtuManager
 
         if (!_mainCharon.IsBopSupported)
         {
-            resultDto.ReturnCode = dto.Children.Count > 0 
+            resultDto.ReturnCode = dto.Children.Count > 0
                 ? ReturnCode.RtuDoesNotSupportBop : ReturnCode.RtuInitializedSuccessfully;
             return resultDto;
         }
 
-        if (!IsFullMatch(_mainCharon, dto))
+        if (IsFullMatch(_mainCharon, dto))
+        {
+            // только что инитили otau, нет смыла опять, возвращаем текущий результат
+            return resultDto;
+        }
+        else
         {
             _logger.Info(Logs.RtuManager, "FullMatch - false, need to rewrite ini");
             var expPorts = dto.Children.ToDictionary(pair => pair.Key, pair => pair.Value.NetAddress);
             await _mainCharon.RewriteIni(expPorts);
+            // после перезаписи ини чарона надо переинитить еще разок
+            return await InitializeOtau(resultDto);
         }
-
-        return await InitializeOtau(resultDto);
     }
 
     private bool IsFullMatch(Charon mainCharon, InitializeRtuDto dto)

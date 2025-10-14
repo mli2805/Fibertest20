@@ -51,9 +51,22 @@ public partial class RtuManager
         result.Version = Version;
         result.Version2 = "";
 
-        var result2 = dto != null
-            ? await ReInitializeOtauOnUsersRequest(dto, result)
-            : await InitializeOtau(result); // on service or module restart
+        // не важно это инциализация при старте службы/модуля или по требованию пользователя
+        // проводим реальный опрос otau/charon, а не возвращаем пользователю, то что есть в памяти
+        var resultAfterOtau = await InitializeOtau(result);
+        if (!resultAfterOtau.IsInitialized)
+        {
+            _logger.Error(Logs.RtuManager, "Failed initialize RTU!");
+            return resultAfterOtau;
+        }
+
+        // если по требованию пользователя, то надо сравнить с тем что прислано
+        // и при необходимости переписать ини чарона
+        var result2 =  (dto != null)
+            ? await CompareAndRewriteIfNeeded(dto, resultAfterOtau)
+            : resultAfterOtau;
+
+        // проверяем вдруг после перезаписи не удалась инициализация
         if (!result2.IsInitialized)
         {
             _logger.Error(Logs.RtuManager, "Failed initialize RTU!");
@@ -78,7 +91,6 @@ public partial class RtuManager
                 _otdrManager.ConnectOtdr();
             }
         }
-
 
         _logger.Debug(Logs.RtuManager, "GetTreeOfAcceptableMeasParams");
         _treeOfAcceptableMeasParams = _interOpWrapper.GetTreeOfAcceptableMeasParams();
