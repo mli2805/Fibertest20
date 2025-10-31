@@ -30,8 +30,8 @@
                         Visibility="{Binding LicenseInFileModel.IsBasic, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_License_type}" 
                            TextAlignment="Right" Margin="0,0,20,0"/>
-                    <RadioButton GroupName="LicType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Standart}" 
-                             IsChecked="{Binding LicenseInFileModel.IsStandart}"/>
+                    <RadioButton GroupName="LicType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Standard}" 
+                             IsChecked="{Binding LicenseInFileModel.IsStandard}"/>
                     <RadioButton GroupName="LicType" Width="190" Height="18" Content="{x:Static stringResources:Resources.SID_With_workstation_linking}" 
                              IsChecked="{Binding LicenseInFileModel.IsMachineKeyRequired}"/>
                     <TextBlock Width="0"/>

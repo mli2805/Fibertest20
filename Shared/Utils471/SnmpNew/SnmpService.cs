@@ -60,6 +60,10 @@ namespace Utils471
                 //var encoding1251 = Encoding.GetEncoding(1251);
                 //ISnmpData data = new OctetString(pair.Value, encoding1251);
 
+                // iReasoning MIB Browser можно настроить кодировку, в которой он понимает трапы,
+                // но там получилось принять трапы v1 с русскими буквами в UTF8
+                // но не получилось настроить прием v3 трапов
+
                 ISnmpData data = new OctetString(pair.Value, Encoding.UTF8);
                 var oid = enterpriseOid + $".{(int)pair.Key}";
                 yield return new Variable(new ObjectIdentifier(oid), data);

@@ -122,7 +122,7 @@ namespace Iit.Fibertest.Licenser
             LicenseInFileModel = new LicenseInFileModel(SelectedVersion)
             {
                 LicenseId = Guid.NewGuid(),
-                IsStandart = true,
+                IsStandard = true,
                 IsBasic = true,
                 SecurityAdminPassword = Password.Generate(8),
                 CreationDate = DateTime.Today,
@@ -158,7 +158,9 @@ namespace Iit.Fibertest.Licenser
                 LicenseInFileModel.IsMachineKeyRequired = false;
 
             var license = LicenseInFileModel.ToLicenseInFile();
-            var encoded = Cryptography.Encode(license);
+            var encoded = license.Version.StartsWith("3")
+                ? CryptographyNew.Encode(license)
+                : Cryptography.Encode(license);
 
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.FileName = LicenseInFileModel.LicenseKey; // Default file name

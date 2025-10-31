@@ -16,18 +16,26 @@ namespace Iit.Fibertest.WpfCommonViews
             _windowManager = windowManager;
         }
 
-        public LicenseInFile Decode(string filename)
+        public LicenseInFile Decode(string fullPath)
         {
-            var encoded = File.ReadAllBytes(filename);
+            var encoded = File.ReadAllBytes(fullPath);
             try
             {
-                return (LicenseInFile)Cryptography.Decode(encoded);
+                var filename = Path.GetFileName(fullPath);
+                if (filename.StartsWith("FT030"))
+                {
+                    return CryptographyNew.Decode<LicenseInFile>(encoded);
+                }
+                else
+                {
+                    return (LicenseInFile)Cryptography.Decode(encoded);
+                }
             }
             catch (Exception e)
             {
                 var lines = new List<string>()
                 {
-                    $"{Resources.SID_Invalid_license_file_}:", filename, "", e.Message
+                    $"{Resources.SID_Invalid_license_file_}:", fullPath, "", e.Message
                 };
                 var mb = new MyMessageBoxViewModel(MessageType.Error, lines, 0);
                 _windowManager.ShowDialogWithAssignedOwner(mb);

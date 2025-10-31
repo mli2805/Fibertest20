@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Licenser
 
             if (!_licenseInFileModel.IsIncremental)
                 AddParam(section, Resources.SID_License_type, _licenseInFileModel.IsMachineKeyRequired
-                        ? Resources.SID_With_user_s_account_to_workstation_linking : Resources.SID_Standart);
+                        ? Resources.SID_With_user_s_account_to_workstation_linking : Resources.SID_Standard);
             AddParam(section, Resources.SID_License_key_type,
                 _licenseInFileModel.IsIncremental ? Resources.SID_Incremental : Resources.SID_Basic);
             AddParam(section, Resources.SID_License_owner, _licenseInFileModel.Owner);

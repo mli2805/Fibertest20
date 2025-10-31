@@ -9064,11 +9064,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Standart.
+        ///   Looks up a localized string similar to Standard.
         /// </summary>
-        public static string SID_Standart {
+        public static string SID_Standard {
             get {
-                return ResourceManager.GetString("SID_Standart", resourceCulture);
+                return ResourceManager.GetString("SID_Standard", resourceCulture);
             }
         }
         

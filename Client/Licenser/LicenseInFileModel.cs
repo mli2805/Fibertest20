@@ -253,20 +253,20 @@ namespace Iit.Fibertest.Licenser
             }
         }
 
-        private bool _isStandart;
-        public bool IsStandart
+        private bool _isStandard;
+        public bool IsStandard
         {
-            get => _isStandart;
+            get => _isStandard;
             set
             {
-                if (value == _isStandart) return;
-                _isStandart = value;
+                if (value == _isStandard) return;
+                _isStandard = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(IsWebClientsEnabled));
             }
         }
 
-        public bool IsWebClientsEnabled => IsStandart || IsIncremental;
+        public bool IsWebClientsEnabled => IsStandard || IsIncremental;
 
         public string SecurityAdminPassword { get; set; }
 
@@ -289,7 +289,7 @@ namespace Iit.Fibertest.Licenser
             Version = fibertestVersion;
             LicenseId = Guid.Empty;
             IsBasic = true;
-            IsStandart = true;
+            IsStandard = true;
             RtuCountTermUnit = TermUnit.First();
             ClientStationTermUnit = TermUnit.First();
             WebClientTermUnit = TermUnit.First();
@@ -321,7 +321,7 @@ namespace Iit.Fibertest.Licenser
             SuperClientTermUnit = licenseInFile.SuperClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
 
             IsMachineKeyRequired = licenseInFile.IsMachineKeyRequired;
-            IsStandart = !licenseInFile.IsMachineKeyRequired;
+            IsStandard = !licenseInFile.IsMachineKeyRequired;
             SecurityAdminPassword = (string)Cryptography.Decode(licenseInFile.SecurityAdminPassword);
             CreationDate = licenseInFile.CreationDate;
 

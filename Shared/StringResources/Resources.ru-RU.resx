@@ -2994,7 +2994,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_With_workstation_linking" xml:space="preserve">
     <value>С привязкой раб места</value>
   </data>
-	<data name="SID_Standart" xml:space="preserve">
+	<data name="SID_Standard" xml:space="preserve">
     <value>Стандартная</value>
   </data>
 	<data name="SID_First_license_key_must_not_be_Incremental" xml:space="preserve">

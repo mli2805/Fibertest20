@@ -35,6 +35,7 @@ namespace Iit.Fibertest.Graph
             var state = cmd.IsOk ? Resources.SID_Ok : Resources.SID_Breakdown;
             return string.Format(Resources.SID_BOP__0_____1__at__2_, cmd.OtauIp, state, cmd.EventTimestamp.ForReport());
         }
+
         public static string GetShortMessageForMonitoringResult(this Model model, MonitoringResultDto dto)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);

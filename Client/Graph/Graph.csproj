@@ -112,6 +112,7 @@
     <Compile Include="Algorithms\LandmarksExtractors\Landmark.cs" />
     <Compile Include="Algorithms\LandmarksExtractors\LandmarksBaseParser.cs" />
     <Compile Include="Algorithms\LandmarksExtractors\LandmarksGraphParser.cs" />
+    <Compile Include="Algorithms\License\CryptographyNew.cs" />
     <Compile Include="Algorithms\License\LicenseCommandFactory.cs" />
     <Compile Include="Algorithms\License\MachineKeyProvider.cs" />
     <Compile Include="Algorithms\License\Password.cs" />
