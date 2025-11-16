@@ -15,6 +15,7 @@ namespace Graph.Tests
         }
 
         public string DataDir => @"memory";
+        public string ConnectionString { get; } = "FakeConnString";
 
         public Guid GetStreamIdIfExists()
         {

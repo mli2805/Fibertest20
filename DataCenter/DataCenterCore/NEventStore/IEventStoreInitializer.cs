@@ -6,6 +6,7 @@ namespace Iit.Fibertest.DataCenterCore
     public interface IEventStoreInitializer
     {
         string DataDir {get; }
+        string ConnectionString { get; }
         Guid GetStreamIdIfExists();
         IStoreEvents Init();
         long GetDataSize();

@@ -176,9 +176,17 @@ namespace Iit.Fibertest.DataCenterService
 
             using (var dbContext = new FtDbContext(_serverParameterizer.Options))
             {
-                dbContext.Database.EnsureCreated();
+                await dbContext.Database.EnsureCreatedAsync();
                 _serverParameterizer.LogSettings();
             }
+
+            var connectionString = _eventStoreInitializer.ConnectionString;
+            var exists = Snapshot30TableCreator.CheckIfSnapshots30Exists(connectionString);
+            if (!exists)
+            {
+                Snapshot30TableCreator.CreateSnapshot30Table(connectionString);
+            }
+
             await _eventStoreService.Init();
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Iit.Fibertest.Graph;
 using NEventStore;
 using Newtonsoft.Json;
 
@@ -43,6 +44,31 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 await fileStream.WriteLineAsync($"Exception {e.Message}");
             }
+        }
+
+        public async Task<bool> ConvertSnapshotTo30()
+        {
+            // таблица Snapshots30 в любом случае уже создана в момент старта data-center
+
+            // вычитать snapshot из старой таблицы,
+            var streamIdOriginal = _eventStoreService.StreamIdOriginal;
+            var snapshot = await _snapshotRepository.ReadSnapshotAsync(streamIdOriginal);
+            var lastEventNumberInSnapshot = snapshot.Item1;
+            var lastEventDateInSnapshot = snapshot.Item3;
+
+            if (lastEventNumberInSnapshot == 0) { return false; }
+
+            // сконвертить
+            var model = new Model();
+            await model.Deserialize(_logFile, snapshot.Item2);
+            var payload = await model.SerializeAsJson(_logFile);
+           
+
+            // и записать в новую таблицу
+            var result = await _snapshotRepository.AddSnapshotAsync(
+                streamIdOriginal, lastEventNumberInSnapshot, lastEventDateInSnapshot, payload, "30");
+
+            return result != -1;
         }
     }
 }

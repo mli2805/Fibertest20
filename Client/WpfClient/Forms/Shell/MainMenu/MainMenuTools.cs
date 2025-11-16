@@ -43,6 +43,11 @@ namespace Iit.Fibertest.Client
         {
            await _wcfDesktopC2D.ExportEvents();
         }
+        
+        public async void ConvertSnapshotTo30()
+        {
+           await _wcfDesktopC2D.ConvertSnapshotTo30();
+        }
 
         public void LaunchTcesView()
         {

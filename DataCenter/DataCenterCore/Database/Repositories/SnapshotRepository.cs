@@ -19,7 +19,8 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // max_allowed_packet is 16M ???
-        public async Task<int> AddSnapshotAsync(Guid graphDbVersionId, int lastEventNumber, DateTime lastEventDate, byte[] data)
+        public async Task<int> AddSnapshotAsync(
+            Guid graphDbVersionId, int lastEventNumber, DateTime lastEventDate, byte[] data, string version = "20")
         {
             try
             {
@@ -30,14 +31,32 @@ namespace Iit.Fibertest.DataCenterCore
                     for (int i = 0; i <= data.Length / portion; i++)
                     {
                         var payload = data.Skip(i * portion).Take(portion).ToArray();
-                        var snapshot = new Snapshot()
+                       
+                        if (version == "20")
                         {
-                            StreamIdOriginal = graphDbVersionId,
-                            LastEventNumber = lastEventNumber,
-                            LastEventDate = lastEventDate,
-                            Payload = payload
-                        };
-                        dbContext.Snapshots.Add(snapshot);
+                            var snapshot = new Snapshot()
+                            {
+                                StreamIdOriginal = graphDbVersionId,
+                                LastEventNumber = lastEventNumber,
+                                LastEventDate = lastEventDate,
+                                Payload = payload
+                            };
+                            dbContext.Snapshots.Add(snapshot);
+                        }
+                        
+                        if (version == "30")
+                        {
+                            var snapshot = new Snapshot30()
+                            {
+                                StreamIdOriginal = graphDbVersionId,
+                                LastEventNumber = lastEventNumber,
+                                LastEventDate = lastEventDate,
+                                Payload = payload,
+                                PayloadLength = payload.Length
+                            };
+                            dbContext.Snapshots30.Add(snapshot);
+                        }
+
                         var result = await dbContext.SaveChangesAsync();
                         if (result == 1)
                             _logFile.AppendLine($"{i+1} portion,   {payload.Length} size");
@@ -60,7 +79,8 @@ namespace Iit.Fibertest.DataCenterCore
                 using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     _logFile.AppendLine("Snapshot reading...");
-                    var portions = await dbContext.Snapshots.Where(l => l.StreamIdOriginal == graphDbVersionId).ToListAsync();
+                    var portions = await dbContext.Snapshots
+                        .Where(l => l.StreamIdOriginal == graphDbVersionId).ToListAsync();
                     if (!portions.Any())
                     {
                         _logFile.AppendLine("No snapshots");
@@ -74,7 +94,8 @@ namespace Iit.Fibertest.DataCenterCore
                         t.Payload.CopyTo(data, offset);
                         offset = offset + t.Payload.Length;
                     }
-                    var result = new Tuple<int, byte[], DateTime>(portions.First().LastEventNumber, data, portions.First().LastEventDate);
+                    var result = new Tuple<int, byte[], DateTime>(portions.First().LastEventNumber, 
+                        data, portions.First().LastEventDate);
                     _logFile.AppendLine($@"Snapshot size {result.Item2.Length:0,0} bytes.    Number of last event in snapshot {result.Item1:0,0}.");
                     return result;
                 }

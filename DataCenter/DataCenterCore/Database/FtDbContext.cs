@@ -12,5 +12,6 @@ namespace Iit.Fibertest.DataCenterCore
         public DbSet<RtuStation> RtuStations { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
         public DbSet<Snapshot> Snapshots { get; set; }
+        public DbSet<Snapshot30> Snapshots30 { get; set; }
     }
 }

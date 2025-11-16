@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Graph
     {
         public int Value { get; set; } = 1;
 
+        // в файле для "вечных" лицензий мы сохраняем 999 лет
         public int Term { get; set; } = 3;
         public bool IsTermInYears { get; set; } // Or in months
     }

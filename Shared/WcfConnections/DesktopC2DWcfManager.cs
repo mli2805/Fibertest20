@@ -151,6 +151,26 @@ namespace Iit.Fibertest.WcfConnections
                 _logFile.AppendLine("ExportEvents: " + e.Message);
                 return -1;
             }
+        } 
+        
+        public async Task<bool> ConvertSnapshotTo30()
+        {
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ConvertSnapshotTo30();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("ConvertSnapshotTo30: " + e.Message);
+                return false;
+            }
         }
 
         public async Task<string[]> GetEvents(GetEventsDto dto)

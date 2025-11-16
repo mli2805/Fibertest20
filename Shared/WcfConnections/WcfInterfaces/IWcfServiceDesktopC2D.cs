@@ -21,6 +21,9 @@ namespace Iit.Fibertest.WcfConnections
 
         [OperationContract]
         Task<int> ExportEvents();
+        
+        [OperationContract]
+        Task<bool> ConvertSnapshotTo30();
 
         #region Event sourcing
         [OperationContract]
