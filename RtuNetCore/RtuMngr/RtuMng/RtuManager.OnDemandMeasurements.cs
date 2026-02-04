@@ -172,7 +172,7 @@ namespace Iit.Fibertest.RtuMngr
 
         private async Task<ClientMeasurementResultDto> ClientMeasurementItself(DoClientMeasurementDto dto, OtauPortDto currentOtauPortDto)
         {
-            var result = new ClientMeasurementResultDto() { ConnectionId = dto.ConnectionId };
+            var result = new ClientMeasurementResultDto() { ConnectionId = dto.ConnectionId, IsForAutoBase = dto.IsForAutoBase};
             var activeBop = currentOtauPortDto.IsPortOnMainCharon
                 ? null
                 : new Charon(new NetAddress(currentOtauPortDto.NetAddress.Ip4Address, TcpPorts.IitBop),

@@ -22,6 +22,12 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public OtauPortDto OtauPortDto { get; set; }
+
+
+        // переносим из входного dto, это для Ft3.0, чтобы понимать,
+        // что это для автозадания базовой и его надо обработать иначе,
+        [DataMember]
+        public bool IsForAutoBase { get; set; }
     }
 
   
