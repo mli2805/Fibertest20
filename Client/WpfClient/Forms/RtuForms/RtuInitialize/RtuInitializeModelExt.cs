@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
@@ -57,8 +58,14 @@ namespace Iit.Fibertest.Client
             }
             if (!await fullModel.MainChannelTestViewModel.ExternalTest())
             {
+                var strings = new List<string>()
+                {
+                    Resources.SID_Cannot_establish_connection_with_RTU_,
+                    Resources.SID_Main_channel,
+                    fullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().ToStringASpace
+                };
                 fullModel.WindowManager.ShowDialogWithAssignedOwner(
-                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
+                    new MyMessageBoxViewModel(MessageType.Error, strings ));
                 return false;
             }
 
@@ -66,14 +73,21 @@ namespace Iit.Fibertest.Client
 
             if (!fullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.IsValidIpAddress())
             {
+               
                 fullModel.WindowManager.ShowDialogWithAssignedOwner(
                     new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
                 return false;
             }
             if (await fullModel.ReserveChannelTestViewModel.ExternalTest()) return true;
 
+            var strings2 = new List<string>()
+            {
+                Resources.SID_Cannot_establish_connection_with_RTU_,
+                Resources.SID_Reserve_channel,
+                fullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().ToStringASpace
+            };
             fullModel.WindowManager.ShowDialogWithAssignedOwner(
-                new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Cannot_establish_connection_with_RTU_));
+                new MyMessageBoxViewModel(MessageType.Error, strings2));
             return false;
         }
     }
