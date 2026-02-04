@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using System;
+using System.Linq;
 
 namespace Iit.Fibertest.Client
 {
@@ -64,6 +65,7 @@ namespace Iit.Fibertest.Client
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == networkEvent.RtuId);
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId))
                 return;
+            networkEvent.IsRtuAvailable = rtu.MainChannelState == RtuPartState.Ok || rtu.ReserveChannelState == RtuPartState.Ok;
 
             AllNetworkEventsViewModel.AddEvent(networkEvent);
             ActualNetworkEventsViewModel.RemoveOldEventForRtuIfExists(networkEvent.RtuId);

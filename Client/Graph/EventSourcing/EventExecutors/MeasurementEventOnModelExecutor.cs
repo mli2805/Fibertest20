@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Graph
             var rtu = model.Rtus.First(r => r.Id == e.RtuId);
             rtu.MainChannelState = e.OnMainChannel.ChangeChannelState(rtu.MainChannelState);
             rtu.ReserveChannelState = e.OnReserveChannel.ChangeChannelState(rtu.ReserveChannelState);
-            networkEvent.IsRtuAvailable = rtu.IsAvailable;
+            networkEvent.IsRtuAvailable = rtu.MainChannelState == RtuPartState.Ok || rtu.ReserveChannelState == RtuPartState.Ok;
             model.NetworkEvents.Add(networkEvent);
 
             return null;
