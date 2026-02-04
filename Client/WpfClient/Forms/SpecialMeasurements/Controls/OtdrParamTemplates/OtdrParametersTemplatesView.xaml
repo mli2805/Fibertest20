@@ -33,7 +33,7 @@
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Fiber_type_wavelength}" Margin="5" HorizontalAlignment="Right"/>
             </DockPanel>
             <DockPanel>
-                <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="dB"/>
+                <TextBlock DockPanel.Dock="Right" Width="30" Margin="5" Text="{x:Static stringResources:Resources.SID_dB}"/>
                 <TextBox DockPanel.Dock="Right" Width="90" Height="22" Margin="5,0">
                     <TextBox.Text>
                         <Binding Path="Model.BackScatteredCoefficient" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"

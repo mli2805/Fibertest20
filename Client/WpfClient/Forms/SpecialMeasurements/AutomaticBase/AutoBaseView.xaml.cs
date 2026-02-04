@@ -26,5 +26,10 @@ namespace Iit.Fibertest.Client
             var hwnd = new WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GwlStyle, GetWindowLong(hwnd, GwlStyle) & ~WsSysMenu);
         }
+
+        private void OtdrParametersTemplatesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

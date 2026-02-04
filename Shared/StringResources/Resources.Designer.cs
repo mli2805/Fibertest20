@@ -5912,6 +5912,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to min:sec.
+        /// </summary>
+        public static string SID_min_sec {
+            get {
+                return ResourceManager.GetString("SID_min_sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minor.
         /// </summary>
         public static string SID_Minor {

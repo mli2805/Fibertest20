@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
         private bool _isChecked;
         public string Description => Id == 0 
             ? Resources.SID_Automatic_detection_of_measurement_parameters 
-            : $@"Lmax = {Lmax} km;   dL = {Dl} m;   Tp = {Tp} ns;   t = {Time} min:sec";
+            : F();
 
         public bool IsChecked
         {
@@ -25,6 +25,15 @@ namespace Iit.Fibertest.Client
                 _isChecked = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        private string F()
+        {
+            var km = Resources.SID_km;
+            var m = Resources.SID_m;
+            var ns = Resources.SID_ns;
+            var minsec = Resources.SID_min_sec;
+            return $@"Lmax = {Lmax} {km};   dL = {Dl} {m};   Tp = {Tp} {ns};   t = {Time} {minsec}";
         }
     }
 }
