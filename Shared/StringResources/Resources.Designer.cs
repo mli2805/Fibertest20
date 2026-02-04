@@ -2602,6 +2602,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dB.
+        /// </summary>
+        public static string SID_dB {
+            get {
+                return ResourceManager.GetString("SID_dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database drive&apos;s free space:.
         /// </summary>
         public static string SID_Db_drive_free_space {
@@ -5408,6 +5417,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to m:s.
+        /// </summary>
+        public static string SID_m_s {
+            get {
+                return ResourceManager.GetString("SID_m_s", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mail from.
         /// </summary>
         public static string SID_Mail_from {
@@ -6529,6 +6547,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Now_active_is_port__0__on__1_ {
             get {
                 return ResourceManager.GetString("SID_Now_active_is_port__0__on__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ns.
+        /// </summary>
+        public static string SID_ns {
+            get {
+                return ResourceManager.GetString("SID_ns", resourceCulture);
             }
         }
         

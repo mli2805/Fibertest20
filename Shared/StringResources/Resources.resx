@@ -3791,4 +3791,13 @@ Please try again later</value>
 	<data name="SID_usually_for_port_465_ssl_must_be_turned_on" xml:space="preserve">
 		<value>usually for port 465 ssl must be turned on</value>
 	</data>
+	<data name="SID_dB" xml:space="preserve">
+		<value>dB</value>
+	</data>
+	<data name="SID_ns" xml:space="preserve">
+		<value>ns</value>
+	</data>
+	<data name="SID_m_s" xml:space="preserve">
+		<value>m:s</value>
+	</data>
 </root>

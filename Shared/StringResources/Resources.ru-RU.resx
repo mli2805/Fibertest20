@@ -3791,4 +3791,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_usually_for_port_465_ssl_must_be_turned_on" xml:space="preserve">
 		<value>обычно для порта 465 ssl должен быть включен</value>
 	</data>
+	<data name="SID_dB" xml:space="preserve">
+		<value>дБ</value>
+	</data>
+	<data name="SID_ns" xml:space="preserve">
+		<value>нс</value>
+	</data>
+	<data name="SID_m_s" xml:space="preserve">
+		<value>м:с</value>
+	</data>
 </root>
