@@ -178,7 +178,7 @@ namespace Iit.Fibertest.WcfConnections
 
         private NetAddress SelectNetAddressAvailableNow(bool shouldWriteToLogProblems = true)
         {
-            var openTimeout = TimeSpan.FromMilliseconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeoutMs, 1000));
+            var openTimeout = TimeSpan.FromMilliseconds(_iniFile.Read(IniSection.NetTcpBinding, IniKey.OpenTimeoutMs, 5000));
 
             try
             {
