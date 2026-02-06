@@ -14,6 +14,8 @@ namespace Iit.Fibertest.Graph
         public ChannelEvent OnMainChannel { get; set; }
         public ChannelEvent OnReserveChannel { get; set; }
 
+        public bool IsReserveChannelSet { get; set; } // задан ли в этот момент (могли включать потом выклчать и  тогда проблемы)
+
         public bool IsRtuAvailable { get; set; }
 
     }

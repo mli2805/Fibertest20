@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Graph
             if (channelEvent == ChannelEvent.Nothing) return previousState;
             return channelEvent == ChannelEvent.Broken ? RtuPartState.Broken : RtuPartState.Ok;
         }
+
         public static string ToLocalizedString(this ChannelEvent state)
         {
             switch (state)

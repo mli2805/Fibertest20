@@ -4,6 +4,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Iit.Fibertest.Client
@@ -48,32 +49,47 @@ namespace Iit.Fibertest.Client
 
         private void RtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
         {
+            var rtu = _readModel.Rtus.First(t => t.Id == networkEventAdded.RtuId);
             var networkEvent = Mapper.Map<NetworkEvent>(networkEventAdded);
-            ApplyOneEvent(networkEvent);
+            ApplyOneEvent(networkEvent, rtu.MainChannelState, rtu.ReserveChannelState);
         }
 
         public void RenderNetworkEvents()
         {
+            var currentRtuState = new Dictionary<Guid, NetworkEventModel>();
             foreach (var networkEvent in _readModel.NetworkEvents)
             {
-               ApplyOneEvent(networkEvent);
+                // использует текущее состояние рту,
+                // если вот так пачкой применять для всех ивентов будет использовать текущее состояние рту
+                // поэтому делаем словарь
+
+                currentRtuState.TryGetValue(networkEvent.RtuId, out var currentNetworkEventModel);
+                var mainChannelState = currentNetworkEventModel?.MainChannel ?? RtuPartState.NotSetYet;
+                var reserveChannelState = currentNetworkEventModel?.ReserveChannel ?? RtuPartState.NotSetYet;
+                if (!networkEvent.IsReserveChannelSet) reserveChannelState = RtuPartState.NotSetYet;
+                var result = ApplyOneEvent(networkEvent, mainChannelState, reserveChannelState);
+                if (result.Item2 != null)
+                {
+                    currentRtuState[result.Item1] = result.Item2;
+                }
             }
         }
 
-        private void ApplyOneEvent(NetworkEvent networkEvent)
+        private (Guid, NetworkEventModel) ApplyOneEvent(NetworkEvent networkEvent, RtuPartState mainChannelState, RtuPartState reserveChannelState)
         {
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == networkEvent.RtuId);
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId))
-                return;
+                return (Guid.Empty, null);
             networkEvent.IsRtuAvailable = rtu.MainChannelState == RtuPartState.Ok || rtu.ReserveChannelState == RtuPartState.Ok;
 
-            AllNetworkEventsViewModel.AddEvent(networkEvent);
+            var networkEventModel = AllNetworkEventsViewModel.AddEvent(networkEvent, mainChannelState, reserveChannelState);
             ActualNetworkEventsViewModel.RemoveOldEventForRtuIfExists(networkEvent.RtuId);
+            var result = (rtu.Id, networkEventModel);
 
-            if (rtu.IsAllRight)
-                return;
+            if (!rtu.IsAllRight)
+                ActualNetworkEventsViewModel.AddEvent(networkEvent, mainChannelState, reserveChannelState);
 
-            ActualNetworkEventsViewModel.AddEvent(networkEvent);
+            return result;
         }
 
         private void RtuUpdated(Guid rtuId)
@@ -100,16 +116,16 @@ namespace Iit.Fibertest.Client
                 {
                     var lastNetworkEvent = _readModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id);
                     if (lastNetworkEvent != null && !rtu.IsAllRight)
-                        ActualNetworkEventsViewModel.AddEvent(lastNetworkEvent);
+                        ActualNetworkEventsViewModel.AddEvent(lastNetworkEvent, rtu.MainChannelState, rtu.ReserveChannelState);
 
                     foreach (var networkEvent in _readModel.NetworkEvents.Where(n => n.RtuId == rtu.Id))
                     {
-                        AllNetworkEventsViewModel.AddEvent(networkEvent);
+                        AllNetworkEventsViewModel.AddEvent(networkEvent, rtu.MainChannelState, rtu.ReserveChannelState);
                     }
                 }
                 else
                 {
-                   RtuRemoved(rtu.Id);
+                    RtuRemoved(rtu.Id);
                 }
             }
         }

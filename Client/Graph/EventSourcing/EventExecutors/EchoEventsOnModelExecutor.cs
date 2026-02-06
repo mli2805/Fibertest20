@@ -135,7 +135,7 @@ namespace Iit.Fibertest.Graph
             rtu.IsReserveChannelSet = e.IsReserveChannelSet;
             if (e.IsReserveChannelSet)
                 rtu.ReserveChannel = e.ReserveChannel ?? new NetAddress("", -1);
-            rtu.ReserveChannelState = e.ReserveChannelState;
+            rtu.ReserveChannelState = e.IsReserveChannelSet ? e.ReserveChannelState : RtuPartState.NotSetYet;
             rtu.OtdrNetAddress = e.OtauNetAddress ?? new NetAddress("", -1);
             rtu.Version = e.Version;
             rtu.Version2 = e.Version2;

@@ -24,31 +24,33 @@ namespace Iit.Fibertest.Client
             view.SortDescriptions.Add(new SortDescription(@"EventTimestamp", ListSortDirection.Descending));
         }
 
-        public void AddEvent(NetworkEvent networkEvent)
+        public NetworkEventModel AddEvent(NetworkEvent networkEvent, RtuPartState mainChannelState, RtuPartState reserveChannelState)
         {
             var rtu = _readModel.Rtus.First(r => r.Id == networkEvent.RtuId);
-            Rows.Add(new NetworkEventModel()
+            var networkEventModel = new NetworkEventModel()
             {
                 Ordinal = networkEvent.Ordinal,
                 EventTimestamp = networkEvent.EventTimestamp,
                 RtuId = networkEvent.RtuId,
-                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEvent.RtuId)?.Title,
+                RtuTitle = rtu.Title,
                 IsRtuAvailable = networkEvent.IsRtuAvailable,
                 OnMainChannel = networkEvent.OnMainChannel,
                 OnReserveChannel = networkEvent.OnReserveChannel,
                 MainChannel = networkEvent.OnMainChannel == ChannelEvent.Nothing
-                    ? rtu.MainChannelState
+                    ? mainChannelState
                     : networkEvent.OnMainChannel == ChannelEvent.Broken
                         ? RtuPartState.Broken
                         : RtuPartState.Ok,
                 ReserveChannel = networkEvent.OnReserveChannel == ChannelEvent.Nothing
-                    ? rtu.ReserveChannelState
+                    ? reserveChannelState
                     : networkEvent.OnReserveChannel == ChannelEvent.Broken
                         ? RtuPartState.Broken
                         : RtuPartState.Ok,
-            });
-        }
-
+            };
+            Rows.Add(networkEventModel);
+            return networkEventModel;
+        } 
+        
         public void RemoveOldEventForRtuIfExists(Guid rtuId)
         {
             var oldEvent = Rows.FirstOrDefault(r => r.RtuId == rtuId);

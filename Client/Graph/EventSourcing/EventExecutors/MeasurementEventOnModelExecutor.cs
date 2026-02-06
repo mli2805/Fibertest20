@@ -69,6 +69,12 @@ namespace Iit.Fibertest.Graph
             rtu.MainChannelState = e.OnMainChannel.ChangeChannelState(rtu.MainChannelState);
             rtu.ReserveChannelState = e.OnReserveChannel.ChangeChannelState(rtu.ReserveChannelState);
             networkEvent.IsRtuAvailable = rtu.MainChannelState == RtuPartState.Ok || rtu.ReserveChannelState == RtuPartState.Ok;
+
+
+            // из-за того что при старте клиента есть пакетная отрисовка NetworkEvent,
+            // надо чтобы факт что рез канал не установлен, был прямо в ивенте
+            networkEvent.IsReserveChannelSet = rtu.IsReserveChannelSet;
+
             model.NetworkEvents.Add(networkEvent);
 
             return null;
