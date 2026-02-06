@@ -38,10 +38,19 @@
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" 
-                  Visibility="{Binding GisVisibility}" Margin="5">
-            <client:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}" Margin="0,5"/>
+        <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
+                   Visibility="{Binding GisVisibility}" Margin="5">
+            <client:GpsInputView x:Name="GpsInputView" Margin="0,5"
+                                  DataContext="{Binding GpsInputViewModel}" />
         </GroupBox>
+
+        <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
+                   Visibility="{Binding ReadOnlyCoorsVisibility}" Margin="5">
+                <TextBlock TextAlignment="Center" Text="{Binding ReadOnlyCoors}"></TextBlock>
+        </GroupBox>
+
+
+
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Telecommunications_equipment}"
                   Visibility="{Binding TceRelationInfo.Visibility}">
             <ListView ItemsSource="{Binding TceRelationInfo.Tces}" Margin="5">

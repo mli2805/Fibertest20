@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
         private Rtu _originalRtu;
         private Node _originalNode;
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentGis _currentGis;
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
@@ -67,6 +68,8 @@ namespace Iit.Fibertest.Client
         public GpsInputViewModel GpsInputViewModel { get; set; }
         public bool HasPrivilegies { get; set; }
         public Visibility GisVisibility { get; set; }
+        public Visibility ReadOnlyCoorsVisibility { get; set; }
+        public string ReadOnlyCoors { get; set; }
 
         private bool _isEditEnabled;
         public bool IsEditEnabled
@@ -87,23 +90,27 @@ namespace Iit.Fibertest.Client
             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
+            _currentGis = currentGis;
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             IsEditEnabled = true;
             HasPrivilegies = currentUser.Role <= Role.Root;
-            GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void Initialize(Guid rtuId)
         {
+            _isInCreationMode = false;
             RtuId = rtuId;
             _originalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
 
             _originalNode = _readModel.Nodes.First(n => n.NodeId == _originalRtu.NodeId);
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
             GpsInputViewModel.Initialize(_originalNode, HasPrivilegies);
+            GisVisibility = _currentGis.IsGisOn
+                ? Visibility.Visible : Visibility.Collapsed;
+            ReadOnlyCoorsVisibility = Visibility.Collapsed;
 
             Title = _originalRtu.Title;
             Comment = _originalRtu.Comment;
@@ -124,6 +131,13 @@ namespace Iit.Fibertest.Client
 
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
             GpsInputViewModel.Initialize(_originalNode, HasPrivilegies);
+
+            // при создании не надо нам редактировать
+            GisVisibility = Visibility.Collapsed;
+
+            ReadOnlyCoors = _originalNode.Position.ToDetailedString(_currentGis.GpsInputMode);
+            ReadOnlyCoorsVisibility = _currentGis.IsGisOn
+                ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected override void OnViewLoaded(object view)
