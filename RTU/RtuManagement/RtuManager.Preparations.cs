@@ -46,9 +46,23 @@ namespace Iit.Fibertest.RtuManagement
               
             }
 
+            // не важно это инциализация при старте службы/модуля или по требованию пользователя
+            // проводим реальный опрос otau/charon, а не возвращаем пользователю, то что есть в памяти
+            var otauInitRes = InitializeOtau();
+            if (otauInitRes != ReturnCode.Ok)
+            {
+                _rtuLog.AppendLine("OTAU initialization failed.");
+                LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.ErrorConnectOtau);
+                return otauInitRes;
+            }
+
+            // если по требованию пользователя, то надо сравнить с тем что прислано
+            // и при необходимости переписать ини чарона
             var otauInitializationResult = dto != null
-                ? ReInitializeOtauOnUsersRequest(dto)
-                : InitializeOtau();
+                ? CompareAndRewriteIfNeeded(dto)
+                : otauInitRes;
+
+            // проверяем вдруг после перезаписи не удалась инициализация
             if (otauInitializationResult != ReturnCode.Ok)
             {
                 _rtuLog.AppendLine("OTAU initialization failed.");
@@ -102,7 +116,31 @@ namespace Iit.Fibertest.RtuManagement
             return ReturnCode.Ok;
         }
 
-        private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
+        //private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
+        //{
+        //    var msl = 2;
+
+        //    _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel: msl);
+        //    foreach (var pair in _mainCharon.Children)
+        //        _rtuLog.AppendLine($"   port {pair.Key}: bop {pair.Value.NetAddress.ToStringA()} {pair.Value.Serial} isOk - {pair.Value.IsOk}", messageLevel: msl);
+        //    _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel: msl);
+        //    foreach (var pair in dto.Children)
+        //        _rtuLog.AppendLine($"   port {pair.Key}: bop {pair.Value.NetAddress.ToStringA()} {pair.Value.Serial} isOk - {pair.Value.IsOk}", messageLevel: msl);
+
+        //    if (!_mainCharon.IsBopSupported)
+        //        return dto.Children.Count > 0 ? ReturnCode.RtuDoesNotSupportBop : ReturnCode.Ok;
+
+        //    if (!IsFullMatch(_mainCharon, dto))
+        //    {
+        //        _rtuLog.AppendLine("FullMatch - false, need to rewrite ini");
+        //        var expPorts = dto.Children.ToDictionary(pair => pair.Key, pair => pair.Value.NetAddress);
+        //        _mainCharon.RewriteIni(expPorts);
+        //    }
+
+        //    return InitializeOtau();
+        //}
+
+        private ReturnCode CompareAndRewriteIfNeeded(InitializeRtuDto dto)
         {
             var msl = 2;
 
@@ -116,14 +154,19 @@ namespace Iit.Fibertest.RtuManagement
             if (!_mainCharon.IsBopSupported)
                 return dto.Children.Count > 0 ? ReturnCode.RtuDoesNotSupportBop : ReturnCode.Ok;
 
-            if (!IsFullMatch(_mainCharon, dto))
+            if (IsFullMatch(_mainCharon, dto))
+            {
+                // только что инитили otau, нет смыла опять, возвращаем текущий результат
+                return ReturnCode.Ok;
+            }
+            else
             {
                 _rtuLog.AppendLine("FullMatch - false, need to rewrite ini");
                 var expPorts = dto.Children.ToDictionary(pair => pair.Key, pair => pair.Value.NetAddress);
                 _mainCharon.RewriteIni(expPorts);
+                // после перезаписи ини чарона надо переинитить еще разок
+                return InitializeOtau();
             }
-
-            return InitializeOtau();
         }
 
         private bool IsFullMatch(Charon mainCharon, InitializeRtuDto dto)
