@@ -208,9 +208,14 @@ namespace Iit.Fibertest.DataCenterCore
 
             _logFile.AppendLine("SendEmail finished");
             return true;
-
         }
 
+        // на RFTS400 такое правило
+        // for port 465 ssl must be turned on
+        // for ports 25 & 587 ssl must be turned off  -    otherwise it failed to connect
+        // в этой версии именно так и работает (порт 25 ssl - off, шлем на mail.ru)
+        // но в 2.5 работает 25 порт + ssl - дебажил до библиотечной функции, библиотеки разные
+        // поэтому даем пользователю полную свободу настроек. см. 930)
         private SmtpClient GetSmtpClient(string mailFrom)
         {
             SmtpClient smtpClient = new SmtpClient(_currentDatacenterParameters.Smtp.SmptHost,

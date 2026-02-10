@@ -69,8 +69,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task Tick()
         {
-            var makLinuxRtus = _writeModel.Rtus.Where(r => r.MainChannel.Port == (int)TcpPorts.RtuListenToHttp && r.IsInitialized).ToList();
+            _logFile.AppendLine("Start RtuLinuxPollster tick");
+            var makLinuxRtus = _writeModel.Rtus
+                .Where(r => r.MainChannel.Port == (int)TcpPorts.RtuListenToHttp && r.IsInitialized).ToList();
+            _logFile.AppendLine($"Found {makLinuxRtus.Count} MAK Linux RTUs");
             var stations = await _rtuStationsRepository.GetAllRtuStations();
+            _logFile.AppendLine($"Found {stations.Count} RTU stations");
             foreach (var makLinuxRtu in makLinuxRtus)
             {
                 try
@@ -86,6 +90,7 @@ namespace Iit.Fibertest.DataCenterCore
                         LastMeasurementTimestamp = station.LastMeasurementTimestamp
                     };
                     var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
+                    _logFile.AppendLine($"Received current state for RTU {station.MainAddress}");
 
                     // временно логируем каждое обращение
                     // if (state == null || state.ReturnCode != ReturnCode.Ok)
@@ -107,6 +112,7 @@ namespace Iit.Fibertest.DataCenterCore
                             ? state.MonitoringResultDtos
                                         .OrderBy(r => r.TimeStamp).Last().TimeStamp
                             : DateTime.MinValue;
+                    _logFile.AppendLine($"Last measurement timestamp for RTU {station.MainAddress}: {lastMeasurementTimestamp}");
                     if (state.MonitoringResultDtos.Count > 0)
                     {
                         _logFile.AppendLine($"{state.MonitoringResultDtos.Count} monitoring results up to {lastMeasurementTimestamp} received ");
@@ -122,6 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                     if (state.BopStateChangedDtos != null)
                         _ = Task.Factory.StartNew(() => TransmitBopEvents(state.BopStateChangedDtos));
+                    _logFile.AppendLine($"Found Bop state changes: {state.BopStateChangedDtos?.Count ?? 0}");
 
                     var heartbeatDto = new RtuChecksChannelDto()
                     {
@@ -132,8 +139,11 @@ namespace Iit.Fibertest.DataCenterCore
                     };
 
                     await _rtuStationsRepository.RegisterRtuHeartbeatAsync(heartbeatDto);
+                    _logFile.AppendLine("Heartbeat registered");
 
                     await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
+                    _logFile.AppendLine("Notified about current monitoring step");
+                    _logFile.AppendLine("Finish RtuLinuxPollster tick");
                 }
                 catch (Exception e)
                 {
