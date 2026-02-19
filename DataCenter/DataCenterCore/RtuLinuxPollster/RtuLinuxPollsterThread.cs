@@ -90,18 +90,18 @@ namespace Iit.Fibertest.DataCenterCore
                         LastMeasurementTimestamp = station.LastMeasurementTimestamp
                     };
                     var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
-                    _logFile.AppendLine($"Received current state for RTU {station.MainAddress}");
+                    _logFile.AppendLine($"Got current state for RTU {station.MainAddress} : {state.ReturnCode.ToString()}");
 
                     // временно логируем каждое обращение
-                    // if (state == null || state.ReturnCode != ReturnCode.Ok)
-                    // {
-                    //     _logFile.AppendLine($"Failed to get current state of RTU {station.MainAddress}");
-                    //     continue;
-                    // }
-                    //
-                    // var word = $"{state.MonitoringResultDtos.Count}/{state.ClientMeasurementResultDtos.Count}/{state.CurrentStepDto.Step.ToString()}";
-                    // _logFile.AppendLine($"RTU {station.MainAddress} returns current state {word}");
-                    // потом только изменение
+                    //if (state == null || state.ReturnCode != ReturnCode.Ok)
+                    //{
+                    //    _logFile.AppendLine($"Failed to get current state of RTU {station.MainAddress}");
+                    //    continue;
+                    //}
+
+                    //var word = $"{state.MonitoringResultDtos.Count}/{state.ClientMeasurementResultDtos.Count}/{state.CurrentStepDto.Step.ToString()}";
+                    //_logFile.AppendLine($"RTU {station.MainAddress} returns current state {word}");
+                    // теперь логируем только изменение
                     if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) continue;
                     //
 
@@ -143,7 +143,6 @@ namespace Iit.Fibertest.DataCenterCore
 
                     await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
                     _logFile.AppendLine("Notified about current monitoring step");
-                    _logFile.AppendLine("Finish RtuLinuxPollster tick");
                 }
                 catch (Exception e)
                 {
@@ -151,6 +150,7 @@ namespace Iit.Fibertest.DataCenterCore
                     _logFile.AppendLine(e.Message);
                 }
             }
+            _logFile.AppendLine("Finish RtuLinuxPollster tick");
         }
 
         private async Task TransmitMoniResults(List<MonitoringResultDto> dtos)
