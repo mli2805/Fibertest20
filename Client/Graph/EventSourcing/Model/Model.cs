@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Graph
 
         public List<TceTypeStruct> TceTypeStructs { get; set; } = new List<TceTypeStruct>();
 
-        public SnmpNewSettings SnmpNewSettings { get; set; }
+        public SnmpNewSettings SnmpNewSettings { get; set; } = new SnmpNewSettings();
 
 
         // if some List property added to Model see AdjustModelDeserializedFromSnapshotMadeByOldVersion

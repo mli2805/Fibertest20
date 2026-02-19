@@ -80,16 +80,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            _logFile.AppendLine("Last connection time checker is alive!");
+            //_logFile.AppendLine("Last connection time checker is alive!");
 
             _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
-            _logFile.AppendLine("Dead clients cleaned!");
 
             var networkEvents = await GetConnectionChangesAsNetworkEvents(_rtuHeartbeatPermittedGap);
             if (networkEvents.Count == 0)
                 return 0;
 
-            _logFile.AppendLine("Going to process network events!");
             foreach (var networkEvent in networkEvents)
             {
                 var command = new AddNetworkEvent()
@@ -99,15 +97,12 @@ namespace Iit.Fibertest.DataCenterCore
                     OnMainChannel = networkEvent.OnMainChannel,
                     OnReserveChannel = networkEvent.OnReserveChannel,
                 };
-                _logFile.AppendLine("Save in EventStore!");
                 if (!string.IsNullOrEmpty(await _eventStoreService.SendCommand(command, "system", "OnServer")))
                     continue;
 
-                _logFile.AppendLine("Notify web clients!");
                 var dto = Mapper.Map<NetworkEventDto>(networkEvent);
                 await _ftSignalRClient.NotifyAll("AddNetworkEvent", dto.ToCamelCaseJson());
 
-                _logFile.AppendLine("Send all types of user notifications!");
                 var thread = new Thread(() =>
                 {
                     try
@@ -130,18 +125,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private void NotifyAboutNewNetworkEvent(NetworkEvent networkEvent)
         {
-            _logFile.AppendLine("Send SNMP notification!");
             _snmpNotifier.Send(networkEvent);
             var isMainChannel = networkEvent.OnMainChannel != ChannelEvent.Nothing;
             var isOk = (isMainChannel ? networkEvent.OnMainChannel : networkEvent.OnReserveChannel) ==
                        ChannelEvent.Repaired;
-            _logFile.AppendLine("Send SMS notification!");
             _smsManager.SendNetworkEvent(networkEvent.RtuId, isMainChannel, isOk);
-            _logFile.AppendLine("Send SMTP notification!");
             _smtp.SendNetworkEvent(networkEvent.RtuId, isMainChannel, isOk);
-            _logFile.AppendLine("all notifications sent");
         }
-
 
         private async Task<List<NetworkEvent>> GetConnectionChangesAsNetworkEvents(TimeSpan rtuHeartbeatPermittedGap)
         {
