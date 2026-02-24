@@ -69,12 +69,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task Tick()
         {
-            _logFile.AppendLine("Start RtuLinuxPollster tick");
             var makLinuxRtus = _writeModel.Rtus
                 .Where(r => r.MainChannel.Port == (int)TcpPorts.RtuListenToHttp && r.IsInitialized).ToList();
-            _logFile.AppendLine($"Found {makLinuxRtus.Count} MAK Linux RTUs");
             var stations = await _rtuStationsRepository.GetAllRtuStations();
-            _logFile.AppendLine($"Found {stations.Count} RTU stations");
             foreach (var makLinuxRtu in makLinuxRtus)
             {
                 try
@@ -90,7 +87,7 @@ namespace Iit.Fibertest.DataCenterCore
                         LastMeasurementTimestamp = station.LastMeasurementTimestamp
                     };
                     var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
-                    _logFile.AppendLine($"Got current state for RTU {station.MainAddress} : {state.ReturnCode.ToString()}");
+                    // _logFile.AppendLine($"Got current state for RTU {station.MainAddress} : {state.ReturnCode.ToString()}");
 
                     // временно логируем каждое обращение
                     //if (state == null || state.ReturnCode != ReturnCode.Ok)
@@ -101,6 +98,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                     //var word = $"{state.MonitoringResultDtos.Count}/{state.ClientMeasurementResultDtos.Count}/{state.CurrentStepDto.Step.ToString()}";
                     //_logFile.AppendLine($"RTU {station.MainAddress} returns current state {word}");
+
                     // теперь логируем только изменение
                     if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) continue;
                     //
@@ -112,7 +110,7 @@ namespace Iit.Fibertest.DataCenterCore
                             ? state.MonitoringResultDtos
                                         .OrderBy(r => r.TimeStamp).Last().TimeStamp
                             : DateTime.MinValue;
-                    _logFile.AppendLine($"Last measurement timestamp for RTU {station.MainAddress}: {lastMeasurementTimestamp}");
+                    // _logFile.AppendLine($"Last measurement timestamp for RTU {station.MainAddress}: {lastMeasurementTimestamp}");
                     if (state.MonitoringResultDtos.Count > 0)
                     {
                         _logFile.AppendLine($"{state.MonitoringResultDtos.Count} monitoring results up to {lastMeasurementTimestamp} received ");
@@ -139,10 +137,8 @@ namespace Iit.Fibertest.DataCenterCore
                     };
 
                     await _rtuStationsRepository.RegisterRtuHeartbeatAsync(heartbeatDto);
-                    _logFile.AppendLine("Heartbeat registered");
 
                     await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
-                    _logFile.AppendLine("Notified about current monitoring step");
                 }
                 catch (Exception e)
                 {
@@ -150,7 +146,6 @@ namespace Iit.Fibertest.DataCenterCore
                     _logFile.AppendLine(e.Message);
                 }
             }
-            _logFile.AppendLine("Finish RtuLinuxPollster tick");
         }
 
         private async Task TransmitMoniResults(List<MonitoringResultDto> dtos)
