@@ -41,7 +41,7 @@ namespace Iit.Fibertest.RtuManagement
                     return recoveryResult; // Reset Charon
                 case RecoveryStep.ResetArpAndCharon:
                     FastRestart();
-                    return ReturnCode.Ok;
+                    break;// ReturnCode.Ok;
                 case RecoveryStep.RestartService:
                     var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
                     if (enabled)

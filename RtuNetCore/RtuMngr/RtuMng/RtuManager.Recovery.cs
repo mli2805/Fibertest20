@@ -30,7 +30,7 @@ public partial class RtuManager
                 _logger.Info(Logs.RtuService, "Recovery procedure: Exit rtu service.");
                 Environment.FailFast("Recovery procedure: Exit rtu service.");
                 // ReSharper disable once HeuristicUnreachableCode
-                return true;
+                break; // return true;
             case RecoveryStep.RestartService:
                 var enabled = _config.Value.Recovery.RebootSystemEnabled;
                 if (enabled)

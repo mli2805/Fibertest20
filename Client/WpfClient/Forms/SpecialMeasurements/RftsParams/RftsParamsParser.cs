@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Iit.Fibertest.Client
 {
@@ -16,7 +17,7 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                var lines = File.ReadAllLines(filename).ToList();
+                var lines = File.ReadAllLines(filename, Encoding.UTF8).ToList();
                 result = ParseRftsParams(lines);
                 exception = null;
                 return true;

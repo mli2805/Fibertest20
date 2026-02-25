@@ -1335,6 +1335,9 @@
     <PackageReference Include="System.ServiceModel.Primitives">
       <Version>4.5.3</Version>
     </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>4.7.2</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\EmptyNode\EmptyNodeCritical.png" />

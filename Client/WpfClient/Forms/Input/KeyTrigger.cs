@@ -54,12 +54,12 @@ namespace Iit.Fibertest.Client
                 case Key.LeftCtrl:
                 case Key.RightCtrl:
                     modifiers |= ModifierKeys.Control;
-                    return modifiers;
+                    break;
 
                 case Key.LeftAlt:
                 case Key.RightAlt:
                     modifiers |= ModifierKeys.Alt;
-                    return modifiers;
+                    break;
 
                 case Key.LeftShift:
                 case Key.RightShift:

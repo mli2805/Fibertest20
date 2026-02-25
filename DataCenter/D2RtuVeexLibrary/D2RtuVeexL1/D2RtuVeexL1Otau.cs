@@ -43,13 +43,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (res.IsSuccessful)
                 res.ResponseObject = JsonConvert.DeserializeObject<VeexOtauCascadingScheme>(res.ResponseJson);
 
-            if (res.ResponseObject == null)
-            {
-                res.ErrorMessage = "Failed to parse cascading scheme!";
-                res.HttpStatusCode = HttpStatusCode.ExpectationFailed;
-                return res;
-            }
-
+            if (res.ResponseObject != null) return res;
+            
+            res.ErrorMessage = "Failed to parse cascading scheme!";
+            res.HttpStatusCode = HttpStatusCode.ExpectationFailed;
             return res;
         }
 

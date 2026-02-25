@@ -27,9 +27,9 @@ namespace Iit.Fibertest.Client
             SetWindowLong(hwnd, GwlStyle, GetWindowLong(hwnd, GwlStyle) & ~WsSysMenu);
         }
 
-        private void OtdrParametersTemplatesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-
-        }
+        // private void OtdrParametersTemplatesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        // {
+        //
+        // }
     }
 }

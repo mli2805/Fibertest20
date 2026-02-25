@@ -54,7 +54,8 @@ namespace Iit.Fibertest.Client
                 case EventStatus.Unprocessed: return Brushes.LightSkyBlue;
                 case EventStatus.NotConfirmed:
                 case EventStatus.NotImportant:
-                case EventStatus.Planned: return Brushes.Transparent;
+                case EventStatus.Planned:
+                    break; // вернет Brushes.Transparent;
             }
             return Brushes.Transparent;
         }

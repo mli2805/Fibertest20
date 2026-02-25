@@ -4,7 +4,7 @@ using Iit.Fibertest.Dto;
 namespace Iit.Fibertest.Graph
 {
     [Serializable]
-    public struct TceTypeStruct
+    public struct TceTypeStruct : IEquatable<TceTypeStruct>
     {
         public int Id { get; set; }
         public bool IsVisible { get; set; } // show only models user has
@@ -18,5 +18,20 @@ namespace Iit.Fibertest.Graph
         public string Comment { get; set; }
 
         public string TypeTitle => $@"{Maker} {Model} {SoftwareVersion}";
+
+        public bool Equals(TceTypeStruct other)
+        {
+            return Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is TceTypeStruct other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }

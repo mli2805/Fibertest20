@@ -6,44 +6,45 @@ namespace Iit.Fibertest.Client
     public class RftsParams
     {
         public int LevelNumber;
-        public List<RftsParamsLevel> Levels = new List<RftsParamsLevel>();
+        public List<RftsParamsLevel> Levels { get; set; } = new List<RftsParamsLevel>();
         public int UniversalParamNumber;
-        public List<RftsUniParameter> UniParams = new List<RftsUniParameter>();
+        public List<RftsUniParameter> UniParams { get; set; } = new List<RftsUniParameter>();
     }
-    
+
     public class RftsParamsLevel
     {
-        public string LevelName;
-        public bool Enabled; // stored as 0 or 1
-        public RftsLevelThresholdSet LevelThresholdSet;
-        public Threshold Eelt;
+        public string LevelName { get; set; }
+        public bool Enabled { get; set; }
+        public RftsLevelThresholdSet LevelThresholdSet { get; set; }
+        public Threshold Eelt { get; set; }
     }
 
     public class RftsLevelThresholdSet
     {
-        public Threshold Lt;
-        public Threshold Rt;
-        public Threshold Ct;
+        public Threshold Lt { get; set; }
+        public Threshold Rt { get; set; }
+        public Threshold Ct { get; set; }
     }
 
     public class Threshold
     {
-        public bool Absolute; // stored as 0 or 1
-        public int AbsoluteThreshold;
-        public int RelativeThreshold;
+        public bool Absolute { get; set; }
+        public int AbsoluteThreshold { get; set; }
+        public int RelativeThreshold { get; set; }
     }
 
     public class RftsUniParameter
     {
-        public string Name;
-        public int Value;
-        public int Scale;
-        public string Comment;
+        public string Name { get; set; }
+        public int Value { get; set; }
+        public int Scale { get; set; }
+        public string Comment { get; set; }
 
         public override string ToString()
         {
             return ((double)Value / Scale).ToString(CultureInfo.InvariantCulture);
         }
+
         public void Set(double value)
         {
             Value = (int)(value * 10000);

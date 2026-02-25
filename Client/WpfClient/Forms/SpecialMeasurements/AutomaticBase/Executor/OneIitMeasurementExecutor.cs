@@ -50,6 +50,20 @@ namespace Iit.Fibertest.Client
 
         public async Task Start(TraceLeaf traceLeaf, bool keepOtdrConnection = false)
         {
+            // выгружал в json файл для Ft3.0
+            //var rftsParams = new List<RftsParams>();
+            //rftsParams.Add(Model.AutoAnalysisParamsViewModel.LoadFromTemplate(1));
+            //rftsParams.Add(Model.AutoAnalysisParamsViewModel.LoadFromTemplate(2));
+            //rftsParams.Add(Model.AutoAnalysisParamsViewModel.LoadFromTemplate(3));
+            //rftsParams.Add(Model.AutoAnalysisParamsViewModel.LoadFromTemplate(4));
+            //var options = new JsonSerializerOptions
+            //{
+            //    WriteIndented = true,
+            //    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            //};
+
+            //var json = System.Text.Json.JsonSerializer.Serialize(rftsParams, options);
+
             _trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             StartTimer();
 

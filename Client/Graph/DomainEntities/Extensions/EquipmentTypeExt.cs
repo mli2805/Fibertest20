@@ -135,7 +135,7 @@ namespace Iit.Fibertest.Graph
                 case EquipmentType.EmptyNode:
                     return LandmarkCode.Manhole;
                 case EquipmentType.Other:
-                    return LandmarkCode.Other;
+                    break; // return LandmarkCode.Other;
                 case EquipmentType.Closure:
                     return LandmarkCode.Coupler;
                 case EquipmentType.Cross:

@@ -101,23 +101,20 @@ public static class LoggerConfigurationFactory
     {
         return e =>
         {
-            if (e.Properties.TryGetValue("EventId", out var propertyValue))
+            if (!e.Properties.TryGetValue("EventId", out var propertyValue)) return false;
+            
+            if (propertyValue is not StructureValue stValue) return false;
+                
+            var value = stValue.Properties.FirstOrDefault(cc => cc.Name == "Id");
+            if (value == null) return false;
+
+            foreach (var log in (Logs[])Enum.GetValues(typeof(Logs)))
             {
-                if (propertyValue is StructureValue stValue)
-                {
-                    var value = stValue.Properties.FirstOrDefault(cc => cc.Name == "Id");
-                    if (value == null) return false;
-
-                    foreach (var log in (Logs[])Enum.GetValues(typeof(Logs)))
-                    {
-                        ScalarValue scalar = new ScalarValue(log.ToInt());
-                        if (scalar.Equals(value.Value))
-                            return true;
-                    }
-
-                    return false;
-                }
+                ScalarValue scalar = new ScalarValue(log.ToInt());
+                if (scalar.Equals(value.Value))
+                    return true;
             }
+
             return false;
         };
     }
