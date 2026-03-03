@@ -101,7 +101,7 @@ namespace Iit.Fibertest.RtuMngr
 
         private async Task<ClientMeasurementResultDto> Measure(DoClientMeasurementDto dto)
         {
-            ClientMeasurementResultDto result = new ClientMeasurementResultDto() { ConnectionId = dto.ConnectionId };
+            var result = new ClientMeasurementResultDto() { ConnectionId = dto.ConnectionId, IsForAutoBase = dto.IsForAutoBase};
             var toggleResult = await ToggleToPort2(dto.OtauPortDto[0]);
             if (toggleResult != CharonOperationResult.Ok)
                 return result.Set(dto.OtauPortDto[0],
@@ -170,7 +170,8 @@ namespace Iit.Fibertest.RtuMngr
             return ReturnCode.Ok;
         }
 
-        private async Task<ClientMeasurementResultDto> ClientMeasurementItself(DoClientMeasurementDto dto, OtauPortDto currentOtauPortDto)
+        private async Task<ClientMeasurementResultDto> 
+            ClientMeasurementItself(DoClientMeasurementDto dto, OtauPortDto currentOtauPortDto)
         {
             var result = new ClientMeasurementResultDto() { ConnectionId = dto.ConnectionId, IsForAutoBase = dto.IsForAutoBase};
             var activeBop = currentOtauPortDto.IsPortOnMainCharon
