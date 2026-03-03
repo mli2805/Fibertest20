@@ -18,4 +18,6 @@ public class ClientMeasurementEf
     public bool IsPortOnMainCharon { get; set; }
     public int OpticalPort { get; set; }
     public int MainCharonPort { get; set; }
+
+    public bool IsForAutoBase { get; set; }
 }

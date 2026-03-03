@@ -149,7 +149,9 @@ public static class MappingEf
                 IsPortOnMainCharon = entity.IsPortOnMainCharon,
                 MainCharonPort = entity.MainCharonPort,
                 Serial = entity.Serial,
-            }
+            },
+
+            IsForAutoBase = entity.IsForAutoBase
         };
     }
 
@@ -166,6 +168,8 @@ public static class MappingEf
             OpticalPort = dto.OtauPortDto.OpticalPort,
             IsPortOnMainCharon = dto.OtauPortDto.IsPortOnMainCharon,
             MainCharonPort = dto.OtauPortDto.MainCharonPort,
+
+            IsForAutoBase = dto.IsForAutoBase
         };
     }
 
