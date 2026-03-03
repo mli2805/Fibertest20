@@ -67,6 +67,8 @@ namespace Iit.Fibertest.RtuMngr
         {
             _logger.Debug(Logs.RtuManager, "Measurement client is in progress...");
             var result = await Measure(dto);
+            _logger.Info(Logs.RtuManager, $"result IsForAutoBase: {result.IsForAutoBase}");
+
 
             _logger.Info(Logs.RtuManager, result.SorBytes != null
                 ? $"Measurement Client done. Sor size is {result.SorBytes.Length}"
@@ -101,7 +103,9 @@ namespace Iit.Fibertest.RtuMngr
 
         private async Task<ClientMeasurementResultDto> Measure(DoClientMeasurementDto dto)
         {
+                    _logger.Info(Logs.RtuManager, $"IsForAutoBase: {dto.IsForAutoBase}");
             var result = new ClientMeasurementResultDto() { ConnectionId = dto.ConnectionId, IsForAutoBase = dto.IsForAutoBase};
+                    _logger.Info(Logs.RtuManager, $"result.IsForAutoBase: {result.IsForAutoBase}");
             var toggleResult = await ToggleToPort2(dto.OtauPortDto[0]);
             if (toggleResult != CharonOperationResult.Ok)
                 return result.Set(dto.OtauPortDto[0],
