@@ -1,4 +1,5 @@
 ﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.UtilsNetCore;
 
 namespace Iit.Fibertest.RtuMngr
@@ -73,6 +74,14 @@ namespace Iit.Fibertest.RtuMngr
             _logger.Info(Logs.RtuManager, result.SorBytes != null
                 ? $"Measurement Client done. Sor size is {result.SorBytes.Length}"
                 : "Measurement (Client) failed");
+
+            var fibertestPath = FileOperations.GetMainFolder();
+            var portDataFolder = Path.Combine(fibertestPath, @"portdata");
+
+            if (!Directory.Exists(portDataFolder))
+            {
+                Directory.CreateDirectory(portDataFolder);
+            }
 
             if (result.SorBytes != null)
                 await File.WriteAllBytesAsync(@"../portdata/client.sor", result.SorBytes, RtuServiceCancellationToken);
