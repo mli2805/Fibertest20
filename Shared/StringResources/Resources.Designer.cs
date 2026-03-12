@@ -4414,6 +4414,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide RTU panel.
+        /// </summary>
+        public static string SID_Hide_Rtu_panel {
+            get {
+                return ResourceManager.GetString("SID_Hide_Rtu_panel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High density graph.
         /// </summary>
         public static string SID_High_density_graph {

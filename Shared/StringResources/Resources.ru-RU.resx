@@ -3803,4 +3803,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_min_sec" xml:space="preserve">
 		<value>мин:сек</value>
 	</data>
+	<data name="SID_Hide_Rtu_panel" xml:space="preserve">
+		<value>Скрыть панель RTU</value>
+	</data>
 </root>

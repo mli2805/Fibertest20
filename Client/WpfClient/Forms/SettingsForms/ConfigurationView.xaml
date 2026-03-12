@@ -19,6 +19,11 @@
             </StackPanel>
             <Separator></Separator>
             <TextBlock Text="{x:Static stringResources:Resources.SID_The_changes_will_be_applied_after_application_restart}" Margin="5"/>
+
+            <GroupBox  Margin="0,20,0,0">
+                <CheckBox Content="{x:Static stringResources:Resources.SID_Hide_Rtu_panel}" 
+                          IsChecked="{Binding HideRtuPanel}" Margin="5,10,5,5"/>
+            </GroupBox>
             <GroupBox  Header="{x:Static stringResources:Resources.SID_Optical_events}" Margin="0,20,0,0">
                     <CheckBox Content="{x:Static stringResources:Resources.SID_Turn_off_the_audible_and_visual_alarms_about_Suspicion}" 
                               IsChecked="{Binding DoNotSignalAboutSuspicion}" Margin="5,10,5,5"/>

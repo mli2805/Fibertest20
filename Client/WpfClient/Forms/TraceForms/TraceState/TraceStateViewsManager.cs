@@ -81,9 +81,15 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
+            if (evnt.TraceState == FiberState.Ok && lastMeasurement.TraceState == FiberState.Suspicion 
+                    && _currentClientConfiguration.DoNotSignalAboutSuspicion)
+                return; // при возврате из Подозрения в ОК не открываем окно, если пользователь не хочет видеть Подозрения
+
             var traceStateModel = await _traceStateModelFactory
-                .CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
-            Show(traceStateModel, false, lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
+                .CreateModel(lastMeasurement, true,
+                    lastMeasurement.TraceState != FiberState.Ok);
+            Show(traceStateModel, false, 
+                lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
         }
 
         private void UpdateMeasurement(MeasurementUpdated evnt)

@@ -1,22 +1,22 @@
 <Window x:Class="Iit.Fibertest.Client.ShellView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:client="clr-namespace:Iit.Fibertest.Client"
-        mc:Ignorable="d"
-        WindowState="Maximized" IsEnabled="{Binding IsEnabled}"
-        d:DataContext="{d:DesignInstance client:ShellViewModel}" >
-    <DockPanel>
-        <client:MainMenuView DockPanel.Dock="Top" DataContext="{Binding MainMenuViewModel}"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="420" MinWidth="80"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <client:TreeOfRtuView DataContext="{Binding TreeOfRtuViewModel}"/>
-            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:client="clr-namespace:Iit.Fibertest.Client"
+    mc:Ignorable="d"
+    WindowState="Maximized" IsEnabled="{Binding IsEnabled}"
+    d:DataContext="{d:DesignInstance client:ShellViewModel}" >
+<DockPanel>
+    <client:MainMenuView DockPanel.Dock="Top" DataContext="{Binding MainMenuViewModel}"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="RtuPanelColumn" Width="420"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <client:TreeOfRtuView DataContext="{Binding TreeOfRtuViewModel}"/>
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
             <DockPanel Grid.Column="2">
                 <client:TabulatorView DockPanel.Dock="Top" DataContext="{Binding TabulatorViewModel}"/>
                 <client:CommonStatusBarView DockPanel.Dock="Bottom" DataContext="{Binding CommonStatusBarViewModel}"/>

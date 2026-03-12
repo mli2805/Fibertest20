@@ -4,6 +4,18 @@ namespace Iit.Fibertest.Client
 {
     public class CurrentClientConfiguration : PropertyChangedBase
     {
+        private bool _hideRtuPanel;
+        public bool HideRtuPanel
+        {
+            get => _hideRtuPanel;
+            set
+            {
+                if (value == _hideRtuPanel) return;
+                _hideRtuPanel = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private bool _doNotSignalAboutSuspicion;
         public bool DoNotSignalAboutSuspicion
         {
@@ -17,7 +29,6 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _doNotSignalAboutRtuStatusEvents;
-
         public bool DoNotSignalAboutRtuStatusEvents
         {
             get => _doNotSignalAboutRtuStatusEvents;

@@ -24,7 +24,20 @@ namespace Iit.Fibertest.Client
         private readonly ClientPoller _clientPoller;
         private readonly ModelLoader _modelLoader;
         private readonly IMyLog _logFile;
-        private readonly CurrentClientConfiguration _currentClientConfiguration;
+
+        private int _rtuPanelWidth;
+        public int RtuPanelWidth
+        {
+            get => _rtuPanelWidth;
+            set
+            {
+                if (value == _rtuPanelWidth) return;
+                _rtuPanelWidth = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public CurrentClientConfiguration CurrentClientConfiguration { get; }
         private readonly CurrentUser _currentUser;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly CommandLineParameters _commandLineParameters;
@@ -45,7 +58,7 @@ namespace Iit.Fibertest.Client
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
         public RtuAccidentsDoubleViewModel RtuAccidentsDoubleViewModel { get; }
 
-        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
+        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
             CurrentClientConfiguration currentClientConfiguration, CurrentUser currentUser,
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
             IClientWcfServiceHost host, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
@@ -55,10 +68,10 @@ namespace Iit.Fibertest.Client
             Heartbeater heartbeater, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
-             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
-             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
-             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-             RtuAccidentsDoubleViewModel rtuAccidentsDoubleViewModel,
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+            NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
+            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+            RtuAccidentsDoubleViewModel rtuAccidentsDoubleViewModel,
             ModelLoader modelLoader
         )
         {
@@ -82,7 +95,8 @@ namespace Iit.Fibertest.Client
             _clientPoller = clientPoller;
             _modelLoader = modelLoader;
             _logFile = logFile;
-            _currentClientConfiguration = currentClientConfiguration;
+            CurrentClientConfiguration = currentClientConfiguration;
+            CurrentClientConfiguration.PropertyChanged += CurrentClientConfiguration_PropertyChanged;
             _currentUser = currentUser;
             _currentDatacenterParameters = currentDatacenterParameters;
             _commandLineParameters = commandLineParameters;
@@ -107,6 +121,7 @@ namespace Iit.Fibertest.Client
         }
 
         private string _backgroundMessage;
+
         public string BackgroundMessage
         {
             get => _backgroundMessage;
@@ -127,7 +142,9 @@ namespace Iit.Fibertest.Client
 
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var postfix = _commandLineParameters.IsUnderSuperClientStart ? _commandLineParameters.ClientOrdinal.ToString() : "";
+            var postfix = _commandLineParameters.IsUnderSuperClientStart
+                ? _commandLineParameters.ClientOrdinal.ToString()
+                : "";
             _logFile.AssignFile($@"client{postfix}.log");
             _logFile.AppendLine(@"Client application started!");
 
@@ -136,8 +153,10 @@ namespace Iit.Fibertest.Client
                 _iniFile.WriteServerAddresses(new DoubleAddress() { Main = _commandLineParameters.ServerNetAddress });
                 _iniFile.Write(IniSection.Server, IniKey.ServerTitle, _commandLineParameters.ServerTitle);
                 _iniFile.Write(IniSection.General, IniKey.Culture, _commandLineParameters.SuperClientCulture);
-                _iniFile.Write(IniSection.ClientLocalAddress, IniKey.ClientOrdinal, _commandLineParameters.ClientOrdinal);
-                await _loginViewModel.RegisterClientAsync(_commandLineParameters.Username, _commandLineParameters.Password,
+                _iniFile.Write(IniSection.ClientLocalAddress, IniKey.ClientOrdinal,
+                    _commandLineParameters.ClientOrdinal);
+                await _loginViewModel.RegisterClientAsync(_commandLineParameters.Username,
+                    _commandLineParameters.Password,
                     _commandLineParameters.ConnectionId, true, _commandLineParameters.ClientOrdinal);
             }
             else
@@ -158,9 +177,14 @@ namespace Iit.Fibertest.Client
                 if (_commandLineParameters.IsUnderSuperClientStart)
                     await Task.Factory.StartNew(() => NotifySuperClientImReady(_commandLineParameters.ClientOrdinal));
                 IsEnabled = true;
-                _currentClientConfiguration.DoNotSignalAboutSuspicion = 
+                CurrentClientConfiguration.HideRtuPanel =
+                    _iniFile.Read(IniSection.Miscellaneous, IniKey.HideRtuPanel, false);
+                // RtuPanelWidth используется только как флаг для code-behind
+                // Установка значения вызовет PropertyChanged, который обрабатывается в ShellView.xaml.cs
+                RtuPanelWidth = CurrentClientConfiguration.HideRtuPanel ? 0 : 420;
+                CurrentClientConfiguration.DoNotSignalAboutSuspicion =
                     _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, false);
-                _currentClientConfiguration.DoNotSignalAboutRtuStatusEvents = 
+                CurrentClientConfiguration.DoNotSignalAboutRtuStatusEvents =
                     _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutRtuStatusEvents, false);
                 TreeOfRtuViewModel.CollapseAll();
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
@@ -169,7 +193,8 @@ namespace Iit.Fibertest.Client
             else
             {
                 if (_commandLineParameters.IsUnderSuperClientStart)
-                    await Task.Factory.StartNew(() => NotifySuperclientLoadingFailed(_commandLineParameters.ClientOrdinal));
+                    await Task.Factory.StartNew(() =>
+                        NotifySuperclientLoadingFailed(_commandLineParameters.ClientOrdinal));
                 TryClose();
             }
         }
@@ -275,9 +300,17 @@ namespace Iit.Fibertest.Client
                 base.CanClose(callback);
             else
             {
-                await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto() { ConnectionId = _currentUser.ConnectionId }).
-                    ContinueWith(ttt => { Environment.Exit(Environment.ExitCode); });
+                await _commonC2DWcfManager
+                    .UnregisterClientAsync(new UnRegisterClientDto() { ConnectionId = _currentUser.ConnectionId })
+                    .ContinueWith(ttt => { Environment.Exit(Environment.ExitCode); });
             }
+        }
+
+        private void CurrentClientConfiguration_PropertyChanged(object sender,
+            System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CurrentClientConfiguration.HideRtuPanel))
+                RtuPanelWidth = CurrentClientConfiguration.HideRtuPanel ? 0 : 420;
         }
     }
 }

@@ -142,6 +142,7 @@
         ScreenPartAsMargin,
 
         // Miscellaneous
+        HideRtuPanel,
         PathToSor,
         MaxCableReserve,
         GpsInputMode,

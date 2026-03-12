@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
     public class ConfigurationViewModel : Screen
     {
         private readonly IniFile _iniFile;
-        private readonly CurrentClientConfiguration _currentClientConfiguration;
+        public CurrentClientConfiguration CurrentClientConfiguration { get; }
         private readonly SoundManager _soundManager;
         public List<string> SupportedLanguages { get; set; } = new List<string>(){@"ru-RU", @"en-US"};
 
@@ -39,6 +39,20 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _hideRtuPanel;
+        public bool HideRtuPanel
+        {
+            get => _hideRtuPanel;
+            set
+            {
+                if (value == _hideRtuPanel) return;
+                _hideRtuPanel = value;
+                NotifyOfPropertyChange();
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.HideRtuPanel, value);
+                CurrentClientConfiguration.HideRtuPanel = value;
+            }
+        }
+
         private bool _doNotSignalAboutSuspicion;
         public bool DoNotSignalAboutSuspicion
         {
@@ -49,7 +63,7 @@ namespace Iit.Fibertest.Client
                 _doNotSignalAboutSuspicion = value;
                 NotifyOfPropertyChange();
                 _iniFile.Write(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, _doNotSignalAboutSuspicion);
-                _currentClientConfiguration.DoNotSignalAboutSuspicion = _doNotSignalAboutSuspicion;
+                CurrentClientConfiguration.DoNotSignalAboutSuspicion = _doNotSignalAboutSuspicion;
             }
         }
 
@@ -63,16 +77,17 @@ namespace Iit.Fibertest.Client
                 _doNotSignalAboutRtuStatusEvents = value;
                 NotifyOfPropertyChange();
                 _iniFile.Write(IniSection.Miscellaneous, IniKey.DoNotSignalAboutRtuStatusEvents, _doNotSignalAboutRtuStatusEvents);
-                _currentClientConfiguration.DoNotSignalAboutRtuStatusEvents = _doNotSignalAboutRtuStatusEvents;  }
+                CurrentClientConfiguration.DoNotSignalAboutRtuStatusEvents = _doNotSignalAboutRtuStatusEvents;  }
         }
 
         public ConfigurationViewModel(IniFile iniFile, CurrentClientConfiguration currentClientConfiguration, SoundManager soundManager)
         {
             _iniFile = iniFile;
-            _currentClientConfiguration = currentClientConfiguration;
+            CurrentClientConfiguration = currentClientConfiguration;
             _soundManager = soundManager;
 
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            HideRtuPanel = _iniFile.Read(IniSection.Miscellaneous, IniKey.HideRtuPanel, false);
             DoNotSignalAboutSuspicion =
                 _iniFile.Read(IniSection.Miscellaneous, IniKey.DoNotSignalAboutSuspicion, false);
             DoNotSignalAboutRtuStatusEvents =
