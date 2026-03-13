@@ -77,11 +77,18 @@ namespace Iit.Fibertest.Client
             var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == evnt.TraceId);
             if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
-            var lastMeasurement = _readModel.Measurements.LastOrDefault(m => m.TraceId == evnt.TraceId);
+            // когда событие приходит сюда в TraceStateViewsManager
+            // в Model оно уже записано и lastMeasurement это оно и есть
+            // поэтому для НЕпоказа после Suspicion надо проверять предпоследний,
+            // а показывать на формочке последний
+
+            var (secondFromEnd, lastMeasurement) = GetSecondFromEnd(evnt.TraceId);
             if (lastMeasurement == null)
                 return;
 
-            if (evnt.TraceState == FiberState.Ok && lastMeasurement.TraceState == FiberState.Suspicion 
+            var wasSuspicion = secondFromEnd.TraceState != FiberState.Ok &&
+                               secondFromEnd.BaseRefType == BaseRefType.Fast;
+            if (evnt.TraceState == FiberState.Ok && wasSuspicion 
                     && _currentClientConfiguration.DoNotSignalAboutSuspicion)
                 return; // при возврате из Подозрения в ОК не открываем окно, если пользователь не хочет видеть Подозрения
 
@@ -89,7 +96,24 @@ namespace Iit.Fibertest.Client
                 .CreateModel(lastMeasurement, true,
                     lastMeasurement.TraceState != FiberState.Ok);
             Show(traceStateModel, false, 
-                lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
+                    lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
+        }
+
+        private (Measurement, Measurement) GetSecondFromEnd(Guid traceId)
+        {
+            Measurement prev = null;
+            Measurement current = null;
+
+            foreach (var measurement in _readModel.Measurements)
+            {
+                if (measurement.TraceId == traceId)
+                {
+                    prev = current;
+                    current = measurement;
+                }
+            }
+
+            return (prev, current);
         }
 
         private void UpdateMeasurement(MeasurementUpdated evnt)
