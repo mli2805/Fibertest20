@@ -1,4 +1,9 @@
-﻿[*.cs]
+﻿root = true
+
+[*]
+charset = utf-8
+
+[*.cs]
 
 # Default severity for analyzer diagnostics with category 'Naming'
 dotnet_analyzer_diagnostic.category-Naming.severity = none
