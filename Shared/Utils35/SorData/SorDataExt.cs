@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
@@ -34,16 +34,82 @@ namespace Iit.Fibertest.UtilsLib
 
         public static double GetDeltaLen(this OtdrDataKnownBlocks sorData, char code)
         {
-            var param = code == 'R'
-                ? sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtRDetectDeltaLen")
-                : sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtDetectDeltaLen");
+            //var param = code == 'R'
+            //    ? sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtRDetectDeltaLen")
+            //    : sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtDetectDeltaLen");
 
-            return (double)param.Value / param.Scale;
+            //return (double)param.Value / param.Scale;
+            var param = code == 'R'
+                ? sorData.GetEvtRDetectDeltaLen()
+                : sorData.GetEvtDetectDeltaLen();
+
+            return param;
+        }
+
+        // R - с отражением
+        private static double GetEvtRDetectDeltaLen(this OtdrDataKnownBlocks sorData)
+        {
+            var param = sorData.RftsParameters.UniversalParameters
+                .FirstOrDefault(p => p.Name == "EvtRDetectDeltaLen");
+
+            if (param != null)
+                return (double)param.Value / param.Scale;
+
+            return sorData.LenDs() * 3;
+        }
+
+        private static double LenDs(this OtdrDataKnownBlocks sorData)
+        {
+            return sorData.OwtToLen(sorData.GetOwtDs());
+        }
+
+        private static double OwtToLen(this OtdrDataKnownBlocks sorData, double owt)
+        {
+            return SorMathOwtToLen(owt, sorData.FixedParameters.RefractionIndex);
+        }
+
+        private static double GetOwtDs(this OtdrDataKnownBlocks sorData, int num = 0)
+        {
+            return sorData.FixedParameters.DataSpacing[num];
+        } 
+
+        // без отражения
+        private static double GetEvtDetectDeltaLen(this OtdrDataKnownBlocks sorData)
+        {
+            var param = sorData.RftsParameters.UniversalParameters
+                .FirstOrDefault(p => p.Name == "EvtDetectDeltaLen");
+
+            if (param != null)
+                return (double)param.Value / param.Scale;
+
+            return SorMathNsToLen(sorData.GetRealNsPulse(), sorData.FixedParameters.RefractionIndex) / 3;
+        }
+
+        private static double SorMathNsToLen(double ns, double n)
+        {
+            return SorMathOwtToLen(SorMathNsToOwt(ns), n);
+        }
+
+        private static double SorMathNsToOwt(double ns)
+        {
+            const double owtNs = 0.2;
+            return ns / owtNs;
+        }
+
+        private static double SorMathOwtToLen(double owt, double n)
+        {
+            const double lightSpeedKms = 299792.458;
+            return lightSpeedKms / n * owt * 1e-10;
+        }
+
+        private static double GetRealNsPulse(this OtdrDataKnownBlocks sorData)
+        {
+           return sorData.FixedParameters.PulseWidths[0];
         }
 
         public static void EmbedBaseRef(this OtdrDataKnownBlocks measSorData, byte[] baseBytes)
         {
-          
+
             if (measSorData.EmbeddedData.EmbeddedDataBlocks != null)
             {
                 var embeddedData = measSorData.EmbeddedData.EmbeddedDataBlocks.ToList();
