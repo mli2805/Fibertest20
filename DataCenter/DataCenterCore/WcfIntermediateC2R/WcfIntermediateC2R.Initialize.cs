@@ -1,6 +1,7 @@
-﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Dto;
 using System.Threading.Tasks;
 using System;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -11,6 +12,11 @@ namespace Iit.Fibertest.DataCenterCore
             if (!TryToGetClientAndOccupyRtu(dto.ConnectionId, dto.RtuId, RtuOccupation.Initialization,
                     out RtuInitializedDto response))
                 return response;
+
+            // до инициализации подаем команду "очистки" и, если инициализация не пройдет,
+            // то модуль будет в неинициализированном состоянии (что и требуется)
+            await _eventStoreService.SendCommand(new DeInitializeRtu() { RtuId = dto.RtuId }, "system", dto.ClientIp);
+
 
             dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)

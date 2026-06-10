@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
@@ -56,9 +56,7 @@ namespace Iit.Fibertest.Graph
         {
             get
             {
-                if (_otauStates == null)
-                    _otauStates = new Dictionary<Guid, bool>();
-                return _otauStates.Count == 0
+                return _otauStates.Count == 0 || !IsInitialized
                     ? RtuPartState.NotSetYet
                     : _otauStates.Any(s => s.Value != true)
                         ? RtuPartState.Broken
@@ -67,8 +65,19 @@ namespace Iit.Fibertest.Graph
         }
         
         public string Serial { get; set; }
-        public int OwnPortCount { get; set; }
-        public bool IsInitialized => OwnPortCount != 0;
+
+        private int _ownPortCount;
+        public int OwnPortCount
+        {
+            get => _ownPortCount;
+            set
+            {
+                _ownPortCount = value;
+                IsInitialized = true;
+            }
+        }
+        
+        public bool IsInitialized { get; set; }
         public int FullPortCount { get; set; }
 
         public string PortCount => OwnPortCount == FullPortCount ? $@"{FullPortCount}" : $@"{OwnPortCount} / {FullPortCount}";

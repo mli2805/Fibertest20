@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Iit.Fibertest.Graph
 {
@@ -50,6 +50,7 @@ namespace Iit.Fibertest.Graph
                     case TraceAttached evnt: return model.AttachTrace(evnt);
                     case TraceDetached evnt: return model.DetachTrace(evnt);
                     case TracePortUpdated evnt: return model.UpdateTracePort(evnt);
+                    case RtuDeInitialized evnt: return model.DeInitializeRtu(evnt);
 
                     case TceWithRelationsAddedOrUpdated evnt: return model.AddOrUpdateTceWithRelations(evnt);
                     case TceRemoved evnt: return model.RemoveTce(evnt);

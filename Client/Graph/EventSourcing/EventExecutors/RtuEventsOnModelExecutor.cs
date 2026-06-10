@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
@@ -137,6 +137,23 @@ namespace Iit.Fibertest.Graph
                     model.DetachTrace(trace);
             }
 
+            return null;
+        }
+
+        public static string DeInitializeRtu(this Model model, RtuDeInitialized e)
+        {
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu == null)
+            {
+                return $@"RtuDeInitialized: RTU {e.RtuId.First6()} not found";
+            }
+
+            rtu.IsInitialized = false;
+            rtu.MainChannelState = RtuPartState.NotSetYet;
+            rtu.MainChannel.Port = -1;
+            rtu.ReserveChannelState = RtuPartState.NotSetYet;
+            rtu.ReserveChannel.Port = -1;
+            rtu.MonitoringState = MonitoringState.Unknown;
             return null;
         }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Media;
 using Autofac;
@@ -176,6 +176,20 @@ namespace Iit.Fibertest.Client
                 }
             }
 
+        }
+
+        public void DeInitializeRtu(RtuDeInitialized e)
+        {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
+            if (rtuLeaf == null)
+                return;
+
+            rtuLeaf.MonitoringState = MonitoringState.Unknown;
+            rtuLeaf.MainChannelState = RtuPartState.NotSetYet;
+            rtuLeaf.ReserveChannelState = RtuPartState.NotSetYet;
         }
     }
 }

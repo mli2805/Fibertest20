@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
@@ -40,6 +40,7 @@ namespace Iit.Fibertest.Client
                     case AllTracesDetached evnt: _rtuEventsOnTreeExecutor.DetachAllTraces(evnt); return;
                     case NetworkEventAdded evnt: _rtuEventsOnTreeExecutor.AddNetworkEvent(evnt); return;
                     case BopNetworkEventAdded evnt: _rtuEventsOnTreeExecutor.AddBopNetworkEvent(evnt); return;
+                    case RtuDeInitialized evnt: _rtuEventsOnTreeExecutor.DeInitializeRtu(evnt); return;
 
                     case RtuInitialized evnt: _initializeRtuEventOnTreeExecutor.InitializeRtu(evnt); return;
 
