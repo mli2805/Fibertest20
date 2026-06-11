@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 
 namespace Iit.Fibertest.Graph
 {
@@ -33,6 +33,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<AttachOtau, OtauAttached>();
             CreateMap<DetachOtau, OtauDetached>();
             CreateMap<DetachAllTraces, AllTracesDetached>();
+            CreateMap<DeInitializeRtu, RtuDeInitialized>();
 
             CreateMap<AddOrUpdateTceWithRelations, TceWithRelationsAddedOrUpdated>();
             CreateMap<RemoveTce, TceRemoved>();

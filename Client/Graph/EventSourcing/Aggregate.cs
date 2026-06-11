@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -70,6 +70,7 @@ namespace Iit.Fibertest.Graph
                 case AttachOtau command: return _eventsQueue.Add(Mapper.Map<OtauAttached>(command));
                 case DetachOtau command: return _eventsQueue.Add(Mapper.Map<OtauDetached>(command));
                 case DetachAllTraces command: return _eventsQueue.Add(Mapper.Map<AllTracesDetached>(command));
+                case DeInitializeRtu command: return _eventsQueue.Add(Mapper.Map<RtuDeInitialized>(command));
 
                 case AddTrace command: return Validate(command);
                 case UpdateTrace command: return _eventsQueue.Add(Mapper.Map<TraceUpdated>(command));
