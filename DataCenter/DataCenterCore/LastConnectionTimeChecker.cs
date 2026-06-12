@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -142,6 +142,10 @@ namespace Iit.Fibertest.DataCenterCore
             List<NetworkEvent> result = new List<NetworkEvent>();
             foreach (var rtuStation in stations)
             {
+                var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuStation.RtuGuid);
+                if (rtu == null || rtu.IsInitialized == false)
+                    continue;
+
                 NetworkEvent networkEvent = CheckRtuStation(rtuStation, noLaterThan);
                 if (networkEvent != null)
                 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Media;
 using Autofac;
@@ -41,11 +41,14 @@ namespace Iit.Fibertest.Client
                 if (child is TraceLeaf traceLeaf)
                     traceLeaf.BaseRefsSet.RtuMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
                 else if (child is OtauLeaf otauLeaf)
+                {
+                    otauLeaf.OtauState = e.Children[otauLeaf.MasterPort].IsOk ? RtuPartState.Ok : RtuPartState.Broken;
                     foreach (var leaf in otauLeaf.ChildrenImpresario.Children)
                     {
                         if (leaf is TraceLeaf traceLeaf1)
                             traceLeaf1.BaseRefsSet.RtuMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
                     }
+                }
             }
         }
 

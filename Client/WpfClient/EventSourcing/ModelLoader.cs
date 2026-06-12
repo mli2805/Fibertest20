@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -45,6 +45,8 @@ namespace Iit.Fibertest.Client
                 var dto = await _c2DWcfManager.GetModelDownloadParams(new GetSnapshotDto());
                 _logFile.AppendLine($@"Model size is {dto.Size} in {dto.PortionsCount} portions, last event included {dto.LastIncludedEvent}");
 
+                //  грузим не последний снэпшот, а модель на момент последнего события,
+                //  т.е. снэпшот + все события которые есть на сервере на данный момент.
                 var bb = new byte[dto.Size];
                 var offset = 0;
 
