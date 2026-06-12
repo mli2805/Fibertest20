@@ -190,6 +190,15 @@ namespace Iit.Fibertest.Client
             rtuLeaf.MonitoringState = MonitoringState.Unknown;
             rtuLeaf.MainChannelState = RtuPartState.NotSetYet;
             rtuLeaf.ReserveChannelState = RtuPartState.NotSetYet;
+
+            rtuLeaf.RemoveAllOtauStates();
+            foreach (var child in rtuLeaf.ChildrenImpresario.Children)
+            {
+                if (child is OtauLeaf otauLeaf)
+                {
+                    otauLeaf.OtauState = RtuPartState.NotSetYet;
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
@@ -27,6 +27,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _isMainOtauOk;
         public bool IsMainOtauOk
         {
             get => _isMainOtauOk;
@@ -54,6 +55,12 @@ namespace Iit.Fibertest.Client
             if (_otauStates.ContainsKey(otauId))
                 _otauStates.Remove(otauId);
 
+            NotifyOfPropertyChange(nameof(BopPictogram));
+        }
+
+        public void RemoveAllOtauStates()
+        {
+            _otauStates.Clear();
             NotifyOfPropertyChange(nameof(BopPictogram));
         }
 
@@ -88,8 +95,6 @@ namespace Iit.Fibertest.Client
         }
 
         private RtuPartState _reserveChannelState;
-        private bool _isMainOtauOk;
-
         public RtuPartState ReserveChannelState
         {
             get => _reserveChannelState;

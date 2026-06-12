@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -37,7 +37,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string OtauStatePictogram => OtauState.GetPathToPictogram();
+        public string OtauStatePictogram 
+        { 
+            get => OtauState.GetPathToPictogram(); 
+        }
 
         public bool HasAttachedTraces =>
             ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf)l).PortNumber > 0);
