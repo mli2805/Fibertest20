@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -35,6 +35,7 @@ namespace Iit.Fibertest.Client
             if (ShouldAcceptEventForTrace(e.TraceId) == EventAcceptability.No) return;
 
             var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
+            if (traceLeaf == null) return;
 
             var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)

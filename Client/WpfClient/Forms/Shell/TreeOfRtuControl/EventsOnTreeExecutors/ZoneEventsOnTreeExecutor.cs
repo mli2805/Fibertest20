@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Windows.Media;
 using Autofac;
 using Iit.Fibertest.Dto;
@@ -101,7 +101,10 @@ namespace Iit.Fibertest.Client
                 otauLeaf.MasterPort = otau.MasterPort;
                 otauLeaf.OwnPortCount = otau.PortCount;
                 otauLeaf.OtauNetAddress = otau.NetAddress;
-                otauLeaf.OtauState = otau.IsOk ? RtuPartState.Ok : RtuPartState.Broken;
+                otauLeaf.OtauState = rtu.IsInitialized 
+                    ? otau.IsOk 
+                        ? RtuPartState.Ok : RtuPartState.Broken
+                    : RtuPartState.NotSetYet;
                 otauLeaf.IsExpanded = true;
 
                 for (int i = 0; i < otauLeaf.OwnPortCount; i++)
