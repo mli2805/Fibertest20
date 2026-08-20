@@ -336,6 +336,14 @@ namespace GMap.NET.MapProviders
             Stuff.random.Next(0, 10) % 2 == 1 ? string.Empty : "WOW64; "
             );
 
+        protected virtual string RequestUserAgent
+        {
+            get
+            {
+                return UserAgent;
+            }
+        }
+
         /// <summary>
         /// timeout for provider connections
         /// </summary>
@@ -348,6 +356,14 @@ namespace GMap.NET.MapProviders
         /// Gets or sets the value of the Referer HTTP header.
         /// </summary>
         public string RefererUrl = string.Empty;
+
+        protected virtual string RequestRefererUrl
+        {
+            get
+            {
+                return RefererUrl;
+            }
+        }
 
         public string Copyright = string.Empty;
 
@@ -418,6 +434,8 @@ namespace GMap.NET.MapProviders
         protected PureImage GetTileImageUsingHttp(string url)
         {
             PureImage ret = null;
+            string requestUserAgent = RequestUserAgent;
+            string requestRefererUrl = RequestRefererUrl;
 
 #if !PocketPC
             WebRequest request = IsSocksProxy ? SocksHttpWebRequest.Create(url) : WebRequest.Create(url);
@@ -443,13 +461,13 @@ namespace GMap.NET.MapProviders
             if (request is HttpWebRequest)
             {
                 var r = request as HttpWebRequest;
-                r.UserAgent = UserAgent;
+                r.UserAgent = requestUserAgent;
                 r.Headers.Add("Accept-Encoding", "gzip, deflate, br");
                 r.Headers.Add("Accept-Language", "en-US,en;q=0.5");
                 r.ReadWriteTimeout = TimeoutMs * 6;
                 r.Accept = requestAccept;
                 r.KeepAlive = true;
-                r.Referer = RefererUrl;
+                r.Referer = requestRefererUrl;
                 r.Timeout = TimeoutMs;
             }
 #if !PocketPC
@@ -457,9 +475,9 @@ namespace GMap.NET.MapProviders
             {
                 var r = request as SocksHttpWebRequest;
 
-                if (!string.IsNullOrEmpty(UserAgent))
+                if (!string.IsNullOrEmpty(requestUserAgent))
                 {
-                    r.Headers.Add("User-Agent", UserAgent);
+                    r.Headers.Add("User-Agent", requestUserAgent);
                 }
 
                 if (!string.IsNullOrEmpty(requestAccept))
@@ -467,9 +485,9 @@ namespace GMap.NET.MapProviders
                     r.Headers.Add("Accept", requestAccept);
                 }
 
-                if (!string.IsNullOrEmpty(RefererUrl))
+                if (!string.IsNullOrEmpty(requestRefererUrl))
                 {
-                    r.Headers.Add("Referer", RefererUrl);
+                    r.Headers.Add("Referer", requestRefererUrl);
                 }
             }
 #endif       
@@ -515,6 +533,8 @@ namespace GMap.NET.MapProviders
         protected string GetContentUsingHttp(string url)
         {
             string ret = string.Empty;
+            string requestUserAgent = RequestUserAgent;
+            string requestRefererUrl = RequestRefererUrl;
 
 #if !PocketPC
             WebRequest request = IsSocksProxy ? SocksHttpWebRequest.Create(url) : WebRequest.Create(url);
@@ -541,10 +561,10 @@ namespace GMap.NET.MapProviders
             if (request is HttpWebRequest)
             {
                 var r = request as HttpWebRequest;
-                r.UserAgent = UserAgent;
+                r.UserAgent = requestUserAgent;
                 r.ReadWriteTimeout = TimeoutMs * 6;
                 r.Accept = requestAccept;
-                r.Referer = RefererUrl;
+                r.Referer = requestRefererUrl;
                 r.Timeout = TimeoutMs;
             }
 #if !PocketPC
@@ -552,9 +572,9 @@ namespace GMap.NET.MapProviders
             {
                 var r = request as SocksHttpWebRequest;
 
-                if (!string.IsNullOrEmpty(UserAgent))
+                if (!string.IsNullOrEmpty(requestUserAgent))
                 {
-                    r.Headers.Add("User-Agent", UserAgent);
+                    r.Headers.Add("User-Agent", requestUserAgent);
                 }
 
                 if (!string.IsNullOrEmpty(requestAccept))
@@ -562,9 +582,9 @@ namespace GMap.NET.MapProviders
                     r.Headers.Add("Accept", requestAccept);
                 }
 
-                if (!string.IsNullOrEmpty(RefererUrl))
+                if (!string.IsNullOrEmpty(requestRefererUrl))
                 {
-                    r.Headers.Add("Referer", RefererUrl);
+                    r.Headers.Add("Referer", requestRefererUrl);
                 }
             }
 #endif

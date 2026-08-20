@@ -11,6 +11,10 @@ namespace GMap.NET.MapProviders
 
    public abstract class OpenStreetMapProviderBase : GMapProvider, RoutingProvider, GeocodingProvider
    {
+      static readonly string DefaultOpenStreetMapUserAgent = string.Format("GMap.NET/{0} (contact: email@radioman.lt)", typeof(OpenStreetMapProviderBase).Assembly.GetName().Version);
+
+      public static string OpenStreetMapUserAgent = DefaultOpenStreetMapUserAgent;
+
       public OpenStreetMapProviderBase()
       {
          MaxZoom = null;
@@ -18,6 +22,14 @@ namespace GMap.NET.MapProviders
          //only if one valid available. by providing http://www.openstreetmap.org/ a 418 error is given by the server.
          //RefererUrl = "http://www.openstreetmap.org/";
          Copyright = string.Format("© OpenStreetMap - Map data ©{0} OpenStreetMap", DateTime.Today.Year);
+      }
+
+      protected override string RequestUserAgent
+      {
+         get
+         {
+            return string.IsNullOrEmpty(OpenStreetMapUserAgent) ? base.RequestUserAgent : OpenStreetMapUserAgent;
+         }
       }
 
       public readonly string ServerLetters = "abc";
