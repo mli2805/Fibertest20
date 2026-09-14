@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Dto
+namespace Iit.Fibertest.Dto
 {
     public enum TcpPorts
     {
@@ -15,6 +15,7 @@
         // RTU
         RtuListenTo = 11842,
         RtuVeexListenTo = 80,
+        Rfts400ListenTo = 80, // nginx принимает 80/443 и перенаправляетс на порт, который слушает Rfts400
         RtuListenToGrpc = 11942,
         RtuListenToHttp = 11980,
 

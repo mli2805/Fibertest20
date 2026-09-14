@@ -15,7 +15,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             // до инициализации подаем команду "очистки" и, если инициализация не пройдет,
             // то модуль будет в неинициализированном состоянии (что и требуется)
-            var deInit = await _eventStoreService.SendCommand(new DeInitializeRtu() { RtuId = dto.RtuId }, "system", dto.ClientIp);
+            await _eventStoreService.SendCommand(new DeInitializeRtu() { RtuId = dto.RtuId }, "system", dto.ClientIp);
 
             dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)

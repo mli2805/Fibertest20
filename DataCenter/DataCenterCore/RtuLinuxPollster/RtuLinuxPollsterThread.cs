@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -26,6 +27,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private TimeSpan _gap;
         private readonly Dictionary<Guid, bool> _makLinuxRtuAccess = new Dictionary<Guid, bool>();
+
+        private readonly ConcurrentDictionary<Guid, bool> _busyRtus = new ConcurrentDictionary<Guid, bool>();
+
 
         public RtuLinuxPollsterThread(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
             GlobalState globalState, Model writeModel, RtuStationsRepository rtuStationsRepository,
@@ -54,7 +58,7 @@ namespace Iit.Fibertest.DataCenterCore
         // ReSharper disable once FunctionNeverReturns
         private async void Init()
         {
-            _gap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.MakLinuxPollsterGap, 5));
+            _gap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.MakLinuxPollsterGap, 2));
             _logFile.AppendLine("MAK with Linux pollster started in thread");
 
             while (true)
@@ -69,83 +73,118 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task Tick()
         {
-            var makLinuxRtus = _writeModel.Rtus
-                .Where(r => r.MainChannel.Port == (int)TcpPorts.RtuListenToHttp && r.IsInitialized).ToList();
+            var rtusToPoll = _writeModel.Rtus
+                .Where(r => ShouldPollThePort(r.MainChannel.Port) && r.IsInitialized).ToList();
             var stations = await _rtuStationsRepository.GetAllRtuStations();
-            foreach (var makLinuxRtu in makLinuxRtus)
+            foreach (var rtu in rtusToPoll)
             {
-                try
+                // недоступные модули останавливали цикл опроса на 20 сек (http timeout)
+                // поэтому опрашиваем каждый модуль в отдельном потоке,
+                // перед запросом помечаем модуль флагом, после запроса убираем флаг
+                // и на каждом круге проверяем не занят ли пока модуль
+                if (_busyRtus.TryGetValue(rtu.Id, out var busy) && busy)
+                    continue;
+
+                _busyRtus[rtu.Id] = true;
+
+                _ = Task.Run(async () =>
                 {
-                    var station = stations.FirstOrDefault(s => s.RtuGuid == makLinuxRtu.Id);
-                    if (station == null) continue;
-
-                    var rtuDoubleAddress = station.GetRtuDoubleAddress();
-                    var requestDto = new GetCurrentRtuStateDto()
+                    try
                     {
-                        RtuId = station.RtuGuid,
-                        RtuDoubleAddress = rtuDoubleAddress,
-                        LastMeasurementTimestamp = station.LastMeasurementTimestamp
-                    };
-                    var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
-                    // _logFile.AppendLine($"Got current state for RTU {station.MainAddress} : {state.ReturnCode.ToString()}");
-
-                    // временно логируем каждое обращение
-                    //if (state == null || state.ReturnCode != ReturnCode.Ok)
-                    //{
-                    //    _logFile.AppendLine($"Failed to get current state of RTU {station.MainAddress}");
-                    //    continue;
-                    //}
-
-                    //var word = $"{state.MonitoringResultDtos.Count}/{state.ClientMeasurementResultDtos.Count}/{state.CurrentStepDto.Step.ToString()}";
-                    //_logFile.AppendLine($"RTU {station.MainAddress} returns current state {word}");
-
-                    // теперь логируем только изменение
-                    if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) continue;
-                    //
-
-                    if (state.LastInitializationResult?.Result == null)
-                        continue;
-
-                    var lastMeasurementTimestamp = state.MonitoringResultDtos.Any()
-                            ? state.MonitoringResultDtos
-                                        .OrderBy(r => r.TimeStamp).Last().TimeStamp
-                            : DateTime.MinValue;
-                    // _logFile.AppendLine($"Last measurement timestamp for RTU {station.MainAddress}: {lastMeasurementTimestamp}");
-                    if (state.MonitoringResultDtos.Count > 0)
-                    {
-                        _logFile.AppendLine($"{state.MonitoringResultDtos.Count} monitoring results up to {lastMeasurementTimestamp} received ");
-                        // process monitoring results in another thread
-                        _ = Task.Factory.StartNew(() => TransmitMoniResults(state.MonitoringResultDtos));
+                        await PollOneRtu(rtu, stations);
                     }
-
-                    if (state.ClientMeasurementResultDtos != null)
-                        foreach (var dto in state.ClientMeasurementResultDtos)
-                        {
-                            await _clientMeasurementSender.ToClient(dto);
-                        }
-
-                    if (state.BopStateChangedDtos != null)
-                        _ = Task.Factory.StartNew(() => TransmitBopEvents(state.BopStateChangedDtos));
-                    _logFile.AppendLine($"Found Bop state changes: {state.BopStateChangedDtos?.Count ?? 0}");
-
-                    var heartbeatDto = new RtuChecksChannelDto()
+                    catch (Exception e)
                     {
-                        RtuId = makLinuxRtu.Id,
-                        Version = state.LastInitializationResult.Result.Version,
-                        IsMainChannel = true,
-                        LastMeasurementTimestamp = lastMeasurementTimestamp, //DateTime.MinValue means no results received 
-                    };
+                        _logFile.AppendLine($"Failed to get RTU {rtu.MainChannel.ToStringA()} current state");
+                        _logFile.AppendLine(e.Message);
+                    }
+                    finally
+                    {
+                        _busyRtus[rtu.Id] = false;
+                    }
+                });
 
-                    await _rtuStationsRepository.RegisterRtuHeartbeatAsync(heartbeatDto);
-
-                    await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
-                }
-                catch (Exception e)
-                {
-                    _logFile.AppendLine($"Failed to get RTU {makLinuxRtu.MainChannel.ToStringA()} current state");
-                    _logFile.AppendLine(e.Message);
-                }
+                //try
+                //{
+                //    await PollOneRtu(rtu, stations);
+                //}
+                //catch (Exception e)
+                //{
+                //    _logFile.AppendLine($"Failed to get RTU {rtu.MainChannel.ToStringA()} current state");
+                //    _logFile.AppendLine(e.Message);
+                //}
             }
+        }
+
+        private bool ShouldPollThePort(int port)
+        {
+            return port == (int)TcpPorts.RtuListenToHttp || port == (int)TcpPorts.Rfts400ListenTo;
+        }
+
+        private async Task PollOneRtu(Rtu makLinuxRtu, List<RtuStation> stations)
+        {
+            var station = stations.FirstOrDefault(s => s.RtuGuid == makLinuxRtu.Id);
+            if (station == null) return;
+
+            var rtuDoubleAddress = station.GetRtuDoubleAddress();
+            var requestDto = new GetCurrentRtuStateDto()
+            {
+                RtuId = station.RtuGuid,
+                RtuDoubleAddress = rtuDoubleAddress,
+                LastMeasurementTimestamp = station.LastMeasurementTimestamp
+            };
+            var state = await _clientToLinuxRtuHttpTransmitter.GetRtuCurrentState(requestDto);
+            // _logFile.AppendLine($"Got current state for RTU {station.MainAddress} : {state.ReturnCode.ToString()}");
+
+            // временно логируем каждое обращение
+            //if (state == null || state.ReturnCode != ReturnCode.Ok)
+            //{
+            //    _logFile.AppendLine($"Failed to get current state of RTU {station.MainAddress}");
+            //    continue;
+            //}
+
+            //var word = $"{state.MonitoringResultDtos.Count}/{state.ClientMeasurementResultDtos.Count}/{state.CurrentStepDto.Step.ToString()}";
+            //_logFile.AppendLine($"RTU {station.MainAddress} returns current state {word}");
+
+            // теперь логируем только изменение
+            if (!SaveResultInOrderToLogOnlyChanges(state, makLinuxRtu)) return;
+            //
+
+            if (state.LastInitializationResult?.Result == null)
+                return;
+
+            var lastMeasurementTimestamp = state.MonitoringResultDtos.Any()
+                    ? state.MonitoringResultDtos
+                                .OrderBy(r => r.TimeStamp).Last().TimeStamp
+                    : DateTime.MinValue;
+            // _logFile.AppendLine($"Last measurement timestamp for RTU {station.MainAddress}: {lastMeasurementTimestamp}");
+            if (state.MonitoringResultDtos.Count > 0)
+            {
+                _logFile.AppendLine($"{state.MonitoringResultDtos.Count} monitoring results up to {lastMeasurementTimestamp} received ");
+                // process monitoring results in another thread
+                _ = Task.Factory.StartNew(() => TransmitMoniResults(state.MonitoringResultDtos));
+            }
+
+            if (state.ClientMeasurementResultDtos != null)
+                foreach (var dto in state.ClientMeasurementResultDtos)
+                {
+                    await _clientMeasurementSender.ToClient(dto);
+                }
+
+            if (state.BopStateChangedDtos != null)
+                _ = Task.Factory.StartNew(() => TransmitBopEvents(state.BopStateChangedDtos));
+
+            var heartbeatDto = new RtuChecksChannelDto()
+            {
+                RtuId = makLinuxRtu.Id,
+                Version = state.LastInitializationResult.Result.Version,
+                IsMainChannel = true,
+                LastMeasurementTimestamp = lastMeasurementTimestamp, //DateTime.MinValue means no results received 
+            };
+
+            await _rtuStationsRepository.RegisterRtuHeartbeatAsync(heartbeatDto);
+
+            await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
         }
 
         private async Task TransmitMoniResults(List<MonitoringResultDto> dtos)
