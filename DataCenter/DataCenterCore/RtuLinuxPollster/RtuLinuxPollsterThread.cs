@@ -103,16 +103,6 @@ namespace Iit.Fibertest.DataCenterCore
                         _busyRtus[rtu.Id] = false;
                     }
                 });
-
-                //try
-                //{
-                //    await PollOneRtu(rtu, stations);
-                //}
-                //catch (Exception e)
-                //{
-                //    _logFile.AppendLine($"Failed to get RTU {rtu.MainChannel.ToStringA()} current state");
-                //    _logFile.AppendLine(e.Message);
-                //}
             }
         }
 
